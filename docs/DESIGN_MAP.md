@@ -30,11 +30,15 @@ So this repo:
   as `figma-kit-index.json` is committed;
 - commits **no** `design-map.json` and runs **no** staleness check in CI, until the projector can
   name the capture it should pair with;
-- wires `design-parity.yml` anyway, because it skips with a notice when the map has no components.
+- runs `design-parity.yml` on **workflow_dispatch only**. An empty map does not skip the way a
+  missing token does — design-parity exits 1 with `no components: pass --components, or commit a
+  design-map.json with entries` — and a known red X on every push teaches everyone to ignore the
+  signal. The workflow is otherwise complete; restoring its push and schedule triggers is the same
+  commit that commits the first non-empty map.
 
 The fix belongs upstream, not here — the assumption is about *design kits and render modes*, not
 about this catalog, and a fork of the projector in this repo would drift from the one every other
-catalog runs. That is the same rule `AGENTS.md` states for CI capabilities. Tracked as an issue on
-[yschimke/compose-ai-tools](https://github.com/yschimke/compose-ai-tools); the shape of the fix is a
-fallback to the sole capture when a catalog publishes one mode, so a dark-first catalog pairs with
+catalog runs. That is the same rule `AGENTS.md` states for CI capabilities. Tracked as
+[yschimke/compose-ai-tools#4192](https://github.com/yschimke/compose-ai-tools/issues/4192); the
+shape of the fix is a fallback to the sole capture when a catalog publishes one mode, so a dark-first catalog pairs with
 its dark capture instead of with nothing.

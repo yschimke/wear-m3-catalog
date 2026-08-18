@@ -103,9 +103,11 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | [`design-parity.yml`](.github/workflows/design-parity.yml) | compares the render against the Figma kit and publishes the report to `design-parity/main` |
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |
 
-design-parity is wired but **inert** until a `FIGMA_TOKEN` repository secret exists (a read-only PAT
-with `file_content:read`) and design-map.json carries a component; it skips with a notice rather
-than failing while either is missing.
+design-parity is wired but **manual-only** for now: it needs a `FIGMA_TOKEN` repository secret (a
+read-only PAT with `file_content:read`), which it skips with a notice while absent, and a
+design-map.json carrying a component, which it does *not* — an empty map fails the run outright.
+This catalog cannot project one yet, for a reason that is upstream and documented in
+[`docs/DESIGN_MAP.md`](docs/DESIGN_MAP.md).
 
 Dependencies update themselves via Renovate ([`renovate.json`](.github/renovate.json)).
 
