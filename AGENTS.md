@@ -46,6 +46,19 @@ at all, and there is no "published but unmapped" state:
 of a Compose catalog greps for. The one hard rule is not to borrow a kit word for something the kit
 uses differently. Where Compose has no name of its own, take the kit's.
 
+## The coverage record
+
+[`kit-sets.json`](kit-sets.json) lists **every published set in the kit** with either the catalog
+components that reproduce it or a stated reason it is absent, and `CatalogKitCoverageTest` fails in
+both directions: a set with neither, and an exclusion whose node something now references. Adding a
+component means adding it to the row that names its kit node; deciding a set stays out means writing
+down why.
+
+The rows come from the kit walk in [`figma-refs.yml`](.github/workflows/figma-refs.yml) — re-run it
+when the kit itself moves, and reconcile the file in the same commit. It records only what the kit
+publishes: private sets (names beginning `.`, and each page's `Base components`) and the Icons page
+are out of scope.
+
 ## Sticker conventions
 
 - One file per component **group**, opening with `@file:CatalogGroup(name = …, section = …)`.

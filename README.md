@@ -25,12 +25,26 @@ node ids and reference images, and the MCP server for variables and metadata.
 
 ## Status
 
-Standing up. The pipeline runs end to end — build, discover, render, publish, serve — and the kit's
-**Shapes** page is complete: one `Shape/MaterialShapes` component carrying all 35 silhouettes as
-folded cells. The component sweep across the rest of the kit follows, and it needs a `FIGMA_TOKEN`
-on this repository first: every published component names an exact kit node, and node ids are not
-discoverable without API access. See [`AGENTS.md`](AGENTS.md) for the conventions any addition has
-to hold.
+**Every published set in the kit is accounted for.** 34 of the kit's 42 published component sets are
+reproduced by a catalog component; the other 8 are excluded, each with a stated reason.
+[`kit-sets.json`](kit-sets.json) is that record — one row per set, carrying either the components
+that reproduce it or why it is absent — and `CatalogKitCoverageTest` holds it to the annotations in
+both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation
+that earned it.
+
+What is excluded, and why:
+
+| Kit set | Why |
+| --- | --- |
+| `Button-ImageBackground-Round` | Compose puts the image container painter on `Button` and `Card`; `IconButton` takes no painter |
+| `Media-Player` | Wear Compose publishes no media player — the kit's set is a composition an app assembles |
+| the six `Avatar-*` components | avatars are app content; the kit draws the shapes an app fills, and there is no composable to invoke |
+
+Out of scope and not listed: the kit's own internals (names beginning `.`, and the `Base
+components` each page builds its published set from) and the 1072-component **Icons** page, which is
+an icon set rather than a component inventory.
+
+See [`AGENTS.md`](AGENTS.md) for the conventions any addition has to hold.
 
 ## Annotation-first, by design
 

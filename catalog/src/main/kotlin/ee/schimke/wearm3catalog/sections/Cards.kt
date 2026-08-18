@@ -16,6 +16,7 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.wearm3catalog.CatalogImage
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
@@ -32,11 +33,9 @@ import ee.schimke.wearm3catalog.counted
 // alone, title + time, title + subtitle — and Compose spells all three as which slots you pass. So
 // they fold as content cells rather than splitting into three components.
 //
-// The kit's third style, `Background Image`, is NOT here yet, and its absence is deliberate rather
-// than an oversight: Compose draws it with the `Card` overload that takes a `Painter`, and this
-// catalog ships no image to hand it. A cell seeded but not implemented would publish the plain card
-// under the image style's name — a wrong picture that renders green. It arrives with a committed
-// sample image, as a cell on `Card`.
+// The kit's `Background Image` style is a cell on `Card`, drawn with the `containerPainter`
+// overload and the scrim `CardDefaults.containerPainter` applies — the scrim is most of what the
+// style is. The image itself is drawn rather than shipped; see `CatalogImage`.
 //
 // A card is a full-width component on a watch, so the sticker pins a width rather than letting the
 // crop decide one: at the measuring bound a card would size to the largest round screen and the
@@ -48,10 +47,27 @@ import ee.schimke.wearm3catalog.counted
   caption = "The plain container: one content slot, tonal by default.",
 )
 @CatalogModes
+@OverrideVariant(
+  name = "background-image",
+  strings = ["style=image"],
+  kitAxis = "Style",
+  kitValue = "Background Image",
+)
 @Composable
 fun PlainCard() = Sticker {
   val c = counted("Card")
-  Card(onClick = c.onClick, modifier = Modifier.width(180.dp)) { Text(c.label) }
+  if (previewOverrideString("style", "tonal") == "image") {
+    Card(
+      onClick = c.onClick,
+      containerPainter = CardDefaults.containerPainter(image = CatalogImage),
+      modifier = Modifier.width(180.dp),
+      colors = CardDefaults.cardWithContainerPainterColors(),
+    ) {
+      Text(c.label)
+    }
+  } else {
+    Card(onClick = c.onClick, modifier = Modifier.width(180.dp)) { Text(c.label) }
+  }
 }
 
 @CatalogComponent(
