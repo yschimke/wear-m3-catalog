@@ -21,6 +21,12 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `FilledVariantButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantButton-2f0efdce.png" width="150" /> |
 | `FilledVariantButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantButton_VARIANT_disabled-983b87f5.png" width="150" /> |
 | `FilledVariantButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantButton_VARIANT_icon-34865654.png" width="150" /> |
+| `ImageBackgroundButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ImageBackgroundButton-1a1d60c0.png" width="150" /> |
+| `ImageBackgroundButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ImageBackgroundButton_VARIANT_disabled-45e79a7b.png" width="150" /> |
+| `ImageBackgroundButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ImageBackgroundButton_VARIANT_secondary_label-9e9d0eaa.png" width="150" /> |
+| `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton-d659bf62.png" width="150" /> |
+| `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton_VARIANT_outlined-e5e7aa32.png" width="150" /> |
+| `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton_VARIANT_tonal-0244b766.png" width="150" /> |
 | `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton-defced9c.png" width="150" /> |
 | `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton_VARIANT_disabled-1e237b4f.png" width="150" /> |
 | `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton_VARIANT_icon-7472bef8.png" width="150" /> |
@@ -30,6 +36,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard-c1fa564b.png" width="150" /> |
 | `OutlineCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineCard-1171689d.png" width="150" /> |
 | `PlainCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlainCard-55327def.png" width="150" /> |
+| `PlainCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlainCard_VARIANT_background_image-55eacde6.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard-f28652ac.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_subtitle-f441ae75.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_time-5870f95c.png" width="150" /> |
@@ -89,6 +96,12 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels-fff13b89.png" width="150" /> |
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_VARIANT_24_hour-ed5318d0.png" width="150" /> |
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_VARIANT_24_hour_with_seconds-283432ad.png" width="150" /> |
+| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder-cd2645e1.png" width="150" /> |
+| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_outlined-1666fe17.png" width="150" /> |
+| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_tonal-c2accbc5.png" width="150" /> |
+| `CardPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CardPlaceholder-66aa4082.png" width="150" /> |
+| `CardPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CardPlaceholder_VARIANT_outlined-6916ee39.png" width="150" /> |
+| `IconButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconButtonPlaceholder-aa8b3ddc.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress-d0477ca2.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_complete-549d6ab2.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_disabled-57c36105.png" width="150" /> |
