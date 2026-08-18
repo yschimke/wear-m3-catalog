@@ -30,6 +30,9 @@ junit = "4.13.2"
 [libraries]
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
+# `Icons.Filled.*` — the icon set the kit's icon slots draw. Core only: the extended set is ~1000
+# vectors this catalog does not reference.
+compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
