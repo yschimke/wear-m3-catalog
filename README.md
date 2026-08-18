@@ -6,6 +6,27 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 
 | Preview | Image |
 |---------|-------|
+| `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton-8cb92223.png" width="150" /> |
+| `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton_VARIANT_disabled-dbb9b972.png" width="150" /> |
+| `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton_VARIANT_icon-d2ec1f77.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton-ac0031b1.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_disabled-05a569fc.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_icon_only-11c4c19c.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_outlined-fc19ab8f.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_text_only-91291384.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_tonal-4a39b2db.png" width="150" /> |
+| `FilledButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledButton-40180f53.png" width="150" /> |
+| `FilledButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledButton_VARIANT_disabled-fff11ae9.png" width="150" /> |
+| `FilledButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledButton_VARIANT_icon-1be7f98d.png" width="150" /> |
+| `FilledVariantButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantButton-2f0efdce.png" width="150" /> |
+| `FilledVariantButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantButton_VARIANT_disabled-983b87f5.png" width="150" /> |
+| `FilledVariantButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantButton_VARIANT_icon-34865654.png" width="150" /> |
+| `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton-defced9c.png" width="150" /> |
+| `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton_VARIANT_disabled-1e237b4f.png" width="150" /> |
+| `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton_VARIANT_icon-7472bef8.png" width="150" /> |
+| `TonalButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalButton-d583b2f2.png" width="150" /> |
+| `TonalButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalButton_VARIANT_disabled-a8cba489.png" width="150" /> |
+| `TonalButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalButton_VARIANT_icon-f373954c.png" width="150" /> |
 | `MaterialShapesSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MaterialShapesSticker-6871c9a2.png" width="150" /> |
 | `MaterialShapesSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MaterialShapesSticker_VARIANT_12_sided_cookie-31d81cc4.png" width="150" /> |
 | `MaterialShapesSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MaterialShapesSticker_VARIANT_4_leaf_clover-eb1f3898.png" width="150" /> |
