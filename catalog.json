@@ -4301,6 +4301,1407 @@
       "bodyLine": 188
     },
     {
+      "componentId": "ScrollIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/scrollindicator/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/scrollindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail",
+          "overrides": [
+            {
+              "key": "position",
+              "type": "float",
+              "label": "position",
+              "default": {
+                "kind": "float",
+                "value": 0
+              },
+              "current": {
+                "kind": "float",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/scrollindicator/ideal__bottom.png",
+          "state": "bottom",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/scrollindicator__ideal__bottom",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail_VARIANT_bottom",
+          "overrides": [
+            {
+              "key": "position",
+              "type": "float",
+              "label": "position",
+              "default": {
+                "kind": "float",
+                "value": 0
+              },
+              "current": {
+                "kind": "float",
+                "value": 1
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/scrollindicator/ideal__middle.png",
+          "state": "middle",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/scrollindicator__ideal__middle",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail_VARIANT_middle",
+          "overrides": [
+            {
+              "key": "position",
+              "type": "float",
+              "label": "position",
+              "default": {
+                "kind": "float",
+                "value": 0
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Navigation",
+      "group": "Position indicators",
+      "caption": "Where the screen sits in a scroll, drawn against the right bezel.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
+      "wireframe": "wireframes/scrollindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 49
+    },
+    {
+      "componentId": "LevelIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/levelindicator/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/levelindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/levelindicator/ideal__full.png",
+          "state": "full",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/levelindicator__ideal__full",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_VARIANT_full",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 1
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/levelindicator/ideal__low.png",
+          "state": "low",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/levelindicator__ideal__low",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_VARIANT_low",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.15
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Navigation",
+      "group": "Position indicators",
+      "caption": "The value a rotating side button is setting, while it is being turned.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
+      "wireframe": "wireframes/levelindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 64
+    },
+    {
+      "componentId": "PageIndicator/Horizontal",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/pageindicator-horizontal/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/pageindicator-horizontal__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages",
+          "overrides": [
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/pageindicator-horizontal/ideal__six-pages.png",
+          "state": "six-pages",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/pageindicator-horizontal__ideal__six-pages",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages_VARIANT_six-pages",
+          "overrides": [
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/pageindicator-horizontal/ideal__two-pages.png",
+          "state": "two-pages",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/pageindicator-horizontal__ideal__two-pages",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages_VARIANT_two-pages",
+          "overrides": [
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 2
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Navigation",
+      "group": "Position indicators",
+      "caption": "Which page of a horizontal pager is showing, along the bottom of the display.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+      "wireframe": "wireframes/pageindicator-horizontal.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 78
+    },
+    {
+      "componentId": "PageIndicator/Vertical",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/pageindicator-vertical/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/pageindicator-vertical__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.VerticalPages",
+          "overrides": [
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/pageindicator-vertical/ideal__six-pages.png",
+          "state": "six-pages",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/pageindicator-vertical__ideal__six-pages",
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.VerticalPages_VARIANT_six-pages",
+          "overrides": [
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Navigation",
+      "group": "Position indicators",
+      "caption": "The same indicator for a vertical pager, drawn against the left bezel.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+      "wireframe": "wireframes/pageindicator-vertical.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 91
+    },
+    {
+      "componentId": "CircularProgressIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__default.png",
+          "state": "default",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__complete.png",
+          "state": "complete",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__complete",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_complete",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 1
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__disabled.png",
+          "state": "disabled",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__overflow.png",
+          "state": "overflow",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__overflow",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_overflow",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 1.4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__small-stroke.png",
+          "state": "small-stroke",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__small-stroke",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_small-stroke",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__zero.png",
+          "state": "zero",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__zero",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_zero",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Communication",
+      "group": "Progress indicators",
+      "caption": "A ring around the display edge, with the kit's progress and stroke axes folded in.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
+      "wireframe": "wireframes/circularprogressindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 65
+    },
+    {
+      "componentId": "SegmentedCircularProgressIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/segmentedcircularprogressindicator/ideal__default.png",
+          "state": "default",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/segmentedcircularprogressindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "segments",
+              "type": "int",
+              "label": "segments",
+              "default": {
+                "kind": "int",
+                "value": 6
+              },
+              "current": {
+                "kind": "int",
+                "value": 6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/segmentedcircularprogressindicator/ideal__complete.png",
+          "state": "complete",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/segmentedcircularprogressindicator__ideal__complete",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_complete",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 1
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "segments",
+              "type": "int",
+              "label": "segments",
+              "default": {
+                "kind": "int",
+                "value": 6
+              },
+              "current": {
+                "kind": "int",
+                "value": 6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/segmentedcircularprogressindicator/ideal__disabled.png",
+          "state": "disabled",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/segmentedcircularprogressindicator__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "segments",
+              "type": "int",
+              "label": "segments",
+              "default": {
+                "kind": "int",
+                "value": 6
+              },
+              "current": {
+                "kind": "int",
+                "value": 6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/segmentedcircularprogressindicator/ideal__twelve.png",
+          "state": "twelve",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/segmentedcircularprogressindicator__ideal__twelve",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_twelve",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "segments",
+              "type": "int",
+              "label": "segments",
+              "default": {
+                "kind": "int",
+                "value": 6
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/segmentedcircularprogressindicator/ideal__zero.png",
+          "state": "zero",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/segmentedcircularprogressindicator__ideal__zero",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_zero",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "segments",
+              "type": "int",
+              "label": "segments",
+              "default": {
+                "kind": "int",
+                "value": 6
+              },
+              "current": {
+                "kind": "int",
+                "value": 6
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Communication",
+      "group": "Progress indicators",
+      "caption": "The same ring cut into segments, for progress through a countable set of steps.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/52431:56915",
+      "wireframe": "wireframes/segmentedcircularprogressindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 100
+    },
+    {
+      "componentId": "LinearProgressIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/linearprogressindicator/ideal__default.png",
+          "state": "default",
+          "width": 332,
+          "height": 56,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/linearprogressindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "large"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/linearprogressindicator/ideal__20.png",
+          "state": "20",
+          "width": 332,
+          "height": 56,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/linearprogressindicator__ideal__20",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_20",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.2
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "large"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/linearprogressindicator/ideal__complete.png",
+          "state": "complete",
+          "width": 332,
+          "height": 56,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/linearprogressindicator__ideal__complete",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_complete",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 1
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "large"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/linearprogressindicator/ideal__min.png",
+          "state": "min",
+          "width": 332,
+          "height": 56,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/linearprogressindicator__ideal__min",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_min",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "large"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/linearprogressindicator/ideal__small.png",
+          "state": "small",
+          "width": 332,
+          "height": 48,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/linearprogressindicator__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_small",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "large"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Communication",
+      "group": "Progress indicators",
+      "caption": "A straight track, for progress inside a component or a list row.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/45011:259051",
+      "wireframe": "wireframes/linearprogressindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 126
+    },
+    {
       "componentId": "CheckboxButton",
       "images": [
         {
@@ -6294,6 +7695,411 @@
       "bodyLine": 143
     },
     {
+      "componentId": "ListHeader",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/listheader/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/listheader__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading",
+          "overrides": [
+            {
+              "key": "align",
+              "type": "string",
+              "label": "align",
+              "default": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "current": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/listheader/ideal__left-aligned.png",
+          "state": "left-aligned",
+          "width": 392,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/listheader__ideal__left-aligned",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading_VARIANT_left-aligned",
+          "overrides": [
+            {
+              "key": "align",
+              "type": "string",
+              "label": "align",
+              "default": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 135,
+            "y": 49,
+            "width": 123,
+            "height": 38
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        }
+      ],
+      "section": "Text",
+      "group": "Text",
+      "caption": "Titles the screen a list belongs to; the first thing above the list.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66977",
+      "wireframe": "wireframes/listheader.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 48
+    },
+    {
+      "componentId": "ListSubHeader",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/listsubheader/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/listsubheader__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading",
+          "overrides": [
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/listsubheader/ideal__icon.png",
+          "state": "icon",
+          "width": 392,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/listsubheader__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 44,
+            "y": 56,
+            "width": 97,
+            "height": 33
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 8
+          }
+        }
+      ],
+      "section": "Text",
+      "group": "Text",
+      "caption": "Divides a long list into named runs, without leaving the screen's title behind.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66982",
+      "wireframe": "wireframes/listsubheader.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 67
+    },
+    {
+      "componentId": "Text/Body",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/text-body/ideal__default.png",
+          "state": "default",
+          "width": 352,
+          "height": 129,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/text-body__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText",
+          "overrides": [
+            {
+              "key": "align",
+              "type": "string",
+              "label": "align",
+              "default": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "current": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/text-body/ideal__left-aligned.png",
+          "state": "left-aligned",
+          "width": 352,
+          "height": 129,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/text-body__ideal__left-aligned",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText_VARIANT_left-aligned",
+          "overrides": [
+            {
+              "key": "align",
+              "type": "string",
+              "label": "align",
+              "default": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Text",
+      "group": "Text",
+      "caption": "Running text at the `bodyMedium` role of the Wear type scale.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
+      "wireframe": "wireframes/text-body.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 91
+    },
+    {
+      "componentId": "Text/Caption",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/text-caption/ideal__default.png",
+          "state": "default",
+          "width": 352,
+          "height": 64,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/text-caption__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.CaptionText",
+          "overrides": [
+            {
+              "key": "align",
+              "type": "string",
+              "label": "align",
+              "default": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "current": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/text-caption/ideal__left-aligned.png",
+          "state": "left-aligned",
+          "width": 352,
+          "height": 64,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/text-caption__ideal__left-aligned",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.CaptionText_VARIANT_left-aligned",
+          "overrides": [
+            {
+              "key": "align",
+              "type": "string",
+              "label": "align",
+              "default": {
+                "kind": "string",
+                "value": "centre"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Text",
+      "group": "Text",
+      "caption": "Secondary text at the `labelSmall` role — a timestamp, a unit, a footnote.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66995",
+      "wireframe": "wireframes/text-caption.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 114
+    },
+    {
+      "componentId": "TimeText",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/timetext/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/timetext__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText",
+          "overrides": [
+            {
+              "key": "time",
+              "type": "string",
+              "label": "time",
+              "default": {
+                "kind": "string",
+                "value": "10:10"
+              },
+              "current": {
+                "kind": "string",
+                "value": "10:10"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/timetext/ideal__24-hour.png",
+          "state": "24-hour",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/timetext__ideal__24-hour",
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText_VARIANT_24-hour",
+          "overrides": [
+            {
+              "key": "time",
+              "type": "string",
+              "label": "time",
+              "default": {
+                "kind": "string",
+                "value": "10:10"
+              },
+              "current": {
+                "kind": "string",
+                "value": "22:10"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Text",
+      "group": "Text",
+      "caption": "The curved status strip every Wear screen carries, pinned to a fixed time.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
+      "wireframe": "wireframes/timetext.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 135
+    },
+    {
       "componentId": "IconToggleButton",
       "images": [
         {
@@ -7130,7 +8936,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-18T23:44:35.052Z",
+  "generatedAt": "2026-08-18T23:49:12.833Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"

@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-18T23:44:35.663Z",
+  "generatedAt": "2026-08-18T23:49:13.447Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -428,6 +428,160 @@
       "figmaSvg": "figma/textbutton.svg"
     },
     {
+      "componentId": "ScrollIndicator",
+      "figmaLayerName": "ScrollIndicator",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ScrollRail",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/scrollindicator.svg"
+    },
+    {
+      "componentId": "LevelIndicator",
+      "figmaLayerName": "LevelIndicator",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "LevelRail",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/levelindicator.svg"
+    },
+    {
+      "componentId": "PageIndicator/Horizontal",
+      "figmaLayerName": "PageIndicator/Horizontal",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "HorizontalPages",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/pageindicator-horizontal.svg"
+    },
+    {
+      "componentId": "PageIndicator/Vertical",
+      "figmaLayerName": "PageIndicator/Vertical",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "VerticalPages",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/pageindicator-vertical.svg"
+    },
+    {
+      "componentId": "CircularProgressIndicator",
+      "figmaLayerName": "CircularProgressIndicator",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CircularProgress",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/circularprogressindicator.svg"
+    },
+    {
+      "componentId": "SegmentedCircularProgressIndicator",
+      "figmaLayerName": "SegmentedCircularProgressIndicator",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SegmentedProgress",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/segmentedcircularprogressindicator.svg"
+    },
+    {
+      "componentId": "LinearProgressIndicator",
+      "figmaLayerName": "LinearProgressIndicator",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "LinearProgress",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/linearprogressindicator.svg"
+    },
+    {
       "componentId": "CheckboxButton",
       "figmaLayerName": "CheckboxButton",
       "componentName": "Sticker",
@@ -514,6 +668,116 @@
         }
       ],
       "figmaSvg": "figma/shape-materialshapes.svg"
+    },
+    {
+      "componentId": "ListHeader",
+      "figmaLayerName": "ListHeader",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ListHeading",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/listheader.svg"
+    },
+    {
+      "componentId": "ListSubHeader",
+      "figmaLayerName": "ListSubHeader",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ListSubHeading",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/listsubheader.svg"
+    },
+    {
+      "componentId": "Text/Body",
+      "figmaLayerName": "Text/Body",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "BodyText",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/text-body.svg"
+    },
+    {
+      "componentId": "Text/Caption",
+      "figmaLayerName": "Text/Caption",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CaptionText",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/text-caption.svg"
+    },
+    {
+      "componentId": "TimeText",
+      "figmaLayerName": "TimeText",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FixedTimeText",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/timetext.svg"
     },
     {
       "componentId": "IconToggleButton",
