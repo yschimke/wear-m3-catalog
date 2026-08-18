@@ -4691,6 +4691,458 @@
       "bodyLine": 91
     },
     {
+      "componentId": "DatePicker",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/datepicker/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/datepicker__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels",
+          "overrides": [
+            {
+              "key": "order",
+              "type": "string",
+              "label": "order",
+              "default": {
+                "kind": "string",
+                "value": "day"
+              },
+              "current": {
+                "kind": "string",
+                "value": "day"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/datepicker/ideal__month-first.png",
+          "state": "month-first",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/datepicker__ideal__month-first",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_VARIANT_month-first",
+          "overrides": [
+            {
+              "key": "order",
+              "type": "string",
+              "label": "order",
+              "default": {
+                "kind": "string",
+                "value": "day"
+              },
+              "current": {
+                "kind": "string",
+                "value": "month"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/datepicker/ideal__year-first.png",
+          "state": "year-first",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/datepicker__ideal__year-first",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_VARIANT_year-first",
+          "overrides": [
+            {
+              "key": "order",
+              "type": "string",
+              "label": "order",
+              "default": {
+                "kind": "string",
+                "value": "day"
+              },
+              "current": {
+                "kind": "string",
+                "value": "year"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 336,
+              "width": 454,
+              "height": 112
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 336,
+            "width": 454,
+            "height": 112
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 138,
+            "y": 28,
+            "width": 178,
+            "height": 48
+          },
+          "label": "Day",
+          "padding": {
+            "start": 69,
+            "top": 0,
+            "end": 69,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 194,
+            "y": 88,
+            "width": 96,
+            "height": 230
+          },
+          "role": "Picker",
+          "label": "Day, 19",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        },
+        {
+          "bounds": {
+            "x": 314,
+            "y": 88,
+            "width": 152,
+            "height": 230
+          },
+          "role": "Picker",
+          "label": "August",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        },
+        {
+          "bounds": {
+            "x": 490,
+            "y": 88,
+            "width": 183,
+            "height": 230
+          },
+          "role": "Picker",
+          "label": "Year, 2026",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 336,
+            "width": 454,
+            "height": 112
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 3,
+            "end": 0,
+            "bottom": 3
+          }
+        }
+      ],
+      "section": "Selection",
+      "group": "Pickers",
+      "caption": "Three wheels for a date, with the kit's field orderings folded in.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+      "wireframe": "wireframes/datepicker.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 55
+    },
+    {
+      "componentId": "TimePicker",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/timepicker/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/timepicker__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels",
+          "overrides": [
+            {
+              "key": "format",
+              "type": "string",
+              "label": "format",
+              "default": {
+                "kind": "string",
+                "value": "12"
+              },
+              "current": {
+                "kind": "string",
+                "value": "12"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/timepicker/ideal__24-hour.png",
+          "state": "24-hour",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/timepicker__ideal__24-hour",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_VARIANT_24-hour",
+          "overrides": [
+            {
+              "key": "format",
+              "type": "string",
+              "label": "format",
+              "default": {
+                "kind": "string",
+                "value": "12"
+              },
+              "current": {
+                "kind": "string",
+                "value": "24"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/timepicker/ideal__24-hour-with-seconds.png",
+          "state": "24-hour-with-seconds",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/timepicker__ideal__24-hour-with-seconds",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_VARIANT_24-hour-with-seconds",
+          "overrides": [
+            {
+              "key": "format",
+              "type": "string",
+              "label": "format",
+              "default": {
+                "kind": "string",
+                "value": "12"
+              },
+              "current": {
+                "kind": "string",
+                "value": "24s"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 336,
+              "width": 454,
+              "height": 112
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 336,
+            "width": 454,
+            "height": 112
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 138,
+            "y": 28,
+            "width": 178,
+            "height": 48
+          },
+          "label": "Hour",
+          "padding": {
+            "start": 69,
+            "top": 0,
+            "end": 69,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 102,
+            "y": 88,
+            "width": 96,
+            "height": 230
+          },
+          "role": "Picker",
+          "label": "10 Hours",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        },
+        {
+          "bounds": {
+            "x": 222,
+            "y": 88,
+            "width": 96,
+            "height": 230
+          },
+          "role": "Picker",
+          "label": "10 Minutes",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        },
+        {
+          "bounds": {
+            "x": 342,
+            "y": 88,
+            "width": 122,
+            "height": 230
+          },
+          "role": "Picker",
+          "label": "AM",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 336,
+            "width": 454,
+            "height": 112
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 3,
+            "end": 0,
+            "bottom": 3
+          }
+        }
+      ],
+      "section": "Selection",
+      "group": "Pickers",
+      "caption": "Wheels for a time, pinned to 10:10; the kit's clock formats fold in as cells.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+      "wireframe": "wireframes/timepicker.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 84
+    },
+    {
+      "componentId": "Picker",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/picker/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/picker__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 38,
+            "height": 454
+          },
+          "role": "Picker",
+          "label": "Minutes",
+          "padding": {
+            "start": 0,
+            "top": 1,
+            "end": 0,
+            "bottom": 1
+          }
+        }
+      ],
+      "section": "Selection",
+      "group": "Pickers",
+      "caption": "One wheel of options — the primitive the date and time pickers are built from.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+      "wireframe": "wireframes/picker.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 101
+    },
+    {
       "componentId": "CircularProgressIndicator",
       "images": [
         {
@@ -7695,6 +8147,942 @@
       "bodyLine": 143
     },
     {
+      "componentId": "Slider",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/slider/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/slider__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "steps",
+              "type": "int",
+              "label": "steps",
+              "default": {
+                "kind": "int",
+                "value": 5
+              },
+              "current": {
+                "kind": "int",
+                "value": 5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/slider/ideal__disabled.png",
+          "state": "disabled",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/slider__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "steps",
+              "type": "int",
+              "label": "steps",
+              "default": {
+                "kind": "int",
+                "value": 5
+              },
+              "current": {
+                "kind": "int",
+                "value": 5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/slider/ideal__full.png",
+          "state": "full",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/slider__ideal__full",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_full",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 1
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "steps",
+              "type": "int",
+              "label": "steps",
+              "default": {
+                "kind": "int",
+                "value": 5
+              },
+              "current": {
+                "kind": "int",
+                "value": 5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/slider/ideal__low.png",
+          "state": "low",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/slider__ideal__low",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_low",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "steps",
+              "type": "int",
+              "label": "steps",
+              "default": {
+                "kind": "int",
+                "value": 5
+              },
+              "current": {
+                "kind": "int",
+                "value": 5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/slider/ideal__three-steps.png",
+          "state": "three-steps",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/slider__ideal__three-steps",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_three-steps",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "steps",
+              "type": "int",
+              "label": "steps",
+              "default": {
+                "kind": "int",
+                "value": 5
+              },
+              "current": {
+                "kind": "int",
+                "value": 3
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 96,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 96,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 280,
+              "y": 16,
+              "width": 96,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 280,
+            "y": 16,
+            "width": 96,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 360,
+            "height": 104
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 112,
+            "y": 56,
+            "width": 168,
+            "height": 24
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Selection",
+      "group": "Sliders and steppers",
+      "caption": "A value across a fixed number of steps, with the kit's levels folded in as cells.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
+      "wireframe": "wireframes/slider.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 68
+    },
+    {
+      "componentId": "Stepper",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/stepper/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/stepper__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/stepper/ideal__disabled.png",
+          "state": "disabled",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/stepper__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/stepper/ideal__icon.png",
+          "state": "icon",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/stepper__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "level",
+              "type": "float",
+              "label": "level",
+              "default": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.5
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 167,
+              "y": 24,
+              "width": 120,
+              "height": 96
+            }
+          },
+          "bounds": {
+            "x": 167,
+            "y": 24,
+            "width": 120,
+            "height": 96
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 167,
+              "y": 334,
+              "width": 120,
+              "height": 96
+            }
+          },
+          "bounds": {
+            "x": 167,
+            "y": 334,
+            "width": 120,
+            "height": 96
+          }
+        }
+      ],
+      "redlines": [],
+      "section": "Selection",
+      "group": "Sliders and steppers",
+      "caption": "A value moved a step at a time, between buttons at the top and bottom of the screen.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
+      "wireframe": "wireframes/stepper.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 94
+    },
+    {
+      "componentId": "SwipeToReveal/Card",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/swipetoreveal-card/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/swipetoreveal-card__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard",
+          "overrides": [
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/swipetoreveal-card/ideal__two-actions.png",
+          "state": "two-actions",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/swipetoreveal-card__ideal__two-actions",
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_VARIANT_two-actions",
+          "overrides": [
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 283,
+              "y": 28,
+              "width": 93,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 283,
+            "y": 28,
+            "width": 93,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 283,
+            "y": 28,
+            "width": 93,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 23.25
+        },
+        {
+          "bounds": {
+            "x": -85,
+            "y": 16,
+            "width": 360,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Containment",
+      "group": "Swipe to reveal",
+      "caption": "A card swiped aside to show its actions.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
+      "wireframe": "wireframes/swipetoreveal-card.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 47
+    },
+    {
+      "componentId": "SwipeToReveal/Button",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/swipetoreveal-button/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/swipetoreveal-button__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton",
+          "overrides": [
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/swipetoreveal-button/ideal__two-actions.png",
+          "state": "two-actions",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/swipetoreveal-button__ideal__two-actions",
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_VARIANT_two-actions",
+          "overrides": [
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 283,
+              "y": 16,
+              "width": 93,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 283,
+            "y": 16,
+            "width": 93,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": -85,
+              "y": 16,
+              "width": 139,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": -85,
+            "y": 16,
+            "width": 139,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 283,
+            "y": 16,
+            "width": 93,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 23.25
+        },
+        {
+          "bounds": {
+            "x": -85,
+            "y": 16,
+            "width": 139,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Containment",
+      "group": "Swipe to reveal",
+      "caption": "The same gesture over a button rather than a card.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
+      "wireframe": "wireframes/swipetoreveal-button.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 87
+    },
+    {
       "componentId": "ListHeader",
       "images": [
         {
@@ -8936,7 +10324,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-18T23:49:12.833Z",
+  "generatedAt": "2026-08-18T23:54:45.383Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
