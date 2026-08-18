@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-18T23:38:56.740Z",
+  "generatedAt": "2026-08-18T23:44:35.663Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -140,6 +140,182 @@
         }
       ],
       "figmaSvg": "figma/button-compact.svg"
+    },
+    {
+      "componentId": "Card",
+      "figmaLayerName": "Card",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "PlainCard",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/card.svg"
+    },
+    {
+      "componentId": "Card/Outlined",
+      "figmaLayerName": "Card/Outlined",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OutlineCard",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/card-outlined.svg"
+    },
+    {
+      "componentId": "TitleCard",
+      "figmaLayerName": "TitleCard",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TitledCard",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/titlecard.svg"
+    },
+    {
+      "componentId": "AppCard",
+      "figmaLayerName": "AppCard",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ApplicationCard",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/appcard.svg"
+    },
+    {
+      "componentId": "AlertDialog",
+      "figmaLayerName": "AlertDialog",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AlertDialogSticker",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/alertdialog.svg"
+    },
+    {
+      "componentId": "ConfirmationDialog",
+      "figmaLayerName": "ConfirmationDialog",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ConfirmationDialogSticker",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/confirmationdialog.svg"
+    },
+    {
+      "componentId": "OpenOnPhoneDialog",
+      "figmaLayerName": "OpenOnPhoneDialog",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OpenOnPhoneDialogSticker",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/openonphonedialog.svg"
+    },
+    {
+      "componentId": "EdgeButton",
+      "figmaLayerName": "EdgeButton",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ScreenEdgeButton",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/edgebutton.svg"
     },
     {
       "componentId": "IconButton/Filled",

@@ -1438,6 +1438,1326 @@
       "bodyLine": 204
     },
     {
+      "componentId": "Card",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/card/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/card__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 360,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Containment",
+      "group": "Cards",
+      "caption": "The plain container: one content slot, tonal by default.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "wireframe": "wireframes/card.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 52
+    },
+    {
+      "componentId": "Card/Outlined",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/card-outlined/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/card-outlined__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.OutlineCard",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 360,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Containment",
+      "group": "Cards",
+      "caption": "The kit's outline style — the same container drawn as a border.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "wireframe": "wireframes/card-outlined.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 64
+    },
+    {
+      "componentId": "TitleCard",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/titlecard/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/titlecard__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "title"
+              },
+              "current": {
+                "kind": "string",
+                "value": "title"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/titlecard/ideal__title-and-subtitle.png",
+          "state": "title-and-subtitle",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/titlecard__ideal__title-and-subtitle",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-subtitle",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "title"
+              },
+              "current": {
+                "kind": "string",
+                "value": "subtitle"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/titlecard/ideal__title-and-time.png",
+          "state": "title-and-time",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/titlecard__ideal__title-and-time",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-time",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "title"
+              },
+              "current": {
+                "kind": "string",
+                "value": "time"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 360,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Containment",
+      "group": "Cards",
+      "caption": "A card led by a title, with the kit's numbered layouts folded in as content cells.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "wireframe": "wireframes/titlecard.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 88
+    },
+    {
+      "componentId": "AppCard",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/appcard/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 205,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/appcard__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 360,
+            "height": 173
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Containment",
+      "group": "Cards",
+      "caption": "A card that names the app it came from — the shape a notification takes.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "wireframe": "wireframes/appcard.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 114
+    },
+    {
+      "componentId": "AlertDialog",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/alertdialog/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/alertdialog__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker",
+          "overrides": [
+            {
+              "key": "edge",
+              "type": "string",
+              "label": "edge",
+              "default": {
+                "kind": "string",
+                "value": "double"
+              },
+              "current": {
+                "kind": "string",
+                "value": "double"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/alertdialog/ideal__edge-button.png",
+          "state": "edge-button",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/alertdialog__ideal__edge-button",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker_VARIANT_edge-button",
+          "overrides": [
+            {
+              "key": "edge",
+              "type": "string",
+              "label": "edge",
+              "default": {
+                "kind": "string",
+                "value": "double"
+              },
+              "current": {
+                "kind": "string",
+                "value": "single"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/alertdialog/ideal__no-buttons.png",
+          "state": "no-buttons",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/alertdialog__ideal__no-buttons",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker_VARIANT_no-buttons",
+          "overrides": [
+            {
+              "key": "edge",
+              "type": "string",
+              "label": "edge",
+              "default": {
+                "kind": "string",
+                "value": "double"
+              },
+              "current": {
+                "kind": "string",
+                "value": "none"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 102,
+              "y": 288,
+              "width": 120,
+              "height": 120
+            }
+          },
+          "bounds": {
+            "x": 102,
+            "y": 288,
+            "width": 120,
+            "height": 120
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 216,
+              "y": 264,
+              "width": 165,
+              "height": 165
+            }
+          },
+          "bounds": {
+            "x": 216,
+            "y": 264,
+            "width": 165,
+            "height": 165
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 231,
+              "y": 279,
+              "width": 135,
+              "height": 135
+            }
+          },
+          "bounds": {
+            "x": 231,
+            "y": 279,
+            "width": 135,
+            "height": 135
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 120,
+              "height": 120
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 120,
+            "height": 120
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 126,
+              "height": 108
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 126,
+            "height": 108
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 96,
+              "height": 96
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 96,
+            "height": 96
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 216,
+            "y": 264,
+            "width": 165,
+            "height": 165
+          },
+          "role": "Button",
+          "cornerRadius": 27
+        },
+        {
+          "bounds": {
+            "x": 231,
+            "y": 279,
+            "width": 135,
+            "height": 135
+          },
+          "role": "Button",
+          "padding": {
+            "start": 10,
+            "top": 10,
+            "end": 10,
+            "bottom": 10
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 126,
+            "height": 108
+          },
+          "role": "Button",
+          "cornerRadius": 27
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 96,
+            "height": 96
+          },
+          "role": "Button",
+          "padding": {
+            "start": 10,
+            "top": 10,
+            "end": 10,
+            "bottom": 10
+          }
+        }
+      ],
+      "section": "Containment",
+      "group": "Dialogs",
+      "caption": "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
+      "wireframe": "wireframes/alertdialog.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 62
+    },
+    {
+      "componentId": "ConfirmationDialog",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/confirmationdialog/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/confirmationdialog__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.ConfirmationDialogSticker",
+          "overrides": [
+            {
+              "key": "kind",
+              "type": "string",
+              "label": "kind",
+              "default": {
+                "kind": "string",
+                "value": "plain"
+              },
+              "current": {
+                "kind": "string",
+                "value": "plain"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/confirmationdialog/ideal__failure.png",
+          "state": "failure",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/confirmationdialog__ideal__failure",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.ConfirmationDialogSticker_VARIANT_failure",
+          "overrides": [
+            {
+              "key": "kind",
+              "type": "string",
+              "label": "kind",
+              "default": {
+                "kind": "string",
+                "value": "plain"
+              },
+              "current": {
+                "kind": "string",
+                "value": "failure"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/confirmationdialog/ideal__success.png",
+          "state": "success",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/confirmationdialog__ideal__success",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.ConfirmationDialogSticker_VARIANT_success",
+          "overrides": [
+            {
+              "key": "kind",
+              "type": "string",
+              "label": "kind",
+              "default": {
+                "kind": "string",
+                "value": "plain"
+              },
+              "current": {
+                "kind": "string",
+                "value": "success"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Containment",
+      "group": "Dialogs",
+      "caption": "Reports that an action landed, then dismisses itself.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/47251:36765",
+      "wireframe": "wireframes/confirmationdialog.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 88
+    },
+    {
+      "componentId": "OpenOnPhoneDialog",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/openonphonedialog/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/openonphonedialog__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.OpenOnPhoneDialogSticker",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 79,
+            "y": 72,
+            "width": 296,
+            "height": 296
+          },
+          "padding": {
+            "start": 0,
+            "top": 36,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 99,
+            "y": 92,
+            "width": 256,
+            "height": 256
+          },
+          "padding": {
+            "start": 10,
+            "top": 10,
+            "end": 10,
+            "bottom": 10
+          }
+        }
+      ],
+      "section": "Containment",
+      "group": "Dialogs",
+      "caption": "Hands the task to the paired phone, with the progress the wait needs.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/46964:90920",
+      "wireframe": "wireframes/openonphonedialog.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 115
+    },
+    {
+      "componentId": "EdgeButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__default.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__icon.png",
+          "state": "icon",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__large.png",
+          "state": "large",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_large",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__outlined.png",
+          "state": "outlined",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__small.png",
+          "state": "small",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_small",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__tonal.png",
+          "state": "tonal",
+          "width": 454,
+          "height": 454,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 6,
+              "width": 454,
+              "height": 140
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 6,
+            "width": 454,
+            "height": 140
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 6,
+            "width": 454,
+            "height": 140
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 3,
+            "end": 0,
+            "bottom": 3
+          }
+        }
+      ],
+      "section": "Actions",
+      "group": "Edge-hugging buttons",
+      "caption": "The screen-hugging confirm action, curved to the bottom edge of the display.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
+      "wireframe": "wireframes/edgebutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 61
+    },
+    {
       "componentId": "IconButton/Filled",
       "images": [
         {
@@ -5810,7 +7130,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-18T23:38:56.152Z",
+  "generatedAt": "2026-08-18T23:44:35.052Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
