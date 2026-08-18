@@ -3,9 +3,10 @@ name: Design parity reference cache
 # Import the Figma side on its own cadence. Design parity reads this committed cache and therefore
 # makes zero live Figma calls on ordinary code pushes; a rate limit costs freshness, not coverage.
 
+# Manual until design-parity itself runs on a schedule again: this workflow runs the same
+# design-map-command, and there is nothing yet for it to import a reference for. See
+# design-parity.yml and docs/DESIGN_MAP.md.
 on:
-  schedule:
-    - cron: '30 4 * * *'
   workflow_dispatch:
     inputs:
       design_parity_ref:
