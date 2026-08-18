@@ -1,0 +1,35 @@
+{
+  "system": "wear-m3-catalog",
+  "title": "M3 Wear OS Apps Design Kit",
+  "label": "Compose",
+  "source": {
+    "repo": "yschimke/wear-m3-catalog",
+    "ref": "main",
+    "module": ":catalog"
+  },
+  "generatedAt": "2026-08-18T23:09:27.288Z",
+  "mappings": [
+    {
+      "componentId": "Shape/MaterialShapes",
+      "figmaLayerName": "Shape/MaterialShapes",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "MaterialShapesSticker",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/shape-materialshapes.svg"
+    }
+  ]
+}

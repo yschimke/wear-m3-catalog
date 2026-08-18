@@ -1,0 +1,108 @@
+{
+  "schema": "design-parity-catalog/v1",
+  "system": "wear-m3-catalog",
+  "title": "M3 Wear OS Apps Design Kit",
+  "components": [
+    {
+      "componentId": "Shape/MaterialShapes",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/shape-materialshapes/ideal__default.png",
+          "state": "default",
+          "width": 176,
+          "height": 176,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/shape-materialshapes__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker",
+          "overrides": [
+            {
+              "key": "shape",
+              "type": "string",
+              "label": "shape",
+              "default": {
+                "kind": "string",
+                "value": "circle"
+              },
+              "current": {
+                "kind": "string",
+                "value": "circle"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/shape-materialshapes/ideal__square.png",
+          "state": "square",
+          "width": 176,
+          "height": 176,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/shape-materialshapes__ideal__square",
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_square",
+          "overrides": [
+            {
+              "key": "shape",
+              "type": "string",
+              "label": "shape",
+              "default": {
+                "kind": "string",
+                "value": "circle"
+              },
+              "current": {
+                "kind": "string",
+                "value": "square"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Styles",
+      "group": "Shapes",
+      "caption": "The expressive shape library, with each named shape folded in as a variant.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/42284:176650",
+      "wireframe": "wireframes/shape-materialshapes.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Shapes.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 65
+    }
+  ],
+  "library": [
+    "androidx.wear.compose:compose-material3"
+  ],
+  "renderer": "compose-preview 1.15.0",
+  "generatedAt": "2026-08-18T23:09:26.904Z",
+  "display": {
+    "surface": "dark",
+    "hero": "Shape/MaterialShapes"
+  },
+  "liveBundle": {
+    "path": "bundle/",
+    "file": "bundle.png"
+  },
+  "liveBundles": [
+    {
+      "path": "bundle/",
+      "file": "bundle.png",
+      "module": ":catalog",
+      "previewIdPrefix": ""
+    }
+  ],
+  "source": {
+    "repo": "yschimke/wear-m3-catalog",
+    "ref": "main",
+    "module": ":catalog"
+  }
+}
