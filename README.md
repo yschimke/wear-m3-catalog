@@ -25,10 +25,12 @@ node ids and reference images, and the MCP server for variables and metadata.
 
 ## Status
 
-Standing up, deliberately narrow. The `Shape/MaterialShapes` sticker and its first folded cell are
-in, which is enough to exercise the whole pipeline end to end — build, discover, render, publish,
-serve. The sweep that fans the rest of the kit out follows; see [`AGENTS.md`](AGENTS.md) for the
-conventions any addition has to hold.
+Standing up. The pipeline runs end to end — build, discover, render, publish, serve — and the kit's
+**Shapes** page is complete: one `Shape/MaterialShapes` component carrying all 35 silhouettes as
+folded cells. The component sweep across the rest of the kit follows, and it needs a `FIGMA_TOKEN`
+on this repository first: every published component names an exact kit node, and node ids are not
+discoverable without API access. See [`AGENTS.md`](AGENTS.md) for the conventions any addition has
+to hold.
 
 ## Annotation-first, by design
 
