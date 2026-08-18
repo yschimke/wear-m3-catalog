@@ -1,0 +1,341 @@
+{
+  "$comment": "EVERY PUBLISHED SET IN THE KIT, and what this catalog does about it. Generated from the kit walk (.github/workflows/figma-refs.yml) joined to the @CatalogComponent references in the sources; CatalogKitCoverageTest holds the two together in both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation that earned it. Out of scope, and not listed: the kit's own internals (names beginning '.', and the 'Base components' each page builds its published set from) and the 1072-component Icons page, which is an icon set rather than a component inventory.",
+  "fileKey": "B24oss2tTeXAFykyeyusz0",
+  "sets": [
+    {
+      "page": "Shapes",
+      "set": "Shapes",
+      "node": "42284:176650",
+      "components": [
+        "Shape/MaterialShapes"
+      ]
+    },
+    {
+      "page": "Avatars",
+      "set": "Avatar-Icon",
+      "node": "142979:17517",
+      "excluded": "Avatars are app content rather than a Wear Compose component: the kit draws the shapes an app fills, and there is no composable to invoke."
+    },
+    {
+      "page": "Avatars",
+      "set": "Avatar-Image",
+      "node": "142979:17519",
+      "excluded": "Avatars are app content rather than a Wear Compose component: the kit draws the shapes an app fills, and there is no composable to invoke."
+    },
+    {
+      "page": "Avatars",
+      "set": "Avatar-Placeholder",
+      "node": "142979:17520",
+      "excluded": "Avatars are app content rather than a Wear Compose component: the kit draws the shapes an app fills, and there is no composable to invoke."
+    },
+    {
+      "page": "Avatars",
+      "set": "Avatar-Monogram",
+      "node": "142979:17523",
+      "excluded": "Avatars are app content rather than a Wear Compose component: the kit draws the shapes an app fills, and there is no composable to invoke."
+    },
+    {
+      "page": "Avatars",
+      "set": "Avatar-Initial",
+      "node": "142979:17525",
+      "excluded": "Avatars are app content rather than a Wear Compose component: the kit draws the shapes an app fills, and there is no composable to invoke."
+    },
+    {
+      "page": "Avatars",
+      "set": "Avatar-AppEg",
+      "node": "142979:17528",
+      "excluded": "Avatars are app content rather than a Wear Compose component: the kit draws the shapes an app fills, and there is no composable to invoke."
+    },
+    {
+      "page": "Buttons",
+      "set": "Text-Button",
+      "node": "34732:103080",
+      "components": [
+        "TextButton"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Text-ToggleButton",
+      "node": "39083:760",
+      "components": [
+        "TextToggleButton"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Button-ImageBackground-Round",
+      "node": "35939:191784",
+      "excluded": "Compose puts the image container painter on Button and Card; IconButton takes no painter, so there is no round image-backed button to invoke."
+    },
+    {
+      "page": "Buttons",
+      "set": "Button-ImageBackground",
+      "node": "38425:101028",
+      "components": [
+        "Button/ImageBackground"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Button-Loading",
+      "node": "68333:155055",
+      "components": [
+        "Button/Loading"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Button-Placeholder",
+      "node": "71571:44772",
+      "components": [
+        "Placeholder/Button"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Toggle+Selection-Buttons",
+      "node": "35276:84869",
+      "components": [
+        "CheckboxButton",
+        "RadioButton",
+        "SwitchButton"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Button-Compact",
+      "node": "35276:87971",
+      "components": [
+        "Button/Compact"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Icon-Button",
+      "node": "34732:102972",
+      "components": [
+        "IconButton/Filled",
+        "IconButton/Outlined",
+        "IconButton/Standard",
+        "IconButton/Tonal"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Icon-ToggleButton",
+      "node": "39083:679",
+      "components": [
+        "IconToggleButton"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Icon-Button-Placeholder",
+      "node": "71571:44843",
+      "components": [
+        "Placeholder/IconButton"
+      ]
+    },
+    {
+      "page": "Buttons",
+      "set": "Button",
+      "node": "35239:93088",
+      "components": [
+        "Button/Child",
+        "Button/Filled",
+        "Button/FilledVariant",
+        "Button/Outlined",
+        "Button/Tonal"
+      ]
+    },
+    {
+      "page": "Cards",
+      "set": "Card-Placeholder",
+      "node": "71571:45109",
+      "components": [
+        "Placeholder/Card"
+      ]
+    },
+    {
+      "page": "Cards",
+      "set": "Card",
+      "node": "38437:5746",
+      "components": [
+        "AppCard",
+        "Card",
+        "Card/Outlined",
+        "TitleCard"
+      ]
+    },
+    {
+      "page": "Confirmation Overlays",
+      "set": "Confirmation-Overlay",
+      "node": "47251:36765",
+      "components": [
+        "ConfirmationDialog"
+      ]
+    },
+    {
+      "page": "Confirmation Overlays",
+      "set": "OpenOnPhone-Overlay",
+      "node": "46964:90920",
+      "components": [
+        "OpenOnPhoneDialog"
+      ]
+    },
+    {
+      "page": "Dialogs",
+      "set": "Dialog",
+      "node": "58475:87022",
+      "components": [
+        "AlertDialog"
+      ]
+    },
+    {
+      "page": "Edge-Hugging Buttons",
+      "set": "Edge-Button",
+      "node": "36601:6586",
+      "components": [
+        "EdgeButton"
+      ]
+    },
+    {
+      "page": "Page Indicators",
+      "set": "Page-Indicator",
+      "node": "38684:137917",
+      "components": [
+        "PageIndicator/Horizontal",
+        "PageIndicator/Vertical"
+      ]
+    },
+    {
+      "page": "Pickers",
+      "set": "Picker",
+      "node": "43678:8580",
+      "components": [
+        "DatePicker",
+        "Picker",
+        "TimePicker"
+      ]
+    },
+    {
+      "page": "Position Indicators",
+      "set": "Level-Indicator-RSB",
+      "node": "46619:47146",
+      "components": [
+        "LevelIndicator"
+      ]
+    },
+    {
+      "page": "Position Indicators",
+      "set": "Scroll-Indicator",
+      "node": "44998:18342",
+      "components": [
+        "ScrollIndicator"
+      ]
+    },
+    {
+      "page": "Progress Indicators",
+      "set": "Progress-Indicator",
+      "node": "41424:58385",
+      "components": [
+        "CircularProgressIndicator"
+      ]
+    },
+    {
+      "page": "Progress Indicators",
+      "set": "Progress-Indicator-Small",
+      "node": "52431:56915",
+      "components": [
+        "SegmentedCircularProgressIndicator"
+      ]
+    },
+    {
+      "page": "Progress Indicators",
+      "set": "Progress-Indicator-Linear",
+      "node": "45011:259051",
+      "components": [
+        "LinearProgressIndicator"
+      ]
+    },
+    {
+      "page": "Sliders",
+      "set": "Slider",
+      "node": "34828:79081",
+      "components": [
+        "Slider"
+      ]
+    },
+    {
+      "page": "Steppers",
+      "set": "Stepper",
+      "node": "44993:61162",
+      "components": [
+        "Stepper"
+      ]
+    },
+    {
+      "page": "Swipe to Reveal",
+      "set": "STR-card",
+      "node": "56392:155752",
+      "components": [
+        "SwipeToReveal/Card"
+      ]
+    },
+    {
+      "page": "Swipe to Reveal",
+      "set": "STR-button",
+      "node": "56392:155784",
+      "components": [
+        "SwipeToReveal/Button"
+      ]
+    },
+    {
+      "page": "Text",
+      "set": "Text-ListHeader",
+      "node": "38977:66977",
+      "components": [
+        "ListHeader"
+      ]
+    },
+    {
+      "page": "Text",
+      "set": "Text-ListHeader-Sub",
+      "node": "38977:66982",
+      "components": [
+        "ListSubHeader"
+      ]
+    },
+    {
+      "page": "Text",
+      "set": "Text-Body",
+      "node": "38977:66990",
+      "components": [
+        "Text/Body"
+      ]
+    },
+    {
+      "page": "Text",
+      "set": "Text-Caption",
+      "node": "38977:66995",
+      "components": [
+        "Text/Caption"
+      ]
+    },
+    {
+      "page": "Text",
+      "set": "TimeText",
+      "node": "38973:10025",
+      "components": [
+        "TimeText"
+      ]
+    },
+    {
+      "page": "Media Controls",
+      "set": "Media-Player",
+      "node": "71575:22328",
+      "excluded": "Wear Compose Material 3 publishes no media player. The kit's set is a composition of components this catalog already publishes, assembled by an app (or by Horologist), not a library component."
+    }
+  ]
+}

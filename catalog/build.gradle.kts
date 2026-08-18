@@ -75,6 +75,9 @@ dependencies {
   debugImplementation(libs.compose.ui.tooling)
 
   testImplementation(libs.junit)
+  // `kit-sets.json` is read by CatalogKitCoverageTest. org.json ships in the Android SDK as stubs
+  // only, so the unit test needs the real implementation on its own classpath.
+  testImplementation("org.json:json:20250517")
   testImplementation(libs.robolectric)
   testImplementation(platform(libs.compose.bom))
   testImplementation(libs.compose.ui.test.junit4)

@@ -3,12 +3,16 @@
 package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ChildButton
+import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.CompactButton
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
@@ -19,6 +23,7 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.wearm3catalog.CatalogImage
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
@@ -224,5 +229,88 @@ fun CompactActionButton() = Sticker {
       else {
         { Text(c.label) }
       },
+  )
+}
+
+// The kit's `Button-ImageBackground` sets and `Button-Loading`, the three remaining sets on its
+// Buttons page.
+//
+// The image ones call the `Button` overload that takes a container `Painter`, with the scrim
+// `ButtonDefaults.containerPainter` applies — the scrim is most of what the style IS, so a sticker
+// that skipped it would publish a different component. The image itself is drawn
+// (`CatalogImage`) rather than shipped: see its KDoc.
+//
+// The kit's `Button-ImageBackground-Round` set has no counterpart and stays out: Compose's image
+// container painter is on `Button` and `Card`, and `IconButton` takes no painter — so there is no
+// round image-backed button to invoke. Design-led means recording that the kit publishes something
+// Compose cannot draw, not drawing something else under its name.
+//
+// `Button-Loading` is the kit publishing a PATTERN rather than a component — Wear Compose has no
+// loading button, and an app builds one by putting a progress indicator in a button's icon slot.
+// The sticker does exactly that, so both halves are the real named composables rather than a
+// replica of either.
+
+@CatalogComponent(
+  id = "Button/ImageBackground",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
+  caption = "A button over an image, with the scrim that keeps its label legible.",
+)
+@CatalogModes
+@OverrideVariant(
+  name = "secondary-label",
+  booleans = ["secondary=true"],
+  kitAxis = "Secondary label",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+@Composable
+fun ImageBackgroundButton() = Sticker {
+  val c = counted("Playlist")
+  Button(
+    onClick = c.onClick,
+    containerPainter = ButtonDefaults.containerPainter(image = CatalogImage),
+    enabled = previewOverrideBoolean("enabled", true),
+    colors = ButtonDefaults.buttonWithContainerPainterColors(),
+    secondaryLabel =
+      if (previewOverrideBoolean("secondary", false)) {
+        { Text("12 tracks") }
+      } else null,
+    label = { Text(c.label) },
+  )
+}
+
+@CatalogComponent(
+  id = "Button/Loading",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
+  caption = "A button waiting on the work it started — the kit's loading pattern.",
+)
+@CatalogModes
+@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
+@OverrideVariant(
+  name = "outlined",
+  strings = ["style=outlined"],
+  kitAxis = "Style",
+  kitValue = "Outline",
+)
+@Composable
+fun LoadingButton() = Sticker {
+  val colors =
+    when (previewOverrideString("style", "filled")) {
+      "tonal" -> ButtonDefaults.filledTonalButtonColors()
+      "outlined" -> ButtonDefaults.outlinedButtonColors()
+      else -> ButtonDefaults.buttonColors()
+    }
+  Button(
+    onClick = {},
+    colors = colors,
+    // Pinned, not indeterminate: an animated indicator renders a different frame on every
+    // publish, and the delivery branch's history would be noise rather than change.
+    icon = { CircularProgressIndicator(progress = { 0.35f }, modifier = Modifier.size(24.dp)) },
+    label = { Text("Sending") },
   )
 }
