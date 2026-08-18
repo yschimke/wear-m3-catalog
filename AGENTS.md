@@ -54,13 +54,26 @@ uses differently. Where Compose has no name of its own, take the kit's.
 - **Fold variants behind defaults.** A state / content axis is an `@OverrideVariant` cell (or a
   `@CatalogVariant(of = …)`) under its parent, not a new top-level component. A sheet this size is
   only browsable because the card count tracks components, not renders.
-- **One kit component set is one catalog component — except for emphasis.** The kit's set boundary
-  decides the taxonomy, so a kit variant property folds in as a cell: all 35 shapes are cells of one
-  `Shape/MaterialShapes` component, because the kit models them as one set varying `Shape=`. The
-  carve-out is the emphasis/style axis — filled / outlined / tonal / text — which stays a component
-  per style, because the kit itself splits it into separate sets and it is the choice a reader makes
-  at the call site.
-- **A cell's seed must spell what the kit says.** A variant's props are matched against the kit's own
+- **One kit component set is one catalog component — unless the axis is a different function.**
+  The kit's set boundary decides the taxonomy, so a kit variant property folds in as a cell: all 35
+  shapes are cells of one `Shape/MaterialShapes` component, because the kit models them as one set
+  varying `Shape=`.
+
+  The carve-out is an axis whose values are **separate Wear Compose functions**. `Style=` on the
+  kit's `Button` set is `Button` / `FilledTonalButton` / `OutlinedButton` / `ChildButton`, and
+  `Type=` on `Toggle+Selection-Buttons` is `CheckboxButton` / `SwitchButton` / `RadioButton` —
+  which one you call is the choice a reader of this catalog is making, so each is a component and
+  they share the set's node. What stays folded is what is an **argument** to whichever function you
+  picked: `enabled`, size, whether there is an icon, split vs whole.
+
+  The test is the call site, not the word. `Style=` on `Button-Compact` and on `Text-Button` folds,
+  because Compose ships one `CompactButton` and one `TextButton` that take their emphasis as
+  `colors` — there is no second function to choose, so there is nothing to split.
+- **Name the kit's word on the cell, not only in the seed.** `@OverrideVariant(kitAxis = …,
+  kitValue = …)` carries the kit's own axis and value across to the resolver, which is what lets a
+  Compose-shaped knob (`enabled=false`, a boolean) resolve against the kit's `Disabled=Yes`. Use it
+  by default on a cell whose knob is not already spelled the kit's way.
+- **A cell's seed must spell what the kit says** when it carries no `kitValue`. A variant's props are matched against the kit's own
   variant *values*, so `shape=pentagon` resolves to nothing against the kit's `Shape=Pantagon` (its
   own spelling) and drops that node from the comparison with no diagnostic anywhere. Where the two
   genuinely disagree, `@OverrideVariant(kitAxis = …, kitValue = …)` names the kit's spelling directly
