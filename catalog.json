@@ -4,6 +4,3911 @@
   "title": "M3 Wear OS Apps Design Kit",
   "components": [
     {
+      "componentId": "Button/Filled",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__default.png",
+          "state": "default",
+          "width": 165,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__disabled.png",
+          "state": "disabled",
+          "width": 165,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__icon.png",
+          "state": "icon",
+          "width": 225,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 133,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 133,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 133,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "Highest emphasis; the screen's primary action.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "wireframe": "wireframes/button-filled.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 71
+    },
+    {
+      "componentId": "Button/FilledVariant",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__default.png",
+          "state": "default",
+          "width": 188,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__disabled.png",
+          "state": "disabled",
+          "width": 188,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__icon.png",
+          "state": "icon",
+          "width": 248,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 156,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 156,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 156,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "The kit's highlighted style — a filled button in the variant palette.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "wireframe": "wireframes/button-filledvariant.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 95
+    },
+    {
+      "componentId": "Button/Tonal",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__default.png",
+          "state": "default",
+          "width": 165,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__disabled.png",
+          "state": "disabled",
+          "width": 165,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__icon.png",
+          "state": "icon",
+          "width": 225,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 133,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 133,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 133,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "Medium emphasis, on a tonal container.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "wireframe": "wireframes/button-tonal.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 120
+    },
+    {
+      "componentId": "Button/Outlined",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__default.png",
+          "state": "default",
+          "width": 207,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__disabled.png",
+          "state": "disabled",
+          "width": 207,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__icon.png",
+          "state": "icon",
+          "width": 267,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 175,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 175,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 175,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "Medium emphasis, drawn as an outline over the background.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "wireframe": "wireframes/button-outlined.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 144
+    },
+    {
+      "componentId": "Button/Child",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__default.png",
+          "state": "default",
+          "width": 161,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__disabled.png",
+          "state": "disabled",
+          "width": 161,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__icon.png",
+          "state": "icon",
+          "width": 221,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 129,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 129,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 129,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "Lowest emphasis; no container at all, for a button inside another surface.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "wireframe": "wireframes/button-child.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 168
+    },
+    {
+      "componentId": "Button/Compact",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__default.png",
+          "state": "default",
+          "width": 251,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__disabled.png",
+          "state": "disabled",
+          "width": 251,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__icon-only.png",
+          "state": "icon-only",
+          "width": 136,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__icon-only",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_icon-only",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__outlined.png",
+          "state": "outlined",
+          "width": 251,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__text-only.png",
+          "state": "text-only",
+          "width": 191,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__text-only",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_text-only",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__tonal.png",
+          "state": "tonal",
+          "width": 251,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 32,
+              "width": 219,
+              "height": 64
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 32,
+            "width": 219,
+            "height": 64
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 32,
+            "width": 219,
+            "height": 64
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 8,
+            "end": 0,
+            "bottom": 8
+          },
+          "cornerRadius": 18
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "A short button for a dense screen, with the kit's content and style axes folded in.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
+      "wireframe": "wireframes/button-compact.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 204
+    },
+    {
+      "componentId": "IconButton/Filled",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filled/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filled__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filled/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filled__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filled/ideal__extra-small.png",
+          "state": "extra-small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filled__ideal__extra-small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_extra-small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filled/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filled__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_large",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filled/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filled__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Icon buttons",
+      "caption": "Highest emphasis; an icon-only action.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "wireframe": "wireframes/iconbutton-filled.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 71
+    },
+    {
+      "componentId": "IconButton/Tonal",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-tonal/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-tonal__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-tonal/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-tonal__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-tonal/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-tonal__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_large",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-tonal/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-tonal__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Icon buttons",
+      "caption": "Medium emphasis, on a tonal container.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "wireframe": "wireframes/iconbutton-tonal.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 97
+    },
+    {
+      "componentId": "IconButton/Outlined",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-outlined/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-outlined__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-outlined/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-outlined__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-outlined/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-outlined__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_large",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-outlined/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-outlined__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Icon buttons",
+      "caption": "Medium emphasis, drawn as an outline over the background.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "wireframe": "wireframes/iconbutton-outlined.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 123
+    },
+    {
+      "componentId": "IconButton/Standard",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-standard/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-standard__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-standard/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-standard__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-standard/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-standard__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_large",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-standard/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-standard__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Icon buttons",
+      "caption": "Lowest emphasis; the kit's child style, with no container at all.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "wireframe": "wireframes/iconbutton-standard.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 149
+    },
+    {
+      "componentId": "TextButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "child"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "child"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__filled.png",
+          "state": "filled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__filled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_filled",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_large",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "child"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__outlined.png",
+          "state": "outlined",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_small",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "child"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__tonal.png",
+          "state": "tonal",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "child"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Icon buttons",
+      "caption": "A short label as a round action, with the kit's style and size axes folded in.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
+      "wireframe": "wireframes/textbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 188
+    },
+    {
+      "componentId": "CheckboxButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/checkboxbutton/ideal__default.png",
+          "state": "default",
+          "width": 231,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/checkboxbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/checkboxbutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 231,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/checkboxbutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/checkboxbutton/ideal__split.png",
+          "state": "split",
+          "width": 279,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/checkboxbutton__ideal__split",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow_VARIANT_split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/checkboxbutton/ideal__unselected.png",
+          "state": "unselected",
+          "width": 231,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/checkboxbutton__ideal__unselected",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow_VARIANT_unselected",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 139,
+              "y": 44,
+              "width": 48,
+              "height": 48
+            }
+          },
+          "bounds": {
+            "x": 139,
+            "y": 44,
+            "width": 48,
+            "height": 48
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 199,
+            "height": 104
+          },
+          "padding": {
+            "start": 14,
+            "top": 8,
+            "end": 14,
+            "bottom": 8
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Selection",
+      "group": "Selection buttons",
+      "caption": "A labelled row that toggles a checkbox; for a set where any number may be chosen.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "wireframe": "wireframes/checkboxbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 58
+    },
+    {
+      "componentId": "SwitchButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__default.png",
+          "state": "default",
+          "width": 300,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/switchbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 300,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/switchbutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__split.png",
+          "state": "split",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/switchbutton__ideal__split",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow_VARIANT_split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__unselected.png",
+          "state": "unselected",
+          "width": 300,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/switchbutton__ideal__unselected",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow_VARIANT_unselected",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "switch",
+          "detail": {
+            "role": "switch",
+            "bounds": {
+              "x": 192,
+              "y": 44,
+              "width": 64,
+              "height": 44
+            }
+          },
+          "bounds": {
+            "x": 192,
+            "y": 44,
+            "width": 64,
+            "height": 44
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 268,
+            "height": 104
+          },
+          "padding": {
+            "start": 14,
+            "top": 8,
+            "end": 14,
+            "bottom": 8
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Selection",
+      "group": "Selection buttons",
+      "caption": "A labelled row that flips a switch; for a setting that takes effect immediately.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "wireframe": "wireframes/switchbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 105
+    },
+    {
+      "componentId": "RadioButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__default.png",
+          "state": "default",
+          "width": 265,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/radiobutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 265,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/radiobutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__split.png",
+          "state": "split",
+          "width": 297,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/radiobutton__ideal__split",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow_VARIANT_split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__unselected.png",
+          "state": "unselected",
+          "width": 265,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/radiobutton__ideal__unselected",
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow_VARIANT_unselected",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 233,
+            "height": 104
+          },
+          "role": "RadioButton",
+          "padding": {
+            "start": 14,
+            "top": 8,
+            "end": 14,
+            "bottom": 8
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Selection",
+      "group": "Selection buttons",
+      "caption": "A labelled row in a set where exactly one may be chosen.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "wireframe": "wireframes/radiobutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 152
+    },
+    {
       "componentId": "Shape/MaterialShapes",
       "images": [
         {
@@ -1067,13 +4972,845 @@
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Shapes.kt",
       "sourceModule": ":catalog",
       "bodyLine": 143
+    },
+    {
+      "componentId": "IconToggleButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/icontogglebutton/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/icontogglebutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/icontogglebutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/icontogglebutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/icontogglebutton/ideal__extra-large.png",
+          "state": "extra-large",
+          "width": 176,
+          "height": 176,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/icontogglebutton__ideal__extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_extra-large",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/icontogglebutton/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/icontogglebutton__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_large",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/icontogglebutton/ideal__off.png",
+          "state": "off",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/icontogglebutton__ideal__off",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_off",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/icontogglebutton/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/icontogglebutton__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_small",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Checkbox",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Selection",
+      "group": "Toggle buttons",
+      "caption": "An icon that holds an on/off state, with the kit's size and state axes folded in.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:679",
+      "wireframe": "wireframes/icontogglebutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 70
+    },
+    {
+      "componentId": "TextToggleButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/texttogglebutton/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/texttogglebutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/texttogglebutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/texttogglebutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/texttogglebutton/ideal__extra-large.png",
+          "state": "extra-large",
+          "width": 176,
+          "height": 176,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/texttogglebutton__ideal__extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_extra-large",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/texttogglebutton/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/texttogglebutton__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_large",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/texttogglebutton/ideal__off.png",
+          "state": "off",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/texttogglebutton__ideal__off",
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_off",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "checkbox",
+          "detail": {
+            "role": "checkbox",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Checkbox",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Selection",
+      "group": "Toggle buttons",
+      "caption": "A short label that holds an on/off state.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:760",
+      "wireframe": "wireframes/texttogglebutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 111
     }
   ],
   "library": [
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-18T23:19:47.951Z",
+  "generatedAt": "2026-08-18T23:38:56.152Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"

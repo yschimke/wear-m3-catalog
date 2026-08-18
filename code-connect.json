@@ -7,8 +7,316 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-18T23:19:48.278Z",
+  "generatedAt": "2026-08-18T23:38:56.740Z",
   "mappings": [
+    {
+      "componentId": "Button/Filled",
+      "figmaLayerName": "Button/Filled",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-filled.svg"
+    },
+    {
+      "componentId": "Button/FilledVariant",
+      "figmaLayerName": "Button/FilledVariant",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledVariantButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-filledvariant.svg"
+    },
+    {
+      "componentId": "Button/Tonal",
+      "figmaLayerName": "Button/Tonal",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TonalButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-tonal.svg"
+    },
+    {
+      "componentId": "Button/Outlined",
+      "figmaLayerName": "Button/Outlined",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OutlineButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-outlined.svg"
+    },
+    {
+      "componentId": "Button/Child",
+      "figmaLayerName": "Button/Child",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ChildLabelButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-child.svg"
+    },
+    {
+      "componentId": "Button/Compact",
+      "figmaLayerName": "Button/Compact",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CompactActionButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-compact.svg"
+    },
+    {
+      "componentId": "IconButton/Filled",
+      "figmaLayerName": "IconButton/Filled",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledIconAction",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-filled.svg"
+    },
+    {
+      "componentId": "IconButton/Tonal",
+      "figmaLayerName": "IconButton/Tonal",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TonalIconAction",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-tonal.svg"
+    },
+    {
+      "componentId": "IconButton/Outlined",
+      "figmaLayerName": "IconButton/Outlined",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OutlinedIconAction",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-outlined.svg"
+    },
+    {
+      "componentId": "IconButton/Standard",
+      "figmaLayerName": "IconButton/Standard",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "StandardIconAction",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-standard.svg"
+    },
+    {
+      "componentId": "TextButton",
+      "figmaLayerName": "TextButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TextAction",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/textbutton.svg"
+    },
+    {
+      "componentId": "CheckboxButton",
+      "figmaLayerName": "CheckboxButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CheckboxRow",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/checkboxbutton.svg"
+    },
+    {
+      "componentId": "SwitchButton",
+      "figmaLayerName": "SwitchButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SwitchRow",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/switchbutton.svg"
+    },
+    {
+      "componentId": "RadioButton",
+      "figmaLayerName": "RadioButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "RadioRow",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/radiobutton.svg"
+    },
     {
       "componentId": "Shape/MaterialShapes",
       "figmaLayerName": "Shape/MaterialShapes",
@@ -30,6 +338,50 @@
         }
       ],
       "figmaSvg": "figma/shape-materialshapes.svg"
+    },
+    {
+      "componentId": "IconToggleButton",
+      "figmaLayerName": "IconToggleButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "IconToggle",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/icontogglebutton.svg"
+    },
+    {
+      "componentId": "TextToggleButton",
+      "figmaLayerName": "TextToggleButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TextToggle",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/texttogglebutton.svg"
     }
   ]
 }
