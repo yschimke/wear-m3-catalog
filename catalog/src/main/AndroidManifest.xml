@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The catalog is a render target, not a shipped watch app: no launcher activity, no Wear
+     standalone metadata. It exists so the Robolectric renderer has an Android application to
+     compose the `@Preview`s inside. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+  <uses-feature android:name="android.hardware.type.watch" />
+  <application android:label="Wear M3 catalog" />
+</manifest>

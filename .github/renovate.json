@@ -1,0 +1,60 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>yschimke/renovate-config",
+    ":dependencyDashboard",
+    ":semanticCommits"
+  ],
+  "timezone": "UTC",
+  "prConcurrentLimit": 10,
+  "description": "Automerge is the default posture here, not the exception. This repo is a design catalog with no downstream consumers: nothing depends on its artifacts, so a bad bump costs a revert, not a broken release. What stops a bad bump reaching main is the `Protect Main` ruleset \u2014 CI (build + discovery, unit tests, ktfmtCheck, catalog spec, catalog spec) is required, and `platformAutomerge` hands the merge to GitHub's own auto-merge, which only fires once those checks pass. Set the ruleset up with `scripts/setup-repo-protection.sh`; without it, automerge silently degrades to merging as soon as Renovate can, which is not what any of this intends.",
+  "automerge": true,
+  "automergeType": "pr",
+  "platformAutomerge": true,
+  "packageRules": [
+    {
+      "description": "Majors are never automerged. A major on Kotlin, Compose Multiplatform or the preview toolchain changes what the catalog renders, and the render is the product \u2014 a human looks at the visual diff before it lands. Also hold a major for two weeks so the ecosystem's first round of regressions surfaces on someone else's CI.",
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "automerge": false,
+      "minimumReleaseAge": "14 days"
+    },
+    {
+      "description": "compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle artifacts (the preview-annotations dependency and the ee.schimke.composeai.preview plugin marker) and the reusable CI actions/workflows as a single release. Group the pinned action refs and the Gradle coords into ONE PR so the CLI, plugin and annotation pins can never skew apart \u2014 a skew breaks preview discovery outright. Track it aggressively and automerge once CI is green: the release moves several times a day and the pin is only useful if it keeps up. Republishing the catalog against the new renderer needs no extra step, because design-artifacts.yml has a push trigger on main covering the manifest paths this PR touches.",
+      "matchPackageNames": [
+        "yschimke/compose-ai-tools",
+        "/^ee\\.schimke\\.composeai($|[.:])/"
+      ],
+      "groupName": "compose-ai-tools",
+      "schedule": [
+        "at any time"
+      ],
+      "automerge": true,
+      "automergeSchedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Wear Compose and the mobile Compose BOM decide how every sticker in the catalog is laid out, and the render is the product \u2014 so they land as one PR whose visual diff is the review, not on automerge.",
+      "matchPackageNames": [
+        "/^androidx\\.wear\\.compose($|[.:])/",
+        "/^androidx\\.compose($|[.:])/"
+      ],
+      "groupName": "Compose",
+      "automerge": false
+    },
+    {
+      "description": "Toolchain and CI plumbing \u2014 the Gradle wrapper, the GitHub Actions pins and the pinned Node version. These are judged entirely by whether CI passes, which is the one thing automerge already waits for, so batch them into a single weekly PR rather than one PR per action.",
+      "matchManagers": [
+        "gradle-wrapper",
+        "github-actions"
+      ],
+      "groupName": "CI toolchain",
+      "schedule": [
+        "before 9am on Monday"
+      ]
+    }
+  ]
+}

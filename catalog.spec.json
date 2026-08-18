@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/yschimke/compose-ai-tools/main/scripts/design-artifacts/catalog.spec.schema.json",
+  "$comment": "Cover-sheet spec only. The component inventory — ids, sections, groups, captions and per-variant tags — lives next to the @Previews as @CatalogGroup / @CatalogComponent / @CatalogVariant annotations under catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/, and the design-artifacts export builds the catalog from those. This file carries only the fields that are not per-component code metadata: the system slug, title, libraries, primary modes, documented breakpoints, front-door hero and the kit this catalog reproduces.",
+  "system": "wear-m3-catalog",
+  "title": "M3 Wear OS Apps Design Kit",
+  "library": ["androidx.wear.compose:compose-material3"],
+  "module": ":catalog",
+  "modes": ["dark"],
+  "display": {
+    "surface": "dark",
+    "hero": "Shape/MaterialShapes"
+  },
+  "breakpoints": [
+    { "size": "smallRound", "widthDp": 192, "device": "id:wearos_small_round" },
+    { "size": "largeRound", "widthDp": 227, "device": "id:wearos_large_round" },
+    { "size": "xlRound", "widthDp": 240, "device": "id:wearos_xl_round" }
+  ],
+  "referenceKits": [
+    "https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/M3-Wear-OS-Apps-Design-Kit--Community-"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "$schema": "https://github.com/yschimke/design-parity/schema/parity-config.schema.json",
+  "$comment": "DESIGN-LED, deliberately. This catalog exists to reproduce the published M3 Wear OS Apps Design Kit, so the kit is authoritative and a divergence is a bug in this code — the opposite of the `wear-m3` component-system catalog in compose-ai-tools, whose own render is the source of truth. Direction also has teeth beyond reporting: design-parity's Code-to-Canvas push-back is gated on `code-led`, so `design-led` makes writing back to the Figma file structurally impossible rather than merely forbidden by convention.",
+  "direction": "design-led"
+}

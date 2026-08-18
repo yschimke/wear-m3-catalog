@@ -1,0 +1,87 @@
+name: Design Artifacts
+
+# Render the Wear catalog and publish its importable bundle to the
+# `design-artifacts/wear-m3-catalog` branch, which the public preview server (preview.coo.ee)
+# serves at /wear-m3-catalog/.
+#
+# The whole pipeline — install CLI -> validate spec -> render -> generate -> publish — is the
+# shared reusable workflow in compose-ai-tools. This repo has no bespoke lane, so the caller is
+# just the `uses:` block: everything it needs is a generic input. If this catalog ever grows a need
+# the reusable workflow cannot express, the rule is to add a generic input upstream and consume it
+# from here — never to fork a copy of the pipeline.
+
+on:
+  # Weekly, so the published sheet tracks renderer changes that land upstream without a change
+  # here.
+  schedule:
+    - cron: '0 6 * * 1' # Mondays 06:00 UTC
+  # Republish as soon as something that changes the rendered output lands on main. The paths are
+  # the render's inputs: the catalog sources, the spec, the dependency manifests (they carry the
+  # composePreviewPlugin pin that `cli-version: catalog` resolves the CLI from), and this file.
+  push:
+    branches: [main]
+    paths:
+      - 'catalog/**'
+      - 'catalog.spec.json'
+      - 'gradle/libs.versions.toml'
+      - 'gradle/wrapper/gradle-wrapper.properties'
+      - 'settings.gradle.kts'
+      - 'build.gradle.kts'
+      - '.github/workflows/design-artifacts.yml'
+  workflow_dispatch:
+    inputs:
+      allow_incomplete:
+        description: 'Publish even if some previews fail to render or lack semantics (use while tuning the spec).'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: design-artifacts-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: wear-m3-catalog
+    # Don't let forks push to the delivery branch.
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' }}
+    permissions:
+      contents: write
+    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
+    with:
+      system: wear-m3-catalog
+      spec: catalog.spec.json
+      module: ':catalog'
+      # Keep the render CLI lockstep with the applied Gradle plugin — the pin is
+      # `composePreviewPlugin` in libs.versions.toml, and a CLI/plugin skew breaks preview
+      # discovery outright.
+      cli-version: catalog
+      catalog-key: composePreviewPlugin
+      # An ANDROID module, not CMP desktop: `androidx.wear.compose:compose-material3` ships only
+      # for Android, so this renders through Robolectric (the SDK is preinstalled on
+      # ubuntu-latest) rather than Skiko under xvfb.
+      desktop-render: false
+      # Carry the executable bundle and split it per preview, so a serve host running the Android
+      # daemon can re-render any sticker on demand instead of only replaying baked PNGs. `full`
+      # keeps each per-preview bundle's own re-render classpath — the same shape the `wear-m3`
+      # catalog in compose-ai-tools publishes.
+      publish-live-bundle: true
+      split-per-preview: true
+      split-mode: full
+      commit-user-name: Yuri Schimke
+      commit-user-email: yuri@schimke.ee
+      timeout-minutes: 60
+      # `bundle pack`'s OWN timeout, not the job's. Generous for today's handful of previews; it
+      # exists to catch a hung render, not to pace a healthy one.
+      render-timeout: 1800
+      # ONE. Sharding starts paying at a few thousand previews; this sheet is nowhere near, and a
+      # shard carries its own fixed discovery and upload cost plus a merge job.
+      render-shards: 1
+      allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
+    secrets:
+      # Publishes the `figma:` entries in design-map.json as design references on the delivery
+      # branch, which feeds the preview server's PNG ↔ Design reference lane. Without it those
+      # entries are skipped with a warning and the catalog still publishes.
+      figma_token: ${{ secrets.FIGMA_TOKEN }}

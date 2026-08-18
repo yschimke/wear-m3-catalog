@@ -1,0 +1,95 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build + discover previews
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+      - name: Assemble
+        run: ./gradlew :catalog:assembleDebug --stacktrace
+
+      # Discovery is the real contract for a design catalog: it is what turns the
+      # `@CatalogComponent` / `@CatalogVariant` / `@OverrideVariant` annotations into the published
+      # inventory. A component that compiles but is not discovered would silently vanish from the
+      # sticker sheet, so run it on every change.
+      - name: Discover previews
+        run: ./gradlew :catalog:composePreviewDiscover --stacktrace
+
+      - uses: actions/upload-artifact@v7.0.1
+        if: always()
+        with:
+          name: previews-manifest
+          path: catalog/build/compose-previews/previews.json
+          if-no-files-found: warn
+
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+      - run: ./gradlew test --stacktrace
+      - if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: test-reports
+          path: |
+            **/build/reports/tests/**
+            **/build/test-results/**
+          if-no-files-found: ignore
+
+  ktfmt:
+    name: ktfmtCheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: 'true'
+      - run: ./gradlew ktfmtCheck --stacktrace
+
+  spec:
+    name: Validate catalog spec
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: yschimke/compose-ai-tools
+          ref: main
+          path: compose-ai-tools
+          persist-credentials: false
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.19.0
+      # The build-free pre-flight: resolves every spec reference against the module's actual
+      # `@Preview` functions and flags PNG-less previews, before the (long) render in
+      # design-artifacts.yml spends a runner discovering the same problem.
+      - name: validate-catalog-spec
+        run: |
+          node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
+            --spec catalog.spec.json --module-dir catalog

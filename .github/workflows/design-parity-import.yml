@@ -1,0 +1,37 @@
+name: Design parity reference cache
+
+# Import the Figma side on its own cadence. Design parity reads this committed cache and therefore
+# makes zero live Figma calls on ordinary code pushes; a rate limit costs freshness, not coverage.
+
+on:
+  schedule:
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+    inputs:
+      design_parity_ref:
+        description: Test an unreleased yschimke/design-parity ref instead of the published CLI.
+        type: string
+        required: false
+        default: ''
+
+permissions: {}
+
+concurrency:
+  group: design-parity-reference-import
+  cancel-in-progress: false
+
+jobs:
+  import:
+    name: M3 Wear OS Apps Design Kit
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' }}
+    uses: yschimke/design-parity/.github/workflows/design-parity-import-reusable.yml@main
+    permissions:
+      contents: write
+    with:
+      design-parity-ref: ${{ inputs.design_parity_ref || '' }}
+      design-map-command: >
+        ./gradlew :catalog:composePreviewDiscover --stacktrace &&
+        scripts/design-map.sh
+      timeout-minutes: 60
+    secrets:
+      figma-token: ${{ secrets.FIGMA_TOKEN }}

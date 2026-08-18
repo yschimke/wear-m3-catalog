@@ -1,0 +1,74 @@
+name: Design parity
+
+# Compare the rendered catalog against the M3 Wear OS Apps Design Kit in Figma and publish the
+# triptych report to the long-lived `design-parity/main` branch.
+#
+# The direction is **design-led** (`.design-parity.json`): this catalog exists to reproduce the
+# published kit, so the kit is authoritative and a divergence is a bug in this code. That has teeth
+# beyond reporting — Code-to-Canvas push-back is gated on `code-led`, so `design-led` makes writing
+# back to the Figma file structurally impossible.
+#
+# Everything below the `uses:` line — install the CLI, discover, scope the render, compare, publish,
+# apply the verdict — lives in design-parity's reusable workflow. This file is the configuration,
+# not a copy of the pipeline.
+#
+# PREREQUISITES, both of which make the run skip rather than fail while absent:
+#   1. a `FIGMA_TOKEN` repository secret — a read-only PAT with `file_content:read`;
+#   2. a design-map.json carrying at least one component. See docs/DESIGN_MAP.md: projecting one
+#      from a DARK-ONLY catalog needs an upstream change, because the projector pairs a component's
+#      reference with its `_Light` capture and a Wear sticker has none.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      design_parity_ref:
+        description: >
+          Test an UNRELEASED design-parity: a git ref of yschimke/design-parity to build and run
+          instead of the published CLI. Empty runs the release, which is what every push does.
+        type: string
+        required: false
+        default: ""
+
+permissions: {}
+
+concurrency:
+  group: design-parity-artifacts
+  cancel-in-progress: true
+
+jobs:
+  parity:
+    name: Design parity
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' }}
+    uses: yschimke/design-parity/.github/workflows/design-parity-reusable.yml@main
+    permissions:
+      contents: write # publish the regenerated artifacts to design-parity/main
+    with:
+      module: ':catalog'
+
+      # Skip the run outright when nothing that feeds the comparison has moved: the module itself,
+      # the version catalog the renderer is pinned from, and the build files that assemble them.
+      cache-paths: catalog gradle build.gradle.kts settings.gradle.kts
+
+      force-refresh: ${{ github.event_name == 'schedule' }}
+      design-parity-ref: ${{ inputs.design_parity_ref || '' }}
+
+      # The daily import workflow owns all Figma traffic and commits a versioned, carry-forward
+      # cache here. Ordinary parity runs are cache-only: no per-push API burst.
+      reference-cache-branch: design-parity/reference
+
+      shards: 1
+
+      # Writes `catalog/build/compose-previews/previews.json` and projects design-map.json out of
+      # it.
+      design-map-command: >
+        ./gradlew :catalog:composePreviewDiscover --stacktrace &&
+        scripts/design-map.sh
+
+      render-timeout: 1800
+      timeout-minutes: 60
+    secrets:
+      figma-token: ${{ secrets.FIGMA_TOKEN }}

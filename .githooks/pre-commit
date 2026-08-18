@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# ktfmt check on staged Kotlin files. Bypass with `git commit --no-verify`.
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+if ! git diff --cached --name-only --diff-filter=ACMR -z \
+    | tr '\0' '\n' \
+    | grep -qE '\.(kt|kts)$'; then
+  exit 0
+fi
+
+echo "Running ktfmtCheck..."
+if ! ./gradlew --quiet ktfmtCheck; then
+  echo
+  echo "ktfmt check failed. Fix with:"
+  echo "  ./gradlew ktfmtFormat"
+  echo "Then re-stage and commit again."
+  exit 1
+fi

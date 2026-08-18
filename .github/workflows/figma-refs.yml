@@ -1,0 +1,107 @@
+name: Resolve Figma refs
+
+# Print the proposed `figma:<fileKey>/<nodeId>` ref for each catalogued component, so the handles
+# can be pasted onto `@CatalogComponent(reference = …)` and design-parity has something to compare.
+# Also rebuilds the kit index the variant resolver reads.
+#
+# Manual and read-only, deliberately: the resolver *proposes* matches by name similarity against
+# the kit's own taxonomy, which doesn't always agree with the Compose API's names. A proposal wants
+# a human to confirm it before it becomes the reference a parity report is judged against. Nothing
+# here writes to Figma.
+#
+# FIGMA_TOKEN is a read-only PAT with `file_content:read` — the scope that covers
+# /v1/files/:key/components, /v1/files/:key/nodes and /v1/images.
+
+on:
+  workflow_dispatch:
+    inputs:
+      file:
+        description: 'Figma file key to resolve against (defaults to the M3 Wear OS Apps Design Kit).'
+        type: string
+        default: B24oss2tTeXAFykyeyusz0
+
+permissions:
+  contents: read
+
+jobs:
+  resolve:
+    name: Propose refs
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: 'true'
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.19.0
+
+      # The kit's full inventory per page, deeper than the resolver walks, plus configured
+      # instances whose component-property values can render variants a definition node cannot
+      # express.
+      - name: Dump inventory
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_FILE: ${{ inputs.file }}
+        run: |
+          set -euo pipefail
+          if [ -z "${FIGMA_TOKEN:-}" ]; then
+            echo "::error::FIGMA_TOKEN secret is not set."
+            exit 1
+          fi
+          npx --yes @design-parity/kit-index dump --file "$FIGMA_FILE" --depth 8 \
+            --out figma-inventory.json | tee figma-inventory.txt
+
+      # The index is an INPUT to design-map.json, so it going stale is silent: a variant the kit
+      # gained reads as "no counterpart in the kit" rather than "nobody looked since". Build it
+      # here — this workflow already holds the token and has just walked the file — and upload it,
+      # so the first run can be committed and later runs diffed against the committed copy.
+      - name: Build the kit index
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_FILE: ${{ inputs.file }}
+        run: |
+          set -euo pipefail
+          npx --yes @design-parity/kit-index build --file "$FIGMA_FILE" \
+            --inventory figma-inventory.json --out figma-kit-index.json
+          if [ -f figma-kit-index.json ] && ! git diff --quiet -- figma-kit-index.json; then
+            echo "::warning title=Kit index has changed::Commit the uploaded figma-kit-index.json."
+            git --no-pager diff --stat -- figma-kit-index.json
+          fi
+
+      - uses: actions/upload-artifact@v7.0.1
+        if: always()
+        with:
+          name: figma-inventory
+          path: |
+            figma-inventory.json
+            figma-inventory.txt
+            figma-kit-index.json
+          if-no-files-found: warn
+
+      # The resolver reads the discovered manifest, so the annotations are the list of things to
+      # resolve — the same single source of truth the catalog itself is built from.
+      - name: Discover previews
+        run: ./gradlew :catalog:composePreviewDiscover --stacktrace
+
+      - name: Resolve
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          # Through env rather than interpolated into the script: `${{ inputs.file }}` expands
+          # before bash sees the line, so a dispatch input containing shell metacharacters would
+          # run as part of this step.
+          FIGMA_FILE: ${{ inputs.file }}
+        run: |
+          set -euo pipefail
+          npx --yes -p @design-parity/baseline@0.1.51 design-parity-propose-refs \
+            --file "$FIGMA_FILE" \
+            --previews catalog/build/compose-previews/previews.json \
+            | tee figma-refs.txt
+
+      - uses: actions/upload-artifact@v7.0.1
+        if: always()
+        with:
+          name: figma-refs
+          path: figma-refs.txt
+          if-no-files-found: warn

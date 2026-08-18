@@ -1,0 +1,42 @@
+name: Compose Preview
+
+# Renders the catalog's @Previews on every PR and posts a before/after visual diff, and refreshes
+# the baseline on every merge to main. This is the repo's review surface: a design catalog's diff
+# *is* pixels, so a text-only review of a sticker change tells a reviewer nothing.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: compose-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  apply:
+    name: Render previews (baseline or PR comment, auto-selected)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.15.0
+        with:
+          # Single source of truth for the renderer version: the composePreviewPlugin entry in
+          # libs.versions.toml. A newer published CLI auto-installed against an older applied
+          # plugin breaks preview discovery outright.
+          cli-version: catalog
+          catalog-key: composePreviewPlugin
+          only: compose
+          # An Android (Robolectric) render of a handful of Wear stickers; the sheet is small
+          # today. Raise this as the sweep grows — the phone catalog needed 4800 at ~1150 previews.
+          timeout: '1800'

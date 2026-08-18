@@ -1,0 +1,57 @@
+[versions]
+kotlin = "2.4.10"
+ktfmt = "0.27.0"
+agp = "9.3.1"
+
+# Wear Compose Material 3 — the library this catalog reproduces the kit against.
+wear-compose = "1.7.0-beta01"
+wear-tooling-preview = "1.0.0"
+
+# The mobile Compose BOM supplies `androidx.compose.ui`, the preview tooling and — see
+# `catalog/build.gradle.kts` — `androidx.compose.material3.MaterialShapes`, which is where the 35
+# shapes on the kit's Shapes page actually live. Wear Compose has no shape library of its own.
+compose-bom = "2026.08.00"
+
+# Mobile Material 3, pinned FORWARD of the BOM (which carries 1.4.0) solely for `MaterialShapes`
+# and `RoundedPolygon.toShape()` — the expressive shape library, added on the 1.5.0-alpha line and
+# the only published home of the 35 shapes the kit's Shapes page draws. The alpha's AAR metadata
+# declares minCompileSdk 37, which is what `catalog/build.gradle.kts` already compiles at for
+# wear-compose 1.7.0-beta. Drop the pin once 1.5.0 is stable in the BOM.
+compose-material3 = "1.5.0-alpha26"
+
+# compose-ai-tools: the `ee.schimke.composeai.preview` Gradle plugin and the annotation artifacts
+# are one release — keep them pinned together (Renovate groups them; see .github/renovate.json).
+composePreviewPlugin = "1.15.0"
+composePreviewAnnotations = "1.15.0"
+
+robolectric = "4.17-beta-2"
+junit = "4.13.2"
+
+[libraries]
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
+compose-ui = { module = "androidx.compose.ui:ui" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
+compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+# `MaterialShapes` / `RoundedPolygon.toShape()` — the expressive shape library. Mobile Material 3
+# because that is the only artifact that publishes it; see catalog/build.gradle.kts.
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+
+wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wear-compose" }
+wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wear-compose" }
+wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
+wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wear-tooling-preview" }
+
+composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewAnnotations" }
+composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewAnnotations" }
+
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
+junit = { module = "junit:junit", version.ref = "junit" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+composePreview = { id = "ee.schimke.composeai.preview", version.ref = "composePreviewPlugin" }
+ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }
