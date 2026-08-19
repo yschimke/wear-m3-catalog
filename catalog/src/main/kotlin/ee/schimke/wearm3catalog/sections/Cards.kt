@@ -12,7 +12,7 @@ import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.OutlinedCard
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -65,7 +65,7 @@ import ee.schimke.wearm3catalog.kitCopy
 @Composable
 fun PlainCard() = Sticker {
   val c = counted(kitCopy("content", KitCopy.CARD_CONTENT))
-  if (previewOverrideString("style", "tonal") == "image") {
+  if (previewOverrideChoice("style", "tonal", listOf("tonal", "image")) == "image") {
     Card(
       onClick = c.onClick,
       containerPainter = CardDefaults.containerPainter(image = CatalogImage),
@@ -114,7 +114,7 @@ fun OutlineCard() = Sticker {
 @Composable
 fun TitledCard() = Sticker {
   val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
-  val content = previewOverrideString("content", "title")
+  val content = previewOverrideChoice("content", "title", listOf("title", "time", "subtitle"))
   TitleCard(
     onClick = c.onClick,
     title = { Text(c.label) },

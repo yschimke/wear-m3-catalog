@@ -15,7 +15,7 @@ import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -61,16 +61,24 @@ import ee.schimke.wearm3catalog.kitCopy
 /** The four knobs both entries below read, so the pair cannot drift in what they draw. */
 @Composable
 private fun edgeButtonColors() =
-  when (previewOverrideString("style", "filled")) {
+  when (
+    previewOverrideChoice(
+      "style",
+      "filled",
+      listOf("filled", "filled-variant", "tonal", "outlined"),
+    )
+  ) {
     "filled-variant" -> ButtonDefaults.filledVariantButtonColors()
     "tonal" -> ButtonDefaults.filledTonalButtonColors()
     "outlined" -> ButtonDefaults.outlinedButtonColors()
     else -> ButtonDefaults.buttonColors()
   }
 
+// Three values, not four: `EdgeButtonSize.ExtraSmall` exists and the kit does not publish it, so it
+// is not offered here for the reason the file header gives.
 @Composable
 private fun edgeButtonSize() =
-  when (previewOverrideString("size", "default")) {
+  when (previewOverrideChoice("size", "default", listOf("default", "small", "large"))) {
     "small" -> EdgeButtonSize.Small
     "large" -> EdgeButtonSize.Large
     else -> EdgeButtonSize.Medium
@@ -132,7 +140,7 @@ fun EdgeAction() = Sticker {
       enabled = previewOverrideBoolean("enabled", true),
       colors = edgeButtonColors(),
     ) {
-      if (previewOverrideString("content", "text") == "icon") {
+      if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {
         Icon(Icons.Filled.Check, contentDescription = "Done")
       } else {
         Text(c.label)

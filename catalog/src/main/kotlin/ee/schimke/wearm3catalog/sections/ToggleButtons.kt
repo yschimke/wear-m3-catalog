@@ -15,7 +15,7 @@ import androidx.wear.compose.material3.TextToggleButton
 import androidx.wear.compose.material3.TextToggleButtonDefaults
 import androidx.wear.compose.material3.touchTargetAwareSize
 import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -40,7 +40,9 @@ import ee.schimke.wearm3catalog.toggleable
 
 @Composable
 private fun iconToggleSize(): Dp =
-  when (previewOverrideString("size", "default")) {
+  when (
+    previewOverrideChoice("size", "default", listOf("default", "small", "large", "extra-large"))
+  ) {
     "small" -> IconToggleButtonDefaults.SmallSize
     "large" -> IconToggleButtonDefaults.LargeSize
     "extra-large" -> IconToggleButtonDefaults.ExtraLargeSize
@@ -84,7 +86,7 @@ fun IconToggle() = Sticker {
 
 @Composable
 private fun textToggleSize(): Dp =
-  when (previewOverrideString("size", "default")) {
+  when (previewOverrideChoice("size", "default", listOf("default", "large", "extra-large"))) {
     "large" -> TextToggleButtonDefaults.LargeSize
     "extra-large" -> TextToggleButtonDefaults.ExtraLargeSize
     else -> TextToggleButtonDefaults.Size

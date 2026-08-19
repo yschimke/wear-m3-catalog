@@ -21,8 +21,8 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.overrides.previewOverrideInt
-import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -231,9 +231,17 @@ fun ChildLabelButton() = Sticker {
 @Composable
 fun CompactActionButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
-  val content = previewOverrideString("content", "icon+text")
+  val content = previewOverrideChoice("content", "icon+text", listOf("icon+text", "icon", "text"))
+  // Read ONCE. Declared twice — as it was, for the colours and again for the border — the panel
+  // still shows one control, but the duplication is how the two reads drift apart.
+  val style =
+    previewOverrideChoice(
+      "style",
+      "filled",
+      listOf("filled", "filled-variant", "tonal", "outlined", "child"),
+    )
   val colors =
-    when (previewOverrideString("style", "filled")) {
+    when (style) {
       "filled-variant" -> ButtonDefaults.filledVariantButtonColors()
       "tonal" -> ButtonDefaults.filledTonalButtonColors()
       "outlined" -> ButtonDefaults.outlinedButtonColors()
@@ -244,7 +252,6 @@ fun CompactActionButton() = Sticker {
   // `outlinedButtonColors()` alone draws no outline, which makes it pixel-identical to the child
   // style — caught by `CatalogRenderTest.no two renders of a component are identical` the moment
   // the child cell existed to collide with. Text-Button carries the same note for the same reason.
-  val style = previewOverrideString("style", "filled")
   CompactButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -342,8 +349,9 @@ fun LoadingButton() = Sticker {
   // ring is the one arrangement the kit declined to draw. This sticker defaulted to
   // `buttonColors()` and so fronted the set with a style it does not contain, which is exactly the
   // silent divergence `design-led` exists to catch. The other two published styles ride as cells.
+  val style = previewOverrideChoice("style", "tonal", listOf("tonal", "outlined", "child"))
   val colors =
-    when (previewOverrideString("style", "tonal")) {
+    when (style) {
       "outlined" -> ButtonDefaults.outlinedButtonColors()
       "child" -> ButtonDefaults.childButtonColors()
       else -> ButtonDefaults.filledTonalButtonColors()
@@ -353,10 +361,7 @@ fun LoadingButton() = Sticker {
     colors = colors,
     // As on the compact button: the outline is a `border`, not a colour, and without it the
     // outlined cell is the child cell's picture under another name.
-    border =
-      if (previewOverrideString("style", "tonal") == "outlined") {
-        ButtonDefaults.outlinedButtonBorder(enabled = true)
-      } else null,
+    border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
     // Pinned, not indeterminate: an animated indicator renders a different frame on every
     // publish, and the delivery branch's history would be noise rather than change.
     icon = { CircularProgressIndicator(progress = { 0.35f }, modifier = Modifier.size(24.dp)) },

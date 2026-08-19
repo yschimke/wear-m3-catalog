@@ -12,11 +12,13 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.RevealState
 import androidx.wear.compose.material3.RevealValue
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.rememberRevealState
 import ee.schimke.composeai.overrides.previewOverrideBoolean
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -51,6 +53,31 @@ import ee.schimke.wearm3catalog.kitCopy
 // — which is a frame this catalog does not have and which `EdgeButton/Screen` is the standing
 // example of publishing unmapped anyway.
 
+/**
+ * Which of `RevealValue`'s resting positions the sticker is caught in.
+ *
+ * `RightRevealing` is the baked one — the gesture half-done, which is the only position that shows
+ * both the content and the actions it reveals, and the arrangement the kit draws. The rest were
+ * pinned out of reach: `Covered` is the card before the swipe and `RightRevealed` is after it, and
+ * neither is discoverable from a still.
+ */
+@Composable
+private fun revealState(): RevealState {
+  val value =
+    when (
+      previewOverrideChoice(
+        "revealValue",
+        "right-revealing",
+        listOf("right-revealing", "covered", "right-revealed"),
+      )
+    ) {
+      "covered" -> RevealValue.Covered
+      "right-revealed" -> RevealValue.RightRevealed
+      else -> RevealValue.RightRevealing
+    }
+  return rememberRevealState(initialValue = value)
+}
+
 @CatalogComponent(
   id = "SwipeToReveal/Card",
   noReference =
@@ -66,7 +93,7 @@ import ee.schimke.wearm3catalog.kitCopy
 @OverrideVariant(name = "two-actions", booleans = ["secondary=true"])
 @Composable
 fun SwipeToRevealCard() = Sticker {
-  val state = rememberRevealState(initialValue = RevealValue.RightRevealing)
+  val state = revealState()
   SwipeToReveal(
     primaryAction = {
       PrimaryActionButton(
@@ -107,7 +134,7 @@ fun SwipeToRevealCard() = Sticker {
 @OverrideVariant(name = "two-actions", booleans = ["secondary=true"])
 @Composable
 fun SwipeToRevealButton() = Sticker {
-  val state = rememberRevealState(initialValue = RevealValue.RightRevealing)
+  val state = revealState()
   SwipeToReveal(
     primaryAction = {
       PrimaryActionButton(

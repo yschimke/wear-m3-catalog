@@ -9,7 +9,7 @@ import androidx.wear.compose.material3.OpenOnPhoneDialogContent
 import androidx.wear.compose.material3.OpenOnPhoneDialogDefaults
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -141,7 +141,7 @@ import ee.schimke.wearm3catalog.kitCopy
 )
 @Composable
 fun AlertDialogSticker() = FullScreenSticker {
-  when (previewOverrideString("edge", "double")) {
+  when (previewOverrideChoice("edge", "double", listOf("double", "single", "none"))) {
     "single" ->
       AlertDialogContent(
         edgeButton = { AlertDialogDefaults.EdgeButton(onClick = {}) },
