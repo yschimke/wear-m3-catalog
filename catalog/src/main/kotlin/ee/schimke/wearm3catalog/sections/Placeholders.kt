@@ -35,7 +35,13 @@ import ee.schimke.wearm3catalog.Sticker
 //
 // The shimmer is deliberately left OFF the baked capture: it is an animation, and a capture of a
 // frame of it would differ on every publish. `Modifier.placeholderShimmer` is applied in a live
-// session, where it can actually shimmer.
+// session, where it can actually shimmer — and `Motion.kt` records it as a GIF, which is where a
+// reader should go to see what these stickers are the frozen first frame of.
+//
+// The motion capture is NOT on these functions, deliberately. An `@AnimatedPreview` here would ride
+// every `@OverrideVariant` cell too, and the animated path does not apply the cells' knobs: all
+// three placeholder styles came out byte-identical, three copies of the base GIF published under
+// three different names.
 
 @CatalogComponent(
   id = "Placeholder/Button",

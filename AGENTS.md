@@ -106,6 +106,29 @@ are out of scope.
   documented exception in the other direction: they draw mobile `MaterialShapes` because Wear
   publishes no shape library of its own (see README).
 
+## Motion
+
+A sticker is one frame, and a lot of what a design system *is* lives in the motion. `Motion.kt`
+carries the recordings, and they are **outside the component inventory** on purpose — no
+`@CatalogComponent`, so they answer to no kit node and change no taxonomy. They are recordings *of*
+components catalogued elsewhere.
+
+Three rules, each learned the hard way:
+
+- **Do not put `@AnimatedPreview` on a component that has cells.** It rides every `@OverrideVariant`
+  too, and the animated path does not apply a cell's knobs — the three placeholder styles came out
+  as three byte-identical copies of the base recording under three different names.
+- **Pin the canvas.** A motion capture needs `widthDp` AND `heightDp`; the component stickers wrap
+  and are cropped, and an unpinned capture fails with "produced no GIF".
+- **`@InteractionPreview` does not work here.** It is the annotation for pointer-provoked motion and
+  it is implemented in the **desktop** renderer only; on Robolectric nothing writes the animated
+  file and the still then fails to decode `<id>.apng: file is missing on disk` — which also costs
+  the component its ordinary PNG. Use a `LaunchedEffect` state change instead, and say so.
+
+A recording must actually move: `CatalogRenderTest` fails a GIF with fewer than six distinct frames.
+If a component does not animate under this renderer — the placeholder is the live example — publish
+no recording rather than one that implies motion nobody would see.
+
 ## Kotlin
 
 - ktfmt Google style, 100 columns. `./gradlew ktfmtFormat`.
