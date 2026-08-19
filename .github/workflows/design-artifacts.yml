@@ -76,7 +76,13 @@ jobs:
       # catalog in compose-ai-tools publishes.
       publish-live-bundle: true
       split-per-preview: true
-      split-mode: full
+      # Shared classpath rather than a self-contained bundle per preview:
+      # `classes/app.jar` is published once into `bundle/res` and each split manifest
+      # carries a hash-verified `externalClasspath`, so the live re-render lane is
+      # intact while the delivery branch stops carrying the same jar N times (a
+      # `full` split grows with the preview count on every publish — see
+      # yschimke/compose-ai-tools#4211).
+      split-mode: full-shared-classpath
       commit-user-name: Yuri Schimke
       commit-user-email: yuri@schimke.ee
       timeout-minutes: 60
