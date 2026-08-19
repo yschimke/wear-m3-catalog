@@ -1060,11 +1060,23 @@
       "basePreviewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_192dp",
       "renders": [
         {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_192dp_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
           "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_192dp_VARIANT_full",
           "name": "full",
           "seeds": [
             {
-              "key": "level",
+              "key": "value",
               "raw": "1.0"
             }
           ]
@@ -1074,7 +1086,7 @@
           "name": "low",
           "seeds": [
             {
-              "key": "level",
+              "key": "value",
               "raw": "0.15"
             }
           ]
@@ -1614,7 +1626,7 @@
           "name": "twelve",
           "seeds": [
             {
-              "key": "segments",
+              "key": "segmentCount",
               "raw": "12",
               "kitAxis": "Segments",
               "kitValue": "12"
@@ -2122,6 +2134,18 @@
       "basePreviewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider",
       "renders": [
         {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_continuous",
+          "name": "continuous",
+          "seeds": [
+            {
+              "key": "segmented",
+              "raw": "false",
+              "kitAxis": "Increments",
+              "kitValue": "Percentage"
+            }
+          ]
+        },
+        {
           "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_disabled",
           "name": "disabled",
           "seeds": [
@@ -2138,7 +2162,7 @@
           "name": "full",
           "seeds": [
             {
-              "key": "level",
+              "key": "value",
               "raw": "1.0",
               "kitAxis": "Level",
               "kitValue": "Full"
@@ -2150,7 +2174,7 @@
           "name": "low",
           "seeds": [
             {
-              "key": "level",
+              "key": "value",
               "raw": "0.0",
               "kitAxis": "Level",
               "kitValue": "Low"
@@ -2174,7 +2198,7 @@
     {
       "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueStepper",
       "componentId": "Stepper",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/44993:61163",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/45007:258717",
       "basePreviewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_192dp",
       "renders": [
         {
@@ -2194,10 +2218,22 @@
           "name": "icon",
           "seeds": [
             {
-              "key": "icon",
-              "raw": "true",
+              "key": "content",
+              "raw": "icon",
               "kitAxis": "Icon",
               "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_192dp_VARIANT_no-button-fill",
+          "name": "no-button-fill",
+          "seeds": [
+            {
+              "key": "buttonFill",
+              "raw": "false",
+              "kitAxis": "Button Fill",
+              "kitValue": "No"
             }
           ]
         },

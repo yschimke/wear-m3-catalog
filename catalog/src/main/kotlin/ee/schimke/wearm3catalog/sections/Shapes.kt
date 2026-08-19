@@ -18,7 +18,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.wear.compose.material3.MaterialTheme
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -95,7 +95,10 @@ internal val SHAPE_SET: List<Pair<String, RoundedPolygon>> =
 
 @Composable
 private fun catalogShape(): RoundedPolygon {
-  val key = previewOverrideString("shape", "circle")
+  // A CHOICE, not a text box. Thirty-five shapes with names like `puffy diamond` and `pantagon`
+  // (the kit's own spelling) are unreachable from a control that only shows the current value —
+  // the alternatives were in this file and nowhere a reader of the sheet could see them.
+  val key = previewOverrideChoice("shape", "circle", SHAPE_SET.map { it.first })
   return SHAPE_SET.firstOrNull { it.first == key }?.second ?: MaterialShapes.Circle
 }
 

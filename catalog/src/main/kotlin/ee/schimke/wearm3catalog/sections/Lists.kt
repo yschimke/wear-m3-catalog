@@ -21,7 +21,7 @@ import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.timeTextCurvedText
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -104,7 +104,7 @@ fun WearList() = WearScreen {
 @Composable
 fun WearScaffold() = WearScreen {
   val state = rememberTransformingLazyColumnState()
-  val bare = previewOverrideString("chrome", "scroll") == "bare"
+  val bare = previewOverrideChoice("chrome", "scroll", listOf("scroll", "bare")) == "bare"
   val body: @Composable BoxScope.(PaddingValues) -> Unit = { padding ->
     TransformingLazyColumn(
       state = state,
