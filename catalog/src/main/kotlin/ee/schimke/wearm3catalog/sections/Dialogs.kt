@@ -13,6 +13,8 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 
@@ -35,6 +37,21 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 // The kit's `Edge Option=` axis is the dialog's button arrangement, and it is a slot in Compose
 // (`edgeButton`, or the confirm/dismiss pair) rather than a property, so it folds as content cells.
 //
+// THE EDGE-BUTTON CELL CARRIES A SCROLL, EVEN THOUGH NOTHING SCROLLS
+//
+// `AlertDialogContent(edgeButton = …)` is a `ScreenScaffold` with an `edgeButton` slot, and the
+// scaffold sizes that button from the list's `lastItemOffset`: it seeds an `Animatable` with the
+// value read on the *first* composition — 0, because the list has not laid out yet — and settles it
+// from a `LaunchedEffect` afterwards. A static capture IS that first frame, so the cell published a
+// title over an empty bottom half (issue #15).
+//
+// `@ScrollingPreview(ScrollMode.END)` is the fix, the same one `EdgeButtonScreen` carries. It reads
+// oddly on a one-line dialog with nothing to scroll, and the scroll genuinely is a no-op here — but
+// the driver advances the renderer's `MainTestClock` to step the scroll, and that is what lets the
+// reveal settle before the capture. It sits on the component rather than the cell because a
+// `@Preview` annotation is per-function; the confirm/dismiss and no-buttons cells lay out at rest
+// and are unchanged by it.
+//
 // THE CONFIRMATION OVERLAY IS OUT, AND THIS IS WHY
 //
 // `ConfirmationDialogContent` starts its children at `alpha = 0` and animates them in from a
@@ -46,6 +63,11 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 // as excluded in kit-sets.json rather than dropped silently, so it comes back the day the renderer
 // can advance the clock.
 //
+// Note that borrowing `@ScrollingPreview` — as the edge-button cell above does — is not that day.
+// Its clock advance does bring the container and the curved text in, but it is bounded by the
+// scroll it was asked to drive rather than by the animation, and the success tick still captures
+// half drawn. Settling on purpose is the annotation that is missing, not settling by side effect.
+//
 // `OpenOnPhoneDialog` is unaffected — its icon and progress ring draw at rest — so it stays.
 
 @CatalogComponent(
@@ -54,6 +76,7 @@ import ee.schimke.wearm3catalog.FullScreenSticker
   caption = "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
 )
 @CatalogFullScreenModes
+@ScrollingPreview(modes = [ScrollMode.END])
 @OverrideVariant(
   name = "edge-button",
   strings = ["edge=single"],
