@@ -172,7 +172,7 @@
       "page": "Confirmation Overlays",
       "set": "Confirmation-Overlay",
       "node": "47251:36765",
-      "excluded": "ConfirmationDialogContent starts its children at alpha = 0 and animates them in from a LaunchedEffect; the renderer pauses the clock, so a static capture is an empty container ring. Back in as soon as a capture can settle the animation first."
+      "excluded": "ConfirmationDialogContent reveals itself over ~528ms — children fade in from a LaunchedEffect, and SuccessIcon draws its check with a 267ms trimPathEnd tween. A still capture never reaches the resting frame: the plain sticker is an empty container ring, and @ScrollingPreview(END) lands mid-tween with the check drawn as a chevron. The renderer already settles long enough after a scroll, so the gap is only a way to ask for that without one: yschimke/compose-ai-tools#4202. Back in the day a preview can ask to be captured settled."
     },
     {
       "page": "Confirmation Overlays",
