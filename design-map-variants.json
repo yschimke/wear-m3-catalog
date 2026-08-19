@@ -493,10 +493,10 @@
       "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt#ScreenEdgeButton",
       "componentId": "EdgeButton",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_disabled",
           "name": "disabled",
           "seeds": [
             {
@@ -508,7 +508,19 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_filled-variant",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_extra-small",
+          "name": "extra-small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant",
           "name": "filled-variant",
           "seeds": [
             {
@@ -520,7 +532,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon",
           "name": "icon",
           "seeds": [
             {
@@ -532,19 +544,31 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_large",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_large",
           "name": "large",
           "seeds": [
             {
               "key": "size",
               "raw": "large",
               "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_medium",
+          "name": "medium",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "medium",
+              "kitAxis": "Size",
               "kitValue": "Large"
             }
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined",
           "name": "outlined",
           "seeds": [
             {
@@ -556,19 +580,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_small",
-          "name": "small",
-          "seeds": [
-            {
-              "key": "size",
-              "raw": "small",
-              "kitAxis": "Size",
-              "kitValue": "Small"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal",
           "name": "tonal",
           "seeds": [
             {
@@ -576,46 +588,6 @@
               "raw": "tonal",
               "kitAxis": "Style",
               "kitValue": "Tonal"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_204dp",
-          "name": "204dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "204"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_216dp",
-          "name": "216dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "216"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_225dp",
-          "name": "225dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "225"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_240dp",
-          "name": "240dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "240"
             }
           ]
         }
@@ -1461,10 +1433,10 @@
       "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#CircularProgress",
       "componentId": "CircularProgressIndicator",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_complete",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp_VARIANT_complete",
           "name": "complete",
           "seeds": [
             {
@@ -1476,7 +1448,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp_VARIANT_disabled",
           "name": "disabled",
           "seeds": [
             {
@@ -1488,7 +1460,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_indeterminate",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp_VARIANT_indeterminate",
           "name": "indeterminate",
           "seeds": [
             {
@@ -1498,7 +1470,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_overflow",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp_VARIANT_overflow",
           "name": "overflow",
           "seeds": [
             {
@@ -1510,7 +1482,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_small-stroke",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp_VARIANT_small-stroke",
           "name": "small-stroke",
           "seeds": [
             {
@@ -1522,7 +1494,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_zero",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp_VARIANT_zero",
           "name": "zero",
           "seeds": [
             {
@@ -1530,6 +1502,46 @@
               "raw": "0.0",
               "kitAxis": "Progress",
               "kitValue": "Zero"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_204dp",
+          "name": "204dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "204"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_216dp",
+          "name": "216dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "216"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_225dp",
+          "name": "225dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "225"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_240dp",
+          "name": "240dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "240"
             }
           ]
         }
@@ -2283,10 +2295,10 @@
       "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealButton",
       "componentId": "SwipeToReveal/Button",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155785",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_VARIANT_two-actions",
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp_VARIANT_two-actions",
           "name": "two-actions",
           "seeds": [
             {
@@ -2296,6 +2308,46 @@
               "kitValue": "2-actions"
             }
           ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_204dp",
+          "name": "204dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "204"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_216dp",
+          "name": "216dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "216"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_225dp",
+          "name": "225dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "225"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_240dp",
+          "name": "240dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "240"
+            }
+          ]
         }
       ]
     },
@@ -2303,10 +2355,10 @@
       "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard",
       "componentId": "SwipeToReveal/Card",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_VARIANT_two-actions",
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp_VARIANT_two-actions",
           "name": "two-actions",
           "seeds": [
             {
@@ -2314,6 +2366,46 @@
               "raw": "true",
               "kitAxis": "State",
               "kitValue": "2-actions"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_204dp",
+          "name": "204dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "204"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_216dp",
+          "name": "216dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "216"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_225dp",
+          "name": "225dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "225"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_240dp",
+          "name": "240dp",
+          "seeds": [
+            {
+              "key": "breakpoint",
+              "raw": "240"
             }
           ]
         }

@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -23,12 +24,22 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.FullScreenSticker
 import ee.schimke.wearm3catalog.Sticker
 
 // The kit's three progress sets. They are three components because Compose has three functions —
 // the segmented ring is `SegmentedCircularProgressIndicator`, not a property of the round one — and
 // the axes within each (progress, stroke width, segment count) are arguments, so they fold.
+//
+// The three sets are drawn on three DIFFERENT SHAPES of cell, and the frames here follow that
+// rather than the family resemblance. `Progress-Indicator` is 192×192 displays with the ring 2dp
+// inside the bezel, so `CircularProgressIndicator` takes the round frame;
+// `Progress-Indicator-Small`
+// is 80×80 component cells and `Progress-Indicator-Linear` is 172×12 ones, so those two are
+// cropped stickers. All three used to be stickers, which quietly compared a 120dp ring against the
+// whole watch face — the same defect as the edge button in issue #31 (AGENTS.md).
 //
 // Progress is pinned rather than animated: an indeterminate or mid-animation indicator would render
 // differently on every nightly publish, and the delivery branch's history would be noise. The kit
@@ -46,7 +57,7 @@ import ee.schimke.wearm3catalog.Sticker
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
   caption = "A ring around the display edge, with the kit's progress and stroke axes folded in.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "zero", floats = ["progress=0.0"], kitAxis = "Progress", kitValue = "Zero")
 @OverrideVariant(
   name = "complete",
@@ -78,7 +89,7 @@ import ee.schimke.wearm3catalog.Sticker
 // motion; `Motion.kt` carries the recording.
 @OverrideVariant(name = "indeterminate", strings = ["mode=indeterminate"])
 @Composable
-fun CircularProgress() = Sticker {
+fun CircularProgress() = FullScreenSticker {
   val progress = previewOverrideFloat("progress", 0.6f)
   val stroke =
     if (previewOverrideChoice("stroke", "medium", listOf("medium", "small")) == "small")
@@ -90,17 +101,19 @@ fun CircularProgress() = Sticker {
   // kit's name is worse than an honest absence.
   val startAngle = previewOverrideFloat("startAngle", CircularProgressIndicatorDefaults.StartAngle)
   val endAngle = previewOverrideFloat("endAngle", startAngle)
+  // `fillMaxSize` throughout, because the kit's cell draws the ring 2dp inside the bezel of the
+  // whole display — a fixed `size(120.dp)` is a ring around nothing in particular.
   if (
     previewOverrideChoice("mode", "determinate", listOf("determinate", "indeterminate")) ==
       "indeterminate"
   ) {
     // The indeterminate overload takes neither progress nor angles — it is a different function on
     // the same name, and the knobs above simply do not reach it.
-    CircularProgressIndicator(modifier = Modifier.size(120.dp), strokeWidth = stroke)
+    CircularProgressIndicator(modifier = Modifier.fillMaxSize(), strokeWidth = stroke)
   } else {
     CircularProgressIndicator(
       progress = { progress },
-      modifier = Modifier.size(120.dp),
+      modifier = Modifier.fillMaxSize(),
       enabled = previewOverrideBoolean("enabled", true),
       // The API defaults this to `false`; the sticker defaults it to `true` because the kit
       // publishes a `Progress=Overflow` cell, and coerced into 0..1 that cell is the complete one.

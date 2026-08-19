@@ -99,7 +99,20 @@ are out of scope.
   (`192×354`…`192×500` — a scrolling screen unrolled, which **nothing here can be diffed against**).
   Where a set publishes both, as `Dialog` does behind `Scrolling=`, take the display cell: pointed at
   a scroll cell the alert dialog reported its entire frame as a difference, because the comparison
-  squashes the reference to the render's aspect first. See [docs/DESIGN_MAP.md](docs/DESIGN_MAP.md).
+  squashes the reference to the render's aspect first.
+- **Which means the FRAME follows the cell, and it is the half that gets forgotten.** Naming the
+  right cell and then publishing it in the wrong frame lands in exactly the same place as naming the
+  wrong cell, because the reference is fitted to the render's frame before it is diffed. It has gone
+  wrong in both directions: `EdgeButton` published a whole watch face against a `192×59` component
+  cell ([#31](https://github.com/yschimke/wear-m3-catalog/issues/31)) — it renders through
+  `EdgeButtonSticker` now — while both `SwipeToReveal` components and `CircularProgressIndicator`
+  published cropped stickers against `192×192` display cells, the ring at a fixed 120dp rather than
+  around the bezel. **A component "feeling" full-screen is not the test; the cell's size is** — the
+  ring and the segmented ring are one API family drawn on two different shapes of cell, and the
+  frame follows the cell.
+  So is the *size within* a cell: the kit's four `Edge-Button` sizes are `EdgeButtonSize` plus its
+  3dp floor (`49=46+3` … `99=96+3`), so they line up one-to-one, and reading the two lists off in
+  parallel put every cell a step too big. See [docs/DESIGN_MAP.md](docs/DESIGN_MAP.md).
 - **A full-screen sticker renders at every screen size the kit recognises, and they fold.** The kit
   enumerates its sizes in `.WatchPuck` on the Meta Components page — 192 (its own "legacy"), 204,
   216, 225 (the breakpoint), 240 — and `CatalogFullScreenModes` draws all five. **192 is the base**,
@@ -162,9 +175,9 @@ are out of scope.
 - Component ids are the published sticker's URL and the join key for `@CatalogVariant(of = …)`.
   Renaming one moves a published URL — do it deliberately.
 - **Dark-first, transparent.** A component sticker is a single dark capture on a transparent
-  background (`@CatalogModes`). Full-screen components — scaffolds, lists, the edge button — want
-  the round device frame and the breakpoint fan-out instead; they are not in the inventory yet, and
-  adding them means adding that frame, not filling the component sticker.
+  background (`@CatalogModes`). A component the kit draws on a display cell — scaffolds, lists,
+  dialogs, pickers, the indicator rails, swipe-to-reveal — takes `FullScreenSticker` and
+  `@CatalogFullScreenModes` instead: the round device frame plus the breakpoint fan-out.
 - Renders must be **deterministic**: a `TimeText` is pinned to a fixed instant, never the system
   clock. An unpinned clock would make every nightly render differ from the last, which turns the
   delivery branch's history into noise.

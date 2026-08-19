@@ -5,14 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.foundation.lazy.items
-import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
@@ -53,8 +54,9 @@ internal val LocalCatalogThemeOverride = staticCompositionLocalOf { false }
  * sizes to the watch and everything else wraps — and the renderer crops the PNG to it. Filling here
  * would defeat that crop and put every sticker back on a full round canvas.
  *
- * Full-screen components (scaffolds, lists, the edge button) will need their own frame that keeps
- * the round device shape; they are not in the inventory yet.
+ * A component the kit publishes as a *display* cell — the round watch face, whole — wants
+ * [FullScreenSticker] instead, and the edge button wants [EdgeButtonSticker]: what decides is the
+ * shape of the kit cell the render is compared against, not how the component feels.
  */
 @Composable
 fun Sticker(content: @Composable () -> Unit) {
@@ -68,12 +70,12 @@ fun Sticker(content: @Composable () -> Unit) {
  *
  * Deliberately no `ScreenScaffold` here. A scaffold is structure a *screen* supplies, and these are
  * components: the rails position against the bezel on their own, and a dialog or picker is the
- * whole screen already. The edge button is the one that genuinely needs a scaffold, and it has its
- * own frame ([EdgeButtonScreen]) that supplies one.
+ * whole screen already.
  *
  * Deliberately not the default: a component that wraps is published cropped and transparent, so a
- * designer can drop it on any canvas. Reach for this only when the round frame is part of what the
- * component *is* — the edge button is the live example.
+ * designer can drop it on any canvas. Reach for this when the kit draws the component on a
+ * `192×192` display cell — a dialog, a picker, an indicator rail, a swipe-to-reveal — because a
+ * cropped render pairs with that cell only by being squashed into a landscape strip.
  */
 @Composable
 fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
@@ -83,25 +85,60 @@ fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
 }
 
 /**
- * Frame for the **edge button**, which is not merely full-screen but bottom-anchored and
- * scroll-revealed.
+ * The width the kit lays an edge button out against: the 192dp base screen
+ * (`CatalogFullScreenModes`).
  *
- * Two things have to be true for this to publish the component rather than a frame of it, and
- * neither is optional:
+ * The button is not this wide — it is clipped to the display's bottom arc, so `Size=Default` draws
+ * 114dp of shape inside a 192dp cell — but the arc it is clipped to is a fact about the *screen*,
+ * so the canvas has to be the screen's width for the curve to come out the kit's shape.
+ */
+private val EdgeButtonCanvasWidth = 192.dp
+
+/**
+ * Frame for the **edge button** — the kit's `Edge-Button` cell, which is a *component* cell rather
+ * than a display one.
  *
- * 1. **`ScreenScaffold`'s `edgeButton` slot places it.** Aligning it inside a content box instead
- *    puts it wherever that box happens to be — which is how the first render of this sticker drew
- *    the button at the *top* of the watch.
- * 2. **The list must be scrolled to the end.** The scaffold reveals the button *from the scroll
- *    state*: at the resting top it is collapsed, and a static capture would freeze that hidden
- *    first frame. So the list overflows the screen by a few times and the sticker carries
- *    `@ScrollingPreview(END)`, which scrolls and lets the reveal settle before capturing.
+ * This used to be [EdgeButtonScreen]: a whole round watch face with a twelve-item list, captured
+ * scrolled to the end so `ScreenScaffold` had revealed the button. It published a handsome picture
+ * and an unusable comparison, because the cell it is diffed against (`36601:6587`) is 192×59 — the
+ * button and nothing else. Squashing a 192×192 screen into that reported the list, the time text
+ * and the scroll indicator as differences from a button (issue #31).
+ *
+ * So the frame is the kit's cell: the screen's width to clip the arc against, and nothing else. The
+ * screen the button hugs is not lost — it moved to `Motion.kt`, where the scroll-driven reveal is a
+ * recording rather than a still that has to stand in for one.
+ *
+ * NO PADDING, unlike [Sticker]. `EdgeButton` measures 3dp taller than its `EdgeButtonSize` on each
+ * side (the library's own `VERTICAL_PADDING`), so the capture is `192 × size+6` against a kit cell
+ * of `192 × size+3` — the kit keeps that 3dp under the shape and none above it. Those 3dp of extra
+ * headroom are the whole of what still differs in the frame, and adding any of our own on top is
+ * what would make it matter.
  */
 @Composable
-fun EdgeButtonScreen(edgeButton: @Composable BoxScope.() -> Unit) {
+fun EdgeButtonSticker(content: @Composable () -> Unit) {
+  CatalogMaterialTheme { Box(Modifier.width(EdgeButtonCanvasWidth)) { content() } }
+}
+
+/**
+ * The screen an edge button hugs — an `AppScaffold`/`ScreenScaffold` pair over a list long enough
+ * to scroll. Not a component frame: nothing in the inventory renders through it, because the kit
+ * publishes no screen cell for the edge button. `Motion.kt` records the reveal through it.
+ *
+ * Two things have to be true for the reveal to be visible at all, and neither is optional:
+ *
+ * 1. **`ScreenScaffold`'s `edgeButton` slot places it.** Aligning it inside a content box instead
+ *    puts it wherever that box happens to be — which is how the first render of this drew the
+ *    button at the *top* of the watch.
+ * 2. **The list must be scrolled.** The scaffold reveals the button *from the scroll state*: at the
+ *    resting top it is collapsed, so a capture that never scrolls freezes that hidden first frame.
+ */
+@Composable
+fun EdgeButtonScreen(
+  state: TransformingLazyColumnState,
+  edgeButton: @Composable BoxScope.() -> Unit,
+) {
   CatalogMaterialTheme {
     AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) {
-      val state = rememberTransformingLazyColumnState()
       ScreenScaffold(scrollState = state, edgeButton = edgeButton) { padding ->
         TransformingLazyColumn(
           state = state,

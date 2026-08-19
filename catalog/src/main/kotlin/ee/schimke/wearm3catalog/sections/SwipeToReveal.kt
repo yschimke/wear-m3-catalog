@@ -2,13 +2,13 @@
 
 package ee.schimke.wearm3catalog.sections
 
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.Icon
@@ -22,9 +22,9 @@ import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
+import ee.schimke.wearm3catalog.FullScreenSticker
 import ee.schimke.wearm3catalog.KitCopy
-import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `STR-card` and `STR-button` sets — the same gesture over the two things it can be
@@ -34,6 +34,13 @@ import ee.schimke.wearm3catalog.kitCopy
 // underneath it, and the kit's cells all draw the revealed state — so the sticker seeds
 // `rememberRevealState(RevealValue.RightRevealing)` and publishes what the gesture uncovers. In a
 // live session the swipe still works from there; what is pinned is where the capture starts.
+//
+// ON THE ROUND SCREEN, NOT CROPPED. Both sets draw `192×192` display cells: the item has slid far
+// enough left that the display's own edge clips it, and that clip is half of what the cell shows.
+// These used to publish as cropped `Sticker`s, which paired a landscape strip with a round watch
+// face — the reference arrived squashed into a 392×190 frame and every edge of it read as a
+// difference. Same defect as the edge button in issue #31, in the other direction: there a
+// component cell was being compared against a screen, here a screen cell against a component.
 
 /**
  * Which of `RevealValue`'s resting positions the sticker is caught in.
@@ -66,7 +73,7 @@ private fun revealState(): RevealState {
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
   caption = "A card swiped aside to show its actions.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(
   name = "two-actions",
   booleans = ["secondary=true"],
@@ -74,7 +81,7 @@ private fun revealState(): RevealState {
   kitValue = "2-actions",
 )
 @Composable
-fun SwipeToRevealCard() = Sticker {
+fun SwipeToRevealCard() = FullScreenSticker {
   val state = revealState()
   SwipeToReveal(
     primaryAction = {
@@ -95,7 +102,7 @@ fun SwipeToRevealCard() = Sticker {
         }
       } else null,
     revealState = state,
-    modifier = Modifier.width(180.dp),
+    modifier = Modifier.align(Alignment.Center).fillMaxWidth(),
   ) {
     Card(onClick = {}) { Text(kitCopy("content", KitCopy.CARD_CONTENT)) }
   }
@@ -107,7 +114,7 @@ fun SwipeToRevealCard() = Sticker {
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
   caption = "The same gesture over a button rather than a card.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(
   name = "two-actions",
   booleans = ["secondary=true"],
@@ -115,7 +122,7 @@ fun SwipeToRevealCard() = Sticker {
   kitValue = "2-actions",
 )
 @Composable
-fun SwipeToRevealButton() = Sticker {
+fun SwipeToRevealButton() = FullScreenSticker {
   val state = revealState()
   SwipeToReveal(
     primaryAction = {
@@ -136,7 +143,7 @@ fun SwipeToRevealButton() = Sticker {
         }
       } else null,
     revealState = state,
-    modifier = Modifier.width(180.dp),
+    modifier = Modifier.align(Alignment.Center).fillMaxWidth(),
   ) {
     Button(onClick = {}, label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) })
   }
