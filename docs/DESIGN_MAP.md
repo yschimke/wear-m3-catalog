@@ -76,11 +76,58 @@ The `Dialog` set publishes both, and that is the fix — `Scrolling=No` cells ar
 arrangements drawn on a 192×192 display. The base moved to `58475:87077`, and because a cell
 resolves by varying one axis from the base, the `edge-button` cell followed on its own from
 `58475:87023` to `58475:87067`. No other referenced set has a `Scrolling=` axis, so the alert dialog
-was the only one affected.
+was the only one affected by *that* trap.
 
 **When a set publishes both, take the display cell.** A long-scroll reference would need a preview
 that captures its own full scroll extent rather than the display — which is a renderer capability,
 not a mapping choice, and nothing here asks for it yet.
+
+### The rule cuts both ways, and the frame is the half that moves
+
+The reference is chosen by which cell the component *is*; what then has to follow is the **frame the
+render is published in**, because the reference is fitted to the render's frame before it is diffed.
+Naming the right cell and then rendering it in the wrong frame lands in exactly the same place as
+naming the wrong cell. Two components were on the wrong side of that, one each way, and
+[issue #31](https://github.com/yschimke/wear-m3-catalog/issues/31) is the first of them:
+
+- **A component cell rendered as a screen.** `EdgeButton`'s cells are `192×49/59/73/99` — the button
+  alone — and it published a whole round watch face with a twelve-item list, a time text and a
+  scroll indicator, because `ScreenScaffold` reveals the button from scroll state and a bare capture
+  would have frozen it collapsed. Everything on that screen except the button was reported as a
+  difference from a button. It now renders through `EdgeButtonSticker`: the 192dp screen width to
+  clip the arc against, and nothing else. What is left over is 3dp — `EdgeButton` measures 3dp
+  taller than its `EdgeButtonSize` on *each* side, and the kit's cell keeps only the lower one, so
+  a `Size=Default` capture is `192×62` against a `192×59` cell. The screen did not have to be
+  thrown away to get there: the scroll-driven reveal is a recording in `Motion.kt`, which is the
+  honest home for something one frame cannot show.
+- **Display cells rendered as cropped stickers.** `SwipeToReveal/Card` and `SwipeToReveal/Button`
+  both draw `192×192` displays, with the item slid far enough left that the watch's own edge clips
+  it — and they published landscape strips of the component. Both now render through
+  `FullScreenSticker` at every screen size, like every other display cell.
+- **And one where the family resemblance hid it.** `CircularProgressIndicator`'s cell is a
+  `192×192` display with the ring 2dp inside the bezel (`41424:58637` holds a 188×188 `Segments`
+  frame); it published a cropped sticker of a ring pinned to `size(120.dp)`. Its two siblings are
+  genuinely component cells — `Progress-Indicator-Small` is `80×80`, `Progress-Indicator-Linear` is
+  `172×12` — so the three sets do not share a frame just because they share an API family. It now
+  fills the screen through `FullScreenSticker`; the other two stay stickers.
+
+Each row below is the published render, the kit cell parity was fitting to it, and the render after.
+Everything is drawn at 2px/dp, except the middle panel, which is the reference **as parity produced
+it** — fitted to the *old* frame, which is why it is at that frame's scale rather than the kit's.
+
+![EdgeButton: a whole watch screen, the kit's lone-button cell, and the new lone-button render](images/issue-31-edge-button.png)
+
+![SwipeToReveal/Card: a cropped landscape strip, the kit's round display cell, and the new round render](images/issue-31-swipe-to-reveal.png)
+
+![CircularProgressIndicator: a 120dp ring, the kit's bezel-hugging cell, and the new full-screen ring](images/issue-31-circular-progress.png)
+
+**A component cell can be off by a size, too.** `EdgeButton`'s kit cells are `EdgeButtonSize` plus
+the 3dp floor — `49=46+3`, `59=56+3`, `73=70+3`, `99=96+3` — so the kit's `Small` is Compose's
+`ExtraSmall`, its `Default` is `Small`, its `Large` is `Medium` and its `Extra-Large` is `Large`.
+Reading the two four-item lists off in parallel instead made every cell one step too big and
+invented a gap at each end: a kit `Extra-Large` with no Compose counterpart, and a Compose
+`ExtraSmall` the kit was said not to publish. Neither gap exists. The cells are named for the
+Compose value and carry the kit's spelling in `kitValue`, per AGENTS.md.
 
 ## The words are part of the mapping
 
@@ -117,10 +164,10 @@ is truncating, so the ellipsis lands in the same place rather than the label sim
 | | |
 | --- | --- |
 | components mapped | 49 |
-| references, base + resolved variant | 182 |
-| variant cells resolved onto a kit node | 133 of 197 |
-| …of which breakpoint cells, which no kit node answers yet | 48 |
-| kit page nodes joined to code | 181 of 1845 |
+| references, base + resolved variant | 185 |
+| variant cells resolved onto a kit node | 137 of 209 |
+| …of which breakpoint cells, which no kit node answers yet | 56 |
+| kit page nodes joined to code | 185 of 1845 |
 | components with no reference, for a stated reason | 4 |
 
 ## The two kinds of miss, and which one is a bug
@@ -139,8 +186,8 @@ landed upstream in `@yschimke/compose-design-map` v1.19.0
 ([compose-ai-tools#4250](https://github.com/yschimke/compose-ai-tools/pull/4250)); before it, the
 choice here was plain `--strict` (red on four intended components) or no gate at all.
 
-**An unresolved variant cell is usually the kit's matrix, not a mistake.** 16 of 149 do not resolve,
-and they fall into two shapes:
+**An unresolved variant cell is usually the kit's matrix, not a mistake.** 16 of the 153 cells that
+are not breakpoints do not resolve, and they fall into two shapes:
 
 - *The kit has no such axis.* `LevelIndicator`'s `low` / `full` turn a Compose float; the kit's
   `Level-Indicator-RSB` varies `Size`, not level. `CircularProgressIndicator`'s `indeterminate` has
@@ -215,17 +262,18 @@ about forty glyphs. The kit's plus, cross and chevrons are all in it and are now
 circled-exclamation dialog icon and its headphones glyph are not, so those slots stay empty rather
 than being filled with an approximation that would read as a *different* difference.
 
-**Open, and deliberately not fixed here** — each moves a published preview URL, which AGENTS.md says
-to do on purpose rather than in passing:
+**Closed.** Both of the framing mismatches that used to be listed here are fixed — `EdgeButton`
+renders as the kit's component cell and `SwipeToReveal` as the kit's display cells; see *The rule
+cuts both ways* above. Both moved published preview URLs, which AGENTS.md says to do on purpose
+rather than in passing, and that is what issue #31 asked for.
 
-- **`EdgeButton` is framed the other way round.** Its kit cells are **192×59** — the button alone,
-  a *component* shape — while this catalog publishes it as a whole screen, because the scaffold
-  reveals the button from scroll state and a bare capture would freeze it collapsed
-  (`EdgeButtonScreen`). So a screenful of list rows is being diffed against a bare button.
-- **`SwipeToReveal` is framed the other way round too, in the other direction.** Its kit cells are
-  **192×192 displays** showing the component sliding off the edge of the watch; this catalog
-  publishes cropped stickers of the whole component. The copy and the action glyph now match; the
-  frame does not.
+**Still open: the sticker frame is not the component cell.** A `Sticker` publishes at the
+composable's bounds *plus its 8dp of padding*, and a component that wraps is as wide as its label
+rather than as wide as the kit draws it — so `Button/Filled` renders a `136×68`dp frame against a
+`172×52` cell, and the reference is letterboxed into it. It is uniform across the sheet and small
+(around 1.4× on the buttons and cards) rather than a different picture, which is why it is recorded
+rather than chased: closing it means deciding whether a sticker is the component or the kit's cell,
+and that is a change to every card at once.
 
 ## Rebuilding the kit index without a Figma token
 

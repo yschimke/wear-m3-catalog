@@ -16,8 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
+import androidx.wear.compose.material3.EdgeButton
+import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconToggleButton
 import androidx.wear.compose.material3.IconToggleButtonDefaults
@@ -28,6 +31,7 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.rememberRevealState
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.wearm3catalog.EdgeButtonScreen
 import ee.schimke.wearm3catalog.Sticker
 import kotlinx.coroutines.delay
 
@@ -78,13 +82,17 @@ import kotlinx.coroutines.delay
 /**
  * The canvas every motion capture is pinned to. Frames must share one size or no GIF is written.
  */
-/**
- * The canvas every motion capture is pinned to. Frames must share one size or no GIF is written.
- */
 @Preview(showBackground = false, widthDp = 200, heightDp = 120) annotation class MotionCanvas
 
 /** A wide, short canvas for the row-shaped components. */
 @Preview(showBackground = false, widthDp = 220, heightDp = 80) annotation class MotionRowCanvas
+
+/**
+ * The round 192dp screen, for a recording of something that positions itself against the display
+ * rather than wrapping. Black rather than transparent, because a screen is not a sticker.
+ */
+@Preview(showBackground = true, backgroundColor = 0xFF000000, widthDp = 192, heightDp = 192)
+annotation class MotionScreenCanvas
 
 // ---------------------------------------------------------------------------
 // Infinite — motion the component runs by itself, with nothing to provoke it.
@@ -192,5 +200,36 @@ fun SwipeToRevealMotion() = Sticker {
     modifier = Modifier.width(180.dp),
   ) {
     Card(onClick = {}) { Text("Morning run") }
+  }
+}
+
+/**
+ * The edge button revealing itself as the list scrolls.
+ *
+ * This is the picture the component sheet used to publish as a still, and it belongs here instead.
+ * `ScreenScaffold` reveals the button *from the scroll state* — at the resting top it is collapsed
+ * — so the whole of what an edge button does is a thing one frame cannot show, while the sticker it
+ * is compared against is the kit's 192×59 component cell and nothing else (issue #31).
+ *
+ * The scroll is driven from a `LaunchedEffect` rather than a gesture, for the reason at the top of
+ * this file: `@InteractionPreview` is desktop-only, and there is no finger to record here.
+ */
+@MotionScreenCanvas
+@AnimatedPreview(showCurves = false)
+@Composable
+fun EdgeButtonRevealMotion() {
+  val state = rememberTransformingLazyColumnState()
+  // To the LAST item and back, not by a pixel count: the scaffold only reveals the button near the
+  // end of the list, so a partial scroll records a list moving and no edge button at all.
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(200)
+      state.animateScrollToItem(11)
+      delay(400)
+      state.animateScrollToItem(0)
+    }
+  }
+  EdgeButtonScreen(state) {
+    EdgeButton(onClick = {}, buttonSize = EdgeButtonSize.Small) { Text("Done") }
   }
 }
