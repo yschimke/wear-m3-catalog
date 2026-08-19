@@ -19,7 +19,7 @@ import androidx.wear.compose.material3.TextButton
 import androidx.wear.compose.material3.TextButtonDefaults
 import androidx.wear.compose.material3.touchTargetAwareSize
 import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -51,7 +51,9 @@ import ee.schimke.wearm3catalog.kitCopy
 /** The kit's `Size=` values, as the Wear touch-target sizes each one names. */
 @Composable
 private fun iconButtonSize(): Dp =
-  when (previewOverrideString("size", "default")) {
+  when (
+    previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
+  ) {
     "extra-small" -> IconButtonDefaults.ExtraSmallButtonSize
     "small" -> IconButtonDefaults.SmallButtonSize
     "large" -> IconButtonDefaults.LargeButtonSize
@@ -272,8 +274,15 @@ fun StandardIconAction() = Sticker {
 @Composable
 fun TextAction() = Sticker {
   val c = counted(kitCopy("label", KitCopy.GLYPHS))
+  // Read once, used for both the colours and the border below.
+  val style =
+    previewOverrideChoice(
+      "style",
+      "filled",
+      listOf("filled", "filled-variant", "tonal", "outlined", "child"),
+    )
   val colors =
-    when (previewOverrideString("style", "filled")) {
+    when (style) {
       "child" -> TextButtonDefaults.textButtonColors()
       "filled-variant" -> TextButtonDefaults.filledVariantTextButtonColors()
       "tonal" -> TextButtonDefaults.filledTonalTextButtonColors()
@@ -283,7 +292,6 @@ fun TextAction() = Sticker {
   // The border is its OWN parameter, not part of `colors` — an outlined text button built from
   // `outlinedTextButtonColors()` alone draws no outline and is pixel-identical to the child style,
   // which is how this cell published the wrong picture under the right name.
-  val style = previewOverrideString("style", "filled")
   TextButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -297,7 +305,7 @@ fun TextAction() = Sticker {
 
 @Composable
 private fun textButtonSize(): Dp =
-  when (previewOverrideString("size", "default")) {
+  when (previewOverrideChoice("size", "default", listOf("default", "small", "large"))) {
     "small" -> TextButtonDefaults.SmallButtonSize
     "large" -> TextButtonDefaults.LargeButtonSize
     else -> TextButtonDefaults.DefaultButtonSize

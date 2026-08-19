@@ -13,7 +13,7 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimePicker
 import androidx.wear.compose.material3.TimePickerType
 import androidx.wear.compose.material3.rememberPickerState
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -63,7 +63,7 @@ private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
 @Composable
 fun DateWheels() = FullScreenSticker {
   val type =
-    when (previewOverrideString("order", "day")) {
+    when (previewOverrideChoice("order", "day", listOf("day", "month", "year"))) {
       "month" -> DatePickerType.MonthDayYear
       "year" -> DatePickerType.YearMonthDay
       else -> DatePickerType.DayMonthYear
@@ -93,7 +93,7 @@ fun DateWheels() = FullScreenSticker {
 @Composable
 fun TimeWheels() = FullScreenSticker {
   val type =
-    when (previewOverrideString("format", "12")) {
+    when (previewOverrideChoice("format", "12", listOf("12", "24", "24s"))) {
       "24" -> TimePickerType.HoursMinutes24H
       "24s" -> TimePickerType.HoursMinutesSeconds24H
       else -> TimePickerType.HoursMinutesAmPm12H

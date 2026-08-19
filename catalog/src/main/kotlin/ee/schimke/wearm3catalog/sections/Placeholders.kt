@@ -18,7 +18,7 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.wearm3catalog.CatalogModes
@@ -62,7 +62,7 @@ fun ButtonPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
   val label: @Composable RowScope.() -> Unit = { Text("", modifier = Modifier.width(80.dp)) }
   val modifier = Modifier.width(150.dp).placeholder(state).placeholderShimmer(state)
-  when (previewOverrideString("style", "filled")) {
+  when (previewOverrideChoice("style", "filled", listOf("filled", "tonal", "outlined"))) {
     "tonal" -> FilledTonalButton(onClick = {}, modifier = modifier, label = label)
     "outlined" -> OutlinedButton(onClick = {}, modifier = modifier, label = label)
     else -> Button(onClick = {}, modifier = modifier, label = label)
@@ -96,7 +96,7 @@ fun IconButtonPlaceholder() = Sticker {
 fun CardPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
   val modifier = Modifier.width(180.dp).placeholder(state).placeholderShimmer(state)
-  if (previewOverrideString("style", "tonal") == "outlined") {
+  if (previewOverrideChoice("style", "tonal", listOf("tonal", "outlined")) == "outlined") {
     OutlinedCard(onClick = {}, modifier = modifier) { Text("") }
   } else {
     Card(onClick = {}, modifier = modifier) { Text("") }

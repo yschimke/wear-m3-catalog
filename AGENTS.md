@@ -130,6 +130,26 @@ are out of scope.
   The test is the call site, not the word. `Style=` on `Button-Compact` and on `Text-Button` folds,
   because Compose ships one `CompactButton` and one `TextButton` that take their emphasis as
   `colors` — there is no second function to choose, so there is nothing to split.
+- **A knob per parameter, named after the parameter, and a `previewOverrideChoice` wherever the
+  values are a closed set.** The controls panel on the live sheet is built from the
+  `previewOverride*` calls a sticker makes, and it is all a reader browsing that sheet has: a
+  parameter the sticker pins is a parameter they cannot reach, and a knob named after anything but
+  its parameter is one they cannot look up in the API. So expose every argument that changes the
+  picture — `segmented`, `valueRange`, an icon slot, a start angle — and spell the key exactly as
+  Compose spells the parameter (`value`, not the kit's `level`; `segmentCount`, not `segments`).
+  The kit's word for the same axis belongs on the cell as `kitAxis` / `kitValue`, which is the next
+  bullet. Where the value set is closed, `previewOverrideChoice(key, default, listOf(…))` renders a
+  picker; a plain `previewOverrideString` renders a text box that shows the current value and hides
+  every alternative, so `extra-small` is reachable only by someone who has read the source. Two
+  things stay off the panel: `colors` / `shape` / `modifier`, which are theme-level objects rather
+  than scalars a reader can type (the theme switcher is where those are chosen), and a value the
+  component genuinely does not take.
+
+  Knobs are additive — keep each default at what the sticker already rendered and the baked
+  captures, and their kit comparisons, do not move. **Check the state a knob feeds is keyed on it**:
+  `remember { … }` and `rememberSaveable { … }` read their initial value once, so a knob wired into
+  one moves nothing in a live session while looking perfectly correct in every baked render, which
+  is a fresh composition each time. `remember(knob)` or `key(knob) { … }` around the state.
 - **Name the kit's word on the cell, not only in the seed.** `@OverrideVariant(kitAxis = …,
   kitValue = …)` carries the kit's own axis and value across to the resolver, which is what lets a
   Compose-shaped knob (`enabled=false`, a boolean) resolve against the kit's `Disabled=Yes`. Use it

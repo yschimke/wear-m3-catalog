@@ -10,14 +10,18 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.LevelIndicator
+import androidx.wear.compose.material3.LevelIndicatorDefaults
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.VerticalPageIndicator
+import ee.schimke.composeai.overrides.previewOverrideBoolean
+import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
@@ -91,7 +95,11 @@ fun ScrollRail() = FullScreenSticker {
     repeat(20) { Spacer(Modifier.height(40.dp)) }
   }
   LaunchedEffect(position) { state.scrollTo((state.maxValue * position).toInt()) }
-  ScrollIndicator(state = state, modifier = Modifier.align(Alignment.CenterEnd))
+  ScrollIndicator(
+    state = state,
+    reverseDirection = previewOverrideBoolean("reverseDirection", false),
+    modifier = Modifier.align(Alignment.CenterEnd),
+  )
 }
 
 @CatalogComponent(
@@ -101,12 +109,32 @@ fun ScrollRail() = FullScreenSticker {
   caption = "The value a rotating side button is setting, while it is being turned.",
 )
 @CatalogFullScreenModes
-@OverrideVariant(name = "low", floats = ["level=0.15"])
-@OverrideVariant(name = "full", floats = ["level=1.0"])
+@OverrideVariant(name = "low", floats = ["value=0.15"])
+@OverrideVariant(name = "full", floats = ["value=1.0"])
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
 @Composable
 fun LevelRail() = FullScreenSticker {
-  val level = previewOverrideFloat("level", 0.6f)
-  LevelIndicator(value = { level }, modifier = Modifier.align(Alignment.CenterStart))
+  // `value`, not `level`: the knob carries the name of the parameter it sets, so a reader of the
+  // controls panel can find it in `LevelIndicator`'s signature. The kit calls the axis something
+  // else on some sets and that word rides on the cell, not on the knob (see Sliders.kt).
+  val value = previewOverrideFloat("value", 0.6f)
+  LevelIndicator(
+    value = { value },
+    enabled = previewOverrideBoolean("enabled", true),
+    // The kit's `Size = Default | Long | Short` axis is this angle in Compose — the arc is 72
+    // degrees, a fifth of the circumference, by default. No cells for the other two: the kit does
+    // not publish the angles they draw, and guessing one would put an invented number under the
+    // kit's name.
+    sweepAngle = previewOverrideFloat("sweepAngle", LevelIndicatorDefaults.SweepAngle),
+    strokeWidth = previewOverrideDp("strokeWidth", LevelIndicatorDefaults.StrokeWidth),
+    reverseDirection = previewOverrideBoolean("reverseDirection", false),
+    modifier = Modifier.align(Alignment.CenterStart),
+  )
 }
 
 @CatalogComponent(
@@ -121,8 +149,17 @@ fun LevelRail() = FullScreenSticker {
 @Composable
 fun HorizontalPages() = FullScreenSticker {
   val pages = previewOverrideInt("pages", 4)
+  // Which page is showing is the other half of what this component draws, and it was pinned to the
+  // first one — so the kit's `6 - Start` / `6 - End` / `6 - MiddleEnd` positions were unreachable
+  // from the controls. Coerced into the page count: a live knob can outrun it, and the pager
+  // throws rather than rendering when it does.
+  val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
   HorizontalPageIndicator(
-    pagerState = rememberPagerState(initialPage = 0) { pages },
+    // `key(…)`, because `rememberPagerState` saves its state unkeyed: it reads `initialPage` once
+    // and ignores every later value, so the knob would move nothing in a live session. A baked
+    // render never noticed — each capture is a fresh composition.
+    pagerState =
+      key(pages, initialPage) { rememberPagerState(initialPage = initialPage) { pages } },
     modifier = Modifier.align(Alignment.BottomCenter),
   )
 }
@@ -138,8 +175,10 @@ fun HorizontalPages() = FullScreenSticker {
 @Composable
 fun VerticalPages() = FullScreenSticker {
   val pages = previewOverrideInt("pages", 4)
+  val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
   VerticalPageIndicator(
-    pagerState = rememberPagerState(initialPage = 0) { pages },
+    pagerState =
+      key(pages, initialPage) { rememberPagerState(initialPage = initialPage) { pages } },
     modifier = Modifier.align(Alignment.CenterEnd),
   )
 }

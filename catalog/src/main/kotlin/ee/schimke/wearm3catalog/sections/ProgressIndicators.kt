@@ -7,16 +7,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.AngularDirection
 import androidx.wear.compose.material3.ArcProgressIndicator
+import androidx.wear.compose.material3.ArcProgressIndicatorDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
 import androidx.wear.compose.material3.LinearProgressIndicator
 import androidx.wear.compose.material3.LinearProgressIndicatorDefaults
 import androidx.wear.compose.material3.SegmentedCircularProgressIndicator
 import ee.schimke.composeai.overrides.previewOverrideBoolean
+import ee.schimke.composeai.overrides.previewOverrideChoice
+import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.overrides.previewOverrideInt
-import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -30,6 +33,12 @@ import ee.schimke.wearm3catalog.Sticker
 // Progress is pinned rather than animated: an indeterminate or mid-animation indicator would render
 // differently on every nightly publish, and the delivery branch's history would be noise. The kit
 // pins the same way, by drawing a `Progress=` value per cell.
+//
+// Every parameter that changes the picture is a knob spelled the way Compose spells it, and every
+// knob with a closed set of values is a `previewOverrideChoice` so the controls panel offers the
+// alternatives instead of a text box only someone who has read this file can fill in. See the note
+// at the top of Sliders.kt (issue #30) — the arc indicator was the extreme case, published with no
+// controls at all despite taking four.
 
 @CatalogComponent(
   id = "CircularProgressIndicator",
@@ -72,17 +81,32 @@ import ee.schimke.wearm3catalog.Sticker
 fun CircularProgress() = Sticker {
   val progress = previewOverrideFloat("progress", 0.6f)
   val stroke =
-    if (previewOverrideString("stroke", "medium") == "small")
+    if (previewOverrideChoice("stroke", "medium", listOf("medium", "small")) == "small")
       CircularProgressIndicatorDefaults.smallStrokeWidth
     else CircularProgressIndicatorDefaults.largeStrokeWidth
-  if (previewOverrideString("mode", "determinate") == "indeterminate") {
+  // The kit's `Type = Full | Top Gap | Bottom Gap` axis is these two angles in Compose: equal
+  // angles close the ring, and separating them opens a gap wherever the pair points. No cells —
+  // the kit does not publish the angles its two gap cells draw, and an invented number under the
+  // kit's name is worse than an honest absence.
+  val startAngle = previewOverrideFloat("startAngle", CircularProgressIndicatorDefaults.StartAngle)
+  val endAngle = previewOverrideFloat("endAngle", startAngle)
+  if (
+    previewOverrideChoice("mode", "determinate", listOf("determinate", "indeterminate")) ==
+      "indeterminate"
+  ) {
+    // The indeterminate overload takes neither progress nor angles — it is a different function on
+    // the same name, and the knobs above simply do not reach it.
     CircularProgressIndicator(modifier = Modifier.size(120.dp), strokeWidth = stroke)
   } else {
     CircularProgressIndicator(
       progress = { progress },
       modifier = Modifier.size(120.dp),
       enabled = previewOverrideBoolean("enabled", true),
-      allowProgressOverflow = true,
+      // The API defaults this to `false`; the sticker defaults it to `true` because the kit
+      // publishes a `Progress=Overflow` cell, and coerced into 0..1 that cell is the complete one.
+      allowProgressOverflow = previewOverrideBoolean("allowProgressOverflow", true),
+      startAngle = startAngle,
+      endAngle = endAngle,
       strokeWidth = stroke,
     )
   }
@@ -102,7 +126,12 @@ fun CircularProgress() = Sticker {
   kitAxis = "Progress",
   kitValue = "Complete",
 )
-@OverrideVariant(name = "twelve", ints = ["segments=12"], kitAxis = "Segments", kitValue = "12")
+@OverrideVariant(
+  name = "twelve",
+  ints = ["segmentCount=12"],
+  kitAxis = "Segments",
+  kitValue = "12",
+)
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -112,11 +141,19 @@ fun CircularProgress() = Sticker {
 @Composable
 fun SegmentedProgress() = Sticker {
   val progress = previewOverrideFloat("progress", 0.6f)
+  val startAngle = previewOverrideFloat("startAngle", CircularProgressIndicatorDefaults.StartAngle)
   SegmentedCircularProgressIndicator(
-    segmentCount = previewOverrideInt("segments", 6),
+    // `segmentCount` is the parameter's own name — the knob used to be `segments`, which is the
+    // kit's word for the axis and rides on the cell instead.
+    segmentCount = previewOverrideInt("segmentCount", 6),
     progress = { progress },
     modifier = Modifier.size(120.dp),
     enabled = previewOverrideBoolean("enabled", true),
+    allowProgressOverflow = previewOverrideBoolean("allowProgressOverflow", false),
+    startAngle = startAngle,
+    endAngle = previewOverrideFloat("endAngle", startAngle),
+    strokeWidth =
+      previewOverrideDp("strokeWidth", CircularProgressIndicatorDefaults.largeStrokeWidth),
   )
 }
 
@@ -129,7 +166,29 @@ fun SegmentedProgress() = Sticker {
 )
 @CatalogModes
 @Composable
-fun ArcProgress() = Sticker { ArcProgressIndicator(modifier = Modifier.size(120.dp)) }
+fun ArcProgress() = Sticker {
+  val strokeWidth =
+    previewOverrideDp("strokeWidth", ArcProgressIndicatorDefaults.IndeterminateStrokeWidth)
+  ArcProgressIndicator(
+    modifier = Modifier.size(120.dp),
+    startAngle =
+      previewOverrideFloat("startAngle", ArcProgressIndicatorDefaults.IndeterminateStartAngle),
+    endAngle = previewOverrideFloat("endAngle", ArcProgressIndicatorDefaults.IndeterminateEndAngle),
+    angularDirection =
+      if (
+        previewOverrideChoice(
+          "angularDirection",
+          "counter-clockwise",
+          listOf("counter-clockwise", "clockwise"),
+        ) == "clockwise"
+      ) {
+        AngularDirection.Clockwise
+      } else {
+        AngularDirection.CounterClockwise
+      },
+    strokeWidth = strokeWidth,
+  )
+}
 
 @CatalogComponent(
   id = "LinearProgressIndicator",
@@ -153,8 +212,9 @@ fun LinearProgress() = Sticker {
   LinearProgressIndicator(
     progress = { progress },
     modifier = Modifier.width(150.dp),
+    enabled = previewOverrideBoolean("enabled", true),
     strokeWidth =
-      if (previewOverrideString("size", "large") == "small")
+      if (previewOverrideChoice("size", "large", listOf("large", "small")) == "small")
         LinearProgressIndicatorDefaults.StrokeWidthSmall
       else LinearProgressIndicatorDefaults.StrokeWidthLarge,
   )
