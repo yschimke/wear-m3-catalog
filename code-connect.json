@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-19T19:08:01.638Z",
+  "generatedAt": "2026-08-19T20:57:30.361Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -342,19 +342,19 @@
     {
       "componentId": "EdgeButton",
       "figmaLayerName": "EdgeButton",
-      "componentName": "EdgeButtonScreen",
+      "componentName": "EdgeButtonSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
       "confidence": "HIGH",
       "previewName": "ScreenEdgeButton",
-      "codeSnippet": "EdgeButtonScreen(\n    edgeButton = { },\n)",
+      "codeSnippet": "EdgeButtonSticker(\n    content = { },\n)",
       "imports": [
-        "import ee.schimke.wearm3catalog.EdgeButtonScreen"
+        "import ee.schimke.wearm3catalog.EdgeButtonSticker"
       ],
       "parameters": [
         {
-          "name": "edgeButton",
-          "type": "(BoxScope) -> Unit",
+          "name": "content",
+          "type": "() -> Unit",
           "hasDefault": false,
           "composableSlot": true
         }
@@ -760,19 +760,19 @@
     {
       "componentId": "CircularProgressIndicator",
       "figmaLayerName": "CircularProgressIndicator",
-      "componentName": "Sticker",
+      "componentName": "FullScreenSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
       "confidence": "HIGH",
       "previewName": "CircularProgress",
-      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
       "imports": [
-        "import ee.schimke.wearm3catalog.Sticker"
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
       ],
       "parameters": [
         {
           "name": "content",
-          "type": "() -> Unit",
+          "type": "(BoxScope) -> Unit",
           "hasDefault": false,
           "composableSlot": true
         }
@@ -980,19 +980,19 @@
     {
       "componentId": "SwipeToReveal/Card",
       "figmaLayerName": "SwipeToReveal/Card",
-      "componentName": "Sticker",
+      "componentName": "FullScreenSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
       "confidence": "HIGH",
       "previewName": "SwipeToRevealCard",
-      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
       "imports": [
-        "import ee.schimke.wearm3catalog.Sticker"
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
       ],
       "parameters": [
         {
           "name": "content",
-          "type": "() -> Unit",
+          "type": "(BoxScope) -> Unit",
           "hasDefault": false,
           "composableSlot": true
         }
@@ -1002,19 +1002,19 @@
     {
       "componentId": "SwipeToReveal/Button",
       "figmaLayerName": "SwipeToReveal/Button",
-      "componentName": "Sticker",
+      "componentName": "FullScreenSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
       "confidence": "HIGH",
       "previewName": "SwipeToRevealButton",
-      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
       "imports": [
-        "import ee.schimke.wearm3catalog.Sticker"
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
       ],
       "parameters": [
         {
           "name": "content",
-          "type": "() -> Unit",
+          "type": "(BoxScope) -> Unit",
           "hasDefault": false,
           "composableSlot": true
         }
