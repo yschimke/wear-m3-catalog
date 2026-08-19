@@ -92,6 +92,25 @@ jobs:
       # ONE. Sharding starts paying at a few thousand previews; this sheet is nowhere near, and a
       # shard carries its own fixed discovery and upload cost plus a merge job.
       render-shards: 1
+      # PUBLISH THE KIT'S CELLS ON THE FACE THIS CATALOG DRAWS THEM ON.
+      #
+      # `@CatalogFullScreenModes` is `showBackground = true, backgroundColor = 0xFF000000` on a
+      # round device, so a full-screen sticker is a black watch face with the component on it. The
+      # kit node it is compared against is an export of one cell, and for the components the kit
+      # draws on a specimen board rather than on a watch — TimeText, ScrollIndicator,
+      # LevelIndicator, both PageIndicators, CircularProgressIndicator — that cell arrives on
+      # transparency: 0.2-12% opaque against a sticker that is 78.3% (the inscribed disc).
+      #
+      # The comparison crops both sides to their content box, so those references were enlarged to
+      # the size of a watch face and scored against one. All 18 of them read `off` at 21.87-35.66%,
+      # which is a number about the missing face rather than about the component.
+      #
+      # This is the ONE colour that covers the sheet: Wear is dark-first and every full-screen
+      # preview here declares the same 0xFF000000. Only stickers whose alpha IS the device disc (or
+      # a full frame) get it, so the ~150 transparent component stickers are untouched, as are the
+      # 17 references whose kit cell already draws the face — those score identically before and
+      # after. See yschimke/compose-ai-tools docs/design/evidence/reference-backdrop/.
+      reference-backdrop: '#000000'
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
     secrets:
       # Publishes the `figma:` entries in design-map.json as design references on the delivery
