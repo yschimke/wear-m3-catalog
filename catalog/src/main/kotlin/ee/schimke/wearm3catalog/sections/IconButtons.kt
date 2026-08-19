@@ -3,7 +3,7 @@
 package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -24,8 +24,10 @@ import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Icon-Button` and `Text-Button` sets. Emphasis splits into a component per style, for
 // the reason Buttons.kt states: each is its own Wear Compose function. The kit's `Size=` axis does
@@ -56,7 +58,9 @@ private fun iconButtonSize(): Dp =
     else -> IconButtonDefaults.DefaultButtonSize
   }
 
-@Composable private fun favourite() = Icon(Icons.Filled.Favorite, contentDescription = "Favourite")
+// The kit draws a plus in every icon-button cell, so this does too — a heart is a different
+// picture in the one slot these components have.
+@Composable private fun kitGlyph() = Icon(Icons.Filled.Add, contentDescription = "Add")
 
 @CatalogComponent(
   id = "IconButton/Filled",
@@ -87,7 +91,7 @@ fun FilledIconAction() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
-    favourite()
+    kitGlyph()
   }
 }
 
@@ -121,7 +125,7 @@ fun FilledVariantIconAction() = Sticker {
     colors = IconButtonDefaults.filledVariantIconButtonColors(),
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
-    favourite()
+    kitGlyph()
   }
 }
 
@@ -154,7 +158,7 @@ fun TonalIconAction() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
-    favourite()
+    kitGlyph()
   }
 }
 
@@ -187,7 +191,7 @@ fun OutlinedIconAction() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
-    favourite()
+    kitGlyph()
   }
 }
 
@@ -221,7 +225,7 @@ fun StandardIconAction() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
-    favourite()
+    kitGlyph()
   }
 }
 
@@ -267,7 +271,7 @@ fun StandardIconAction() = Sticker {
 )
 @Composable
 fun TextAction() = Sticker {
-  val c = counted("A")
+  val c = counted(kitCopy("label", KitCopy.GLYPHS))
   val colors =
     when (previewOverrideString("style", "filled")) {
       "child" -> TextButtonDefaults.textButtonColors()

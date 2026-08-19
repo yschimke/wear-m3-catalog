@@ -82,6 +82,24 @@ are out of scope.
 
 ## Sticker conventions
 
+- **A sticker says what the kit says.** Content is not decoration here: a button the kit labels
+  `Primary label` must not be labelled `Filled`, because the difference is reported as a difference
+  and — since a sticker is cropped to what it draws — it changes the outline too, which then gets
+  the reference squashed into the wrong frame to be compared. Take every string from
+  [`KitCopy`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogCopy.kt) and read it through
+  `kitCopy(key, kit)`, never as a literal: the baked capture stays the kit's words and `key` becomes
+  a live knob on the preview server, so the realistic copy is still one keystroke away for a reader
+  browsing the sheet. Where a kit cell truncates its text, the constant is the **full** string it is
+  truncating. Adding a component means adding its kit strings there, with the node they came from.
+  `Motion.kt` is outside this: its recordings answer to no kit node (see below), so they keep copy
+  that reads like an app.
+- **The reference must be the same SHAPE of artwork as the render.** The kit publishes three kinds
+  of cell and only sizes tell them apart: *component* (`172×52`, `192×59` — pair with `Sticker`),
+  *display* (`192×192` — pair with `FullScreenSticker` on a round device), and *long scroll*
+  (`192×354`…`192×500` — a scrolling screen unrolled, which **nothing here can be diffed against**).
+  Where a set publishes both, as `Dialog` does behind `Scrolling=`, take the display cell: pointed at
+  a scroll cell the alert dialog reported its entire frame as a difference, because the comparison
+  squashes the reference to the render's aspect first. See [docs/DESIGN_MAP.md](docs/DESIGN_MAP.md).
 - One file per component **group**, opening with `@file:CatalogGroup(name = …, section = …)`.
 - Every `@CatalogComponent` carries a `caption`. A component with no caption publishes as a bare
   picture, and a test fails the build for it.

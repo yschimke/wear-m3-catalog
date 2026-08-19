@@ -19,7 +19,9 @@ import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.EdgeButtonScreen
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.counted
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Edge-Button` set. This is the one component so far that is published on the round
 // frame rather than cropped: its whole shape is the bottom curve of the display, so a wrap-and-crop
@@ -66,7 +68,7 @@ import ee.schimke.wearm3catalog.counted
 )
 @Composable
 fun ScreenEdgeButton() = EdgeButtonScreen {
-  val c = counted("Done")
+  val c = counted(kitCopy("label", KitCopy.EDGE_BUTTON_LABEL))
   val colors =
     when (previewOverrideString("style", "filled")) {
       "filled-variant" -> ButtonDefaults.filledVariantButtonColors()

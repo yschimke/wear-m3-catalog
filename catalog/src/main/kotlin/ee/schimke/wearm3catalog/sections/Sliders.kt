@@ -27,8 +27,10 @@ import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.catalogInteractive
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Slider` and `Stepper` sets. Both own their value: a control that cannot be moved is
 // not the component, so a live session drags and steps for real while the baked capture stays at
@@ -109,7 +111,7 @@ fun ValueStepper() = FullScreenSticker {
     if (previewOverrideBoolean("icon", false)) {
       Icon(Icons.Filled.Settings, contentDescription = "Volume")
     } else {
-      Text("Volume")
+      Text(kitCopy("label", KitCopy.STEPPER_LABEL))
     }
   }
 }

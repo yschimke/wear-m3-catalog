@@ -3,8 +3,9 @@
 package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -16,7 +17,6 @@ import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.LevelIndicator
 import androidx.wear.compose.material3.ScrollIndicator
-import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.VerticalPageIndicator
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.overrides.previewOverrideInt
@@ -73,14 +73,22 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 )
 @Composable
 fun ScrollRail() = FullScreenSticker {
-  // REAL CONTENT, OR THE POSITION CELLS ARE A LIE. A `ScrollState` seeded to an offset it cannot
-  // reach reports position zero: with nothing scrollable its maximum is 0, so every cell drew the
-  // thumb at the top and published three identical pictures under three names. The column is tall
-  // enough to overflow several screens, so the seeded offsets land where they claim to.
+  // SCROLLABLE, BUT EMPTY — and it has to be both.
+  //
+  // Scrollable, because a `ScrollState` seeded to an offset it cannot reach reports position zero:
+  // with nothing scrollable its maximum is 0, so every cell drew the thumb at the top and published
+  // three identical pictures under three names. The column overflows several screens, so the
+  // seeded offsets land where they claim to.
+  //
+  // Empty, because the kit's `Scroll-Indicator` cells are a bare black display with the rail on the
+  // bezel and nothing else in the frame. This column used to carry twenty numbered rows, and they
+  // were the loudest thing in the comparison: a screenful of text diffed against a blank one, with
+  // the rail — the only thing either side is a picture OF — a few pixels wide at the edge. Spacers
+  // scroll exactly as well as labels do and leave the component alone in the frame.
   val state = rememberScrollState()
   val position = previewOverrideFloat("position", 0f)
   Column(Modifier.fillMaxSize().verticalScroll(state)) {
-    repeat(20) { index -> Text("Row ${index + 1}", modifier = Modifier.padding(8.dp)) }
+    repeat(20) { Spacer(Modifier.height(40.dp)) }
   }
   LaunchedEffect(position) { state.scrollTo((state.maxValue * position).toInt()) }
   ScrollIndicator(state = state, modifier = Modifier.align(Alignment.CenterEnd))

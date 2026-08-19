@@ -18,8 +18,10 @@ import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogImage
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Card` set — `Layout type = App Card | Title Card 1..3 | Title Card + Icon`, over
 // `Style = Tonal | Outline | Background Image` and a content axis.
@@ -62,7 +64,7 @@ import ee.schimke.wearm3catalog.counted
 // the caption instead.
 @Composable
 fun PlainCard() = Sticker {
-  val c = counted("Card")
+  val c = counted(kitCopy("content", KitCopy.CARD_CONTENT))
   if (previewOverrideString("style", "tonal") == "image") {
     Card(
       onClick = c.onClick,
@@ -86,7 +88,7 @@ fun PlainCard() = Sticker {
 @CatalogModes
 @Composable
 fun OutlineCard() = Sticker {
-  val c = counted("Outlined")
+  val c = counted(kitCopy("content", KitCopy.CARD_CONTENT))
   OutlinedCard(onClick = c.onClick, modifier = Modifier.width(180.dp)) { Text(c.label) }
 }
 
@@ -111,18 +113,18 @@ fun OutlineCard() = Sticker {
 )
 @Composable
 fun TitledCard() = Sticker {
-  val c = counted("Workout")
+  val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
   val content = previewOverrideString("content", "title")
   TitleCard(
     onClick = c.onClick,
     title = { Text(c.label) },
     time =
       if (content == "time") {
-        { Text("12m") }
+        { Text(kitCopy("time", KitCopy.TIMESTAMP)) }
       } else null,
     subtitle =
       if (content == "subtitle") {
-        { Text("Outdoor run") }
+        { Text(kitCopy("subtitle", KitCopy.SUBTITLE)) }
       } else null,
     modifier = Modifier.width(180.dp),
     colors = CardDefaults.cardColors(),
@@ -138,14 +140,14 @@ fun TitledCard() = Sticker {
 @CatalogModes
 @Composable
 fun ApplicationCard() = Sticker {
-  val c = counted("Messages")
+  val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
   AppCard(
     onClick = c.onClick,
-    appName = { Text("Messages") },
+    appName = { Text(kitCopy("appName", KitCopy.APP_LABEL)) },
     title = { Text(c.label) },
-    time = { Text("10:10") },
+    time = { Text(kitCopy("time", KitCopy.TIMESTAMP)) },
     modifier = Modifier.width(180.dp),
   ) {
-    Text("On my way")
+    Text(kitCopy("content", KitCopy.CARD_CONTENT))
   }
 }

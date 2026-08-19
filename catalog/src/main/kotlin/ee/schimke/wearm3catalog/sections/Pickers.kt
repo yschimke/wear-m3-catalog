@@ -27,14 +27,19 @@ import java.time.LocalTime
 // Type axis splits and the orderings within each fold as cells (AGENTS.md).
 //
 // PINNED, ALWAYS. A picker opened on "today" or "now" renders differently on every nightly publish,
-// and the delivery branch's history becomes noise. The date is a fixed instant and the time is
-// 10:10, which is also what the kit draws.
+// and the delivery branch's history becomes noise.
+//
+// PINNED TO THE KIT'S OWN INSTANT, which is not the one this file used to carry. The kit's `Picker`
+// cells draw **1 January** and **00:00** — its date wheels read `31 / 01 / 02` beside `Dec / Jan /
+// Feb`, and every clock cell reads `00 : 00` — so a comparison against 19 August at 10:10 differed
+// on every visible wheel of every picker cell. A pinned instant is only worth pinning to the kit's:
+// the value is arbitrary to us and load-bearing for the diff.
 //
 // These fill the screen — a picker IS the screen it appears on — so they publish on the round
 // frame.
 
-private val PINNED_DATE: LocalDate = LocalDate.of(2026, 8, 19)
-private val PINNED_TIME: LocalTime = LocalTime.of(10, 10)
+private val PINNED_DATE: LocalDate = LocalDate.of(2026, 1, 1)
+private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
 
 @CatalogComponent(
   id = "DatePicker",
@@ -70,7 +75,7 @@ fun DateWheels() = FullScreenSticker {
   id = "TimePicker",
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8697",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
-  caption = "Wheels for a time, pinned to 10:10; the kit's clock formats fold in as cells.",
+  caption = "Wheels for a time, pinned to midnight; the kit's clock formats fold in as cells.",
 )
 @CatalogFullScreenModes
 @OverrideVariant(
@@ -105,7 +110,7 @@ fun TimeWheels() = FullScreenSticker {
 @CatalogFullScreenModes
 @Composable
 fun SingleColumnPicker() = FullScreenSticker {
-  val state = rememberPickerState(initialNumberOfOptions = 12, initiallySelectedIndex = 4)
+  val state = rememberPickerState(initialNumberOfOptions = 25, initiallySelectedIndex = 0)
   // `fillMaxSize()`, and it is not decoration. `Picker` hands the caller's modifier to a plain
   // `Box` that wraps its content — so with no modifier the wheel takes the full height (the lazy
   // column inside fills it) but only its own content's width, and a wrapped child lands at the
@@ -126,6 +131,9 @@ fun SingleColumnPicker() = FullScreenSticker {
     // (`DatePickerTokens.ContentLargeTypography`), so the primitive reads like the wheels it
     // builds; the theme's body default drew numerals a third of the size and stacked fifteen of
     // them up the screen.
-    Text("${(index + 1) * 5}", style = MaterialTheme.typography.numeralMedium)
+    // Zero-padded, and starting at zero: the kit's cell reads `24 / 00 / 01` down the wheel,
+    // which is 25 options rendered "%02d" resting on the first. Counting by fives from 25 put
+    // three numbers on screen that the reference does not contain.
+    Text(index.toString().padStart(2, '0'), style = MaterialTheme.typography.numeralMedium)
   }
 }
