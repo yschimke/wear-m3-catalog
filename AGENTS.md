@@ -54,11 +54,10 @@ other mutating Figma tool, and do not enable design-parity's Code-to-Canvas push
 
 What is NOT allowed is silence. A `@CatalogComponent` with neither fails
 `CatalogInventoryTest.every component is either mapped to the kit or says why not` — so "I forgot to
-look" cannot masquerade as "the kit has nothing". `scripts/design-map.sh` reports the two apart but
-does **not** pass `--strict`: that flag gates on every kind of absence *including a stated one*, so
-it fails this repo on the four door-2 components that are exactly as intended. The posture this repo
-wants — strict about silence, permissive about a stated absence — is proposed upstream as
-`--allow-stated-absence`; bring the flag back on the release that carries it.
+look" cannot masquerade as "the kit has nothing". `scripts/design-map.sh` fails the same way, before
+a render is attempted: it passes `--strict --allow-stated-absence`, which is fatal on a missing
+reference and on captures that pair with none, while accepting an absence a `noReference` explains.
+Plain `--strict` would reject the four door-2 components too, which is why the pair is what runs.
 
 Door 2 is deliberately narrower than it sounds: it is for a **component of this library**, not for
 anything a screen can be built from. A composition an app assembles (the kit's `Media-Player`) is
