@@ -35,12 +35,22 @@ other mutating Figma tool, and do not enable design-parity's Code-to-Canvas push
 
 ## What enters the inventory, and what it is called
 
-**Membership is the kit's call.** Every published component names one exact, renderable kit node in
-its `reference`. A Wear Compose API the kit never published does not enter the component inventory
-at all, and there is no "published but unmapped" state:
-`CatalogInventoryTest.every component maps to the Wear kit` fails the build for a
-`@CatalogComponent` with no `reference`, and `scripts/design-map.sh` fails the same way (it passes
-`--strict`) before a render is attempted.
+**Membership has two doors, and every component walks through one of them.**
+
+1. **The kit's door.** A component that reproduces a published kit set names one exact, renderable
+   kit node in its `reference`. This is the default and the majority.
+2. **The library's door.** A Wear Compose Material 3 component the kit never published still belongs
+   on a sheet whose reader is looking for *the component set*, and it enters with
+   `noReference = "<why the kit has none>"`. `ButtonGroup` is the plain case: real API, no kit set.
+
+What is NOT allowed is silence. A `@CatalogComponent` with neither fails
+`CatalogInventoryTest.every component is either mapped to the kit or says why not`, and
+`scripts/design-map.sh` fails the same way (it passes `--strict`) before a render is attempted —
+so "I forgot to look" cannot masquerade as "the kit has nothing".
+
+Door 2 is deliberately narrower than it sounds: it is for a **component of this library**, not for
+anything a screen can be built from. A composition an app assembles (the kit's `Media-Player`) is
+still out, and so is app content (its `Avatar-*`).
 
 **Naming is Compose's call.** Ids follow the Wear Compose API surface, because that is what a reader
 of a Compose catalog greps for. The one hard rule is not to borrow a kit word for something the kit
@@ -105,6 +115,29 @@ are out of scope.
   library and therefore does not belong in the comparison inventory. The shape specimens are the
   documented exception in the other direction: they draw mobile `MaterialShapes` because Wear
   publishes no shape library of its own (see README).
+
+## Themes
+
+The declared themes in `CatalogThemes.kt` are **not inventory** — no `@CatalogComponent`, no kit
+node, no `kit-sets.json` row. Membership is still the kit's call; a theme is a re-skin of what is
+already a member.
+
+- **A sticker frame installs its theme through `CatalogMaterialTheme`, never a bare
+  `MaterialTheme { … }`.** A `@WearThemeCatalog` provider wraps the sticker from the outside, and an
+  inner theme silently shadows it: every entry in the switcher then renders identical pixels and
+  every specimen sheet reports the stock palette. A new full-screen frame that reaches for
+  `MaterialTheme` directly reintroduces that, and nothing fails.
+- **`@WearThemeCatalog`, not the mobile `@ThemeCatalog`.** The two are not interchangeable — the
+  mobile one's specimen reads `androidx.compose.material3.MaterialTheme`, which these providers
+  never install, so the sheet reports the mobile baseline instead of the theme. Enforced by
+  `CatalogInventoryTest`.
+- **A theme carries a type scale, not only a palette.** Re-point every role explicitly:
+  `Typography(defaultFontFamily = …)` is a no-op on Wear (it fills in a family only where a style
+  has none, and every stock role already declares one), so a theme built that way renders in the
+  stock face no matter what it declares.
+- **Reproduce a borrowed theme by its recipe, not its output.** The Confetti palettes run the same
+  seed through the same library Confetti uses rather than transcribing the roles it resolved to,
+  because a transcribed table drifts the first time either side moves and nothing notices.
 
 ## Motion
 

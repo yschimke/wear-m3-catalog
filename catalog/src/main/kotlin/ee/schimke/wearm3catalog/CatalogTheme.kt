@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,29 @@ import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.timeTextCurvedText
 
 /**
+ * The Wear [MaterialTheme] every frame below installs — unless a named theme already installed one.
+ *
+ * A `@WearThemeCatalog` provider (see `CatalogThemes.kt`) wraps the sticker from the *outside*, so
+ * a bare `MaterialTheme { … }` in here would shadow it and reset the palette and type scale it just
+ * chose. The result is not an error and not obviously wrong on screen: every entry in the preview
+ * server's theme select renders byte-identical pixels, and every generated specimen sheet reports
+ * the stock Wear palette. Standing down when [LocalCatalogThemeOverride] is set is what makes a
+ * theme choice reach the component stickers themselves and not only the specimen sheets.
+ *
+ * Absent a provider this is exactly the stock `MaterialTheme`, so an un-themed render is unchanged.
+ */
+@Composable
+private fun CatalogMaterialTheme(content: @Composable () -> Unit) {
+  if (LocalCatalogThemeOverride.current) content() else MaterialTheme(content = content)
+}
+
+/**
+ * True while a `@WearThemeCatalog` provider owns the Wear Material theme wrapping this sticker. Set
+ * only by the providers in `CatalogThemes.kt`; read only by [CatalogMaterialTheme].
+ */
+internal val LocalCatalogThemeOverride = staticCompositionLocalOf { false }
+
+/**
  * The catalog's sticker frame: one component in the stock Wear [MaterialTheme] on a **transparent**
  * background, cropped tight to the component.
  *
@@ -34,7 +58,7 @@ import androidx.wear.compose.material3.timeTextCurvedText
  */
 @Composable
 fun Sticker(content: @Composable () -> Unit) {
-  MaterialTheme { Box(Modifier.padding(8.dp)) { content() } }
+  CatalogMaterialTheme { Box(Modifier.padding(8.dp)) { content() } }
 }
 
 /**
@@ -53,7 +77,7 @@ fun Sticker(content: @Composable () -> Unit) {
  */
 @Composable
 fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
-  MaterialTheme {
+  CatalogMaterialTheme {
     Box(Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)) { content() }
   }
 }
@@ -75,7 +99,7 @@ fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
  */
 @Composable
 fun EdgeButtonScreen(edgeButton: @Composable BoxScope.() -> Unit) {
-  MaterialTheme {
+  CatalogMaterialTheme {
     AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) {
       val state = rememberTransformingLazyColumnState()
       ScreenScaffold(scrollState = state, edgeButton = edgeButton) { padding ->

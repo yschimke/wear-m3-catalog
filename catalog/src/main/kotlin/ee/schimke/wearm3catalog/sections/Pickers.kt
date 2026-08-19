@@ -2,9 +2,12 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.wear.compose.material3.DatePicker
 import androidx.wear.compose.material3.DatePickerType
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Picker
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimePicker
@@ -100,5 +103,26 @@ fun TimeWheels() = FullScreenSticker {
 @Composable
 fun SingleColumnPicker() = FullScreenSticker {
   val state = rememberPickerState(initialNumberOfOptions = 12, initiallySelectedIndex = 4)
-  Picker(state = state, contentDescription = { "Minutes" }) { index -> Text("${(index + 1) * 5}") }
+  // `fillMaxSize()`, and it is not decoration. `Picker` hands the caller's modifier to a plain
+  // `Box` that wraps its content — so with no modifier the wheel takes the full height (the lazy
+  // column inside fills it) but only its own content's width, and a wrapped child lands at the
+  // frame's top-start. That published a picker pinned to the left edge of the watch with the round
+  // mask biting a piece out of every option. The library's own `DatePicker` never hits it because
+  // each of its `PickerGroupItem`s is sized `Modifier.width(…).fillMaxHeight()` inside a centred
+  // row.
+  //
+  // A full-screen picker gets the screen: the wheel then centres on it, and the scaling and the
+  // top/bottom gradients read the way they do on the watch.
+  Picker(
+    state = state,
+    contentDescription = { "Minutes" },
+    modifier = Modifier.fillMaxSize(),
+  ) { index ->
+    // The option style is the caller's to supply — `Picker` styles nothing. This is the token the
+    // date and time pickers use for their own options at this screen size
+    // (`DatePickerTokens.ContentLargeTypography`), so the primitive reads like the wheels it
+    // builds; the theme's body default drew numerals a third of the size and stacked fifteen of
+    // them up the screen.
+    Text("${(index + 1) * 5}", style = MaterialTheme.typography.numeralMedium)
+  }
 }

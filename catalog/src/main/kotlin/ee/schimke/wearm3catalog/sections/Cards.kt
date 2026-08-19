@@ -44,7 +44,9 @@ import ee.schimke.wearm3catalog.counted
 @CatalogComponent(
   id = "Card",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "The plain container: one content slot, tonal by default.",
+  caption =
+    "The plain container: one content slot, tonal by default. A no-`onClick` overload presents " +
+      "the same card without the tap.",
 )
 @CatalogModes
 @OverrideVariant(
@@ -53,6 +55,10 @@ import ee.schimke.wearm3catalog.counted
   kitAxis = "Style",
   kitValue = "Background Image",
 )
+// The no-`onClick` overload — a card that presents rather than acts — is NOT a cell here. It is
+// pixel-identical to this one at rest: what differs is whether a tap does anything, which a still
+// cannot show, so a cell would publish the same picture under a second name. It is documented in
+// the caption instead.
 @Composable
 fun PlainCard() = Sticker {
   val c = counted("Card")

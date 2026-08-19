@@ -1,5 +1,6 @@
 package ee.schimke.wearm3catalog
 
+import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
 import ee.schimke.wearm3catalog.sections.SHAPE_SET
 import java.io.File
 import org.junit.Assert.assertEquals
@@ -27,13 +28,69 @@ class CatalogInventoryTest {
 
   private val sources: List<Pair<File, String>> = sections.map { it to it.readText() }
 
-  private val components =
-    Regex("""@CatalogComponent\((.*?)\)\n@""", RegexOption.DOT_MATCHES_ALL).let { block ->
-      sources.flatMap { (file, text) -> block.findAll(text).map { file to it.groupValues[1] } }
+  /**
+   * Every `@CatalogComponent(...)` block, sliced by balancing parentheses rather than by a regex
+   * that stops at the first `)`. A caption or a reason routinely contains parentheses, and a
+   * greedy-or-lazy match either swallows the next annotation or truncates mid-argument.
+   */
+  private val components: List<Pair<File, String>> = buildList {
+    for ((file, text) in sources) {
+      var at = text.indexOf("@CatalogComponent(")
+      while (at >= 0) {
+        var depth = 0
+        var i = at + "@CatalogComponent".length
+        var end = -1
+        while (i < text.length) {
+          when (text[i]) {
+            '(' -> depth++
+            ')' -> {
+              depth--
+              if (depth == 0) {
+                end = i
+                i = text.length
+              }
+            }
+          }
+          i++
+        }
+        if (end < 0) break
+        add(file to text.substring(at, end))
+        at = text.indexOf("@CatalogComponent(", end)
+      }
     }
+  }
 
-  private fun arg(body: String, name: String): String? =
-    Regex("""$name = "([^"]*)"""").find(body)?.groupValues?.get(1)
+  /**
+   * The value of a named argument, joining a **concatenated** string literal back together. A
+   * reason long enough to be worth stating is long enough to be wrapped as `"…" + "…"`, and reading
+   * only the first fragment made the arg look absent — which failed the build for components that
+   * had said exactly what the rule asks.
+   */
+  private fun arg(body: String, name: String): String? {
+    // Built by concatenation on purpose: a raw string ending in `= """` sits one quote away from
+    // meaning something else entirely.
+    // `\\s*` around the `=` because ktfmt wraps a long value onto the next line: an argument whose
+    // reason is worth stating is exactly the one that wraps, and demanding `name = ` read those as
+    // absent — failing the build for components that had said precisely what the rule asks.
+    val start = Regex("\\b" + name + "\\s*=\\s*").find(body)?.range?.last ?: return null
+    val builder = StringBuilder()
+    var i = start
+    var sawLiteral = false
+    while (i < body.length) {
+      when {
+        body[i].isWhitespace() || body[i] == '+' -> i++
+        body[i] == '"' -> {
+          val close = body.indexOf('"', i + 1)
+          if (close < 0) return if (sawLiteral) builder.toString() else null
+          builder.append(body, i + 1, close)
+          sawLiteral = true
+          i = close + 1
+        }
+        else -> return if (sawLiteral) builder.toString() else null
+      }
+    }
+    return if (sawLiteral) builder.toString() else null
+  }
 
   @Test
   fun `every section file declares its group and section`() {
@@ -69,21 +126,28 @@ class CatalogInventoryTest {
   }
 
   /**
-   * Membership is the kit's call: a component with no exact, renderable kit node does not enter the
-   * inventory at all, so there is no "published but unmapped" state to fall into. `--strict` in
+   * Membership has two doors — a kit node, or a stated reason the kit has none — and what this
+   * forbids is neither. A component that simply never said is indistinguishable from one nobody
+   * checked, and that is the state the rule exists to keep out. `--strict` in
    * `scripts/design-map.sh` fails the same way before a render is attempted; this fails first, and
    * without a Figma token.
    */
   @Test
-  fun `every component maps to the Wear kit`() {
+  fun `every component is either mapped to the kit or says why not`() {
     for ((file, body) in components) {
       val id = arg(body, "id")
       val reference = arg(body, "reference")
-      assertTrue("$id (${file.name}) has no reference to a kit node", !reference.isNullOrBlank())
+      val noReference = arg(body, "noReference")
       assertTrue(
-        "$id points at $reference, which is not a node in the M3 Wear OS Apps Design Kit",
-        reference!!.startsWith("figma:$WEAR_KIT_FILE_KEY/"),
+        "$id (${file.name}) names neither a kit node nor a reason the kit has none — say which",
+        !reference.isNullOrBlank() || !noReference.isNullOrBlank(),
       )
+      if (!reference.isNullOrBlank()) {
+        assertTrue(
+          "$id points at $reference, which is not a node in the M3 Wear OS Apps Design Kit",
+          reference.startsWith("figma:$WEAR_KIT_FILE_KEY/"),
+        )
+      }
     }
   }
 
@@ -106,6 +170,64 @@ class CatalogInventoryTest {
 
     // The base render draws the first entry with no knob turned, so it is the one key with no cell.
     assertEquals(keys.drop(1).toSet(), seeded)
+  }
+
+  /**
+   * The declared themes stay declared, and stay **Wear** themes.
+   *
+   * `@WearThemeCatalog` is `BINARY` retention — discovery reads it off the class file with
+   * ClassGraph, so it is deliberately not reflectable at runtime. The annotation's presence is
+   * therefore checked in the source; what reflection *can* prove is the half that breaks the
+   * render, since `PreviewWrapperProvider` is how the renderer invokes a theme at all.
+   *
+   * The mobile `@ThemeCatalog` on one of these would be the expensive mistake: the providers
+   * install the Wear `MaterialTheme`, so the generated sheet would report the baseline mobile M3
+   * palette instead of the theme it declares, with no error and a sheet that looks entirely
+   * plausible.
+   */
+  @Test
+  fun `declared themes are Wear wrapper providers`() {
+    val providers: List<Any> =
+      listOf(
+        ConfettiDefaultTheme(),
+        KotlinConfTheme(),
+        AndroidMakersTheme(),
+        DroidconTheme(),
+        DevFestTheme(),
+        GoogleSansFlexTheme(),
+      )
+    for (provider in providers) {
+      assertTrue(
+        "${provider::class.simpleName} must implement PreviewWrapperProvider, which is how the " +
+          "renderer invokes a declared theme",
+        provider is PreviewWrapperProvider,
+      )
+    }
+
+    val themes = File("src/main/kotlin/ee/schimke/wearm3catalog/CatalogThemes.kt").readText()
+    assertEquals(
+      "every declared theme must keep its @WearThemeCatalog annotation, else it stops being " +
+        "offered in the preview server's theme select and its specimen sheet stops being generated",
+      providers.size,
+      Regex("""@WearThemeCatalog\(""").findAll(themes).count(),
+    )
+    assertEquals(
+      "a Wear theme annotated with the MOBILE @ThemeCatalog publishes a specimen sheet of the " +
+        "baseline mobile M3 palette instead of the theme it declares",
+      0,
+      Regex("""(?<!Wear)ThemeCatalog\(""").findAll(themes).count(),
+    )
+  }
+
+  /**
+   * The four conference seeds are four colours. A copy-paste slip here publishes two themes that
+   * render identical pixels under different names — which reads as a working theme switcher and is
+   * the one defect a reviewer scrolling a sheet of round stickers will not see.
+   */
+  @Test
+  fun `each conference identity has its own seed`() {
+    val seeds = listOf(KotlinConfSeed, AndroidMakersSeed, DroidconSeed, DevFestSeed)
+    assertEquals("conference seeds must be distinct", seeds.size, seeds.toSet().size)
   }
 
   private companion object {

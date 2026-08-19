@@ -21,7 +21,6 @@ import androidx.wear.compose.material3.rememberPlaceholderState
 import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
-import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.Sticker
 
@@ -38,6 +37,14 @@ import ee.schimke.wearm3catalog.Sticker
 // session, where it can actually shimmer — and `Motion.kt` records it as a GIF, which is where a
 // reader should go to see what these stickers are the frozen first frame of.
 //
+// NO STYLE CELLS, AND THE KIT HAS THEM
+//
+// The kit's placeholder sets carry `Style = Filled | Tonal | Outline`, and Compose renders all of
+// them identically while the placeholder is showing: `Modifier.placeholder` paints over the
+// container, so the style underneath is invisible until the content arrives. Authored as cells they
+// published one picture under three names — caught by `CatalogRenderTest`, not by review. The style
+// belongs to the component being placeheld, and it is already published there.
+//
 // The motion capture is NOT on these functions, deliberately. An `@AnimatedPreview` here would ride
 // every `@OverrideVariant` cell too, and the animated path does not apply the cells' knobs: all
 // three placeholder styles came out byte-identical, three copies of the base GIF published under
@@ -49,13 +56,6 @@ import ee.schimke.wearm3catalog.Sticker
   caption = "A button whose label has not arrived yet.",
 )
 @CatalogModes
-@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
-@OverrideVariant(
-  name = "outlined",
-  strings = ["style=outlined"],
-  kitAxis = "Style",
-  kitValue = "Outline",
-)
 @Composable
 fun ButtonPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
@@ -89,12 +89,6 @@ fun IconButtonPlaceholder() = Sticker {
   caption = "A card whose content has not arrived yet.",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "outlined",
-  strings = ["style=outlined"],
-  kitAxis = "Style",
-  kitValue = "Outline",
-)
 @Composable
 fun CardPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)

@@ -59,6 +59,13 @@ dependencies {
   implementation(libs.wear.compose.ui.tooling)
   implementation(libs.wear.tooling.preview)
 
+  // The declared themes in `CatalogThemes.kt`. `ui-text-google-fonts` resolves their typefaces —
+  // Roboto Flex, Inter, JetBrains Mono, Google Sans Flex — as downloadable Google fonts, so no TTF
+  // is vendored here; materialkolor builds the conference palettes from their seed colours the way
+  // Confetti Wear itself does, rather than this repo transcribing the resolved roles by hand.
+  implementation(libs.compose.ui.text.google.fonts)
+  implementation(libs.materialkolor)
+
   // MOBILE Material 3, for `MaterialShapes` and `RoundedPolygon.toShape()` ONLY.
   //
   // The kit's Shapes page publishes the 35 expressive shapes — Circle, Square, … Heart — and Wear

@@ -4,6 +4,7 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.ButtonGroup
 import androidx.wear.compose.material3.ChildButton
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.CompactButton
@@ -19,6 +21,7 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
+import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -313,4 +316,31 @@ fun LoadingButton() = Sticker {
     icon = { CircularProgressIndicator(progress = { 0.35f }, modifier = Modifier.size(24.dp)) },
     label = { Text("Sending") },
   )
+}
+
+// `ButtonGroup` is a Wear Compose component with no kit set: the kit draws button rows as instances
+// of its button sets side by side, which is a layout an app makes rather than a component it
+// publishes. The library disagrees, and it is the library a reader of this sheet is calling — so it
+// enters through the second door (AGENTS.md) with the reason stated.
+@CatalogComponent(
+  id = "ButtonGroup",
+  noReference =
+    "The kit publishes no button-group set — it draws rows as side-by-side instances of its " +
+      "button sets. This is a Wear Compose component with no kit counterpart.",
+  caption = "Buttons that share a row and expand away from whichever one is pressed.",
+)
+@CatalogModes
+@OverrideVariant(name = "three", ints = ["count=3"])
+@Composable
+fun ButtonRowGroup() = Sticker {
+  val count = previewOverrideInt("count", 2)
+  ButtonGroup(modifier = Modifier.width(180.dp)) {
+    repeat(count) { index ->
+      Button(
+        onClick = {},
+        modifier = Modifier.weight(1f),
+        label = { Text(('A' + index).toString()) },
+      )
+    }
+  }
 }

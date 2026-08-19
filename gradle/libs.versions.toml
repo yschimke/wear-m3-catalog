@@ -24,6 +24,11 @@ compose-material3 = "1.5.0-alpha26"
 composePreviewPlugin = "1.15.0"
 composePreviewAnnotations = "1.15.0"
 
+# materialkolor — the dynamic-colour engine Confetti Wear builds its conference palettes with. The
+# declared themes in `CatalogThemes.kt` reproduce them by running the same seed through the same
+# library rather than transcribing the resolved roles, which is what stops the two drifting.
+materialkolor = "5.0.0"
+
 robolectric = "4.17-beta-2"
 junit = "4.13.2"
 
@@ -37,6 +42,9 @@ compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
+# `Font(GoogleFont("Google Sans Flex"), provider)` — the declared themes' typefaces resolve as
+# downloadable Google fonts rather than vendored TTFs, so this module ships no font bytes.
+compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
 # `MaterialShapes` / `RoundedPolygon.toShape()` — the expressive shape library. Mobile Material 3
 # because that is the only artifact that publishes it; see catalog/build.gradle.kts.
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
@@ -48,6 +56,8 @@ wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.
 
 composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewAnnotations" }
 composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewAnnotations" }
+
+materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 junit = { module = "junit:junit", version.ref = "junit" }
