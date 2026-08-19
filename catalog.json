@@ -198,7 +198,7 @@
       "wireframe": "wireframes/button-filled.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 71
+      "bodyLine": 76
     },
     {
       "componentId": "Button/FilledVariant",
@@ -395,7 +395,7 @@
       "wireframe": "wireframes/button-filledvariant.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 95
+      "bodyLine": 100
     },
     {
       "componentId": "Button/Tonal",
@@ -592,7 +592,7 @@
       "wireframe": "wireframes/button-tonal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 120
+      "bodyLine": 125
     },
     {
       "componentId": "Button/Outlined",
@@ -789,7 +789,7 @@
       "wireframe": "wireframes/button-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 144
+      "bodyLine": 149
     },
     {
       "componentId": "Button/Child",
@@ -986,7 +986,7 @@
       "wireframe": "wireframes/button-child.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 168
+      "bodyLine": 173
     },
     {
       "componentId": "Button/Compact",
@@ -1435,7 +1435,347 @@
       "wireframe": "wireframes/button-compact.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 204
+      "bodyLine": 209
+    },
+    {
+      "componentId": "Button/ImageBackground",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-imagebackground/ideal__default.png",
+          "state": "default",
+          "width": 189,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-imagebackground__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-imagebackground/ideal__disabled.png",
+          "state": "disabled",
+          "width": 189,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-imagebackground__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-imagebackground/ideal__secondary-label.png",
+          "state": "secondary-label",
+          "width": 194,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-imagebackground__ideal__secondary-label",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton_VARIANT_secondary-label",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "secondary",
+              "type": "bool",
+              "label": "secondary",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 157,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 157,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 157,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "A button over an image, with the scrim that keeps its label legible.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
+      "wireframe": "wireframes/button-imagebackground.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 272
+    },
+    {
+      "componentId": "Button/Loading",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/button-loading/ideal__default.png",
+          "state": "default",
+          "width": 263,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-loading/ideal__outlined.png",
+          "state": "outlined",
+          "width": 263,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-loading/ideal__tonal.png",
+          "state": "tonal",
+          "width": 263,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 231,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 231,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 231,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "A button waiting on the work it started — the kit's loading pattern.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
+      "wireframe": "wireframes/button-loading.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 301
     },
     {
       "componentId": "Card",
@@ -1448,6 +1788,56 @@
           "height": 160,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/card__ideal__default",
           "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/card/ideal__background-image.png",
+          "state": "background-image",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/card__ideal__background-image",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard_VARIANT_background-image",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "current": {
+                "kind": "string",
+                "value": "image"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
           "density": 2
         }
       ],
@@ -1476,7 +1866,7 @@
       "wireframe": "wireframes/card.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 52
+      "bodyLine": 57
     },
     {
       "componentId": "Card/Outlined",
@@ -1517,7 +1907,7 @@
       "wireframe": "wireframes/card-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 64
+      "bodyLine": 80
     },
     {
       "componentId": "TitleCard",
@@ -1638,7 +2028,7 @@
       "wireframe": "wireframes/titlecard.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 88
+      "bodyLine": 104
     },
     {
       "componentId": "AppCard",
@@ -1679,7 +2069,7 @@
       "wireframe": "wireframes/appcard.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 114
+      "bodyLine": 130
     },
     {
       "componentId": "AlertDialog",
@@ -5141,6 +5531,297 @@
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
       "sourceModule": ":catalog",
       "bodyLine": 101
+    },
+    {
+      "componentId": "Placeholder/Button",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-button/ideal__default.png",
+          "state": "default",
+          "width": 332,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-button/ideal__outlined.png",
+          "state": "outlined",
+          "width": 332,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-button/ideal__tonal.png",
+          "state": "tonal",
+          "width": 332,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 300,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 300,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 300,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Communication",
+      "group": "Placeholders",
+      "caption": "A button whose label has not arrived yet.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
+      "wireframe": "wireframes/placeholder-button.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 54
+    },
+    {
+      "componentId": "Placeholder/IconButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-iconbutton/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-iconbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.IconButtonPlaceholder",
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Communication",
+      "group": "Placeholders",
+      "caption": "An icon button whose icon has not arrived yet.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44843",
+      "wireframe": "wireframes/placeholder-iconbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 72
+    },
+    {
+      "componentId": "Placeholder/Card",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-card/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-card__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-card/ideal__outlined.png",
+          "state": "outlined",
+          "width": 392,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-card__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 360,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Communication",
+      "group": "Placeholders",
+      "caption": "A card whose content has not arrived yet.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
+      "wireframe": "wireframes/placeholder-card.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 93
     },
     {
       "componentId": "CircularProgressIndicator",
@@ -10324,7 +11005,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-18T23:54:45.383Z",
+  "generatedAt": "2026-08-19T00:02:36.012Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
