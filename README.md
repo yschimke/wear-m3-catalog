@@ -32,6 +32,11 @@ that reproduce it or why it is absent — and `CatalogKitCoverageTest` holds it 
 both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation
 that earned it.
 
+Four components enter through the **library's** door instead — real Wear Compose Material 3
+components the kit never published, each carrying `noReference` with the reason: `ButtonGroup`,
+`ArcProgressIndicator`, `TransformingLazyColumn` and `Scaffold`. A sheet whose reader is looking for
+the component set should not omit a component because a design file did.
+
 What is excluded, and why:
 
 | Kit set | Why |

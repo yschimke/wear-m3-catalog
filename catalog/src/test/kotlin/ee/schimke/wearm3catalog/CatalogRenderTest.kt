@@ -89,6 +89,43 @@ class CatalogRenderTest {
       .size
   }
 
+  /**
+   * A cell that renders identically to the render it varies is a **wrong picture that renders
+   * green**: the sheet publishes the same image twice under two names, and the second one claims to
+   * show something it does not.
+   *
+   * It happens whenever a seed is declared but not read — an `@OverrideVariant` whose knob nothing
+   * consumes — and whenever the thing being varied cannot show itself in a still, which is how a
+   * scaffold's `edge-button` cell came out byte-identical to its default (the edge button is
+   * revealed by scroll position, so at rest there is nothing to see).
+   *
+   * Deliberately compares only renders of the SAME component. Two different components may
+   * legitimately look alike at this size; two renders of one component may not.
+   */
+  @Test
+  fun `no two renders of a component are identical`() {
+    val byComponent =
+      renders
+        .listFiles { f: File -> f.name.endsWith(".png") }
+        .orEmpty()
+        .groupBy { it.name.substringBefore("_VARIANT_").substringBeforeLast("-") }
+    val duplicates = byComponent.mapNotNull { (component, files) ->
+      val seen = mutableMapOf<String, String>()
+      val clashes = files.mapNotNull { file ->
+        val digest = file.readBytes().toList().hashCode().toString()
+        val first = seen.put(digest, file.name)
+        if (first == null) null else "${file.name} == $first"
+      }
+      if (clashes.isEmpty()) null else "$component: ${clashes.joinToString(", ")}"
+    }
+    assertTrue(
+      "these renders of one component are byte-identical — a cell that varies nothing publishes " +
+        "the same picture twice:\n" +
+        duplicates.joinToString("\n") { "  $it" },
+      duplicates.isEmpty(),
+    )
+  }
+
   @Test
   fun `no sticker publishes an empty frame`() {
     val pngs = renders.listFiles { f: File -> f.name.endsWith(".png") }.orEmpty()

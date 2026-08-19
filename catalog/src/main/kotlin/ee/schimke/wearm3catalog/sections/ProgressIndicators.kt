@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.ArcProgressIndicator
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
 import androidx.wear.compose.material3.LinearProgressIndicator
@@ -61,19 +62,29 @@ import ee.schimke.wearm3catalog.Sticker
   kitAxis = "Disabled",
   kitValue = "Yes",
 )
+// The kit publishes four determinate `Progress=` values and no indeterminate one, but the library
+// ships both on the same name — so it folds in here as a cell rather than standing up a second
+// card for the same component. The cell is a still of something that only reads as itself in
+// motion; `Motion.kt` carries the recording.
+@OverrideVariant(name = "indeterminate", strings = ["mode=indeterminate"])
 @Composable
 fun CircularProgress() = Sticker {
   val progress = previewOverrideFloat("progress", 0.6f)
-  CircularProgressIndicator(
-    progress = { progress },
-    modifier = Modifier.size(120.dp),
-    enabled = previewOverrideBoolean("enabled", true),
-    allowProgressOverflow = true,
-    strokeWidth =
-      if (previewOverrideString("stroke", "medium") == "small")
-        CircularProgressIndicatorDefaults.smallStrokeWidth
-      else CircularProgressIndicatorDefaults.largeStrokeWidth,
-  )
+  val stroke =
+    if (previewOverrideString("stroke", "medium") == "small")
+      CircularProgressIndicatorDefaults.smallStrokeWidth
+    else CircularProgressIndicatorDefaults.largeStrokeWidth
+  if (previewOverrideString("mode", "determinate") == "indeterminate") {
+    CircularProgressIndicator(modifier = Modifier.size(120.dp), strokeWidth = stroke)
+  } else {
+    CircularProgressIndicator(
+      progress = { progress },
+      modifier = Modifier.size(120.dp),
+      enabled = previewOverrideBoolean("enabled", true),
+      allowProgressOverflow = true,
+      strokeWidth = stroke,
+    )
+  }
 }
 
 @CatalogComponent(
@@ -106,6 +117,17 @@ fun SegmentedProgress() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
   )
 }
+
+@CatalogComponent(
+  id = "ArcProgressIndicator",
+  noReference =
+    "The kit publishes no arc indicator: its progress sets are the full ring, the segmented ring " +
+      "and the linear track. This is a Wear Compose component with no kit counterpart.",
+  caption = "An indeterminate arc along the bezel, for a wait with no measurable progress.",
+)
+@CatalogModes
+@Composable
+fun ArcProgress() = Sticker { ArcProgressIndicator(modifier = Modifier.size(120.dp)) }
 
 @CatalogComponent(
   id = "LinearProgressIndicator",

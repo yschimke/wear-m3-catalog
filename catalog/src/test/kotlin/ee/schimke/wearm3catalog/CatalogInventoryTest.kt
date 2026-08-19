@@ -27,13 +27,69 @@ class CatalogInventoryTest {
 
   private val sources: List<Pair<File, String>> = sections.map { it to it.readText() }
 
-  private val components =
-    Regex("""@CatalogComponent\((.*?)\)\n@""", RegexOption.DOT_MATCHES_ALL).let { block ->
-      sources.flatMap { (file, text) -> block.findAll(text).map { file to it.groupValues[1] } }
+  /**
+   * Every `@CatalogComponent(...)` block, sliced by balancing parentheses rather than by a regex
+   * that stops at the first `)`. A caption or a reason routinely contains parentheses, and a
+   * greedy-or-lazy match either swallows the next annotation or truncates mid-argument.
+   */
+  private val components: List<Pair<File, String>> = buildList {
+    for ((file, text) in sources) {
+      var at = text.indexOf("@CatalogComponent(")
+      while (at >= 0) {
+        var depth = 0
+        var i = at + "@CatalogComponent".length
+        var end = -1
+        while (i < text.length) {
+          when (text[i]) {
+            '(' -> depth++
+            ')' -> {
+              depth--
+              if (depth == 0) {
+                end = i
+                i = text.length
+              }
+            }
+          }
+          i++
+        }
+        if (end < 0) break
+        add(file to text.substring(at, end))
+        at = text.indexOf("@CatalogComponent(", end)
+      }
     }
+  }
 
-  private fun arg(body: String, name: String): String? =
-    Regex("""$name = "([^"]*)"""").find(body)?.groupValues?.get(1)
+  /**
+   * The value of a named argument, joining a **concatenated** string literal back together. A
+   * reason long enough to be worth stating is long enough to be wrapped as `"…" + "…"`, and reading
+   * only the first fragment made the arg look absent — which failed the build for components that
+   * had said exactly what the rule asks.
+   */
+  private fun arg(body: String, name: String): String? {
+    // Built by concatenation on purpose: a raw string ending in `= """` sits one quote away from
+    // meaning something else entirely.
+    // `\\s*` around the `=` because ktfmt wraps a long value onto the next line: an argument whose
+    // reason is worth stating is exactly the one that wraps, and demanding `name = ` read those as
+    // absent — failing the build for components that had said precisely what the rule asks.
+    val start = Regex("\\b" + name + "\\s*=\\s*").find(body)?.range?.last ?: return null
+    val builder = StringBuilder()
+    var i = start
+    var sawLiteral = false
+    while (i < body.length) {
+      when {
+        body[i].isWhitespace() || body[i] == '+' -> i++
+        body[i] == '"' -> {
+          val close = body.indexOf('"', i + 1)
+          if (close < 0) return if (sawLiteral) builder.toString() else null
+          builder.append(body, i + 1, close)
+          sawLiteral = true
+          i = close + 1
+        }
+        else -> return if (sawLiteral) builder.toString() else null
+      }
+    }
+    return if (sawLiteral) builder.toString() else null
+  }
 
   @Test
   fun `every section file declares its group and section`() {
@@ -69,21 +125,28 @@ class CatalogInventoryTest {
   }
 
   /**
-   * Membership is the kit's call: a component with no exact, renderable kit node does not enter the
-   * inventory at all, so there is no "published but unmapped" state to fall into. `--strict` in
+   * Membership has two doors — a kit node, or a stated reason the kit has none — and what this
+   * forbids is neither. A component that simply never said is indistinguishable from one nobody
+   * checked, and that is the state the rule exists to keep out. `--strict` in
    * `scripts/design-map.sh` fails the same way before a render is attempted; this fails first, and
    * without a Figma token.
    */
   @Test
-  fun `every component maps to the Wear kit`() {
+  fun `every component is either mapped to the kit or says why not`() {
     for ((file, body) in components) {
       val id = arg(body, "id")
       val reference = arg(body, "reference")
-      assertTrue("$id (${file.name}) has no reference to a kit node", !reference.isNullOrBlank())
+      val noReference = arg(body, "noReference")
       assertTrue(
-        "$id points at $reference, which is not a node in the M3 Wear OS Apps Design Kit",
-        reference!!.startsWith("figma:$WEAR_KIT_FILE_KEY/"),
+        "$id (${file.name}) names neither a kit node nor a reason the kit has none — say which",
+        !reference.isNullOrBlank() || !noReference.isNullOrBlank(),
       )
+      if (!reference.isNullOrBlank()) {
+        assertTrue(
+          "$id points at $reference, which is not a node in the M3 Wear OS Apps Design Kit",
+          reference.startsWith("figma:$WEAR_KIT_FILE_KEY/"),
+        )
+      }
     }
   }
 
