@@ -80,13 +80,17 @@ private fun heldValue(initial: Float): Pair<Float, (Float) -> Unit> {
 /**
  * The `valueRange` both components take, as the two floats a controls panel can offer.
  *
+ * [defaultEnd] is the end the sticker uses when the knob is untouched. The slider passes its band
+ * count, so its `value` knob is a count of filled bands and the kit's `Level` cells can be written
+ * as the counts they are; the stepper keeps `0f..1f`, which is what its capture has always drawn.
+ *
  * Coerced to a non-empty range on the way out: these are live knobs, and `value..value` (or a end
  * typed below its start) reaches `coerceIn` as an empty range and throws rather than rendering.
  */
 @Composable
-private fun valueRange(): ClosedFloatingPointRange<Float> {
+private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> {
   val start = previewOverrideFloat("valueRangeStart", 0f)
-  val end = previewOverrideFloat("valueRangeEnd", 1f)
+  val end = previewOverrideFloat("valueRangeEnd", defaultEnd)
   return start..maxOf(end, start + 0.0001f)
 }
 
@@ -97,11 +101,11 @@ private fun valueRange(): ClosedFloatingPointRange<Float> {
   caption = "A value across a fixed number of steps, with the kit's levels folded in as cells.",
 )
 @CatalogModes
-@OverrideVariant(name = "low", floats = ["value=0.0"], kitAxis = "Level", kitValue = "Low")
-@OverrideVariant(name = "full", floats = ["value=1.0"], kitAxis = "Level", kitValue = "Full")
+@OverrideVariant(name = "low", floats = ["value=1.0"], kitAxis = "Level", kitValue = "Low")
+@OverrideVariant(name = "full", floats = ["value=5.0"], kitAxis = "Level", kitValue = "Full")
 @OverrideVariant(
-  name = "three-steps",
-  ints = ["steps=3"],
+  name = "three-increments",
+  ints = ["steps=2"],
   kitAxis = "Increments",
   kitValue = "Three",
 )
@@ -121,8 +125,19 @@ private fun valueRange(): ClosedFloatingPointRange<Float> {
 )
 @Composable
 fun ValueSlider() = Sticker {
-  val steps = previewOverrideInt("steps", 5)
-  val (value, onValueChange) = heldValue(previewOverrideFloat("value", 0.5f))
+  // THE KIT COUNTS BANDS; COMPOSE COUNTS THE STOPS BETWEEN THEM. The kit's axis is `Increments` —
+  // how many bands the bar is cut into — and `steps` is the number of values between the ends, so
+  // the bar draws `steps + 1` bands (`visibleSegments = steps + 1`, Slider.kt). The base cell is
+  // `Increments=Five`, which is `steps = 4`: at five it drew six bands and five separators against
+  // a five-band, four-separator reference (#34).
+  val steps = previewOverrideInt("steps", 4)
+  // `value` COUNTS FILLED BANDS, because the range below runs over the bands rather than 0..1 —
+  // and that is what the kit's `Level` cells are. `Mid` fills two bands whether the bar is cut
+  // into three, four or five, and `Low` fills one, not none: `value = 0.0` published an empty bar
+  // against a reference with one band lit. Counting is also what keeps the `Increments=Three` cell
+  // on the kit's own Mid (two of three) while varying the one axis that cell names — two fifths of
+  // a three-band bar is one band, and a cell that seeded both knobs could carry no `kitAxis`.
+  val (value, onValueChange) = heldValue(previewOverrideFloat("value", 2f))
   // `plus-minus` is the pair `SliderDefaults` recommends and the kit draws. The chevrons are the
   // other pairing the API's two icon slots exist for, and a reader cannot discover a slot from a
   // still — so it is offered as a choice rather than described.
@@ -131,7 +146,9 @@ fun ValueSlider() = Sticker {
     value = value,
     onValueChange = onValueChange,
     steps = steps,
-    valueRange = valueRange(),
+    // Over the bands, which is the library's own default range for a slider and what makes
+    // `value` above a band count.
+    valueRange = valueRange(defaultEnd = (steps + 1).toFloat()),
     // The library's own default is conditional — segmented up to `MaxSegmentSteps` and not beyond
     // — so the knob's default computes it rather than pinning `true`, and a step count past the
     // recommended maximum still reports what the component would actually do.
