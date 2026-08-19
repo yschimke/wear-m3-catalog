@@ -324,7 +324,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_disabled-87cc4c32.png" width="150" /> |
 | `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_full-11b7f41e.png" width="150" /> |
 | `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_low-ef61d64e.png" width="150" /> |
-| `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_three_steps-e8510a80.png" width="150" /> |
+| `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_three_increments-1f3a6133.png" width="150" /> |
 | `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_192dp-cb9a2260.png" width="150" /> |
 | `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_192dp_VARIANT_disabled-5db2e75d.png" width="150" /> |
 | `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_192dp_VARIANT_icon-55b4b6fc.png" width="150" /> |
