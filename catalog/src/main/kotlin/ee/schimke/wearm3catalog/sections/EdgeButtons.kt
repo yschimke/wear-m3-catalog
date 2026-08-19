@@ -129,10 +129,12 @@ fun EdgeAction() = Sticker {
   // 227dp, a size the kit does not draw — and the reference gets squashed into that. With it the
   // crop is 208dp (192 plus the sticker's own 8dp padding either side), against the kit's 192.
   //
-  // What is left is a real finding rather than a framing artifact, and it is left visible on
-  // purpose: the kit's cell is 192×59 and this draws 131×70. The width gap is the scaffold's doing;
-  // the 11dp of height is `EdgeButtonSize.Medium` against the kit's `Size=Default`, which nothing
-  // about the framing explains. See docs/DESIGN_MAP.md.
+  // What is left is a difference the framing does not explain, and it is left visible on purpose:
+  // the kit's cell is 192×59 and this draws 131×70. The width gap is the scaffold's doing; the 11dp
+  // of height is `EdgeButtonSize.Medium` against the kit's `Size=Default`, which may well be a
+  // break between the kit and the library rather than anything a sticker can fix by drawing
+  // something else. Now that the shapes are comparable, the live comparison is what settles it.
+  // See docs/DESIGN_MAP.md.
   Box(Modifier.width(192.dp)) {
     EdgeButton(
       onClick = c.onClick,

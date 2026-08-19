@@ -267,7 +267,14 @@ knowing apart:
   without it the sticker crops to the renderer's 227dp measuring bound, a size the kit does not
   draw.
 - **The 11dp of height is not.** That is `EdgeButtonSize.Medium` against the kit's `Size=Default`,
-  and nothing about the framing explains it. It is a finding.
+  and nothing about the framing explains it.
+
+  Which does **not** make it a defect in this catalog, and the distinction is the point of getting
+  the framing right first. `design-led` says a parity finding is a defect here — but that rule
+  assumes the two sides are drawing the same thing, and a size token the kit and the library simply
+  disagree on is a break *between* Figma and Compose, not something a sticker can fix by drawing
+  something else. Left as-is deliberately: now that the shapes are comparable the live comparison
+  will say which it is, and that is a better answer than guessing at it from a measurement here.
 
 ## Rebuilding the kit index without a Figma token
 
