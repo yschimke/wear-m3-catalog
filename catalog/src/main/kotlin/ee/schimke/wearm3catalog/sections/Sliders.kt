@@ -24,6 +24,7 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 import ee.schimke.wearm3catalog.Sticker
@@ -82,7 +83,7 @@ fun ValueSlider() = Sticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
   caption = "A value moved a step at a time, between buttons at the top and bottom of the screen.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
 @OverrideVariant(
   name = "disabled",
