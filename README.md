@@ -65,6 +65,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `StandardIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/StandardIconAction_VARIANT_large-7d4a5eb1.png" width="150" /> |
 | `StandardIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/StandardIconAction_VARIANT_small-6cc1bd10.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction-23ed74e3.png" width="150" /> |
+| `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_child-fee099ee.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_disabled-2be9802a.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_filled-896271e1.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_large-2ed53043.png" width="150" /> |
