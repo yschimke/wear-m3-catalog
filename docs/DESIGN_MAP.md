@@ -70,12 +70,14 @@ The projector reports them apart, and that separation is the point of reading it
 **A stated absence is not a gap.** `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and
 `ArcProgressIndicator` carry `noReference = "<why the kit has none>"` — they enter through the
 second door in [`AGENTS.md`](../AGENTS.md), being Wear Compose components the kit never published.
-This is also why `scripts/design-map.sh` does **not** pass `--strict`: that flag gates on every kind
-of absence including a stated one, so it fails this repo on four components that are exactly as
-intended. What `--strict` was here to catch — silence, a component with neither a reference nor a
-reason — `CatalogInventoryTest` fails the build for. The posture that would let it run gated
-(strict about silence, permissive about a stated absence) belongs upstream, and is proposed there as
-`--allow-stated-absence`.
+
+This is what `scripts/design-map.sh` runs `--strict --allow-stated-absence` for. Plain `--strict`
+gates on every kind of absence including a stated one, so it failed this repo on those four; the
+opt-in narrows it back to what it is actually for — still fatal on a missing reference and on
+captures that pair with none, permissive about one somebody already looked at and wrote down. It
+landed upstream in `@yschimke/compose-design-map` v1.19.0
+([compose-ai-tools#4250](https://github.com/yschimke/compose-ai-tools/pull/4250)); before it, the
+choice here was plain `--strict` (red on four intended components) or no gate at all.
 
 **An unresolved variant cell is usually the kit's matrix, not a mistake.** 16 of 149 do not resolve,
 and they fall into two shapes:
