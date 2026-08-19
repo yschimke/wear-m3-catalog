@@ -3386,7 +3386,7 @@
       "wireframe": "wireframes/iconbutton-filled.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 71
+      "bodyLine": 75
     },
     {
       "componentId": "IconButton/Tonal",
@@ -3631,7 +3631,7 @@
       "wireframe": "wireframes/iconbutton-tonal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 97
+      "bodyLine": 101
     },
     {
       "componentId": "IconButton/Outlined",
@@ -3876,7 +3876,7 @@
       "wireframe": "wireframes/iconbutton-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 123
+      "bodyLine": 127
     },
     {
       "componentId": "IconButton/Standard",
@@ -4121,7 +4121,7 @@
       "wireframe": "wireframes/iconbutton-standard.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 149
+      "bodyLine": 153
     },
     {
       "componentId": "TextButton",
@@ -4141,7 +4141,73 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/textbutton/ideal__child.png",
+          "state": "child",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__child",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_child",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
@@ -4207,11 +4273,11 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "index": null,
               "suggestions": [],
@@ -4273,7 +4339,7 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
@@ -4339,11 +4405,11 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "index": null,
               "suggestions": [],
@@ -4405,7 +4471,7 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
@@ -4471,11 +4537,11 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "index": null,
               "suggestions": [],
@@ -4537,7 +4603,7 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "child"
+                "value": "filled"
               },
               "current": {
                 "kind": "string",
@@ -4636,7 +4702,7 @@
       "wireframe": "wireframes/textbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 188
+      "bodyLine": 198
     },
     {
       "componentId": "ScrollIndicator",
@@ -10976,7 +11042,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-19T00:19:39.192Z",
+  "generatedAt": "2026-08-19T00:25:19.758Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
