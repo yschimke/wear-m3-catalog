@@ -17,6 +17,8 @@ import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.wearm3catalog.KitCopy
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Dialogs` and `Confirmation Overlays` pages.
 //
@@ -96,10 +98,30 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 // not obviously the right frame for it anyway: the progress ring IS the wait, and a capture taken
 // after the ring completes is a picture of the wait being over. The confirmation overlay has no
 // such defence — unsettled, it publishes nothing at all.
+//
+// THE REFERENCE IS A `Scrolling=No` CELL, AND THAT IS THE WHOLE POINT
+//
+// The `Dialog` set varies `Scrolling=` as well as `Edge Option=`, and the two values are not two
+// states of one picture — they are two different KINDS of artwork:
+//
+//  - `Scrolling=Yes` cells are **192×402** (and up to 192×500). They are long-scroll captures: the
+//    dialog's entire scrollable content unrolled down the page, past the bottom of any watch.
+//  - `Scrolling=No` cells are **192×192** — the round display, the frame a watch actually has.
+//
+// This component publishes one 454×454 capture of a round screen, so only the second kind is
+// comparable. Pointed at `58475:87041` (`Scrolling=Yes`) it was diffing a screen against a
+// three-screens-tall strip: the comparison squashes the reference to the render's aspect to line
+// them up, so every element in it was ~2.1× too short and NOTHING matched — a finding that says
+// only "these are different shapes". `58475:87077` is the same `Edge Option=Double Angled Button`
+// arrangement drawn on the display, which is what this sticker is a picture of.
+//
+// The kit's own scroll captures are not wrong and are not being ignored — they are simply not what
+// a device-framed render can be diffed against. Publishing them would need a preview that captures
+// its own full scroll extent rather than the display; see `docs/DESIGN_MAP.md`.
 
 @CatalogComponent(
   id = "AlertDialog",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/58475:87041",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/58475:87077",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
   caption = "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
 )
@@ -123,14 +145,14 @@ fun AlertDialogSticker() = FullScreenSticker {
     "single" ->
       AlertDialogContent(
         edgeButton = { AlertDialogDefaults.EdgeButton(onClick = {}) },
-        title = { Text("Delete this run?") },
+        title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
       )
-    "none" -> AlertDialogContent(title = { Text("Syncing with your phone") })
+    "none" -> AlertDialogContent(title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) })
     else ->
       AlertDialogContent(
         confirmButton = { AlertDialogDefaults.ConfirmButton(onClick = {}) },
         dismissButton = { AlertDialogDefaults.DismissButton(onClick = {}) },
-        title = { Text("Delete this run?") },
+        title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
       )
   }
 }
@@ -145,8 +167,11 @@ fun AlertDialogSticker() = FullScreenSticker {
 @Composable
 fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   val style = OpenOnPhoneDialogDefaults.curvedTextStyle
+  // Read outside the slot: `curvedText` is a `CurvedScope` lambda, not a `@Composable` one, so a
+  // composable call inside it does not compile.
+  val text = kitCopy("curvedText", KitCopy.OPEN_ON_PHONE)
   OpenOnPhoneDialogContent(
-    curvedText = { openOnPhoneDialogCurvedText("Open on phone", style) },
+    curvedText = { openOnPhoneDialogCurvedText(text, style) },
     durationMillis = OpenOnPhoneDialogDefaults.DurationMillis,
   ) {
     OpenOnPhoneDialogDefaults.Icon()

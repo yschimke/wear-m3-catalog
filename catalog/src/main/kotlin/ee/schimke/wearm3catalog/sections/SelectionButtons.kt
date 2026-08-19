@@ -15,7 +15,9 @@ import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.kitCopy
 import ee.schimke.wearm3catalog.toggleable
 
 // The kit's `Toggle+Selection-Buttons` set — one set carrying `Type = Checkbox | Radio | Switch |
@@ -63,17 +65,17 @@ fun CheckboxRow() = Sticker {
     SplitCheckboxButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
-      toggleContentDescription = "Alarm",
+      toggleContentDescription = kitCopy("label", KitCopy.PRIMARY),
       onContainerClick = {},
       enabled = enabled,
-      label = { Text("Alarm") },
+      label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
     )
   } else {
     CheckboxButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
       enabled = enabled,
-      label = { Text("Alarm") },
+      label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
     )
   }
 }
@@ -111,17 +113,17 @@ fun SwitchRow() = Sticker {
     SplitSwitchButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
-      toggleContentDescription = "Bluetooth",
+      toggleContentDescription = kitCopy("label", KitCopy.PRIMARY),
       onContainerClick = {},
       enabled = enabled,
-      label = { Text("Bluetooth") },
+      label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
     )
   } else {
     SwitchButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
       enabled = enabled,
-      label = { Text("Bluetooth") },
+      label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
     )
   }
 }
@@ -159,17 +161,17 @@ fun RadioRow() = Sticker {
     SplitRadioButton(
       selected = selected,
       onSelectionClick = { onSelectedChange(true) },
-      selectionContentDescription = "Vibrate",
+      selectionContentDescription = kitCopy("label", KitCopy.PRIMARY),
       onContainerClick = {},
       enabled = enabled,
-      label = { Text("Vibrate") },
+      label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
     )
   } else {
     RadioButton(
       selected = selected,
       onSelect = { onSelectedChange(true) },
       enabled = enabled,
-      label = { Text("Vibrate") },
+      label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
     )
   }
 }

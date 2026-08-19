@@ -4,7 +4,7 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -24,7 +24,9 @@ import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Text` page: the two list headers, the two body roles, and the curved clock.
 //
@@ -50,7 +52,7 @@ import ee.schimke.wearm3catalog.Sticker
 fun ListHeading() = Sticker {
   ListHeader(modifier = Modifier.width(180.dp)) {
     Text(
-      "Settings",
+      kitCopy("label", KitCopy.TITLE),
       textAlign =
         if (previewOverrideString("align", "centre") == "left") TextAlign.Start
         else TextAlign.Center,
@@ -72,9 +74,9 @@ fun ListSubHeading() = Sticker {
     modifier = Modifier.width(180.dp),
     icon =
       if (previewOverrideBoolean("icon", false)) {
-        { Icon(Icons.Filled.Settings, contentDescription = null) }
+        { Icon(Icons.Filled.Add, contentDescription = null) }
       } else null,
-    label = { Text("System") },
+    label = { Text(kitCopy("label", KitCopy.SUBTITLE)) },
   )
 }
 
@@ -94,7 +96,7 @@ fun ListSubHeading() = Sticker {
 @Composable
 fun BodyText() = Sticker {
   Text(
-    "Your run is saved and will sync when the watch reconnects.",
+    kitCopy("text", KitCopy.BODY),
     style = MaterialTheme.typography.bodyMedium,
     modifier = Modifier.width(160.dp),
     textAlign =
@@ -118,7 +120,7 @@ fun BodyText() = Sticker {
 @Composable
 fun CaptionText() = Sticker {
   Text(
-    "Synced 10:10",
+    kitCopy("text", KitCopy.CAPTION),
     style = MaterialTheme.typography.labelSmall,
     modifier = Modifier.width(160.dp),
     textAlign =
@@ -136,9 +138,14 @@ fun CaptionText() = Sticker {
   caption = "The curved status strip every Wear screen carries, pinned to a fixed time.",
 )
 @CatalogFullScreenModes
-@OverrideVariant(name = "24-hour", strings = ["time=22:10"], kitAxis = "Type", kitValue = "24hr")
+@OverrideVariant(
+  name = "24-hour",
+  strings = ["time=09:30"],
+  kitAxis = "Type",
+  kitValue = "24hr",
+)
 @Composable
 fun FixedTimeText() = FullScreenSticker {
-  val time = previewOverrideString("time", "10:10")
+  val time = kitCopy("time", KitCopy.TIME_12H)
   TimeText { timeTextCurvedText(time) }
 }

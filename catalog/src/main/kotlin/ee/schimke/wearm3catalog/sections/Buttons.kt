@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -28,8 +28,10 @@ import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogImage
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Button` page. One kit set per file section, and one catalog component per EMPHASIS —
 // the documented carve-out to "one kit set is one catalog component".
@@ -59,7 +61,7 @@ import ee.schimke.wearm3catalog.counted
 private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
   if (!previewOverrideBoolean("icon", false)) null
   else {
-    { Icon(Icons.Filled.Check, contentDescription = null) }
+    { Icon(Icons.Filled.Add, contentDescription = null) }
   }
 
 @CatalogComponent(
@@ -78,7 +80,7 @@ private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
 )
 @Composable
 fun FilledButton() = Sticker {
-  val c = counted("Filled")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -103,7 +105,7 @@ fun FilledButton() = Sticker {
 )
 @Composable
 fun FilledVariantButton() = Sticker {
-  val c = counted("Variant")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -129,7 +131,7 @@ fun FilledVariantButton() = Sticker {
 )
 @Composable
 fun TonalButton() = Sticker {
-  val c = counted("Tonal")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   FilledTonalButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -154,7 +156,7 @@ fun TonalButton() = Sticker {
 )
 @Composable
 fun OutlineButton() = Sticker {
-  val c = counted("Outlined")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   OutlinedButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -179,7 +181,7 @@ fun OutlineButton() = Sticker {
 )
 @Composable
 fun ChildLabelButton() = Sticker {
-  val c = counted("Child")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   ChildButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
@@ -228,7 +230,7 @@ fun ChildLabelButton() = Sticker {
 )
 @Composable
 fun CompactActionButton() = Sticker {
-  val c = counted("Compact")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   val content = previewOverrideString("content", "icon+text")
   val colors =
     when (previewOverrideString("style", "filled")) {
@@ -251,7 +253,7 @@ fun CompactActionButton() = Sticker {
     icon =
       if (content == "text") null
       else {
-        { Icon(Icons.Filled.Check, contentDescription = null) }
+        { Icon(Icons.Filled.Add, contentDescription = null) }
       },
     label =
       if (content == "icon") null
@@ -300,7 +302,7 @@ fun CompactActionButton() = Sticker {
 )
 @Composable
 fun ImageBackgroundButton() = Sticker {
-  val c = counted("Playlist")
+  val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     containerPainter = ButtonDefaults.containerPainter(image = CatalogImage),
@@ -308,7 +310,7 @@ fun ImageBackgroundButton() = Sticker {
     colors = ButtonDefaults.buttonWithContainerPainterColors(),
     secondaryLabel =
       if (previewOverrideBoolean("secondary", false)) {
-        { Text("12 tracks") }
+        { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)) }
       } else null,
     label = { Text(c.label) },
   )
@@ -358,7 +360,11 @@ fun LoadingButton() = Sticker {
     // Pinned, not indeterminate: an animated indicator renders a different frame on every
     // publish, and the delivery branch's history would be noise rather than change.
     icon = { CircularProgressIndicator(progress = { 0.35f }, modifier = Modifier.size(24.dp)) },
-    label = { Text("Sending") },
+    label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) },
+    // TWO LINES, because the kit's cell has two. `Button-Loading` is the only button set whose
+    // base cell fills the secondary slot — the others leave it empty and put it behind a cell —
+    // and a one-line button is a visibly shorter shape, not just shorter words.
+    secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)) },
   )
 }
 

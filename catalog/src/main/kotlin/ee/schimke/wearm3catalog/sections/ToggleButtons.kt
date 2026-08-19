@@ -3,7 +3,7 @@
 package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
@@ -20,7 +20,9 @@ import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.kitCopy
 import ee.schimke.wearm3catalog.toggleable
 
 // The kit's `Icon-ToggleButton` and `Text-ToggleButton` sets. A toggle button holds a binary state
@@ -76,7 +78,7 @@ fun IconToggle() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.touchTargetAwareSize(iconToggleSize()),
   ) {
-    Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
+    Icon(Icons.Filled.Add, contentDescription = "Add")
   }
 }
 
@@ -118,6 +120,6 @@ fun TextToggle() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.touchTargetAwareSize(textToggleSize()),
   ) {
-    Text("Mon")
+    Text(kitCopy("label", KitCopy.GLYPHS))
   }
 }

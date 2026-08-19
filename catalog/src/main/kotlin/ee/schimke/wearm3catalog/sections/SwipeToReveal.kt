@@ -4,7 +4,7 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,7 +21,9 @@ import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `STR-card` and `STR-button` sets — the same gesture over the two things it can be
 // applied to, which is why they are two kit sets and two components here.
@@ -51,8 +53,8 @@ fun SwipeToRevealCard() = Sticker {
     primaryAction = {
       PrimaryActionButton(
         onClick = {},
-        icon = { Icon(Icons.Filled.Delete, contentDescription = null) },
-        text = { Text("Delete") },
+        icon = { Icon(Icons.Filled.Close, contentDescription = null) },
+        text = { Text(kitCopy("action", KitCopy.PRIMARY_LABEL)) },
       )
     },
     onSwipePrimaryAction = {},
@@ -68,7 +70,7 @@ fun SwipeToRevealCard() = Sticker {
     revealState = state,
     modifier = Modifier.width(180.dp),
   ) {
-    Card(onClick = {}) { Text("Morning run") }
+    Card(onClick = {}) { Text(kitCopy("content", KitCopy.CARD_CONTENT)) }
   }
 }
 
@@ -92,8 +94,8 @@ fun SwipeToRevealButton() = Sticker {
     primaryAction = {
       PrimaryActionButton(
         onClick = {},
-        icon = { Icon(Icons.Filled.Delete, contentDescription = null) },
-        text = { Text("Delete") },
+        icon = { Icon(Icons.Filled.Close, contentDescription = null) },
+        text = { Text(kitCopy("action", KitCopy.PRIMARY_LABEL)) },
       )
     },
     onSwipePrimaryAction = {},
@@ -109,6 +111,6 @@ fun SwipeToRevealButton() = Sticker {
     revealState = state,
     modifier = Modifier.width(180.dp),
   ) {
-    Button(onClick = {}, label = { Text("Alarm") })
+    Button(onClick = {}, label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) })
   }
 }
