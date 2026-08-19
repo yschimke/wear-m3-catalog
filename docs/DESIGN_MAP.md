@@ -116,31 +116,37 @@ is truncating, so the ellipsis lands in the same place rather than the label sim
 
 | | |
 | --- | --- |
-| components mapped | 49 |
-| references, base + resolved variant | 182 |
-| variant cells resolved onto a kit node | 133 of 197 |
-| …of which breakpoint cells, which no kit node answers yet | 48 |
+| components mapped | 47 |
+| variant cells resolved onto a kit node | 131 of 191 |
+| …of which breakpoint cells, which no kit node answers yet | 44 |
 | kit page nodes joined to code | 181 of 1845 |
-| components with no reference, for a stated reason | 4 |
+| components with no reference, for a stated reason | 7 |
 
 ## The two kinds of miss, and which one is a bug
 
 The projector reports them apart, and that separation is the point of reading its output at all.
 
-**A stated absence is not a gap.** `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and
-`ArcProgressIndicator` carry `noReference = "<why the kit has none>"` — they enter through the
-second door in [`AGENTS.md`](../AGENTS.md), being Wear Compose components the kit never published.
+**A stated absence is not a gap.** Seven components carry `noReference = "<why the kit has none>"`,
+and they enter through the second door in [`AGENTS.md`](../AGENTS.md) for two distinct reasons:
+
+- **The kit publishes no such component.** `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and
+  `ArcProgressIndicator` are Wear Compose components with no kit set at all.
+- **The kit publishes it, but only in a shape this catalog cannot compare against.**
+  `EdgeButton/Screen` is a display and the kit's edge-button cells are all components;
+  `SwipeToReveal/Card` and `SwipeToReveal/Button` are components and the kit's STR cells are all
+  displays. See *Component or screen* below — the absence is about the framing, not the drawing.
 
 This is what `scripts/design-map.sh` runs `--strict --allow-stated-absence` for. Plain `--strict`
-gates on every kind of absence including a stated one, so it failed this repo on those four; the
+gates on every kind of absence including a stated one, so it failed this repo on all seven; the
 opt-in narrows it back to what it is actually for — still fatal on a missing reference and on
 captures that pair with none, permissive about one somebody already looked at and wrote down. It
 landed upstream in `@yschimke/compose-design-map` v1.19.0
 ([compose-ai-tools#4250](https://github.com/yschimke/compose-ai-tools/pull/4250)); before it, the
-choice here was plain `--strict` (red on four intended components) or no gate at all.
+choice here was plain `--strict` (red on intended components) or no gate at all.
 
-**An unresolved variant cell is usually the kit's matrix, not a mistake.** 16 of 149 do not resolve,
-and they fall into two shapes:
+**An unresolved variant cell is usually the kit's matrix, not a mistake.** 60 of 191 do not resolve.
+Forty-four are breakpoint cells, which no kit node answers because only `Picker` publishes a second
+size (see *Every screen size the kit recognises*). The other sixteen fall into two shapes:
 
 - *The kit has no such axis.* `LevelIndicator`'s `low` / `full` turn a Compose float; the kit's
   `Level-Indicator-RSB` varies `Size`, not level. `CircularProgressIndicator`'s `indeterminate` has
@@ -218,14 +224,50 @@ than being filled with an approximation that would read as a *different* differe
 **Open, and deliberately not fixed here** — each moves a published preview URL, which AGENTS.md says
 to do on purpose rather than in passing:
 
-- **`EdgeButton` is framed the other way round.** Its kit cells are **192×59** — the button alone,
-  a *component* shape — while this catalog publishes it as a whole screen, because the scaffold
-  reveals the button from scroll state and a bare capture would freeze it collapsed
-  (`EdgeButtonScreen`). So a screenful of list rows is being diffed against a bare button.
-- **`SwipeToReveal` is framed the other way round too, in the other direction.** Its kit cells are
-  **192×192 displays** showing the component sliding off the edge of the watch; this catalog
-  publishes cropped stickers of the whole component. The copy and the action glyph now match; the
-  frame does not.
+
+## Component or screen: the mapped sticker is the component
+
+Two components were framed opposite to their kit cells, in opposite directions, and the rule that
+settles both is the same one: **the mapped sticker is the component-shaped one, and a screen stays
+unmapped.**
+
+**`EdgeButton` gained a component.** All 64 cells of the kit's `Edge-Button` set are the button
+alone, cropped to itself — 192dp wide by 49/59/73/99 for its four sizes — and there is no
+display-shaped cell anywhere in it. This catalog published only a screen: a twelve-row list with the
+button revealed at the bottom, because the scaffold reveals it from scroll state. A screenful of
+list rows was being diffed against a bare button.
+
+So there are two entries now. `EdgeButton` is the component, cropped at the kit's own 192dp width,
+and it carries the reference and the whole `Style / Type / Size / Disabled` matrix — all seven cells
+resolve onto distinct kit nodes. `EdgeButton/Screen` is the button where it actually lives, and it
+is **unmapped**: the kit publishes nothing of that shape, which is a fact about the kit rather than
+a gap here. It keeps no cells of its own — the matrix belongs to the mapped component, and
+repeating it would publish the same seven knobs again, at five breakpoints each, against nothing
+that can check them.
+
+**`SwipeToReveal` lost its references**, for the mirror reason. All eight cells across `STR-card`
+and `STR-button` are 192×192 **displays** — the watch face with the component mid-swipe, running off
+the left edge. Not one is the component cropped to itself. These stickers are the opposite: the
+whole component, wrap-and-cropped. Pointed at those cells they were diffing a 392×136 crop against a
+round screen, with the comparison squashing one into the other first — the same category error the
+alert dialog had against a long-scroll cell. Both now carry `noReference`, and their `kit-sets.json`
+rows are stated exclusions. What would change that is a display-shaped STR sticker, which this
+catalog does not have a frame for.
+
+### What `EdgeButton` still differs on, and why it is left visible
+
+The component sticker draws **131×70dp** where the kit's cell is **192×59**. Both halves are worth
+knowing apart:
+
+- **The width is the scaffold's doing.** `EdgeButton` measures to the width it is offered but draws
+  to its content: given 192dp it lays out 192dp and paints a 131dp pill inside it. Neither
+  `Modifier.width(192.dp)` on the button nor `fillMaxWidth()` changes that — both were tried and
+  rendered identically. Its span across the display comes from `ScreenScaffold`, and in isolation
+  there is nothing doing the stretching. The 192dp box is still there, because it pins the *crop*:
+  without it the sticker crops to the renderer's 227dp measuring bound, a size the kit does not
+  draw.
+- **The 11dp of height is not.** That is `EdgeButtonSize.Medium` against the kit's `Size=Default`,
+  and nothing about the framing explains it. It is a finding.
 
 ## Rebuilding the kit index without a Figma token
 

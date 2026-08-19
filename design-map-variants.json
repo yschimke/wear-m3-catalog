@@ -490,13 +490,13 @@
       ]
     },
     {
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt#ScreenEdgeButton",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt#EdgeAction",
       "componentId": "EdgeButton",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_disabled",
           "name": "disabled",
           "seeds": [
             {
@@ -508,7 +508,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_filled-variant",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_filled-variant",
           "name": "filled-variant",
           "seeds": [
             {
@@ -520,7 +520,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_icon",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_icon",
           "name": "icon",
           "seeds": [
             {
@@ -532,7 +532,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_large",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_large",
           "name": "large",
           "seeds": [
             {
@@ -544,7 +544,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_outlined",
           "name": "outlined",
           "seeds": [
             {
@@ -556,7 +556,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_small",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_small",
           "name": "small",
           "seeds": [
             {
@@ -568,7 +568,7 @@
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_192dp_VARIANT_tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.EdgeAction_VARIANT_tonal",
           "name": "tonal",
           "seeds": [
             {
@@ -576,46 +576,6 @@
               "raw": "tonal",
               "kitAxis": "Style",
               "kitValue": "Tonal"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_204dp",
-          "name": "204dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "204"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_216dp",
-          "name": "216dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "216"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_225dp",
-          "name": "225dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "225"
-            }
-          ]
-        },
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_240dp",
-          "name": "240dp",
-          "seeds": [
-            {
-              "key": "breakpoint",
-              "raw": "240"
             }
           ]
         }
@@ -2238,46 +2198,6 @@
             {
               "key": "breakpoint",
               "raw": "240"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealButton",
-      "componentId": "SwipeToReveal/Button",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155785",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton",
-      "renders": [
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_VARIANT_two-actions",
-          "name": "two-actions",
-          "seeds": [
-            {
-              "key": "secondary",
-              "raw": "true",
-              "kitAxis": "State",
-              "kitValue": "2-actions"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard",
-      "componentId": "SwipeToReveal/Card",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard",
-      "renders": [
-        {
-          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_VARIANT_two-actions",
-          "name": "two-actions",
-          "seeds": [
-            {
-              "key": "secondary",
-              "raw": "true",
-              "kitAxis": "State",
-              "kitValue": "2-actions"
             }
           ]
         }

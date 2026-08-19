@@ -57,7 +57,7 @@ What is NOT allowed is silence. A `@CatalogComponent` with neither fails
 look" cannot masquerade as "the kit has nothing". `scripts/design-map.sh` fails the same way, before
 a render is attempted: it passes `--strict --allow-stated-absence`, which is fatal on a missing
 reference and on captures that pair with none, while accepting an absence a `noReference` explains.
-Plain `--strict` would reject the four door-2 components too, which is why the pair is what runs.
+Plain `--strict` would reject the seven door-2 components too, which is why the pair is what runs.
 
 Door 2 is deliberately narrower than it sounds: it is for a **component of this library**, not for
 anything a screen can be built from. A composition an app assembles (the kit's `Media-Player`) is
@@ -100,6 +100,14 @@ are out of scope.
   Where a set publishes both, as `Dialog` does behind `Scrolling=`, take the display cell: pointed at
   a scroll cell the alert dialog reported its entire frame as a difference, because the comparison
   squashes the reference to the render's aspect first. See [docs/DESIGN_MAP.md](docs/DESIGN_MAP.md).
+- **Where the shapes cannot be reconciled, the MAPPED sticker is the component and the screen goes
+  unmapped.** Two components were framed the opposite way round from their kit cells and the same
+  rule settled both. `Edge-Button` is 64 component-shaped cells and no display, so `EdgeButton` is
+  now a cropped sticker carrying the reference and the matrix, while `EdgeButton/Screen` shows it
+  in place with `noReference`. `STR-card` / `STR-button` are eight displays and no component, so
+  both `SwipeToReveal/*` carry `noReference` and their `kit-sets.json` rows are exclusions. Do not
+  reach for the nearest cell of the wrong shape to keep a component mapped — an unmapped component
+  with a stated reason is the honest outcome, and the projector reports it apart from a real gap.
 - **A full-screen sticker renders at every screen size the kit recognises, and they fold.** The kit
   enumerates its sizes in `.WatchPuck` on the Meta Components page — 192 (its own "legacy"), 204,
   216, 225 (the breakpoint), 240 — and `CatalogFullScreenModes` draws all five. **192 is the base**,

@@ -32,20 +32,38 @@ import ee.schimke.wearm3catalog.kitCopy
 // underneath it, and the kit's cells all draw the revealed state — so the sticker seeds
 // `rememberRevealState(RevealValue.RightRevealing)` and publishes what the gesture uncovers. In a
 // live session the swipe still works from there; what is pinned is where the capture starts.
+//
+// BOTH ARE UNMAPPED, and it is the framing rather than the drawing that costs them the reference.
+//
+// Every one of the eight cells across the two sets is a **192×192 display** — the watch face, with
+// the component mid-swipe and running off the left edge of it. Not one is the component cropped to
+// itself. These stickers are the opposite: the whole component, wrap-and-cropped, nothing of the
+// screen around it. Pointed at those cells they were diffing a 392×136 crop against a round screen,
+// with the comparison squashing one into the other's frame first — the same category error the
+// alert dialog had against a long-scroll cell (docs/DESIGN_MAP.md).
+//
+// The catalog's rule is that the mapped sticker is the component-shaped one and a screen stays
+// unmapped, so the honest outcome here is no reference at all rather than a reference of the wrong
+// shape. The kit publishes swipe-to-reveal as a picture of a watch mid-gesture; this catalog
+// publishes the component. Both are true, and they are not comparable.
+//
+// What would change that is a display-shaped STR sticker — the component on the round frame, swiped
+// — which is a frame this catalog does not have and which `EdgeButton/Screen` is the standing
+// example of publishing unmapped anyway.
 
 @CatalogComponent(
   id = "SwipeToReveal/Card",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
+  noReference =
+    "The kit draws `STR-card` only on the display — all four cells are 192×192 watch faces with " +
+      "the card mid-swipe running off the edge, and none is the component cropped to itself. " +
+      "This sticker is the component, so there is no cell of its shape to compare against.",
   caption = "A card swiped aside to show its actions.",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "two-actions",
-  booleans = ["secondary=true"],
-  kitAxis = "State",
-  kitValue = "2-actions",
-)
+// No `kitAxis` any more: a cell resolves by varying one axis from its component's reference, and
+// this component has none. The cell is still worth publishing — a second action is a real
+// difference — it simply has nothing to be resolved against.
+@OverrideVariant(name = "two-actions", booleans = ["secondary=true"])
 @Composable
 fun SwipeToRevealCard() = Sticker {
   val state = rememberRevealState(initialValue = RevealValue.RightRevealing)
@@ -76,17 +94,17 @@ fun SwipeToRevealCard() = Sticker {
 
 @CatalogComponent(
   id = "SwipeToReveal/Button",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155785",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
+  noReference =
+    "The kit draws `STR-button` only on the display — all four cells are 192×192 watch faces with " +
+      "the button mid-swipe running off the edge, and none is the component cropped to itself. " +
+      "This sticker is the component, so there is no cell of its shape to compare against.",
   caption = "The same gesture over a button rather than a card.",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "two-actions",
-  booleans = ["secondary=true"],
-  kitAxis = "State",
-  kitValue = "2-actions",
-)
+// No `kitAxis` any more: a cell resolves by varying one axis from its component's reference, and
+// this component has none. The cell is still worth publishing — a second action is a real
+// difference — it simply has nothing to be resolved against.
+@OverrideVariant(name = "two-actions", booleans = ["secondary=true"])
 @Composable
 fun SwipeToRevealButton() = Sticker {
   val state = rememberRevealState(initialValue = RevealValue.RightRevealing)
