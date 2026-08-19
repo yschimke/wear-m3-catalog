@@ -2,14 +2,21 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.LevelIndicator
 import androidx.wear.compose.material3.ScrollIndicator
+import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.VerticalPageIndicator
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.overrides.previewOverrideInt
@@ -49,8 +56,16 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 )
 @Composable
 fun ScrollRail() = FullScreenSticker {
-  val extent = 1000
-  val state = rememberScrollState(initial = (previewOverrideFloat("position", 0f) * extent).toInt())
+  // REAL CONTENT, OR THE POSITION CELLS ARE A LIE. A `ScrollState` seeded to an offset it cannot
+  // reach reports position zero: with nothing scrollable its maximum is 0, so every cell drew the
+  // thumb at the top and published three identical pictures under three names. The column is tall
+  // enough to overflow several screens, so the seeded offsets land where they claim to.
+  val state = rememberScrollState()
+  val position = previewOverrideFloat("position", 0f)
+  Column(Modifier.fillMaxSize().verticalScroll(state)) {
+    repeat(20) { index -> Text("Row ${index + 1}", modifier = Modifier.padding(8.dp)) }
+  }
+  LaunchedEffect(position) { state.scrollTo((state.maxValue * position).toInt()) }
   ScrollIndicator(state = state, modifier = Modifier.align(Alignment.CenterEnd))
 }
 

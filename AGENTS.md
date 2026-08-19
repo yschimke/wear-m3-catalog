@@ -35,12 +35,22 @@ other mutating Figma tool, and do not enable design-parity's Code-to-Canvas push
 
 ## What enters the inventory, and what it is called
 
-**Membership is the kit's call.** Every published component names one exact, renderable kit node in
-its `reference`. A Wear Compose API the kit never published does not enter the component inventory
-at all, and there is no "published but unmapped" state:
-`CatalogInventoryTest.every component maps to the Wear kit` fails the build for a
-`@CatalogComponent` with no `reference`, and `scripts/design-map.sh` fails the same way (it passes
-`--strict`) before a render is attempted.
+**Membership has two doors, and every component walks through one of them.**
+
+1. **The kit's door.** A component that reproduces a published kit set names one exact, renderable
+   kit node in its `reference`. This is the default and the majority.
+2. **The library's door.** A Wear Compose Material 3 component the kit never published still belongs
+   on a sheet whose reader is looking for *the component set*, and it enters with
+   `noReference = "<why the kit has none>"`. `ButtonGroup` is the plain case: real API, no kit set.
+
+What is NOT allowed is silence. A `@CatalogComponent` with neither fails
+`CatalogInventoryTest.every component is either mapped to the kit or says why not`, and
+`scripts/design-map.sh` fails the same way (it passes `--strict`) before a render is attempted —
+so "I forgot to look" cannot masquerade as "the kit has nothing".
+
+Door 2 is deliberately narrower than it sounds: it is for a **component of this library**, not for
+anything a screen can be built from. A composition an app assembles (the kit's `Media-Player`) is
+still out, and so is app content (its `Avatar-*`).
 
 **Naming is Compose's call.** Ids follow the Wear Compose API surface, because that is what a reader
 of a Compose catalog greps for. The one hard rule is not to borrow a kit word for something the kit

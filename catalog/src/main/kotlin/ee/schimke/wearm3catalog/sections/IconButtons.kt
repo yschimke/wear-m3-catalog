@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.FilledTonalIconButton
 import androidx.wear.compose.material3.Icon
@@ -167,12 +168,8 @@ fun StandardIconAction() = Sticker {
   caption = "A short label as a round action, with the kit's style and size axes folded in.",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "filled",
-  strings = ["style=filled"],
-  kitAxis = "Style",
-  kitValue = "Filled",
-)
+// No `filled` cell: filled IS the base render (see below), so a cell for it publishes the base
+// picture a second time under another name.
 @OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
 @OverrideVariant(
   name = "outlined",
@@ -204,10 +201,15 @@ fun TextAction() = Sticker {
       "outlined" -> TextButtonDefaults.outlinedTextButtonColors()
       else -> TextButtonDefaults.filledTextButtonColors()
     }
+  // The border is its OWN parameter, not part of `colors` — an outlined text button built from
+  // `outlinedTextButtonColors()` alone draws no outline and is pixel-identical to the child style,
+  // which is how this cell published the wrong picture under the right name.
+  val style = previewOverrideString("style", "filled")
   TextButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
     colors = colors,
+    border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
     modifier = Modifier.touchTargetAwareSize(textButtonSize()),
   ) {
     Text(c.label)
