@@ -34,6 +34,10 @@ import ee.schimke.wearm3catalog.counted
 // `Text-Button` is the exception that proves the rule. The kit gives it the same five styles, but
 // Wear Compose ships ONE `TextButton` that takes its emphasis as `colors` — there is no second
 // function to choose at the call site, so the styles fold as cells rather than splitting.
+//
+// Its BASE cell is the filled style, not the child one. A folded component's base render is the
+// card the sheet fronts, and `Child (No background)` is a bare letter on black — a picture of the
+// absence of a container. The other styles, including child, ride as cells.
 
 /** The kit's `Size=` values, as the Wear touch-target sizes each one names. */
 @Composable
@@ -176,6 +180,12 @@ fun StandardIconAction() = Sticker {
   kitAxis = "Style",
   kitValue = "Outline",
 )
+@OverrideVariant(
+  name = "child",
+  strings = ["style=child"],
+  kitAxis = "Style",
+  kitValue = "Child (No background)",
+)
 @OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
 @OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
 @OverrideVariant(
@@ -188,11 +198,11 @@ fun StandardIconAction() = Sticker {
 fun TextAction() = Sticker {
   val c = counted("A")
   val colors =
-    when (previewOverrideString("style", "child")) {
-      "filled" -> TextButtonDefaults.filledTextButtonColors()
+    when (previewOverrideString("style", "filled")) {
+      "child" -> TextButtonDefaults.textButtonColors()
       "tonal" -> TextButtonDefaults.filledTonalTextButtonColors()
       "outlined" -> TextButtonDefaults.outlinedTextButtonColors()
-      else -> TextButtonDefaults.textButtonColors()
+      else -> TextButtonDefaults.filledTextButtonColors()
     }
   TextButton(
     onClick = c.onClick,
