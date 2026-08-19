@@ -194,11 +194,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "Highest emphasis; the screen's primary action.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93092",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
       "wireframe": "wireframes/button-filled.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 76
+      "bodyLine": 80
     },
     {
       "componentId": "Button/FilledVariant",
@@ -391,11 +392,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "The kit's highlighted style — a filled button in the variant palette.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39577:895",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
       "wireframe": "wireframes/button-filledvariant.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 100
+      "bodyLine": 105
     },
     {
       "componentId": "Button/Tonal",
@@ -588,11 +590,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "Medium emphasis, on a tonal container.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93104",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
       "wireframe": "wireframes/button-tonal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 125
+      "bodyLine": 131
     },
     {
       "componentId": "Button/Outlined",
@@ -785,11 +788,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "Medium emphasis, drawn as an outline over the background.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93116",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
       "wireframe": "wireframes/button-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 149
+      "bodyLine": 156
     },
     {
       "componentId": "Button/Child",
@@ -982,11 +986,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "Lowest emphasis; no container at all, for a button inside another surface.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93128",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
       "wireframe": "wireframes/button-child.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 173
+      "bodyLine": 181
     },
     {
       "componentId": "Button/Compact",
@@ -1029,6 +1034,72 @@
               "current": {
                 "kind": "string",
                 "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__child.png",
+          "state": "child",
+          "width": 251,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__child",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_child",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "child"
               },
               "index": null,
               "suggestions": [],
@@ -1113,6 +1184,72 @@
               "current": {
                 "kind": "bool",
                 "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-compact/ideal__filled-variant.png",
+          "state": "filled-variant",
+          "width": 251,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-compact__ideal__filled-variant",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_filled-variant",
+          "overrides": [
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "icon+text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled-variant"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -1431,11 +1568,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "A short button for a dense screen, with the kit's content and style axes folded in.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
       "wireframe": "wireframes/button-compact.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 209
+      "bodyLine": 230
     },
     {
       "componentId": "Button/ImageBackground",
@@ -1628,11 +1766,12 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "A button over an image, with the scrim that keeps its label legible.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38425:101029",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
       "wireframe": "wireframes/button-imagebackground.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 272
+      "bodyLine": 302
     },
     {
       "componentId": "Button/Loading",
@@ -1652,11 +1791,41 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "filled"
+                "value": "tonal"
               },
               "current": {
                 "kind": "string",
-                "value": "filled"
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-loading/ideal__child.png",
+          "state": "child",
+          "width": 263,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__child",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_child",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "current": {
+                "kind": "string",
+                "value": "child"
               },
               "index": null,
               "suggestions": [],
@@ -1682,41 +1851,11 @@
               "label": "style",
               "default": {
                 "kind": "string",
-                "value": "filled"
+                "value": "tonal"
               },
               "current": {
                 "kind": "string",
                 "value": "outlined"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
-        },
-        {
-          "variant": "ideal",
-          "path": "images/button-loading/ideal__tonal.png",
-          "state": "tonal",
-          "width": 263,
-          "height": 136,
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__tonal",
-          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_tonal",
-          "overrides": [
-            {
-              "key": "style",
-              "type": "string",
-              "label": "style",
-              "default": {
-                "kind": "string",
-                "value": "filled"
-              },
-              "current": {
-                "kind": "string",
-                "value": "tonal"
               },
               "index": null,
               "suggestions": [],
@@ -1771,11 +1910,175 @@
       "section": "Actions",
       "group": "Buttons",
       "caption": "A button waiting on the work it started — the kit's loading pattern.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/68333:155116",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
       "wireframe": "wireframes/button-loading.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 301
+      "bodyLine": 337
+    },
+    {
+      "componentId": "ButtonGroup",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/buttongroup/ideal__default.png",
+          "state": "default",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/buttongroup__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ButtonRowGroup",
+          "overrides": [
+            {
+              "key": "count",
+              "type": "int",
+              "label": "count",
+              "default": {
+                "kind": "int",
+                "value": 2
+              },
+              "current": {
+                "kind": "int",
+                "value": 2
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/buttongroup/ideal__three.png",
+          "state": "three",
+          "width": 392,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/buttongroup__ideal__three",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ButtonRowGroup_VARIANT_three",
+          "overrides": [
+            {
+              "key": "count",
+              "type": "int",
+              "label": "count",
+              "default": {
+                "kind": "int",
+                "value": 2
+              },
+              "current": {
+                "kind": "int",
+                "value": 3
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 40,
+              "y": 16,
+              "width": 152,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 40,
+            "y": 16,
+            "width": 152,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 200,
+              "y": 16,
+              "width": 152,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 200,
+            "y": 16,
+            "width": 152,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 40,
+            "y": 16,
+            "width": 312,
+            "height": 104
+          },
+          "padding": {
+            "start": 11.803999,
+            "top": 0,
+            "end": 11.803999,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 40,
+            "y": 16,
+            "width": 152,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 200,
+            "y": 16,
+            "width": 152,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Buttons",
+      "caption": "Buttons that share a row and expand away from whichever one is pressed.",
+      "noReference": "The kit publishes no button-group set — it draws rows as side-by-side instances of its button sets. This is a Wear Compose component with no kit counterpart.",
+      "wireframe": "wireframes/buttongroup.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 379
     },
     {
       "componentId": "Card",
@@ -1861,12 +2164,13 @@
       ],
       "section": "Containment",
       "group": "Cards",
-      "caption": "The plain container: one content slot, tonal by default.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "caption": "The plain container: one content slot, tonal by default. A no-`onClick` overload presents the same card without the tap.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
       "wireframe": "wireframes/card.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 57
+      "bodyLine": 64
     },
     {
       "componentId": "Card/Outlined",
@@ -1903,11 +2207,12 @@
       "section": "Containment",
       "group": "Cards",
       "caption": "The kit's outline style — the same container drawn as a border.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39827:105691",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
       "wireframe": "wireframes/card-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 80
+      "bodyLine": 88
     },
     {
       "componentId": "TitleCard",
@@ -2024,11 +2329,12 @@
       "section": "Containment",
       "group": "Cards",
       "caption": "A card led by a title, with the kit's numbered layouts folded in as content cells.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
       "wireframe": "wireframes/titlecard.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 104
+      "bodyLine": 113
     },
     {
       "componentId": "AppCard",
@@ -2065,11 +2371,12 @@
       "section": "Containment",
       "group": "Cards",
       "caption": "A card that names the app it came from — the shape a notification takes.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5712",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
       "wireframe": "wireframes/appcard.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 130
+      "bodyLine": 140
     },
     {
       "componentId": "AlertDialog",
@@ -2345,11 +2652,12 @@
       "section": "Containment",
       "group": "Dialogs",
       "caption": "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/58475:87041",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
       "wireframe": "wireframes/alertdialog.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 70
+      "bodyLine": 121
     },
     {
       "componentId": "OpenOnPhoneDialog",
@@ -2400,11 +2708,12 @@
       "section": "Containment",
       "group": "Dialogs",
       "caption": "Hands the task to the paired phone, with the progress the wait needs.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/46964:90920",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/46964:91112",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/46964:90920",
       "wireframe": "wireframes/openonphonedialog.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 94
+      "bodyLine": 146
     },
     {
       "componentId": "EdgeButton",
@@ -2551,6 +2860,91 @@
               "current": {
                 "kind": "bool",
                 "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "content",
+              "type": "string",
+              "label": "content",
+              "default": {
+                "kind": "string",
+                "value": "text"
+              },
+              "current": {
+                "kind": "string",
+                "value": "text"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/edgebutton/ideal__filled-variant__largeround.png",
+          "state": "filled-variant",
+          "width": 454,
+          "height": 454,
+          "size": "largeRound",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/edgebutton__ideal__filled-variant__largeround",
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_filled-variant",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled-variant"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -3089,11 +3483,12 @@
       "section": "Actions",
       "group": "Edge-hugging buttons",
       "caption": "The screen-hugging confirm action, curved to the bottom edge of the display.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
       "wireframe": "wireframes/edgebutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 61
+      "bodyLine": 68
     },
     {
       "componentId": "IconButton/Filled",
@@ -3382,11 +3777,306 @@
       "section": "Actions",
       "group": "Icon buttons",
       "caption": "Highest emphasis; an icon-only action.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
       "wireframe": "wireframes/iconbutton-filled.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 75
+      "bodyLine": 83
+    },
+    {
+      "componentId": "IconButton/FilledVariant",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filledvariant/ideal__default.png",
+          "state": "default",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filledvariant__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filledvariant/ideal__disabled.png",
+          "state": "disabled",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filledvariant__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filledvariant/ideal__extra-small.png",
+          "state": "extra-small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filledvariant__ideal__extra-small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_extra-small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filledvariant/ideal__large.png",
+          "state": "large",
+          "width": 152,
+          "height": 152,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filledvariant__ideal__large",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_large",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-filledvariant/ideal__small.png",
+          "state": "small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-filledvariant__ideal__small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 104,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 104,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Actions",
+      "group": "Icon buttons",
+      "caption": "The kit's highlighted style — a filled icon button in the variant palette.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/41409:52153",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "wireframe": "wireframes/iconbutton-filledvariant.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 116
     },
     {
       "componentId": "IconButton/Tonal",
@@ -3477,6 +4167,54 @@
               "current": {
                 "kind": "string",
                 "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-tonal/ideal__extra-small.png",
+          "state": "extra-small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-tonal__ideal__extra-small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_extra-small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-small"
               },
               "index": null,
               "suggestions": [],
@@ -3627,11 +4365,12 @@
       "section": "Actions",
       "group": "Icon buttons",
       "caption": "Medium emphasis, on a tonal container.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102989",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
       "wireframe": "wireframes/iconbutton-tonal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 101
+      "bodyLine": 150
     },
     {
       "componentId": "IconButton/Outlined",
@@ -3722,6 +4461,54 @@
               "current": {
                 "kind": "string",
                 "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/iconbutton-outlined/ideal__extra-small.png",
+          "state": "extra-small",
+          "width": 128,
+          "height": 128,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/iconbutton-outlined__ideal__extra-small",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_extra-small",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "size",
+              "type": "string",
+              "label": "size",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-small"
               },
               "index": null,
               "suggestions": [],
@@ -3872,11 +4659,12 @@
       "section": "Actions",
       "group": "Icon buttons",
       "caption": "Medium emphasis, drawn as an outline over the background.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103002",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
       "wireframe": "wireframes/iconbutton-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 127
+      "bodyLine": 183
     },
     {
       "componentId": "IconButton/Standard",
@@ -4117,11 +4905,12 @@
       "section": "Actions",
       "group": "Icon buttons",
       "caption": "Lowest emphasis; the kit's child style, with no container at all.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103015",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
       "wireframe": "wireframes/iconbutton-standard.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 153
+      "bodyLine": 217
     },
     {
       "componentId": "TextButton",
@@ -4326,12 +5115,12 @@
         },
         {
           "variant": "ideal",
-          "path": "images/textbutton/ideal__filled.png",
-          "state": "filled",
+          "path": "images/textbutton/ideal__filled-variant.png",
+          "state": "filled-variant",
           "width": 136,
           "height": 136,
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__filled",
-          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_filled",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/textbutton__ideal__filled-variant",
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_filled-variant",
           "overrides": [
             {
               "key": "style",
@@ -4343,7 +5132,7 @@
               },
               "current": {
                 "kind": "string",
-                "value": "filled"
+                "value": "filled-variant"
               },
               "index": null,
               "suggestions": [],
@@ -4698,11 +5487,12 @@
       "section": "Actions",
       "group": "Icon buttons",
       "caption": "A short label as a round action, with the kit's style and size axes folded in.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
       "wireframe": "wireframes/textbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 198
+      "bodyLine": 269
     },
     {
       "componentId": "ScrollIndicator",
@@ -4802,15 +5592,317 @@
         }
       ],
       "greenlines": [],
-      "redlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 86,
+            "height": 38
+          },
+          "label": "Row 1",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 86,
+            "width": 90,
+            "height": 38
+          },
+          "label": "Row 2",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 156,
+            "width": 91,
+            "height": 38
+          },
+          "label": "Row 3",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 226,
+            "width": 90,
+            "height": 38
+          },
+          "label": "Row 4",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 296,
+            "width": 91,
+            "height": 38
+          },
+          "label": "Row 5",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 366,
+            "width": 92,
+            "height": 38
+          },
+          "label": "Row 6",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 436,
+            "width": 88,
+            "height": 18
+          },
+          "label": "Row 7",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 8",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 9",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 10",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 11",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 12",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 13",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 14",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 15",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 16",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 17",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 18",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 19",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        },
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 0,
+            "height": 0
+          },
+          "label": "Row 20",
+          "padding": {
+            "start": 8,
+            "top": 8,
+            "end": 8,
+            "bottom": 8
+          }
+        }
+      ],
       "section": "Navigation",
       "group": "Position indicators",
       "caption": "Where the screen sits in a scroll, drawn against the right bezel.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/44998:18343",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
       "wireframe": "wireframes/scrollindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 51
+      "bodyLine": 75
     },
     {
       "componentId": "LevelIndicator",
@@ -4914,11 +6006,12 @@
       "section": "Navigation",
       "group": "Position indicators",
       "caption": "The value a rotating side button is setting, while it is being turned.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/46640:262811",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
       "wireframe": "wireframes/levelindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 66
+      "bodyLine": 99
     },
     {
       "componentId": "PageIndicator/Horizontal",
@@ -5022,11 +6115,12 @@
       "section": "Navigation",
       "group": "Position indicators",
       "caption": "Which page of a horizontal pager is showing, along the bottom of the display.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38684:138301",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
       "wireframe": "wireframes/pageindicator-horizontal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 80
+      "bodyLine": 114
     },
     {
       "componentId": "PageIndicator/Vertical",
@@ -5098,12 +6192,234 @@
       "redlines": [],
       "section": "Navigation",
       "group": "Position indicators",
-      "caption": "The same indicator for a vertical pager, drawn against the left bezel.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+      "caption": "The same indicator for a vertical pager, drawn against the right bezel.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38966:402",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
       "wireframe": "wireframes/pageindicator-vertical.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 96
+      "bodyLine": 131
+    },
+    {
+      "componentId": "TransformingLazyColumn",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/transforminglazycolumn/ideal__default__largeround.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "largeRound",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/transforminglazycolumn__ideal__default__largeround",
+          "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_wearos_large_round",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 24,
+            "y": 8,
+            "width": 406,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 24,
+            "y": 144,
+            "width": 406,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 24,
+            "y": 280,
+            "width": 406,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 24,
+            "y": -70,
+            "width": 406,
+            "height": 128
+          },
+          "padding": {
+            "start": 12,
+            "top": 12,
+            "end": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Layout",
+      "group": "Lists and screens",
+      "caption": "The Wear list: rows scale and fade toward the edges of the round display.",
+      "noReference": "The kit publishes no list set — its list pages are the row components (list header, cards) rather than the scrolling container. This is the Wear Compose list idiom, and the transformation that scales and fades rows against the bezel is only visible on the real one.",
+      "wireframe": "wireframes/transforminglazycolumn.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Lists.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 58
+    },
+    {
+      "componentId": "Scaffold",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/scaffold/ideal__default__largeround.png",
+          "state": "default",
+          "width": 454,
+          "height": 454,
+          "size": "largeRound",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/scaffold__ideal__default__largeround",
+          "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_wearos_large_round",
+          "overrides": [
+            {
+              "key": "chrome",
+              "type": "string",
+              "label": "chrome",
+              "default": {
+                "kind": "string",
+                "value": "scroll"
+              },
+              "current": {
+                "kind": "string",
+                "value": "scroll"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/scaffold/ideal__no-scroll-indicator__largeround.png",
+          "state": "no-scroll-indicator",
+          "width": 454,
+          "height": 454,
+          "size": "largeRound",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/scaffold__ideal__no-scroll-indicator__largeround",
+          "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_wearos_large_round_VARIANT_no-scroll-indicator",
+          "overrides": [
+            {
+              "key": "chrome",
+              "type": "string",
+              "label": "chrome",
+              "default": {
+                "kind": "string",
+                "value": "scroll"
+              },
+              "current": {
+                "kind": "string",
+                "value": "bare"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 184,
+            "y": 79,
+            "width": 86,
+            "height": 38
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        },
+        {
+          "bounds": {
+            "x": 182,
+            "y": 183,
+            "width": 90,
+            "height": 38
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        },
+        {
+          "bounds": {
+            "x": 182,
+            "y": 287,
+            "width": 91,
+            "height": 38
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        },
+        {
+          "bounds": {
+            "x": 182,
+            "y": 391,
+            "width": 90,
+            "height": 38
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        }
+      ],
+      "section": "Layout",
+      "group": "Lists and screens",
+      "caption": "The screen frame: curved clock, scroll position, and the bottom action, in their places.",
+      "noReference": "The kit publishes no scaffold: the chrome it arranges — the curved clock, the scroll indicator, the edge button — are separate sets, and the thing that places them is Wear Compose's, not the kit's.",
+      "wireframe": "wireframes/scaffold.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Lists.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 105
     },
     {
       "componentId": "DatePicker",
@@ -5307,11 +6623,12 @@
       "section": "Selection",
       "group": "Pickers",
       "caption": "Three wheels for a date, with the kit's field orderings folded in.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8942",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
       "wireframe": "wireframes/datepicker.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 55
+      "bodyLine": 59
     },
     {
       "componentId": "TimePicker",
@@ -5515,11 +6832,12 @@
       "section": "Selection",
       "group": "Pickers",
       "caption": "Wheels for a time, pinned to 10:10; the kit's clock formats fold in as cells.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8697",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
       "wireframe": "wireframes/timepicker.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 84
+      "bodyLine": 89
     },
     {
       "componentId": "Picker",
@@ -5540,9 +6858,9 @@
       "redlines": [
         {
           "bounds": {
-            "x": 0,
+            "x": 184,
             "y": 0,
-            "width": 38,
+            "width": 87,
             "height": 454
           },
           "role": "Picker",
@@ -5558,11 +6876,12 @@
       "section": "Selection",
       "group": "Pickers",
       "caption": "One wheel of options — the primitive the date and time pickers are built from.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8581",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
       "wireframe": "wireframes/picker.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 101
+      "bodyLine": 107
     },
     {
       "componentId": "Placeholder/Button",
@@ -5587,66 +6906,6 @@
               "current": {
                 "kind": "string",
                 "value": "filled"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
-        },
-        {
-          "variant": "ideal",
-          "path": "images/placeholder-button/ideal__outlined.png",
-          "state": "outlined",
-          "width": 332,
-          "height": 136,
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__outlined",
-          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_outlined",
-          "overrides": [
-            {
-              "key": "style",
-              "type": "string",
-              "label": "style",
-              "default": {
-                "kind": "string",
-                "value": "filled"
-              },
-              "current": {
-                "kind": "string",
-                "value": "outlined"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
-        },
-        {
-          "variant": "ideal",
-          "path": "images/placeholder-button/ideal__tonal.png",
-          "state": "tonal",
-          "width": 332,
-          "height": 136,
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__tonal",
-          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_tonal",
-          "overrides": [
-            {
-              "key": "style",
-              "type": "string",
-              "label": "style",
-              "default": {
-                "kind": "string",
-                "value": "filled"
-              },
-              "current": {
-                "kind": "string",
-                "value": "tonal"
               },
               "index": null,
               "suggestions": [],
@@ -5701,11 +6960,12 @@
       "section": "Communication",
       "group": "Placeholders",
       "caption": "A button whose label has not arrived yet.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44771",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
       "wireframe": "wireframes/placeholder-button.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 60
+      "bodyLine": 61
     },
     {
       "componentId": "Placeholder/IconButton",
@@ -5758,11 +7018,12 @@
       "section": "Communication",
       "group": "Placeholders",
       "caption": "An icon button whose icon has not arrived yet.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44843",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44842",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/71571:44843",
       "wireframe": "wireframes/placeholder-iconbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 78
+      "bodyLine": 80
     },
     {
       "componentId": "Placeholder/Card",
@@ -5796,36 +7057,6 @@
             }
           ],
           "density": 2
-        },
-        {
-          "variant": "ideal",
-          "path": "images/placeholder-card/ideal__outlined.png",
-          "state": "outlined",
-          "width": 392,
-          "height": 160,
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-card__ideal__outlined",
-          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder_VARIANT_outlined",
-          "overrides": [
-            {
-              "key": "style",
-              "type": "string",
-              "label": "style",
-              "default": {
-                "kind": "string",
-                "value": "tonal"
-              },
-              "current": {
-                "kind": "string",
-                "value": "outlined"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
         }
       ],
       "greenlines": [],
@@ -5849,11 +7080,12 @@
       "section": "Communication",
       "group": "Placeholders",
       "caption": "A card whose content has not arrived yet.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:45108",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
       "wireframe": "wireframes/placeholder-card.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 99
+      "bodyLine": 96
     },
     {
       "componentId": "CircularProgressIndicator",
@@ -5886,24 +7118,6 @@
               "optionsExhaustive": false
             },
             {
-              "key": "enabled",
-              "type": "bool",
-              "label": "enabled",
-              "default": {
-                "kind": "bool",
-                "value": true
-              },
-              "current": {
-                "kind": "bool",
-                "value": true
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            },
-            {
               "key": "stroke",
               "type": "string",
               "label": "stroke",
@@ -5914,6 +7128,42 @@
               "current": {
                 "kind": "string",
                 "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -5952,24 +7202,6 @@
               "optionsExhaustive": false
             },
             {
-              "key": "enabled",
-              "type": "bool",
-              "label": "enabled",
-              "default": {
-                "kind": "bool",
-                "value": true
-              },
-              "current": {
-                "kind": "bool",
-                "value": true
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            },
-            {
               "key": "stroke",
               "type": "string",
               "label": "stroke",
@@ -5980,6 +7212,42 @@
               "current": {
                 "kind": "string",
                 "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -6018,6 +7286,42 @@
               "optionsExhaustive": false
             },
             {
+              "key": "stroke",
+              "type": "string",
+              "label": "stroke",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
               "key": "enabled",
               "type": "bool",
               "label": "enabled",
@@ -6028,6 +7332,36 @@
               "current": {
                 "kind": "bool",
                 "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/circularprogressindicator/ideal__indeterminate.png",
+          "state": "indeterminate",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/circularprogressindicator__ideal__indeterminate",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_indeterminate",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "float",
+              "label": "progress",
+              "default": {
+                "kind": "float",
+                "value": 0.6
+              },
+              "current": {
+                "kind": "float",
+                "value": 0.6
               },
               "index": null,
               "suggestions": [],
@@ -6046,6 +7380,24 @@
               "current": {
                 "kind": "string",
                 "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "indeterminate"
               },
               "index": null,
               "suggestions": [],
@@ -6084,24 +7436,6 @@
               "optionsExhaustive": false
             },
             {
-              "key": "enabled",
-              "type": "bool",
-              "label": "enabled",
-              "default": {
-                "kind": "bool",
-                "value": true
-              },
-              "current": {
-                "kind": "bool",
-                "value": true
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            },
-            {
               "key": "stroke",
               "type": "string",
               "label": "stroke",
@@ -6112,6 +7446,42 @@
               "current": {
                 "kind": "string",
                 "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -6150,24 +7520,6 @@
               "optionsExhaustive": false
             },
             {
-              "key": "enabled",
-              "type": "bool",
-              "label": "enabled",
-              "default": {
-                "kind": "bool",
-                "value": true
-              },
-              "current": {
-                "kind": "bool",
-                "value": true
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            },
-            {
               "key": "stroke",
               "type": "string",
               "label": "stroke",
@@ -6178,6 +7530,42 @@
               "current": {
                 "kind": "string",
                 "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -6216,24 +7604,6 @@
               "optionsExhaustive": false
             },
             {
-              "key": "enabled",
-              "type": "bool",
-              "label": "enabled",
-              "default": {
-                "kind": "bool",
-                "value": true
-              },
-              "current": {
-                "kind": "bool",
-                "value": true
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            },
-            {
               "key": "stroke",
               "type": "string",
               "label": "stroke",
@@ -6250,6 +7620,42 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "current": {
+                "kind": "string",
+                "value": "determinate"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
             }
           ],
           "density": 2
@@ -6260,11 +7666,12 @@
       "section": "Communication",
       "group": "Progress indicators",
       "caption": "A ring around the display edge, with the kit's progress and stroke axes folded in.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
       "wireframe": "wireframes/circularprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 65
+      "bodyLine": 72
     },
     {
       "componentId": "SegmentedCircularProgressIndicator",
@@ -6605,11 +8012,37 @@
       "section": "Communication",
       "group": "Progress indicators",
       "caption": "The same ring cut into segments, for progress through a countable set of steps.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/52431:56915",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/52431:57063",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/52431:56915",
       "wireframe": "wireframes/segmentedcircularprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 100
+      "bodyLine": 113
+    },
+    {
+      "componentId": "ArcProgressIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/arcprogressindicator/ideal__default.png",
+          "state": "default",
+          "width": 272,
+          "height": 272,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/arcprogressindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.ArcProgress",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Communication",
+      "group": "Progress indicators",
+      "caption": "An indeterminate arc along the bezel, for a wait with no measurable progress.",
+      "noReference": "The kit publishes no arc indicator: its progress sets are the full ring, the segmented ring and the linear track. This is a Wear Compose component with no kit counterpart.",
+      "wireframe": "wireframes/arcprogressindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 132
     },
     {
       "componentId": "LinearProgressIndicator",
@@ -6860,11 +8293,12 @@
       "section": "Communication",
       "group": "Progress indicators",
       "caption": "A straight track, for progress inside a component or a list row.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/45011:259051",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/45011:259221",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/45011:259051",
       "wireframe": "wireframes/linearprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 126
+      "bodyLine": 151
     },
     {
       "componentId": "CheckboxButton",
@@ -7176,11 +8610,12 @@
       "section": "Selection",
       "group": "Selection buttons",
       "caption": "A labelled row that toggles a checkbox; for a set where any number may be chosen.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85642",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
       "wireframe": "wireframes/checkboxbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 58
+      "bodyLine": 59
     },
     {
       "componentId": "SwitchButton",
@@ -7492,11 +8927,12 @@
       "section": "Selection",
       "group": "Selection buttons",
       "caption": "A labelled row that flips a switch; for a setting that takes effect immediately.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85629",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
       "wireframe": "wireframes/switchbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 105
+      "bodyLine": 107
     },
     {
       "componentId": "RadioButton",
@@ -7788,11 +9224,12 @@
       "section": "Selection",
       "group": "Selection buttons",
       "caption": "A labelled row in a set where exactly one may be chosen.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85655",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
       "wireframe": "wireframes/radiobutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 152
+      "bodyLine": 155
     },
     {
       "componentId": "Shape/MaterialShapes",
@@ -8853,11 +10290,12 @@
       "section": "Styles",
       "group": "Shapes",
       "caption": "The expressive shape library, with each named shape folded in as a variant.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/42284:176650",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/42284:176655",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/42284:176650",
       "wireframe": "wireframes/shape-materialshapes.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Shapes.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 143
+      "bodyLine": 144
     },
     {
       "componentId": "Slider",
@@ -9258,11 +10696,12 @@
       "section": "Selection",
       "group": "Sliders and steppers",
       "caption": "A value across a fixed number of steps, with the kit's levels folded in as cells.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43711:37256",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
       "wireframe": "wireframes/slider.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 69
+      "bodyLine": 70
     },
     {
       "componentId": "Stepper",
@@ -9515,11 +10954,12 @@
       "section": "Selection",
       "group": "Sliders and steppers",
       "caption": "A value moved a step at a time, between buttons at the top and bottom of the screen.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/44993:61163",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
       "wireframe": "wireframes/stepper.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 95
+      "bodyLine": 97
     },
     {
       "componentId": "SwipeToReveal/Card",
@@ -9643,11 +11083,12 @@
       "section": "Containment",
       "group": "Swipe to reveal",
       "caption": "A card swiped aside to show its actions.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
       "wireframe": "wireframes/swipetoreveal-card.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 47
+      "bodyLine": 48
     },
     {
       "componentId": "SwipeToReveal/Button",
@@ -9792,11 +11233,12 @@
       "section": "Containment",
       "group": "Swipe to reveal",
       "caption": "The same gesture over a button rather than a card.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155785",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
       "wireframe": "wireframes/swipetoreveal-button.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 87
+      "bodyLine": 89
     },
     {
       "componentId": "ListHeader",
@@ -9882,11 +11324,12 @@
       "section": "Text",
       "group": "Text",
       "caption": "Titles the screen a list belongs to; the first thing above the list.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66977",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66978",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38977:66977",
       "wireframe": "wireframes/listheader.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 49
+      "bodyLine": 50
     },
     {
       "componentId": "ListSubHeader",
@@ -9972,11 +11415,12 @@
       "section": "Text",
       "group": "Text",
       "caption": "Divides a long list into named runs, without leaving the screen's title behind.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66982",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66983",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38977:66982",
       "wireframe": "wireframes/listsubheader.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 68
+      "bodyLine": 70
     },
     {
       "componentId": "Text/Body",
@@ -10047,11 +11491,12 @@
       "section": "Text",
       "group": "Text",
       "caption": "Running text at the `bodyMedium` role of the Wear type scale.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66993",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
       "wireframe": "wireframes/text-body.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 92
+      "bodyLine": 95
     },
     {
       "componentId": "Text/Caption",
@@ -10122,11 +11567,12 @@
       "section": "Text",
       "group": "Text",
       "caption": "Secondary text at the `labelSmall` role — a timestamp, a unit, a footnote.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66995",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66998",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38977:66995",
       "wireframe": "wireframes/text-caption.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 115
+      "bodyLine": 119
     },
     {
       "componentId": "TimeText",
@@ -10199,11 +11645,12 @@
       "section": "Text",
       "group": "Text",
       "caption": "The curved status strip every Wear screen carries, pinned to a fixed time.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/48151:45209",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
       "wireframe": "wireframes/timetext.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 136
+      "bodyLine": 141
     },
     {
       "componentId": "IconToggleButton",
@@ -10648,11 +12095,12 @@
       "section": "Selection",
       "group": "Toggle buttons",
       "caption": "An icon that holds an on/off state, with the kit's size and state axes folded in.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:679",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:684",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/39083:679",
       "wireframe": "wireframes/icontogglebutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 70
+      "bodyLine": 71
     },
     {
       "componentId": "TextToggleButton",
@@ -11031,22 +12479,67 @@
       "section": "Selection",
       "group": "Toggle buttons",
       "caption": "A short label that holds an on/off state.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:760",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:767",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/39083:760",
       "wireframe": "wireframes/texttogglebutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 111
+      "bodyLine": 113
     }
   ],
   "library": [
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-19T06:35:34.835Z",
+  "generatedAt": "2026-08-19T12:54:31.938Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
   },
+  "themes": [
+    {
+      "id": "ee.schimke.wearm3catalog.AndroidMakersTheme",
+      "tokensFile": "themes/ee.schimke.wearm3catalog.androidmakerstheme.dtcg.json",
+      "name": "AndroidMakers",
+      "group": "Confetti",
+      "dark": true
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.ConfettiDefaultTheme",
+      "tokensFile": "themes/ee.schimke.wearm3catalog.confettidefaulttheme.dtcg.json",
+      "name": "Confetti (default)",
+      "group": "Confetti",
+      "dark": true
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.DevFestTheme",
+      "tokensFile": "themes/ee.schimke.wearm3catalog.devfesttheme.dtcg.json",
+      "name": "DevFest",
+      "group": "Confetti",
+      "dark": true
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.DroidconTheme",
+      "tokensFile": "themes/ee.schimke.wearm3catalog.droidcontheme.dtcg.json",
+      "name": "Droidcon",
+      "group": "Confetti",
+      "dark": true
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.GoogleSansFlexTheme",
+      "tokensFile": "themes/ee.schimke.wearm3catalog.googlesansflextheme.dtcg.json",
+      "name": "Google Sans Flex",
+      "group": "Wear M3",
+      "dark": true
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.KotlinConfTheme",
+      "tokensFile": "themes/ee.schimke.wearm3catalog.kotlinconftheme.dtcg.json",
+      "name": "KotlinConf",
+      "group": "Confetti",
+      "dark": true
+    }
+  ],
   "liveBundle": {
     "path": "bundle/",
     "file": "bundle.png"

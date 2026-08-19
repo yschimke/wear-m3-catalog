@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-19T06:35:35.536Z",
+  "generatedAt": "2026-08-19T12:54:33.014Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -186,6 +186,28 @@
       "figmaSvg": "figma/button-loading.svg"
     },
     {
+      "componentId": "ButtonGroup",
+      "figmaLayerName": "ButtonGroup",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ButtonRowGroup",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/buttongroup.svg"
+    },
+    {
       "componentId": "Card",
       "figmaLayerName": "Card",
       "componentName": "Sticker",
@@ -360,6 +382,28 @@
         }
       ],
       "figmaSvg": "figma/iconbutton-filled.svg"
+    },
+    {
+      "componentId": "IconButton/FilledVariant",
+      "figmaLayerName": "IconButton/FilledVariant",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledVariantIconAction",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-filledvariant.svg"
     },
     {
       "componentId": "IconButton/Tonal",
@@ -538,6 +582,50 @@
       "figmaSvg": "figma/pageindicator-vertical.svg"
     },
     {
+      "componentId": "TransformingLazyColumn",
+      "figmaLayerName": "TransformingLazyColumn",
+      "componentName": "WearScreen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Lists.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "WearList",
+      "codeSnippet": "WearScreen(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.sections.WearScreen"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/transforminglazycolumn.svg"
+    },
+    {
+      "componentId": "Scaffold",
+      "figmaLayerName": "Scaffold",
+      "componentName": "WearScreen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Lists.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "WearScaffold",
+      "codeSnippet": "WearScreen(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.sections.WearScreen"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/scaffold.svg"
+    },
+    {
       "componentId": "DatePicker",
       "figmaLayerName": "DatePicker",
       "componentName": "FullScreenSticker",
@@ -712,6 +800,28 @@
         }
       ],
       "figmaSvg": "figma/segmentedcircularprogressindicator.svg"
+    },
+    {
+      "componentId": "ArcProgressIndicator",
+      "figmaLayerName": "ArcProgressIndicator",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ArcProgress",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/arcprogressindicator.svg"
     },
     {
       "componentId": "LinearProgressIndicator",
