@@ -21,6 +21,15 @@ capture and no preview id ends in `_Light`. Running the projector today therefor
 than no map: it reads as "nothing here maps to the kit" rather than "the projector could not see
 these".
 
+**It blocks more than parity.** Everything that joins code to a design node reads that map, so an
+absent map is felt three times over:
+
+| Surface | What it loses |
+| --- | --- |
+| design-parity | the comparison itself — an empty map exits 1 |
+| `figma-kit-index.json` | the index is built from the map, so it comes back `{"sets": {}}` |
+| the imported kit pages (`/pages`) | the node → code join. All 22 pages import fine and **0 of 1845 nodes link**, so the server has nothing to substitute a render into — the importer's own comment calls it "the join this whole surface hangs on" |
+
 So this repo:
 
 - keeps the reference on every annotation, and a test

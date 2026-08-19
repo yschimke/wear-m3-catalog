@@ -4,14 +4,16 @@
   "fileKey": "B24oss2tTeXAFykyeyusz0",
   "outDir": "design/pages",
   "discover": true,
+  "$maxSvgBytes_comment": "The cap that keeps one page from dominating the repository. It costs us the Stickersheet page, which exports at 81.6 MB — more than twice the whole rest of the cache put together, committed forever into git history. Raise it deliberately if that page is ever judged worth the weight; it is the kit's poster of everything rather than a definition sheet, so it is the least useful page per byte.",
   "maxSvgBytes": 16777216,
-  "$exclude_comment": "Only pages with no content of their own. The kit uses ruled separators and all-caps headers as section dividers in its page list; they carry nothing to import and their names slug to nothing, so they would collide with each other rather than publish. The unnamed page (169:127814) is excluded by node id for the same reason — there is no name to slug.",
+  "$exclude_comment": "Pages with nothing to import. The kit uses ruled separators and all-caps headers as dividers in its page list, and Figma renders no SVG for them at all ('no url') — excluding them by NODE ID rather than by name, because the names carry leading spaces and did not match. The unnamed page has no name to slug. Stickersheet is here for size, not emptiness (see above).",
   "exclude": [
     "---",
     "-----",
-    "  DESIGN KIT",
-    "  MASTER COMPONENTS",
-    "  APPENDIX",
-    "169:127814"
+    "41408:121602",
+    "36117:13421",
+    "36478:59976",
+    "169:127814",
+    "38851:231913"
   ]
 }
