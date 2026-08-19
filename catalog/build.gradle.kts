@@ -18,6 +18,12 @@ plugins {
 composePreview {
   // Robolectric SDK 35, which runs on the JDK 17 toolchain below. SDK 36 requires JDK 21+.
   sdkVersion.set(35)
+
+  // `CatalogRenderTest` reads the real renderer output to prove no sticker publishes an empty
+  // frame — the one failure mode a green build, a successful render and a human reviewer all miss
+  // on a dark-first catalog. Rendering first is what makes it a test of the artifact rather than of
+  // a fixture; it costs the test job one render pass (~15s at this size).
+  renderBeforeUnitTests.set(true)
 }
 
 android {

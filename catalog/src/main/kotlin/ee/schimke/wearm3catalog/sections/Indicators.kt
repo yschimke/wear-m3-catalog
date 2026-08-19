@@ -4,6 +4,8 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.LevelIndicator
@@ -49,7 +51,7 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 fun ScrollRail() = FullScreenSticker {
   val extent = 1000
   val state = rememberScrollState(initial = (previewOverrideFloat("position", 0f) * extent).toInt())
-  ScrollIndicator(state = state)
+  ScrollIndicator(state = state, modifier = Modifier.align(Alignment.CenterEnd))
 }
 
 @CatalogComponent(
@@ -77,7 +79,10 @@ fun LevelRail() = FullScreenSticker {
 @Composable
 fun HorizontalPages() = FullScreenSticker {
   val pages = previewOverrideInt("pages", 4)
-  HorizontalPageIndicator(pagerState = rememberPagerState(initialPage = 0) { pages })
+  HorizontalPageIndicator(
+    pagerState = rememberPagerState(initialPage = 0) { pages },
+    modifier = Modifier.align(Alignment.BottomCenter),
+  )
 }
 
 @CatalogComponent(
@@ -90,5 +95,8 @@ fun HorizontalPages() = FullScreenSticker {
 @Composable
 fun VerticalPages() = FullScreenSticker {
   val pages = previewOverrideInt("pages", 4)
-  VerticalPageIndicator(pagerState = rememberPagerState(initialPage = 0) { pages })
+  VerticalPageIndicator(
+    pagerState = rememberPagerState(initialPage = 0) { pages },
+    modifier = Modifier.align(Alignment.CenterEnd),
+  )
 }
