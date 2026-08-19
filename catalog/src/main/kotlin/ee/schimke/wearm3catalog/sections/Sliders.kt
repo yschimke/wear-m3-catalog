@@ -54,11 +54,11 @@ private fun heldValue(initial: Float): Pair<Float, (Float) -> Unit> {
   caption = "A value across a fixed number of steps, with the kit's levels folded in as cells.",
 )
 @CatalogModes
-@OverrideVariant(name = "low", floats = ["level=0.0"], kitAxis = "Level", kitValue = "Low")
-@OverrideVariant(name = "full", floats = ["level=1.0"], kitAxis = "Level", kitValue = "Full")
+@OverrideVariant(name = "low", ints = ["level=1"], kitAxis = "Level", kitValue = "Low")
+@OverrideVariant(name = "full", ints = ["level=5"], kitAxis = "Level", kitValue = "Full")
 @OverrideVariant(
-  name = "three-steps",
-  ints = ["steps=3"],
+  name = "three-increments",
+  ints = ["steps=2"],
   kitAxis = "Increments",
   kitValue = "Three",
 )
@@ -70,12 +70,22 @@ private fun heldValue(initial: Float): Pair<Float, (Float) -> Unit> {
 )
 @Composable
 fun ValueSlider() = Sticker {
-  val (value, onValueChange) = heldValue(previewOverrideFloat("level", 0.5f))
+  // THE KIT COUNTS BANDS; COMPOSE COUNTS THE STOPS BETWEEN THEM. The kit's axis is `Increments` —
+  // how many bands the bar is cut into — and `steps` is the number of values between the ends, so
+  // the bar draws `steps + 1` bands (`visibleSegments = steps + 1`, Slider.kt). The base cell is
+  // `Increments=Five`, which is `steps = 4`: at five it drew six bands and five separators against
+  // a five-band, four-separator reference (#34).
+  val steps = previewOverrideInt("steps", 4)
+  // Level is a COUNT OF FILLED BANDS, over the library's own default range (`0f..(steps + 1)`),
+  // not a fraction of one. That is what the kit's cells are: `Level=Mid` fills two bands whether
+  // the bar is cut into three, four or five, and `Low` fills one — not none, which is what
+  // `level = 0.0` published. Holding it as a count is also what keeps the `Increments=Three` cell
+  // on the kit's own Mid (two of three) while varying the one axis it names.
+  val (value, onValueChange) = heldValue(previewOverrideInt("level", 2).toFloat())
   Slider(
     value = value,
     onValueChange = onValueChange,
-    steps = previewOverrideInt("steps", 5),
-    valueRange = 0f..1f,
+    steps = steps,
     enabled = previewOverrideBoolean("enabled", true),
     modifier = Modifier.width(180.dp),
   )
