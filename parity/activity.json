@@ -1,11 +1,33 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-19T18:51:08.302Z",
+  "generatedAt": "2026-08-19T19:15:24.620Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "59ad0d1fcbad784ddf265edbc66b6813b163814c",
+        "subject": "fix: count the kit's slider increments, not the stops between them (#36)",
+        "at": "2026-08-19T19:54:00+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "slider__ideal__default",
+          "slider__ideal__continuous",
+          "slider__ideal__disabled",
+          "slider__ideal__full",
+          "slider__ideal__low",
+          "slider__ideal__three-increments",
+          "stepper__ideal__default__192dp",
+          "stepper__ideal__disabled__192dp",
+          "stepper__ideal__icon__192dp",
+          "stepper__ideal__no-button-fill__192dp"
+        ],
+        "components": [
+          "Slider",
+          "Stepper"
+        ]
+      },
       {
         "sha": "664eb9f369cfb37cc4b6c04a117ad95fa133b95b",
         "subject": "fix(catalog): expose every parameter a component takes as a named control (#37)",
@@ -159,7 +181,7 @@
           "slider__ideal__disabled",
           "slider__ideal__full",
           "slider__ideal__low",
-          "slider__ideal__three-steps",
+          "slider__ideal__three-increments",
           "stepper__ideal__default__192dp",
           "stepper__ideal__disabled__192dp",
           "stepper__ideal__icon__192dp",
@@ -346,7 +368,7 @@
           "slider__ideal__disabled",
           "slider__ideal__full",
           "slider__ideal__low",
-          "slider__ideal__three-steps",
+          "slider__ideal__three-increments",
           "stepper__ideal__default__192dp",
           "stepper__ideal__disabled__192dp",
           "stepper__ideal__icon__192dp",
@@ -583,7 +605,7 @@
           "slider__ideal__disabled",
           "slider__ideal__full",
           "slider__ideal__low",
-          "slider__ideal__three-steps",
+          "slider__ideal__three-increments",
           "stepper__ideal__default__192dp",
           "stepper__ideal__disabled__192dp",
           "stepper__ideal__icon__192dp",
@@ -1004,7 +1026,7 @@
           "slider__ideal__disabled",
           "slider__ideal__full",
           "slider__ideal__low",
-          "slider__ideal__three-steps",
+          "slider__ideal__three-increments",
           "stepper__ideal__default__192dp",
           "stepper__ideal__disabled__192dp",
           "stepper__ideal__icon__192dp",
@@ -1114,7 +1136,7 @@
           "slider__ideal__disabled",
           "slider__ideal__full",
           "slider__ideal__low",
-          "slider__ideal__three-steps",
+          "slider__ideal__three-increments",
           "stepper__ideal__default__192dp",
           "stepper__ideal__disabled__192dp",
           "stepper__ideal__icon__192dp",
