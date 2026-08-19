@@ -118,7 +118,8 @@ is truncating, so the ellipsis lands in the same place rather than the label sim
 | --- | --- |
 | components mapped | 49 |
 | references, base + resolved variant | 182 |
-| variant cells resolved onto a kit node | 133 of 149 |
+| variant cells resolved onto a kit node | 133 of 197 |
+| …of which breakpoint cells, which no kit node answers yet | 48 |
 | kit page nodes joined to code | 181 of 1845 |
 | components with no reference, for a stated reason | 4 |
 
@@ -152,6 +153,46 @@ and they fall into two shapes:
   `kitAxis`/`kitValue` pair, so these are reported rather than guessed at — pairing the wrong cell
   would diff a whole palette and call it a finding.
 
+## Every screen size the kit recognises
+
+A full-screen sticker publishes one capture per screen size, and the sizes are the **kit's own**.
+It enumerates them in its private `.WatchPuck` set on the Meta Components page:
+
+| kit name | dp | how it is rendered here |
+| --- | --- | --- |
+| `xSml 192 (Legacy)` | 192 | `id:wearos_small_round` — **the base** |
+| `Sml 204` | 204 | `spec:width=204dp,…,dpi=320,isRound=true` |
+| `Med 216` | 216 | `spec:width=216dp,…` |
+| `Lrg 225 (breakpoint)` | 225 | `spec:width=225dp,…` |
+| `xLrg 240` | 240 | `id:wearos_xl_round` |
+
+Two things about that table are worth writing down, because both are easy to get wrong.
+
+**`id:wearos_large_round` is deliberately absent.** It is 227dp, which is not a size the kit draws —
+it sits between `Lrg 225` and `xLrg 240`. Rendering every full-screen sticker there is what put a
+scale difference under every full-screen comparison: a 52dp button was 27% of the kit's frame and
+23% of ours, and no amount of matching content was going to close that. Wear tooling publishes named
+device ids for only two of the kit's five sizes, so the middle three are `spec:` strings at the same
+2.0 density — which the renderer handles, whatever the note in the upstream Wear sample says.
+
+**192 is the base, and the kit's own table calls it legacy.** That is not a contradiction to resolve
+in the catalog's favour: whatever the puck table says, the kit *draws* every one of its screen cells
+at 192×192, so the base capture has to be the 192 one or the base comparison is not like-for-like.
+The projector picks the narrowest by default, which is that, so `scripts/design-map.sh` passes no
+`--base-breakpoint`.
+
+The other four **fold under the base as `<dp>dp` cells** rather than becoming four more components —
+a size is an argument to the same screen, not a different screen (AGENTS.md). That is a projector
+capability rather than an annotation: a multipreview's per-device captures used to read as colour
+modes, so a full-screen component dropped out of the map the moment it gained a second size. Fixed
+in `@yschimke/compose-design-map` v1.20.0
+([compose-ai-tools#4262](https://github.com/yschimke/compose-ai-tools/pull/4262)).
+
+Only the `Picker` set publishes a second size in the kit (`Larger Screen (BP)=Yes` at 225), so the
+rest of the breakpoint cells are renders with no kit counterpart — reported as such rather than
+pretended to have matched. Resolving Picker's 225 cell onto that node needs a way to spell a kit
+axis on a breakpoint, which no annotation carries yet.
+
 ## What still differs, and which kind of thing it is
 
 With the copy aligned, what is left in the comparison is structural — which is the point. Recorded
@@ -177,13 +218,6 @@ than being filled with an approximation that would read as a *different* differe
 **Open, and deliberately not fixed here** — each moves a published preview URL, which AGENTS.md says
 to do on purpose rather than in passing:
 
-- **The breakpoint.** Every kit display cell is **192dp** — the small round watch — and one set
-  (`Picker`) additionally publishes **225dp** cells behind `Larger Screen (BP)=Yes`. Full-screen
-  stickers here render on `id:wearos_large_round`, which is **227dp**. So a 52dp button is 27% of
-  the kit's frame and 23% of ours, and every full-screen comparison carries that scale difference
-  underneath whatever else it finds. Fixing it means either rendering full-screen stickers at small
-  round or repointing `Picker` at its `BP=Yes` cells; the first changes ~30 preview ids from
-  `__largeround`.
 - **`EdgeButton` is framed the other way round.** Its kit cells are **192×59** — the button alone,
   a *component* shape — while this catalog publishes it as a whole screen, because the scaffold
   reveals the button from scroll state and a bare capture would freeze it collapsed

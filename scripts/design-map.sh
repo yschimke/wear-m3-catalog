@@ -45,9 +45,15 @@ trap 'rm -rf "$WORK"' EXIT
 # reference and on captures that pair with none, permissive about a stated one. The four are still
 # reported, under a heading that keeps them apart from a gap.
 #
+# NO `--base-breakpoint`. The full-screen stickers now render at each of the five screen sizes the
+# kit recognises, and exactly one of those captures carries the design reference — the rest fold
+# under it as `<dp>dp` cells. The projector picks the NARROWEST as that base, which is 192dp, and
+# 192 is where the kit draws every one of its screen cells. Passing the flag would say the same
+# thing in more words; it exists for a kit that draws somewhere else.
+#
 # Gated BEFORE anything is written, so a failed run leaves the committed map intact rather than
 # replacing it with one CI would report as merely stale.
-npx --yes @yschimke/compose-design-map@1.19.0 \
+npx --yes @yschimke/compose-design-map@1.20.0 \
   --previews catalog/build/compose-previews/previews.json \
   --out "$WORK/design-map.json" \
   --variants "$WORK/design-map-variants.json" \
