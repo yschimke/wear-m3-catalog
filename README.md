@@ -6,6 +6,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 
 | Preview | Image |
 |---------|-------|
+| `Scheme colours` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/colorcatalog__Scheme.png" width="150" /> |
+| `ButtonRowGroup` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonRowGroup-91cd010c.png" width="150" /> |
+| `ButtonRowGroup` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonRowGroup_VARIANT_three-6a83ef3c.png" width="150" /> |
 | `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton-8cb92223.png" width="150" /> |
 | `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton_VARIANT_disabled-dbb9b972.png" width="150" /> |
 | `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton_VARIANT_icon-d2ec1f77.png" width="150" /> |
@@ -40,9 +43,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard-f28652ac.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_subtitle-f441ae75.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_time-5870f95c.png" width="150" /> |
-| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round-0c071d21.png" width="150" /> |
-| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round_VARIANT_edge_button-5f018088.png" width="150" /> |
-| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round_VARIANT_no_buttons-34473650.png" width="150" /> |
+| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round-0c071d21.png" width="150" /> |
+| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round_VARIANT_edge_button-5f018088.png" width="150" /> |
+| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round_VARIANT_no_buttons-34473650.png" width="150" /> |
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_wearos_large_round-185cff56.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round-981d3ac4.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_disabled-0ca35c1a.png" width="150" /> |
@@ -67,7 +70,6 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction-23ed74e3.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_child-fee099ee.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_disabled-2be9802a.png" width="150" /> |
-| `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_filled-896271e1.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_large-2ed53043.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_outlined-fdf736d0.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_small-de015dc5.png" width="150" /> |
@@ -87,6 +89,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail_wearos_large_round_VARIANT_middle-4bb1b14d.png" width="150" /> |
 | `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_wearos_large_round-c09c184e.png" width="150" /> |
 | `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_wearos_large_round_VARIANT_six_pages-07dbeaec.png" width="150" /> |
+| `WearList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_wearos_large_round-19026170.png" width="150" /> |
+| `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_wearos_large_round-e5cf2c9a.png" width="150" /> |
+| `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_wearos_large_round_VARIANT_no_scroll_indicator-9f435d4a.png" width="150" /> |
 | `IndeterminateProgressMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IndeterminateProgressMotion-712acc69.gif" width="150" /> |
 | `SwipeToRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealMotion-671dbb6d.gif" width="150" /> |
 | `SwitchTransitionMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwitchTransitionMotion-62450b91.gif" width="150" /> |
@@ -99,14 +104,13 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_wearos_large_round_VARIANT_24_hour-3e4848d6.png" width="150" /> |
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_wearos_large_round_VARIANT_24_hour_with_seconds-c25b4afd.png" width="150" /> |
 | `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder-cd2645e1.png" width="150" /> |
-| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_outlined-1666fe17.png" width="150" /> |
-| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_tonal-c2accbc5.png" width="150" /> |
 | `CardPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CardPlaceholder-66aa4082.png" width="150" /> |
-| `CardPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CardPlaceholder_VARIANT_outlined-6916ee39.png" width="150" /> |
 | `IconButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconButtonPlaceholder-aa8b3ddc.png" width="150" /> |
+| `ArcProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ArcProgress-6a9f49ea.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress-d0477ca2.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_complete-549d6ab2.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_disabled-57c36105.png" width="150" /> |
+| `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_indeterminate-feac0b07.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_overflow-62aec5d6.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_small_stroke-950c84e6.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_VARIANT_zero-797dbab9.png" width="150" /> |
@@ -200,4 +204,12 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TextToggle` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextToggle_VARIANT_extra_large-5225d8cf.png" width="150" /> |
 | `TextToggle` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextToggle_VARIANT_large-734ee8c0.png" width="150" /> |
 | `TextToggle` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextToggle_VARIANT_off-ff0a59ad.png" width="150" /> |
+| `Shape shapes` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/shapecatalog__Shape.png" width="150" /> |
+| `Type type styles` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/typographycatalog__Type.png" width="150" /> |
+| `AndroidMakers theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/wearthemecatalog__AndroidMakers.png" width="150" /> |
+| `Confetti (default) theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/wearthemecatalog__Confetti__default_.png" width="150" /> |
+| `DevFest theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/wearthemecatalog__DevFest.png" width="150" /> |
+| `Droidcon theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/wearthemecatalog__Droidcon.png" width="150" /> |
+| `Google Sans Flex theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/wearthemecatalog__Google_Sans_Flex.png" width="150" /> |
+| `KotlinConf theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/wearthemecatalog__KotlinConf.png" width="150" /> |
 
