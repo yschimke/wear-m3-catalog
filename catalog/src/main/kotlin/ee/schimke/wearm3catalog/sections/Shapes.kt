@@ -101,7 +101,8 @@ private fun catalogShape(): RoundedPolygon {
 
 @CatalogComponent(
   id = "Shape/MaterialShapes",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/42284:176650",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/42284:176655",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/42284:176650",
   caption = "The expressive shape library, with each named shape folded in as a variant.",
 )
 @CatalogModes

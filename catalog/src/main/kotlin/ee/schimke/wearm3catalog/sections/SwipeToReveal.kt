@@ -33,7 +33,8 @@ import ee.schimke.wearm3catalog.Sticker
 
 @CatalogComponent(
   id = "SwipeToReveal/Card",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
   caption = "A card swiped aside to show its actions.",
 )
 @CatalogModes
@@ -73,7 +74,8 @@ fun SwipeToRevealCard() = Sticker {
 
 @CatalogComponent(
   id = "SwipeToReveal/Button",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155785",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155784",
   caption = "The same gesture over a button rather than a card.",
 )
 @CatalogModes

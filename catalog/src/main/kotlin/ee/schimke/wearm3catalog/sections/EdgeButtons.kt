@@ -36,7 +36,8 @@ import ee.schimke.wearm3catalog.counted
 
 @CatalogComponent(
   id = "EdgeButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
   caption = "The screen-hugging confirm action, curved to the bottom edge of the display.",
 )
 @CatalogFullScreenModes
@@ -44,6 +45,12 @@ import ee.schimke.wearm3catalog.counted
 @OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
 @OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
 @OverrideVariant(name = "icon", strings = ["content=icon"], kitAxis = "Type", kitValue = "Icon")
+@OverrideVariant(
+  name = "filled-variant",
+  strings = ["style=filled-variant"],
+  kitAxis = "Style",
+  kitValue = "Filled Variant",
+)
 @OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
 @OverrideVariant(
   name = "outlined",
@@ -62,6 +69,7 @@ fun ScreenEdgeButton() = EdgeButtonScreen {
   val c = counted("Done")
   val colors =
     when (previewOverrideString("style", "filled")) {
+      "filled-variant" -> ButtonDefaults.filledVariantButtonColors()
       "tonal" -> ButtonDefaults.filledTonalButtonColors()
       "outlined" -> ButtonDefaults.outlinedButtonColors()
       else -> ButtonDefaults.buttonColors()

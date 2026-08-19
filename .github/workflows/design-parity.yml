@@ -12,25 +12,27 @@ name: Design parity
 # apply the verdict — lives in design-parity's reusable workflow. This file is the configuration,
 # not a copy of the pipeline.
 #
-# MANUAL ONLY, FOR NOW — and that is the honest spelling of a prerequisite this repo does not yet
-# meet, rather than a preference.
+# Runs on push to main and weekly, now that this catalog projects a non-empty design-map.json.
 #
-# The comparison needs a design-map.json carrying at least one component, and this catalog cannot
-# project one: the map projector pairs a component's reference with its `_Light` capture, and a
-# dark-only Wear sticker has none, so it writes `0 mapped component(s)` and the run dies on
-# `no components: pass --components, or commit a design-map.json with entries`. It does NOT skip
-# with a notice the way a missing FIGMA_TOKEN does. See docs/DESIGN_MAP.md and
-# yschimke/compose-ai-tools#4192.
+# It could not, for as long as the map projector paired a component's reference with its `_Light`
+# capture: a Wear sticker is a single DARK capture, so nothing paired and the projection came back
+# `0 mapped component(s)`. That is not a skip — design-parity dies on `no components: pass
+# --components, or commit a design-map.json with entries` — so the workflow was dispatch-only to
+# keep a known upstream gap from painting a red X on every push. The fallback to a catalog's sole
+# capture landed upstream in `@yschimke/compose-design-map` v1.16.0
+# (yschimke/compose-ai-tools#4196), and `design-map.json` is now committed: 49 components, 182
+# references, 133 of them resolved onto the kit's own variant nodes. See docs/DESIGN_MAP.md.
 #
-# A red X on every push to main for a known upstream gap teaches everyone to ignore the signal, so
-# the push and weekly triggers are off until the projector can name a dark capture. Restore them in
-# the same commit that commits the first non-empty design-map.json — the workflow below is already
-# the configuration it will need, and the dispatch trigger keeps it runnable in the meantime.
-#
-# The other prerequisite is a `FIGMA_TOKEN` repository secret — a read-only PAT with
-# `file_content:read`. That one does make the run skip rather than fail while absent.
+# The remaining prerequisite is a `FIGMA_TOKEN` repository secret — a read-only PAT with
+# `file_content:read`. That one makes the run skip with a notice rather than fail while absent.
 
 on:
+  push:
+    branches: [main]
+  schedule:
+    # Weekly, early Monday UTC — the kit moves on its own schedule and a drift nobody pushed for
+    # should still surface within the week.
+    - cron: "0 5 * * 1"
   workflow_dispatch:
     inputs:
       design_parity_ref:

@@ -34,6 +34,17 @@ jobs:
       - name: Discover previews
         run: ./gradlew :catalog:composePreviewDiscover --stacktrace
 
+      # design-map.json is an OUTPUT — projected from the annotations that were just discovered —
+      # and it is committed, so it can go stale the moment a component is added or a reference is
+      # repointed. A stale map is silent in the worst way: parity keeps comparing yesterday's
+      # components and the imported kit pages keep linking to previews that have moved. Checking it
+      # here, in the job that already holds the manifest it is projected from, is the cheapest place
+      # the drift can be caught.
+      #
+      # `--check` regenerates into a temp dir and diffs; it never writes the working tree.
+      - name: design-map.json is up to date
+        run: scripts/design-map.sh --check
+
       - uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
