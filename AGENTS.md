@@ -100,6 +100,15 @@ are out of scope.
   Where a set publishes both, as `Dialog` does behind `Scrolling=`, take the display cell: pointed at
   a scroll cell the alert dialog reported its entire frame as a difference, because the comparison
   squashes the reference to the render's aspect first. See [docs/DESIGN_MAP.md](docs/DESIGN_MAP.md).
+- **A full-screen sticker renders at every screen size the kit recognises, and they fold.** The kit
+  enumerates its sizes in `.WatchPuck` on the Meta Components page — 192 (its own "legacy"), 204,
+  216, 225 (the breakpoint), 240 — and `CatalogFullScreenModes` draws all five. **192 is the base**,
+  because whatever the puck table calls it, the kit *draws* every screen cell at 192×192, so a base
+  comparison is only like-for-like there; the other four fold under it as `<dp>dp` cells, since a
+  size is an argument to the same screen rather than a different screen. **Do not add
+  `id:wearos_large_round`** — it is 227dp, a size the kit does not draw, and rendering there is what
+  put a scale difference under every full-screen comparison. Tooling has named device ids for only
+  two of the five; the rest are `spec:` strings at the same 2.0 density, which render fine.
 - One file per component **group**, opening with `@file:CatalogGroup(name = …, section = …)`.
 - Every `@CatalogComponent` carries a `caption`. A component with no caption publishes as a bare
   picture, and a test fails the build for it.

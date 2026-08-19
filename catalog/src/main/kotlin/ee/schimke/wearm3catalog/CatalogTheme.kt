@@ -125,13 +125,62 @@ fun EdgeButtonScreen(edgeButton: @Composable BoxScope.() -> Unit) {
 @Preview(showBackground = false) annotation class CatalogModes
 
 /**
- * The multipreview for a **full-screen** component, paired with [FullScreenSticker].
+ * The multipreview for a **full-screen** component, paired with [FullScreenSticker]: one capture at
+ * every screen size the kit recognises.
  *
  * Names the watch device explicitly rather than relying on the measuring bound a device-less Wear
  * preview is retargeted to. The bound is enough for a component that wraps — it sizes and the
  * renderer crops — but a component that lays itself out against the *screen* reads the device
  * configuration, and without one a picker sizes its columns for a screen this is not and overflows
  * the frame.
+ *
+ * THE SIZES ARE THE KIT'S, NOT THE TOOLING'S. The kit enumerates them in its own `.WatchPuck` set
+ * on the Meta Components page — `xSml 192 (Legacy)`, `Sml 204`, `Med 216`, `Lrg 225 (breakpoint)`,
+ * `xLrg 240` — and those are the five drawn here. Wear tooling publishes device ids for only two of
+ * them (`wearos_small_round` at 192 and `wearos_xl_round` at 240); the middle three are `spec:`
+ * strings at the same 2.0 density, which the renderer handles fine. **`id:wearos_large_round` is
+ * deliberately absent**: it is 227dp, which is not a size the kit draws — it sits between `Lrg 225`
+ * and `xLrg 240`, and rendering there is what made every full-screen comparison carry a scale
+ * difference underneath whatever else it found.
+ *
+ * 192 IS THE BASE, and that is the kit's call rather than a preference. The kit calls 192 "Legacy"
+ * in the puck table, but it *draws* every one of its screen cells at 192×192 — so the base capture
+ * has to be the 192 one for a base comparison to line up. The projector picks the narrowest by
+ * default, which is that, so `scripts/design-map.sh` passes no `--base-breakpoint`.
+ *
+ * The other four fold under it as `<dp>dp` cells rather than becoming four more components: a size
+ * is an argument to the same screen, not a different screen (AGENTS.md). Only the `Picker` set
+ * publishes a second size in the kit — `Larger Screen (BP)=Yes` at 225 — so the rest are renders
+ * with no kit counterpart, which the projector reports rather than pretends to have matched.
  */
-@Preview(device = "id:wearos_large_round", showBackground = true, backgroundColor = 0xFF000000)
+@Preview(
+  name = "192dp",
+  device = "id:wearos_small_round",
+  showBackground = true,
+  backgroundColor = 0xFF000000,
+)
+@Preview(
+  name = "204dp",
+  device = "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+  showBackground = true,
+  backgroundColor = 0xFF000000,
+)
+@Preview(
+  name = "216dp",
+  device = "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+  showBackground = true,
+  backgroundColor = 0xFF000000,
+)
+@Preview(
+  name = "225dp",
+  device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+  showBackground = true,
+  backgroundColor = 0xFF000000,
+)
+@Preview(
+  name = "240dp",
+  device = "id:wearos_xl_round",
+  showBackground = true,
+  backgroundColor = 0xFF000000,
+)
 annotation class CatalogFullScreenModes
