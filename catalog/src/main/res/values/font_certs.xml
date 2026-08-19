@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        The certificate array `GoogleFont.Provider` in CatalogFonts.kt names. On a device this would
+        have to carry the real GMS signing certificates (normally supplied by
+        `play-services-base`); under the renderer's Robolectric harness ShadowFontsContractCompat
+        answers the font request before any signature check, so an empty local array is enough to
+        exercise the downloadable-font path without the Play Services dependency. This module is
+        only ever rendered, never shipped to a watch.
+    -->
+    <array name="com_google_android_gms_fonts_certs" />
+</resources>

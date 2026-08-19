@@ -98,6 +98,34 @@ transparent background rather than the light/dark pair the phone catalog publish
 That single mode has one consequence worth knowing about before you go looking for a parity report:
 see [`docs/DESIGN_MAP.md`](docs/DESIGN_MAP.md).
 
+## Themes
+
+The kit publishes one theme — the stock Wear M3 dark palette every sticker on this sheet is drawn
+in. Six more are declared as `@WearThemeCatalog` providers in
+[`CatalogThemes.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogThemes.kt), which puts
+them in the preview server's **Theme** select (any sticker re-renders under any of them) and bakes
+one specimen sheet per theme showing the Wear roles and type scale it resolves to.
+
+Five are [Confetti Wear](https://github.com/joreilly/Confetti)'s: its stock theme plus the four
+curated conference identities — KotlinConf, AndroidMakers, Droidcon, DevFest. They are built the way
+Confetti builds them, a seed colour through `materialkolor`'s dynamic dark scheme mapped onto the
+Wear roles, rather than transcribed as a table of resolved hex values that would drift the first
+time either side moved. Each carries Confetti's typography too: a theme is a typeface pairing as
+much as a palette, and KotlinConf's JetBrains Mono titles over an Inter body are as much of that
+identity as the purple.
+
+The sixth is not Confetti's. It is the stock Wear palette with only the type scale re-pointed at
+**Google Sans Flex**, so a side-by-side against an un-themed sticker reads as a pure type comparison
+rather than a type *and* colour change.
+
+These answer to no kit node and are not inventory — membership is still the kit's call. Every
+typeface resolves as a downloadable Google font, so no TTF is vendored here.
+
+These are why a sticker frame installs its theme through `CatalogMaterialTheme` rather than a bare
+`MaterialTheme { … }`: a provider wraps the sticker from the outside, and an inner theme would
+shadow it. That failure is silent and convincing — every entry in the switcher renders identical
+pixels — so the frame stands down when a provider has already installed one.
+
 ## Motion
 
 Four recordings live in
