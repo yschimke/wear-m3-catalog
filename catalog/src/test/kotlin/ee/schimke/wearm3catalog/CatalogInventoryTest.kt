@@ -1,5 +1,6 @@
 package ee.schimke.wearm3catalog
 
+import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
 import ee.schimke.wearm3catalog.sections.SHAPE_SET
 import java.io.File
 import org.junit.Assert.assertEquals
@@ -106,6 +107,64 @@ class CatalogInventoryTest {
 
     // The base render draws the first entry with no knob turned, so it is the one key with no cell.
     assertEquals(keys.drop(1).toSet(), seeded)
+  }
+
+  /**
+   * The declared themes stay declared, and stay **Wear** themes.
+   *
+   * `@WearThemeCatalog` is `BINARY` retention — discovery reads it off the class file with
+   * ClassGraph, so it is deliberately not reflectable at runtime. The annotation's presence is
+   * therefore checked in the source; what reflection *can* prove is the half that breaks the
+   * render, since `PreviewWrapperProvider` is how the renderer invokes a theme at all.
+   *
+   * The mobile `@ThemeCatalog` on one of these would be the expensive mistake: the providers
+   * install the Wear `MaterialTheme`, so the generated sheet would report the baseline mobile M3
+   * palette instead of the theme it declares, with no error and a sheet that looks entirely
+   * plausible.
+   */
+  @Test
+  fun `declared themes are Wear wrapper providers`() {
+    val providers: List<Any> =
+      listOf(
+        ConfettiDefaultTheme(),
+        KotlinConfTheme(),
+        AndroidMakersTheme(),
+        DroidconTheme(),
+        DevFestTheme(),
+        GoogleSansFlexTheme(),
+      )
+    for (provider in providers) {
+      assertTrue(
+        "${provider::class.simpleName} must implement PreviewWrapperProvider, which is how the " +
+          "renderer invokes a declared theme",
+        provider is PreviewWrapperProvider,
+      )
+    }
+
+    val themes = File("src/main/kotlin/ee/schimke/wearm3catalog/CatalogThemes.kt").readText()
+    assertEquals(
+      "every declared theme must keep its @WearThemeCatalog annotation, else it stops being " +
+        "offered in the preview server's theme select and its specimen sheet stops being generated",
+      providers.size,
+      Regex("""@WearThemeCatalog\(""").findAll(themes).count(),
+    )
+    assertEquals(
+      "a Wear theme annotated with the MOBILE @ThemeCatalog publishes a specimen sheet of the " +
+        "baseline mobile M3 palette instead of the theme it declares",
+      0,
+      Regex("""(?<!Wear)ThemeCatalog\(""").findAll(themes).count(),
+    )
+  }
+
+  /**
+   * The four conference seeds are four colours. A copy-paste slip here publishes two themes that
+   * render identical pixels under different names — which reads as a working theme switcher and is
+   * the one defect a reviewer scrolling a sheet of round stickers will not see.
+   */
+  @Test
+  fun `each conference identity has its own seed`() {
+    val seeds = listOf(KotlinConfSeed, AndroidMakersSeed, DroidconSeed, DevFestSeed)
+    assertEquals("conference seeds must be distinct", seeds.size, seeds.toSet().size)
   }
 
   private companion object {

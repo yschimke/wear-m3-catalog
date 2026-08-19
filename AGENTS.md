@@ -106,6 +106,29 @@ are out of scope.
   documented exception in the other direction: they draw mobile `MaterialShapes` because Wear
   publishes no shape library of its own (see README).
 
+## Themes
+
+The declared themes in `CatalogThemes.kt` are **not inventory** — no `@CatalogComponent`, no kit
+node, no `kit-sets.json` row. Membership is still the kit's call; a theme is a re-skin of what is
+already a member.
+
+- **A sticker frame installs its theme through `CatalogMaterialTheme`, never a bare
+  `MaterialTheme { … }`.** A `@WearThemeCatalog` provider wraps the sticker from the outside, and an
+  inner theme silently shadows it: every entry in the switcher then renders identical pixels and
+  every specimen sheet reports the stock palette. A new full-screen frame that reaches for
+  `MaterialTheme` directly reintroduces that, and nothing fails.
+- **`@WearThemeCatalog`, not the mobile `@ThemeCatalog`.** The two are not interchangeable — the
+  mobile one's specimen reads `androidx.compose.material3.MaterialTheme`, which these providers
+  never install, so the sheet reports the mobile baseline instead of the theme. Enforced by
+  `CatalogInventoryTest`.
+- **A theme carries a type scale, not only a palette.** Re-point every role explicitly:
+  `Typography(defaultFontFamily = …)` is a no-op on Wear (it fills in a family only where a style
+  has none, and every stock role already declares one), so a theme built that way renders in the
+  stock face no matter what it declares.
+- **Reproduce a borrowed theme by its recipe, not its output.** The Confetti palettes run the same
+  seed through the same library Confetti uses rather than transcribing the roles it resolved to,
+  because a transcribed table drifts the first time either side moves and nothing notices.
+
 ## Motion
 
 A sticker is one frame, and a lot of what a design system *is* lives in the motion. `Motion.kt`
