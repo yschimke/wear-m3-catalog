@@ -23,6 +23,13 @@ on:
     paths:
       - 'catalog/**'
       - 'catalog.spec.json'
+      # The page-backdrop opt-in and the cache the publisher actually copies into the bundle. A
+      # refreshed SVG is a changed published page, so it is as much a render input as the spec —
+      # and `figma-pages.yml` refreshes it on its own schedule rather than by a source edit, so
+      # listing only the config would leave a refreshed page unpublished on a main that has every
+      # byte of it committed.
+      - 'design-pages.json'
+      - 'design/pages/**'
       - 'gradle/libs.versions.toml'
       - 'gradle/wrapper/gradle-wrapper.properties'
       - 'settings.gradle.kts'

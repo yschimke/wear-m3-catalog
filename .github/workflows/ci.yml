@@ -93,3 +93,18 @@ jobs:
         run: |
           node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
             --spec catalog.spec.json --module-dir catalog
+
+  pages:
+    name: Figma page resolution
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.19.0
+      # Which pages the import covers, and what each one is called. Both answers are published URLs
+      # (`/{system}/pages/{id}`), and the page list is discovered from the Figma file rather than
+      # hand-kept — so the slug rule is the only thing holding those URLs still. Needs no token:
+      # it exercises the resolver against fixtures.
+      - run: node --test scripts/import-figma-pages.test.mjs
