@@ -36,10 +36,10 @@ customising the live render are two ends of one workflow.
 
 | | |
 | --- | --- |
-| Components | **49** |
-| Rendered images (PNG) | **192** |
-| Editable wireframes (SVG) | **49** |
-| Editable design vectors (figma-svg) | **49** |
+| Components | **48** |
+| Rendered images (PNG) | **189** |
+| Editable wireframes (SVG) | **48** |
+| Editable design vectors (figma-svg) | **48** |
 | Components with a11y greenlines | **27** |
 | Library | `androidx.wear.compose:compose-material3` |
 | Renderer | compose-preview 1.15.0 |
@@ -55,11 +55,11 @@ customising the live render are two ends of one workflow.
 | Text | 5 |
 | Cards | 4 |
 | Position indicators | 4 |
-| Dialogs | 3 |
 | Pickers | 3 |
 | Placeholders | 3 |
 | Progress indicators | 3 |
 | Selection buttons | 3 |
+| Dialogs | 2 |
 | Sliders and steppers | 2 |
 | Swipe to reveal | 2 |
 | Toggle buttons | 2 |

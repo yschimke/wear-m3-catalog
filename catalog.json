@@ -2349,115 +2349,7 @@
       "wireframe": "wireframes/alertdialog.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 62
-    },
-    {
-      "componentId": "ConfirmationDialog",
-      "images": [
-        {
-          "variant": "ideal",
-          "path": "images/confirmationdialog/ideal__default__largeround.png",
-          "state": "default",
-          "width": 454,
-          "height": 454,
-          "size": "largeRound",
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/confirmationdialog__ideal__default__largeround",
-          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.ConfirmationDialogSticker_wearos_large_round",
-          "overrides": [
-            {
-              "key": "kind",
-              "type": "string",
-              "label": "kind",
-              "default": {
-                "kind": "string",
-                "value": "plain"
-              },
-              "current": {
-                "kind": "string",
-                "value": "plain"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
-        },
-        {
-          "variant": "ideal",
-          "path": "images/confirmationdialog/ideal__failure__largeround.png",
-          "state": "failure",
-          "width": 454,
-          "height": 454,
-          "size": "largeRound",
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/confirmationdialog__ideal__failure__largeround",
-          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.ConfirmationDialogSticker_wearos_large_round_VARIANT_failure",
-          "overrides": [
-            {
-              "key": "kind",
-              "type": "string",
-              "label": "kind",
-              "default": {
-                "kind": "string",
-                "value": "plain"
-              },
-              "current": {
-                "kind": "string",
-                "value": "failure"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
-        },
-        {
-          "variant": "ideal",
-          "path": "images/confirmationdialog/ideal__success__largeround.png",
-          "state": "success",
-          "width": 454,
-          "height": 454,
-          "size": "largeRound",
-          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/confirmationdialog__ideal__success__largeround",
-          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.ConfirmationDialogSticker_wearos_large_round_VARIANT_success",
-          "overrides": [
-            {
-              "key": "kind",
-              "type": "string",
-              "label": "kind",
-              "default": {
-                "kind": "string",
-                "value": "plain"
-              },
-              "current": {
-                "kind": "string",
-                "value": "success"
-              },
-              "index": null,
-              "suggestions": [],
-              "googleFonts": false,
-              "options": [],
-              "optionsExhaustive": false
-            }
-          ],
-          "density": 2
-        }
-      ],
-      "greenlines": [],
-      "redlines": [],
-      "section": "Containment",
-      "group": "Dialogs",
-      "caption": "Reports that an action landed, then dismisses itself.",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/47251:36765",
-      "wireframe": "wireframes/confirmationdialog.svg",
-      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
-      "sourceModule": ":catalog",
-      "bodyLine": 88
+      "bodyLine": 70
     },
     {
       "componentId": "OpenOnPhoneDialog",
@@ -2512,7 +2404,7 @@
       "wireframe": "wireframes/openonphonedialog.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 115
+      "bodyLine": 94
     },
     {
       "componentId": "EdgeButton",
@@ -11084,7 +10976,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.15.0",
-  "generatedAt": "2026-08-19T00:09:18.422Z",
+  "generatedAt": "2026-08-19T00:14:39.712Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
