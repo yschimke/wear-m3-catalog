@@ -40,20 +40,20 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard-f28652ac.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_subtitle-f441ae75.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_time-5870f95c.png" width="150" /> |
-| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker-431b9a37.png" width="150" /> |
-| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_VARIANT_edge_button-c9895e36.png" width="150" /> |
-| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_VARIANT_no_buttons-c5d77c7b.png" width="150" /> |
-| `ConfirmationDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ConfirmationDialogSticker-dac86955.png" width="150" /> |
-| `ConfirmationDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ConfirmationDialogSticker_VARIANT_failure-dc39538f.png" width="150" /> |
-| `ConfirmationDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ConfirmationDialogSticker_VARIANT_success-851670e2.png" width="150" /> |
-| `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker-67feeb62.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton-3dbc6219.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_disabled-b36def2e.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_icon-6c6c3520.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_large-8215a8b1.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_outlined-044d2fa9.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_small-2ebfff7b.png" width="150" /> |
-| `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_tonal-75d34eb1.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round-0c071d21.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round_VARIANT_edge_button-5f018088.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_wearos_large_round_VARIANT_no_buttons-34473650.png" width="150" /> |
+| `ConfirmationDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ConfirmationDialogSticker_wearos_large_round-b6d73ef5.png" width="150" /> |
+| `ConfirmationDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ConfirmationDialogSticker_wearos_large_round_VARIANT_failure-f274e3d2.png" width="150" /> |
+| `ConfirmationDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ConfirmationDialogSticker_wearos_large_round_VARIANT_success-67a6963a.png" width="150" /> |
+| `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_wearos_large_round-185cff56.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round-981d3ac4.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_disabled-0ca35c1a.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_icon-c8b88ce8.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_large-fcf1ca3e.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_outlined-64b4a075.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_small-93f2ea55.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_tonal-e4710d8e.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction-b74842d5.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_disabled-1f1a9bfb.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_extra_small-3899ccda.png" width="150" /> |
@@ -78,24 +78,24 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_disabled-e47314d3.png" width="150" /> |
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_large-58d3bc12.png" width="150" /> |
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_small-42099a73.png" width="150" /> |
-| `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages-556fa963.png" width="150" /> |
-| `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages_VARIANT_six_pages-405463c9.png" width="150" /> |
-| `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages_VARIANT_two_pages-3f7cc12e.png" width="150" /> |
-| `LevelRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LevelRail-78d0da13.png" width="150" /> |
-| `LevelRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LevelRail_VARIANT_full-5b01ad4a.png" width="150" /> |
-| `LevelRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LevelRail_VARIANT_low-fc6048c8.png" width="150" /> |
-| `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail-b39d8602.png" width="150" /> |
-| `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail_VARIANT_bottom-3575a045.png" width="150" /> |
-| `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail_VARIANT_middle-66fd33b0.png" width="150" /> |
-| `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages-9525328e.png" width="150" /> |
-| `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_VARIANT_six_pages-fe0d611a.png" width="150" /> |
-| `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels-55730412.png" width="150" /> |
-| `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_VARIANT_month_first-59f652ef.png" width="150" /> |
-| `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_VARIANT_year_first-3034443e.png" width="150" /> |
-| `SingleColumnPicker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SingleColumnPicker-49db8f7e.png" width="150" /> |
-| `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels-fff13b89.png" width="150" /> |
-| `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_VARIANT_24_hour-ed5318d0.png" width="150" /> |
-| `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_VARIANT_24_hour_with_seconds-283432ad.png" width="150" /> |
+| `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages_wearos_large_round-5c843c9e.png" width="150" /> |
+| `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages_wearos_large_round_VARIANT_six_pages-61bffd43.png" width="150" /> |
+| `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages_wearos_large_round_VARIANT_two_pages-fa180d4b.png" width="150" /> |
+| `LevelRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LevelRail_wearos_large_round-e637e408.png" width="150" /> |
+| `LevelRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LevelRail_wearos_large_round_VARIANT_full-18d342d3.png" width="150" /> |
+| `LevelRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LevelRail_wearos_large_round_VARIANT_low-f5e3ac0f.png" width="150" /> |
+| `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail_wearos_large_round-248a9c9e.png" width="150" /> |
+| `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail_wearos_large_round_VARIANT_bottom-139bb12a.png" width="150" /> |
+| `ScrollRail` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScrollRail_wearos_large_round_VARIANT_middle-4bb1b14d.png" width="150" /> |
+| `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_wearos_large_round-c09c184e.png" width="150" /> |
+| `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_wearos_large_round_VARIANT_six_pages-07dbeaec.png" width="150" /> |
+| `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_wearos_large_round-20892885.png" width="150" /> |
+| `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_wearos_large_round_VARIANT_month_first-b72f327a.png" width="150" /> |
+| `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_wearos_large_round_VARIANT_year_first-70916952.png" width="150" /> |
+| `SingleColumnPicker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SingleColumnPicker_wearos_large_round-610476dd.png" width="150" /> |
+| `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_wearos_large_round-fbee3ce0.png" width="150" /> |
+| `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_wearos_large_round_VARIANT_24_hour-3e4848d6.png" width="150" /> |
+| `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_wearos_large_round_VARIANT_24_hour_with_seconds-c25b4afd.png" width="150" /> |
 | `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder-cd2645e1.png" width="150" /> |
 | `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_outlined-1666fe17.png" width="150" /> |
 | `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_tonal-c2accbc5.png" width="150" /> |
@@ -170,9 +170,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_full-11b7f41e.png" width="150" /> |
 | `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_low-ef61d64e.png" width="150" /> |
 | `ValueSlider` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueSlider_VARIANT_three_steps-e8510a80.png" width="150" /> |
-| `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper-ed6c39d3.png" width="150" /> |
-| `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_VARIANT_disabled-93d34f07.png" width="150" /> |
-| `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_VARIANT_icon-794ffee6.png" width="150" /> |
+| `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_wearos_large_round-cc4e1cf1.png" width="150" /> |
+| `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_wearos_large_round_VARIANT_disabled-3d0a3401.png" width="150" /> |
+| `ValueStepper` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ValueStepper_wearos_large_round_VARIANT_icon-79227d01.png" width="150" /> |
 | `SwipeToRevealButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealButton-4c106837.png" width="150" /> |
 | `SwipeToRevealButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealButton_VARIANT_two_actions-d07795e1.png" width="150" /> |
 | `SwipeToRevealCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealCard-8f38e05b.png" width="150" /> |
@@ -181,8 +181,8 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `BodyText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/BodyText_VARIANT_left_aligned-b6f24371.png" width="150" /> |
 | `CaptionText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CaptionText-771d4b6c.png" width="150" /> |
 | `CaptionText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CaptionText_VARIANT_left_aligned-f92a75a6.png" width="150" /> |
-| `FixedTimeText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FixedTimeText-936d8f3a.png" width="150" /> |
-| `FixedTimeText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FixedTimeText_VARIANT_24_hour-95c69dec.png" width="150" /> |
+| `FixedTimeText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FixedTimeText_wearos_large_round-ac111df0.png" width="150" /> |
+| `FixedTimeText` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FixedTimeText_wearos_large_round_VARIANT_24_hour-e8a4e6cd.png" width="150" /> |
 | `ListHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListHeading-7a2c3267.png" width="150" /> |
 | `ListHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListHeading_VARIANT_left_aligned-eea2e0e1.png" width="150" /> |
 | `ListSubHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListSubHeading-960f2575.png" width="150" /> |
