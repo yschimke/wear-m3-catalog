@@ -32,6 +32,63 @@ class CatalogRenderTest {
    */
   private val minimumVisibleFraction = 0.0002
 
+  /**
+   * A capture that failed writes `<id>.png.error.json` INSTEAD of the PNG, so the blank check below
+   * cannot see it — there is no file to measure. That is how a broken `@InteractionPreview` cost
+   * two components their ordinary stills while every other check stayed green.
+   */
+  @Test
+  fun `no render failed`() {
+    val errors =
+      renders.listFiles { f: File -> f.name.endsWith(".error.json") }.orEmpty().map { it.name }
+    assertTrue(
+      "these captures failed and wrote no image:\n" + errors.joinToString("\n") { "  $it" },
+      errors.isEmpty(),
+    )
+  }
+
+  /**
+   * A motion capture that records nothing is worse than none: it publishes a play button over a
+   * still. `Motion.kt` states what each recording is supposed to show, and this is what holds it to
+   * that — the frame payloads are compared, so a GIF of one repeated frame fails.
+   *
+   * The bar is deliberately low (a handful of distinct frames, not a tuned count per recording).
+   * Real recordings here land at 15-46 distinct frames of 46; the ones this caught were at 3 and 4.
+   */
+  @Test
+  fun `every motion capture actually moves`() {
+    val gifs = renders.listFiles { f: File -> f.name.endsWith(".gif") }.orEmpty()
+    val still =
+      gifs
+        .map { it to distinctFrames(it) }
+        .filter { (_, distinct) -> distinct < 6 }
+        .map { (file, distinct) -> "${file.name} ($distinct distinct frames)" }
+    assertTrue(
+      "these recordings barely move — either the component does not animate under this renderer, " +
+        "or the capture window misses the part that does:\n" +
+        still.joinToString("\n") { "  $it" },
+      still.isEmpty(),
+    )
+  }
+
+  /**
+   * Distinct frame payloads in a GIF, split on the per-frame graphic control extension. Comparing
+   * the compressed bytes is enough to answer "did the pixels change" without decoding LZW.
+   */
+  private fun distinctFrames(file: File): Int {
+    val marker = byteArrayOf(0x21, 0xF9.toByte(), 0x04)
+    val bytes = file.readBytes()
+    val starts =
+      bytes.indices.filter { i -> marker.indices.all { bytes.getOrNull(i + it) == marker[it] } }
+    return starts
+      .mapIndexed { index, start ->
+        val end = starts.getOrNull(index + 1) ?: bytes.size
+        bytes.copyOfRange(start, end).toList()
+      }
+      .toSet()
+      .size
+  }
+
   @Test
   fun `no sticker publishes an empty frame`() {
     val pngs = renders.listFiles { f: File -> f.name.endsWith(".png") }.orEmpty()

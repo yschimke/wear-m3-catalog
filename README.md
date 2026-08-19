@@ -98,6 +98,18 @@ transparent background rather than the light/dark pair the phone catalog publish
 That single mode has one consequence worth knowing about before you go looking for a parity report:
 see [`docs/DESIGN_MAP.md`](docs/DESIGN_MAP.md).
 
+## Motion
+
+Four recordings live in
+[`Motion.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Motion.kt), published as
+GIFs beside the sticker sheet: the indeterminate progress ring, the switch thumb travelling, the
+toggle button's shape morph, and swipe-to-reveal revealing. They carry no `@CatalogComponent` — a
+recording is not a component, and membership is still the kit's call.
+
+They are driven by the component's own animation or by a `LaunchedEffect` state change rather than
+by a scripted tap: `@InteractionPreview` is implemented in the desktop renderer only, and this is an
+Android module. See [`AGENTS.md`](AGENTS.md) for what that costs and how it fails.
+
 ## Building
 
 ```sh

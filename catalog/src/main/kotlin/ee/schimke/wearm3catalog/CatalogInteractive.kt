@@ -35,10 +35,17 @@ fun counted(label: String): Counted {
   return Counted(if (clicks == 0) label else "$label ($clicks)", { clicks++ })
 }
 
-/** A checked state a sticker owns, so a toggle in a live session actually toggles. */
+/**
+ * A checked state the sticker owns, so a toggle actually toggles.
+ *
+ * Unlike [counted] this does NOT go inert outside the live lane, and the difference matters twice.
+ * A baked still is unaffected either way — nothing taps it, so it captures at [initial] — while an
+ * inert setter makes a **motion capture impossible**: the renderer drives a real tap, the state
+ * cannot move, the encoder gets one distinct frame and refuses to write a single-frame GIF. Going
+ * inert here would buy nothing and cost every interaction recording in `Motion.kt`.
+ */
 @Composable
 fun toggleable(initial: Boolean): Pair<Boolean, (Boolean) -> Unit> {
-  if (!catalogInteractive()) return initial to {}
   var checked by remember { mutableStateOf(initial) }
   return checked to { value: Boolean -> checked = value }
 }
