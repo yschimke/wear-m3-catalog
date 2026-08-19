@@ -54,7 +54,8 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 
 @CatalogComponent(
   id = "ScrollIndicator",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/44998:18343",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
   caption = "Where the screen sits in a scroll, drawn against the right bezel.",
 )
 @CatalogFullScreenModes
@@ -87,7 +88,8 @@ fun ScrollRail() = FullScreenSticker {
 
 @CatalogComponent(
   id = "LevelIndicator",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/46640:262811",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
   caption = "The value a rotating side button is setting, while it is being turned.",
 )
 @CatalogFullScreenModes
@@ -101,7 +103,8 @@ fun LevelRail() = FullScreenSticker {
 
 @CatalogComponent(
   id = "PageIndicator/Horizontal",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38684:138301",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
   caption = "Which page of a horizontal pager is showing, along the bottom of the display.",
 )
 @CatalogFullScreenModes
@@ -118,7 +121,8 @@ fun HorizontalPages() = FullScreenSticker {
 
 @CatalogComponent(
   id = "PageIndicator/Vertical",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38966:402",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
   caption = "The same indicator for a vertical pager, drawn against the right bezel.",
 )
 @CatalogFullScreenModes

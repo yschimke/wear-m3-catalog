@@ -36,16 +36,23 @@ class CatalogKitCoverageTest {
       (0 until array.length()).map { array.getJSONObject(it) }
     }
 
-  /** Every `id`/`reference` pair the annotations declare. */
+  /**
+   * Every `id` paired with the kit **SET** node it belongs to.
+   *
+   * The join key is `referenceSet`, not `reference`. `kit-sets.json` has one row per published
+   * component set, while `reference` names the exact VARIANT within that set which the sticker
+   * reproduces — `Style=Filled, Icon=No, Alignment=Center, Disabled=No` rather than the 50-cell
+   * `Button` grid. Joining on the variant would leave every row of this file unmatched.
+   */
   private val declared: List<Pair<String, String>> = buildList {
     val block = Regex("""@CatalogComponent\((.*?)\n\)""", RegexOption.DOT_MATCHES_ALL)
     val idOf = Regex("""id = "([^"]+)"""")
-    val nodeOf = Regex("""reference = "figma:[^/]+/([^"]+)"""")
+    val setOf = Regex("""referenceSet = "figma:[^/]+/([^"]+)"""")
     for (text in sources) {
       for (match in block.findAll(text)) {
         val body = match.groupValues[1]
         val id = idOf.find(body)?.groupValues?.get(1) ?: continue
-        val node = nodeOf.find(body)?.groupValues?.get(1) ?: continue
+        val node = setOf.find(body)?.groupValues?.get(1) ?: continue
         add(id to node)
       }
     }
@@ -75,7 +82,7 @@ class CatalogKitCoverageTest {
       for (i in 0 until components.length()) {
         val id = components.getString(i)
         assertEquals(
-          "$id is listed against ${row.getString("set")} but does not reference its node",
+          "$id is listed against ${row.getString("set")} but its referenceSet names another set",
           node,
           byId[id],
         )
@@ -90,8 +97,8 @@ class CatalogKitCoverageTest {
     for (row in rows) {
       if (row.optString("excluded").isBlank()) continue
       assertTrue(
-        "${row.getString("set")} is excluded but something now references its node — move it to " +
-          "`components` and delete the reason",
+        "${row.getString("set")} is excluded but something now names it as a referenceSet — move " +
+          "it to `components` and delete the reason",
         row.getString("node") !in referenced,
       )
     }
@@ -103,7 +110,7 @@ class CatalogKitCoverageTest {
     val known = rows.map { it.getString("node") }.toSet()
     for ((id, node) in declared) {
       assertTrue(
-        "$id references $node, which is not a published set in kit-sets.json — re-run " +
+        "$id names the set $node, which is not published in kit-sets.json — re-run " +
           "figma-refs.yml if the kit gained it",
         node in known,
       )

@@ -43,7 +43,8 @@ import ee.schimke.wearm3catalog.counted
 
 @CatalogComponent(
   id = "Card",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
   caption =
     "The plain container: one content slot, tonal by default. A no-`onClick` overload presents " +
       "the same card without the tap.",
@@ -78,7 +79,8 @@ fun PlainCard() = Sticker {
 
 @CatalogComponent(
   id = "Card/Outlined",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39827:105691",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
   caption = "The kit's outline style — the same container drawn as a border.",
 )
 @CatalogModes
@@ -90,7 +92,8 @@ fun OutlineCard() = Sticker {
 
 @CatalogComponent(
   id = "TitleCard",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
   caption = "A card led by a title, with the kit's numbered layouts folded in as content cells.",
 )
 @CatalogModes
@@ -128,7 +131,8 @@ fun TitledCard() = Sticker {
 
 @CatalogComponent(
   id = "AppCard",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5712",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
   caption = "A card that names the app it came from — the shape a notification takes.",
 )
 @CatalogModes

@@ -1,53 +1,135 @@
-# design-map.json, and why this repo has none yet
+# design-map.json, and what a reference has to name
 
 `design-map.json` is the correspondence file design-parity reads to know which kit node a rendered
-component is meant to look like. It is not hand-written: `scripts/design-map.sh` projects it out of
-the discovered preview manifest, joining each component's
-`@CatalogComponent(reference = "figma:<fileKey>/<nodeId>")` to one of its rendered captures.
+component is meant to look like. It is not hand-written: [`scripts/design-map.sh`](../scripts/design-map.sh)
+projects it out of the discovered preview manifest, in two steps that live in two upstream packages
+because the question splits there.
 
-**One of its captures — the light one.** `@yschimke/compose-design-map` pairs a component's
-reference with the capture whose id ends `_Light`, on the reasoning that design kits draw their
-frames in light mode and diffing a dark render against a light reference reports the whole palette
-as a finding. Every filter in the projector is spelled that way:
+1. **`@yschimke/compose-design-map`** knows what the ANNOTATIONS mean. It joins each component's
+   `@CatalogComponent(reference = …)` to one of its rendered captures and emits the base map, plus
+   a sidecar (`design-map-variants.json`) declaring which other previews are the same component
+   with knobs turned.
+2. **`@design-parity/kit-index`** knows what the KIT means. `shape=square` is a fact about a Compose
+   API and `Shape=Square` is a fact about the Wear kit; it resolves those declarations against the
+   committed [`figma-kit-index.json`](../figma-kit-index.json) into tagged ref/previewId pairs.
 
-```js
-const LIGHT_CAPTURE = /_Light$/;
-const LIGHT_VARIANT_CAPTURE = /_Light_VARIANT_/;
+Both are pinned to an exact version, because both outputs are committed and CI fails on any
+difference.
+
+## A reference names one VARIANT, never the set
+
+This is the rule the whole file hangs on, and it is easy to get wrong in the direction that still
+looks like it works.
+
+The kit publishes a component as a `COMPONENT_SET`: a grid whose cells are the axis vectors. The
+kit's `Button` set is 50 cells over `Style / Icon / Icon size / Alignment / Disabled`. A
+`reference` must name **one of those cells**, not the set frame:
+
+```kotlin
+@CatalogComponent(
+  id = "Button/Filled",
+  // Style=Filled, Icon=No, Icon size=n/a, Alignment=Center, Disabled=No — the cell this sticker
+  // actually draws.
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93092",
+  // The set it is a cell of. Not the thing parity diffs; the handle a whole-screen import matches
+  // an instance through, and the join key `kit-sets.json` and CatalogKitCoverageTest use.
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+)
 ```
 
-This catalog is **dark-only** — Wear is a black watch face, so `@CatalogModes` bakes a single dark
-capture and no preview id ends in `_Light`. Running the projector today therefore reports
-`0 mapped component(s)` even though every component carries a reference, and the empty map is worse
-than no map: it reads as "nothing here maps to the kit" rather than "the projector could not see
-these".
+Three things break when the reference names the set instead, and none of them announce themselves:
 
-**It blocks more than parity.** Everything that joins code to a design node reads that map, so an
-absent map is felt three times over:
+- **Parity diffs a sticker against a grid.** The set frame's own geometry is an editor artifact —
+  a 1068×928 board of 50 buttons. Comparing one 52dp button against it reports the whole board as a
+  difference, which is a finding nobody can act on.
+- **No variant cell can resolve.** `@OverrideVariant(kitAxis = "Disabled", kitValue = "Yes")` means
+  "the sibling of my reference with `Disabled=Yes`" — the resolver varies ONE axis from a known
+  vector. A set has no vector to vary from, so every cell resolves to nothing, silently.
+- **The imported kit pages barely link.** The node → code join is by node id, so a set-level map
+  links only the 33 set frames out of 1845 walked nodes. At variant granularity the same map links
+  181, and each of them is a cell a reader can click through to the render that reproduces it.
 
-| Surface | What it loses |
+`CatalogInventoryTest` checks that a reference exists and names this kit's file key.
+`CatalogKitCoverageTest` joins on `referenceSet`, because [`kit-sets.json`](../kit-sets.json) has
+one row per published set.
+
+## What is in the map today
+
+| | |
 | --- | --- |
-| design-parity | the comparison itself — an empty map exits 1 |
-| `figma-kit-index.json` | the index is built from the map, so it comes back `{"sets": {}}` |
-| the imported kit pages (`/pages`) | the node → code join. All 22 pages import fine and **0 of 1845 nodes link**, so the server has nothing to substitute a render into — the importer's own comment calls it "the join this whole surface hangs on" |
+| components mapped | 49 |
+| references, base + resolved variant | 182 |
+| variant cells resolved onto a kit node | 133 of 149 |
+| kit page nodes joined to code | 181 of 1845 |
+| components with no reference, for a stated reason | 4 |
 
-So this repo:
+## The two kinds of miss, and which one is a bug
 
-- keeps the reference on every annotation, and a test
-  (`CatalogInventoryTest.every component maps to the Wear kit`) that fails the build for a component
-  without one;
-- keeps `scripts/design-map.sh`, which is otherwise correct and picks the kit-index step up as soon
-  as `figma-kit-index.json` is committed;
-- commits **no** `design-map.json` and runs **no** staleness check in CI, until the projector can
-  name the capture it should pair with;
-- runs `design-parity.yml` on **workflow_dispatch only**. An empty map does not skip the way a
-  missing token does — design-parity exits 1 with `no components: pass --components, or commit a
-  design-map.json with entries` — and a known red X on every push teaches everyone to ignore the
-  signal. The workflow is otherwise complete; restoring its push and schedule triggers is the same
-  commit that commits the first non-empty map.
+The projector reports them apart, and that separation is the point of reading its output at all.
 
-The fix belongs upstream, not here — the assumption is about *design kits and render modes*, not
-about this catalog, and a fork of the projector in this repo would drift from the one every other
-catalog runs. That is the same rule `AGENTS.md` states for CI capabilities. Tracked as
-[yschimke/compose-ai-tools#4192](https://github.com/yschimke/compose-ai-tools/issues/4192); the
-shape of the fix is a fallback to the sole capture when a catalog publishes one mode, so a dark-first catalog pairs with
-its dark capture instead of with nothing.
+**A stated absence is not a gap.** `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and
+`ArcProgressIndicator` carry `noReference = "<why the kit has none>"` — they enter through the
+second door in [`AGENTS.md`](../AGENTS.md), being Wear Compose components the kit never published.
+This is also why `scripts/design-map.sh` does **not** pass `--strict`: that flag gates on every kind
+of absence including a stated one, so it fails this repo on four components that are exactly as
+intended. What `--strict` was here to catch — silence, a component with neither a reference nor a
+reason — `CatalogInventoryTest` fails the build for. The posture that would let it run gated
+(strict about silence, permissive about a stated absence) belongs upstream, and is proposed there as
+`--allow-stated-absence`.
+
+**An unresolved variant cell is usually the kit's matrix, not a mistake.** 16 of 149 do not resolve,
+and they fall into two shapes:
+
+- *The kit has no such axis.* `LevelIndicator`'s `low` / `full` turn a Compose float; the kit's
+  `Level-Indicator-RSB` varies `Size`, not level. `CircularProgressIndicator`'s `indeterminate` has
+  no kit counterpart at all. Nothing to name, so these cells carry no `kitAxis`.
+- *The kit couples two axes and the cell can only name one.* The `Button` set has
+  `Icon size=n/a` exactly when `Icon=No`, so moving `Icon=No → Yes` is inherently a two-axis move
+  and no sibling exists one step away. `AlertDialog`'s `Edge Option=None` only ever appears with
+  `Bottom=No`; `DatePicker`'s `Year first` only with `Limit=Past only`/`Future only`;
+  `IconToggleButton`'s `Selected=Off` only with `Style=Tonal`. `@OverrideVariant` carries one
+  `kitAxis`/`kitValue` pair, so these are reported rather than guessed at — pairing the wrong cell
+  would diff a whole palette and call it a finding.
+
+## Rebuilding the kit index without a Figma token
+
+`figma-kit-index.json` is normally built by [`figma-refs.yml`](../.github/workflows/figma-refs.yml),
+which holds the `FIGMA_TOKEN` and walks the REST API. Its output is authoritative and supersedes
+anything below.
+
+But the index is an INPUT to the map, so it going stale is silent: a variant the kit gained reads as
+"no counterpart in the kit" rather than "nobody looked since". So it can also be rebuilt from
+committed data alone:
+
+```sh
+node scripts/kit-inventory-from-pages.mjs --out figma-inventory.json
+npx @design-parity/kit-index@0.1.53 build --file B24oss2tTeXAFykyeyusz0 \
+  --map design-map.json --inventory figma-inventory.json --out figma-kit-index.json
+```
+
+[`scripts/kit-inventory-from-pages.mjs`](../scripts/kit-inventory-from-pages.mjs) re-shapes
+`design/pages/pages.json` — the kit page walk `figma-pages.yml` already committed, listing every
+component, set and instance it found with node ids and layer names — into the inventory
+`kit-index build` reads. The index itself is still built by the real generator; only the walk is
+substituted, and it is a walk of the same file made with the same credential.
+
+What it cannot recover is component **properties** and configured **instance** vectors: the page
+import records a node's id, name and type and nothing else. `kit-index build` treats both as
+optional enrichment, so a token-less index is a strict subset — same sets, same variants, same ids,
+no property tables. Axis-shaped variant cells resolve; property-shaped ones stay unresolved, which
+is the honest answer rather than a guessed one.
+
+## Refreshing the page join without a Figma token
+
+The node → code join is a pure function of two committed files, but it used to be computed only
+while fetching — so picking up a map change meant re-importing 22 pages and ~41 MB of SVG behind a
+token nobody has locally. That made the join the stalest thing on the page, and it is the part that
+changes every time a component is added or a reference is repointed.
+
+```sh
+node scripts/import-figma-pages.mjs --relink
+```
+
+recomputes it in place from `design-map.json`, touching no network and leaving the SVGs and the node
+walk alone. It shares the import's own `linkNode` decorator, so the two cannot drift. A kit that has
+actually moved still needs the real import.

@@ -32,7 +32,8 @@ import ee.schimke.wearm3catalog.toggleable
 
 @CatalogComponent(
   id = "CheckboxButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35326:85642",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
   caption = "A labelled row that toggles a checkbox; for a set where any number may be chosen.",
 )
 @CatalogModes
@@ -79,7 +80,8 @@ fun CheckboxRow() = Sticker {
 
 @CatalogComponent(
   id = "SwitchButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35326:85629",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
   caption = "A labelled row that flips a switch; for a setting that takes effect immediately.",
 )
 @CatalogModes
@@ -126,7 +128,8 @@ fun SwitchRow() = Sticker {
 
 @CatalogComponent(
   id = "RadioButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35326:85655",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
   caption = "A labelled row in a set where exactly one may be chosen.",
 )
 @CatalogModes

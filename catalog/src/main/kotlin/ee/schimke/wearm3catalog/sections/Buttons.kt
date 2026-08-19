@@ -64,7 +64,8 @@ private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
 
 @CatalogComponent(
   id = "Button/Filled",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93092",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
   caption = "Highest emphasis; the screen's primary action.",
 )
 @CatalogModes
@@ -88,7 +89,8 @@ fun FilledButton() = Sticker {
 
 @CatalogComponent(
   id = "Button/FilledVariant",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39577:895",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
   caption = "The kit's highlighted style — a filled button in the variant palette.",
 )
 @CatalogModes
@@ -113,7 +115,8 @@ fun FilledVariantButton() = Sticker {
 
 @CatalogComponent(
   id = "Button/Tonal",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93104",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
   caption = "Medium emphasis, on a tonal container.",
 )
 @CatalogModes
@@ -137,7 +140,8 @@ fun TonalButton() = Sticker {
 
 @CatalogComponent(
   id = "Button/Outlined",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93116",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
   caption = "Medium emphasis, drawn as an outline over the background.",
 )
 @CatalogModes
@@ -161,7 +165,8 @@ fun OutlineButton() = Sticker {
 
 @CatalogComponent(
   id = "Button/Child",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93128",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
   caption = "Lowest emphasis; no container at all, for a button inside another surface.",
 )
 @CatalogModes
@@ -189,18 +194,31 @@ fun ChildLabelButton() = Sticker {
 // distinction the carve-out exists to preserve isn't there.
 @CatalogComponent(
   id = "Button/Compact",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
   caption = "A short button for a dense screen, with the kit's content and style axes folded in.",
 )
 @CatalogModes
 @OverrideVariant(name = "icon-only", strings = ["content=icon"], kitAxis = "Text", kitValue = "No")
 @OverrideVariant(name = "text-only", strings = ["content=text"], kitAxis = "Icon", kitValue = "No")
+@OverrideVariant(
+  name = "filled-variant",
+  strings = ["style=filled-variant"],
+  kitAxis = "Style",
+  kitValue = "Filled Variant",
+)
 @OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
 @OverrideVariant(
   name = "outlined",
   strings = ["style=outlined"],
   kitAxis = "Style",
   kitValue = "Outline",
+)
+@OverrideVariant(
+  name = "child",
+  strings = ["style=child"],
+  kitAxis = "Style",
+  kitValue = "Child (No background)",
 )
 @OverrideVariant(
   name = "disabled",
@@ -214,14 +232,22 @@ fun CompactActionButton() = Sticker {
   val content = previewOverrideString("content", "icon+text")
   val colors =
     when (previewOverrideString("style", "filled")) {
+      "filled-variant" -> ButtonDefaults.filledVariantButtonColors()
       "tonal" -> ButtonDefaults.filledTonalButtonColors()
       "outlined" -> ButtonDefaults.outlinedButtonColors()
+      "child" -> ButtonDefaults.childButtonColors()
       else -> ButtonDefaults.buttonColors()
     }
+  // The border is its OWN parameter, not part of `colors`. An outlined button built from
+  // `outlinedButtonColors()` alone draws no outline, which makes it pixel-identical to the child
+  // style — caught by `CatalogRenderTest.no two renders of a component are identical` the moment
+  // the child cell existed to collide with. Text-Button carries the same note for the same reason.
+  val style = previewOverrideString("style", "filled")
   CompactButton(
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
     colors = colors,
+    border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
     icon =
       if (content == "text") null
       else {
@@ -255,7 +281,8 @@ fun CompactActionButton() = Sticker {
 
 @CatalogComponent(
   id = "Button/ImageBackground",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38425:101029",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
   caption = "A button over an image, with the scrim that keeps its label legible.",
 )
 @CatalogModes
@@ -289,28 +316,45 @@ fun ImageBackgroundButton() = Sticker {
 
 @CatalogComponent(
   id = "Button/Loading",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/68333:155116",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
   caption = "A button waiting on the work it started — the kit's loading pattern.",
 )
 @CatalogModes
-@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
 @OverrideVariant(
   name = "outlined",
   strings = ["style=outlined"],
   kitAxis = "Style",
   kitValue = "Outline",
 )
+@OverrideVariant(
+  name = "child",
+  strings = ["style=child"],
+  kitAxis = "Style",
+  kitValue = "Child (No background)",
+)
 @Composable
 fun LoadingButton() = Sticker {
+  // TONAL is the base, and that is the kit's call rather than Compose's. `Button-Loading` publishes
+  // three styles — Tonal, Outline, Child — and no FILLED one: a filled container behind a progress
+  // ring is the one arrangement the kit declined to draw. This sticker defaulted to
+  // `buttonColors()` and so fronted the set with a style it does not contain, which is exactly the
+  // silent divergence `design-led` exists to catch. The other two published styles ride as cells.
   val colors =
-    when (previewOverrideString("style", "filled")) {
-      "tonal" -> ButtonDefaults.filledTonalButtonColors()
+    when (previewOverrideString("style", "tonal")) {
       "outlined" -> ButtonDefaults.outlinedButtonColors()
-      else -> ButtonDefaults.buttonColors()
+      "child" -> ButtonDefaults.childButtonColors()
+      else -> ButtonDefaults.filledTonalButtonColors()
     }
   Button(
     onClick = {},
     colors = colors,
+    // As on the compact button: the outline is a `border`, not a colour, and without it the
+    // outlined cell is the child cell's picture under another name.
+    border =
+      if (previewOverrideString("style", "tonal") == "outlined") {
+        ButtonDefaults.outlinedButtonBorder(enabled = true)
+      } else null,
     // Pinned, not indeterminate: an animated indicator renders a different frame on every
     // publish, and the delivery branch's history would be noise rather than change.
     icon = { CircularProgressIndicator(progress = { 0.35f }, modifier = Modifier.size(24.dp)) },

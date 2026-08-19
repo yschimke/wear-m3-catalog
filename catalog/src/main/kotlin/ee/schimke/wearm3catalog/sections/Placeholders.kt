@@ -52,7 +52,8 @@ import ee.schimke.wearm3catalog.Sticker
 
 @CatalogComponent(
   id = "Placeholder/Button",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44771",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
   caption = "A button whose label has not arrived yet.",
 )
 @CatalogModes
@@ -70,7 +71,8 @@ fun ButtonPlaceholder() = Sticker {
 
 @CatalogComponent(
   id = "Placeholder/IconButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44843",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44842",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71571:44843",
   caption = "An icon button whose icon has not arrived yet.",
 )
 @CatalogModes
@@ -85,7 +87,8 @@ fun IconButtonPlaceholder() = Sticker {
 
 @CatalogComponent(
   id = "Placeholder/Card",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/71571:45108",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
   caption = "A card whose content has not arrived yet.",
 )
 @CatalogModes

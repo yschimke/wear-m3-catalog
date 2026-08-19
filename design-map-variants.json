@@ -1,0 +1,2055 @@
+{
+  "schema": "compose-preview-design-map-variants/v1",
+  "components": [
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#ChildLabelButton",
+      "componentId": "Button/Child",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93128",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#CompactActionButton",
+      "componentId": "Button/Compact",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_child",
+          "name": "child",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "child",
+              "kitAxis": "Style",
+              "kitValue": "Child (No background)"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_filled-variant",
+          "name": "filled-variant",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "filled-variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_icon-only",
+          "name": "icon-only",
+          "seeds": [
+            {
+              "key": "content",
+              "raw": "icon",
+              "kitAxis": "Text",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_outlined",
+          "name": "outlined",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "outlined",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_text-only",
+          "name": "text-only",
+          "seeds": [
+            {
+              "key": "content",
+              "raw": "text",
+              "kitAxis": "Icon",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_tonal",
+          "name": "tonal",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#FilledButton",
+      "componentId": "Button/Filled",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93092",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#FilledVariantButton",
+      "componentId": "Button/FilledVariant",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39577:895",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#ImageBackgroundButton",
+      "componentId": "Button/ImageBackground",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38425:101029",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton_VARIANT_secondary-label",
+          "name": "secondary-label",
+          "seeds": [
+            {
+              "key": "secondary",
+              "raw": "true",
+              "kitAxis": "Secondary label",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#LoadingButton",
+      "componentId": "Button/Loading",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/68333:155116",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_child",
+          "name": "child",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "child",
+              "kitAxis": "Style",
+              "kitValue": "Child (No background)"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_outlined",
+          "name": "outlined",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "outlined",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#OutlineButton",
+      "componentId": "Button/Outlined",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93116",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#TonalButton",
+      "componentId": "Button/Tonal",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35239:93104",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#PlainCard",
+      "componentId": "Card",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard_VARIANT_background-image",
+          "name": "background-image",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "image",
+              "kitAxis": "Style",
+              "kitValue": "Background Image"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#TitledCard",
+      "componentId": "TitleCard",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-subtitle",
+          "name": "title-and-subtitle",
+          "seeds": [
+            {
+              "key": "content",
+              "raw": "subtitle",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 3"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-time",
+          "name": "title-and-time",
+          "seeds": [
+            {
+              "key": "content",
+              "raw": "time",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Dialogs.kt#AlertDialogSticker",
+      "componentId": "AlertDialog",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/58475:87041",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker_wearos_large_round_VARIANT_edge-button",
+          "name": "edge-button",
+          "seeds": [
+            {
+              "key": "edge",
+              "raw": "single",
+              "kitAxis": "Edge Option",
+              "kitValue": "Edge Button"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker_wearos_large_round_VARIANT_no-buttons",
+          "name": "no-buttons",
+          "seeds": [
+            {
+              "key": "edge",
+              "raw": "none",
+              "kitAxis": "Edge Option",
+              "kitValue": "None"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt#ScreenEdgeButton",
+      "componentId": "EdgeButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_filled-variant",
+          "name": "filled-variant",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "filled-variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "content",
+              "raw": "icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_outlined",
+          "name": "outlined",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "outlined",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_wearos_large_round_VARIANT_tonal",
+          "name": "tonal",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#FilledIconAction",
+      "componentId": "IconButton/Filled",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_extra-small",
+          "name": "extra-small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-small",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#FilledVariantIconAction",
+      "componentId": "IconButton/FilledVariant",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/41409:52153",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_extra-small",
+          "name": "extra-small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-small",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#OutlinedIconAction",
+      "componentId": "IconButton/Outlined",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103002",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_extra-small",
+          "name": "extra-small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-small",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#StandardIconAction",
+      "componentId": "IconButton/Standard",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103015",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#TextAction",
+      "componentId": "TextButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_child",
+          "name": "child",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "child",
+              "kitAxis": "Style",
+              "kitValue": "Child (No background)"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_filled-variant",
+          "name": "filled-variant",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "filled-variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled-Variant"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_outlined",
+          "name": "outlined",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "outlined",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TextAction_VARIANT_tonal",
+          "name": "tonal",
+          "seeds": [
+            {
+              "key": "style",
+              "raw": "tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#TonalIconAction",
+      "componentId": "IconButton/Tonal",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/34732:102989",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_extra-small",
+          "name": "extra-small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-small",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#HorizontalPages",
+      "componentId": "PageIndicator/Horizontal",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38684:138301",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages_wearos_large_round_VARIANT_six-pages",
+          "name": "six-pages",
+          "seeds": [
+            {
+              "key": "pages",
+              "raw": "6",
+              "kitAxis": "Number",
+              "kitValue": "6 - Start"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages_wearos_large_round_VARIANT_two-pages",
+          "name": "two-pages",
+          "seeds": [
+            {
+              "key": "pages",
+              "raw": "2",
+              "kitAxis": "Number",
+              "kitValue": "2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#LevelRail",
+      "componentId": "LevelIndicator",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/46640:262811",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_wearos_large_round_VARIANT_full",
+          "name": "full",
+          "seeds": [
+            {
+              "key": "level",
+              "raw": "1.0"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_wearos_large_round_VARIANT_low",
+          "name": "low",
+          "seeds": [
+            {
+              "key": "level",
+              "raw": "0.15"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#ScrollRail",
+      "componentId": "ScrollIndicator",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/44998:18343",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail_wearos_large_round_VARIANT_bottom",
+          "name": "bottom",
+          "seeds": [
+            {
+              "key": "position",
+              "raw": "1.0",
+              "kitAxis": "Position",
+              "kitValue": "Bottom"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail_wearos_large_round_VARIANT_middle",
+          "name": "middle",
+          "seeds": [
+            {
+              "key": "position",
+              "raw": "0.5",
+              "kitAxis": "Position",
+              "kitValue": "Middle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#VerticalPages",
+      "componentId": "PageIndicator/Vertical",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38966:402",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.VerticalPages_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.VerticalPages_wearos_large_round_VARIANT_six-pages",
+          "name": "six-pages",
+          "seeds": [
+            {
+              "key": "pages",
+              "raw": "6",
+              "kitAxis": "Number",
+              "kitValue": "6 - Start"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#DateWheels",
+      "componentId": "DatePicker",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8942",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_wearos_large_round_VARIANT_month-first",
+          "name": "month-first",
+          "seeds": [
+            {
+              "key": "order",
+              "raw": "month",
+              "kitAxis": "Type",
+              "kitValue": "Date Picker (Month first)"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_wearos_large_round_VARIANT_year-first",
+          "name": "year-first",
+          "seeds": [
+            {
+              "key": "order",
+              "raw": "year",
+              "kitAxis": "Type",
+              "kitValue": "Date Picker (Year first)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#TimeWheels",
+      "componentId": "TimePicker",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43678:8697",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_wearos_large_round_VARIANT_24-hour",
+          "name": "24-hour",
+          "seeds": [
+            {
+              "key": "format",
+              "raw": "24",
+              "kitAxis": "Type",
+              "kitValue": "Time Picker 24"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_wearos_large_round_VARIANT_24-hour-with-seconds",
+          "name": "24-hour-with-seconds",
+          "seeds": [
+            {
+              "key": "format",
+              "raw": "24s",
+              "kitAxis": "Type",
+              "kitValue": "Time Picker 24 + Seconds"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#CircularProgress",
+      "componentId": "CircularProgressIndicator",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_complete",
+          "name": "complete",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "1.0",
+              "kitAxis": "Progress",
+              "kitValue": "Complete"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_indeterminate",
+          "name": "indeterminate",
+          "seeds": [
+            {
+              "key": "mode",
+              "raw": "indeterminate"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_overflow",
+          "name": "overflow",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "1.4",
+              "kitAxis": "Progress",
+              "kitValue": "Overflow"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_small-stroke",
+          "name": "small-stroke",
+          "seeds": [
+            {
+              "key": "stroke",
+              "raw": "small",
+              "kitAxis": "Stroke Width",
+              "kitValue": "Small"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_VARIANT_zero",
+          "name": "zero",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "0.0",
+              "kitAxis": "Progress",
+              "kitValue": "Zero"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#LinearProgress",
+      "componentId": "LinearProgressIndicator",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/45011:259221",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_20",
+          "name": "20",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "0.2",
+              "kitAxis": "Progress",
+              "kitValue": "20%"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_complete",
+          "name": "complete",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "1.0",
+              "kitAxis": "Progress",
+              "kitValue": "Complete"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_min",
+          "name": "min",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "0.0",
+              "kitAxis": "Progress",
+              "kitValue": "Min"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#SegmentedProgress",
+      "componentId": "SegmentedCircularProgressIndicator",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/52431:57063",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_complete",
+          "name": "complete",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "1.0",
+              "kitAxis": "Progress",
+              "kitValue": "Complete"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_twelve",
+          "name": "twelve",
+          "seeds": [
+            {
+              "key": "segments",
+              "raw": "12",
+              "kitAxis": "Segments",
+              "kitValue": "12"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress_VARIANT_zero",
+          "name": "zero",
+          "seeds": [
+            {
+              "key": "progress",
+              "raw": "0.0",
+              "kitAxis": "Progress",
+              "kitValue": "Zero"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#CheckboxRow",
+      "componentId": "CheckboxButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85642",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow_VARIANT_split",
+          "name": "split",
+          "seeds": [
+            {
+              "key": "split",
+              "raw": "true",
+              "kitAxis": "Split (2 tap targets)",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow_VARIANT_unselected",
+          "name": "unselected",
+          "seeds": [
+            {
+              "key": "checked",
+              "raw": "false",
+              "kitAxis": "Selected",
+              "kitValue": "No"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#RadioRow",
+      "componentId": "RadioButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85655",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow_VARIANT_split",
+          "name": "split",
+          "seeds": [
+            {
+              "key": "split",
+              "raw": "true",
+              "kitAxis": "Split (2 tap targets)",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow_VARIANT_unselected",
+          "name": "unselected",
+          "seeds": [
+            {
+              "key": "checked",
+              "raw": "false",
+              "kitAxis": "Selected",
+              "kitValue": "No"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#SwitchRow",
+      "componentId": "SwitchButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85629",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow_VARIANT_split",
+          "name": "split",
+          "seeds": [
+            {
+              "key": "split",
+              "raw": "true",
+              "kitAxis": "Split (2 tap targets)",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow_VARIANT_unselected",
+          "name": "unselected",
+          "seeds": [
+            {
+              "key": "checked",
+              "raw": "false",
+              "kitAxis": "Selected",
+              "kitValue": "No"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Shapes.kt#MaterialShapesSticker",
+      "componentId": "Shape/MaterialShapes",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/42284:176655",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_12-sided-cookie",
+          "name": "12-sided-cookie",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "12-sided cookie"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_4-leaf-clover",
+          "name": "4-leaf-clover",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "4-leaf clover"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_4-sided-cookie",
+          "name": "4-sided-cookie",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "4-sided cookie"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_6-sided-cookie",
+          "name": "6-sided-cookie",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "6-sided cookie"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_7-sided-cookie",
+          "name": "7-sided-cookie",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "7-sided cookie"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_8-leaf-clover",
+          "name": "8-leaf-clover",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "8-leaf clover"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_9-sided-cookie",
+          "name": "9-sided-cookie",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "9-sided cookie"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_arch",
+          "name": "arch",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "arch"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_arrow",
+          "name": "arrow",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "arrow"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_boom",
+          "name": "boom",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "boom"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_bun",
+          "name": "bun",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "bun"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_burst",
+          "name": "burst",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "burst"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_diamond",
+          "name": "diamond",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "diamond"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_fan",
+          "name": "fan",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "fan"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_flower",
+          "name": "flower",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "flower"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_gem",
+          "name": "gem",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "gem"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_ghost-ish",
+          "name": "ghost-ish",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "ghost-ish"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_heart",
+          "name": "heart",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "heart"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_hexagon",
+          "name": "hexagon",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "hexagon"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_oval",
+          "name": "oval",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "oval"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_pantagon",
+          "name": "pantagon",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "pantagon"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_pill",
+          "name": "pill",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "pill"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_pixel-circle",
+          "name": "pixel-circle",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "pixel circle"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_pixel-triangle",
+          "name": "pixel-triangle",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "pixel triangle"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_puffy",
+          "name": "puffy",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "puffy"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_puffy-diamond",
+          "name": "puffy-diamond",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "puffy diamond"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_semicircle",
+          "name": "semicircle",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "semicircle"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_slanted",
+          "name": "slanted",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "slanted"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_soft-boom",
+          "name": "soft-boom",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "soft boom"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_soft-burst",
+          "name": "soft-burst",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "soft burst"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_square",
+          "name": "square",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "square"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_sunny",
+          "name": "sunny",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "sunny"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_triangle",
+          "name": "triangle",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "triangle"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker_VARIANT_very-sunny",
+          "name": "very-sunny",
+          "seeds": [
+            {
+              "key": "shape",
+              "raw": "very sunny"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueSlider",
+      "componentId": "Slider",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/43711:37256",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_full",
+          "name": "full",
+          "seeds": [
+            {
+              "key": "level",
+              "raw": "1.0",
+              "kitAxis": "Level",
+              "kitValue": "Full"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_low",
+          "name": "low",
+          "seeds": [
+            {
+              "key": "level",
+              "raw": "0.0",
+              "kitAxis": "Level",
+              "kitValue": "Low"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider_VARIANT_three-steps",
+          "name": "three-steps",
+          "seeds": [
+            {
+              "key": "steps",
+              "raw": "3",
+              "kitAxis": "Increments",
+              "kitValue": "Three"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueStepper",
+      "componentId": "Stepper",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/44993:61163",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_wearos_large_round_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_wearos_large_round_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealButton",
+      "componentId": "SwipeToReveal/Button",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155785",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_VARIANT_two-actions",
+          "name": "two-actions",
+          "seeds": [
+            {
+              "key": "secondary",
+              "raw": "true",
+              "kitAxis": "State",
+              "kitValue": "2-actions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard",
+      "componentId": "SwipeToReveal/Card",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_VARIANT_two-actions",
+          "name": "two-actions",
+          "seeds": [
+            {
+              "key": "secondary",
+              "raw": "true",
+              "kitAxis": "State",
+              "kitValue": "2-actions"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#BodyText",
+      "componentId": "Text/Body",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66993",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText_VARIANT_left-aligned",
+          "name": "left-aligned",
+          "seeds": [
+            {
+              "key": "align",
+              "raw": "left",
+              "kitAxis": "Alignment",
+              "kitValue": "Left"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#CaptionText",
+      "componentId": "Text/Caption",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66998",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.CaptionText",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.CaptionText_VARIANT_left-aligned",
+          "name": "left-aligned",
+          "seeds": [
+            {
+              "key": "align",
+              "raw": "left",
+              "kitAxis": "Alignment",
+              "kitValue": "Left"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#FixedTimeText",
+      "componentId": "TimeText",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/48151:45209",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText_wearos_large_round",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText_wearos_large_round_VARIANT_24-hour",
+          "name": "24-hour",
+          "seeds": [
+            {
+              "key": "time",
+              "raw": "22:10",
+              "kitAxis": "Type",
+              "kitValue": "24hr"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListHeading",
+      "componentId": "ListHeader",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66978",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading_VARIANT_left-aligned",
+          "name": "left-aligned",
+          "seeds": [
+            {
+              "key": "align",
+              "raw": "left",
+              "kitAxis": "Alignment",
+              "kitValue": "Left"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListSubHeading",
+      "componentId": "ListSubHeader",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38977:66983",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "icon",
+              "raw": "true",
+              "kitAxis": "Icon",
+              "kitValue": "Yes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt#IconToggle",
+      "componentId": "IconToggleButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:684",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_extra-large",
+          "name": "extra-large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_off",
+          "name": "off",
+          "seeds": [
+            {
+              "key": "checked",
+              "raw": "false",
+              "kitAxis": "Selected",
+              "kitValue": "Off"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle_VARIANT_small",
+          "name": "small",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt#TextToggle",
+      "componentId": "TextToggleButton",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/39083:767",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle",
+      "renders": [
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_disabled",
+          "name": "disabled",
+          "seeds": [
+            {
+              "key": "enabled",
+              "raw": "false",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_extra-large",
+          "name": "extra-large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "extra-large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_large",
+          "name": "large",
+          "seeds": [
+            {
+              "key": "size",
+              "raw": "large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle_VARIANT_off",
+          "name": "off",
+          "seeds": [
+            {
+              "key": "checked",
+              "raw": "false",
+              "kitAxis": "Selected",
+              "kitValue": "Off"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

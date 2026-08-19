@@ -35,7 +35,8 @@ import ee.schimke.wearm3catalog.Sticker
 
 @CatalogComponent(
   id = "ListHeader",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66977",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66978",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66977",
   caption = "Titles the screen a list belongs to; the first thing above the list.",
 )
 @CatalogModes
@@ -59,7 +60,8 @@ fun ListHeading() = Sticker {
 
 @CatalogComponent(
   id = "ListSubHeader",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66982",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66983",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66982",
   caption = "Divides a long list into named runs, without leaving the screen's title behind.",
 )
 @CatalogModes
@@ -78,7 +80,8 @@ fun ListSubHeading() = Sticker {
 
 @CatalogComponent(
   id = "Text/Body",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66993",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
   caption = "Running text at the `bodyMedium` role of the Wear type scale.",
 )
 @CatalogModes
@@ -101,7 +104,8 @@ fun BodyText() = Sticker {
 
 @CatalogComponent(
   id = "Text/Caption",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66995",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66998",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66995",
   caption = "Secondary text at the `labelSmall` role — a timestamp, a unit, a footnote.",
 )
 @CatalogModes
@@ -127,7 +131,8 @@ fun CaptionText() = Sticker {
 // the bezel, so it publishes on the round frame.
 @CatalogComponent(
   id = "TimeText",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/48151:45209",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
   caption = "The curved status strip every Wear screen carries, pinned to a fixed time.",
 )
 @CatalogFullScreenModes

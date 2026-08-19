@@ -47,7 +47,8 @@ private fun heldValue(initial: Float): Pair<Float, (Float) -> Unit> {
 
 @CatalogComponent(
   id = "Slider",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/43711:37256",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
   caption = "A value across a fixed number of steps, with the kit's levels folded in as cells.",
 )
 @CatalogModes
@@ -80,7 +81,8 @@ fun ValueSlider() = Sticker {
 
 @CatalogComponent(
   id = "Stepper",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/44993:61163",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
   caption = "A value moved a step at a time, between buttons at the top and bottom of the screen.",
 )
 @CatalogFullScreenModes

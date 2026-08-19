@@ -38,7 +38,8 @@ private val PINNED_TIME: LocalTime = LocalTime.of(10, 10)
 
 @CatalogComponent(
   id = "DatePicker",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8942",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "Three wheels for a date, with the kit's field orderings folded in.",
 )
 @CatalogFullScreenModes
@@ -67,7 +68,8 @@ fun DateWheels() = FullScreenSticker {
 
 @CatalogComponent(
   id = "TimePicker",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8697",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "Wheels for a time, pinned to 10:10; the kit's clock formats fold in as cells.",
 )
 @CatalogFullScreenModes
@@ -96,7 +98,8 @@ fun TimeWheels() = FullScreenSticker {
 
 @CatalogComponent(
   id = "Picker",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8581",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "One wheel of options — the primitive the date and time pickers are built from.",
 )
 @CatalogFullScreenModes

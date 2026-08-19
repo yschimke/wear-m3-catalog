@@ -99,7 +99,8 @@ import ee.schimke.wearm3catalog.FullScreenSticker
 
 @CatalogComponent(
   id = "AlertDialog",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/58475:87041",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
   caption = "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
 )
 @CatalogFullScreenModes
@@ -136,7 +137,8 @@ fun AlertDialogSticker() = FullScreenSticker {
 
 @CatalogComponent(
   id = "OpenOnPhoneDialog",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/46964:90920",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/46964:91112",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/46964:90920",
   caption = "Hands the task to the paired phone, with the progress the wait needs.",
 )
 @CatalogFullScreenModes

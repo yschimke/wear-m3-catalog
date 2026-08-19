@@ -31,14 +31,27 @@ CHECK=""
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
-# --strict: this catalog reproduces the kit, so a component with no exact kit node does not belong
-# in the published inventory at all. Gated before anything is written, so a failed run leaves the
-# committed map intact rather than replacing it with one CI would report as merely stale.
-npx --yes @yschimke/compose-design-map@1.12.0 \
+# NO --strict, and that is a policy statement rather than a relaxation.
+#
+# `--strict` gates on EVERY kind of absence, including one a `noReference` explains. This catalog's
+# membership has two doors (AGENTS.md): a component that reproduces a published kit set names its
+# node, and a Wear Compose component the kit never published enters with `noReference = "<why>"`.
+# `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and `ArcProgressIndicator` are through door 2,
+# so `--strict` fails this repo on four components that are exactly as intended — which is why the
+# flag stood here unexercised for as long as the projector could not see a dark-only catalog at all.
+#
+# What --strict was here to catch — SILENCE, a component with neither a reference nor a reason — is
+# caught by `CatalogInventoryTest.every component is either mapped to the kit or says why not`,
+# which fails the build and additionally checks the ref names *this* kit's file key. The projector
+# still reports the four, under a heading that separates a stated absence from a gap.
+#
+# The posture that would let this run gated — strict about silence, permissive about a stated
+# absence — belongs upstream rather than in a fork of the projector here, and is proposed as
+# `--allow-stated-absence` in compose-ai-tools; bring the flag back on the release that carries it.
+npx --yes @yschimke/compose-design-map@1.18.0 \
   --previews catalog/build/compose-previews/previews.json \
   --out "$WORK/design-map.json" \
-  --variants "$WORK/design-map-variants.json" \
-  --strict
+  --variants "$WORK/design-map-variants.json"
 
 # Step 2 needs the checked-in kit index, which is built by `.github/workflows/figma-refs.yml` and
 # therefore needs a FIGMA_TOKEN. Until that secret exists on this repository the index is absent and

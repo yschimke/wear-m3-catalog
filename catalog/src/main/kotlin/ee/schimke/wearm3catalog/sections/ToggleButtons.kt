@@ -47,7 +47,8 @@ private fun iconToggleSize(): Dp =
 
 @CatalogComponent(
   id = "IconToggleButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/39083:679",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39083:684",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/39083:679",
   caption = "An icon that holds an on/off state, with the kit's size and state axes folded in.",
 )
 @CatalogModes
@@ -89,7 +90,8 @@ private fun textToggleSize(): Dp =
 
 @CatalogComponent(
   id = "TextToggleButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/39083:760",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39083:767",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/39083:760",
   caption = "A short label that holds an on/off state.",
 )
 @CatalogModes

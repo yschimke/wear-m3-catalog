@@ -33,7 +33,8 @@ import ee.schimke.wearm3catalog.Sticker
 
 @CatalogComponent(
   id = "CircularProgressIndicator",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
   caption = "A ring around the display edge, with the kit's progress and stroke axes folded in.",
 )
 @CatalogModes
@@ -89,7 +90,8 @@ fun CircularProgress() = Sticker {
 
 @CatalogComponent(
   id = "SegmentedCircularProgressIndicator",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/52431:56915",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/52431:57063",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/52431:56915",
   caption = "The same ring cut into segments, for progress through a countable set of steps.",
 )
 @CatalogModes
@@ -131,7 +133,8 @@ fun ArcProgress() = Sticker { ArcProgressIndicator(modifier = Modifier.size(120.
 
 @CatalogComponent(
   id = "LinearProgressIndicator",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/45011:259051",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/45011:259221",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/45011:259051",
   caption = "A straight track, for progress inside a component or a list row.",
 )
 @CatalogModes
