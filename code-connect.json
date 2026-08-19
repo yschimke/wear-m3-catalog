@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-19T00:02:36.935Z",
+  "generatedAt": "2026-08-19T00:09:19.355Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -342,18 +342,18 @@
     {
       "componentId": "EdgeButton",
       "figmaLayerName": "EdgeButton",
-      "componentName": "FullScreenSticker",
+      "componentName": "EdgeButtonScreen",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
       "confidence": "HIGH",
       "previewName": "ScreenEdgeButton",
-      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "codeSnippet": "EdgeButtonScreen(\n    edgeButton = { },\n)",
       "imports": [
-        "import ee.schimke.wearm3catalog.FullScreenSticker"
+        "import ee.schimke.wearm3catalog.EdgeButtonScreen"
       ],
       "parameters": [
         {
-          "name": "content",
+          "name": "edgeButton",
           "type": "(BoxScope) -> Unit",
           "hasDefault": false,
           "composableSlot": true
