@@ -172,9 +172,7 @@
       "page": "Confirmation Overlays",
       "set": "Confirmation-Overlay",
       "node": "47251:36765",
-      "components": [
-        "ConfirmationDialog"
-      ]
+      "excluded": "ConfirmationDialogContent starts its children at alpha = 0 and animates them in from a LaunchedEffect; the renderer pauses the clock, so a static capture is an empty container ring. Back in as soon as a capture can settle the animation first."
     },
     {
       "page": "Confirmation Overlays",

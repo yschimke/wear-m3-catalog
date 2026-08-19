@@ -25,8 +25,8 @@ node ids and reference images, and the MCP server for variables and metadata.
 
 ## Status
 
-**Every published set in the kit is accounted for.** 34 of the kit's 42 published component sets are
-reproduced by a catalog component; the other 8 are excluded, each with a stated reason.
+**Every published set in the kit is accounted for.** 33 of the kit's 42 published component sets are
+reproduced by a catalog component; the other 9 are excluded, each with a stated reason.
 [`kit-sets.json`](kit-sets.json) is that record — one row per set, carrying either the components
 that reproduce it or why it is absent — and `CatalogKitCoverageTest` holds it to the annotations in
 both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation
@@ -39,6 +39,7 @@ What is excluded, and why:
 | `Button-ImageBackground-Round` | Compose puts the image container painter on `Button` and `Card`; `IconButton` takes no painter |
 | `Media-Player` | Wear Compose publishes no media player — the kit's set is a composition an app assembles |
 | the six `Avatar-*` components | avatars are app content; the kit draws the shapes an app fills, and there is no composable to invoke |
+| `Confirmation-Overlay` | `ConfirmationDialogContent` animates its children in from `alpha = 0`; the renderer pauses the clock, so a still capture is an empty ring. Back in when a capture can settle first |
 
 Out of scope and not listed: the kit's own internals (names beginning `.`, and the `Base
 components` each page builds its published set from) and the 1072-component **Icons** page, which is
