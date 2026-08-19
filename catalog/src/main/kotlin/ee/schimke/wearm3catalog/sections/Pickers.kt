@@ -14,7 +14,7 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 import java.time.LocalDate
 import java.time.LocalTime
@@ -38,7 +38,7 @@ private val PINNED_TIME: LocalTime = LocalTime.of(10, 10)
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "Three wheels for a date, with the kit's field orderings folded in.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(
   name = "month-first",
   strings = ["order=month"],
@@ -67,7 +67,7 @@ fun DateWheels() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "Wheels for a time, pinned to 10:10; the kit's clock formats fold in as cells.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(
   name = "24-hour",
   strings = ["format=24"],
@@ -96,7 +96,7 @@ fun TimeWheels() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "One wheel of options — the primitive the date and time pickers are built from.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @Composable
 fun SingleColumnPicker() = FullScreenSticker {
   val state = rememberPickerState(initialNumberOfOptions = 12, initiallySelectedIndex = 4)

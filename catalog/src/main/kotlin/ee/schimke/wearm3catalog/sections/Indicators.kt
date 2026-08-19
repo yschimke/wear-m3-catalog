@@ -14,7 +14,7 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 
 // The kit's `Position Indicators` and `Page Indicators` pages. Every one of these is a curved rail
@@ -32,7 +32,7 @@ import ee.schimke.wearm3catalog.FullScreenSticker
   reference = "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
   caption = "Where the screen sits in a scroll, drawn against the right bezel.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(
   name = "middle",
   floats = ["position=0.5"],
@@ -57,7 +57,7 @@ fun ScrollRail() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
   caption = "The value a rotating side button is setting, while it is being turned.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "low", floats = ["level=0.15"])
 @OverrideVariant(name = "full", floats = ["level=1.0"])
 @Composable
@@ -71,7 +71,7 @@ fun LevelRail() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
   caption = "Which page of a horizontal pager is showing, along the bottom of the display.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "six-pages", ints = ["pages=6"], kitAxis = "Number", kitValue = "6 - Start")
 @OverrideVariant(name = "two-pages", ints = ["pages=2"], kitAxis = "Number", kitValue = "2")
 @Composable
@@ -85,7 +85,7 @@ fun HorizontalPages() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
   caption = "The same indicator for a vertical pager, drawn against the left bezel.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "six-pages", ints = ["pages=6"], kitAxis = "Number", kitValue = "6 - Start")
 @Composable
 fun VerticalPages() = FullScreenSticker {

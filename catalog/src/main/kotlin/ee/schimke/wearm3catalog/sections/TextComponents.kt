@@ -21,6 +21,7 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 import ee.schimke.wearm3catalog.Sticker
@@ -129,7 +130,7 @@ fun CaptionText() = Sticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
   caption = "The curved status strip every Wear screen carries, pinned to a fixed time.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "24-hour", strings = ["time=22:10"], kitAxis = "Type", kitValue = "24hr")
 @Composable
 fun FixedTimeText() = FullScreenSticker {

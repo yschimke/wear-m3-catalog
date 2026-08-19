@@ -2,12 +2,9 @@
 
 package ee.schimke.wearm3catalog.sections
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
@@ -18,8 +15,10 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogModes
-import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.composeai.preview.ScrollMode
+import ee.schimke.composeai.preview.ScrollingPreview
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
+import ee.schimke.wearm3catalog.EdgeButtonScreen
 import ee.schimke.wearm3catalog.counted
 
 // The kit's `Edge-Button` set. This is the one component so far that is published on the round
@@ -40,7 +39,8 @@ import ee.schimke.wearm3catalog.counted
   reference = "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
   caption = "The screen-hugging confirm action, curved to the bottom edge of the display.",
 )
-@CatalogModes
+@CatalogFullScreenModes
+@ScrollingPreview(modes = [ScrollMode.END])
 @OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
 @OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
 @OverrideVariant(name = "icon", strings = ["content=icon"], kitAxis = "Type", kitValue = "Icon")
@@ -58,7 +58,7 @@ import ee.schimke.wearm3catalog.counted
   kitValue = "Yes",
 )
 @Composable
-fun ScreenEdgeButton() = FullScreenSticker {
+fun ScreenEdgeButton() = EdgeButtonScreen {
   val c = counted("Done")
   val colors =
     when (previewOverrideString("style", "filled")) {
@@ -72,18 +72,16 @@ fun ScreenEdgeButton() = FullScreenSticker {
       "large" -> EdgeButtonSize.Large
       else -> EdgeButtonSize.Medium
     }
-  Box(Modifier.align(Alignment.BottomCenter)) {
-    EdgeButton(
-      onClick = c.onClick,
-      buttonSize = size,
-      enabled = previewOverrideBoolean("enabled", true),
-      colors = colors,
-    ) {
-      if (previewOverrideString("content", "text") == "icon") {
-        Icon(Icons.Filled.Check, contentDescription = "Done")
-      } else {
-        Text(c.label)
-      }
+  EdgeButton(
+    onClick = c.onClick,
+    buttonSize = size,
+    enabled = previewOverrideBoolean("enabled", true),
+    colors = colors,
+  ) {
+    if (previewOverrideString("content", "text") == "icon") {
+      Icon(Icons.Filled.Check, contentDescription = "Done")
+    } else {
+      Text(c.label)
     }
   }
 }

@@ -18,7 +18,7 @@ import ee.schimke.composeai.overrides.previewOverrideString
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogModes
+import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 
 // The kit's `Dialogs` and `Confirmation Overlays` pages.
@@ -45,7 +45,7 @@ import ee.schimke.wearm3catalog.FullScreenSticker
   reference = "figma:B24oss2tTeXAFykyeyusz0/58475:87022",
   caption = "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(
   name = "edge-button",
   strings = ["edge=single"],
@@ -81,7 +81,7 @@ fun AlertDialogSticker() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/47251:36765",
   caption = "Reports that an action landed, then dismisses itself.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @OverrideVariant(name = "success", strings = ["kind=success"])
 @OverrideVariant(name = "failure", strings = ["kind=failure"])
 @Composable
@@ -110,7 +110,7 @@ fun ConfirmationDialogSticker() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/46964:90920",
   caption = "Hands the task to the paired phone, with the progress the wait needs.",
 )
-@CatalogModes
+@CatalogFullScreenModes
 @Composable
 fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   val style = OpenOnPhoneDialogDefaults.curvedTextStyle
