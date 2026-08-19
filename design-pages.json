@@ -1,0 +1,17 @@
+{
+  "$comment": "WHICH KIT PAGES ARE IMPORTED, and what each is called. `discover: true` asks the Figma file for its own page list rather than keeping one by hand — page ids are as undiscoverable as node ids — so this file is mostly the short list of pages that are NOT content. Each discovered page becomes an entry whose id is a slug of the page's own name, which is what the published URL reads as (`/wear-m3-catalog/pages/<id>`); pin an entry under `pages` to hold a URL still when a designer renames the page.",
+  "enabled": true,
+  "fileKey": "B24oss2tTeXAFykyeyusz0",
+  "outDir": "design/pages",
+  "discover": true,
+  "maxSvgBytes": 16777216,
+  "$exclude_comment": "Only pages with no content of their own. The kit uses ruled separators and all-caps headers as section dividers in its page list; they carry nothing to import and their names slug to nothing, so they would collide with each other rather than publish. The unnamed page (169:127814) is excluded by node id for the same reason — there is no name to slug.",
+  "exclude": [
+    "---",
+    "-----",
+    "  DESIGN KIT",
+    "  MASTER COMPONENTS",
+    "  APPENDIX",
+    "169:127814"
+  ]
+}

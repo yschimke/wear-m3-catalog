@@ -1,0 +1,124 @@
+name: Refresh Figma pages
+
+# Re-import the kit pages named in `design-pages.json` and commit the refreshed cache.
+#
+# `main` is protected, so a run on `main` cannot push. Dispatch this on a branch — it commits to
+# whatever ref it ran on (`HEAD:$GITHUB_REF_NAME`) — and open the refresh as a PR.
+#
+# A page is imported as ONE SVG with `data-node-id` on every element, plus a `pages.json` naming the
+# component nodes on it and the code each one maps to. The preview server inlines that SVG, hides
+# the design's own drawing of a node it has a render for, and puts our render in the hole — so the
+# ids in the export are load-bearing, not decoration. See `docs/FIGMA_PAGES.md`.
+#
+# WHY THIS ONE COMMITS, WHEN `figma-refs.yml` DOES NOT
+#
+# The import is a *cache*, and the point of a cache is that everything downstream works without the
+# network. A committed `design/pages/` means the catalog publish, a fork, and a local `serve` all
+# render the page with no Figma token at all; an artifact-only run would leave every one of them
+# needing one. It is still manual and still read-only against Figma — the Figma file moves on its
+# own schedule, and a push-triggered re-import would attribute a designer's edit to whoever opened
+# the PR.
+#
+# FIGMA_TOKEN is the same read-only PAT with `file_content:read` the other Figma workflows use; the
+# scope covers /v1/files/:key/nodes and /v1/images.
+
+on:
+  workflow_dispatch:
+    inputs:
+      page:
+        description: 'Refresh only this page id (blank = every page in design-pages.json).'
+        type: string
+        default: ''
+      commit:
+        description: 'Commit the refreshed cache back to this branch.'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    name: Import pages
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.19.0
+
+      - name: Import
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          PAGE: ${{ inputs.page }}
+        run: |
+          set -euo pipefail
+          if [ -z "${FIGMA_TOKEN:-}" ]; then
+            echo "::error::FIGMA_TOKEN secret is not set."
+            exit 1
+          fi
+          args=()
+          [ -n "$PAGE" ] && args+=(--page "$PAGE")
+          node scripts/import-figma-pages.mjs ${args[@]+"${args[@]}"} | tee import.txt
+
+      # The number this workflow exists to report, in the run log as well as the summary: the
+      # summary is not readable from the API, only by opening the run.
+      #
+      # The `node -e` body below is inside a SINGLE-QUOTED shell string, so it must contain no
+      # apostrophes — one in a comment ends the string and truncates the script, which is exactly
+      # how run 31700652776 died with `SyntaxError: Unexpected end of input`.
+      - name: Summarise
+        run: |
+          set -euo pipefail
+          {
+            echo "### Figma pages"
+            echo ""
+            echo '```'
+            cat import.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          node -e '
+            const fs = require("node:fs");
+            const cfg = JSON.parse(fs.readFileSync("design-pages.json", "utf8"));
+            const m = JSON.parse(fs.readFileSync((cfg.outDir ?? "design/pages") + "/pages.json", "utf8"));
+            for (const page of m.pages) {
+              // `nodes` is the field name the contract uses. Reading the wrong one here is how
+              // the first real import shipped a manifest the publisher could not see into.
+              if (!Array.isArray(page.nodes)) {
+                console.log(`**${page.id} declares no nodes array — the import is malformed.**`);
+                process.exitCode = 1;
+                continue;
+              }
+              console.log(`| Node | Name | Code |`);
+              console.log(`| --- | --- | --- |`);
+              for (const p of page.nodes) {
+                console.log(`| ${p.nodeId} | ${p.name} | ${p.code ?? "—"} |`);
+              }
+            }
+          ' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit the cache
+        if: inputs.commit
+        run: |
+          set -euo pipefail
+          # A bot identity, never an agent one — `.github/scripts/agent-attribution-scan.sh` rejects
+          # the latter on any branch, and this commit is machine-authored by definition.
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A design/pages
+          if git diff --cached --quiet; then
+            echo "no change to the cached pages"
+            exit 0
+          fi
+          git commit -m 'chore(pages): refresh the cached Figma page import'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - uses: actions/upload-artifact@v7.0.1
+        if: always()
+        with:
+          name: figma-pages
+          path: |
+            design/pages/
+            import.txt
+          if-no-files-found: warn
