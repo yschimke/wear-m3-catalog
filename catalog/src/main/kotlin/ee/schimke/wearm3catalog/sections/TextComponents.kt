@@ -17,7 +17,7 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.timeTextCurvedText
 import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -35,6 +35,22 @@ import ee.schimke.wearm3catalog.kitCopy
 // stickers. What each names on the Compose side is a `MaterialTheme.typography` role, which is why
 // the caption says which one: the sticker is otherwise indistinguishable from any other text.
 
+/**
+ * The kit's `Alignment=` axis, as the `textAlign` its three text sets take.
+ *
+ * A choice rather than a text box: `TextAlign` is a closed set, and a control that only shows
+ * `centre` leaves the other values reachable only by someone who has read this file. `right` is
+ * offered too — the kit publishes Left and Centre, but the parameter takes it and a live session is
+ * where a reader tries the thing the kit did not draw.
+ */
+@Composable
+private fun textAlign(): TextAlign =
+  when (previewOverrideChoice("align", "centre", listOf("centre", "left", "right"))) {
+    "left" -> TextAlign.Start
+    "right" -> TextAlign.End
+    else -> TextAlign.Center
+  }
+
 @CatalogComponent(
   id = "ListHeader",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66978",
@@ -51,12 +67,7 @@ import ee.schimke.wearm3catalog.kitCopy
 @Composable
 fun ListHeading() = Sticker {
   ListHeader(modifier = Modifier.width(180.dp)) {
-    Text(
-      kitCopy("label", KitCopy.TITLE),
-      textAlign =
-        if (previewOverrideString("align", "centre") == "left") TextAlign.Start
-        else TextAlign.Center,
-    )
+    Text(kitCopy("label", KitCopy.TITLE), textAlign = textAlign())
   }
 }
 
@@ -99,8 +110,7 @@ fun BodyText() = Sticker {
     kitCopy("text", KitCopy.BODY),
     style = MaterialTheme.typography.bodyMedium,
     modifier = Modifier.width(160.dp),
-    textAlign =
-      if (previewOverrideString("align", "centre") == "left") TextAlign.Start else TextAlign.Center,
+    textAlign = textAlign(),
   )
 }
 
@@ -123,8 +133,7 @@ fun CaptionText() = Sticker {
     kitCopy("text", KitCopy.CAPTION),
     style = MaterialTheme.typography.labelSmall,
     modifier = Modifier.width(160.dp),
-    textAlign =
-      if (previewOverrideString("align", "centre") == "left") TextAlign.Start else TextAlign.Center,
+    textAlign = textAlign(),
   )
 }
 
