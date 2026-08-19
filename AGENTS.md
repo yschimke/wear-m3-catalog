@@ -174,6 +174,12 @@ are out of scope.
   and lets the seed keep Compose's.
 - Component ids are the published sticker's URL and the join key for `@CatalogVariant(of = …)`.
   Renaming one moves a published URL — do it deliberately.
+- **A live click answers with the component, not with the label.** `counted` returns the label it
+  was given and a handler that is live-lane only; the ripple, state layer and pressed shape are
+  what a click is supposed to show. The `(n)` tally is the `clickCount` knob now, off by default —
+  reach for it when the question really is "did the handler run?", never as a sticker's standing
+  answer to a press ([#32](https://github.com/yschimke/wear-m3-catalog/issues/32)). See
+  `CatalogInteractive.kt`.
 - **Dark-first, transparent.** A component sticker is a single dark capture on a transparent
   background (`@CatalogModes`). A component the kit draws on a display cell — scaffolds, lists,
   dialogs, pickers, the indicator rails, swipe-to-reveal — takes `FullScreenSticker` and

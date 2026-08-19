@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalInspectionMode
+import ee.schimke.composeai.overrides.previewOverrideBoolean
 
 /**
  * True when the sticker is being driven live rather than baked into a PNG.
@@ -19,12 +20,27 @@ import androidx.compose.ui.platform.LocalInspectionMode
 @Composable fun catalogInteractive(): Boolean = !LocalInspectionMode.current
 
 /**
- * A label and an `onClick` that tally into it, for components that own no state of their own.
+ * A label and a real `onClick`, for components that own no state of their own.
  *
- * At `n == 0` this returns the bare label and a no-op handler, so the baked capture is
- * byte-identical either way; in a live session each click appends `(n)`. That is what lets a
- * sticker ship a handler that does something without changing the published picture — the
- * alternative, a literal `{}`, publishes a component that cannot be shown to work.
+ * The handler is live-lane only, so a baked capture cannot depend on whether something tapped it.
+ * What a live click *shows* is the component's own press feedback — the ripple, the state layer,
+ * the pressed shape — and that is deliberately all it shows by default.
+ *
+ * ### The tally is a knob now, not the behaviour
+ *
+ * This used to append `(n)` to the label on every click, so a sticker could be *seen* to respond.
+ * It answered the wrong question twice over. A growing label is not what the component does when
+ * you press it, and reading it as proof that clicks work hid the fact that the ripple was missing
+ * on the live lane at all ([#32](https://github.com/yschimke/wear-m3-catalog/issues/32) — the
+ * preview server drove clicks through the node's `OnClick` semantics action, which invokes the
+ * handler and emits no press interaction, so nothing ever rippled). Fixing the ripple upstream left
+ * the tally competing with it: two answers, the louder one wrong.
+ *
+ * So it is `clickCount`, a knob every sticker exposes and nothing turns on by default. Set it and
+ * the label counts again — useful when the question really is "did the handler run?", e.g. on a
+ * component whose press feedback is subtle or suppressed. Leave it and the component speaks for
+ * itself. The default is what every published PNG renders, so the knob costs the baked lane
+ * nothing.
  */
 class Counted(val label: String, val onClick: () -> Unit)
 
@@ -32,7 +48,8 @@ class Counted(val label: String, val onClick: () -> Unit)
 fun counted(label: String): Counted {
   if (!catalogInteractive()) return Counted(label, {})
   var clicks by remember { mutableIntStateOf(0) }
-  return Counted(if (clicks == 0) label else "$label ($clicks)", { clicks++ })
+  val tally = previewOverrideBoolean("clickCount", false)
+  return Counted(if (tally && clicks > 0) "$label ($clicks)" else label, { clicks++ })
 }
 
 /**
