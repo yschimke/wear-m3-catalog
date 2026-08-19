@@ -13,7 +13,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton_VARIANT_disabled-dbb9b972.png" width="150" /> |
 | `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton_VARIANT_icon-d2ec1f77.png" width="150" /> |
 | `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton-ac0031b1.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_child-d055822e.png" width="150" /> |
 | `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_disabled-05a569fc.png" width="150" /> |
+| `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_filled_variant-12c66be4.png" width="150" /> |
 | `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_icon_only-11c4c19c.png" width="150" /> |
 | `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_outlined-fc19ab8f.png" width="150" /> |
 | `CompactActionButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CompactActionButton_VARIANT_text_only-91291384.png" width="150" /> |
@@ -28,8 +30,8 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ImageBackgroundButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ImageBackgroundButton_VARIANT_disabled-45e79a7b.png" width="150" /> |
 | `ImageBackgroundButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ImageBackgroundButton_VARIANT_secondary_label-9e9d0eaa.png" width="150" /> |
 | `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton-d659bf62.png" width="150" /> |
+| `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton_VARIANT_child-972d9c56.png" width="150" /> |
 | `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton_VARIANT_outlined-e5e7aa32.png" width="150" /> |
-| `LoadingButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/LoadingButton_VARIANT_tonal-0244b766.png" width="150" /> |
 | `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton-defced9c.png" width="150" /> |
 | `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton_VARIANT_disabled-1e237b4f.png" width="150" /> |
 | `OutlineButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineButton_VARIANT_icon-7472bef8.png" width="150" /> |
@@ -49,6 +51,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_wearos_large_round-185cff56.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round-981d3ac4.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_disabled-0ca35c1a.png" width="150" /> |
+| `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_filled_variant-70d23901.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_icon-c8b88ce8.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_large-fcf1ca3e.png" width="150" /> |
 | `ScreenEdgeButton · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_wearos_large_round_VARIANT_outlined-64b4a075.png" width="150" /> |
@@ -59,8 +62,14 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_extra_small-3899ccda.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_large-121afaa3.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_small-c1048df4.png" width="150" /> |
+| `FilledVariantIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantIconAction-ac89c267.png" width="150" /> |
+| `FilledVariantIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantIconAction_VARIANT_disabled-ec9de92f.png" width="150" /> |
+| `FilledVariantIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantIconAction_VARIANT_extra_small-df5ca5e6.png" width="150" /> |
+| `FilledVariantIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantIconAction_VARIANT_large-317c8bf4.png" width="150" /> |
+| `FilledVariantIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledVariantIconAction_VARIANT_small-cc09ca7e.png" width="150" /> |
 | `OutlinedIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlinedIconAction-56a9b251.png" width="150" /> |
 | `OutlinedIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlinedIconAction_VARIANT_disabled-74012994.png" width="150" /> |
+| `OutlinedIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlinedIconAction_VARIANT_extra_small-40005c5e.png" width="150" /> |
 | `OutlinedIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlinedIconAction_VARIANT_large-296ddc05.png" width="150" /> |
 | `OutlinedIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlinedIconAction_VARIANT_small-46d32733.png" width="150" /> |
 | `StandardIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/StandardIconAction-35a0fc83.png" width="150" /> |
@@ -70,12 +79,14 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction-23ed74e3.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_child-fee099ee.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_disabled-2be9802a.png" width="150" /> |
+| `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_filled_variant-cc5e0dea.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_large-2ed53043.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_outlined-fdf736d0.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_small-de015dc5.png" width="150" /> |
 | `TextAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TextAction_VARIANT_tonal-486d3f87.png" width="150" /> |
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction-47685269.png" width="150" /> |
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_disabled-e47314d3.png" width="150" /> |
+| `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_extra_small-2c5b8f14.png" width="150" /> |
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_large-58d3bc12.png" width="150" /> |
 | `TonalIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalIconAction_VARIANT_small-42099a73.png" width="150" /> |
 | `HorizontalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/HorizontalPages_wearos_large_round-5c843c9e.png" width="150" /> |
