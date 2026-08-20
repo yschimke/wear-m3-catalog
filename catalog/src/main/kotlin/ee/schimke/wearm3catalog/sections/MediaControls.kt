@@ -3,16 +3,24 @@
 package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.android.horologist.audio.AudioOutput
+import com.google.android.horologist.audio.ui.material3.components.actions.SettingsButton
+import com.google.android.horologist.audio.ui.material3.components.actions.SettingsButtonDefaults
+import com.google.android.horologist.audio.ui.material3.components.actions.VolumeButtonWithBadge
+import com.google.android.horologist.audio.ui.material3.components.toAudioOutputUi
 import com.google.android.horologist.media.ui.material3.components.MediaControlButtons
 import com.google.android.horologist.media.ui.material3.components.MediaInfoDisplay
 import com.google.android.horologist.media.ui.material3.components.PlayPauseProgressButton
@@ -97,6 +105,29 @@ import ee.schimke.wearm3catalog.kitCopy
 // comparison reports them; saying so here is the rule for a difference Compose expresses elsewhere
 // (AGENTS.md).
 //
+// THE FOOTER IS TWO COMPACT BUTTONS, AND THIS PAGE ONCE DREW A PLAYLIST CHIP INSTEAD (issue #67).
+//
+// `PlayerScreen`'s third slot is typed `SettingsButtons` and ships EMPTY — Horologist supplies no
+// default for it, so what goes there is entirely the app's call. The first draft of this file put
+// `ShowPlaylistButton` in it, because that is the one component in `media-ui-material3`'s
+// `components/actions/` that pairs with the `MediaUiModel` seed already on hand. The kit draws
+// something else: `.Base / Media / Footer` (`71575:22221`) is two `Section`s of 68×60, each a 48dp
+// tap target around a 44×32 `Button-Compact` — the output-device button carrying a volume badge,
+// and an overflow. Horologist publishes exactly those, but in `horologist-audio-ui-material3`
+// (`VolumeButtonWithBadge` / `SettingsButton`), which was not on this module's classpath — so the
+// slot got the available component rather than the drawn one.
+//
+// The sizes are not a coincidence to be re-derived here: `SettingsButton`'s own `BUTTON_WIDTH` /
+// `BUTTON_HEIGHT` ARE 44×32, and it fills whatever box it is handed and centres itself in it. So
+// the frame below is the kit's two sections and nothing more, and the library draws the buttons.
+//
+// WHY NOTHING CAUGHT IT: the `Media-Player` reference is withdrawn (see above) because the cell
+// does not export. That is the right call about the reference — and it also switched off the one
+// check that would have compared this render against the cell, so a wrong footer read as intended
+// for as long as the caption described what was built. Two lessons, both already in AGENTS.md's
+// spirit: a withdrawn reference is a gap to state, not a licence; and a caption is written from the
+// KIT, not from the render.
+//
 // A PARITY FINDING THE RENDERS SURFACED, WRITTEN DOWN RATHER THAN PAPERED OVER.
 //
 // The kit draws its main control with a progress arc AROUND the button — `Progress=80%` and
@@ -156,7 +187,7 @@ import ee.schimke.wearm3catalog.kitCopy
       "so the reference is withdrawn until the export is faithful. See the note in this file.",
   caption =
     "The media player, whole: track and artist above, transport controls across the middle, the " +
-      "app's own action below.",
+      "output-device and overflow buttons below.",
 )
 @CatalogFullScreenModes
 @OverrideVariant(name = "ambient", strings = ["mode=ambient"])
@@ -224,13 +255,7 @@ fun MediaPlayerScreen() = ScreenSticker {
         )
       }
     },
-    buttons = {
-      ShowPlaylistButton(
-        artworkPaintable = HorologistSamples.Artwork,
-        name = kitCopy("playlist", KitCopy.MEDIA_PLAYLIST),
-        onClick = {},
-      )
-    },
+    buttons = { MediaFooterButtons(ambient = ambient == "ambient") },
     // The kit draws the artwork behind the whole screen, tinted; ambient draws none. Horologist's
     // `RadialBackground` is that wash, seeded from the artwork's colour rather than the bitmap.
     background = {
@@ -240,6 +265,92 @@ fun MediaPlayerScreen() = ScreenSticker {
     },
   )
 }
+
+/**
+ * The width of one `Section` in the kit's `.Base / Media / Footer` (`71575:22228`, `71575:22232`).
+ */
+private val FooterSectionWidth = 68.dp
+
+/** The height of the kit's `Bottom` frame (`71575:22339`) — the row the two sections sit in. */
+private val FooterSectionHeight = 60.dp
+
+/**
+ * The audio output the footer's first button reports.
+ *
+ * A `BluetoothHeadset` rather than a hand-picked icon, because `toAudioOutputUi()` is what maps an
+ * output to the glyph the kit draws — headphones for `TYPE_HEADPHONES`, and `isConnected`, which is
+ * what puts the volume badge on the button at all. Naming the icon here instead would be this repo
+ * transcribing a decision the library already makes (AGENTS.md).
+ */
+private val FooterAudioOutput =
+  AudioOutput.BluetoothHeadset(id = "catalog-headset", name = "Headphones")
+
+/**
+ * The kit's `.Base / Media / Footer` (`71575:22221`): the output-device button with its volume
+ * badge, and the overflow, in two 68×60 sections centred across the 192dp screen.
+ *
+ * NO SIZE IS INVENTED HERE. `SettingsButton` measures 44×32 — its own `BUTTON_WIDTH` /
+ * `BUTTON_HEIGHT`, which are the kit's `Button-Compact` — and it `fillMaxSize()`s into whatever box
+ * it is handed, centring itself. So the sections below are the only geometry this file states, and
+ * they are read off the kit's frames rather than chosen: 28 + 68 + 68 + 28 = 192.
+ *
+ * The volume state is deliberately **null**. The badge's glyph is the library's own function of it
+ * (mute / down / up), and a catalog render has no volume to report; null takes Horologist's own
+ * no-state default rather than seeding a number nobody chose. `isConnected` — which is what decides
+ * whether there is a badge at all — comes from [FooterAudioOutput].
+ *
+ * [ambient] outlines both buttons instead of filling them, which is the kit's `AOD=Yes` cell
+ * (`71575:22344`): same two buttons, drawn as outlines, badge still filled. Horologist publishes
+ * that pair as `ambientButtonColors()` + `ambientButtonBorder()`, so it is a colour choice on the
+ * same composable rather than a second one.
+ */
+@Composable
+private fun MediaFooterButtons(ambient: Boolean) {
+  val colors =
+    if (ambient) SettingsButtonDefaults.ambientButtonColors()
+    else SettingsButtonDefaults.buttonColors()
+  val border = if (ambient) SettingsButtonDefaults.ambientButtonBorder(enabled = true) else null
+  Row {
+    Box(Modifier.size(FooterSectionWidth, FooterSectionHeight)) {
+      VolumeButtonWithBadge(
+        onOutputClick = {},
+        audioOutputUi = FooterAudioOutput.toAudioOutputUi(),
+        volumeUiState = null,
+        buttonColors = colors,
+        border = border,
+      )
+    }
+    Box(Modifier.size(FooterSectionWidth, FooterSectionHeight)) {
+      SettingsButton(
+        onClick = {},
+        imageVector = Icons.Filled.MoreVert,
+        // Not `kitCopy`: that is for words the kit DRAWS, and this is never on screen.
+        contentDescription = "More",
+        buttonColors = colors,
+        border = border,
+      )
+    }
+  }
+}
+
+@CatalogComponent(
+  id = "Media/FooterButtons",
+  noReference =
+    "The kit's `.Base / Media / Footer` (`71575:22221`) — a PRIVATE set, so it carries no coverage " +
+      "row. The published cell it appears in is `Media-Player`, which `Media/PlayerScreen` " +
+      "reproduces whole; this is the same row on its own, so a change to it is diffed without " +
+      "having to read it out of a 192×192 screen.",
+  caption =
+    "The player's footer: the output-device button with its volume badge, and the overflow. Two " +
+      "44×32 compact buttons in the kit's two 68dp sections.",
+)
+@CatalogModes
+@OverrideVariant(name = "ambient", booleans = ["ambient=true"])
+@Composable
+fun MediaFooterButtonsRow() =
+  MediaRowSticker(height = FooterSectionHeight) {
+    MediaFooterButtons(ambient = previewOverrideBoolean("ambient", false))
+  }
 
 @CatalogComponent(
   id = "Media/ControlButtons",
@@ -398,9 +509,13 @@ fun MediaInfoDisplayHeader() =
 @CatalogComponent(
   id = "Media/ShowPlaylistButton",
   noReference =
-    "The app's own action in the kit's `.Base / Media / Footer` (`71575:22221`), a PRIVATE set. " +
-      "Compose's `FilledTonalButton` underneath, but the composable a media app calls is this one.",
-  caption = "The bottom action: jump to the playlist this track came from, with its artwork.",
+    "NOT IN THE KIT AT ALL, and this row used to claim it was. The kit's `.Base / Media / Footer` " +
+      "(`71575:22221`) draws two 44×32 compact buttons — `Media/FooterButtons` — not a labelled " +
+      "chip, so there is no cell this reproduces and none to withdraw. It stays on the sheet " +
+      "because Horologist publishes it and a media app that jumps to its source playlist calls " +
+      "exactly this; a reader should just not expect to find it on the kit's player. See the note " +
+      "in this file (issue #67).",
+  caption = "Jump to the playlist this track came from, with its artwork.",
 )
 @CatalogModes
 @Composable
