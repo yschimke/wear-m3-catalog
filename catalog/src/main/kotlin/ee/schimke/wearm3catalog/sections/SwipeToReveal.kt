@@ -72,6 +72,9 @@ private fun revealState(): RevealState {
   reference = "figma:B24oss2tTeXAFykyeyusz0/56392:155753",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/56392:155752",
   caption = "A card swiped aside to show its actions.",
+  // The reveal itself, recorded in Motion.kt. The sticker publishes the card already revealed,
+  // because at rest it is indistinguishable from the card underneath; this is the part between.
+  motionPreview = "SwipeToRevealMotion",
 )
 @CatalogFullScreenModes
 @OverrideVariant(

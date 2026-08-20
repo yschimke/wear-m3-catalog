@@ -47,6 +47,10 @@ import ee.schimke.wearm3catalog.kitCopy
   reference = "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
   caption = "The screen-hugging confirm action, curved to the bottom edge of the display.",
+  // The reveal-on-scroll, recorded in Motion.kt on the full 192dp screen. `ScreenScaffold` reveals
+  // the button from the scroll state, so what an edge button *does* is not a thing one frame shows
+  // — while this sticker stays the kit's 192×59 component cell (#31).
+  motionPreview = "EdgeButtonRevealMotion",
 )
 @CatalogModes
 @OverrideVariant(

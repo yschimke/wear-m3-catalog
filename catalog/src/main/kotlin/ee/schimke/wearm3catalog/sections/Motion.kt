@@ -51,6 +51,34 @@ import kotlinx.coroutines.delay
 // `@CatalogComponent`, so they add nothing to the kit taxonomy and answer to no kit node. They are
 // recordings *of* components that are catalogued elsewhere.
 //
+// AND THAT IS ONLY HALF THE WIRING — THE HALF THAT WAS MISSING
+//
+// Authoring a recording here does NOT publish it. A design catalog collects motion PER COMPONENT:
+// the export reads each component's own `@Preview`, or its `motionPreview`, and folds what it finds
+// onto `components[].motion[]`. A recording no component names is resolved by nobody, so it renders
+// into the bundle and is dropped at the join — the catalog then publishes with an empty `motion/`
+// and nothing anywhere says why. That is exactly what happened to all five of these from the day
+// they landed until compose-ai-tools 1.23.0: green runs, correct GIFs in the bundle, no Motion lane
+// on the delivery branch.
+//
+// Each recording below is therefore CLAIMED by the component it is a recording of, by naming it as
+// `motionPreview = "<function>"` on that component's own `@CatalogComponent` — never here. (Spelled
+// without the opening bracket on purpose: `CatalogInventoryTest` finds components by scanning these
+// files for the annotation's literal text, so writing it in full in a comment mints a phantom
+// component with no id and fails the build.)
+//
+//   IndeterminateProgressMotion -> CircularProgressIndicator  (ProgressIndicators.kt)
+//   SwitchTransitionMotion      -> SwitchButton               (SelectionButtons.kt)
+//   ToggleButtonShapeMotion     -> IconToggleButton           (ToggleButtons.kt)
+//   SwipeToRevealMotion         -> SwipeToReveal/Card         (SwipeToReveal.kt)
+//   EdgeButtonRevealMotion      -> EdgeButton                 (EdgeButtons.kt)
+//
+// Claiming costs the recording nothing it had: it still carries no `@CatalogComponent`, still adds
+// no card and no kit node. It only tells the export whose Motion lane the bytes belong in. ADDING A
+// RECORDING HERE MEANS ADDING ITS CLAIM TOO — an unclaimed one is now warned about by the export
+// ("N @Preview function(s) declare captures that no catalog component claims") rather than being
+// silently dropped, but the warning does not publish it.
+//
 // `@InteractionPreview` IS NOT USED, AND NOT BY CHOICE
 //
 // It is the annotation for pointer-provoked motion — a switch only moves because someone flipped
