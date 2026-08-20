@@ -2,12 +2,15 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
@@ -362,9 +365,37 @@ fun LoadingButton() = Sticker {
     // As on the compact button: the outline is a `border`, not a colour, and without it the
     // outlined cell is the child cell's picture under another name.
     border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
+    // The icon slot is a STACK, because the kit's is: `Button-Loading`'s `Icon` instance holds a
+    // `Progress-Indicator-Small` filling all 26dp of the slot and an 18dp icon centred inside the
+    // ring, and the pattern is "the thing you asked for, with a ring around it" rather than "a ring
+    // where the icon was". This used to be the indicator alone at 24dp, which published a button
+    // with no icon AND — since a bare `CircularProgressIndicator` sizes its ring off the slot it is
+    // given and drew nothing at that size — no visible ring either: an icon-sized hole in the
+    // button, which is what issue #45 is a picture of.
+    //
+    // All three numbers are the kit's, not guesses: 26dp is the slot ([ButtonDefaults.IconSize] is
+    // the same 26), 18dp is the icon centred in it, and the 4dp that separates them is the whole
+    // budget the ring has — which is why the stroke is written out rather than taken from
+    // `CircularProgressIndicatorDefaults`. Its `smallStrokeWidth` is 6dp, sized for an indicator
+    // that is the only thing in its box; spent here it eats 12 of the 26 and closes over the icon
+    // the kit put inside. So the ring gets 3dp, inside the kit's own 4dp gap, and the library's
+    // constants stay where they fit.
+    //
     // Pinned, not indeterminate: an animated indicator renders a different frame on every
-    // publish, and the delivery branch's history would be noise rather than change.
-    icon = { CircularProgressIndicator(progress = { 0.35f }, modifier = Modifier.size(24.dp)) },
+    // publish, and the delivery branch's history would be noise rather than change. The value is
+    // the kit's picture rather than a round number — its cell draws an almost-closed ring, and at
+    // a 26dp diameter a short arc reads as a blob stuck to one side of the icon rather than as
+    // progress around it.
+    icon = {
+      Box(contentAlignment = Alignment.Center, modifier = Modifier.size(ButtonDefaults.IconSize)) {
+        CircularProgressIndicator(
+          progress = { 0.75f },
+          modifier = Modifier.fillMaxSize(),
+          strokeWidth = 3.dp,
+        )
+        Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+      }
+    },
     label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) },
     // TWO LINES, because the kit's cell has two. `Button-Loading` is the only button set whose
     // base cell fills the secondary slot — the others leave it empty and put it behind a cell —
