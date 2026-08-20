@@ -5,6 +5,7 @@ package ee.schimke.wearm3catalog.sections
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -12,6 +13,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
@@ -59,13 +61,114 @@ import ee.schimke.wearm3catalog.kitCopy
 // sticker is compared against, and a source scan — CatalogInventoryTest, and the map projector —
 // reads the annotation, not a resolved constant.
 
-/** The leading icon the kit's `Icon=Yes` cells draw, and nothing when they draw `Icon=No`. */
+/**
+ * The leading icon the kit's `Icon=Yes` cells draw, and nothing when they draw `Icon=No`.
+ *
+ * `iconSize` is the kit's own third axis and only means anything when there IS an icon — the kit
+ * spells that dependency as `Icon size=n/a` on every `Icon=No` cell, which is why the sizes are not
+ * a matrix against `icon` but a refinement of one of its values.
+ */
 @Composable
 private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
   if (!previewOverrideBoolean("icon", false)) null
   else {
-    { Icon(Icons.Filled.Add, contentDescription = null) }
+    val size =
+      when (previewOverrideChoice("iconSize", "default", listOf("default", "large", "extra-large"))) {
+        "large" -> ButtonDefaults.LargeIconSize
+        "extra-large" -> ButtonDefaults.ExtraLargeIconSize
+        else -> ButtonDefaults.IconSize
+      }
+    { Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(size)) }
   }
+
+/**
+ * The label the kit's `Alignment` axis turns, as a `Button` label slot.
+ *
+ * The kit's `Alignment=Left | Center` is not a parameter on the Wear Compose function — it is what
+ * the label does with the width it is given, so this is where it has to live. `Center` is the base
+ * cell and what a label-only button does on its own; `Left` fills the row and starts the text, which
+ * is the arrangement every `Icon=Yes` cell is drawn in (an icon and a centred label would leave the
+ * text floating between the icon and nothing).
+ *
+ * Only the five `Button` styles read it, because `Alignment` is only on that set. A component whose
+ * kit set does not publish the axis has no business turning it.
+ */
+@Composable
+private fun alignedLabel(text: String) {
+  if (previewOverrideChoice("alignment", "center", listOf("center", "left")) == "left") {
+    Text(text, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
+  } else {
+    Text(text)
+  }
+}
+
+/**
+ * The eight `Button` cells this catalog did not draw — every combination of the kit's `Icon`,
+ * `Icon size` and `Alignment` axes that its set actually publishes, crossed with `Disabled`.
+ *
+ * Hoisted onto one annotation class and applied to all five styles rather than written out per
+ * function: five styles by eight cells is forty near-identical annotations, which is the shape that
+ * drifted last time somebody wrote it by hand (see `@PreviewAxis`'s own docs).
+ *
+ * **Not a `@PreviewAxis` cross product**, deliberately. The product of these axes is 24 cells per
+ * style and the kit publishes 10: there is no `Icon=No, Icon size=Lrg 32` node, because `Icon size`
+ * only exists once there is an icon. A blind product would mint fourteen renders per style that map
+ * to nothing, which is worse than the gap it closed. A ragged matrix is what hand-written cells are
+ * for.
+ *
+ * Every cell declares its WHOLE kit assignment through `kitProps`, because the kit's axes are
+ * coupled: there is no `Icon=Yes, Icon size=n/a, Alignment=Center` node either, so a cell naming
+ * only `Icon=Yes` asks for a node between the ones the kit drew — which is exactly why the existing
+ * single-axis `icon` cell resolves to nothing today and is replaced here.
+ */
+@OverrideVariant(
+  name = "left",
+  strings = ["alignment=left"],
+  kitProps = ["Icon=No", "Icon size=n/a", "Alignment=Left"],
+)
+@OverrideVariant(
+  name = "icon",
+  booleans = ["icon=true"],
+  strings = ["alignment=left"],
+  kitProps = ["Icon=Yes", "Icon size=26 (Default)", "Alignment=Left"],
+)
+@OverrideVariant(
+  name = "icon-large",
+  booleans = ["icon=true"],
+  strings = ["iconSize=large", "alignment=left"],
+  kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left"],
+)
+@OverrideVariant(
+  name = "icon-extra-large",
+  booleans = ["icon=true"],
+  strings = ["iconSize=extra-large", "alignment=left"],
+  kitProps = ["Icon=Yes", "Icon size=xLg 36", "Alignment=Left"],
+)
+@OverrideVariant(
+  name = "left-disabled",
+  booleans = ["enabled=false"],
+  strings = ["alignment=left"],
+  kitProps = ["Icon=No", "Icon size=n/a", "Alignment=Left", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-disabled",
+  booleans = ["icon=true", "enabled=false"],
+  strings = ["alignment=left"],
+  kitProps = ["Icon=Yes", "Icon size=26 (Default)", "Alignment=Left", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-large-disabled",
+  booleans = ["icon=true", "enabled=false"],
+  strings = ["iconSize=large", "alignment=left"],
+  kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-extra-large-disabled",
+  booleans = ["icon=true", "enabled=false"],
+  strings = ["iconSize=extra-large", "alignment=left"],
+  kitProps = ["Icon=Yes", "Icon size=xLg 36", "Alignment=Left", "Disabled=Yes"],
+)
+annotation class ButtonLayoutCells
 
 @CatalogComponent(
   id = "Button/Filled",
@@ -74,7 +177,7 @@ private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
   caption = "Highest emphasis; the screen's primary action.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
+@ButtonLayoutCells
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -88,7 +191,7 @@ fun FilledButton() = Sticker {
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
-    label = { Text(c.label) },
+    label = { alignedLabel(c.label) },
   )
 }
 
@@ -99,7 +202,7 @@ fun FilledButton() = Sticker {
   caption = "The kit's highlighted style — a filled button in the variant palette.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
+@ButtonLayoutCells
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -114,7 +217,7 @@ fun FilledVariantButton() = Sticker {
     enabled = previewOverrideBoolean("enabled", true),
     colors = ButtonDefaults.filledVariantButtonColors(),
     icon = leadingIcon(),
-    label = { Text(c.label) },
+    label = { alignedLabel(c.label) },
   )
 }
 
@@ -125,7 +228,7 @@ fun FilledVariantButton() = Sticker {
   caption = "Medium emphasis, on a tonal container.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
+@ButtonLayoutCells
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -139,7 +242,7 @@ fun TonalButton() = Sticker {
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
-    label = { Text(c.label) },
+    label = { alignedLabel(c.label) },
   )
 }
 
@@ -150,7 +253,7 @@ fun TonalButton() = Sticker {
   caption = "Medium emphasis, drawn as an outline over the background.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
+@ButtonLayoutCells
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -164,7 +267,7 @@ fun OutlineButton() = Sticker {
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
-    label = { Text(c.label) },
+    label = { alignedLabel(c.label) },
   )
 }
 
@@ -175,7 +278,7 @@ fun OutlineButton() = Sticker {
   caption = "Lowest emphasis; no container at all, for a button inside another surface.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
+@ButtonLayoutCells
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -189,7 +292,7 @@ fun ChildLabelButton() = Sticker {
     onClick = c.onClick,
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
-    label = { Text(c.label) },
+    label = { alignedLabel(c.label) },
   )
 }
 
