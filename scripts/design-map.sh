@@ -37,12 +37,15 @@ trap 'rm -rf "$WORK"' EXIT
 # catalog that reproduces a kit wants, since an unmapped sticker is one nothing can ever check.
 # On its own it also fails on an absence somebody already looked at and WROTE DOWN, and this
 # catalog's membership has two doors (AGENTS.md): a component reproducing a published kit set names
-# its node, and a Wear Compose component the kit never published enters with `noReference = "<why>"`.
+# its node, and a component of either library here that the kit never published as a set enters with
+# `noReference = "<why>"`.
 # `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and `ArcProgressIndicator` are through door 2,
-# so plain `--strict` reddened this repo on four components that are exactly as intended.
+# so plain `--strict` reddened this repo on four components that are exactly as intended. The
+# Horologist components added since (the media parts, the sign-in surfaces, the fast-scrolling list)
+# go through the same door for the same reason, so the count is fifteen now rather than four.
 #
 # `--allow-stated-absence` narrows the gate to what it is actually for: still fatal on a missing
-# reference and on captures that pair with none, permissive about a stated one. The four are still
+# reference and on captures that pair with none, permissive about a stated one. They are still
 # reported, under a heading that keeps them apart from a gap.
 #
 # NO `--base-breakpoint`. The full-screen stickers now render at each of the five screen sizes the

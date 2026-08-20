@@ -30,6 +30,14 @@
       "automerge": false
     },
     {
+      "description": "Horologist is the catalog's SECOND component library (see AGENTS.md) and it ships its artifacts as one release — media-ui-material3, auth-composables-material3, compose-layout, images-base and the models they take all move together, and a skew between them is a compile error at best. Group them into one PR. Not automerged, for the same reason Compose is not: these draw the media player, the sign-in screens and the fast-scrolling list, and the render is the product — a human reads the visual diff. They are on an alpha line, so expect the diff to be real.",
+      "matchPackageNames": [
+        "/^com\\.google\\.android\\.horologist($|[.:])/"
+      ],
+      "groupName": "Horologist",
+      "automerge": false
+    },
+    {
       "description": "Toolchain and CI plumbing \u2014 the Gradle wrapper, the GitHub Actions pins and the pinned Node version. These are judged entirely by whether CI passes, which is the one thing automerge already waits for, so batch them into a single weekly PR rather than one PR per action. Deliberately BEFORE the compose-ai-tools rule, which re-claims its own action ref out of this batch \u2014 that pin travels with the Gradle coords, not with the weekly plumbing.",
       "matchManagers": [
         "gradle-wrapper",
