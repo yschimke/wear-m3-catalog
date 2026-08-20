@@ -54,6 +54,9 @@ private fun iconToggleSize(): Dp =
   reference = "figma:B24oss2tTeXAFykyeyusz0/39083:684",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/39083:679",
   caption = "An icon that holds an on/off state, with the kit's size and state axes folded in.",
+  // The corner-shape morph, recorded in Motion.kt against `animatedShapes()` — the thing the kit's
+  // `Corner radius = Circular | Rounded (18)` axis publishes two stills of.
+  motionPreview = "ToggleButtonShapeMotion",
 )
 @CatalogModes
 @OverrideVariant(name = "off", booleans = ["checked=false"], kitAxis = "Selected", kitValue = "Off")

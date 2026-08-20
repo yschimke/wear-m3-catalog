@@ -56,6 +56,10 @@ import ee.schimke.wearm3catalog.Sticker
   reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
   caption = "A ring around the display edge, with the kit's progress and stroke axes folded in.",
+  // The indeterminate sweep, recorded in Motion.kt. It cannot be annotated here: a motion
+  // annotation rides every `@OverrideVariant` cell below and would publish one recording under
+  // four progress names, and a GIF needs the pinned canvas a cropped sticker does not have.
+  motionPreview = "IndeterminateProgressMotion",
 )
 @CatalogFullScreenModes
 @OverrideVariant(name = "zero", floats = ["progress=0.0"], kitAxis = "Progress", kitValue = "Zero")

@@ -85,6 +85,8 @@ fun CheckboxRow() = Sticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/35326:85629",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
   caption = "A labelled row that flips a switch; for a setting that takes effect immediately.",
+  // The thumb's travel, recorded in Motion.kt — the spring a still of either end state cannot show.
+  motionPreview = "SwitchTransitionMotion",
 )
 @CatalogModes
 @OverrideVariant(
