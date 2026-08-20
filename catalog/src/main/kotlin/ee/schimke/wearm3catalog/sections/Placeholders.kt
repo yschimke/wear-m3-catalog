@@ -62,10 +62,15 @@ import ee.schimke.wearm3catalog.Sticker
 // because a placeholder has no text to size itself from, so those numbers ARE the design. Wear
 // Compose's own padding puts them where the kit puts them.
 //
-// The shimmer is deliberately left OFF the baked capture: it is an animation, and a capture of a
-// frame of it would differ on every publish. `Modifier.placeholderShimmer` is applied in a live
-// session, where it can actually shimmer — and the kit's `Placeholder-gradient` overlay is the same
-// sweep, drawn frozen.
+// The shimmer is deliberately left STILL on these stickers, and it costs nothing to ask for: a
+// placeholder animates only under an `AppScaffold`, because that is what composes the frame clock
+// `PlaceholderState` reads (see `AnimatedSticker` in `CatalogTheme.kt`). `Sticker` has no scaffold,
+// so `Modifier.placeholderShimmer` here is a declaration of what the component does rather than a
+// sweep — which is what a baked capture wants, since a frame of a shimmer would differ on every
+// publish. The kit's own `Placeholder-gradient` overlay is that same sweep, drawn frozen.
+//
+// The moving version is not lost: `Motion.kt` records all three resolving into real content, and
+// each component claims its recording with `motionPreview` above.
 //
 // STYLE CELLS, WHICH THE KIT HAS AND THIS FILE USED TO OWE IT
 //
@@ -79,10 +84,10 @@ import ee.schimke.wearm3catalog.Sticker
 // here is not which function to call — it is what a component looks like mid-load, and the
 // emphasis is already published, with its own card, in `Buttons.kt` and `Cards.kt`.
 //
-// The motion capture is NOT on these functions, deliberately. An `@AnimatedPreview` here would ride
-// every `@OverrideVariant` cell too, and the animated path does not apply the cells' knobs: all
-// four placeholder styles would come out byte-identical, four copies of the base GIF published
-// under four different names.
+// The `@AnimatedPreview` is NOT on these functions, deliberately — only the `motionPreview` claim
+// is. An `@AnimatedPreview` here would ride every `@OverrideVariant` cell too, and the animated
+// path does not apply the cells' knobs: all four placeholder styles would come out byte-identical,
+// four copies of the base GIF published under four different names.
 
 /** The icon that has not arrived: the kit draws it as a plain circle the icon's own size. */
 @Composable
@@ -110,6 +115,7 @@ private fun PlaceholderLine(state: PlaceholderState, width: Dp, height: Dp, slot
   reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44771",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
   caption = "A button whose icon and labels have not arrived yet.",
+  motionPreview = "PlaceholderButtonMotion",
 )
 @CatalogModes
 @OverrideVariant(
@@ -178,6 +184,7 @@ fun ButtonPlaceholder() = Sticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44842",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71571:44843",
   caption = "An icon button whose icon has not arrived yet.",
+  motionPreview = "PlaceholderIconButtonMotion",
 )
 @CatalogModes
 @OverrideVariant(
@@ -221,6 +228,7 @@ fun IconButtonPlaceholder() = Sticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/71571:45108",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
   caption = "A card whose icon and text have not arrived yet.",
+  motionPreview = "PlaceholderCardMotion",
 )
 @CatalogModes
 @OverrideVariant(

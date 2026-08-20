@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -102,6 +103,34 @@ fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
 fun ScreenSticker(content: @Composable () -> Unit) {
   CatalogMaterialTheme {
     AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { content() }
+  }
+}
+
+/**
+ * Frame for a recording whose animation is driven by Wear's **app-level animation coordinator** —
+ * today that is the placeholder, and only the placeholder.
+ *
+ * `Modifier.placeholder` and `Modifier.placeholderShimmer` do not drive themselves.
+ * `PlaceholderState` reads its frame clock from the library's internal `AnimationCoordinator`, and
+ * the one thing in Wear Compose that composes that coordinator's looper is **`AppScaffold`**. Draw
+ * a placeholder without one — as [Sticker] does, and as every component capture should — and it is
+ * a still: the shimmer never sweeps and the wipe-off never plays.
+ *
+ * Worth writing down, because it looks exactly like a renderer limitation and was recorded here as
+ * one: `Motion.kt` carried "the placeholder does not animate under this renderer" (3 distinct
+ * frames in 46) as a fact about Robolectric until the scaffold turned out to be what was missing. A
+ * component sticker keeping its placeholder frozen is the right outcome — a baked capture of a
+ * shimmer would differ on every publish — so this frame is for the recordings, not for them.
+ *
+ * No clock, unlike [ScreenSticker]. This is a component recording on a pinned canvas rather than a
+ * screen, and a curved `TimeText` over it is chrome the recording is not about.
+ */
+@Composable
+fun AnimatedSticker(content: @Composable () -> Unit) {
+  CatalogMaterialTheme {
+    AppScaffold(timeText = {}) {
+      Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { content() }
+    }
   }
 }
 

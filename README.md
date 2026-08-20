@@ -163,11 +163,13 @@ pixels — so the frame stands down when a provider has already installed one.
 
 ## Motion
 
-Four recordings live in
+Eight recordings live in
 [`Motion.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Motion.kt), published as
 GIFs beside the sticker sheet: the indeterminate progress ring, the switch thumb travelling, the
-toggle button's shape morph, and swipe-to-reveal revealing. They carry no `@CatalogComponent` — a
-recording is not a component, and membership is still the kit's call.
+toggle button's shape morph, swipe-to-reveal revealing, the edge button's scroll-driven reveal, and
+the button, icon button and card placeholders shimmering and then wiping off to reveal real
+content. They carry no `@CatalogComponent` — a recording is not a component, and membership is
+still the kit's call.
 
 They are driven by the component's own animation or by a `LaunchedEffect` state change rather than
 by a scripted tap: `@InteractionPreview` is implemented in the desktop renderer only, and this is an
