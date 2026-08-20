@@ -6776,6 +6776,12 @@
           }
         }
       ],
+      "motion": [
+        {
+          "path": "motion/edgebutton/ee.schimke.wearm3catalog.sections.MotionKt.EdgeButtonRevealMotion.gif",
+          "kind": "animation"
+        }
+      ],
       "section": "Actions",
       "group": "Edge-hugging buttons",
       "caption": "The screen-hugging confirm action, curved to the bottom edge of the display.",
@@ -6784,7 +6790,7 @@
       "wireframe": "wireframes/edgebutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 86
+      "bodyLine": 90
     },
     {
       "componentId": "FastScrollingTransformingLazyColumn",
@@ -26105,6 +26111,12 @@
       ],
       "greenlines": [],
       "redlines": [],
+      "motion": [
+        {
+          "path": "motion/circularprogressindicator/ee.schimke.wearm3catalog.sections.MotionKt.IndeterminateProgressMotion.gif",
+          "kind": "animation"
+        }
+      ],
       "section": "Communication",
       "group": "Progress indicators",
       "caption": "A ring around the display edge, with the kit's progress and stroke axes folded in.",
@@ -26113,7 +26125,7 @@
       "wireframe": "wireframes/circularprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 92
+      "bodyLine": 96
     },
     {
       "componentId": "SegmentedCircularProgressIndicator",
@@ -26819,7 +26831,7 @@
       "wireframe": "wireframes/segmentedcircularprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 155
+      "bodyLine": 159
     },
     {
       "componentId": "ArcProgressIndicator",
@@ -26927,7 +26939,7 @@
       "wireframe": "wireframes/arcprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 182
+      "bodyLine": 186
     },
     {
       "componentId": "LinearProgressIndicator",
@@ -27318,7 +27330,7 @@
       "wireframe": "wireframes/linearprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 223
+      "bodyLine": 227
     },
     {
       "componentId": "CheckboxButton",
@@ -28088,6 +28100,12 @@
           "cornerRadius": 26
         }
       ],
+      "motion": [
+        {
+          "path": "motion/switchbutton/ee.schimke.wearm3catalog.sections.MotionKt.SwitchTransitionMotion.gif",
+          "kind": "animation"
+        }
+      ],
       "section": "Selection",
       "group": "Selection buttons",
       "caption": "A labelled row that flips a switch; for a setting that takes effect immediately.",
@@ -28096,7 +28114,7 @@
       "wireframe": "wireframes/switchbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 109
+      "bodyLine": 111
     },
     {
       "componentId": "RadioButton",
@@ -28465,7 +28483,7 @@
       "wireframe": "wireframes/radiobutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 157
+      "bodyLine": 159
     },
     {
       "componentId": "Shape/MaterialShapes",
@@ -40112,6 +40130,12 @@
           "cornerRadius": 26
         }
       ],
+      "motion": [
+        {
+          "path": "motion/swipetoreveal-card/ee.schimke.wearm3catalog.sections.MotionKt.SwipeToRevealMotion.gif",
+          "kind": "animation"
+        }
+      ],
       "section": "Containment",
       "group": "Swipe to reveal",
       "caption": "A card swiped aside to show its actions.",
@@ -40120,7 +40144,7 @@
       "wireframe": "wireframes/swipetoreveal-card.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 84
+      "bodyLine": 87
     },
     {
       "componentId": "SwipeToReveal/Button",
@@ -41010,7 +41034,7 @@
       "wireframe": "wireframes/swipetoreveal-button.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 125
+      "bodyLine": 128
     },
     {
       "componentId": "ListHeader",
@@ -42436,6 +42460,12 @@
           "cornerRadius": 26
         }
       ],
+      "motion": [
+        {
+          "path": "motion/icontogglebutton/ee.schimke.wearm3catalog.sections.MotionKt.ToggleButtonShapeMotion.gif",
+          "kind": "animation"
+        }
+      ],
       "section": "Selection",
       "group": "Toggle buttons",
       "caption": "An icon that holds an on/off state, with the kit's size and state axes folded in.",
@@ -42444,7 +42474,7 @@
       "wireframe": "wireframes/icontogglebutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 75
+      "bodyLine": 78
     },
     {
       "componentId": "TextToggleButton",
@@ -42983,14 +43013,14 @@
       "wireframe": "wireframes/texttogglebutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 117
+      "bodyLine": 120
     }
   ],
   "library": [
     "androidx.wear.compose:compose-material3"
   ],
-  "renderer": "compose-preview 1.22.0",
-  "generatedAt": "2026-08-20T10:15:22.319Z",
+  "renderer": "compose-preview 1.23.0",
+  "generatedAt": "2026-08-20T10:47:53.256Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"

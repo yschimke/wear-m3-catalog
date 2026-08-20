@@ -1,11 +1,80 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-20T10:17:56.719Z",
+  "generatedAt": "2026-08-20T10:49:46.200Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "74c769c7e6e6ec48cc206b37ef83f56860298a99",
+        "subject": "fix(catalog): claim the motion captures so they actually publish (#50)",
+        "at": "2026-08-20T11:40:30+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "edgebutton__ideal__default",
+          "edgebutton__ideal__disabled",
+          "edgebutton__ideal__extra-small",
+          "edgebutton__ideal__filled-variant",
+          "edgebutton__ideal__icon",
+          "edgebutton__ideal__large",
+          "edgebutton__ideal__medium",
+          "edgebutton__ideal__outlined",
+          "edgebutton__ideal__tonal",
+          "circularprogressindicator__ideal__default__192dp",
+          "circularprogressindicator__ideal__complete__192dp",
+          "circularprogressindicator__ideal__disabled__192dp",
+          "circularprogressindicator__ideal__overflow__192dp",
+          "circularprogressindicator__ideal__small-stroke__192dp",
+          "circularprogressindicator__ideal__zero__192dp",
+          "linearprogressindicator__ideal__default",
+          "linearprogressindicator__ideal__20",
+          "linearprogressindicator__ideal__complete",
+          "linearprogressindicator__ideal__min",
+          "linearprogressindicator__ideal__small",
+          "segmentedcircularprogressindicator__ideal__default",
+          "segmentedcircularprogressindicator__ideal__complete",
+          "segmentedcircularprogressindicator__ideal__disabled",
+          "segmentedcircularprogressindicator__ideal__twelve",
+          "segmentedcircularprogressindicator__ideal__zero",
+          "checkboxbutton__ideal__default",
+          "checkboxbutton__ideal__disabled",
+          "checkboxbutton__ideal__split",
+          "checkboxbutton__ideal__unselected",
+          "radiobutton__ideal__default",
+          "radiobutton__ideal__disabled",
+          "radiobutton__ideal__split",
+          "radiobutton__ideal__unselected",
+          "switchbutton__ideal__default",
+          "switchbutton__ideal__disabled",
+          "switchbutton__ideal__split",
+          "switchbutton__ideal__unselected",
+          "swipetoreveal-button__ideal__default__192dp",
+          "swipetoreveal-button__ideal__two-actions__192dp",
+          "swipetoreveal-card__ideal__default__192dp",
+          "swipetoreveal-card__ideal__two-actions__192dp",
+          "icontogglebutton__ideal__default",
+          "icontogglebutton__ideal__extra-large",
+          "icontogglebutton__ideal__large",
+          "icontogglebutton__ideal__small",
+          "texttogglebutton__ideal__default",
+          "texttogglebutton__ideal__extra-large",
+          "texttogglebutton__ideal__large"
+        ],
+        "components": [
+          "EdgeButton",
+          "CircularProgressIndicator",
+          "LinearProgressIndicator",
+          "SegmentedCircularProgressIndicator",
+          "CheckboxButton",
+          "RadioButton",
+          "SwitchButton",
+          "SwipeToReveal/Button",
+          "SwipeToReveal/Card",
+          "IconToggleButton",
+          "TextToggleButton"
+        ]
+      },
       {
         "sha": "e90253fcf0115dcf908847767d747d70fb43f108",
         "subject": "fix(buttons): draw the loading button's icon inside its progress ring (#48)",
@@ -1561,5 +1630,73 @@
       }
     ],
     "comments": []
-  }
+  },
+  "gaps": [
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueSlider",
+      "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueStepper",
+      "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealButton",
+      "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard",
+      "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#BodyText",
+      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#CaptionText",
+      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.CaptionText"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#FixedTimeText",
+      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListHeading",
+      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListSubHeading",
+      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt#IconToggle",
+      "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt#TextToggle",
+      "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle"
+    }
+  ]
 }
