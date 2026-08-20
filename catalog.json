@@ -617,6 +617,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -683,6 +710,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -691,7 +745,7 @@
           "variant": "ideal",
           "path": "images/button-filled/ideal__icon.png",
           "state": "icon",
-          "width": 332,
+          "width": 336,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon",
@@ -749,6 +803,870 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__icon-disabled.png",
+          "state": "icon-disabled",
+          "width": 336,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__icon-extra-large.png",
+          "state": "icon-extra-large",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon-extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-extra-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__icon-extra-large-disabled.png",
+          "state": "icon-extra-large-disabled",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon-extra-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-extra-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__icon-large.png",
+          "state": "icon-large",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__icon-large-disabled.png",
+          "state": "icon-large-disabled",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__icon-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__left.png",
+          "state": "left",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__left",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_left",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filled/ideal__left-disabled.png",
+          "state": "left-disabled",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filled__ideal__left-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_left-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -802,7 +1720,7 @@
       "wireframe": "wireframes/button-filled.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 85
+      "bodyLine": 190
     },
     {
       "componentId": "Button/FilledVariant",
@@ -869,6 +1787,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -935,6 +1880,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -943,7 +1915,7 @@
           "variant": "ideal",
           "path": "images/button-filledvariant/ideal__icon.png",
           "state": "icon",
-          "width": 332,
+          "width": 336,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon",
@@ -1001,6 +1973,870 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__icon-disabled.png",
+          "state": "icon-disabled",
+          "width": 336,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__icon-extra-large.png",
+          "state": "icon-extra-large",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon-extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-extra-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__icon-extra-large-disabled.png",
+          "state": "icon-extra-large-disabled",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon-extra-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-extra-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__icon-large.png",
+          "state": "icon-large",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__icon-large-disabled.png",
+          "state": "icon-large-disabled",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__icon-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__left.png",
+          "state": "left",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__left",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_left",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-filledvariant/ideal__left-disabled.png",
+          "state": "left-disabled",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-filledvariant__ideal__left-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_left-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1054,7 +2890,7 @@
       "wireframe": "wireframes/button-filledvariant.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 110
+      "bodyLine": 215
     },
     {
       "componentId": "Button/Tonal",
@@ -1121,6 +2957,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1187,6 +3050,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1195,7 +3085,7 @@
           "variant": "ideal",
           "path": "images/button-tonal/ideal__icon.png",
           "state": "icon",
-          "width": 332,
+          "width": 336,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon",
@@ -1253,6 +3143,870 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__icon-disabled.png",
+          "state": "icon-disabled",
+          "width": 336,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__icon-extra-large.png",
+          "state": "icon-extra-large",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon-extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-extra-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__icon-extra-large-disabled.png",
+          "state": "icon-extra-large-disabled",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon-extra-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-extra-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__icon-large.png",
+          "state": "icon-large",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__icon-large-disabled.png",
+          "state": "icon-large-disabled",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__icon-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__left.png",
+          "state": "left",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__left",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_left",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-tonal/ideal__left-disabled.png",
+          "state": "left-disabled",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-tonal__ideal__left-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_left-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1306,7 +4060,7 @@
       "wireframe": "wireframes/button-tonal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 136
+      "bodyLine": 241
     },
     {
       "componentId": "Button/Outlined",
@@ -1373,6 +4127,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1439,6 +4220,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1447,7 +4255,7 @@
           "variant": "ideal",
           "path": "images/button-outlined/ideal__icon.png",
           "state": "icon",
-          "width": 332,
+          "width": 336,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon",
@@ -1505,6 +4313,870 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__icon-disabled.png",
+          "state": "icon-disabled",
+          "width": 336,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__icon-extra-large.png",
+          "state": "icon-extra-large",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon-extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-extra-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__icon-extra-large-disabled.png",
+          "state": "icon-extra-large-disabled",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon-extra-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-extra-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__icon-large.png",
+          "state": "icon-large",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__icon-large-disabled.png",
+          "state": "icon-large-disabled",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__icon-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__left.png",
+          "state": "left",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__left",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_left",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-outlined/ideal__left-disabled.png",
+          "state": "left-disabled",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-outlined__ideal__left-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_left-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1558,7 +5230,7 @@
       "wireframe": "wireframes/button-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 161
+      "bodyLine": 266
     },
     {
       "componentId": "Button/Child",
@@ -1625,6 +5297,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1691,6 +5390,33 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "center"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1699,7 +5425,7 @@
           "variant": "ideal",
           "path": "images/button-child/ideal__icon.png",
           "state": "icon",
-          "width": 332,
+          "width": 336,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon",
@@ -1757,6 +5483,870 @@
               "googleFonts": false,
               "options": [],
               "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__icon-disabled.png",
+          "state": "icon-disabled",
+          "width": 336,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "default"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__icon-extra-large.png",
+          "state": "icon-extra-large",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon-extra-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-extra-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__icon-extra-large-disabled.png",
+          "state": "icon-extra-large-disabled",
+          "width": 356,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon-extra-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-extra-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "extra-large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__icon-large.png",
+          "state": "icon-large",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon-large",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-large",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__icon-large-disabled.png",
+          "state": "icon-large-disabled",
+          "width": 348,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__icon-large-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-large-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "iconSize",
+              "type": "string",
+              "label": "iconSize",
+              "default": {
+                "kind": "string",
+                "value": "default"
+              },
+              "current": {
+                "kind": "string",
+                "value": "large"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "default",
+                  "label": "default"
+                },
+                {
+                  "value": "large",
+                  "label": "large"
+                },
+                {
+                  "value": "extra-large",
+                  "label": "extra-large"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__left.png",
+          "state": "left",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__left",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_left",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/button-child/ideal__left-disabled.png",
+          "state": "left-disabled",
+          "width": 272,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-child__ideal__left-disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_left-disabled",
+          "overrides": [
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "icon",
+              "type": "bool",
+              "label": "icon",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "alignment",
+              "type": "string",
+              "label": "alignment",
+              "default": {
+                "kind": "string",
+                "value": "center"
+              },
+              "current": {
+                "kind": "string",
+                "value": "left"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "center",
+                  "label": "center"
+                },
+                {
+                  "value": "left",
+                  "label": "left"
+                }
+              ],
+              "optionsExhaustive": true
             }
           ],
           "density": 2
@@ -1810,7 +6400,7 @@
       "wireframe": "wireframes/button-child.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 186
+      "bodyLine": 291
     },
     {
       "componentId": "Button/Compact",
@@ -2808,7 +7398,7 @@
       "wireframe": "wireframes/button-compact.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 235
+      "bodyLine": 340
     },
     {
       "componentId": "Button/ImageBackground",
@@ -3078,7 +7668,7 @@
       "wireframe": "wireframes/button-imagebackground.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 314
+      "bodyLine": 419
     },
     {
       "componentId": "Button/Loading",
@@ -3369,7 +7959,7 @@
       "wireframe": "wireframes/button-loading.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 349
+      "bodyLine": 454
     },
     {
       "componentId": "ButtonGroup",
@@ -3532,7 +8122,7 @@
       "wireframe": "wireframes/buttongroup.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 421
+      "bodyLine": 526
     },
     {
       "componentId": "Card",
@@ -20571,7 +25161,7 @@
           "variant": "ideal",
           "path": "images/placeholder-button/ideal__default.png",
           "state": "default",
-          "width": 332,
+          "width": 376,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__default",
           "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder",
@@ -20595,6 +25185,151 @@
                 {
                   "value": "filled",
                   "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-button/ideal__outlined.png",
+          "state": "outlined",
+          "width": 376,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-button/ideal__tonal.png",
+          "state": "tonal",
+          "width": 376,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-button/ideal__variant.png",
+          "state": "variant",
+          "width": 376,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-button__ideal__variant",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder_VARIANT_variant",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "variant"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
                 },
                 {
                   "value": "tonal",
@@ -20621,14 +25356,14 @@
             "bounds": {
               "x": 16,
               "y": 16,
-              "width": 300,
+              "width": 344,
               "height": 104
             }
           },
           "bounds": {
             "x": 16,
             "y": 16,
-            "width": 300,
+            "width": 344,
             "height": 104
           }
         }
@@ -20638,7 +25373,7 @@
           "bounds": {
             "x": 16,
             "y": 16,
-            "width": 300,
+            "width": 344,
             "height": 104
           },
           "role": "Button",
@@ -20653,13 +25388,13 @@
       ],
       "section": "Communication",
       "group": "Placeholders",
-      "caption": "A button whose label has not arrived yet.",
+      "caption": "A button whose icon and labels have not arrived yet.",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:44771",
       "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/71571:44772",
       "wireframe": "wireframes/placeholder-button.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 61
+      "bodyLine": 129
     },
     {
       "componentId": "Placeholder/IconButton",
@@ -20672,6 +25407,184 @@
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-iconbutton__ideal__default",
           "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.IconButtonPlaceholder",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-iconbutton/ideal__outlined.png",
+          "state": "outlined",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-iconbutton__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.IconButtonPlaceholder_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-iconbutton/ideal__tonal.png",
+          "state": "tonal",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-iconbutton__ideal__tonal",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.IconButtonPlaceholder_VARIANT_tonal",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-iconbutton/ideal__variant.png",
+          "state": "variant",
+          "width": 136,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-iconbutton__ideal__variant",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.IconButtonPlaceholder_VARIANT_variant",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "filled"
+              },
+              "current": {
+                "kind": "string",
+                "value": "variant"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "filled",
+                  "label": "filled"
+                },
+                {
+                  "value": "variant",
+                  "label": "variant"
+                },
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
           "density": 2
         }
       ],
@@ -20717,7 +25630,7 @@
       "wireframe": "wireframes/placeholder-iconbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 80
+      "bodyLine": 197
     },
     {
       "componentId": "Placeholder/Card",
@@ -20726,8 +25639,8 @@
           "variant": "ideal",
           "path": "images/placeholder-card/ideal__default.png",
           "state": "default",
-          "width": 392,
-          "height": 160,
+          "width": 376,
+          "height": 180,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-card__ideal__default",
           "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder",
           "overrides": [
@@ -20760,6 +25673,45 @@
             }
           ],
           "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/placeholder-card/ideal__outlined.png",
+          "state": "outlined",
+          "width": 376,
+          "height": 180,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/placeholder-card__ideal__outlined",
+          "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder_VARIANT_outlined",
+          "overrides": [
+            {
+              "key": "style",
+              "type": "string",
+              "label": "style",
+              "default": {
+                "kind": "string",
+                "value": "tonal"
+              },
+              "current": {
+                "kind": "string",
+                "value": "outlined"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "tonal",
+                  "label": "tonal"
+                },
+                {
+                  "value": "outlined",
+                  "label": "outlined"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
         }
       ],
       "greenlines": [],
@@ -20768,8 +25720,8 @@
           "bounds": {
             "x": 16,
             "y": 16,
-            "width": 360,
-            "height": 128
+            "width": 344,
+            "height": 148
           },
           "padding": {
             "start": 12,
@@ -20782,13 +25734,13 @@
       ],
       "section": "Communication",
       "group": "Placeholders",
-      "caption": "A card whose content has not arrived yet.",
+      "caption": "A card whose icon and text have not arrived yet.",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/71571:45108",
       "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/71571:45109",
       "wireframe": "wireframes/placeholder-card.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 96
+      "bodyLine": 233
     },
     {
       "componentId": "CircularProgressIndicator",
@@ -43019,8 +47971,8 @@
   "library": [
     "androidx.wear.compose:compose-material3"
   ],
-  "renderer": "compose-preview 1.24.0",
-  "generatedAt": "2026-08-20T12:48:28.602Z",
+  "renderer": "compose-preview 1.25.0",
+  "generatedAt": "2026-08-20T13:04:19.999Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
