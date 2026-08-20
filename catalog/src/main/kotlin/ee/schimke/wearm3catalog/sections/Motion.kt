@@ -2,6 +2,11 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,10 +44,12 @@ import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.material3.rememberRevealState
+import com.google.android.horologist.media.ui.material3.components.PodcastControlButtons
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.wearm3catalog.AnimatedSticker
 import ee.schimke.wearm3catalog.EdgeButtonScreen
+import ee.schimke.wearm3catalog.HorologistSamples
 import ee.schimke.wearm3catalog.Sticker
 import kotlinx.coroutines.delay
 
@@ -68,9 +75,9 @@ import kotlinx.coroutines.delay
 // the export reads each component's own `@Preview`, or its `motionPreview`, and folds what it finds
 // onto `components[].motion[]`. A recording no component names is resolved by nobody, so it renders
 // into the bundle and is dropped at the join — the catalog then publishes with an empty `motion/`
-// and nothing anywhere says why. That is exactly what happened to all five of these from the day
-// they landed until compose-ai-tools 1.23.0: green runs, correct GIFs in the bundle, no Motion lane
-// on the delivery branch.
+// and nothing anywhere says why. That is exactly what happened to the first five of these from the
+// day they landed until compose-ai-tools 1.23.0: green runs, correct GIFs in the bundle, no Motion
+// lane on the delivery branch.
 //
 // Each recording below is therefore CLAIMED by the component it is a recording of, by naming it as
 // `motionPreview = "<function>"` on that component's own `@CatalogComponent` — never here. (Spelled
@@ -86,6 +93,12 @@ import kotlinx.coroutines.delay
 //   PlaceholderButtonMotion     -> Placeholder/Button         (Placeholders.kt)
 //   PlaceholderIconButtonMotion -> Placeholder/IconButton     (Placeholders.kt)
 //   PlaceholderCardMotion       -> Placeholder/Card           (Placeholders.kt)
+//   MediaTransportMotion        -> Media/PodcastControlButtons (MediaControls.kt)
+//
+// ONE FUNCTION PER COMPONENT, which is a constraint on what a recording may cover rather than a
+// detail of the wiring: `motionPreview` is a single name, so two things worth showing on the same
+// component share one capture window. `MediaTransportMotion` is the worked example — the progress
+// ring and the play/pause morph both belong to the transport row, so they run together.
 //
 // Claiming costs the recording nothing it had: it still carries no `@CatalogComponent`, still adds
 // no card and no kit node. It only tells the export whose Motion lane the bytes belong in. ADDING A
@@ -365,4 +378,108 @@ fun PlaceholderCardMotion() = AnimatedSticker {
       }
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+// The media transport row — playback progress, and play/pause.
+// ---------------------------------------------------------------------------
+//
+// A transport row is almost all motion: the ring fills as the track runs, and the middle button
+// morphs shape as it is stopped and started. The Media controls cards publish four stills of that
+// and none of it moves, which is what issue #60 asked for.
+//
+// WHICH ROW THE RECORDING USES IS NOT A FREE CHOICE. Horologist ships two transport rows and they
+// are assembled from different middle buttons:
+//
+//   `MediaControlButtons`   -> `PlayPauseProgressButton`         — a `FilledIconButton` with a
+//                                                                  `CircularProgressIndicator`
+//                                                                  BEHIND it;
+//   `PodcastControlButtons` -> `AnimatedPlayPauseProgressButton` — a 10-vertex scallop that morphs
+//                                                                  against a circle, with a wavy
+//                                                                  indicator drawn around it.
+//
+// The first hands ONE `modifier` to both the progress `Box` and the button inside it, so ring and
+// container come out the same diameter and the opaque container covers the arc — the parity finding
+// `MediaControls.kt` writes down. Its play/pause is a bare icon swap with nothing in between. Both
+// halves were measured rather than assumed: a `PlayPauseProgressButton` flipped for a whole capture
+// window came out at 4 distinct frames of 46, which is the placeholder's number and fails
+// `CatalogRenderTest` for the same reason. So the recording is of the PODCAST row, which is where
+// the library actually animates — and which is the preview the issue was filed from.
+//
+// WHY ONE RECORDING AND NOT TWO. `motionPreview` names ONE function per component, and both things
+// worth showing belong to the same component, so they share a window: the ring sweeps 0→100% while
+// the middle button is stopped and started under it. Splitting them would need a second component
+// to claim the second GIF, and the only candidates are the two that cannot move.
+//
+// WHAT IS NOT HERE: NEXT/PREVIOUS (AND SEEK BACK/FORWARD)
+//
+// The side buttons' motion is a press — the pressed button swells by
+// `ButtonGroupLayoutDefaults.ExpansionWidth` and its neighbours yield — and it could not be
+// recorded. Two separate walls, both worth knowing:
+//
+//  - `MediaControlButtons` does not have the motion. It places its three buttons in
+//    `ButtonGroupLayout` with plain `Modifier.weight`, never `ButtonGroupScope.animateWidth`, so
+//    there is no expansion to record; a scripted press through `ButtonGroupLayout`'s public
+//    `interactionSources` parameter produced 3 distinct frames of 46 — the state layer changes and
+//    nothing animates.
+//  - `PodcastControlButtons` DOES have it (`AnimatedMediaControlButtons` calls `animateWidth`, and
+//    the middle button re-morphs on `isAnyButtonPressed`), but does not expose the sources.
+//    `ButtonGroupLayout` publishes `interactionSources`; the two rows one layer above it
+//    `remember` their own and take no parameter, so there is no way to provoke the press without
+//    reassembling the row out of its parts — which would publish a recording of a replica.
+//
+// `@InteractionPreview` is the annotation for exactly this and would need none of the above; it is
+// desktop-only (see the top of this file). Until it reaches the Robolectric path, or Horologist
+// takes `interactionSources` on the rows themselves, there is no seek recording rather than one of
+// something this catalog does not draw.
+
+/** How long a full 0→100% progress sweep takes in the recording below. */
+private const val ProgressSweepMs = 2000
+
+/** How long the transport recording holds each of playing / paused. */
+private const val PlayPauseHoldMs = 650L
+
+/**
+ * The transport row running: the progress ring sweeping, and play becoming pause and back.
+ *
+ * The four stills publish `Progress=` at the kit's 80% and 20% and `Playing=` at yes and no — four
+ * points on two axes whose whole job is to move between them. This is the movement.
+ *
+ * Two things a still cannot say, and this does. The progress indicator is **wavy** and travels
+ * around a scalloped container, so the ring and the shape it rides read as one piece. And the
+ * middle button is a *shape* as much as a glyph: `AnimatedPlayPauseProgressButton` morphs its
+ * 10-vertex scallop against a circle when playback stops, so the transition is the component rather
+ * than a cut between two pictures of it.
+ *
+ * The sweep is an ordinary `InfiniteTransition` rather than a clock. Horologist's
+ * `TrackPositionUiModel.Predictive` would advance the ring from a `TimestampProvider`, which is the
+ * non-deterministic input a nightly capture must not have; `ProgressStateHolder` writes whatever
+ * percent it is handed straight through, so driving the model is the same picture and repeats
+ * byte-for-byte.
+ */
+@MotionRowCanvas
+@AnimatedPreview(showCurves = false, durationMs = ProgressSweepMs)
+@Composable
+fun MediaTransportMotion() = MediaRowSticker {
+  val percent by
+    rememberInfiniteTransition(label = "playback")
+      .animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec =
+          infiniteRepeatable(tween(durationMillis = ProgressSweepMs, easing = LinearEasing)),
+        label = "percent",
+      )
+  val playing = flipping(initial = true, everyMs = PlayPauseHoldMs)
+  PodcastControlButtons(
+    onPlayButtonClick = {},
+    onPauseButtonClick = {},
+    playPauseButtonEnabled = true,
+    playing = playing,
+    onSeekBackButtonClick = {},
+    seekBackButtonEnabled = true,
+    onSeekForwardButtonClick = {},
+    seekForwardButtonEnabled = true,
+    trackPositionUiModel = HorologistSamples.position(percent),
+  )
 }
