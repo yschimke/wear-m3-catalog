@@ -103,8 +103,12 @@ import ee.schimke.wearm3catalog.kitCopy
 // `Progress=20%` on `.Base / Media / Main Control`. `PlayPauseProgressButton` hands ONE `modifier`
 // to both halves of what it draws: the `Box` holding the progress ring, and the `FilledIconButton`
 // inside it. Ring and button therefore come out the same diameter, and the opaque container covers
-// the arc completely. It reads on the ambient cells, where the button is outlined rather than
-// filled, and nowhere else.
+// the arc completely. There is no render on this sheet where the kit's `Progress=` reads.
+//
+// NOT EVEN THE AMBIENT ONE, which an earlier draft of this note claimed. The scalloped outline on
+// the ambient cells is `AmbientPlayPauseButton`'s own SHAPE, not a progress arc — that composable
+// takes no `trackPositionUiModel` and draws no progress at all. Raised upstream against Horologist
+// as the double-applied `modifier`.
 //
 // This catalog is design-led, so the kit is right and the difference belongs in the caption.
 // Rebuilding the ring from `CircularProgressIndicator` would make the picture match and stop
@@ -288,9 +292,9 @@ fun MediaPodcastControlButtons() = MediaRowSticker {
       "coverage row. Its `Progress=` and `Playing=` axes are the cells below; its `Shape=` axis is " +
       "the library's own, scalloped while playing and circular while paused.",
   caption =
-    "The middle button: play or pause. Its progress ring is drawn UNDER the filled container at " +
-      "these arguments, so the kit's `Progress=` reads only in the ambient (outlined) variant — " +
-      "see the note in this file.",
+    "The middle button: play or pause. Its progress ring is drawn UNDER the filled container " +
+      "rather than around it, so the kit's `Progress=` does not read here — an upstream bug, not " +
+      "a seed. See the note in this file.",
 )
 @CatalogModes
 @OverrideVariant(
