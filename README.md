@@ -7,6 +7,25 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | Preview | Image |
 |---------|-------|
 | `Scheme colours` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/colorcatalog__Scheme.png" width="150" /> |
+| `AuthGuestModeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthGuestModeButton-5a7e54ef.png" width="150" /> |
+| `AuthGuestModeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthGuestModeButton_VARIANT_disabled-27b3909b.png" width="150" /> |
+| `AuthSelectAccountScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSelectAccountScreen_192dp-77d730f6.png" width="150" /> |
+| `AuthSelectAccountScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSelectAccountScreen_204dp-1a56ddf4.png" width="150" /> |
+| `AuthSelectAccountScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSelectAccountScreen_216dp-182aad4a.png" width="150" /> |
+| `AuthSelectAccountScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSelectAccountScreen_225dp-a46d0dff.png" width="150" /> |
+| `AuthSelectAccountScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSelectAccountScreen_240dp-8eb1cd8e.png" width="150" /> |
+| `AuthSignInButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInButton-f4b6737c.png" width="150" /> |
+| `AuthSignInButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInButton_VARIANT_disabled-b744cff2.png" width="150" /> |
+| `AuthSignInPlaceholderScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInPlaceholderScreen_192dp-f7fc7ff3.png" width="150" /> |
+| `AuthSignInPlaceholderScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInPlaceholderScreen_204dp-7ead3d7b.png" width="150" /> |
+| `AuthSignInPlaceholderScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInPlaceholderScreen_216dp-9b8fdce9.png" width="150" /> |
+| `AuthSignInPlaceholderScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInPlaceholderScreen_225dp-506590c5.png" width="150" /> |
+| `AuthSignInPlaceholderScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignInPlaceholderScreen_240dp-3dfea969.png" width="150" /> |
+| `AuthSignedInConfirmationDialog` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignedInConfirmationDialog_192dp-66f70285.png" width="150" /> |
+| `AuthSignedInConfirmationDialog` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignedInConfirmationDialog_204dp-9a3ddb24.png" width="150" /> |
+| `AuthSignedInConfirmationDialog` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignedInConfirmationDialog_216dp-e610a5da.png" width="150" /> |
+| `AuthSignedInConfirmationDialog` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignedInConfirmationDialog_225dp-1538b4ac.png" width="150" /> |
+| `AuthSignedInConfirmationDialog` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AuthSignedInConfirmationDialog_240dp-74e956e2.png" width="150" /> |
 | `ButtonRowGroup` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonRowGroup-91cd010c.png" width="150" /> |
 | `ButtonRowGroup` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonRowGroup_VARIANT_three-6a83ef3c.png" width="150" /> |
 | `ChildLabelButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ChildLabelButton-8cb92223.png" width="150" /> |
@@ -74,6 +93,11 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_medium-1f864dc0.png" width="150" /> |
 | `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_outlined-044d2fa9.png" width="150" /> |
 | `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_tonal-75d34eb1.png" width="150" /> |
+| `FastScrollingList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FastScrollingList_192dp-d522f1c5.png" width="150" /> |
+| `FastScrollingList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FastScrollingList_204dp-ca7eb0c5.png" width="150" /> |
+| `FastScrollingList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FastScrollingList_216dp-3a3f85e7.png" width="150" /> |
+| `FastScrollingList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FastScrollingList_225dp-db6fbe3f.png" width="150" /> |
+| `FastScrollingList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FastScrollingList_240dp-ed6babc8.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction-b74842d5.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_disabled-1f1a9bfb.png" width="150" /> |
 | `FilledIconAction` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FilledIconAction_VARIANT_extra_small-3899ccda.png" width="150" /> |
@@ -181,6 +205,40 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_225dp_VARIANT_no_scroll_indicator-fe625eec.png" width="150" /> |
 | `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_240dp-0677c17d.png" width="150" /> |
 | `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_240dp_VARIANT_no_scroll_indicator-c2a5222c.png" width="150" /> |
+| `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow-80cfe0e9.png" width="150" /> |
+| `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow_VARIANT_disabled-59022c3d.png" width="150" /> |
+| `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow_VARIANT_paused-3de8d11f.png" width="150" /> |
+| `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow_VARIANT_progress_20-bec236b7.png" width="150" /> |
+| `MediaInfoDisplayHeader` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaInfoDisplayHeader-5f5a428c.png" width="150" /> |
+| `MediaInfoDisplayHeader` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaInfoDisplayHeader_VARIANT_loading-84340dae.png" width="150" /> |
+| `MediaInfoDisplayHeader` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaInfoDisplayHeader_VARIANT_nothing_playing-8ecfee4a.png" width="150" /> |
+| `MediaPlayPauseProgressButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayPauseProgressButton-2dfaa4d2.png" width="150" /> |
+| `MediaPlayPauseProgressButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayPauseProgressButton_VARIANT_disabled-3d4a6c23.png" width="150" /> |
+| `MediaPlayPauseProgressButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayPauseProgressButton_VARIANT_paused-aa5b333c.png" width="150" /> |
+| `MediaPlayPauseProgressButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayPauseProgressButton_VARIANT_progress_20-3f721133.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_192dp-fcd86eca.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_192dp_VARIANT_ambient-dd96aaa3.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_192dp_VARIANT_loading-36a1b267.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_192dp_VARIANT_nothing_playing-48a9fcb0.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_204dp-18544b83.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_204dp_VARIANT_ambient-d5948289.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_204dp_VARIANT_loading-650709d9.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_204dp_VARIANT_nothing_playing-84e44613.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_216dp-406ff473.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_216dp_VARIANT_ambient-48f9d4c8.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_216dp_VARIANT_loading-efa9ca60.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_216dp_VARIANT_nothing_playing-ec3c2db8.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_225dp-69eb2f0f.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_225dp_VARIANT_ambient-7d3fdfca.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_225dp_VARIANT_loading-a9928d5f.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_225dp_VARIANT_nothing_playing-dac10b7c.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_240dp-817b5a31.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_240dp_VARIANT_ambient-f21f4809.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_240dp_VARIANT_loading-8cc3aed7.png" width="150" /> |
+| `MediaPlayerScreen` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPlayerScreen_240dp_VARIANT_nothing_playing-9b6221c5.png" width="150" /> |
+| `MediaPodcastControlButtons` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPodcastControlButtons-940642af.png" width="150" /> |
+| `MediaPodcastControlButtons` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPodcastControlButtons_VARIANT_paused-d55863ee.png" width="150" /> |
+| `MediaShowPlaylistButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaShowPlaylistButton-2ac82a78.png" width="150" /> |
 | `EdgeButtonRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/EdgeButtonRevealMotion-ca40423c.gif" width="150" /> |
 | `IndeterminateProgressMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IndeterminateProgressMotion-712acc69.gif" width="150" /> |
 | `SwipeToRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealMotion-671dbb6d.gif" width="150" /> |
