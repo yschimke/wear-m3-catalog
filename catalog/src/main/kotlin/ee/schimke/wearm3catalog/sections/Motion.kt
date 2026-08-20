@@ -120,10 +120,9 @@ import kotlinx.coroutines.delay
 // **1.25.0**, which is the version this repo already pins.
 //
 // So the constraint this file was written under is gone, and the note is kept rather than deleted
-// because the workaround it justified is still visible in the recordings below. A state-driven
-// recording is not wrong — a spinner and a shimmer have no finger to record, and `flipping()` is
-// the honest way to show a switch resolving both directions — but where the motion IS the press,
-// the annotation is now the right tool and `MediaTransportMotion` is the first one to use it.
+// because it explains why the recordings below are split the way they are. **Where a press or a tap
+// is what makes the pixels move, the annotation is now the tool** — the media transport row, the
+// switch and the toggle button are all real dispatched pointers.
 //
 // One thing it buys that no `LaunchedEffect` could: the Android backend advances the **main
 // looper** alongside `mainClock` on every frame. Material's ripple is a platform `RippleDrawable`
@@ -131,9 +130,20 @@ import kotlinx.coroutines.delay
 // frozen at frame 0 while the Compose-side animation plays. That is half of a press response, and
 // it is the half a reader is usually looking for.
 //
-// The toggles below are still state-driven and could be revisited as real tap recordings; that is
-// a change to what they document, so it is deliberately not folded into the change that made it
-// possible.
+// WHAT IS STILL STATE-DRIVEN, AND THE ONE REASON LEFT
+//
+// Two kinds, and only one of them is a limitation.
+//
+//  - **Nothing to press.** A spinner and a shimmer run on their own; there is no gesture that
+//    starts them, so `@AnimatedPreview` is not a workaround there, it is the correct annotation.
+//  - **A gesture the annotation cannot script.** `@InteractionPreview` dispatches `Tap` and
+//    `PressAndHold` — presses. Swipe-to-reveal and the edge button's scroll are both **drags**, and
+//    a press that never travels does nothing to either. They drive the component's own state
+//    object (`RevealState`, `TransformingLazyColumnState`) through the same animation a finger
+//    would, so the spring and the anchors are real and only the cause is scripted. A drag gesture
+//    upstream would convert both, and their KDoc says so at the call site.
+//
+// That is the whole of it: no recording here is state-driven merely because nobody revisited it.
 //
 // THE PLACEHOLDER, WHICH WAS "NOT HERE" AND IS NOW
 //
@@ -147,12 +157,13 @@ import kotlinx.coroutines.delay
 // and nothing else; the component stickers keep [Sticker] and keep their placeholder frozen, which
 // is what a baked capture wants anyway.
 //
-// WHAT DRIVES THESE, THEN
+// WHAT NEVER DRIVES ANY OF THESE
 //
-// Either the component's own animation (a spinner, a shimmer — nothing to provoke), or a state
-// change from a `LaunchedEffect`. The second is a real state change, not a forged interaction: no
-// `MutableInteractionSource` is seeded and no state layer is painted that nothing is causing. What
-// it does not claim is that a finger did it.
+// A seeded `MutableInteractionSource`. Emitting `PressInteraction.Press` paints a state layer that
+// nothing is causing, so the capture shows a component that LOOKS pressed and documents this file's
+// belief about it rather than the component. It does not even work: the state layer is a platform
+// `RippleDrawable` running on the main looper, which a hand-driven press does not advance — see the
+// measurement in the media note below. Where a press is the motion, dispatch a real one.
 
 /**
  * The canvas every motion capture is pinned to. Frames must share one size or no GIF is written.
@@ -214,15 +225,37 @@ private fun flipping(initial: Boolean, everyMs: Long = 500): Boolean {
 }
 
 /**
- * The switch thumb travelling. A still of either end state says where the thumb is; it says nothing
- * about the spring that carries it, which is the part a designer is choosing.
+ * The switch thumb travelling, under a finger that actually flips it.
+ *
+ * A still of either end state says where the thumb is; it says nothing about the spring that
+ * carries it, which is the part a designer is choosing. Both directions get recorded because the
+ * target repeats — a spring is not symmetric, and choosing one is choosing how it settles each way.
+ *
+ * **The state is the component's own.** `onCheckedChange` writes to the `checked` this reads, so
+ * the thumb moves because the row was pressed and `SwitchButton` reported the change — not because
+ * a `LaunchedEffect` set a boolean and the component redrew. That distinction is invisible in the
+ * pixels for a switch, which is exactly why it is worth wiring correctly: a recording that fakes
+ * the cause documents this file's belief about the component rather than the component.
+ *
+ * `Tap` rather than `PressAndHold`: the thumb's travel begins on release, and the state layer under
+ * a held finger is not what this recording is about.
  */
 @MotionRowCanvas
-@AnimatedPreview(showCurves = false)
+@InteractionPreview(
+  targets = [0, 0, 0],
+  format = MotionFormat.Gif,
+  caption =
+    "Flipped on, off and on again: the thumb rides a spring that does not settle the same way " +
+      "in both directions.",
+)
 @Composable
 fun SwitchTransitionMotion() = Sticker {
-  val checked = flipping(false)
-  SwitchButton(checked = checked, onCheckedChange = {}, label = { Text("Bluetooth") })
+  var checked by remember { mutableStateOf(false) }
+  SwitchButton(
+    checked = checked,
+    onCheckedChange = { checked = it },
+    label = { Text("Bluetooth") },
+  )
 }
 
 /**
@@ -230,15 +263,29 @@ fun SwitchTransitionMotion() = Sticker {
  * `IconToggleButtonDefaults.animatedShapes()` rather than the static `shapes()` the component
  * sticker draws. Checked and unchecked are different corner shapes, and the morph between them is
  * what the kit's `Corner radius = Circular | Rounded (18)` axis is a still of.
+ *
+ * `PressAndHold` rather than `Tap`, because `animatedShapes()` declares **three** shapes and a
+ * momentary tap only ever shows two of them. The pressed shape is a state of its own — held, the
+ * button sits in it — and passing through it in one frame on the way to `checked` is how a reader
+ * ends up believing the component has a morph it does not advertise. A hold records unchecked →
+ * pressed → checked as three legible states, and neither `IconToggleButton` nor this preview sets
+ * `onLongClick`, so the ordinary toggle still fires on release.
  */
 @MotionCanvas
-@AnimatedPreview(showCurves = false)
+@InteractionPreview(
+  gesture = InteractionGesture.PressAndHold,
+  targets = [0, 0, 0],
+  format = MotionFormat.Gif,
+  caption =
+    "Held, then released, three times: `animatedShapes()` morphs through a pressed shape on the " +
+      "way between the unchecked and checked corner radii.",
+)
 @Composable
 fun ToggleButtonShapeMotion() = Sticker {
-  val checked = flipping(false)
+  var checked by remember { mutableStateOf(false) }
   IconToggleButton(
     checked = checked,
-    onCheckedChange = {},
+    onCheckedChange = { checked = it },
     shapes = IconToggleButtonDefaults.animatedShapes(),
   ) {
     Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
@@ -248,6 +295,13 @@ fun ToggleButtonShapeMotion() = Sticker {
 /**
  * Swipe to reveal, revealing. The component sheet publishes it already revealed, because at rest it
  * is indistinguishable from the card underneath — this is the part in between.
+ *
+ * **State-driven, and this is the one where that is a limitation rather than a choice.** The motion
+ * is a *drag*, and `@InteractionPreview` dispatches `Tap` and `PressAndHold` only — a press that
+ * never travels reveals nothing, so there is no gesture to script here. `animateTo` drives the
+ * component's own `RevealState` through the same animation a finger would, which is the closest
+ * honest thing: the spring and the anchors are the component's, only the cause is not. If the
+ * annotation gains a drag gesture this becomes a real swipe recording, and it should.
  */
 @MotionRowCanvas
 @AnimatedPreview(showCurves = false)
@@ -286,8 +340,12 @@ fun SwipeToRevealMotion() = Sticker {
  * — so the whole of what an edge button does is a thing one frame cannot show, while the sticker it
  * is compared against is the kit's 192×59 component cell and nothing else (issue #31).
  *
- * The scroll is driven from a `LaunchedEffect` rather than a gesture, for the reason at the top of
- * this file: `@InteractionPreview` is desktop-only, and there is no finger to record here.
+ * The scroll is driven from a `LaunchedEffect` rather than a gesture, and — like swipe-to-reveal
+ * above — that is now a limitation with a name rather than the stale "desktop-only" one this line
+ * used to carry. A scroll is a drag, `@InteractionPreview` scripts taps and holds, and a tap on a
+ * list row scrolls nothing. `animateScrollToItem` moves the component's own
+ * `TransformingLazyColumnState`, so the scaffold reveals the button off the real scroll position;
+ * only the finger is missing.
  */
 @MotionScreenCanvas
 @AnimatedPreview(showCurves = false)
