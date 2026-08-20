@@ -120,21 +120,31 @@ import ee.schimke.wearm3catalog.kitCopy
 // the Robolectric renderer does not resolve, and a still of an animation is what `Motion.kt` is
 // for.
 //
-// WHERE THIS PAGE'S MOTION LIVES, AND WHY IT IS ON THE PODCAST ROW
+// WHERE THIS PAGE'S MOTION LIVES, AND WHY ALL OF IT IS ON THE PODCAST ROW
 //
-// `Media/PodcastControlButtons` claims `MediaTransportMotion` — the progress ring sweeping while
-// the middle button is stopped and started. It is the only one of these three that can carry a
-// recording, and that is a fact about the library rather than a choice:
-// `PodcastControlButtons` delegates to `AnimatedMediaControlButtons`, whose middle button
-// (`AnimatedPlayPauseProgressButton`) morphs a scallop and draws a WAVY indicator around it —
-// outside the container, so the kit's `Progress=` finally reads. `MediaControlButtons` and
-// `PlayPauseProgressButton` draw the plain middle button described above: the ring is under the
-// container and play/pause is a bare icon swap, which measured 4 distinct frames of 46 and is a
-// still with extra bytes. The side buttons' press motion could not be recorded at all. `Motion.kt`
-// carries the numbers and the two upstream gaps behind them.
+// `Media/PodcastControlButtons` claims `MediaTransportMotion` — a scripted pointer pressing seek
+// back, play/pause and seek forward in turn, over a progress ring that never stops. It is the only
+// one of these three cards that can carry a recording at all, and that is a fact about the library
+// rather than a preference. The two rows are assembled from different middle buttons:
 //
-// So a reader browsing THESE two cards should look at the podcast card's Motion lane for what the
-// middle button does — and read the caption here for why the picture differs.
+//   `PodcastControlButtons` -> `AnimatedMediaControlButtons` -> `AnimatedPlayPauseProgressButton`,
+//     which morphs a 10-vertex scallop, draws a WAVY indicator OUTSIDE the container (so the kit's
+//     `Progress=` finally reads somewhere on this sheet), and opts its side buttons into
+//     `ButtonGroupScope.animateWidth` so a press swells them;
+//   `MediaControlButtons`   -> the plain `PlayPauseProgressButton` described above, whose ring is
+//     under its own container, whose play/pause is a bare icon swap, and whose side buttons never
+//     call `animateWidth`.
+//
+// Both halves were measured, not assumed. Flipping `playing` on the plain button for a whole
+// capture window: **4 distinct frames of 46** — the placeholder's number, a still with extra bytes.
+// And a real dispatched pointer pressing `MediaControlButtons`' previous and next, which is the
+// strongest test available: **1 pixel-distinct frame of 178**. The row simply does not respond
+// visibly. The same pointer on `PodcastControlButtons` gives 111 of 178.
+//
+// So `Media/ControlButtons` and `Media/PlayPauseProgressButton` publish no recording rather than
+// one that implies motion nobody would see. A reader browsing those two cards should look at the
+// podcast card's Motion lane for what a transport row does, and read the captions here for why
+// these two draw a different picture.
 
 @CatalogComponent(
   id = "Media/PlayerScreen",

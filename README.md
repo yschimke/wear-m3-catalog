@@ -167,18 +167,20 @@ Nine recordings live in
 [`Motion.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Motion.kt), published as
 GIFs beside the sticker sheet: the indeterminate progress ring, the switch thumb travelling, the
 toggle button's shape morph, swipe-to-reveal revealing, the edge button rising out of a scroll, the
-media transport row — its playback progress sweeping while play becomes pause — and the button,
-icon button and card placeholders shimmering and then wiping off to reveal real content. They carry
-no `@CatalogComponent` — a recording is not a component, and membership is still the kit's call —
-but each is **claimed** by the component it records, through `motionPreview` on that component's
-`@CatalogComponent`. One function per component, so a recording covering two axes covers them in one
-window.
+media transport row pressed button by button, and the button, icon button and card placeholders
+shimmering and then wiping off to reveal real content. They carry no `@CatalogComponent` — a
+recording is not a component, and membership is still the kit's call — but each is **claimed** by
+the component it records, through `motionPreview` on that component's `@CatalogComponent`. One
+function per component, so a recording covering several axes covers them in one window.
 
-They are driven by the component's own animation or by a `LaunchedEffect` state change rather than
-by a scripted tap: `@InteractionPreview` is implemented in the desktop renderer only, and this is an
-Android module. That is what costs the media row a next/previous recording — the side buttons' only
-motion is a press, and the row that has it exposes no interaction sources to provoke it. See
-[`AGENTS.md`](AGENTS.md) and the notes in `Motion.kt` for what that costs and how it fails.
+Most are driven by the component's own animation or by a `LaunchedEffect` state change. The media
+transport row is the exception and the first here to use **`@InteractionPreview`**, which dispatches
+a real pointer at nodes resolved from the live semantics tree: the row's buttons respond through
+their own wiring, and pressing the middle one genuinely pauses playback rather than a preview
+setting `playing` on its behalf. That annotation was desktop-only when this file's Motion notes were
+first written; it has run on Robolectric since compose-ai-tools 1.25.0, which this repo pins. See
+[`AGENTS.md`](AGENTS.md) and the notes in `Motion.kt` for when to reach for which, and for why a
+press that dispatches cleanly still needs measuring before you call it motion.
 
 ## Building
 

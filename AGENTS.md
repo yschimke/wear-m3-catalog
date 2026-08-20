@@ -284,10 +284,21 @@ Three rules, each learned the hard way:
   as three byte-identical copies of the base recording under three different names.
 - **Pin the canvas.** A motion capture needs `widthDp` AND `heightDp`; the component stickers wrap
   and are cropped, and an unpinned capture fails with "produced no GIF".
-- **`@InteractionPreview` does not work here.** It is the annotation for pointer-provoked motion and
-  it is implemented in the **desktop** renderer only; on Robolectric nothing writes the animated
-  file and the still then fails to decode `<id>.apng: file is missing on disk` — which also costs
-  the component its ordinary PNG. Use a `LaunchedEffect` state change instead, and say so.
+- **`@InteractionPreview` works here now — and it is the right tool when the motion IS the press.**
+  It used to be desktop-only: on Robolectric nothing wrote the animated file and the still then
+  failed to decode `<id>.apng: file is missing on disk`, which also cost the component its ordinary
+  PNG. That is compose-ai-tools issue #4215, closed by #4240 with the ripple's clock fixed in #4315,
+  both shipped in **1.25.0** — the version this repo pins. Prefer it over a `LaunchedEffect` for
+  anything a finger provokes: it dispatches a real pointer at nodes resolved from the live semantics
+  tree, so the component responds through its own wiring rather than through state a preview set on
+  its behalf, and the Android backend advances the **main looper** per frame, which is the only way
+  a platform `RippleDrawable` moves at all. A `LaunchedEffect` is still correct where there is no
+  finger — a spinner, a shimmer, a switch shown resolving both ways.
+- **A press is not automatically recordable — measure before claiming it is.** Two Horologist
+  transport rows, same annotation, same targets: `PodcastControlButtons` opts its side buttons into
+  `ButtonGroupScope.animateWidth` and gives 111 pixel-distinct frames of 178, while
+  `MediaControlButtons` never calls it and gives **1 of 178** — a literal still. A capture that
+  dispatched cleanly and wrote a file is not evidence the component moved.
 - **A placeholder only animates under an `AppScaffold`.** `PlaceholderState` reads its frame clock
   from the library's internal `AnimationCoordinator`, and `AppScaffold` is the one thing in Wear
   Compose that composes that coordinator's looper — so a shimmer drawn in a bare `Sticker` stands
