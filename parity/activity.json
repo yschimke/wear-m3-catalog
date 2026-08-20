@@ -1,11 +1,34 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-20T14:06:12.063Z",
+  "generatedAt": "2026-08-20T14:27:15.437Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "fa872c7d648ff7f3dc685a1b318b66194ddd3cd1",
+        "subject": "feat(motion): record the placeholders resolving into real content (#64)",
+        "at": "2026-08-20T15:08:22+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "placeholder-button__ideal__default",
+          "placeholder-button__ideal__outlined",
+          "placeholder-button__ideal__tonal",
+          "placeholder-button__ideal__variant",
+          "placeholder-card__ideal__default",
+          "placeholder-card__ideal__outlined",
+          "placeholder-iconbutton__ideal__default",
+          "placeholder-iconbutton__ideal__outlined",
+          "placeholder-iconbutton__ideal__tonal",
+          "placeholder-iconbutton__ideal__variant"
+        ],
+        "components": [
+          "Placeholder/Button",
+          "Placeholder/Card",
+          "Placeholder/IconButton"
+        ]
+      },
       {
         "sha": "7e203c383ab6862ff144e88f9d175923285ab5e8",
         "subject": "fix(placeholders): give the placeholder stickers placeholder content (#59)",
@@ -2079,48 +2102,5 @@
         ]
       }
     ]
-  },
-  "figma": {
-    "fileKey": "B24oss2tTeXAFykyeyusz0",
-    "fileName": "M3 Wear OS Apps Design Kit (Community)",
-    "versions": [
-      {
-        "id": "2389203965691086822",
-        "at": "2026-08-18T22:49:52Z",
-        "author": "Figma"
-      },
-      {
-        "id": "2389205383487168336",
-        "at": "2026-08-18T22:44:23Z",
-        "author": "Yuri Schimke"
-      }
-    ],
-    "comments": []
-  },
-  "gaps": [
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#CheckboxRow",
-      "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#RadioRow",
-      "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#SwitchRow",
-      "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Shapes.kt#MaterialShapesSticker",
-      "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker"
-    }
-  ]
+  }
 }
