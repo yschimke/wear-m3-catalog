@@ -92,6 +92,11 @@ dependencies {
   // from those would be comparing the kit against the wrong design system.
   implementation(libs.horologist.media.ui.material3)
   implementation(libs.horologist.media.ui.model)
+  // The player's FOOTER. `PlayerScreen`'s `buttons` slot ships empty, and the two compact buttons
+  // the kit draws in it — output device with a volume badge, and overflow — are published here
+  // rather than in `media-ui`. Leaving this off the classpath is how the slot came to hold a
+  // playlist chip instead (issue #67); see the note in `sections/MediaControls.kt`.
+  implementation(libs.horologist.audio.ui.material3)
   implementation(libs.horologist.auth.composables.material3)
   implementation(libs.horologist.compose.layout)
   implementation(libs.horologist.images.base)
