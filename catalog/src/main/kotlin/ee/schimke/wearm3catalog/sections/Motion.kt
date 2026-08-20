@@ -47,6 +47,9 @@ import androidx.wear.compose.material3.rememberRevealState
 import com.google.android.horologist.media.ui.material3.components.PodcastControlButtons
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.InteractionGesture
+import ee.schimke.composeai.preview.InteractionPreview
+import ee.schimke.composeai.preview.MotionFormat
 import ee.schimke.wearm3catalog.AnimatedSticker
 import ee.schimke.wearm3catalog.EdgeButtonScreen
 import ee.schimke.wearm3catalog.HorologistSamples
@@ -97,8 +100,8 @@ import kotlinx.coroutines.delay
 //
 // ONE FUNCTION PER COMPONENT, which is a constraint on what a recording may cover rather than a
 // detail of the wiring: `motionPreview` is a single name, so two things worth showing on the same
-// component share one capture window. `MediaTransportMotion` is the worked example — the progress
-// ring and the play/pause morph both belong to the transport row, so they run together.
+// component share one capture window. `MediaTransportMotion` is the worked example: the presses,
+// the shape morph and the progress ring all belong to the transport row, so they run together.
 //
 // Claiming costs the recording nothing it had: it still carries no `@CatalogComponent`, still adds
 // no card and no kit node. It only tells the export whose Motion lane the bytes belong in. ADDING A
@@ -106,16 +109,31 @@ import kotlinx.coroutines.delay
 // ("N @Preview function(s) declare captures that no catalog component claims") rather than being
 // silently dropped, but the warning does not publish it.
 //
-// `@InteractionPreview` IS NOT USED, AND NOT BY CHOICE
+// `@InteractionPreview` WORKS HERE NOW, AND THIS NOTE USED TO SAY IT DID NOT
 //
 // It is the annotation for pointer-provoked motion — a switch only moves because someone flipped
-// it — and it is implemented in the DESKTOP renderer only: `DesktopRendererMain` builds an
-// `InteractionSpec` from the gesture and targets, and the Robolectric path this Android module
-// renders on has no equivalent. The failure is quiet and confusing rather than a clear "not
-// supported": nothing writes the animated file, and the still frame then fails to decode with
-// `<id>.apng: file is missing on disk` — which also costs the component its ordinary PNG.
-// Tracked upstream; when it lands, the toggles below become real tap recordings instead of
-// state-driven ones.
+// it — and it WAS implemented in the desktop renderer only. An Android catalog that reached for it
+// got no capture, and failed confusingly rather than clearly: nothing wrote the animated file, and
+// the still frame then failed to decode with `<id>.apng: file is missing on disk`, which also cost
+// the component its ordinary PNG. That is compose-ai-tools issue #4215, and it is CLOSED —
+// implemented on Robolectric in #4240, with the ripple's clock fixed in #4315, both shipped in
+// **1.25.0**, which is the version this repo already pins.
+//
+// So the constraint this file was written under is gone, and the note is kept rather than deleted
+// because the workaround it justified is still visible in the recordings below. A state-driven
+// recording is not wrong — a spinner and a shimmer have no finger to record, and `flipping()` is
+// the honest way to show a switch resolving both directions — but where the motion IS the press,
+// the annotation is now the right tool and `MediaTransportMotion` is the first one to use it.
+//
+// One thing it buys that no `LaunchedEffect` could: the Android backend advances the **main
+// looper** alongside `mainClock` on every frame. Material's ripple is a platform `RippleDrawable`
+// and does not run on Compose's test clock at all, so a hand-driven press records a state layer
+// frozen at frame 0 while the Compose-side animation plays. That is half of a press response, and
+// it is the half a reader is usually looking for.
+//
+// The toggles below are still state-driven and could be revisited as real tap recordings; that is
+// a change to what they document, so it is deliberately not folded into the change that made it
+// possible.
 //
 // THE PLACEHOLDER, WHICH WAS "NOT HERE" AND IS NOW
 //
@@ -411,54 +429,80 @@ fun PlaceholderCardMotion() = AnimatedSticker {
 // the middle button is stopped and started under it. Splitting them would need a second component
 // to claim the second GIF, and the only candidates are the two that cannot move.
 //
-// WHAT IS NOT HERE: NEXT/PREVIOUS (AND SEEK BACK/FORWARD)
+// NEXT/PREVIOUS IS A PRESS, AND A PRESS NEEDS A FINGER
 //
-// The side buttons' motion is a press — the pressed button swells by
-// `ButtonGroupLayoutDefaults.ExpansionWidth` and its neighbours yield — and it could not be
-// recorded. Two separate walls, both worth knowing:
+// The side buttons have no state to change: their whole motion is what happens under a pointer.
+// That is `@InteractionPreview`'s job, and `MediaTransportMotion` below is this file's first use
+// of it — see the note at the top of the file for why the annotation was unavailable here until
+// recently, and what it replaced.
 //
-//  - `MediaControlButtons` does not have the motion. It places its three buttons in
-//    `ButtonGroupLayout` with plain `Modifier.weight`, never `ButtonGroupScope.animateWidth`, so
-//    there is no expansion to record; a scripted press through `ButtonGroupLayout`'s public
-//    `interactionSources` parameter produced 3 distinct frames of 46 — the state layer changes and
-//    nothing animates.
-//  - `PodcastControlButtons` DOES have it (`AnimatedMediaControlButtons` calls `animateWidth`, and
-//    the middle button re-morphs on `isAnyButtonPressed`), but does not expose the sources.
-//    `ButtonGroupLayout` publishes `interactionSources`; the two rows one layer above it
-//    `remember` their own and take no parameter, so there is no way to provoke the press without
-//    reassembling the row out of its parts — which would publish a recording of a replica.
+// It is worth recording what the workarounds cost before the annotation arrived, because both
+// dead ends look reasonable from the code:
 //
-// `@InteractionPreview` is the annotation for exactly this and would need none of the above; it is
-// desktop-only (see the top of this file). Until it reaches the Robolectric path, or Horologist
-// takes `interactionSources` on the rows themselves, there is no seek recording rather than one of
-// something this catalog does not draw.
+//  - Emitting `PressInteraction.Press` onto a `MutableInteractionSource` reaches the state layer
+//    and NOT the animation. `MediaControlButtons`'s ripple is a platform `RippleDrawable`, which
+//    runs on the main looper rather than on Compose's test clock, so a hand-driven press records a
+//    component that changes colour once and then sits still: measured at 3 distinct frames of 46.
+//    The interaction renderer advances the looper per frame, which is exactly the step that was
+//    missing.
+//  - Reaching the sources at all meant reassembling the row. `ButtonGroupLayout` publishes an
+//    `interactionSources` parameter; the two rows one layer above it `remember` their own and take
+//    no parameter, so a hand-driven press has to rebuild `MediaControlButtons` out of its parts —
+//    and then the recording is of a replica rather than of the component.
+//
+// A real dispatched pointer needs neither: the renderer resolves the row's clickable nodes from the
+// live semantics tree and presses them, so the composable under the recording is the one the card
+// publishes.
 
 /** How long a full 0→100% progress sweep takes in the recording below. */
 private const val ProgressSweepMs = 2000
 
-/** How long the transport recording holds each of playing / paused. */
-private const val PlayPauseHoldMs = 650L
-
 /**
- * The transport row running: the progress ring sweeping, and play becoming pause and back.
+ * The transport row under a finger: seek back, play/pause, seek forward — pressed in turn, with the
+ * progress ring sweeping underneath the whole time.
  *
- * The four stills publish `Progress=` at the kit's 80% and 20% and `Playing=` at yes and no — four
- * points on two axes whose whole job is to move between them. This is the movement.
+ * This is one recording covering everything the Media controls cards cannot show as stills, because
+ * `motionPreview` gives a component one function and all of it belongs to this one component.
  *
- * Two things a still cannot say, and this does. The progress indicator is **wavy** and travels
- * around a scalloped container, so the ring and the shape it rides read as one piece. And the
- * middle button is a *shape* as much as a glyph: `AnimatedPlayPauseProgressButton` morphs its
- * 10-vertex scallop against a circle when playback stops, so the transition is the component rather
- * than a cut between two pictures of it.
+ * **The press is a real dispatched pointer, and that is what makes the recording worth having.**
+ * The renderer resolves the row's three clickable nodes from the live semantics tree and presses
+ * each in turn, so what responds is `PodcastControlButtons` itself rather than a state this file
+ * set on its behalf. Three separate things move as a result, none of which a still can carry:
  *
- * The sweep is an ordinary `InfiniteTransition` rather than a clock. Horologist's
+ * - the pressed button **swells** by `ButtonGroupLayoutDefaults.ExpansionWidth` and its neighbours
+ *   yield the width — `AnimatedMediaControlButtons` opts into that with `ButtonGroupScope
+ *   .animateWidth`, and it is the whole of what a side button does;
+ * - the middle button **re-morphs**, because `AnimatedPlayPauseProgressButton` shapes itself on
+ *   `isAnyButtonPressed` — pressing *either* neighbour changes it;
+ * - pressing the middle one **actually pauses**, through the component's own `onPauseButtonClick`.
+ *   The scallop resolves to a circle and the glyph swaps because playback stopped, not because a
+ *   knob was turned.
+ *
+ * Progress runs on an `InfiniteTransition` rather than a clock. Horologist's
  * `TrackPositionUiModel.Predictive` would advance the ring from a `TimestampProvider`, which is the
  * non-deterministic input a nightly capture must not have; `ProgressStateHolder` writes whatever
  * percent it is handed straight through, so driving the model is the same picture and repeats
  * byte-for-byte.
+ *
+ * `PressAndHold` rather than `Tap`: these buttons draw their state layer through
+ * `UnboundedRippleIconButton` — a ripple that grows past the button's own bounds — and a momentary
+ * tap dispatches down and up in the same breath, so the grow and the fade collide into a flicker.
+ * Neither button sets `onLongClick`, so a hold still fires the ordinary click on release.
+ *
+ * GIF rather than the annotation's default APNG, so the recording lands in the same lane as every
+ * other one here and `CatalogRenderTest`'s "every motion capture actually moves" check can see it —
+ * that test reads `*.gif`.
  */
 @MotionRowCanvas
-@AnimatedPreview(showCurves = false, durationMs = ProgressSweepMs)
+@InteractionPreview(
+  gesture = InteractionGesture.PressAndHold,
+  targets = [0, 1, 2],
+  format = MotionFormat.Gif,
+  caption =
+    "Seek back, play/pause, seek forward pressed in turn: the pressed button swells and its " +
+      "neighbours yield, the middle button re-morphs on any press, and pausing resolves its " +
+      "scallop to a circle — all over a progress ring that never stops moving.",
+)
 @Composable
 fun MediaTransportMotion() = MediaRowSticker {
   val percent by
@@ -470,10 +514,10 @@ fun MediaTransportMotion() = MediaRowSticker {
           infiniteRepeatable(tween(durationMillis = ProgressSweepMs, easing = LinearEasing)),
         label = "percent",
       )
-  val playing = flipping(initial = true, everyMs = PlayPauseHoldMs)
+  var playing by remember { mutableStateOf(true) }
   PodcastControlButtons(
-    onPlayButtonClick = {},
-    onPauseButtonClick = {},
+    onPlayButtonClick = { playing = true },
+    onPauseButtonClick = { playing = false },
     playPauseButtonEnabled = true,
     playing = playing,
     onSeekBackButtonClick = {},

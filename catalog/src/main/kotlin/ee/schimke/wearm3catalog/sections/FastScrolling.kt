@@ -41,8 +41,9 @@ import ee.schimke.wearm3catalog.ScreenSticker
 // WHAT A STILL CANNOT SHOW, AND WHAT IS DONE ABOUT IT. The skim indicator is raised by rotary
 // VELOCITY and fades on a timeout — neither of which a baked frame has. So the published capture is
 // the list at rest and scrolled, and the section-jumping is described here rather than implied by a
-// picture of it. `@InteractionPreview` is not an option: it is implemented in the desktop renderer
-// only, and on Robolectric it costs the component its ordinary PNG as well (AGENTS.md).
+// picture of it. `@InteractionPreview` runs on Robolectric now (AGENTS.md), but it dispatches a
+// TOUCH gesture and what raises this indicator is rotary velocity — so it would record the list
+// being dragged rather than skimmed, which is a picture of the wrong thing.
 
 @CatalogComponent(
   id = "FastScrollingTransformingLazyColumn",
