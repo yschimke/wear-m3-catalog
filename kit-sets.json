@@ -334,7 +334,10 @@
       "page": "Media Controls",
       "set": "Media-Player",
       "node": "71575:22328",
-      "excluded": "Wear Compose Material 3 publishes no media player. The kit's set is a composition of components this catalog already publishes, assembled by an app (or by Horologist), not a library component."
+      "components": [
+        "Media/PlayerScreen"
+      ],
+      "$note": "Reproduced with HOROLOGIST, not Wear Compose Material 3, which publishes no media player. The exclusion this replaces read 'assembled by an app (or by Horologist), not a library component' — true of Wear Compose and wrong about the ecosystem: horologist-media-ui-material3 publishes the screen and its parts as library components. See sections/MediaControls.kt."
     }
   ]
 }

@@ -85,6 +85,27 @@ fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
 }
 
 /**
+ * Frame for a component that is **a screen with chrome** — one that needs the curved clock and the
+ * scroll furniture around it to be the thing it is, rather than only the round display underneath.
+ *
+ * [FullScreenSticker] gives a component the display; this gives it the app. Two things want that: a
+ * **list**, because a `TransformingLazyColumn` drawn with no `AppScaffold` over it is rows on a
+ * black disc and the scroll indicator that tells a reader where they are never appears
+ * (`ScreenScaffold` reads it from the scaffold above); and a component whose **kit cell draws the
+ * clock**, which the media player's does — see `MediaControls.kt`.
+ *
+ * The clock is pinned to `10:10`, not the system clock, for the same reason every other capture
+ * here is: a nightly render that differs from the last only in the time turns the delivery branch's
+ * history into noise.
+ */
+@Composable
+fun ScreenSticker(content: @Composable () -> Unit) {
+  CatalogMaterialTheme {
+    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { content() }
+  }
+}
+
+/**
  * The width the kit lays an edge button out against: the 192dp base screen
  * (`CatalogFullScreenModes`).
  *

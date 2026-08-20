@@ -48,20 +48,59 @@ other mutating Figma tool, and do not enable design-parity's Code-to-Canvas push
    one axis from, and the imported kit pages link 33 nodes instead of 181. `referenceSet` is the
    join key for `kit-sets.json` and `CatalogKitCoverageTest`, which are per-set.
    See [docs/DESIGN_MAP.md](docs/DESIGN_MAP.md).
-2. **The library's door.** A Wear Compose Material 3 component the kit never published still belongs
-   on a sheet whose reader is looking for *the component set*, and it enters with
-   `noReference = "<why the kit has none>"`. `ButtonGroup` is the plain case: real API, no kit set.
+2. **The library's door.** A component of one of the two libraries here (see **Two libraries**
+   below) that the kit never published as a set still belongs on a sheet whose reader is looking for
+   *the component set*, and it enters with `noReference = "<why the kit has none>"`. `ButtonGroup` is
+   the plain case: real API, no kit set.
 
 What is NOT allowed is silence. A `@CatalogComponent` with neither fails
 `CatalogInventoryTest.every component is either mapped to the kit or says why not` — so "I forgot to
 look" cannot masquerade as "the kit has nothing". `scripts/design-map.sh` fails the same way, before
 a render is attempted: it passes `--strict --allow-stated-absence`, which is fatal on a missing
 reference and on captures that pair with none, while accepting an absence a `noReference` explains.
-Plain `--strict` would reject the four door-2 components too, which is why the pair is what runs.
+Plain `--strict` would reject the fifteen door-2 components too, which is why the pair is what runs.
 
-Door 2 is deliberately narrower than it sounds: it is for a **component of this library**, not for
-anything a screen can be built from. A composition an app assembles (the kit's `Media-Player`) is
-still out, and so is app content (its `Avatar-*`).
+Door 2 is deliberately narrower than it sounds: it is for a **component of a library**, not for
+anything a screen can be built from. App content (the kit's `Avatar-*`) is still out: the kit draws
+the shapes an app fills and there is no composable to invoke.
+
+## Two libraries, and which one a component comes from
+
+**Wear Compose Material 3 is the first library; Horologist is the second.** The kit does not stop at
+what `androidx.wear.compose:compose-material3` publishes — its `Media-Player` set is a whole screen,
+and Wear Compose ships no media player — so a catalog that only ever calls Wear Compose has to
+exclude the parts of the kit the platform library does not reach. It used to:
+`Media-Player`'s coverage row read "assembled by an app (or by Horologist), not a library
+component", which was true of Wear Compose and wrong about the ecosystem.
+[Horologist](https://github.com/google/horologist) publishes exactly that screen, and its parts, as
+library components — plus the sign-in surfaces and the fast-scrolling list, neither of which Wear
+Compose has.
+
+So Horologist components are in, under three rules:
+
+- **The `*-material3` artifacts only.** Horologist still ships its original Material 2 line under
+  the un-suffixed names (`horologist-media-ui`, `horologist-auth-composables`, …). A sticker drawn
+  from those compares the kit against the wrong design system, silently.
+- **They live under `section = "Horologist"`.** The other sections are the kit's contents pages, and
+  a reader has to be able to tell at a glance which library a card's composable comes from — a
+  `PlayerScreen` filed under "Containment" is indistinguishable from Wear Compose API that does not
+  exist. Groups within it are the surface: `Media controls`, `Sign-in`, `Fast scrolling`.
+- **Both doors are open to them, and the kit's door is preferred.** `Media/PlayerScreen` reproduces
+  the published `Media-Player` set and names its cell, exactly as a Wear Compose component would;
+  the coverage row moves from `excluded` to `components` for it. The rest name `noReference` —
+  either because the kit has no such set at all (the sign-in screens) or because the only node that
+  draws it is one of the kit's own **private** `.Base / Media / …` sets, which the kit walk does not
+  publish and no coverage row can join to. A `noReference` for the second reason should still name
+  the private node, so the correspondence is written down where a reader will find it.
+
+**Composition alone is still not a reason to exclude.** What matters is whether *a library*
+publishes the thing as a component you call, not how many components it is built from.
+
+Stateful, ViewModel-driven entry points stay out either way: `auth-ui-material3`'s
+`SignInPromptScreen` takes a `SignInPromptViewModel` and drives a real auth repository, so a sticker
+for it would be a sticker for a fake. The stateless half — `auth-composables-material3` — is the
+half a catalog can publish honestly. The same test rules out Horologist's Lottie-animated media
+buttons here for a different reason: the Robolectric renderer does not resolve a Lottie composition.
 
 **Naming is Compose's call.** Ids follow the Wear Compose API surface, because that is what a reader
 of a Compose catalog greps for. The one hard rule is not to borrow a kit word for something the kit
@@ -187,9 +226,10 @@ are out of scope.
 - Renders must be **deterministic**: a `TimeText` is pinned to a fixed instant, never the system
   clock. An unpinned clock would make every nightly render differ from the last, which turns the
   delivery branch's history into noise.
-- Every published comparison must invoke the actual named Wear Material 3 composable. Rebuilding a
-  component from `Box` and its `*Defaults` can make a replica line up, but it cannot test the
-  library and therefore does not belong in the comparison inventory. The shape specimens are the
+- Every published comparison must invoke the actual named composable — the Wear Material 3 one, or
+  the Horologist one where that is the library that publishes it (see **Two libraries** above).
+  Rebuilding a component from `Box` and its `*Defaults` can make a replica line up, but it cannot
+  test the library and therefore does not belong in the comparison inventory. The shape specimens are the
   documented exception in the other direction: they draw mobile `MaterialShapes` because Wear
   publishes no shape library of its own (see README).
 
@@ -264,6 +304,10 @@ no recording rather than one that implies motion nobody would see.
 - Two groups are deliberately **not** automerged: **majors**, and **Compose** (Wear Compose plus the
   mobile Compose BOM and the material3 pin). Both change what the catalog renders, and the render is
   the product — a human reads the visual diff before it lands.
+- **Horologist is grouped and held**, like Compose and for the same reason: its artifacts ship as
+  one release (a skew between them is a compile error), and they draw the media player, the sign-in
+  screens and the fast-scrolling list — so the visual diff is the review. It is on an alpha line;
+  expect that diff to be real. Only the `*-material3` artifacts are dependencies here.
 - `compose-ai-tools` is the exception in the other direction: the Gradle plugin marker, the
   annotation coordinates and the pinned CI action ref are one release and move together in a single
   PR, unscheduled and automerged. A skew between them breaks preview discovery outright.

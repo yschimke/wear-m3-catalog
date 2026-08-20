@@ -97,6 +97,29 @@ object KitCopy {
 
   /** `Stepper`, `Icon=No`. */
   const val STEPPER_LABEL = "This watch's headphones"
+
+  /**
+   * The top line of the kit's media header — `.Base / Media / Header`, the `Song Name` text node
+   * (`71575:21988`) inside the `Position=Centre, Scrolling=No, …` cell.
+   *
+   * The Media Controls page is the one page whose copy could not be read off the exported SVG: the
+   * kit outlines its text to paths there, so the strings come from the layer names the file itself
+   * carries. They read as placeholder copy in the kit's own voice, which is what this object is
+   * for.
+   */
+  const val MEDIA_TITLE = "Song Name"
+
+  /** The second line of the same header — the `Name of artist` node (`71575:21990`). */
+  const val MEDIA_ARTIST = "Name of artist"
+
+  /**
+   * The label on the media player's bottom action.
+   *
+   * The kit draws that slot as an icon button rather than a labelled one, so it publishes no string
+   * for it. Horologist's `ShowPlaylistButton` takes a name, and this is the placeholder in the
+   * kit's register rather than a borrowed real playlist.
+   */
+  const val MEDIA_PLAYLIST = "Playlist name"
 }
 
 /**

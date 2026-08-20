@@ -49,6 +49,19 @@ android {
   testOptions { unitTests { isIncludeAndroidResources = true } }
 }
 
+kotlin {
+  compilerOptions {
+    // Horologist marks essentially its whole surface `@ExperimentalHorologistApi`, which is a
+    // `@RequiresOptIn` at the default ERROR level — `MediaUiModel`, `TrackPositionUiModel`,
+    // `PlayerScreen` and the auth screens all carry it. Opting in module-wide rather than
+    // annotating each sticker: the alternative is an `@OptIn` on every composable in three files,
+    // which says nothing a reader does not already know from the `Horologist` section they are in.
+    // It is genuinely experimental — the artifacts are on an alpha line and Renovate holds their
+    // bumps for a human to read the visual diff (see .github/renovate.json).
+    optIn.add("com.google.android.horologist.annotations.ExperimentalHorologistApi")
+  }
+}
+
 dependencies {
   implementation(platform(libs.compose.bom))
   implementation(libs.compose.ui)
@@ -65,6 +78,23 @@ dependencies {
   // Confetti Wear itself does, rather than this repo transcribing the resolved roles by hand.
   implementation(libs.compose.ui.text.google.fonts)
   implementation(libs.materialkolor)
+
+  // HOROLOGIST — the second library on the sheet, and the reason there is a `Horologist` section.
+  //
+  // Wear Compose Material 3 stops at the component set; the kit does not. Its `Media-Player` set is
+  // a whole screen, and the catalog's answer to it used to be an exclusion reading "assembled by an
+  // app (or by Horologist), not a library component" — which was true of Wear Compose and false of
+  // the ecosystem: Horologist publishes exactly that screen, and the parts it is built from, as
+  // library components. Same for the sign-in screens and the fast-scrolling list.
+  //
+  // The `*-material3` artifacts only. Horologist still ships its original Material 2 line under the
+  // un-suffixed names (`horologist-media-ui`, `horologist-auth-composables`), and a sticker drawn
+  // from those would be comparing the kit against the wrong design system.
+  implementation(libs.horologist.media.ui.material3)
+  implementation(libs.horologist.media.ui.model)
+  implementation(libs.horologist.auth.composables.material3)
+  implementation(libs.horologist.compose.layout)
+  implementation(libs.horologist.images.base)
 
   // MOBILE Material 3, for `MaterialShapes` and `RoundedPolygon.toShape()` ONLY.
   //

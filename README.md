@@ -25,24 +25,48 @@ node ids and reference images, and the MCP server for variables and metadata.
 
 ## Status
 
-**Every published set in the kit is accounted for.** 33 of the kit's 42 published component sets are
-reproduced by a catalog component; the other 9 are excluded, each with a stated reason.
+**Every published set in the kit is accounted for.** 34 of the kit's 42 published component sets are
+reproduced by a catalog component; the other 8 are excluded, each with a stated reason.
 [`kit-sets.json`](kit-sets.json) is that record — one row per set, carrying either the components
 that reproduce it or why it is absent — and `CatalogKitCoverageTest` holds it to the annotations in
 both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation
 that earned it.
 
-Four components enter through the **library's** door instead — real Wear Compose Material 3
-components the kit never published, each carrying `noReference` with the reason: `ButtonGroup`,
-`ArcProgressIndicator`, `TransformingLazyColumn` and `Scaffold`. A sheet whose reader is looking for
-the component set should not omit a component because a design file did.
+Fifteen components enter through the **library's** door instead — real components the kit never
+published as a set, each carrying `noReference` with the reason. A sheet whose reader is looking for
+the component set should not omit a component because a design file did. Four are Wear Compose
+Material 3 (`ButtonGroup`, `ArcProgressIndicator`, `TransformingLazyColumn`, `Scaffold`); the other
+eleven are Horologist's, below.
+
+### Two libraries
+
+Wear Compose Material 3 is the first library here. **Horologist is the second**, and it is on the
+sheet because the kit does not stop where the platform library does: `Media-Player` is a whole
+screen, and Wear Compose ships no media player. That set used to be an exclusion reading "assembled
+by an app (or by Horologist), not a library component" — true of Wear Compose, wrong about the
+ecosystem. [Horologist][horologist] publishes the screen and its parts as library components, so the
+catalog now calls them and the coverage row is reproduced rather than excluded.
+
+Everything Horologist is filed under a `Horologist` section, so a reader can always tell which
+library a card's composable comes from:
+
+| Group | Components |
+| --- | --- |
+| Media controls | `PlayerScreen` (the kit's `Media-Player`), the transport rows, the play/pause progress button, the track header, the playlist action |
+| Sign-in | the sign-in and guest buttons, the account picker, the placeholder screen, the signed-in confirmation |
+| Fast scrolling | `FastScrollingTransformingLazyColumn` — the rotary section-skimming long list |
+
+Only Horologist's `*-material3` artifacts are used; the un-suffixed ones are its Material 2 line.
+The ViewModel-driven `auth-ui-material3` screens stay out — a sticker for one would be a sticker for
+a fake repository, not for the component.
+
+[horologist]: https://github.com/google/horologist
 
 What is excluded, and why:
 
 | Kit set | Why |
 | --- | --- |
 | `Button-ImageBackground-Round` | Compose puts the image container painter on `Button` and `Card`; `IconButton` takes no painter |
-| `Media-Player` | Wear Compose publishes no media player — the kit's set is a composition an app assembles |
 | the six `Avatar-*` components | avatars are app content; the kit draws the shapes an app fills, and there is no composable to invoke |
 | `Confirmation-Overlay` | `ConfirmationDialogContent` animates its children in from `alpha = 0`; the renderer pauses the clock, so a still capture is an empty ring. Back in when a capture can settle first |
 
