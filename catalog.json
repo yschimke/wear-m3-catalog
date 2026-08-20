@@ -17689,7 +17689,7 @@
       "wireframe": "wireframes/media-playerscreen.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 135
+      "bodyLine": 139
     },
     {
       "componentId": "Media/ControlButtons",
@@ -18118,7 +18118,7 @@
       "wireframe": "wireframes/media-controlbuttons.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 243
+      "bodyLine": 247
     },
     {
       "componentId": "Media/PodcastControlButtons",
@@ -18312,7 +18312,7 @@
       "wireframe": "wireframes/media-podcastcontrolbuttons.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 270
+      "bodyLine": 274
     },
     {
       "componentId": "Media/PlayPauseProgressButton",
@@ -18654,12 +18654,12 @@
       ],
       "section": "Horologist",
       "group": "Media controls",
-      "caption": "The middle button: play or pause. Its progress ring is drawn UNDER the filled container at these arguments, so the kit's `Progress=` reads only in the ambient (outlined) variant — see the note in this file.",
+      "caption": "The middle button: play or pause. Its progress ring is drawn UNDER the filled container rather than around it, so the kit's `Progress=` does not read here — an upstream bug, not a seed. See the note in this file.",
       "noReference": "The kit's `.Base / Media / Main Control` (`71575:22140`) — a PRIVATE set, so it carries no coverage row. Its `Progress=` and `Playing=` axes are the cells below; its `Shape=` axis is the library's own, scalloped while playing and circular while paused.",
       "wireframe": "wireframes/media-playpauseprogressbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 315
+      "bodyLine": 319
     },
     {
       "componentId": "Media/InfoDisplay",
@@ -18839,7 +18839,7 @@
       "wireframe": "wireframes/media-infodisplay.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 347
+      "bodyLine": 351
     },
     {
       "componentId": "Media/ShowPlaylistButton",
@@ -18922,7 +18922,7 @@
       "wireframe": "wireframes/media-showplaylistbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 375
+      "bodyLine": 379
     },
     {
       "componentId": "DatePicker",
@@ -43020,7 +43020,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.23.0",
-  "generatedAt": "2026-08-20T10:47:53.256Z",
+  "generatedAt": "2026-08-20T11:09:03.570Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
