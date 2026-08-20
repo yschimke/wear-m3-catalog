@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -77,13 +78,24 @@ private fun iconToggleSize(): Dp =
 @Composable
 fun IconToggle() = Sticker {
   val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
+  // Read once: the container size and the glyph size are the same choice, and `iconSizeFor` is
+  // what pairs them.
+  val size = iconToggleSize()
   IconToggleButton(
     checked = checked,
     onCheckedChange = onCheckedChange,
     enabled = previewOverrideBoolean("enabled", true),
-    modifier = Modifier.touchTargetAwareSize(iconToggleSize()),
+    modifier = Modifier.touchTargetAwareSize(size),
   ) {
-    Icon(Icons.Filled.Add, contentDescription = "Add")
+    // Sized explicitly for the reason IconButtons.kt states: Wear's toggle button does not size
+    // its content either, and a bare `Icon` falls back to Material's 24dp default. That is the
+    // kit's icon at `Size=Small` only — the other three cells draw 26, 32 and 36 (39083:684,
+    // :682, :688), which is exactly the pairing `iconSizeFor` publishes.
+    Icon(
+      Icons.Filled.Add,
+      contentDescription = "Add",
+      modifier = Modifier.size(IconToggleButtonDefaults.iconSizeFor(size)),
+    )
   }
 }
 
