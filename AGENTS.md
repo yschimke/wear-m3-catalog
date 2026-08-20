@@ -41,6 +41,17 @@ other mutating Figma tool, and do not enable design-parity's Code-to-Canvas push
    kit node in its `reference` — **the VARIANT it draws, never the set frame** — and names the set
    it is a cell of in `referenceSet`. This is the default and the majority.
 
+   **Renderable means it EXPORTS as the component, and that is not the same as looking right on the
+   canvas.** Check the exported image before mapping a node, not the Figma viewport. A child that
+   composites against its backdrop — a full-bleed artwork, a blend mode, a scrim — stops compositing
+   when the node is exported on its own and simply covers everything under it. The kit's
+   `Media-Player` cell is the worked example: valid node, correct on canvas, and its reference image
+   is an opaque purple wash with the player invisible beneath it, so a comparison against it reports
+   the entire frame and finds nothing. A mapping like that is worse than no mapping, because the
+   sheet then claims a comparison it is not making. Withdraw it, say why on the component and on the
+   `kit-sets.json` row, and name any sibling cell that does export cleanly so the mapping is cheap to
+   restore.
+
    The distinction is not cosmetic. A kit component set is a grid of axis vectors (the `Button` set
    is 50 cells), and its frame's geometry is an editor artifact. Point `reference` at the set and
    three things break silently: parity diffs one 52dp button against a 1068×928 board, every
@@ -58,7 +69,7 @@ What is NOT allowed is silence. A `@CatalogComponent` with neither fails
 look" cannot masquerade as "the kit has nothing". `scripts/design-map.sh` fails the same way, before
 a render is attempted: it passes `--strict --allow-stated-absence`, which is fatal on a missing
 reference and on captures that pair with none, while accepting an absence a `noReference` explains.
-Plain `--strict` would reject the fifteen door-2 components too, which is why the pair is what runs.
+Plain `--strict` would reject the sixteen door-2 components too, which is why the pair is what runs.
 
 Door 2 is deliberately narrower than it sounds: it is for a **component of a library**, not for
 anything a screen can be built from. App content (the kit's `Avatar-*`) is still out: the kit draws
@@ -74,7 +85,8 @@ exclude the parts of the kit the platform library does not reach. It used to:
 component", which was true of Wear Compose and wrong about the ecosystem.
 [Horologist](https://github.com/google/horologist) publishes exactly that screen, and its parts, as
 library components — plus the sign-in surfaces and the fast-scrolling list, neither of which Wear
-Compose has.
+Compose has. (That row is excluded again now, but on a narrower and truer ground: the component
+exists, the kit's cell just does not export as anything comparable.)
 
 So Horologist components are in, under three rules:
 
@@ -85,13 +97,15 @@ So Horologist components are in, under three rules:
   a reader has to be able to tell at a glance which library a card's composable comes from — a
   `PlayerScreen` filed under "Containment" is indistinguishable from Wear Compose API that does not
   exist. Groups within it are the surface: `Media controls`, `Sign-in`, `Fast scrolling`.
-- **Both doors are open to them, and the kit's door is preferred.** `Media/PlayerScreen` reproduces
-  the published `Media-Player` set and names its cell, exactly as a Wear Compose component would;
-  the coverage row moves from `excluded` to `components` for it. The rest name `noReference` —
-  either because the kit has no such set at all (the sign-in screens) or because the only node that
-  draws it is one of the kit's own **private** `.Base / Media / …` sets, which the kit walk does not
-  publish and no coverage row can join to. A `noReference` for the second reason should still name
-  the private node, so the correspondence is written down where a reader will find it.
+- **Both doors are open to them, and the kit's door is preferred where the kit can actually be
+  compared against.** Today none of them go through it, for three different reasons worth keeping
+  apart: the kit has no such set at all (the sign-in screens, the fast-scrolling list); the only node
+  that draws it is one of the kit's own **private** `.Base / Media / …` sets, which the kit walk does
+  not publish and no coverage row can join to (the media parts); or the set is published but its cell
+  does not export as the component (`Media/PlayerScreen` — see door 1 above, and the note in
+  `MediaControls.kt`). A `noReference` for either of the last two should name the node it is talking
+  about, so the correspondence is written down where a reader will find it and the mapping is cheap
+  to restore.
 
 **Composition alone is still not a reason to exclude.** What matters is whether *a library*
 publishes the thing as a component you call, not how many components it is built from.

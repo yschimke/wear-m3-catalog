@@ -103,14 +103,20 @@ object KitCopy {
    * (`71575:21988`) inside the `Position=Centre, Scrolling=No, …` cell.
    *
    * The Media Controls page is the one page whose copy could not be read off the exported SVG: the
-   * kit outlines its text to paths there, so the strings come from the layer names the file itself
-   * carries. They read as placeholder copy in the kit's own voice, which is what this object is
-   * for.
+   * kit outlines its text to paths there. These are read off the rendered cell instead — see
+   * [MEDIA_ARTIST] for why the layer names alone were not good enough.
    */
   const val MEDIA_TITLE = "Song Name"
 
-  /** The second line of the same header — the `Name of artist` node (`71575:21990`). */
-  const val MEDIA_ARTIST = "Name of artist"
+  /**
+   * The second line of the same header.
+   *
+   * The text is `Artist name`, which is NOT what the layer is called: the node at `71575:21990` is
+   * *named* `Name of artist` and *draws* `Artist name`. This file used the layer name until the
+   * rendered cell was actually looked at — a reminder that a Figma layer name is a label somebody
+   * typed once, not the content.
+   */
+  const val MEDIA_ARTIST = "Artist name"
 
   /**
    * The label on the media player's bottom action.

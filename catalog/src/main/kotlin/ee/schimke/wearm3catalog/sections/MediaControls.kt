@@ -51,26 +51,37 @@ import ee.schimke.wearm3catalog.kitCopy
 // beginning `.`) are out of `kit-sets.json`'s scope by construction — the kit walk does not record
 // them — so they are nodes this catalog can read but not join a coverage row to.
 //
-// That splits this file in two, and the split is the reason each `@CatalogComponent` below says
-// what it says:
+// EVERY COMPONENT HERE ENTERS THROUGH THE LIBRARY'S DOOR, and the player does so for a reason
+// worth reading before mapping anything else on this page.
 //
-//   * `Media/PlayerScreen` goes through the KIT'S DOOR. It reproduces the published `Media-Player`
-//     set, names the `Large Screen=No, AOD=No` cell (`71575:22329`) as its `reference` and the set
-//     as its `referenceSet`, and `kit-sets.json` moves that row from `excluded` to `components`.
-//     The exclusion it replaces had already named the answer — "assembled by an app (or by
-//     Horologist), not a library component" — which was true of Wear Compose and wrong about the
-//     ecosystem.
+// The parts are the easy half: each says which private `.Base / Media / …` node draws it, since a
+// private set carries no coverage row to join to.
 //
-//   * The parts go through the LIBRARY'S DOOR, with `noReference` naming the private base node they
-//     correspond to. They are real Horologist components a reader of this sheet will call directly,
-//     and each says which `.Base / Media / …` node draws it in the kit, so the correspondence is
-//     written down even though no coverage row can carry it.
+// THE PLAYER IS THE INTERESTING HALF. It reproduces a set the kit really does publish, and it was
+// mapped to the `Large Screen=No, AOD=No` cell (`71575:22329`) — which is a real, renderable node
+// that looks exactly right on the Figma canvas. **The export is not the canvas.** That cell's last
+// child is `.Base / Media / Album Artwork/Primary NEW`, a full-bleed 192×192 artwork that
+// composites
+// against the backdrop; exported on its own it stops compositing and simply covers the player. The
+// published reference came out an opaque purple wash — no header, no transport row, no footer — and
+// the comparison was a render diffed against a blurred background, which reports everything and
+// means nothing.
+//
+// So the reference is WITHDRAWN rather than left pointing at a picture that is not the component,
+// and `kit-sets.json` says so on the row. The lesson generalises, and AGENTS.md now carries it: a
+// node being valid is not the test — the test is whether the node's EXPORT draws the component.
+//
+// The two `AOD=Yes` cells (`71575:22344`, `71575:22375`) carry no artwork instance at all and
+// export faithfully, so this becomes mappable again the day the exporter composites that overlay.
+// That is an upstream fix, not one to fork the pipeline for.
 //
 // AOD IS A CELL, NOT A COMPONENT. The kit varies its player on `AOD=`, and Horologist ships a
 // parallel `ambient/` package (`AmbientMediaControlButtons`, `AmbientPlayPauseButton`, …) whose job
 // is the same screen drawn for always-on: outlined rather than filled, no artwork behind it. That
-// is a state axis, so it folds under its parent as an `@OverrideVariant` carrying `kitAxis = "AOD"`
-// — one card, two renders — rather than doubling the sheet (AGENTS.md).
+// is a state axis, so it folds under its parent as an `@OverrideVariant` — one card, two renders —
+// rather than doubling the sheet (AGENTS.md). It carries no `kitAxis`/`kitValue`: those resolve a
+// cell against the kit THROUGH the component's base reference, and there is none to resolve
+// through while the export is broken.
 //
 // LARGE SCREEN IS NOT EVEN A CELL. The kit's `Large Screen=Yes` cell is the same screen at the
 // breakpoint, and `@CatalogFullScreenModes` already renders all five sizes the kit recognises.
@@ -106,14 +117,18 @@ import ee.schimke.wearm3catalog.kitCopy
 
 @CatalogComponent(
   id = "Media/PlayerScreen",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/71575:22329",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/71575:22328",
+  noReference =
+    "The kit's `Media-Player` set (`71575:22328`) is what this reproduces, but its published " +
+      "cell does not EXPORT as the player: `.Base / Media / Album Artwork/Primary NEW` composites " +
+      "over the whole 192×192 and the exported reference is an opaque purple wash with the " +
+      "player nowhere in it. Mapping to it published a comparison against a blurred background, " +
+      "so the reference is withdrawn until the export is faithful. See the note in this file.",
   caption =
     "The media player, whole: track and artist above, transport controls across the middle, the " +
       "app's own action below.",
 )
 @CatalogFullScreenModes
-@OverrideVariant(name = "ambient", strings = ["mode=ambient"], kitAxis = "AOD", kitValue = "Yes")
+@OverrideVariant(name = "ambient", strings = ["mode=ambient"])
 @OverrideVariant(name = "loading", strings = ["state=loading"])
 @OverrideVariant(name = "nothing-playing", strings = ["state=nothing-playing"])
 @Composable
