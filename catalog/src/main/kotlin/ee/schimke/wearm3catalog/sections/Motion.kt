@@ -61,8 +61,11 @@ import kotlinx.coroutines.delay
 // they landed until compose-ai-tools 1.23.0: green runs, correct GIFs in the bundle, no Motion lane
 // on the delivery branch.
 //
-// Each recording below is therefore CLAIMED by the component it is a recording of, with
-// `@CatalogComponent(motionPreview = "<function>")` at the component's own declaration:
+// Each recording below is therefore CLAIMED by the component it is a recording of, by naming it as
+// `motionPreview = "<function>"` on that component's own `@CatalogComponent` — never here. (Spelled
+// without the opening bracket on purpose: `CatalogInventoryTest` finds components by scanning these
+// files for the annotation's literal text, so writing it in full in a comment mints a phantom
+// component with no id and fails the build.)
 //
 //   IndeterminateProgressMotion -> CircularProgressIndicator  (ProgressIndicators.kt)
 //   SwitchTransitionMotion      -> SwitchButton               (SelectionButtons.kt)
