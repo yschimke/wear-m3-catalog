@@ -73,7 +73,9 @@ private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
   if (!previewOverrideBoolean("icon", false)) null
   else {
     val size =
-      when (previewOverrideChoice("iconSize", "default", listOf("default", "large", "extra-large"))) {
+      when (
+        previewOverrideChoice("iconSize", "default", listOf("default", "large", "extra-large"))
+      ) {
         "large" -> ButtonDefaults.LargeIconSize
         "extra-large" -> ButtonDefaults.ExtraLargeIconSize
         else -> ButtonDefaults.IconSize
@@ -86,9 +88,9 @@ private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
  *
  * The kit's `Alignment=Left | Center` is not a parameter on the Wear Compose function — it is what
  * the label does with the width it is given, so this is where it has to live. `Center` is the base
- * cell and what a label-only button does on its own; `Left` fills the row and starts the text, which
- * is the arrangement every `Icon=Yes` cell is drawn in (an icon and a centred label would leave the
- * text floating between the icon and nothing).
+ * cell and what a label-only button does on its own; `Left` fills the row and starts the text,
+ * which is the arrangement every `Icon=Yes` cell is drawn in (an icon and a centred label would
+ * leave the text floating between the icon and nothing).
  *
  * Only the five `Button` styles read it, because `Alignment` is only on that set. A component whose
  * kit set does not publish the axis has no business turning it.
@@ -103,8 +105,8 @@ private fun alignedLabel(text: String) {
 }
 
 /**
- * The eight `Button` cells this catalog did not draw — every combination of the kit's `Icon`,
- * `Icon size` and `Alignment` axes that its set actually publishes, crossed with `Disabled`.
+ * The eight `Button` cells this catalog did not draw — every combination of the kit's `Icon`, `Icon
+ * size` and `Alignment` axes that its set actually publishes, crossed with `Disabled`.
  *
  * Hoisted onto one annotation class and applied to all five styles rather than written out per
  * function: five styles by eight cells is forty near-identical annotations, which is the shape that
