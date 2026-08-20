@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Parity report: catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListHeading</title>
+<style>:root{color-scheme:light dark}
+*{box-sizing:border-box}
+body{margin:0;font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#0f0f14;color:#e7e7ef}
+a{color:inherit}
+header.page{padding:24px 28px;border-bottom:1px solid #26262f}
+header.page h1{margin:0 0 6px;font-size:18px}
+.subtitle{color:#9a9ab0;font-size:13px}
+.depicts{margin-top:8px;color:#9a9ab0;font-size:12px}
+.depicts .chip{margin:0 4px 0 0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.depicts .chip-default{background:#2b2418;color:#e8c66b}
+.status{display:inline-block;margin-left:10px;padding:2px 10px;border-radius:999px;font-weight:600;font-size:12px;vertical-align:middle}
+.status-pass{background:#16351f;color:#7ee29a}
+.status-warn{background:#3a3115;color:#e8c66b}
+.status-fail{background:#3a1820;color:#f08a9c}
+main{padding:20px 28px;display:grid;gap:24px;max-width:1200px}
+.variant{border:1px solid #26262f;border-radius:10px;padding:16px;background:#15151c}
+.variant-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.variant-head h3{margin:0;font-size:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+.chip{display:inline-block;padding:1px 8px;border-radius:6px;background:#222230;color:#b8b8cc;font-size:11px;margin-left:4px}
+.section-title{margin:0 0 -8px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:#9a9ab0}
+.matrix-wrap{overflow-x:auto;border:1px solid #26262f;border-radius:10px;background:#15151c}
+table.matrix{border-collapse:collapse;width:100%}
+table.matrix th,table.matrix td{padding:10px;border-bottom:1px solid #26262f;text-align:center;vertical-align:middle}
+table.matrix th+th,table.matrix td{border-left:1px solid #26262f}
+table.matrix tbody tr:last-child th,table.matrix tbody tr:last-child td{border-bottom:none}
+table.matrix thead th{background:#191921;color:#9a9ab0;font-weight:600;font-size:11px;letter-spacing:.04em;text-transform:uppercase}
+th.matrix-corner{text-align:left;color:#9a9ab0;font-size:11px;text-transform:uppercase;letter-spacing:.04em}
+th.matrix-row{text-align:left;white-space:nowrap;background:#13131a;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#c9c9dd;font-weight:600}
+.matrix-cell{background:#0c0c11}
+.matrix-link{display:inline-block;line-height:0}
+.matrix-img{display:block;max-width:220px;max-height:200px;width:auto;height:auto;margin:0 auto;border-radius:6px;image-rendering:pixelated}
+.view-controls{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:12px}
+.mode-select{display:inline-flex;gap:2px;background:#0c0c11;border:1px solid #26262f;border-radius:8px;padding:3px}
+.mode-toggle{display:inline-flex;align-items:center;gap:6px;color:#9a9ab0;font-size:12px;cursor:pointer;padding:4px 12px;border-radius:6px}
+.mode-toggle:has(input:checked){background:#222230;color:#fff}
+.mode-toggle input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+.pair{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.diff-view,.slider-view{display:flex;justify-content:center}
+.views .view[hidden]{display:none}
+.diff-view .panel{max-width:360px}
+.panel{margin:0;border:1px solid #26262f;border-radius:8px;overflow:hidden;background:#0c0c11}
+.panel figcaption{padding:6px 10px;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#9a9ab0;border-bottom:1px solid #26262f}
+.panel-body{display:flex;align-items:center;justify-content:center;min-height:64px;padding:10px}
+.panel-img{max-width:100%;height:auto;image-rendering:pixelated}
+.matrix-img.is-vector,.panel-img.is-vector{image-rendering:auto}
+.panel-empty{color:#666;font-size:12px;padding:20px}
+.panel-figure{position:relative;display:inline-block;line-height:0;max-width:100%}
+.panel-figure .panel-img{display:block}
+.anno{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.anno g[data-layer]{display:none}
+.anno g[data-layer].on{display:inline}
+.anno-type-hit{fill:transparent}.anno-type.active>rect{fill-opacity:.2}.anno-type-hit.active{fill:#9f85ff;fill-opacity:.28;stroke:#9f85ff;stroke-width:1}
+.anno-controls{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.anno-controls-label{color:#9a9ab0;text-transform:uppercase;font-size:11px;letter-spacing:.05em}
+.anno-toggle{display:flex;align-items:center;gap:6px;color:#c9c9dd;font-size:13px;cursor:pointer}
+.type-summary{display:none;margin-top:12px}
+.type-summary.on{display:block}
+.type-summary h4{margin:0 0 8px;color:#9a9ab0;text-transform:uppercase;font-size:11px;letter-spacing:.05em}
+.type-groups{display:grid;gap:6px;overflow-x:auto}
+.type-group{display:flex;align-items:center;gap:9px;min-width:max-content;padding:7px 10px;border:1px solid #30303b;border-radius:8px;background:#111118}
+.type-group:hover,.type-group:focus-visible{border-color:#7c5ce7;background:#19152a;outline:none}
+.type-marker{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#6941c6;color:#fff;font-size:10px;font-weight:700}
+.type-inline{color:#e7e7ef;font-size:12px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.type-side{color:#9a9ab0;font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.type-changed{color:#f08a9c;font-weight:650}
+.type-override{text-decoration:underline 2px rgba(240,138,156,.55);text-underline-offset:2px}
+.type-count{color:#77778d;font-size:11px}.type-arrow{color:#9a9ab0}
+.overlay{margin-top:14px}
+.overlay-stack{position:relative;display:inline-block;border:1px solid #26262f;border-radius:8px;overflow:hidden;background:#0c0c11}
+.overlay-stack img{display:block;max-width:100%}
+.overlay-cand{position:absolute;inset:0;width:100%;height:100%}
+.overlay-control{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:12px;color:#9a9ab0}
+.overlay-control input{flex:1;max-width:280px}
+.findings{border:1px solid #26262f;border-radius:10px;padding:16px;background:#15151c}
+.finding-section+.finding-section{margin-top:16px}
+.finding-section h3{margin:0 0 8px;font-size:13px;color:#c9c9dd}
+.finding-list,.score-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.finding{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:8px;background:#0f0f15;border:1px solid #222230}
+.sev-tag{flex:none;font-size:10px;text-transform:uppercase;letter-spacing:.05em;padding:2px 7px;border-radius:999px;font-weight:700}
+.sev-info .sev-tag{background:#16283a;color:#7db4e8}
+.sev-warn .sev-tag{background:#3a3115;color:#e8c66b}
+.sev-error .sev-tag{background:#3a1820;color:#f08a9c}
+.finding-body{display:flex;flex-direction:column;gap:4px}
+.delta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:#9a9ab0}
+.delta code{background:#222230;padding:1px 6px;border-radius:5px}
+.delta .expected{color:#7ee29a}
+.delta .actual{color:#f08a9c}
+.score-list code{background:#222230;padding:1px 6px;border-radius:5px}
+.match{color:#7ee29a}
+.differ{color:#e8c66b}
+.no-findings{color:#7ee29a;margin:0}
+@media (max-width:760px){.pair{grid-template-columns:1fr}}</style>
+</head>
+<body>
+<header class="page">
+  <h1>catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListHeading<span class="status status-warn">Warn</span></h1>
+  <div class="subtitle">figma reference vs candidate render</div>
+  <div class="depicts">Reference depicts <span class="chip">Alignment=Centre</span><span class="chip chip-default">Title=Title</span><span class="chip">Type=Page-Top</span></div>
+</header>
+<main>
+<section class="matrix-wrap">
+            <table class="matrix">
+              <thead><tr><th class="matrix-corner">state</th><th scope="col">Default</th></tr></thead>
+              <tbody><tr><th class="matrix-row" scope="row">default</th><td class="matrix-cell"><a class="matrix-link" href="#v-default"><img class="matrix-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAACACAYAAAARZ/7/AAADmklEQVR4Xu3cPYicVRQG4DQ2glgEkSAIARslIiIBQQuxsjHWCgExICFF0E6IglHEQiGo2GglFikjCViGSCobQ4qAYiGIoog/iBgV1OO5fDPZk8tmZr7ZnXUHngdewt73zoU09zC/e/YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwShGxL3N3v76MPOfL2HBv3wOwAnnhvpO5tNV0Zz6d+TMGH9RuGWFAAOy8vHA/Lpfv0rozz5Xq19otIwwIgJ2XF+6pzKc3SL2Yf9mkv5buzBMbD4tPajeV649m3pvkWN9XYUAA7C55GR8vF/PFvp8l9z+eOZK5pe+a7uwzfV+FAQGwu8QWBsQ83dkGBMA6CQMCgM3EkgMi9z6UeXOSI2X9gbLePv1UTddb7uzOW3hAtD7zbuazzDeZbzOXY3iv4/5+PwBLiOUHxLHyuLNl/XBZn+XB7ryFBkR2L2Z+L3t7f2RO9I8DYKTY/gFxKHNlkt50veW+7ry5AyLXT2b+LfvaOR9m3s9cLF3793j/eABGaBfp5FJttjwgqtjG9yBi+Mjs9It5bQC8tMmep2J4BtH8nNnX7wFgQbE+A6J+2e90309l93bZd7LvAVhQrMGAyL/3Zv6adH9nDtS+yu6ea6fc4At8ACwg1mNAPFm6K7XbTGy8if1d3wGwoFiPAfFC6Zrv52T6ZvXVeg4AI8R6DIjXSzdKPQeAEWI9BkT7eGtVv3A3M/UcAEaI9RgQz5XuQu0AWJFYjwHxcOl+zNxUewBWIHZuQHzU91XMGBCTvv3e0tTRvq+yvzWzt18HYIRY7YB4tuw53/dVzB8Qb5T+68z+fk8Tw3cmzmc+zxzsewAWFKsdEI+UPVdj+CG//ZknMnd0e+cNiPas4Iuy56vM0bY+6W+L4f9Sz5n5shYAM0wu1altHRBNXH9hV6N/zTXXD8bw7KH6J/NbXP8jfs2F8DITwPJi9QPiscwPZe/U6AHRZHdX5nRs/HBf76fMq/3jANiF8sK+PfN85lTm5cyhfs9YMbyk9Ezmlcxbmddi+EmOm/u9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB/+A8DPPLKy7hsuwAAAABJRU5ErkJggg==" alt="default candidate render" loading="lazy" /></a></td></tr>
+<tr><th class="matrix-row" scope="row">left-aligned</th><td class="matrix-cell"><a class="matrix-link" href="#v-left-aligned"><img class="matrix-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAACACAYAAAARZ/7/AAADmklEQVR4Xu3cPYicVRQG4DQ2glgEkSAIARslIiIBQQuxsjHWCgExICFF0E6IglHEQiGo2GglFikjCViGSCobQ4qAYiGIoog/iBgV1OO5fDPZk8tmZr7ZnXUHngdewt73zoU09zC/e/YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwKhGxL3N3v76MPOfL2HBv3wOwAnnhvpO5tNV0Zz6d+TMGH9RuGWFAAOy8vHA/Lpfv0rozz5Xq19otIwwIgJ2XF+6pzKc3SL2Yf9mkv5buzBMbD4tPajeV649m3pvkWN9XYUAA7C55GR8vF/PFvp8l9z+eOZK5pe+a7uwzfV+FAQGwu8QWBsQ83dkGBMA6CQMCgM3EkgMi9z6UeXOSI2X9gbLePv1UTddb7uzOW3hAtD7zbuazzDeZbzOXY3iv4/5+PwBLiOUHxLHyuLNl/XBZn+XB7ryFBkR2L2Z+L3t7f2RO9I8DYKTY/gFxKHNlkt50veW+7ry5AyLXT2b+LfvaOR9m3s9cLF3793j/eABGaBfp5FJttjwgqtjG9yBi+Mjs9It5bQC8tMmep2J4BtH8nNnX7wFgQbE+A6J+2e90309l93bZd7LvAVhQrMGAyL/3Zv6adH9nDtS+yu6ea6fc4At8ACwg1mNAPFm6K7XbTGy8if1d3wGwoFiPAfFC6Zrv52T6ZvXVeg4AI8R6DIjXSzdKPQeAEWI9BkT7eGtVv3A3M/UcAEaI9RgQz5XuQu0AWJFYjwHxcOl+zNxUewBWIHZuQHzU91XMGBCTvv3e0tTRvq+yvzWzt18HYIRY7YB4tuw53/dVzB8Qb5T+68z+fk8Tw3cmzmc+zxzsewAWFKsdEI+UPVdj+CG//ZknMnd0e+cNiPas4Iuy56vM0bY+6W+L4f9Sz5n5shYAM0wu1altHRBNXH9hV6N/zTXXD8bw7KH6J/NbXP8jfs2F8DITwPJi9QPiscwPZe/U6AHRZHdX5nRs/HBf76fMq/3jANiF8sK+PfN85lTm5cyhfs9YMbyk9Ezmlcxbmddi+EmOm/u9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB/+Q/OjfLKjPxlogAAAABJRU5ErkJggg==" alt="left-aligned candidate render" loading="lazy" /></a></td></tr></tbody>
+            </table>
+          </section>
+<h2 class="section-title">Variant detail</h2>
+<section class="variant" id="v-default" data-variant="default">
+            <header class="variant-head">
+              <h3>default</h3>
+              <div class="variant-meta"><span class="chip">default</span></div>
+            </header>
+            <div class="view-controls"><div class="mode-select" role="group" aria-label="View mode"><label class="mode-toggle"><input type="radio" name="view-0" value="side" data-view="0" checked /> Side by side</label><label class="mode-toggle"><input type="radio" name="view-0" value="diff" data-view="0" /> Differences</label><label class="mode-toggle"><input type="radio" name="view-0" value="slider" data-view="0" /> Slider</label></div><div class="anno-controls">
+            <span class="anno-controls-label">Annotations</span>
+            <label class="anno-toggle"><input type="checkbox" data-anno-layer="spacing" /> Box model (size · padding · radius)</label>
+            <label class="anno-toggle"><input type="checkbox" data-anno-layer="typography" /> Typography</label>
+          </div></div>
+            <div class="views">
+              <div class="view pair" data-view-panel="0" data-view-value="side">
+              <figure class="panel" data-role="reference">
+            <figcaption>Reference</figcaption>
+            <div class="panel-body"><img class="panel-img is-vector" data-role="reference" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTcyIiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTcyIDE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQuMTc5NyA0LjE2NDA2VjIuNjI1SDIzLjM4MjhWNC4xNjQwNkgxOS43NTc4VjE0SDE3LjgwNDdWNC4xNjQwNkgxNC4xNzk3Wk0yNS4wODc1IDE0VjUuODIwMzFIMjYuOTg1OVYxNEgyNS4wODc1Wk0yNC44OTIyIDMuNDI5NjlDMjQuODkyMiAzLjEyNzYgMjQuOTkxMSAyLjg3NSAyNS4xODkxIDIuNjcxODhDMjUuMzg3IDIuNDY4NzUgMjUuNjY4MiAyLjM2NzE5IDI2LjAzMjggMi4zNjcxOUMyNi40MDI2IDIuMzY3MTkgMjYuNjgzOSAyLjQ2ODc1IDI2Ljg3NjYgMi42NzE4OEMyNy4wNzQ1IDIuODc1IDI3LjE3MzQgMy4xMjc2IDI3LjE3MzQgMy40Mjk2OUMyNy4xNzM0IDMuNzMxNzcgMjcuMDc0NSAzLjk4Njk4IDI2Ljg3NjYgNC4xOTUzMUMyNi42ODM5IDQuMzk4NDQgMjYuNDAyNiA0LjUgMjYuMDMyOCA0LjVDMjUuNjY4MiA0LjUgMjUuMzg3IDQuMzk4NDQgMjUuMTg5MSA0LjE5NTMxQzI0Ljk5MTEgMy45ODY5OCAyNC44OTIyIDMuNzMxNzcgMjQuODkyMiAzLjQyOTY5Wk0yOC41MTg4IDcuMjI2NTZWNS44MjAzMUgzMy41NzM0VjcuMjI2NTZIMjguNTE4OFpNMjkuOTMyOCAxMS43NTc4VjYuNTc4MTJMMjkuOTQwNiA2LjM1MTU2VjMuNzk2ODhIMzEuODIzNFYxMS43MTg4QzMxLjgyMzQgMTIuMDkzOCAzMS44OTkgMTIuMzU2OCAzMi4wNSAxMi41MDc4QzMyLjIwMSAxMi42NTg5IDMyLjQyNzYgMTIuNzM0NCAzMi43Mjk3IDEyLjczNDRDMzIuODcwMyAxMi43MzQ0IDMzLjAwODMgMTIuNzE4OCAzMy4xNDM4IDEyLjY4NzVDMzMuMjc5MiAxMi42NTYyIDMzLjQxNDYgMTIuNjE3MiAzMy41NSAxMi41NzAzVjEzLjk5MjJDMzMuNDE5OCAxNC4wNTQ3IDMzLjI0MDEgMTQuMTA5NCAzMy4wMTA5IDE0LjE1NjJDMzIuNzg3IDE0LjIwMzEgMzIuNTM3IDE0LjIyNjYgMzIuMjYwOSAxNC4yMjY2QzMxLjU1NzggMTQuMjI2NiAzMC45OTI3IDE0LjAyODYgMzAuNTY1NiAxMy42MzI4QzMwLjE0MzggMTMuMjM3IDI5LjkzMjggMTIuNjEyIDI5LjkzMjggMTEuNzU3OFpNMzUuNDU3OCAxNFYyLjA0Njg4SDM3LjM1NjNWMTRIMzUuNDU3OFpNMzkuNDc1IDEwLjAzMTJWOS43ODEyNUMzOS40NzUgOC41MzEyNSAzOS44NDc0IDcuNTIwODMgNDAuNTkyMiA2Ljc1QzQxLjM0MjIgNS45NzM5NiA0Mi4zMTYxIDUuNTg1OTQgNDMuNTE0MSA1LjU4NTk0QzQ0LjcxMiA1LjU4NTk0IDQ1LjY0NDMgNS45NDc5MiA0Ni4zMTA5IDYuNjcxODhDNDYuOTc3NiA3LjM5NTgzIDQ3LjMxMDkgOC4zODgwMiA0Ny4zMTA5IDkuNjQ4NDRWMTAuMzUxNkg0MC42OTM4VjkuMDYyNUg0NS40MjAzVjguOTE0MDZDNDUuNDI1NSA4LjM3MjQgNDUuMjY5MyA3LjkyMTg4IDQ0Ljk1MTYgNy41NjI1QzQ0LjYzMzkgNy4xOTc5MiA0NC4xNTk5IDcuMDE1NjIgNDMuNTI5NyA3LjAxNTYyQzQyLjgxMDkgNy4wMTU2MiA0Mi4yNjkzIDcuMjY1NjIgNDEuOTA0NyA3Ljc2NTYyQzQxLjU0NTMgOC4yNjU2MiA0MS4zNjU2IDguOTE2NjcgNDEuMzY1NiA5LjcxODc1VjEwLjA4NTlDNDEuMzY1NiAxMC44ODI4IDQxLjU1ODMgMTEuNTMxMiA0MS45NDM4IDEyLjAzMTJDNDIuMzI5MiAxMi41MzEyIDQyLjkxNTEgMTIuNzgxMiA0My43MDE2IDEyLjc4MTJDNDQuMjA2OCAxMi43ODEyIDQ0LjY0MTcgMTIuNjcxOSA0NS4wMDYzIDEyLjQ1MzFDNDUuMzc2IDEyLjIyOTIgNDUuNjc1NSAxMS45NjYxIDQ1LjkwNDcgMTEuNjY0MUw0Ny4yMDE2IDEyLjU3MDNDNDYuOTMwNyAxMy4wMTMgNDYuNDkzMiAxMy40MDEgNDUuODg5MSAxMy43MzQ0QzQ1LjI5MDEgMTQuMDY3NyA0NC41Njg4IDE0LjIzNDQgNDMuNzI1IDE0LjIzNDRDNDIuMzc2IDE0LjIzNDQgNDEuMzI5MiAxMy44NDY0IDQwLjU4NDQgMTMuMDcwM0MzOS44NDQ4IDEyLjI5NDMgMzkuNDc1IDExLjI4MTIgMzkuNDc1IDEwLjAzMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Reference" /></div>
+          </figure>
+              <figure class="panel" data-role="candidate">
+            <figcaption>Candidate</figcaption>
+            <div class="panel-body"><div class="panel-figure"><img class="panel-img" data-role="candidate" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAACACAYAAAARZ/7/AAADmklEQVR4Xu3cPYicVRQG4DQ2glgEkSAIARslIiIBQQuxsjHWCgExICFF0E6IglHEQiGo2GglFikjCViGSCobQ4qAYiGIoog/iBgV1OO5fDPZk8tmZr7ZnXUHngdewt73zoU09zC/e/YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwShGxL3N3v76MPOfL2HBv3wOwAnnhvpO5tNV0Zz6d+TMGH9RuGWFAAOy8vHA/Lpfv0rozz5Xq19otIwwIgJ2XF+6pzKc3SL2Yf9mkv5buzBMbD4tPajeV649m3pvkWN9XYUAA7C55GR8vF/PFvp8l9z+eOZK5pe+a7uwzfV+FAQGwu8QWBsQ83dkGBMA6CQMCgM3EkgMi9z6UeXOSI2X9gbLePv1UTddb7uzOW3hAtD7zbuazzDeZbzOXY3iv4/5+PwBLiOUHxLHyuLNl/XBZn+XB7ryFBkR2L2Z+L3t7f2RO9I8DYKTY/gFxKHNlkt50veW+7ry5AyLXT2b+LfvaOR9m3s9cLF3793j/eABGaBfp5FJttjwgqtjG9yBi+Mjs9It5bQC8tMmep2J4BtH8nNnX7wFgQbE+A6J+2e90309l93bZd7LvAVhQrMGAyL/3Zv6adH9nDtS+yu6ea6fc4At8ACwg1mNAPFm6K7XbTGy8if1d3wGwoFiPAfFC6Zrv52T6ZvXVeg4AI8R6DIjXSzdKPQeAEWI9BkT7eGtVv3A3M/UcAEaI9RgQz5XuQu0AWJFYjwHxcOl+zNxUewBWIHZuQHzU91XMGBCTvv3e0tTRvq+yvzWzt18HYIRY7YB4tuw53/dVzB8Qb5T+68z+fk8Tw3cmzmc+zxzsewAWFKsdEI+UPVdj+CG//ZknMnd0e+cNiPas4Iuy56vM0bY+6W+L4f9Sz5n5shYAM0wu1altHRBNXH9hV6N/zTXXD8bw7KH6J/NbXP8jfs2F8DITwPJi9QPiscwPZe/U6AHRZHdX5nRs/HBf76fMq/3jANiF8sK+PfN85lTm5cyhfs9YMbyk9Ezmlcxbmddi+EmOm/u9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB/+A8DPPLKy7hsuwAAAABJRU5ErkJggg==" alt="Candidate" /><svg class="anno" viewBox="0 0 392 128" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g data-layer="spacing"><g class="anno-box"><rect x="163" y="49" width="66" height="38" rx="0" fill="none" stroke="#7db4e8" stroke-width="1.2"/><g transform="translate(163,49)"><rect width="37.1" height="15.7" rx="2" fill="#16283a" fill-opacity="0.92"/><text x="2.7" y="11.1" font-size="10.2" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" fill="#cfe6ff">66×38</text></g></g></g><g data-layer="typography"><g class="anno-type" data-type-marker="A"><rect x="163" y="49" width="66" height="38" rx="2" fill="#7c5ce7" fill-opacity="0.08" stroke="#9f85ff" stroke-width="1.4" stroke-dasharray="4.7 3.1"/><g transform="translate(163,49)"><rect width="11.8" height="15.7" rx="2" fill="#6941c6" fill-opacity="0.92"/><text x="2.7" y="11.1" font-size="10.2" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" fill="#ffffff">A</text></g></g><rect class="anno-type-hit" data-type-marker="A" x="163" y="49" width="66" height="38"/></g><g data-layer="layout"></g></svg></div></div>
+          </figure>
+            </div>
+              <div class="view diff-view" data-view-panel="0" data-view-value="diff" hidden>
+              <figure class="panel" data-role="diff">
+            <figcaption>Diff</figcaption>
+            <div class="panel-body"><img class="panel-img" data-role="diff" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAAApCAYAAAAvdL7ZAAADtklEQVR4Ae3BAXbiSBBEwV8tdd3/vN1IuR772YAAGT9rQcxkROgNZmZmCwUzM7MrCmZmZlcUzMzMrhixX5nnmWmaqJm8E8zzRCkFM7NXNvIPmOeZUgbeBSCxlTIMFE4EFAaQMDN7ZSNPFxBsT+JTKQMEJwIQW+itUTM51VujYmb22gp/od4aXyIg+N/UTJZqJmZmr67wF6qZfBE/cjgcIAIi6L0zTRNremss9dYwM3t1hT0QHwSIIwHikjgSII4E0+HAkUAcCXpv3DKOlU81k2EYWVMzWaqZmJm9upGnE+/EkTiK4JJAnBNfhoEFMR0m5nmmUqmVzfTWqJmc6q1RMTN7bYW9E5sYhoFaKz8WrKqZLNVMzMxeXWHvgucSq3pr/NbhcIAIiKD3jpnZHozsnYDgl4JL4ihYF3wJQOJTzWSpt0Zl3TRNDMPIH2PlS83knaD3Rq0VM7NnGNm7YBvBkTgX3BacE2d6a9RMTtVMkLgtGEbWBVQSBPM8UUrBzOyRCvYrNZOl3hq3BQT3CyhlwMzs0Qp7Jx5DgABxTnwQICD4Vs3kuoDgnPgggcR0OIA4F7wJzMweqbB3wfaCcxIgQFwlAQIEEqd6ayz11lia55kL4o1A4tMwDIBAXJjnGTOzRynsndieuF+wqmayVDNZKsMAwZFgniduE4ijgDIMmJk9SmHvgu0F9xOremss9da4IC6UUvgRYWb2MIW9E9sT9wtW1UyWaib36L3Te4cIiKD3Tu8dIiACM7NnGtm7YHsBiPuIVb01aianemtUFoJzAZXkVM3kTGBm9jSFvRPbE/cLVtVMlmomZmavrrB3wfaC+4lVvTWWemt8S4AAAeKcAHEkQEBgZvYwI3snINiWuF8A4qaayVLNBInviS/ikjgnzMweprB3wfaC+4lVvTXuIszMXkph78T2xGZqJku9Ne4xzzPfisDM7BkKexdsL9hMb42lmsnSPE8gjgJKGVgXfAggMDN7pMK/SPxI7513EUzTxKmayVJvjaVSCheCNwERnIkAAoIPwbveO2ZmjzKydwKCxwnOBVSST8MwAmJNzQSJSwIFBEfBhwjOBBeGYcDM7FEKexdsL7hNAnG33hpLvTVuE4ifEczzRCkFM7NHKeyd2J5YNc8TiLvUTJZqJuvEO7FO0FsDRCkFM7NHCr3Bbgh6b9SaEIB4I7bWe+ePWhMCemsMw0ApBTOzZwm9wczMbKFgZmZ2RcHMzOyKgpmZ2RUFMzOzKwpmZmZXFMzMzK4omJmZXfEfJotAoVTccQcAAAAASUVORK5CYII=" alt="Diff" /></div>
+          </figure>
+            </div>
+              <div class="view slider-view" data-view-panel="0" data-view-value="slider" hidden>
+              <div class="overlay">
+                <div class="overlay-stack">
+                  <img class="overlay-ref" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTcyIiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTcyIDE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQuMTc5NyA0LjE2NDA2VjIuNjI1SDIzLjM4MjhWNC4xNjQwNkgxOS43NTc4VjE0SDE3LjgwNDdWNC4xNjQwNkgxNC4xNzk3Wk0yNS4wODc1IDE0VjUuODIwMzFIMjYuOTg1OVYxNEgyNS4wODc1Wk0yNC44OTIyIDMuNDI5NjlDMjQuODkyMiAzLjEyNzYgMjQuOTkxMSAyLjg3NSAyNS4xODkxIDIuNjcxODhDMjUuMzg3IDIuNDY4NzUgMjUuNjY4MiAyLjM2NzE5IDI2LjAzMjggMi4zNjcxOUMyNi40MDI2IDIuMzY3MTkgMjYuNjgzOSAyLjQ2ODc1IDI2Ljg3NjYgMi42NzE4OEMyNy4wNzQ1IDIuODc1IDI3LjE3MzQgMy4xMjc2IDI3LjE3MzQgMy40Mjk2OUMyNy4xNzM0IDMuNzMxNzcgMjcuMDc0NSAzLjk4Njk4IDI2Ljg3NjYgNC4xOTUzMUMyNi42ODM5IDQuMzk4NDQgMjYuNDAyNiA0LjUgMjYuMDMyOCA0LjVDMjUuNjY4MiA0LjUgMjUuMzg3IDQuMzk4NDQgMjUuMTg5MSA0LjE5NTMxQzI0Ljk5MTEgMy45ODY5OCAyNC44OTIyIDMuNzMxNzcgMjQuODkyMiAzLjQyOTY5Wk0yOC41MTg4IDcuMjI2NTZWNS44MjAzMUgzMy41NzM0VjcuMjI2NTZIMjguNTE4OFpNMjkuOTMyOCAxMS43NTc4VjYuNTc4MTJMMjkuOTQwNiA2LjM1MTU2VjMuNzk2ODhIMzEuODIzNFYxMS43MTg4QzMxLjgyMzQgMTIuMDkzOCAzMS44OTkgMTIuMzU2OCAzMi4wNSAxMi41MDc4QzMyLjIwMSAxMi42NTg5IDMyLjQyNzYgMTIuNzM0NCAzMi43Mjk3IDEyLjczNDRDMzIuODcwMyAxMi43MzQ0IDMzLjAwODMgMTIuNzE4OCAzMy4xNDM4IDEyLjY4NzVDMzMuMjc5MiAxMi42NTYyIDMzLjQxNDYgMTIuNjE3MiAzMy41NSAxMi41NzAzVjEzLjk5MjJDMzMuNDE5OCAxNC4wNTQ3IDMzLjI0MDEgMTQuMTA5NCAzMy4wMTA5IDE0LjE1NjJDMzIuNzg3IDE0LjIwMzEgMzIuNTM3IDE0LjIyNjYgMzIuMjYwOSAxNC4yMjY2QzMxLjU1NzggMTQuMjI2NiAzMC45OTI3IDE0LjAyODYgMzAuNTY1NiAxMy42MzI4QzMwLjE0MzggMTMuMjM3IDI5LjkzMjggMTIuNjEyIDI5LjkzMjggMTEuNzU3OFpNMzUuNDU3OCAxNFYyLjA0Njg4SDM3LjM1NjNWMTRIMzUuNDU3OFpNMzkuNDc1IDEwLjAzMTJWOS43ODEyNUMzOS40NzUgOC41MzEyNSAzOS44NDc0IDcuNTIwODMgNDAuNTkyMiA2Ljc1QzQxLjM0MjIgNS45NzM5NiA0Mi4zMTYxIDUuNTg1OTQgNDMuNTE0MSA1LjU4NTk0QzQ0LjcxMiA1LjU4NTk0IDQ1LjY0NDMgNS45NDc5MiA0Ni4zMTA5IDYuNjcxODhDNDYuOTc3NiA3LjM5NTgzIDQ3LjMxMDkgOC4zODgwMiA0Ny4zMTA5IDkuNjQ4NDRWMTAuMzUxNkg0MC42OTM4VjkuMDYyNUg0NS40MjAzVjguOTE0MDZDNDUuNDI1NSA4LjM3MjQgNDUuMjY5MyA3LjkyMTg4IDQ0Ljk1MTYgNy41NjI1QzQ0LjYzMzkgNy4xOTc5MiA0NC4xNTk5IDcuMDE1NjIgNDMuNTI5NyA3LjAxNTYyQzQyLjgxMDkgNy4wMTU2MiA0Mi4yNjkzIDcuMjY1NjIgNDEuOTA0NyA3Ljc2NTYyQzQxLjU0NTMgOC4yNjU2MiA0MS4zNjU2IDguOTE2NjcgNDEuMzY1NiA5LjcxODc1VjEwLjA4NTlDNDEuMzY1NiAxMC44ODI4IDQxLjU1ODMgMTEuNTMxMiA0MS45NDM4IDEyLjAzMTJDNDIuMzI5MiAxMi41MzEyIDQyLjkxNTEgMTIuNzgxMiA0My43MDE2IDEyLjc4MTJDNDQuMjA2OCAxMi43ODEyIDQ0LjY0MTcgMTIuNjcxOSA0NS4wMDYzIDEyLjQ1MzFDNDUuMzc2IDEyLjIyOTIgNDUuNjc1NSAxMS45NjYxIDQ1LjkwNDcgMTEuNjY0MUw0Ny4yMDE2IDEyLjU3MDNDNDYuOTMwNyAxMy4wMTMgNDYuNDkzMiAxMy40MDEgNDUuODg5MSAxMy43MzQ0QzQ1LjI5MDEgMTQuMDY3NyA0NC41Njg4IDE0LjIzNDQgNDMuNzI1IDE0LjIzNDRDNDIuMzc2IDE0LjIzNDQgNDEuMzI5MiAxMy44NDY0IDQwLjU4NDQgMTMuMDcwM0MzOS44NDQ4IDEyLjI5NDMgMzkuNDc1IDExLjI4MTIgMzkuNDc1IDEwLjAzMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="reference" />
+                  <img class="overlay-cand" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAACACAYAAAARZ/7/AAADmklEQVR4Xu3cPYicVRQG4DQ2glgEkSAIARslIiIBQQuxsjHWCgExICFF0E6IglHEQiGo2GglFikjCViGSCobQ4qAYiGIoog/iBgV1OO5fDPZk8tmZr7ZnXUHngdewt73zoU09zC/e/YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwShGxL3N3v76MPOfL2HBv3wOwAnnhvpO5tNV0Zz6d+TMGH9RuGWFAAOy8vHA/Lpfv0rozz5Xq19otIwwIgJ2XF+6pzKc3SL2Yf9mkv5buzBMbD4tPajeV649m3pvkWN9XYUAA7C55GR8vF/PFvp8l9z+eOZK5pe+a7uwzfV+FAQGwu8QWBsQ83dkGBMA6CQMCgM3EkgMi9z6UeXOSI2X9gbLePv1UTddb7uzOW3hAtD7zbuazzDeZbzOXY3iv4/5+PwBLiOUHxLHyuLNl/XBZn+XB7ryFBkR2L2Z+L3t7f2RO9I8DYKTY/gFxKHNlkt50veW+7ry5AyLXT2b+LfvaOR9m3s9cLF3793j/eABGaBfp5FJttjwgqtjG9yBi+Mjs9It5bQC8tMmep2J4BtH8nNnX7wFgQbE+A6J+2e90309l93bZd7LvAVhQrMGAyL/3Zv6adH9nDtS+yu6ea6fc4At8ACwg1mNAPFm6K7XbTGy8if1d3wGwoFiPAfFC6Zrv52T6ZvXVeg4AI8R6DIjXSzdKPQeAEWI9BkT7eGtVv3A3M/UcAEaI9RgQz5XuQu0AWJFYjwHxcOl+zNxUewBWIHZuQHzU91XMGBCTvv3e0tTRvq+yvzWzt18HYIRY7YB4tuw53/dVzB8Qb5T+68z+fk8Tw3cmzmc+zxzsewAWFKsdEI+UPVdj+CG//ZknMnd0e+cNiPas4Iuy56vM0bY+6W+L4f9Sz5n5shYAM0wu1altHRBNXH9hV6N/zTXXD8bw7KH6J/NbXP8jfs2F8DITwPJi9QPiscwPZe/U6AHRZHdX5nRs/HBf76fMq/3jANiF8sK+PfN85lTm5cyhfs9YMbyk9Ezmlcxbmddi+EmOm/u9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB/+A8DPPLKy7hsuwAAAABJRU5ErkJggg==" alt="candidate" data-overlay="0" />
+                </div>
+                <label class="overlay-control">
+                  <span>reference</span>
+                  <input type="range" min="0" max="100" value="100" data-slider="0" />
+                  <span>candidate</span>
+                </label>
+              </div>
+            </div>
+            </div>
+            <section class="type-summary" data-summary-layer="typography" aria-label="Typography style comparison">
+            <h4>Typography styles</h4>
+            <div class="type-groups"><article class="type-group" data-type-row="A" tabindex="0">
+                <span class="type-marker">A</span>
+                <span class="type-inline"><span class="type-side">Reference</span> · No matching usage</span>
+                <span class="type-arrow" aria-hidden="true">→</span>
+                <span class="type-inline"><span class="type-side">Candidate</span> · <span>unmapped</span> · <span>Roboto Flex</span> · <span>wght 550</span> · <span>16sp/18</span> · <span>tracking 0.4</span> · <span class="type-count">1 usage</span></span>
+              </article></div>
+          </section>
+          </section>
+<section class="variant" id="v-left-aligned" data-variant="left-aligned">
+            <header class="variant-head">
+              <h3>left-aligned</h3>
+              <div class="variant-meta"><span class="chip">left-aligned</span></div>
+            </header>
+            <div class="view-controls"><div class="mode-select" role="group" aria-label="View mode"><label class="mode-toggle"><input type="radio" name="view-1" value="side" data-view="1" checked /> Side by side</label><label class="mode-toggle"><input type="radio" name="view-1" value="diff" data-view="1" /> Differences</label><label class="mode-toggle"><input type="radio" name="view-1" value="slider" data-view="1" /> Slider</label></div><div class="anno-controls">
+            <span class="anno-controls-label">Annotations</span>
+            <label class="anno-toggle"><input type="checkbox" data-anno-layer="spacing" /> Box model (size · padding · radius)</label>
+            <label class="anno-toggle"><input type="checkbox" data-anno-layer="typography" /> Typography</label>
+          </div></div>
+            <div class="views">
+              <div class="view pair" data-view-panel="1" data-view-value="side">
+              <figure class="panel" data-role="reference">
+            <figcaption>Reference</figcaption>
+            <div class="panel-body"><img class="panel-img is-vector" data-role="reference" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTcyIiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTcyIDE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQuMTc5NyA0LjE2NDA2VjIuNjI1SDIzLjM4MjhWNC4xNjQwNkgxOS43NTc4VjE0SDE3LjgwNDdWNC4xNjQwNkgxNC4xNzk3Wk0yNS4wODc1IDE0VjUuODIwMzFIMjYuOTg1OVYxNEgyNS4wODc1Wk0yNC44OTIyIDMuNDI5NjlDMjQuODkyMiAzLjEyNzYgMjQuOTkxMSAyLjg3NSAyNS4xODkxIDIuNjcxODhDMjUuMzg3IDIuNDY4NzUgMjUuNjY4MiAyLjM2NzE5IDI2LjAzMjggMi4zNjcxOUMyNi40MDI2IDIuMzY3MTkgMjYuNjgzOSAyLjQ2ODc1IDI2Ljg3NjYgMi42NzE4OEMyNy4wNzQ1IDIuODc1IDI3LjE3MzQgMy4xMjc2IDI3LjE3MzQgMy40Mjk2OUMyNy4xNzM0IDMuNzMxNzcgMjcuMDc0NSAzLjk4Njk4IDI2Ljg3NjYgNC4xOTUzMUMyNi42ODM5IDQuMzk4NDQgMjYuNDAyNiA0LjUgMjYuMDMyOCA0LjVDMjUuNjY4MiA0LjUgMjUuMzg3IDQuMzk4NDQgMjUuMTg5MSA0LjE5NTMxQzI0Ljk5MTEgMy45ODY5OCAyNC44OTIyIDMuNzMxNzcgMjQuODkyMiAzLjQyOTY5Wk0yOC41MTg4IDcuMjI2NTZWNS44MjAzMUgzMy41NzM0VjcuMjI2NTZIMjguNTE4OFpNMjkuOTMyOCAxMS43NTc4VjYuNTc4MTJMMjkuOTQwNiA2LjM1MTU2VjMuNzk2ODhIMzEuODIzNFYxMS43MTg4QzMxLjgyMzQgMTIuMDkzOCAzMS44OTkgMTIuMzU2OCAzMi4wNSAxMi41MDc4QzMyLjIwMSAxMi42NTg5IDMyLjQyNzYgMTIuNzM0NCAzMi43Mjk3IDEyLjczNDRDMzIuODcwMyAxMi43MzQ0IDMzLjAwODMgMTIuNzE4OCAzMy4xNDM4IDEyLjY4NzVDMzMuMjc5MiAxMi42NTYyIDMzLjQxNDYgMTIuNjE3MiAzMy41NSAxMi41NzAzVjEzLjk5MjJDMzMuNDE5OCAxNC4wNTQ3IDMzLjI0MDEgMTQuMTA5NCAzMy4wMTA5IDE0LjE1NjJDMzIuNzg3IDE0LjIwMzEgMzIuNTM3IDE0LjIyNjYgMzIuMjYwOSAxNC4yMjY2QzMxLjU1NzggMTQuMjI2NiAzMC45OTI3IDE0LjAyODYgMzAuNTY1NiAxMy42MzI4QzMwLjE0MzggMTMuMjM3IDI5LjkzMjggMTIuNjEyIDI5LjkzMjggMTEuNzU3OFpNMzUuNDU3OCAxNFYyLjA0Njg4SDM3LjM1NjNWMTRIMzUuNDU3OFpNMzkuNDc1IDEwLjAzMTJWOS43ODEyNUMzOS40NzUgOC41MzEyNSAzOS44NDc0IDcuNTIwODMgNDAuNTkyMiA2Ljc1QzQxLjM0MjIgNS45NzM5NiA0Mi4zMTYxIDUuNTg1OTQgNDMuNTE0MSA1LjU4NTk0QzQ0LjcxMiA1LjU4NTk0IDQ1LjY0NDMgNS45NDc5MiA0Ni4zMTA5IDYuNjcxODhDNDYuOTc3NiA3LjM5NTgzIDQ3LjMxMDkgOC4zODgwMiA0Ny4zMTA5IDkuNjQ4NDRWMTAuMzUxNkg0MC42OTM4VjkuMDYyNUg0NS40MjAzVjguOTE0MDZDNDUuNDI1NSA4LjM3MjQgNDUuMjY5MyA3LjkyMTg4IDQ0Ljk1MTYgNy41NjI1QzQ0LjYzMzkgNy4xOTc5MiA0NC4xNTk5IDcuMDE1NjIgNDMuNTI5NyA3LjAxNTYyQzQyLjgxMDkgNy4wMTU2MiA0Mi4yNjkzIDcuMjY1NjIgNDEuOTA0NyA3Ljc2NTYyQzQxLjU0NTMgOC4yNjU2MiA0MS4zNjU2IDguOTE2NjcgNDEuMzY1NiA5LjcxODc1VjEwLjA4NTlDNDEuMzY1NiAxMC44ODI4IDQxLjU1ODMgMTEuNTMxMiA0MS45NDM4IDEyLjAzMTJDNDIuMzI5MiAxMi41MzEyIDQyLjkxNTEgMTIuNzgxMiA0My43MDE2IDEyLjc4MTJDNDQuMjA2OCAxMi43ODEyIDQ0LjY0MTcgMTIuNjcxOSA0NS4wMDYzIDEyLjQ1MzFDNDUuMzc2IDEyLjIyOTIgNDUuNjc1NSAxMS45NjYxIDQ1LjkwNDcgMTEuNjY0MUw0Ny4yMDE2IDEyLjU3MDNDNDYuOTMwNyAxMy4wMTMgNDYuNDkzMiAxMy40MDEgNDUuODg5MSAxMy43MzQ0QzQ1LjI5MDEgMTQuMDY3NyA0NC41Njg4IDE0LjIzNDQgNDMuNzI1IDE0LjIzNDRDNDIuMzc2IDE0LjIzNDQgNDEuMzI5MiAxMy44NDY0IDQwLjU4NDQgMTMuMDcwM0MzOS44NDQ4IDEyLjI5NDMgMzkuNDc1IDExLjI4MTIgMzkuNDc1IDEwLjAzMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="Reference" /></div>
+          </figure>
+              <figure class="panel" data-role="candidate">
+            <figcaption>Candidate</figcaption>
+            <div class="panel-body"><div class="panel-figure"><img class="panel-img" data-role="candidate" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAACACAYAAAARZ/7/AAADmklEQVR4Xu3cPYicVRQG4DQ2glgEkSAIARslIiIBQQuxsjHWCgExICFF0E6IglHEQiGo2GglFikjCViGSCobQ4qAYiGIoog/iBgV1OO5fDPZk8tmZr7ZnXUHngdewt73zoU09zC/e/YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwKhGxL3N3v76MPOfL2HBv3wOwAnnhvpO5tNV0Zz6d+TMGH9RuGWFAAOy8vHA/Lpfv0rozz5Xq19otIwwIgJ2XF+6pzKc3SL2Yf9mkv5buzBMbD4tPajeV649m3pvkWN9XYUAA7C55GR8vF/PFvp8l9z+eOZK5pe+a7uwzfV+FAQGwu8QWBsQ83dkGBMA6CQMCgM3EkgMi9z6UeXOSI2X9gbLePv1UTddb7uzOW3hAtD7zbuazzDeZbzOXY3iv4/5+PwBLiOUHxLHyuLNl/XBZn+XB7ryFBkR2L2Z+L3t7f2RO9I8DYKTY/gFxKHNlkt50veW+7ry5AyLXT2b+LfvaOR9m3s9cLF3793j/eABGaBfp5FJttjwgqtjG9yBi+Mjs9It5bQC8tMmep2J4BtH8nNnX7wFgQbE+A6J+2e90309l93bZd7LvAVhQrMGAyL/3Zv6adH9nDtS+yu6ea6fc4At8ACwg1mNAPFm6K7XbTGy8if1d3wGwoFiPAfFC6Zrv52T6ZvXVeg4AI8R6DIjXSzdKPQeAEWI9BkT7eGtVv3A3M/UcAEaI9RgQz5XuQu0AWJFYjwHxcOl+zNxUewBWIHZuQHzU91XMGBCTvv3e0tTRvq+yvzWzt18HYIRY7YB4tuw53/dVzB8Qb5T+68z+fk8Tw3cmzmc+zxzsewAWFKsdEI+UPVdj+CG//ZknMnd0e+cNiPas4Iuy56vM0bY+6W+L4f9Sz5n5shYAM0wu1altHRBNXH9hV6N/zTXXD8bw7KH6J/NbXP8jfs2F8DITwPJi9QPiscwPZe/U6AHRZHdX5nRs/HBf76fMq/3jANiF8sK+PfN85lTm5cyhfs9YMbyk9Ezmlcxbmddi+EmOm/u9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB/+Q/OjfLKjPxlogAAAABJRU5ErkJggg==" alt="Candidate" /><svg class="anno" viewBox="0 0 392 128" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g data-layer="spacing"><g class="anno-box"><rect x="163" y="49" width="66" height="38" rx="0" fill="none" stroke="#7db4e8" stroke-width="1.2"/><g transform="translate(163,49)"><rect width="37.1" height="15.7" rx="2" fill="#16283a" fill-opacity="0.92"/><text x="2.7" y="11.1" font-size="10.2" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" fill="#cfe6ff">66×38</text></g></g></g><g data-layer="typography"><g class="anno-type" data-type-marker="A"><rect x="163" y="49" width="66" height="38" rx="2" fill="#7c5ce7" fill-opacity="0.08" stroke="#9f85ff" stroke-width="1.4" stroke-dasharray="4.7 3.1"/><g transform="translate(163,49)"><rect width="11.8" height="15.7" rx="2" fill="#6941c6" fill-opacity="0.92"/><text x="2.7" y="11.1" font-size="10.2" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" fill="#ffffff">A</text></g></g><rect class="anno-type-hit" data-type-marker="A" x="163" y="49" width="66" height="38"/></g><g data-layer="layout"></g></svg></div></div>
+          </figure>
+            </div>
+              <div class="view diff-view" data-view-panel="1" data-view-value="diff" hidden>
+              <figure class="panel" data-role="diff">
+            <figcaption>Diff</figcaption>
+            <div class="panel-body"><img class="panel-img" data-role="diff" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAAApCAYAAAAvdL7ZAAADtklEQVR4Ae3BAXbiSBBEwV8tdd3/vN1IuR772YAAGT9rQcxkROgNZmZmCwUzM7MrCmZmZlcUzMzMrhixX5nnmWmaqJm8E8zzRCkFM7NXNvIPmOeZUgbeBSCxlTIMFE4EFAaQMDN7ZSNPFxBsT+JTKQMEJwIQW+itUTM51VujYmb22gp/od4aXyIg+N/UTJZqJmZmr67wF6qZfBE/cjgcIAIi6L0zTRNremss9dYwM3t1hT0QHwSIIwHikjgSII4E0+HAkUAcCXpv3DKOlU81k2EYWVMzWaqZmJm9upGnE+/EkTiK4JJAnBNfhoEFMR0m5nmmUqmVzfTWqJmc6q1RMTN7bYW9E5sYhoFaKz8WrKqZLNVMzMxeXWHvgucSq3pr/NbhcIAIiKD3jpnZHozsnYDgl4JL4ihYF3wJQOJTzWSpt0Zl3TRNDMPIH2PlS83knaD3Rq0VM7NnGNm7YBvBkTgX3BacE2d6a9RMTtVMkLgtGEbWBVQSBPM8UUrBzOyRCvYrNZOl3hq3BQT3CyhlwMzs0Qp7Jx5DgABxTnwQICD4Vs3kuoDgnPgggcR0OIA4F7wJzMweqbB3wfaCcxIgQFwlAQIEEqd6ayz11lia55kL4o1A4tMwDIBAXJjnGTOzRynsndieuF+wqmayVDNZKsMAwZFgniduE4ijgDIMmJk9SmHvgu0F9xOremss9da4IC6UUvgRYWb2MIW9E9sT9wtW1UyWaib36L3Te4cIiKD3Tu8dIiACM7NnGtm7YHsBiPuIVb01aianemtUFoJzAZXkVM3kTGBm9jSFvRPbE/cLVtVMlmomZmavrrB3wfaC+4lVvTWWemt8S4AAAeKcAHEkQEBgZvYwI3snINiWuF8A4qaayVLNBInviS/ikjgnzMweprB3wfaC+4lVvTXuIszMXkph78T2xGZqJku9Ne4xzzPfisDM7BkKexdsL9hMb42lmsnSPE8gjgJKGVgXfAggMDN7pMK/SPxI7513EUzTxKmayVJvjaVSCheCNwERnIkAAoIPwbveO2ZmjzKydwKCxwnOBVSST8MwAmJNzQSJSwIFBEfBhwjOBBeGYcDM7FEKexdsL7hNAnG33hpLvTVuE4ifEczzRCkFM7NHKeyd2J5YNc8TiLvUTJZqJuvEO7FO0FsDRCkFM7NHCr3Bbgh6b9SaEIB4I7bWe+ePWhMCemsMw0ApBTOzZwm9wczMbKFgZmZ2RcHMzOyKgpmZ2RUFMzOzKwpmZmZXFMzMzK4omJmZXfEfJotAoVTccQcAAAAASUVORK5CYII=" alt="Diff" /></div>
+          </figure>
+            </div>
+              <div class="view slider-view" data-view-panel="1" data-view-value="slider" hidden>
+              <div class="overlay">
+                <div class="overlay-stack">
+                  <img class="overlay-ref" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTcyIiBoZWlnaHQ9IjE4IiB2aWV3Qm94PSIwIDAgMTcyIDE4IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cGF0aCBkPSJNMTQuMTc5NyA0LjE2NDA2VjIuNjI1SDIzLjM4MjhWNC4xNjQwNkgxOS43NTc4VjE0SDE3LjgwNDdWNC4xNjQwNkgxNC4xNzk3Wk0yNS4wODc1IDE0VjUuODIwMzFIMjYuOTg1OVYxNEgyNS4wODc1Wk0yNC44OTIyIDMuNDI5NjlDMjQuODkyMiAzLjEyNzYgMjQuOTkxMSAyLjg3NSAyNS4xODkxIDIuNjcxODhDMjUuMzg3IDIuNDY4NzUgMjUuNjY4MiAyLjM2NzE5IDI2LjAzMjggMi4zNjcxOUMyNi40MDI2IDIuMzY3MTkgMjYuNjgzOSAyLjQ2ODc1IDI2Ljg3NjYgMi42NzE4OEMyNy4wNzQ1IDIuODc1IDI3LjE3MzQgMy4xMjc2IDI3LjE3MzQgMy40Mjk2OUMyNy4xNzM0IDMuNzMxNzcgMjcuMDc0NSAzLjk4Njk4IDI2Ljg3NjYgNC4xOTUzMUMyNi42ODM5IDQuMzk4NDQgMjYuNDAyNiA0LjUgMjYuMDMyOCA0LjVDMjUuNjY4MiA0LjUgMjUuMzg3IDQuMzk4NDQgMjUuMTg5MSA0LjE5NTMxQzI0Ljk5MTEgMy45ODY5OCAyNC44OTIyIDMuNzMxNzcgMjQuODkyMiAzLjQyOTY5Wk0yOC41MTg4IDcuMjI2NTZWNS44MjAzMUgzMy41NzM0VjcuMjI2NTZIMjguNTE4OFpNMjkuOTMyOCAxMS43NTc4VjYuNTc4MTJMMjkuOTQwNiA2LjM1MTU2VjMuNzk2ODhIMzEuODIzNFYxMS43MTg4QzMxLjgyMzQgMTIuMDkzOCAzMS44OTkgMTIuMzU2OCAzMi4wNSAxMi41MDc4QzMyLjIwMSAxMi42NTg5IDMyLjQyNzYgMTIuNzM0NCAzMi43Mjk3IDEyLjczNDRDMzIuODcwMyAxMi43MzQ0IDMzLjAwODMgMTIuNzE4OCAzMy4xNDM4IDEyLjY4NzVDMzMuMjc5MiAxMi42NTYyIDMzLjQxNDYgMTIuNjE3MiAzMy41NSAxMi41NzAzVjEzLjk5MjJDMzMuNDE5OCAxNC4wNTQ3IDMzLjI0MDEgMTQuMTA5NCAzMy4wMTA5IDE0LjE1NjJDMzIuNzg3IDE0LjIwMzEgMzIuNTM3IDE0LjIyNjYgMzIuMjYwOSAxNC4yMjY2QzMxLjU1NzggMTQuMjI2NiAzMC45OTI3IDE0LjAyODYgMzAuNTY1NiAxMy42MzI4QzMwLjE0MzggMTMuMjM3IDI5LjkzMjggMTIuNjEyIDI5LjkzMjggMTEuNzU3OFpNMzUuNDU3OCAxNFYyLjA0Njg4SDM3LjM1NjNWMTRIMzUuNDU3OFpNMzkuNDc1IDEwLjAzMTJWOS43ODEyNUMzOS40NzUgOC41MzEyNSAzOS44NDc0IDcuNTIwODMgNDAuNTkyMiA2Ljc1QzQxLjM0MjIgNS45NzM5NiA0Mi4zMTYxIDUuNTg1OTQgNDMuNTE0MSA1LjU4NTk0QzQ0LjcxMiA1LjU4NTk0IDQ1LjY0NDMgNS45NDc5MiA0Ni4zMTA5IDYuNjcxODhDNDYuOTc3NiA3LjM5NTgzIDQ3LjMxMDkgOC4zODgwMiA0Ny4zMTA5IDkuNjQ4NDRWMTAuMzUxNkg0MC42OTM4VjkuMDYyNUg0NS40MjAzVjguOTE0MDZDNDUuNDI1NSA4LjM3MjQgNDUuMjY5MyA3LjkyMTg4IDQ0Ljk1MTYgNy41NjI1QzQ0LjYzMzkgNy4xOTc5MiA0NC4xNTk5IDcuMDE1NjIgNDMuNTI5NyA3LjAxNTYyQzQyLjgxMDkgNy4wMTU2MiA0Mi4yNjkzIDcuMjY1NjIgNDEuOTA0NyA3Ljc2NTYyQzQxLjU0NTMgOC4yNjU2MiA0MS4zNjU2IDguOTE2NjcgNDEuMzY1NiA5LjcxODc1VjEwLjA4NTlDNDEuMzY1NiAxMC44ODI4IDQxLjU1ODMgMTEuNTMxMiA0MS45NDM4IDEyLjAzMTJDNDIuMzI5MiAxMi41MzEyIDQyLjkxNTEgMTIuNzgxMiA0My43MDE2IDEyLjc4MTJDNDQuMjA2OCAxMi43ODEyIDQ0LjY0MTcgMTIuNjcxOSA0NS4wMDYzIDEyLjQ1MzFDNDUuMzc2IDEyLjIyOTIgNDUuNjc1NSAxMS45NjYxIDQ1LjkwNDcgMTEuNjY0MUw0Ny4yMDE2IDEyLjU3MDNDNDYuOTMwNyAxMy4wMTMgNDYuNDkzMiAxMy40MDEgNDUuODg5MSAxMy43MzQ0QzQ1LjI5MDEgMTQuMDY3NyA0NC41Njg4IDE0LjIzNDQgNDMuNzI1IDE0LjIzNDRDNDIuMzc2IDE0LjIzNDQgNDEuMzI5MiAxMy44NDY0IDQwLjU4NDQgMTMuMDcwM0MzOS44NDQ4IDEyLjI5NDMgMzkuNDc1IDExLjI4MTIgMzkuNDc1IDEwLjAzMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="reference" />
+                  <img class="overlay-cand" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAYgAAACACAYAAAARZ/7/AAADmklEQVR4Xu3cPYicVRQG4DQ2glgEkSAIARslIiIBQQuxsjHWCgExICFF0E6IglHEQiGo2GglFikjCViGSCobQ4qAYiGIoog/iBgV1OO5fDPZk8tmZr7ZnXUHngdewt73zoU09zC/e/YAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACwKhGxL3N3v76MPOfL2HBv3wOwAnnhvpO5tNV0Zz6d+TMGH9RuGWFAAOy8vHA/Lpfv0rozz5Xq19otIwwIgJ2XF+6pzKc3SL2Yf9mkv5buzBMbD4tPajeV649m3pvkWN9XYUAA7C55GR8vF/PFvp8l9z+eOZK5pe+a7uwzfV+FAQGwu8QWBsQ83dkGBMA6CQMCgM3EkgMi9z6UeXOSI2X9gbLePv1UTddb7uzOW3hAtD7zbuazzDeZbzOXY3iv4/5+PwBLiOUHxLHyuLNl/XBZn+XB7ryFBkR2L2Z+L3t7f2RO9I8DYKTY/gFxKHNlkt50veW+7ry5AyLXT2b+LfvaOR9m3s9cLF3793j/eABGaBfp5FJttjwgqtjG9yBi+Mjs9It5bQC8tMmep2J4BtH8nNnX7wFgQbE+A6J+2e90309l93bZd7LvAVhQrMGAyL/3Zv6adH9nDtS+yu6ea6fc4At8ACwg1mNAPFm6K7XbTGy8if1d3wGwoFiPAfFC6Zrv52T6ZvXVeg4AI8R6DIjXSzdKPQeAEWI9BkT7eGtVv3A3M/UcAEaI9RgQz5XuQu0AWJFYjwHxcOl+zNxUewBWIHZuQHzU91XMGBCTvv3e0tTRvq+yvzWzt18HYIRY7YB4tuw53/dVzB8Qb5T+68z+fk8Tw3cmzmc+zxzsewAWFKsdEI+UPVdj+CG//ZknMnd0e+cNiPas4Iuy56vM0bY+6W+L4f9Sz5n5shYAM0wu1altHRBNXH9hV6N/zTXXD8bw7KH6J/NbXP8jfs2F8DITwPJi9QPiscwPZe/U6AHRZHdX5nRs/HBf76fMq/3jANiF8sK+PfN85lTm5cyhfs9YMbyk9Ezmlcxbmddi+EmOm/u9AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPB/+Q/OjfLKjPxlogAAAABJRU5ErkJggg==" alt="candidate" data-overlay="1" />
+                </div>
+                <label class="overlay-control">
+                  <span>reference</span>
+                  <input type="range" min="0" max="100" value="100" data-slider="1" />
+                  <span>candidate</span>
+                </label>
+              </div>
+            </div>
+            </div>
+            <section class="type-summary" data-summary-layer="typography" aria-label="Typography style comparison">
+            <h4>Typography styles</h4>
+            <div class="type-groups"><article class="type-group" data-type-row="A" tabindex="0">
+                <span class="type-marker">A</span>
+                <span class="type-inline"><span class="type-side">Reference</span> · No matching usage</span>
+                <span class="type-arrow" aria-hidden="true">→</span>
+                <span class="type-inline"><span class="type-side">Candidate</span> · <span>unmapped</span> · <span>Roboto Flex</span> · <span>wght 550</span> · <span>16sp/18</span> · <span>tracking 0.4</span> · <span class="type-count">1 usage</span></span>
+              </article></div>
+          </section>
+          </section>
+<section class="findings">
+<div class="finding-section">
+                <h3>Accessibility &amp; i18n</h3>
+                <ul class="finding-list"><li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">&quot;Title&quot; risks truncation when localized: ≈88dp expanded vs 66dp available.</span>
+                      
+                    </div>
+                  </li></ul>
+              </div>
+<div class="finding-section">
+                <h3>Token compliance</h3>
+                <ul class="finding-list"><li class="finding sev-info">
+                    <span class="sev-tag">info</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">colors.label has no Material-role mapping; unverified (spec #FFFFFF)</span>
+                      <div class="delta">
+                   <code>colors.label</code>
+                   <span class="expected">expected #FFFFFF</span>
+                   <span class="actual">actual —</span>
+                 </div>
+                    </div>
+                  </li>
+<li class="finding sev-info">
+                    <span class="sev-tag">info</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">typography.label has no Material-role mapping; unverified (spec {&quot;fontFamily&quot;:&quot;Roboto Flex&quot;,&quot;fontSize&quot;:16,&quot;fontWeight&quot;:550,&quot;lineHeight&quot;:18,&quot;letterSpacing&quot;:0.4000000059604645})</span>
+                      <div class="delta">
+                   <code>typography.label</code>
+                   <span class="expected">expected {&quot;fontFamily&quot;:&quot;Roboto Flex&quot;,&quot;fontSize&quot;:16,&quot;fontWeight&quot;:550,&quot;lineHeight&quot;:18,&quot;letterSpacing&quot;:0.4000000059604645}</span>
+                   <span class="actual">actual —</span>
+                 </div>
+                    </div>
+                  </li></ul>
+              </div>
+<div class="finding-section">
+                <h3>Pairing</h3>
+                <ul class="finding-list"><li class="finding sev-info">
+                    <span class="sev-tag">info</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">reference renders with Title=Title — component property defaults the variant name does not state</span>
+                      
+                    </div>
+                  </li></ul>
+              </div>
+<div class="finding-section">
+                <h3>Semantics</h3>
+                <ul class="finding-list"><li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">candidate exposes no accessibility roles</span>
+                      
+                    </div>
+                  </li></ul>
+              </div>
+<div class="finding-section">
+                <h3>Visual</h3>
+                <ul class="finding-list"><li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">default: reference 392×41 vs candidate 392×128; compared over their 392×41 overlap, 68.0% of the frame uncovered</span>
+                      
+                    </div>
+                  </li>
+<li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">default: 3.6% of aligned pixels are opaque in the reference but transparent in the candidate</span>
+                      
+                    </div>
+                  </li>
+<li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">default: 69.3% of pixels differ from reference</span>
+                      
+                    </div>
+                  </li>
+<li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">left-aligned: reference 392×41 vs candidate 392×128; compared over their 392×41 overlap, 68.0% of the frame uncovered</span>
+                      
+                    </div>
+                  </li>
+<li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">left-aligned: 3.6% of aligned pixels are opaque in the reference but transparent in the candidate</span>
+                      
+                    </div>
+                  </li>
+<li class="finding sev-warn">
+                    <span class="sev-tag">warn</span>
+                    <div class="finding-body">
+                      <span class="finding-msg">left-aligned: 69.3% of pixels differ from reference</span>
+                      
+                    </div>
+                  </li></ul>
+              </div>
+<div class="finding-section">
+            <h3>Visual scores</h3>
+            <ul class="score-list"><li><code>default</code> <span class="differ">69.3% differ</span></li>
+<li><code>left-aligned</code> <span class="differ">69.3% differ</span></li></ul>
+          </div>
+</section>
+</main>
+<script>(function(){
+  var modes=document.querySelectorAll('input[data-view]');
+  for(var m=0;m<modes.length;m++){
+    (function(radio){
+      var id=radio.getAttribute('data-view');
+      var scope=radio.closest('.variant')||document;
+      function apply(){
+        if(!radio.checked) return;
+        var views=scope.querySelectorAll('[data-view-panel="'+id+'"]');
+        for(var k=0;k<views.length;k++){
+          views[k].hidden=(views[k].getAttribute('data-view-value')!==radio.value);
+        }
+      }
+      radio.addEventListener('change',apply);
+      apply();
+    })(modes[m]);
+  }
+  var sliders=document.querySelectorAll('input[data-slider]');
+  for(var i=0;i<sliders.length;i++){
+    (function(slider){
+      var id=slider.getAttribute('data-slider');
+      var cand=document.querySelector('img[data-overlay="'+id+'"]');
+      function apply(){ if(cand){ cand.style.opacity=(slider.value/100).toString(); } }
+      slider.addEventListener('input',apply);
+      apply();
+    })(sliders[i]);
+  }
+  var toggles=document.querySelectorAll('input[data-anno-layer]');
+  for(var j=0;j<toggles.length;j++){
+    (function(box){
+      var layer=box.getAttribute('data-anno-layer');
+      var scope=box.closest('.variant')||document;
+      function apply(){
+        var gs=scope.querySelectorAll('.anno g[data-layer="'+layer+'"],[data-summary-layer="'+layer+'"]');
+        for(var k=0;k<gs.length;k++){ gs[k].classList[box.checked?'add':'remove']('on'); }
+      }
+      box.addEventListener('change',apply);
+      apply();
+    })(toggles[j]);
+  }
+  var typeRows=document.querySelectorAll('[data-type-row]');
+  for(var r=0;r<typeRows.length;r++){
+    (function(row){
+      var marker=row.getAttribute('data-type-row');
+      var scope=row.closest('.variant')||document;
+      function active(on){
+        var nodes=scope.querySelectorAll('[data-type-marker="'+marker+'"]');
+        for(var n=0;n<nodes.length;n++){nodes[n].classList[on?'add':'remove']('active');}
+      }
+      row.addEventListener('mouseenter',function(){active(true);});
+      row.addEventListener('mouseleave',function(){active(false);});
+      row.addEventListener('focus',function(){active(true);});
+      row.addEventListener('blur',function(){active(false);});
+    })(typeRows[r]);
+  }
+})();</script>
+</body>
+</html>
