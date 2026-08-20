@@ -137,6 +137,44 @@ test("walks a component set's variants but never a variant's insides", () => {
   );
 });
 
+test("the kit's own base parts are marked as outside the inventory, variants included", () => {
+  // `Base / SelectionControl / Switch` is what the published `Toggle+Selection-Buttons` set is
+  // assembled FROM. kit-sets.json already excludes it from the kit walk, but the page view counted
+  // it and its four variants, so the Buttons sheet reported missing work no code could ever clear.
+  //
+  // Marked here, inside the walk, because only the walk has the tree: a bare `Selected=Yes,
+  // Disabled=No` says nothing downstream about which set it came out of.
+  const page = frame([
+    set("1:1", "Base / SelectionControl / Switch", [
+      variant("1:2", "Selected=Yes, Disabled=No"),
+      variant("1:3", "Selected=No, Disabled=No"),
+    ]),
+    set("1:4", "Toggle+Selection-Buttons", [variant("1:5", "Type=Switch")]),
+  ]);
+  assert.deepEqual(
+    collectNodes(page, 0, [], { internalPrefixes: ["Base /"] }).map((n) => [
+      n.nodeId,
+      n.inventory,
+    ]),
+    [
+      ["1:1", false],
+      ["1:2", false],
+      ["1:3", false],
+      // `true` is the consumer's default, so a counted node says nothing at all.
+      ["1:4", undefined],
+      ["1:5", undefined],
+    ],
+  );
+});
+
+test("no configured prefix marks nothing — the walk is unchanged for a kit without the convention", () => {
+  const page = frame([set("1:1", "Base / Loading Icon", [variant("1:2", "Size=Default")])]);
+  assert.deepEqual(
+    collectNodes(page).map((n) => n.inventory),
+    [undefined, undefined],
+  );
+});
+
 test("finds a set however deeply the sheet nests it, and dashes its ids", () => {
   const row = { id: "2:0", name: "row", type: "FRAME" };
   const page = frame([{ ...row, children: [set("2-1", "Switch", [variant("2-2", "A")])] }]);

@@ -15,5 +15,10 @@
     "36478:59976",
     "169:127814",
     "38851:231913"
-  ]
+  ],
+  "$notInventory_comment": "WHAT IS ON A SHEET BUT IS NOT A COMPONENT WE OWE. Both entries mirror exclusions kit-sets.json already states for the kit walk, so one repo does not hold two disagreeing answers to 'is this something the catalog should implement'. `pages` names a whole sheet that is not a component inventory: Icons is an icon SET, 499 nodes no Compose catalog implements one-by-one, and counting it reported 499 missing components — a third of the kit's entire apparent gap. `namePrefixes` names the kit's own internals: the base parts each published set is assembled from, which the Wear kit spells with a 'Base /' prefix where Figma's own convention for the same idea is a leading dot. Both stay imported, drawn and browsable; what changes is only what they CLAIM.",
+  "notInventory": {
+    "pages": ["icons"],
+    "namePrefixes": ["Base /"]
+  }
 }

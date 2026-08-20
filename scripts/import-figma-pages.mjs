@@ -332,14 +332,44 @@ function asArray(value) {
   return Array.isArray(value) ? value : [value];
 }
 
-/** Every COMPONENT / COMPONENT_SET / INSTANCE under `node`, depth-first, with its nesting depth. */
-export function collectNodes(node, depth = 0, out = []) {
+/**
+ * Whether `name` is one of the kit's own internals — the base parts a published set is assembled
+ * from, which no consumer of the kit places and no catalog owes an implementation.
+ *
+ * The Wear kit states these with a `Base /` name prefix (`Base / SelectionControl / Switch`,
+ * `Base / Loading Icon`), where Figma's own convention for the same idea is a leading dot. Both are
+ * already out of scope in `kit-sets.json`, which is the authority this mirrors; the prefixes are
+ * config rather than a constant so a kit that spells it differently needs no code change.
+ */
+function isKitInternal(name, prefixes) {
+  const text = String(name ?? "");
+  return prefixes.some((prefix) => text.startsWith(prefix));
+}
+
+/**
+ * Every COMPONENT / COMPONENT_SET / INSTANCE under `node`, depth-first, with its nesting depth.
+ *
+ * `internalPrefixes` marks the kit's own base parts as `inventory: false` — them and everything
+ * below them, since the variants of `Base / SelectionControl / Switch` are as internal as the set.
+ * Decided HERE, inside the walk, rather than downstream on the flat node list: the list has no
+ * ancestors, so nothing reading it can tell which set a bare `Selected=Yes, Disabled=No` variant
+ * came out of. Inferring it from depth ordering is the unsound shortcut `PageNode.container`'s own
+ * contract warns about — an unlisted frame between two components lets a shallower node be followed
+ * by a deeper one that is NOT inside it, and the misattribution would run the wrong way, hiding a
+ * real gap. The tree is right here; use it.
+ */
+export function collectNodes(node, depth = 0, out = [], opts = {}) {
+  const { internalPrefixes = [], internal = false } = opts;
   if (out.length >= MAX_NODES) return out;
+  const isInternal = internal || isKitInternal(node.name, internalPrefixes);
   if (depth > 0 && PLACEABLE_TYPES.has(node.type)) {
     out.push({
       nodeId: canonicalNodeId(node.id),
       name: String(node.name ?? ""),
       depth,
+      // Only when false: `true` is the consumer's default, so emitting it would grow every manifest
+      // and make each re-import a larger diff for no added fact.
+      ...(isInternal ? { inventory: false } : {}),
       // The node's own type, which is what lets the consumer tell a CONTAINER from the components
       // inside it: a `COMPONENT_SET` is the box a family came in, its variants are the components,
       // and both are listed. `DesignPage.coverageGaps` reads this, and without it falls back to
@@ -364,7 +394,9 @@ export function collectNodes(node, depth = 0, out = []) {
     // kit's 5,991 imported nodes were parts of a node already listed above them.
     if (node.type !== "COMPONENT_SET") return out;
   }
-  for (const child of node.children ?? []) collectNodes(child, depth + 1, out);
+  for (const child of node.children ?? []) {
+    collectNodes(child, depth + 1, out, { internalPrefixes, internal: isInternal });
+  }
   return out;
 }
 
@@ -396,7 +428,10 @@ function countNodeIds(svg) {
   return (svg.match(/\bdata-node-id\s*=/g) ?? []).length;
 }
 
-async function importPage(page, { fileKey, byRef, outDir, maxSvgBytes = MAX_SVG_BYTES }) {
+async function importPage(
+  page,
+  { fileKey, byRef, outDir, maxSvgBytes = MAX_SVG_BYTES, notInventory = {} },
+) {
   const nodeId = canonicalNodeId(page.nodeId);
   const encoded = encodeURIComponent(nodeId);
 
@@ -430,7 +465,10 @@ async function importPage(page, { fileKey, byRef, outDir, maxSvgBytes = MAX_SVG_
     return null;
   }
 
-  const nodes = collectNodes(document).map((node) => linkNode(node, { fileKey, byRef }));
+  const internalPrefixes = notInventory.namePrefixes ?? [];
+  const nodes = collectNodes(document, 0, [], { internalPrefixes }).map((node) =>
+    linkNode(node, { fileKey, byRef }),
+  );
 
   const id = page.id;
   writeFileSync(path.join(outDir, `${id}.svg`), svg);
@@ -457,6 +495,12 @@ async function importPage(page, { fileKey, byRef, outDir, maxSvgBytes = MAX_SVG_
     // it — no outlines, no swap, no click-through. The first real import wrote
     // `placements` and produced exactly that.
     nodes,
+    // A sheet that is not a component INVENTORY — the kit's Icons page, 499 nodes that are an icon
+    // set rather than a list of components a catalog implements. It reported `0 of 499` and was a
+    // third of the whole kit's apparent gap. `kit-sets.json` already excludes it by name; this is
+    // the same exclusion stated where the page view can read it. The page still imports and still
+    // browses — what changes is that it makes no coverage claim.
+    ...((notInventory.pages ?? []).includes(id) ? { inventory: false } : {}),
   };
 }
 
@@ -594,7 +638,13 @@ async function main() {
     // for at least one of them. Aborting there would mean one unrenderable sheet costs the other
     // thirty their import, which is precisely the fragility discovery exists to remove.
     try {
-      const imported = await importPage(page, { fileKey, byRef, outDir, maxSvgBytes });
+      const imported = await importPage(page, {
+        fileKey,
+        byRef,
+        outDir,
+        maxSvgBytes,
+        notInventory: config.notInventory ?? {},
+      });
       if (imported) pages.push(imported);
       else skipped.push(page.id);
     } catch (error) {
