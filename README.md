@@ -244,6 +244,8 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow_VARIANT_disabled-59022c3d.png" width="150" /> |
 | `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow_VARIANT_paused-3de8d11f.png" width="150" /> |
 | `MediaControlButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaControlButtonsRow_VARIANT_progress_20-bec236b7.png" width="150" /> |
+| `MediaFooterButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaFooterButtonsRow-c7a385ed.png" width="150" /> |
+| `MediaFooterButtonsRow` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaFooterButtonsRow_VARIANT_ambient-33b6c4c8.png" width="150" /> |
 | `MediaInfoDisplayHeader` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaInfoDisplayHeader-5f5a428c.png" width="150" /> |
 | `MediaInfoDisplayHeader` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaInfoDisplayHeader_VARIANT_loading-84340dae.png" width="150" /> |
 | `MediaInfoDisplayHeader` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaInfoDisplayHeader_VARIANT_nothing_playing-8ecfee4a.png" width="150" /> |
