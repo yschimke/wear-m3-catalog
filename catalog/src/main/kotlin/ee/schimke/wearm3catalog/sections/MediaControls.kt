@@ -116,8 +116,25 @@ import ee.schimke.wearm3catalog.kitCopy
 // `progress` knob stays live: a reader can turn it and watch nothing move, which IS the finding.
 //
 // The Lottie-animated variants (`AnimatedMediaControlButtons`, `AnimatedPlayPauseButton`) are
-// deliberately absent: they draw a Lottie composition rather than a Compose vector, which the
-// Robolectric renderer does not resolve, and a still of an animation is what `Motion.kt` is for.
+// deliberately absent as CARDS: they draw a Lottie composition rather than a Compose vector, which
+// the Robolectric renderer does not resolve, and a still of an animation is what `Motion.kt` is
+// for.
+//
+// WHERE THIS PAGE'S MOTION LIVES, AND WHY IT IS ON THE PODCAST ROW
+//
+// `Media/PodcastControlButtons` claims `MediaTransportMotion` — the progress ring sweeping while
+// the middle button is stopped and started. It is the only one of these three that can carry a
+// recording, and that is a fact about the library rather than a choice:
+// `PodcastControlButtons` delegates to `AnimatedMediaControlButtons`, whose middle button
+// (`AnimatedPlayPauseProgressButton`) morphs a scallop and draws a WAVY indicator around it —
+// outside the container, so the kit's `Progress=` finally reads. `MediaControlButtons` and
+// `PlayPauseProgressButton` draw the plain middle button described above: the ring is under the
+// container and play/pause is a bare icon swap, which measured 4 distinct frames of 46 and is a
+// still with extra bytes. The side buttons' press motion could not be recorded at all. `Motion.kt`
+// carries the numbers and the two upstream gaps behind them.
+//
+// So a reader browsing THESE two cards should look at the podcast card's Motion lane for what the
+// middle button does — and read the caption here for why the picture differs.
 
 @CatalogComponent(
   id = "Media/PlayerScreen",
@@ -267,6 +284,7 @@ fun MediaControlButtonsRow() = MediaRowSticker {
       "seek-back / seek-forward by a named increment either side of it. The kit publishes no " +
       "podcast cell — its `.Base / Media / Footer` draws the track-skip row only.",
   caption = "The spoken-word transport row: seek back and forward by a fixed increment.",
+  motionPreview = "MediaTransportMotion",
 )
 @CatalogModes
 @OverrideVariant(name = "paused", booleans = ["playing=false"])
@@ -399,9 +417,13 @@ fun MediaShowPlaylistButton() = Sticker {
  * of the row on the kit's own `Media-Player` cell (`Middle` is 64dp, `Top` 68dp with the header
  * 38dp of it). It is [Sticker] underneath, so the capture is still transparent and still cropped —
  * cropped to the row rather than to the display.
+ *
+ * `internal` rather than file-private because `Motion.kt`'s media recordings render in it too: a
+ * motion capture needs a **pinned** canvas and this is the pin, so a recording that framed itself
+ * some other way would move the row relative to every still it is published beside.
  */
 @Composable
-private fun MediaRowSticker(
+internal fun MediaRowSticker(
   height: Dp = MainControlSize,
   content: @Composable () -> Unit,
 ) = Sticker {
