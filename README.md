@@ -315,8 +315,15 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_240dp_VARIANT_24_hour-81f1e862.png" width="150" /> |
 | `TimeWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TimeWheels_240dp_VARIANT_24_hour_with_seconds-c3d7d079.png" width="150" /> |
 | `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder-cd2645e1.png" width="150" /> |
+| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_outlined-1666fe17.png" width="150" /> |
+| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_tonal-c2accbc5.png" width="150" /> |
+| `ButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonPlaceholder_VARIANT_variant-2967f4bb.png" width="150" /> |
 | `CardPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CardPlaceholder-66aa4082.png" width="150" /> |
+| `CardPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CardPlaceholder_VARIANT_outlined-6916ee39.png" width="150" /> |
 | `IconButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconButtonPlaceholder-aa8b3ddc.png" width="150" /> |
+| `IconButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconButtonPlaceholder_VARIANT_outlined-2e52dbab.png" width="150" /> |
+| `IconButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconButtonPlaceholder_VARIANT_tonal-9e0cd712.png" width="150" /> |
+| `IconButtonPlaceholder` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconButtonPlaceholder_VARIANT_variant-303c9d32.png" width="150" /> |
 | `ArcProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ArcProgress-6a9f49ea.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_192dp-8f1ec2e9.png" width="150" /> |
 | `CircularProgress` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/CircularProgress_192dp_VARIANT_complete-3e0dc337.png" width="150" /> |
