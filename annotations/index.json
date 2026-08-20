@@ -1,6 +1,1157 @@
 {
   "schema": "compose-preview-annotations/v1",
   "previews": {
+    "auth-signinbutton__ideal__default": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 217,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 108,
+          "y": 50,
+          "width": 97,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Sign in",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-signinbutton__ideal__disabled": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 217,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 108,
+          "y": 50,
+          "width": 97,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Sign in",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-guestmodebutton__ideal__default": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 225,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 44,
+          "y": 50,
+          "width": 169,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Guest mode",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-guestmodebutton__ideal__disabled": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 225,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 44,
+          "y": 50,
+          "width": 169,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Guest mode",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-selectaccountscreen__ideal__default__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 20,
+          "y": 144,
+          "width": 344,
+          "height": 128
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 35,
+          "y": 280,
+          "width": 313,
+          "height": 116
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "text 18sp/20",
+        "role": "Select account",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "18",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 156,
+          "width": 81,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Maya",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 196,
+          "width": 224,
+          "height": 64
+        },
+        "label": "text 13sp/16",
+        "role": "maya@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 290,
+          "width": 62,
+          "height": 35
+        },
+        "label": "text 16sp/18",
+        "role": "Sam",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 327,
+          "width": 205,
+          "height": 58
+        },
+        "label": "text 13sp/16",
+        "role": "sam@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-selectaccountscreen__ideal__default__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 20,
+          "y": 144,
+          "width": 344,
+          "height": 128
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 35,
+          "y": 280,
+          "width": 313,
+          "height": 116
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "text 18sp/20",
+        "role": "Select account",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "18",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 156,
+          "width": 81,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Maya",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 196,
+          "width": 224,
+          "height": 64
+        },
+        "label": "text 13sp/16",
+        "role": "maya@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 290,
+          "width": 62,
+          "height": 35
+        },
+        "label": "text 16sp/18",
+        "role": "Sam",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 327,
+          "width": 205,
+          "height": 58
+        },
+        "label": "text 13sp/16",
+        "role": "sam@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-selectaccountscreen__ideal__default__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 20,
+          "y": 144,
+          "width": 344,
+          "height": 128
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 35,
+          "y": 280,
+          "width": 313,
+          "height": 116
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "text 18sp/20",
+        "role": "Select account",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "18",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 156,
+          "width": 81,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Maya",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 196,
+          "width": 224,
+          "height": 64
+        },
+        "label": "text 13sp/16",
+        "role": "maya@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 290,
+          "width": 62,
+          "height": 35
+        },
+        "label": "text 16sp/18",
+        "role": "Sam",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 327,
+          "width": 205,
+          "height": 58
+        },
+        "label": "text 13sp/16",
+        "role": "sam@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-selectaccountscreen__ideal__default__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 20,
+          "y": 144,
+          "width": 344,
+          "height": 128
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 35,
+          "y": 280,
+          "width": 313,
+          "height": 116
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "text 18sp/20",
+        "role": "Select account",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "18",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 156,
+          "width": 81,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Maya",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 196,
+          "width": 224,
+          "height": 64
+        },
+        "label": "text 13sp/16",
+        "role": "maya@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 290,
+          "width": 62,
+          "height": 35
+        },
+        "label": "text 16sp/18",
+        "role": "Sam",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 327,
+          "width": 205,
+          "height": 58
+        },
+        "label": "text 13sp/16",
+        "role": "sam@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-selectaccountscreen__ideal__default__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 20,
+          "y": 144,
+          "width": 344,
+          "height": 128
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 35,
+          "y": 280,
+          "width": 313,
+          "height": 116
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 71,
+          "y": 70,
+          "width": 243,
+          "height": 42
+        },
+        "label": "text 18sp/20",
+        "role": "Select account",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "18",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 156,
+          "width": 81,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Maya",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 112,
+          "y": 196,
+          "width": 224,
+          "height": 64
+        },
+        "label": "text 13sp/16",
+        "role": "maya@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 290,
+          "width": 62,
+          "height": 35
+        },
+        "label": "text 16sp/18",
+        "role": "Sam",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 118,
+          "y": 327,
+          "width": 205,
+          "height": 58
+        },
+        "label": "text 13sp/16",
+        "role": "sam@example.com",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "13",
+          "lineHeight": "16",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-signinplaceholderscreen__ideal__default__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 132,
+          "y": 87,
+          "width": 120,
+          "height": 120
+        },
+        "label": "r 30dp",
+        "detail": {
+          "cornerRadius": "30",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "pad t 8dp e 0dp b 0dp s 0dp",
+        "role": "Signing in…",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "8",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "text 16sp/20",
+        "role": "Signing in…",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-signinplaceholderscreen__ideal__default__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 132,
+          "y": 87,
+          "width": 120,
+          "height": 120
+        },
+        "label": "r 30dp",
+        "detail": {
+          "cornerRadius": "30",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "pad t 8dp e 0dp b 0dp s 0dp",
+        "role": "Signing in…",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "8",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "text 16sp/20",
+        "role": "Signing in…",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-signinplaceholderscreen__ideal__default__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 132,
+          "y": 87,
+          "width": 120,
+          "height": 120
+        },
+        "label": "r 30dp",
+        "detail": {
+          "cornerRadius": "30",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "pad t 8dp e 0dp b 0dp s 0dp",
+        "role": "Signing in…",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "8",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "text 16sp/20",
+        "role": "Signing in…",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-signinplaceholderscreen__ideal__default__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 132,
+          "y": 87,
+          "width": 120,
+          "height": 120
+        },
+        "label": "r 30dp",
+        "detail": {
+          "cornerRadius": "30",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "pad t 8dp e 0dp b 0dp s 0dp",
+        "role": "Signing in…",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "8",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "text 16sp/20",
+        "role": "Signing in…",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "auth-signinplaceholderscreen__ideal__default__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 132,
+          "y": 87,
+          "width": 120,
+          "height": 120
+        },
+        "label": "r 30dp",
+        "detail": {
+          "cornerRadius": "30",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "pad t 8dp e 0dp b 0dp s 0dp",
+        "role": "Signing in…",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "8",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 36,
+          "y": 223,
+          "width": 312,
+          "height": 38
+        },
+        "label": "text 16sp/20",
+        "role": "Signing in…",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "20",
+          "fontWeight": "500"
+        }
+      }
+    ],
     "button-filled__ideal__default": [
       {
         "kind": "layout",
@@ -1021,7 +2172,7 @@
         "bounds": {
           "x": 16,
           "y": 16,
-          "width": 312,
+          "width": 316,
           "height": 104
         },
         "label": "pad 6dp/14dp · r 26dp",
@@ -1038,7 +2189,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 104,
+          "x": 108,
           "y": 33,
           "width": 184,
           "height": 36
@@ -1056,7 +2207,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 104,
+          "x": 108,
           "y": 71,
           "width": 196,
           "height": 32
@@ -1078,7 +2229,7 @@
         "bounds": {
           "x": 16,
           "y": 16,
-          "width": 312,
+          "width": 316,
           "height": 104
         },
         "label": "pad 6dp/14dp · r 26dp",
@@ -1095,7 +2246,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 104,
+          "x": 108,
           "y": 33,
           "width": 184,
           "height": 36
@@ -1113,7 +2264,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 104,
+          "x": 108,
           "y": 71,
           "width": 196,
           "height": 32
@@ -1135,7 +2286,7 @@
         "bounds": {
           "x": 16,
           "y": 16,
-          "width": 312,
+          "width": 316,
           "height": 104
         },
         "label": "pad 6dp/14dp · r 26dp",
@@ -1152,7 +2303,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 104,
+          "x": 108,
           "y": 33,
           "width": 184,
           "height": 36
@@ -1170,7 +2321,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 104,
+          "x": 108,
           "y": 71,
           "width": 196,
           "height": 32
@@ -3770,6 +4921,746 @@
         },
         "label": "text 15sp/18",
         "role": "MMMMM MMMMM MMMMM",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "fastscrollingtransforminglazycolumn__ideal__default__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 117,
+          "y": -88,
+          "width": 151,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 128,
+          "width": 128,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 125,
+          "y": 240,
+          "width": 134,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 145,
+          "y": -54,
+          "width": 95,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Emeka",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "F",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 156,
+          "y": 162,
+          "width": 72,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Farid",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 153,
+          "y": 274,
+          "width": 78,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Fiona",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "fastscrollingtransforminglazycolumn__ideal__default__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 117,
+          "y": -88,
+          "width": 151,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 128,
+          "width": 128,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 125,
+          "y": 240,
+          "width": 134,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 145,
+          "y": -54,
+          "width": 95,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Emeka",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "F",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 156,
+          "y": 162,
+          "width": 72,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Farid",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 153,
+          "y": 274,
+          "width": 78,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Fiona",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "fastscrollingtransforminglazycolumn__ideal__default__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 117,
+          "y": -88,
+          "width": 151,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 128,
+          "width": 128,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 125,
+          "y": 240,
+          "width": 134,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 145,
+          "y": -54,
+          "width": 95,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Emeka",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "F",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 156,
+          "y": 162,
+          "width": 72,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Farid",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 153,
+          "y": 274,
+          "width": 78,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Fiona",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "fastscrollingtransforminglazycolumn__ideal__default__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 117,
+          "y": -88,
+          "width": 151,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 128,
+          "width": 128,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 125,
+          "y": 240,
+          "width": 134,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 145,
+          "y": -54,
+          "width": 95,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Emeka",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "F",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 156,
+          "y": 162,
+          "width": 72,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Farid",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 153,
+          "y": 274,
+          "width": 78,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Fiona",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "fastscrollingtransforminglazycolumn__ideal__default__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 117,
+          "y": -88,
+          "width": 151,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "pad t 16dp e 14dp b 12dp s 14dp",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "16",
+          "padding.end": "14",
+          "padding.bottom": "12",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 128,
+          "width": 128,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 125,
+          "y": 240,
+          "width": 134,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 145,
+          "y": -54,
+          "width": 95,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Emeka",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 183,
+          "y": 57,
+          "width": 19,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "F",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 156,
+          "y": 162,
+          "width": 72,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Farid",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 153,
+          "y": 274,
+          "width": 78,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Fiona",
         "detail": {
           "token": "text",
           "unit": "sp",
@@ -6832,6 +8723,3461 @@
           "fontSize": "16",
           "lineHeight": "18",
           "fontWeight": "550"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__default__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__ambient__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__loading__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__nothing-playing__192dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__default__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__ambient__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__loading__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__nothing-playing__204dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__default__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__ambient__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__loading__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__nothing-playing__216dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__default__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__ambient__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__loading__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__nothing-playing__225dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__default__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__ambient__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__loading__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-playerscreen__ideal__nothing-playing__240dp": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 0,
+          "y": 136,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 28,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 136,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 276,
+          "y": 152,
+          "width": 80,
+          "height": 96
+        },
+        "label": "pad t 8dp b 8dp · r 20dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "8",
+          "padding.bottom": "8",
+          "cornerRadius": "20",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 33,
+          "y": 272,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 105,
+          "y": 57,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 116,
+          "y": 98,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 137,
+          "y": 306,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
+        }
+      }
+    ],
+    "media-controlbuttons__ideal__default": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 50,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 0,
+          "width": 160,
+          "height": 160
+        },
+        "label": "r 40dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "40",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 302,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-controlbuttons__ideal__disabled": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 50,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 0,
+          "width": 160,
+          "height": 160
+        },
+        "label": "r 40dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "40",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 302,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-controlbuttons__ideal__paused": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 50,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 0,
+          "width": 160,
+          "height": 160
+        },
+        "label": "r 40dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "40",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 302,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-controlbuttons__ideal__progress-20": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 50,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 0,
+          "width": 160,
+          "height": 160
+        },
+        "label": "r 40dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "40",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 302,
+          "y": 40,
+          "width": 64,
+          "height": 80
+        },
+        "label": "pad t 12dp b 12dp · r 16dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "16",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-podcastcontrolbuttons__ideal__default": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 112,
+          "height": 128
+        },
+        "label": "pad t 12dp b 12dp · r 28dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "28",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 0,
+          "width": 160,
+          "height": 160
+        },
+        "label": "pad 0dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 288,
+          "y": 16,
+          "width": 112,
+          "height": 128
+        },
+        "label": "pad t 12dp b 12dp · r 28dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "28",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-podcastcontrolbuttons__ideal__paused": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 384,
+          "height": 128
+        },
+        "label": "pad 0dp",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 112,
+          "height": 128
+        },
+        "label": "pad t 12dp b 12dp · r 28dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "28",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 128,
+          "y": 0,
+          "width": 160,
+          "height": 160
+        },
+        "label": "pad 0dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "0",
+          "padding.top": "0",
+          "padding.end": "0",
+          "padding.bottom": "0",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 288,
+          "y": 16,
+          "width": 112,
+          "height": 128
+        },
+        "label": "pad t 12dp b 12dp · r 28dp",
+        "role": "Button",
+        "detail": {
+          "padding.top": "12",
+          "padding.bottom": "12",
+          "cornerRadius": "28",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-playpauseprogressbutton__ideal__default": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-playpauseprogressbutton__ideal__disabled": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-playpauseprogressbutton__ideal__paused": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-playpauseprogressbutton__ideal__progress-20": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 128,
+          "height": 128
+        },
+        "label": "r 32dp",
+        "role": "Button",
+        "detail": {
+          "cornerRadius": "32",
+          "unit": "dp"
+        }
+      }
+    ],
+    "media-infodisplay__ideal__default": [
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 121,
+          "y": 17,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 132,
+          "y": 58,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      }
+    ],
+    "media-infodisplay__ideal__loading": [
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 121,
+          "y": 17,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 132,
+          "y": 58,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      }
+    ],
+    "media-infodisplay__ideal__nothing-playing": [
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 121,
+          "y": 17,
+          "width": 174,
+          "height": 38
+        },
+        "label": "text 16sp/18",
+        "role": "Song Name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "16",
+          "lineHeight": "18",
+          "fontWeight": "550"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 132,
+          "y": 58,
+          "width": 152,
+          "height": 33
+        },
+        "label": "text 14sp/16",
+        "role": "Artist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "14",
+          "lineHeight": "16",
+          "fontWeight": "450"
+        }
+      }
+    ],
+    "media-showplaylistbutton__ideal__default": [
+      {
+        "kind": "layout",
+        "bounds": {
+          "x": 16,
+          "y": 16,
+          "width": 319,
+          "height": 104
+        },
+        "label": "pad 6dp/14dp · r 26dp",
+        "role": "Button",
+        "detail": {
+          "padding.start": "14",
+          "padding.top": "6",
+          "padding.end": "14",
+          "padding.bottom": "6",
+          "cornerRadius": "26",
+          "unit": "dp"
+        }
+      },
+      {
+        "kind": "typography",
+        "bounds": {
+          "x": 120,
+          "y": 50,
+          "width": 187,
+          "height": 36
+        },
+        "label": "text 15sp/18",
+        "role": "Playlist name",
+        "detail": {
+          "token": "text",
+          "unit": "sp",
+          "fontSize": "15",
+          "lineHeight": "18",
+          "fontWeight": "500"
         }
       }
     ],
@@ -19105,7 +24451,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 0,
+          "x": 2,
           "y": 16,
           "width": 344,
           "height": 104
@@ -19124,7 +24470,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 28,
+          "x": 30,
           "y": 42,
           "width": 52,
           "height": 52
@@ -19143,7 +24489,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 36,
+          "x": 38,
           "y": 50,
           "width": 36,
           "height": 36
@@ -19158,7 +24504,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 28,
+          "x": 30,
           "y": 42,
           "width": 52,
           "height": 52
@@ -19173,7 +24519,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 72
@@ -19188,7 +24534,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 36
@@ -19203,7 +24549,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 36
@@ -19222,7 +24568,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 72,
           "width": 224,
           "height": 32
@@ -19243,7 +24589,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 0,
+          "x": 2,
           "y": 16,
           "width": 344,
           "height": 104
@@ -19262,7 +24608,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 28,
+          "x": 30,
           "y": 42,
           "width": 52,
           "height": 52
@@ -19281,7 +24627,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 36,
+          "x": 38,
           "y": 50,
           "width": 36,
           "height": 36
@@ -19296,7 +24642,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 28,
+          "x": 30,
           "y": 42,
           "width": 52,
           "height": 52
@@ -19311,7 +24657,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 72
@@ -19326,7 +24672,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 36
@@ -19341,7 +24687,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 36
@@ -19360,7 +24706,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 72,
           "width": 224,
           "height": 32
@@ -19381,7 +24727,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 0,
+          "x": 2,
           "y": 16,
           "width": 344,
           "height": 104
@@ -19400,7 +24746,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 28,
+          "x": 30,
           "y": 42,
           "width": 52,
           "height": 52
@@ -19419,7 +24765,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 36,
+          "x": 38,
           "y": 50,
           "width": 36,
           "height": 36
@@ -19434,7 +24780,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 28,
+          "x": 30,
           "y": 42,
           "width": 52,
           "height": 52
@@ -19449,7 +24795,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 72
@@ -19464,7 +24810,7 @@
       {
         "kind": "layout",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 36
@@ -19479,7 +24825,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 32,
           "width": 224,
           "height": 36
@@ -19498,7 +24844,7 @@
       {
         "kind": "typography",
         "bounds": {
-          "x": 92,
+          "x": 94,
           "y": 72,
           "width": 224,
           "height": 32

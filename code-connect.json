@@ -7,8 +7,118 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-08-20T10:01:00.844Z",
+  "generatedAt": "2026-08-20T10:15:24.613Z",
   "mappings": [
+    {
+      "componentId": "Auth/SignInButton",
+      "figmaLayerName": "Auth/SignInButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AuthSignInButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/auth-signinbutton.svg"
+    },
+    {
+      "componentId": "Auth/GuestModeButton",
+      "figmaLayerName": "Auth/GuestModeButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AuthGuestModeButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/auth-guestmodebutton.svg"
+    },
+    {
+      "componentId": "Auth/SelectAccountScreen",
+      "figmaLayerName": "Auth/SelectAccountScreen",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AuthSelectAccountScreen",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/auth-selectaccountscreen.svg"
+    },
+    {
+      "componentId": "Auth/SignInPlaceholderScreen",
+      "figmaLayerName": "Auth/SignInPlaceholderScreen",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AuthSignInPlaceholderScreen",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/auth-signinplaceholderscreen.svg"
+    },
+    {
+      "componentId": "Auth/SignedInConfirmationDialog",
+      "figmaLayerName": "Auth/SignedInConfirmationDialog",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AuthSignedInConfirmationDialog",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "(BoxScope) -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/auth-signedinconfirmationdialog.svg"
+    },
     {
       "componentId": "Button/Filled",
       "figmaLayerName": "Button/Filled",
@@ -362,6 +472,28 @@
       "figmaSvg": "figma/edgebutton.svg"
     },
     {
+      "componentId": "FastScrollingTransformingLazyColumn",
+      "figmaLayerName": "FastScrollingTransformingLazyColumn",
+      "componentName": "ScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FastScrollingList",
+      "codeSnippet": "ScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.ScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/fastscrollingtransforminglazycolumn.svg"
+    },
+    {
       "componentId": "IconButton/Filled",
       "figmaLayerName": "IconButton/Filled",
       "componentName": "Sticker",
@@ -624,6 +756,102 @@
         }
       ],
       "figmaSvg": "figma/scaffold.svg"
+    },
+    {
+      "componentId": "Media/PlayerScreen",
+      "figmaLayerName": "Media/PlayerScreen",
+      "componentName": "ScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "MediaPlayerScreen",
+      "codeSnippet": "ScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.ScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/media-playerscreen.svg"
+    },
+    {
+      "componentId": "Media/ControlButtons",
+      "figmaLayerName": "Media/ControlButtons",
+      "componentName": "MediaControlButtonsRow",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "MediaControlButtonsRow",
+      "figmaSvg": "figma/media-controlbuttons.svg"
+    },
+    {
+      "componentId": "Media/PodcastControlButtons",
+      "figmaLayerName": "Media/PodcastControlButtons",
+      "componentName": "MediaPodcastControlButtons",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "MediaPodcastControlButtons",
+      "figmaSvg": "figma/media-podcastcontrolbuttons.svg"
+    },
+    {
+      "componentId": "Media/PlayPauseProgressButton",
+      "figmaLayerName": "Media/PlayPauseProgressButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "MediaPlayPauseProgressButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/media-playpauseprogressbutton.svg"
+    },
+    {
+      "componentId": "Media/InfoDisplay",
+      "figmaLayerName": "Media/InfoDisplay",
+      "componentName": "MediaInfoDisplayHeader",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "MediaInfoDisplayHeader",
+      "figmaSvg": "figma/media-infodisplay.svg"
+    },
+    {
+      "componentId": "Media/ShowPlaylistButton",
+      "figmaLayerName": "Media/ShowPlaylistButton",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "MediaShowPlaylistButton",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/media-showplaylistbutton.svg"
     },
     {
       "componentId": "DatePicker",

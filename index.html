@@ -104,12 +104,15 @@
 <body>
 <header class="top">
   <h1>M3 Wear OS Apps Design Kit</h1>
-  <div class="subtitle">system <code>wear-m3-catalog</code> · androidx.wear.compose:compose-material3 · rendered by compose-preview 1.22.0 · 2026-08-20T10:00:59.453Z · 53 components</div>
+  <div class="subtitle">system <code>wear-m3-catalog</code> · androidx.wear.compose:compose-material3 · rendered by compose-preview 1.22.0 · 2026-08-20T10:15:22.319Z · 65 components</div>
   <div class="subtitle"><a class="pagelink" href="compare.html">PNG vs SVG compare ↗</a></div>
 </header>
 
 <div class="layout">
   <nav class="index"><section class="nav-group">
+      <a class="nav-head" href="#g-sign-in">Sign-in <span>5</span></a>
+      <ul><li><a href="#c-auth-signinbutton">Auth/SignInButton</a></li><li><a href="#c-auth-guestmodebutton">Auth/GuestModeButton</a></li><li><a href="#c-auth-selectaccountscreen">Auth/SelectAccountScreen</a></li><li><a href="#c-auth-signinplaceholderscreen">Auth/SignInPlaceholderScreen</a></li><li><a href="#c-auth-signedinconfirmationdialog">Auth/SignedInConfirmationDialog</a></li></ul>
+    </section><section class="nav-group">
       <a class="nav-head" href="#g-buttons">Buttons <span>9</span></a>
       <ul><li><a href="#c-button-filled">Button/Filled</a></li><li><a href="#c-button-filledvariant">Button/FilledVariant</a></li><li><a href="#c-button-tonal">Button/Tonal</a></li><li><a href="#c-button-outlined">Button/Outlined</a></li><li><a href="#c-button-child">Button/Child</a></li><li><a href="#c-button-compact">Button/Compact</a></li><li><a href="#c-button-imagebackground">Button/ImageBackground</a></li><li><a href="#c-button-loading">Button/Loading</a></li><li><a href="#c-buttongroup">ButtonGroup</a></li></ul>
     </section><section class="nav-group">
@@ -122,6 +125,9 @@
       <a class="nav-head" href="#g-edge-hugging-buttons">Edge-hugging buttons <span>1</span></a>
       <ul><li><a href="#c-edgebutton">EdgeButton</a></li></ul>
     </section><section class="nav-group">
+      <a class="nav-head" href="#g-fast-scrolling">Fast scrolling <span>1</span></a>
+      <ul><li><a href="#c-fastscrollingtransforminglazycolumn">FastScrollingTransformingLazyColumn</a></li></ul>
+    </section><section class="nav-group">
       <a class="nav-head" href="#g-icon-buttons">Icon buttons <span>6</span></a>
       <ul><li><a href="#c-iconbutton-filled">IconButton/Filled</a></li><li><a href="#c-iconbutton-filledvariant">IconButton/FilledVariant</a></li><li><a href="#c-iconbutton-tonal">IconButton/Tonal</a></li><li><a href="#c-iconbutton-outlined">IconButton/Outlined</a></li><li><a href="#c-iconbutton-standard">IconButton/Standard</a></li><li><a href="#c-textbutton">TextButton</a></li></ul>
     </section><section class="nav-group">
@@ -130,6 +136,9 @@
     </section><section class="nav-group">
       <a class="nav-head" href="#g-lists-and-screens">Lists and screens <span>2</span></a>
       <ul><li><a href="#c-transforminglazycolumn">TransformingLazyColumn</a></li><li><a href="#c-scaffold">Scaffold</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-media-controls">Media controls <span>6</span></a>
+      <ul><li><a href="#c-media-playerscreen">Media/PlayerScreen</a></li><li><a href="#c-media-controlbuttons">Media/ControlButtons</a></li><li><a href="#c-media-podcastcontrolbuttons">Media/PodcastControlButtons</a></li><li><a href="#c-media-playpauseprogressbutton">Media/PlayPauseProgressButton</a></li><li><a href="#c-media-infodisplay">Media/InfoDisplay</a></li><li><a href="#c-media-showplaylistbutton">Media/ShowPlaylistButton</a></li></ul>
     </section><section class="nav-group">
       <a class="nav-head" href="#g-pickers">Pickers <span>3</span></a>
       <ul><li><a href="#c-datepicker">DatePicker</a></li><li><a href="#c-timepicker">TimePicker</a></li><li><a href="#c-picker">Picker</a></li></ul>
@@ -158,7 +167,50 @@
       <a class="nav-head" href="#g-toggle-buttons">Toggle buttons <span>2</span></a>
       <ul><li><a href="#c-icontogglebutton">IconToggleButton</a></li><li><a href="#c-texttogglebutton">TextToggleButton</a></li></ul>
     </section></nav>
-  <main><section class="group" id="g-buttons">
+  <main><section class="group" id="g-sign-in">
+      <h2>Sign-in</h2>
+      <div class="grid"><article class="card" id="c-auth-signinbutton">
+  <a class="shot" href="#d-auth-signinbutton" aria-label="Zoom Auth/SignInButton"><img loading="lazy" src="images/auth-signinbutton/ideal__default.png" alt="Auth/SignInButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-auth-signinbutton">Auth/SignInButton</a></h3>
+    <div class="sub">249×136<a class="statechip" href="#d-auth-signinbutton">+1 state</a><a class="wf" href="wireframes/auth-signinbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/auth-signinbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-auth-guestmodebutton">
+  <a class="shot" href="#d-auth-guestmodebutton" aria-label="Zoom Auth/GuestModeButton"><img loading="lazy" src="images/auth-guestmodebutton/ideal__default.png" alt="Auth/GuestModeButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-auth-guestmodebutton">Auth/GuestModeButton</a></h3>
+    <div class="sub">257×136<a class="statechip" href="#d-auth-guestmodebutton">+1 state</a><a class="wf" href="wireframes/auth-guestmodebutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/auth-guestmodebutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-auth-selectaccountscreen">
+  <a class="shot" href="#d-auth-selectaccountscreen" aria-label="Zoom Auth/SelectAccountScreen"><img loading="lazy" src="images/auth-selectaccountscreen/ideal__default__240dp.png" alt="Auth/SelectAccountScreen" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-auth-selectaccountscreen">Auth/SelectAccountScreen</a></h3>
+    <div class="sub">480×480<a class="wf" href="wireframes/auth-selectaccountscreen.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/auth-selectaccountscreen.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-auth-signinplaceholderscreen">
+  <a class="shot" href="#d-auth-signinplaceholderscreen" aria-label="Zoom Auth/SignInPlaceholderScreen"><img loading="lazy" src="images/auth-signinplaceholderscreen/ideal__default__240dp.png" alt="Auth/SignInPlaceholderScreen" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-auth-signinplaceholderscreen">Auth/SignInPlaceholderScreen</a></h3>
+    <div class="sub">480×480<a class="wf" href="wireframes/auth-signinplaceholderscreen.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/auth-signinplaceholderscreen.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-auth-signedinconfirmationdialog">
+  <a class="shot" href="#d-auth-signedinconfirmationdialog" aria-label="Zoom Auth/SignedInConfirmationDialog"><img loading="lazy" src="images/auth-signedinconfirmationdialog/ideal__default__240dp.png" alt="Auth/SignedInConfirmationDialog" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-auth-signedinconfirmationdialog">Auth/SignedInConfirmationDialog</a></h3>
+    <div class="sub">480×480<a class="wf" href="wireframes/auth-signedinconfirmationdialog.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/auth-signedinconfirmationdialog.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-buttons">
       <h2>Buttons</h2>
       <div class="grid"><article class="card" id="c-button-filled">
   <a class="shot" href="#d-button-filled" aria-label="Zoom Button/Filled"><img loading="lazy" src="images/button-filled/ideal__default.png" alt="Button/Filled" /></a>
@@ -220,7 +272,7 @@
   <a class="shot" href="#d-button-loading" aria-label="Zoom Button/Loading"><img loading="lazy" src="images/button-loading/ideal__default.png" alt="Button/Loading" /></a>
   <div class="meta">
     <h3><a class="ctitle" href="#d-button-loading">Button/Loading</a></h3>
-    <div class="sub">344×136<a class="statechip" href="#d-button-loading">+2 states</a><a class="wf" href="wireframes/button-loading.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/button-loading.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="sub">348×136<a class="statechip" href="#d-button-loading">+2 states</a><a class="wf" href="wireframes/button-loading.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/button-loading.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
     <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
   </div>
 </article>
@@ -295,6 +347,17 @@
     <h3><a class="ctitle" href="#d-edgebutton">EdgeButton</a></h3>
     <div class="sub">384×124<a class="statechip" href="#d-edgebutton">+8 states</a><a class="wf" href="wireframes/edgebutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/edgebutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
     <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-fast-scrolling">
+      <h2>Fast scrolling</h2>
+      <div class="grid"><article class="card" id="c-fastscrollingtransforminglazycolumn">
+  <a class="shot" href="#d-fastscrollingtransforminglazycolumn" aria-label="Zoom FastScrollingTransformingLazyColumn"><img loading="lazy" src="images/fastscrollingtransforminglazycolumn/ideal__default__240dp.png" alt="FastScrollingTransformingLazyColumn" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-fastscrollingtransforminglazycolumn">FastScrollingTransformingLazyColumn</a></h3>
+    <div class="sub">480×480<a class="wf" href="wireframes/fastscrollingtransforminglazycolumn.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/fastscrollingtransforminglazycolumn.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
   </div>
 </article></div>
     </section>
@@ -400,6 +463,57 @@
     <h3><a class="ctitle" href="#d-scaffold">Scaffold</a></h3>
     <div class="sub">480×480<a class="statechip" href="#d-scaffold">+1 state</a><a class="wf" href="wireframes/scaffold.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/scaffold.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
     
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-media-controls">
+      <h2>Media controls</h2>
+      <div class="grid"><article class="card" id="c-media-playerscreen">
+  <a class="shot" href="#d-media-playerscreen" aria-label="Zoom Media/PlayerScreen"><img loading="lazy" src="images/media-playerscreen/ideal__default__240dp.png" alt="Media/PlayerScreen" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-media-playerscreen">Media/PlayerScreen</a></h3>
+    <div class="sub">480×480<a class="statechip" href="#d-media-playerscreen">+3 states</a><a class="wf" href="wireframes/media-playerscreen.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/media-playerscreen.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-media-controlbuttons">
+  <a class="shot" href="#d-media-controlbuttons" aria-label="Zoom Media/ControlButtons"><img loading="lazy" src="images/media-controlbuttons/ideal__default.png" alt="Media/ControlButtons" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-media-controlbuttons">Media/ControlButtons</a></h3>
+    <div class="sub">416×160<a class="statechip" href="#d-media-controlbuttons">+3 states</a><a class="wf" href="wireframes/media-controlbuttons.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/media-controlbuttons.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-media-podcastcontrolbuttons">
+  <a class="shot" href="#d-media-podcastcontrolbuttons" aria-label="Zoom Media/PodcastControlButtons"><img loading="lazy" src="images/media-podcastcontrolbuttons/ideal__default.png" alt="Media/PodcastControlButtons" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-media-podcastcontrolbuttons">Media/PodcastControlButtons</a></h3>
+    <div class="sub">416×160<a class="statechip" href="#d-media-podcastcontrolbuttons">+1 state</a><a class="wf" href="wireframes/media-podcastcontrolbuttons.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/media-podcastcontrolbuttons.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-media-playpauseprogressbutton">
+  <a class="shot" href="#d-media-playpauseprogressbutton" aria-label="Zoom Media/PlayPauseProgressButton"><img loading="lazy" src="images/media-playpauseprogressbutton/ideal__default.png" alt="Media/PlayPauseProgressButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-media-playpauseprogressbutton">Media/PlayPauseProgressButton</a></h3>
+    <div class="sub">160×160<a class="statechip" href="#d-media-playpauseprogressbutton">+3 states</a><a class="wf" href="wireframes/media-playpauseprogressbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/media-playpauseprogressbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-media-infodisplay">
+  <a class="shot" href="#d-media-infodisplay" aria-label="Zoom Media/InfoDisplay"><img loading="lazy" src="images/media-infodisplay/ideal__default.png" alt="Media/InfoDisplay" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-media-infodisplay">Media/InfoDisplay</a></h3>
+    <div class="sub">416×108<a class="statechip" href="#d-media-infodisplay">+2 states</a><a class="wf" href="wireframes/media-infodisplay.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/media-infodisplay.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-media-showplaylistbutton">
+  <a class="shot" href="#d-media-showplaylistbutton" aria-label="Zoom Media/ShowPlaylistButton"><img loading="lazy" src="images/media-showplaylistbutton/ideal__default.png" alt="Media/ShowPlaylistButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-media-showplaylistbutton">Media/ShowPlaylistButton</a></h3>
+    <div class="sub">416×136<a class="wf" href="wireframes/media-showplaylistbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf" href="figma/media-showplaylistbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
   </div>
 </article></div>
     </section>
@@ -631,6 +745,51 @@
 </article></div>
     </section></main>
 </div>
+<div class="detail" id="d-auth-signinbutton" role="dialog" aria-label="Auth/SignInButton">
+  <a class="detail-scrim" href="#c-auth-signinbutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-auth-signinbutton" aria-label="Close">×</a>
+    <h3>Auth/SignInButton</h3>
+    <div class="detail-caption">The primary action of a sign-in prompt, with the account glyph Wear&#39;s flow expects.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-signinbutton/ideal__default.png" alt="Auth/SignInButton default" /><span>default</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-signinbutton/ideal__disabled.png" alt="Auth/SignInButton disabled" /><span>disabled</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-auth-guestmodebutton" role="dialog" aria-label="Auth/GuestModeButton">
+  <a class="detail-scrim" href="#c-auth-guestmodebutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-auth-guestmodebutton" aria-label="Close">×</a>
+    <h3>Auth/GuestModeButton</h3>
+    <div class="detail-caption">The way past the sign-in prompt: continue without an account.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-guestmodebutton/ideal__default.png" alt="Auth/GuestModeButton default" /><span>default</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-guestmodebutton/ideal__disabled.png" alt="Auth/GuestModeButton disabled" /><span>disabled</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-auth-selectaccountscreen" role="dialog" aria-label="Auth/SelectAccountScreen">
+  <a class="detail-scrim" href="#c-auth-selectaccountscreen" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-auth-selectaccountscreen" aria-label="Close">×</a>
+    <h3>Auth/SelectAccountScreen</h3>
+    <div class="detail-caption">Pick which account to sign in with — avatar, name and address per row.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-selectaccountscreen/ideal__default__192dp.png" alt="Auth/SelectAccountScreen default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-selectaccountscreen/ideal__default__204dp.png" alt="Auth/SelectAccountScreen default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-selectaccountscreen/ideal__default__216dp.png" alt="Auth/SelectAccountScreen default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-selectaccountscreen/ideal__default__225dp.png" alt="Auth/SelectAccountScreen default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-selectaccountscreen/ideal__default__240dp.png" alt="Auth/SelectAccountScreen default" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-auth-signinplaceholderscreen" role="dialog" aria-label="Auth/SignInPlaceholderScreen">
+  <a class="detail-scrim" href="#c-auth-signinplaceholderscreen" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-auth-signinplaceholderscreen" aria-label="Close">×</a>
+    <h3>Auth/SignInPlaceholderScreen</h3>
+    <div class="detail-caption">What the sign-in flow shows while it is still deciding what to show.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-signinplaceholderscreen/ideal__default__192dp.png" alt="Auth/SignInPlaceholderScreen default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signinplaceholderscreen/ideal__default__204dp.png" alt="Auth/SignInPlaceholderScreen default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signinplaceholderscreen/ideal__default__216dp.png" alt="Auth/SignInPlaceholderScreen default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signinplaceholderscreen/ideal__default__225dp.png" alt="Auth/SignInPlaceholderScreen default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signinplaceholderscreen/ideal__default__240dp.png" alt="Auth/SignInPlaceholderScreen default" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-auth-signedinconfirmationdialog" role="dialog" aria-label="Auth/SignedInConfirmationDialog">
+  <a class="detail-scrim" href="#c-auth-signedinconfirmationdialog" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-auth-signedinconfirmationdialog" aria-label="Close">×</a>
+    <h3>Auth/SignedInConfirmationDialog</h3>
+    <div class="detail-caption">The end of the flow: who you signed in as, shown briefly and then dismissed.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/auth-signedinconfirmationdialog/ideal__default__192dp.png" alt="Auth/SignedInConfirmationDialog default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signedinconfirmationdialog/ideal__default__204dp.png" alt="Auth/SignedInConfirmationDialog default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signedinconfirmationdialog/ideal__default__216dp.png" alt="Auth/SignedInConfirmationDialog default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signedinconfirmationdialog/ideal__default__225dp.png" alt="Auth/SignedInConfirmationDialog default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/auth-signedinconfirmationdialog/ideal__default__240dp.png" alt="Auth/SignedInConfirmationDialog default" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
 <div class="detail" id="d-button-filled" role="dialog" aria-label="Button/Filled">
   <a class="detail-scrim" href="#c-button-filled" aria-label="Close"></a>
   <div class="detail-panel">
@@ -775,6 +934,15 @@
     <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__default.png" alt="EdgeButton default" /><span>default</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__disabled.png" alt="EdgeButton disabled" /><span>disabled</span></div></div></figure><figure class="state"><figcaption>extra-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__extra-small.png" alt="EdgeButton extra-small" /><span>extra-small</span></div></div></figure><figure class="state"><figcaption>filled-variant</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__filled-variant.png" alt="EdgeButton filled-variant" /><span>filled-variant</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__icon.png" alt="EdgeButton icon" /><span>icon</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__large.png" alt="EdgeButton large" /><span>large</span></div></div></figure><figure class="state"><figcaption>medium</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__medium.png" alt="EdgeButton medium" /><span>medium</span></div></div></figure><figure class="state"><figcaption>outlined</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__outlined.png" alt="EdgeButton outlined" /><span>outlined</span></div></div></figure><figure class="state"><figcaption>tonal</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/edgebutton/ideal__tonal.png" alt="EdgeButton tonal" /><span>tonal</span></div></div></figure></div>
   </div>
 </div>
+<div class="detail" id="d-fastscrollingtransforminglazycolumn" role="dialog" aria-label="FastScrollingTransformingLazyColumn">
+  <a class="detail-scrim" href="#c-fastscrollingtransforminglazycolumn" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-fastscrollingtransforminglazycolumn" aria-label="Close">×</a>
+    <h3>FastScrollingTransformingLazyColumn</h3>
+    <div class="detail-caption">A long list that skims by section when the rotating bezel is spun hard, instead of crawling.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/fastscrollingtransforminglazycolumn/ideal__default__192dp.png" alt="FastScrollingTransformingLazyColumn default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/fastscrollingtransforminglazycolumn/ideal__default__204dp.png" alt="FastScrollingTransformingLazyColumn default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/fastscrollingtransforminglazycolumn/ideal__default__216dp.png" alt="FastScrollingTransformingLazyColumn default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/fastscrollingtransforminglazycolumn/ideal__default__225dp.png" alt="FastScrollingTransformingLazyColumn default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/fastscrollingtransforminglazycolumn/ideal__default__240dp.png" alt="FastScrollingTransformingLazyColumn default" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
 <div class="detail" id="d-iconbutton-filled" role="dialog" aria-label="IconButton/Filled">
   <a class="detail-scrim" href="#c-iconbutton-filled" aria-label="Close"></a>
   <div class="detail-panel">
@@ -881,6 +1049,60 @@
     <h3>Scaffold</h3>
     <div class="detail-caption">The screen frame: curved clock, scroll position, and the bottom action, in their places.</div>
     <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__default__192dp.png" alt="Scaffold default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__default__204dp.png" alt="Scaffold default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__default__216dp.png" alt="Scaffold default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__default__225dp.png" alt="Scaffold default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__default__240dp.png" alt="Scaffold default" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>no-scroll-indicator</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__no-scroll-indicator__192dp.png" alt="Scaffold no-scroll-indicator" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__no-scroll-indicator__204dp.png" alt="Scaffold no-scroll-indicator" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__no-scroll-indicator__216dp.png" alt="Scaffold no-scroll-indicator" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__no-scroll-indicator__225dp.png" alt="Scaffold no-scroll-indicator" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__no-scroll-indicator__240dp.png" alt="Scaffold no-scroll-indicator" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-media-playerscreen" role="dialog" aria-label="Media/PlayerScreen">
+  <a class="detail-scrim" href="#c-media-playerscreen" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-media-playerscreen" aria-label="Close">×</a>
+    <h3>Media/PlayerScreen</h3>
+    <div class="detail-caption">The media player, whole: track and artist above, transport controls across the middle, the app&#39;s own action below.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__default__192dp.png" alt="Media/PlayerScreen default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__default__204dp.png" alt="Media/PlayerScreen default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__default__216dp.png" alt="Media/PlayerScreen default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__default__225dp.png" alt="Media/PlayerScreen default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__default__240dp.png" alt="Media/PlayerScreen default" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>ambient</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__ambient__192dp.png" alt="Media/PlayerScreen ambient" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__ambient__204dp.png" alt="Media/PlayerScreen ambient" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__ambient__216dp.png" alt="Media/PlayerScreen ambient" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__ambient__225dp.png" alt="Media/PlayerScreen ambient" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__ambient__240dp.png" alt="Media/PlayerScreen ambient" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>loading</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__loading__192dp.png" alt="Media/PlayerScreen loading" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__loading__204dp.png" alt="Media/PlayerScreen loading" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__loading__216dp.png" alt="Media/PlayerScreen loading" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__loading__225dp.png" alt="Media/PlayerScreen loading" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__loading__240dp.png" alt="Media/PlayerScreen loading" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>nothing-playing</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__nothing-playing__192dp.png" alt="Media/PlayerScreen nothing-playing" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__nothing-playing__204dp.png" alt="Media/PlayerScreen nothing-playing" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__nothing-playing__216dp.png" alt="Media/PlayerScreen nothing-playing" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__nothing-playing__225dp.png" alt="Media/PlayerScreen nothing-playing" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/media-playerscreen/ideal__nothing-playing__240dp.png" alt="Media/PlayerScreen nothing-playing" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-media-controlbuttons" role="dialog" aria-label="Media/ControlButtons">
+  <a class="detail-scrim" href="#c-media-controlbuttons" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-media-controlbuttons" aria-label="Close">×</a>
+    <h3>Media/ControlButtons</h3>
+    <div class="detail-caption">Previous, play/pause, next — the transport row. The track&#39;s progress ring is under the middle button&#39;s container rather than around it; see the note in this file.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-controlbuttons/ideal__default.png" alt="Media/ControlButtons default" /><span>default</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-controlbuttons/ideal__disabled.png" alt="Media/ControlButtons disabled" /><span>disabled</span></div></div></figure><figure class="state"><figcaption>paused</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-controlbuttons/ideal__paused.png" alt="Media/ControlButtons paused" /><span>paused</span></div></div></figure><figure class="state"><figcaption>progress-20</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-controlbuttons/ideal__progress-20.png" alt="Media/ControlButtons progress-20" /><span>progress-20</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-media-podcastcontrolbuttons" role="dialog" aria-label="Media/PodcastControlButtons">
+  <a class="detail-scrim" href="#c-media-podcastcontrolbuttons" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-media-podcastcontrolbuttons" aria-label="Close">×</a>
+    <h3>Media/PodcastControlButtons</h3>
+    <div class="detail-caption">The spoken-word transport row: seek back and forward by a fixed increment.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-podcastcontrolbuttons/ideal__default.png" alt="Media/PodcastControlButtons default" /><span>default</span></div></div></figure><figure class="state"><figcaption>paused</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-podcastcontrolbuttons/ideal__paused.png" alt="Media/PodcastControlButtons paused" /><span>paused</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-media-playpauseprogressbutton" role="dialog" aria-label="Media/PlayPauseProgressButton">
+  <a class="detail-scrim" href="#c-media-playpauseprogressbutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-media-playpauseprogressbutton" aria-label="Close">×</a>
+    <h3>Media/PlayPauseProgressButton</h3>
+    <div class="detail-caption">The middle button: play or pause. Its progress ring is drawn UNDER the filled container at these arguments, so the kit&#39;s `Progress=` reads only in the ambient (outlined) variant — see the note in this file.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playpauseprogressbutton/ideal__default.png" alt="Media/PlayPauseProgressButton default" /><span>default</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playpauseprogressbutton/ideal__disabled.png" alt="Media/PlayPauseProgressButton disabled" /><span>disabled</span></div></div></figure><figure class="state"><figcaption>paused</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playpauseprogressbutton/ideal__paused.png" alt="Media/PlayPauseProgressButton paused" /><span>paused</span></div></div></figure><figure class="state"><figcaption>progress-20</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-playpauseprogressbutton/ideal__progress-20.png" alt="Media/PlayPauseProgressButton progress-20" /><span>progress-20</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-media-infodisplay" role="dialog" aria-label="Media/InfoDisplay">
+  <a class="detail-scrim" href="#c-media-infodisplay" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-media-infodisplay" aria-label="Close">×</a>
+    <h3>Media/InfoDisplay</h3>
+    <div class="detail-caption">Track and artist, marquee-scrolled when the title outruns the screen.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-infodisplay/ideal__default.png" alt="Media/InfoDisplay default" /><span>default</span></div></div></figure><figure class="state"><figcaption>loading</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-infodisplay/ideal__loading.png" alt="Media/InfoDisplay loading" /><span>loading</span></div></div></figure><figure class="state"><figcaption>nothing-playing</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-infodisplay/ideal__nothing-playing.png" alt="Media/InfoDisplay nothing-playing" /><span>nothing-playing</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-media-showplaylistbutton" role="dialog" aria-label="Media/ShowPlaylistButton">
+  <a class="detail-scrim" href="#c-media-showplaylistbutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-media-showplaylistbutton" aria-label="Close">×</a>
+    <h3>Media/ShowPlaylistButton</h3>
+    <div class="detail-caption">The bottom action: jump to the playlist this track came from, with its artwork.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/media-showplaylistbutton/ideal__default.png" alt="Media/ShowPlaylistButton default" /><span>default</span></div></div></figure></div>
   </div>
 </div>
 <div class="detail" id="d-datepicker" role="dialog" aria-label="DatePicker">

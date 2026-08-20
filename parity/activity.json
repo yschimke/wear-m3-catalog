@@ -1,11 +1,51 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-20T10:06:45.763Z",
+  "generatedAt": "2026-08-20T10:17:56.719Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "e90253fcf0115dcf908847767d747d70fb43f108",
+        "subject": "fix(buttons): draw the loading button's icon inside its progress ring (#48)",
+        "at": "2026-08-20T10:48:43+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "button-child__ideal__default",
+          "button-child__ideal__disabled",
+          "button-compact__ideal__default",
+          "button-compact__ideal__child",
+          "button-compact__ideal__disabled",
+          "button-compact__ideal__filled-variant",
+          "button-compact__ideal__outlined",
+          "button-compact__ideal__tonal",
+          "button-filled__ideal__default",
+          "button-filled__ideal__disabled",
+          "button-filledvariant__ideal__default",
+          "button-filledvariant__ideal__disabled",
+          "button-imagebackground__ideal__default",
+          "button-imagebackground__ideal__disabled",
+          "button-imagebackground__ideal__secondary-label",
+          "button-loading__ideal__default",
+          "button-loading__ideal__child",
+          "button-loading__ideal__outlined",
+          "button-outlined__ideal__default",
+          "button-outlined__ideal__disabled",
+          "button-tonal__ideal__default",
+          "button-tonal__ideal__disabled"
+        ],
+        "components": [
+          "Button/Child",
+          "Button/Compact",
+          "Button/Filled",
+          "Button/FilledVariant",
+          "Button/ImageBackground",
+          "Button/Loading",
+          "Button/Outlined",
+          "Button/Tonal"
+        ]
+      },
       {
         "sha": "0154dd8717e75af323f266a797bbdfc50a96314f",
         "subject": "fix: compare the edge button against the kit cell it draws, not a screenful of list (#39)",

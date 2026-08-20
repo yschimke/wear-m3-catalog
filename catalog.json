@@ -4,6 +4,555 @@
   "title": "M3 Wear OS Apps Design Kit",
   "components": [
     {
+      "componentId": "Auth/SignInButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinbutton/ideal__default.png",
+          "state": "default",
+          "width": 249,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinbutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 249,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinbutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 217,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 217,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 217,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Horologist",
+      "group": "Sign-in",
+      "caption": "The primary action of a sign-in prompt, with the account glyph Wear's flow expects.",
+      "noReference": "The kit publishes no sign-in page — there is no set, and no private base node either, to point at. This is Horologist's named button for the flow's primary action.",
+      "wireframe": "wireframes/auth-signinbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 56
+    },
+    {
+      "componentId": "Auth/GuestModeButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/auth-guestmodebutton/ideal__default.png",
+          "state": "default",
+          "width": 257,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-guestmodebutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthGuestModeButton",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-guestmodebutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 257,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-guestmodebutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthGuestModeButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 225,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 225,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 225,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Horologist",
+      "group": "Sign-in",
+      "caption": "The way past the sign-in prompt: continue without an account.",
+      "noReference": "The other half of the sign-in prompt, and the kit publishes neither. Horologist ships it as its own composable because the choice it offers — carry on without an account — is the one Wear's guidance wants given equal weight, not hidden behind the primary button.",
+      "wireframe": "wireframes/auth-guestmodebutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 76
+    },
+    {
+      "componentId": "Auth/SelectAccountScreen",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/auth-selectaccountscreen/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-selectaccountscreen__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSelectAccountScreen_192dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-selectaccountscreen/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-selectaccountscreen__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSelectAccountScreen_204dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-selectaccountscreen/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-selectaccountscreen__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSelectAccountScreen_216dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-selectaccountscreen/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-selectaccountscreen__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSelectAccountScreen_225dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-selectaccountscreen/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-selectaccountscreen__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSelectAccountScreen_240dp",
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 20,
+              "y": 144,
+              "width": 344,
+              "height": 128
+            }
+          },
+          "bounds": {
+            "x": 20,
+            "y": 144,
+            "width": 344,
+            "height": 128
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 35,
+              "y": 280,
+              "width": 313,
+              "height": 116
+            }
+          },
+          "bounds": {
+            "x": 35,
+            "y": 280,
+            "width": 313,
+            "height": 116
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 71,
+            "y": 70,
+            "width": 243,
+            "height": 42
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        },
+        {
+          "bounds": {
+            "x": 20,
+            "y": 144,
+            "width": 344,
+            "height": 128
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 35,
+            "y": 280,
+            "width": 313,
+            "height": 116
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Horologist",
+      "group": "Sign-in",
+      "caption": "Pick which account to sign in with — avatar, name and address per row.",
+      "noReference": "No kit set: the kit draws lists and cards, but not the account picker built from them. Horologist's is a `TransformingLazyColumn` of accounts with the avatar, name and address laid out the way Wear's sign-in guidance specifies.",
+      "wireframe": "wireframes/auth-selectaccountscreen.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 95
+    },
+    {
+      "componentId": "Auth/SignInPlaceholderScreen",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinplaceholderscreen/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinplaceholderscreen__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInPlaceholderScreen_192dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinplaceholderscreen/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinplaceholderscreen__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInPlaceholderScreen_204dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinplaceholderscreen/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinplaceholderscreen__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInPlaceholderScreen_216dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinplaceholderscreen/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinplaceholderscreen__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInPlaceholderScreen_225dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signinplaceholderscreen/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signinplaceholderscreen__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignInPlaceholderScreen_240dp",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 132,
+            "y": 87,
+            "width": 120,
+            "height": 120
+          },
+          "cornerRadius": 30
+        },
+        {
+          "bounds": {
+            "x": 36,
+            "y": 223,
+            "width": 312,
+            "height": 38
+          },
+          "label": "Signing in…",
+          "padding": {
+            "start": 0,
+            "top": 8,
+            "end": 0,
+            "bottom": 0
+          }
+        }
+      ],
+      "section": "Horologist",
+      "group": "Sign-in",
+      "caption": "What the sign-in flow shows while it is still deciding what to show.",
+      "noReference": "The kit's `Placeholder` sets cover the button, icon button and card; it publishes no placeholder SCREEN. This is the shimmer a sign-in shows while it works out who is already signed in on the phone.",
+      "wireframe": "wireframes/auth-signinplaceholderscreen.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 109
+    },
+    {
+      "componentId": "Auth/SignedInConfirmationDialog",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/auth-signedinconfirmationdialog/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signedinconfirmationdialog__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignedInConfirmationDialog_192dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signedinconfirmationdialog/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signedinconfirmationdialog__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignedInConfirmationDialog_204dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signedinconfirmationdialog/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signedinconfirmationdialog__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignedInConfirmationDialog_216dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signedinconfirmationdialog/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signedinconfirmationdialog__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignedInConfirmationDialog_225dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/auth-signedinconfirmationdialog/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/auth-signedinconfirmationdialog__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.AuthKt.AuthSignedInConfirmationDialog_240dp",
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Horologist",
+      "group": "Sign-in",
+      "caption": "The end of the flow: who you signed in as, shown briefly and then dismissed.",
+      "noReference": "Wear Compose publishes `ConfirmationDialog` and the kit publishes `Dialog`, but neither publishes the signed-in confirmation: the avatar, the greeting and the timeout are Horologist's, and it is the composable a sign-in flow actually calls at the end.",
+      "wireframe": "wireframes/auth-signedinconfirmationdialog.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 121
+    },
+    {
       "componentId": "Button/Filled",
       "images": [
         {
@@ -253,7 +802,7 @@
       "wireframe": "wireframes/button-filled.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 82
+      "bodyLine": 85
     },
     {
       "componentId": "Button/FilledVariant",
@@ -505,7 +1054,7 @@
       "wireframe": "wireframes/button-filledvariant.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 107
+      "bodyLine": 110
     },
     {
       "componentId": "Button/Tonal",
@@ -757,7 +1306,7 @@
       "wireframe": "wireframes/button-tonal.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 133
+      "bodyLine": 136
     },
     {
       "componentId": "Button/Outlined",
@@ -1009,7 +1558,7 @@
       "wireframe": "wireframes/button-outlined.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 158
+      "bodyLine": 161
     },
     {
       "componentId": "Button/Child",
@@ -1261,7 +1810,7 @@
       "wireframe": "wireframes/button-child.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 183
+      "bodyLine": 186
     },
     {
       "componentId": "Button/Compact",
@@ -2259,7 +2808,7 @@
       "wireframe": "wireframes/button-compact.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 232
+      "bodyLine": 235
     },
     {
       "componentId": "Button/ImageBackground",
@@ -2529,7 +3078,7 @@
       "wireframe": "wireframes/button-imagebackground.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 311
+      "bodyLine": 314
     },
     {
       "componentId": "Button/Loading",
@@ -2538,7 +3087,7 @@
           "variant": "ideal",
           "path": "images/button-loading/ideal__default.png",
           "state": "default",
-          "width": 344,
+          "width": 348,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__default",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton",
@@ -2617,7 +3166,7 @@
           "variant": "ideal",
           "path": "images/button-loading/ideal__child.png",
           "state": "child",
-          "width": 344,
+          "width": 348,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__child",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_child",
@@ -2696,7 +3245,7 @@
           "variant": "ideal",
           "path": "images/button-loading/ideal__outlined.png",
           "state": "outlined",
-          "width": 344,
+          "width": 348,
           "height": 136,
           "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/button-loading__ideal__outlined",
           "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_outlined",
@@ -2782,14 +3331,14 @@
             "bounds": {
               "x": 16,
               "y": 16,
-              "width": 312,
+              "width": 316,
               "height": 104
             }
           },
           "bounds": {
             "x": 16,
             "y": 16,
-            "width": 312,
+            "width": 316,
             "height": 104
           }
         }
@@ -2799,7 +3348,7 @@
           "bounds": {
             "x": 16,
             "y": 16,
-            "width": 312,
+            "width": 316,
             "height": 104
           },
           "role": "Button",
@@ -2820,7 +3369,7 @@
       "wireframe": "wireframes/button-loading.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 346
+      "bodyLine": 349
     },
     {
       "componentId": "ButtonGroup",
@@ -2983,7 +3532,7 @@
       "wireframe": "wireframes/buttongroup.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 390
+      "bodyLine": 421
     },
     {
       "componentId": "Card",
@@ -6236,6 +6785,200 @@
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt",
       "sourceModule": ":catalog",
       "bodyLine": 86
+    },
+    {
+      "componentId": "FastScrollingTransformingLazyColumn",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/fastscrollingtransforminglazycolumn/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/fastscrollingtransforminglazycolumn__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_192dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/fastscrollingtransforminglazycolumn/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/fastscrollingtransforminglazycolumn__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_204dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/fastscrollingtransforminglazycolumn/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/fastscrollingtransforminglazycolumn__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_216dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/fastscrollingtransforminglazycolumn/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/fastscrollingtransforminglazycolumn__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_225dp",
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/fastscrollingtransforminglazycolumn/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/fastscrollingtransforminglazycolumn__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_240dp",
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 117,
+              "y": -88,
+              "width": 151,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 117,
+            "y": -88,
+            "width": 151,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 128,
+              "y": 128,
+              "width": 128,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 128,
+            "y": 128,
+            "width": 128,
+            "height": 104
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 125,
+              "y": 240,
+              "width": 134,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 125,
+            "y": 240,
+            "width": 134,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 117,
+            "y": -88,
+            "width": 151,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 183,
+            "y": 57,
+            "width": 19,
+            "height": 38
+          },
+          "padding": {
+            "start": 14,
+            "top": 16,
+            "end": 14,
+            "bottom": 12
+          }
+        },
+        {
+          "bounds": {
+            "x": 128,
+            "y": 128,
+            "width": 128,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        },
+        {
+          "bounds": {
+            "x": 125,
+            "y": 240,
+            "width": 134,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Horologist",
+      "group": "Fast scrolling",
+      "caption": "A long list that skims by section when the rotating bezel is spun hard, instead of crawling.",
+      "noReference": "No kit set, for the same reason `TransformingLazyColumn` has none: the kit's list pages publish the rows, not the scrolling container — and the rotary skim this adds on top is a behaviour rather than a drawn state, so there is nothing in the kit it could be a cell of.",
+      "wireframe": "wireframes/fastscrollingtransforminglazycolumn.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/FastScrolling.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 59
     },
     {
       "componentId": "IconButton/Filled",
@@ -13736,6 +14479,4444 @@
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Lists.kt",
       "sourceModule": ":catalog",
       "bodyLine": 105
+    },
+    {
+      "componentId": "Media/PlayerScreen",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__ambient__192dp.png",
+          "state": "ambient",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__ambient__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_ambient",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "ambient"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__loading__192dp.png",
+          "state": "loading",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__loading__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_loading",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "loading"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__nothing-playing__192dp.png",
+          "state": "nothing-playing",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__nothing-playing__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_nothing-playing",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "nothing-playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__ambient__204dp.png",
+          "state": "ambient",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__ambient__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_ambient",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "ambient"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__loading__204dp.png",
+          "state": "loading",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__loading__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_loading",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "loading"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__nothing-playing__204dp.png",
+          "state": "nothing-playing",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__nothing-playing__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_nothing-playing",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "nothing-playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__ambient__216dp.png",
+          "state": "ambient",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__ambient__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_ambient",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "ambient"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__loading__216dp.png",
+          "state": "loading",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__loading__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_loading",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "loading"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__nothing-playing__216dp.png",
+          "state": "nothing-playing",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__nothing-playing__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_nothing-playing",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "nothing-playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__ambient__225dp.png",
+          "state": "ambient",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__ambient__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_ambient",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "ambient"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__loading__225dp.png",
+          "state": "loading",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__loading__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_loading",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "loading"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__nothing-playing__225dp.png",
+          "state": "nothing-playing",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__nothing-playing__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_nothing-playing",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "nothing-playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__ambient__240dp.png",
+          "state": "ambient",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__ambient__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_ambient",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "ambient"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__loading__240dp.png",
+          "state": "loading",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__loading__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_loading",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "loading"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playerscreen/ideal__nothing-playing__240dp.png",
+          "state": "nothing-playing",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playerscreen__ideal__nothing-playing__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_nothing-playing",
+          "overrides": [
+            {
+              "key": "mode",
+              "type": "string",
+              "label": "mode",
+              "default": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "current": {
+                "kind": "string",
+                "value": "interactive"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "interactive",
+                  "label": "interactive"
+                },
+                {
+                  "value": "ambient",
+                  "label": "ambient"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "nothing-playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playlist",
+              "type": "string",
+              "label": "playlist",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 28,
+              "y": 152,
+              "width": 80,
+              "height": 96
+            }
+          },
+          "bounds": {
+            "x": 28,
+            "y": 152,
+            "width": 80,
+            "height": 96
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 128,
+              "y": 136,
+              "width": 128,
+              "height": 128
+            }
+          },
+          "bounds": {
+            "x": 128,
+            "y": 136,
+            "width": 128,
+            "height": 128
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 276,
+              "y": 152,
+              "width": 80,
+              "height": 96
+            }
+          },
+          "bounds": {
+            "x": 276,
+            "y": 152,
+            "width": 80,
+            "height": 96
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 33,
+              "y": 272,
+              "width": 319,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 33,
+            "y": 272,
+            "width": 319,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 136,
+            "width": 384,
+            "height": 128
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 28,
+            "y": 152,
+            "width": 80,
+            "height": 96
+          },
+          "role": "Button",
+          "padding": {
+            "top": 8,
+            "bottom": 8
+          },
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 128,
+            "y": 136,
+            "width": 128,
+            "height": 128
+          },
+          "role": "Button",
+          "cornerRadius": 32
+        },
+        {
+          "bounds": {
+            "x": 276,
+            "y": 152,
+            "width": 80,
+            "height": 96
+          },
+          "role": "Button",
+          "padding": {
+            "top": 8,
+            "bottom": 8
+          },
+          "cornerRadius": 20
+        },
+        {
+          "bounds": {
+            "x": 33,
+            "y": 272,
+            "width": 319,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Horologist",
+      "group": "Media controls",
+      "caption": "The media player, whole: track and artist above, transport controls across the middle, the app's own action below.",
+      "noReference": "The kit's `Media-Player` set (`71575:22328`) is what this reproduces, but its published cell does not EXPORT as the player: `.Base / Media / Album Artwork/Primary NEW` composites over the whole 192×192 and the exported reference is an opaque purple wash with the player nowhere in it. Mapping to it published a comparison against a blurred background, so the reference is withdrawn until the export is faithful. See the note in this file.",
+      "wireframe": "wireframes/media-playerscreen.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 135
+    },
+    {
+      "componentId": "Media/ControlButtons",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/media-controlbuttons/ideal__default.png",
+          "state": "default",
+          "width": 416,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-controlbuttons__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaControlButtonsRow",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-controlbuttons/ideal__disabled.png",
+          "state": "disabled",
+          "width": 416,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-controlbuttons__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaControlButtonsRow_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-controlbuttons/ideal__paused.png",
+          "state": "paused",
+          "width": 416,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-controlbuttons__ideal__paused",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaControlButtonsRow_VARIANT_paused",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-controlbuttons/ideal__progress-20.png",
+          "state": "progress-20",
+          "width": 416,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-controlbuttons__ideal__progress-20",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaControlButtonsRow_VARIANT_progress-20",
+          "overrides": [
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "20"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 50,
+              "y": 40,
+              "width": 64,
+              "height": 80
+            }
+          },
+          "bounds": {
+            "x": 50,
+            "y": 40,
+            "width": 64,
+            "height": 80
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 128,
+              "y": 0,
+              "width": 160,
+              "height": 160
+            }
+          },
+          "bounds": {
+            "x": 128,
+            "y": 0,
+            "width": 160,
+            "height": 160
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 302,
+              "y": 40,
+              "width": 64,
+              "height": 80
+            }
+          },
+          "bounds": {
+            "x": 302,
+            "y": 40,
+            "width": 64,
+            "height": 80
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 384,
+            "height": 128
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 50,
+            "y": 40,
+            "width": 64,
+            "height": 80
+          },
+          "role": "Button",
+          "padding": {
+            "top": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 16
+        },
+        {
+          "bounds": {
+            "x": 128,
+            "y": 0,
+            "width": 160,
+            "height": 160
+          },
+          "role": "Button",
+          "cornerRadius": 40
+        },
+        {
+          "bounds": {
+            "x": 302,
+            "y": 40,
+            "width": 64,
+            "height": 80
+          },
+          "role": "Button",
+          "padding": {
+            "top": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 16
+        }
+      ],
+      "section": "Horologist",
+      "group": "Media controls",
+      "caption": "Previous, play/pause, next — the transport row. The track's progress ring is under the middle button's container rather than around it; see the note in this file.",
+      "noReference": "The kit draws the transport row only inside `.Base / Media / Footer` (`71575:22221`), a PRIVATE set the kit walk does not publish and no coverage row can name. The published cell it appears in is `Media-Player`, which `Media/PlayerScreen` reproduces whole.",
+      "wireframe": "wireframes/media-controlbuttons.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 243
+    },
+    {
+      "componentId": "Media/PodcastControlButtons",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/media-podcastcontrolbuttons/ideal__default.png",
+          "state": "default",
+          "width": 416,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-podcastcontrolbuttons__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPodcastControlButtons",
+          "overrides": [
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-podcastcontrolbuttons/ideal__paused.png",
+          "state": "paused",
+          "width": 416,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-podcastcontrolbuttons__ideal__paused",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPodcastControlButtons_VARIANT_paused",
+          "overrides": [
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 112,
+              "height": 128
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 112,
+            "height": 128
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 128,
+              "y": 0,
+              "width": 160,
+              "height": 160
+            }
+          },
+          "bounds": {
+            "x": 128,
+            "y": 0,
+            "width": 160,
+            "height": 160
+          }
+        },
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 288,
+              "y": 16,
+              "width": 112,
+              "height": 128
+            }
+          },
+          "bounds": {
+            "x": 288,
+            "y": 16,
+            "width": 112,
+            "height": 128
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 384,
+            "height": 128
+          },
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 112,
+            "height": 128
+          },
+          "role": "Button",
+          "padding": {
+            "top": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 28
+        },
+        {
+          "bounds": {
+            "x": 128,
+            "y": 0,
+            "width": 160,
+            "height": 160
+          },
+          "role": "Button",
+          "padding": {
+            "start": 0,
+            "top": 0,
+            "end": 0,
+            "bottom": 0
+          }
+        },
+        {
+          "bounds": {
+            "x": 288,
+            "y": 16,
+            "width": 112,
+            "height": 128
+          },
+          "role": "Button",
+          "padding": {
+            "top": 12,
+            "bottom": 12
+          },
+          "cornerRadius": 28
+        }
+      ],
+      "section": "Horologist",
+      "group": "Media controls",
+      "caption": "The spoken-word transport row: seek back and forward by a fixed increment.",
+      "noReference": "Horologist's second transport row, for spoken-word playback: the same middle button with seek-back / seek-forward by a named increment either side of it. The kit publishes no podcast cell — its `.Base / Media / Footer` draws the track-skip row only.",
+      "wireframe": "wireframes/media-podcastcontrolbuttons.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 270
+    },
+    {
+      "componentId": "Media/PlayPauseProgressButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/media-playpauseprogressbutton/ideal__default.png",
+          "state": "default",
+          "width": 160,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playpauseprogressbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayPauseProgressButton",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playpauseprogressbutton/ideal__disabled.png",
+          "state": "disabled",
+          "width": 160,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playpauseprogressbutton__ideal__disabled",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayPauseProgressButton_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playpauseprogressbutton/ideal__paused.png",
+          "state": "paused",
+          "width": 160,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playpauseprogressbutton__ideal__paused",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayPauseProgressButton_VARIANT_paused",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "80"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-playpauseprogressbutton/ideal__progress-20.png",
+          "state": "progress-20",
+          "width": 160,
+          "height": 160,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-playpauseprogressbutton__ideal__progress-20",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayPauseProgressButton_VARIANT_progress-20",
+          "overrides": [
+            {
+              "key": "progress",
+              "type": "string",
+              "label": "progress",
+              "default": {
+                "kind": "string",
+                "value": "80"
+              },
+              "current": {
+                "kind": "string",
+                "value": "20"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "20",
+                  "label": "20"
+                },
+                {
+                  "value": "80",
+                  "label": "80"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "playing",
+              "type": "bool",
+              "label": "playing",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 128,
+              "height": 128
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 128,
+            "height": 128
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 128,
+            "height": 128
+          },
+          "role": "Button",
+          "cornerRadius": 32
+        }
+      ],
+      "section": "Horologist",
+      "group": "Media controls",
+      "caption": "The middle button: play or pause. Its progress ring is drawn UNDER the filled container at these arguments, so the kit's `Progress=` reads only in the ambient (outlined) variant — see the note in this file.",
+      "noReference": "The kit's `.Base / Media / Main Control` (`71575:22140`) — a PRIVATE set, so it carries no coverage row. Its `Progress=` and `Playing=` axes are the cells below; its `Shape=` axis is the library's own, scalloped while playing and circular while paused.",
+      "wireframe": "wireframes/media-playpauseprogressbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 315
+    },
+    {
+      "componentId": "Media/InfoDisplay",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/media-infodisplay/ideal__default.png",
+          "state": "default",
+          "width": 416,
+          "height": 108,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-infodisplay__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaInfoDisplayHeader",
+          "overrides": [
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "title",
+              "type": "string",
+              "label": "title",
+              "default": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Song Name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "subtitle",
+              "type": "string",
+              "label": "subtitle",
+              "default": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Artist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-infodisplay/ideal__loading.png",
+          "state": "loading",
+          "width": 416,
+          "height": 108,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-infodisplay__ideal__loading",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaInfoDisplayHeader_VARIANT_loading",
+          "overrides": [
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "loading"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/media-infodisplay/ideal__nothing-playing.png",
+          "state": "nothing-playing",
+          "width": 416,
+          "height": 108,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-infodisplay__ideal__nothing-playing",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaInfoDisplayHeader_VARIANT_nothing-playing",
+          "overrides": [
+            {
+              "key": "state",
+              "type": "string",
+              "label": "state",
+              "default": {
+                "kind": "string",
+                "value": "playing"
+              },
+              "current": {
+                "kind": "string",
+                "value": "nothing-playing"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "playing",
+                  "label": "playing"
+                },
+                {
+                  "value": "loading",
+                  "label": "loading"
+                },
+                {
+                  "value": "nothing-playing",
+                  "label": "nothing-playing"
+                }
+              ],
+              "optionsExhaustive": true
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Horologist",
+      "group": "Media controls",
+      "caption": "Track and artist, marquee-scrolled when the title outruns the screen.",
+      "noReference": "The kit's `.Base / Media / Header` (`71575:21983`) — a PRIVATE set. Its text is the kit's own placeholder copy, which `KitCopy.MEDIA_TITLE` / `MEDIA_ARTIST` carry.",
+      "wireframe": "wireframes/media-infodisplay.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 347
+    },
+    {
+      "componentId": "Media/ShowPlaylistButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/media-showplaylistbutton/ideal__default.png",
+          "state": "default",
+          "width": 416,
+          "height": 136,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/media-showplaylistbutton__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaShowPlaylistButton",
+          "overrides": [
+            {
+              "key": "name",
+              "type": "string",
+              "label": "name",
+              "default": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Playlist name"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 16,
+              "y": 16,
+              "width": 319,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 319,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 16,
+            "y": 16,
+            "width": 319,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "section": "Horologist",
+      "group": "Media controls",
+      "caption": "The bottom action: jump to the playlist this track came from, with its artwork.",
+      "noReference": "The app's own action in the kit's `.Base / Media / Footer` (`71575:22221`), a PRIVATE set. Compose's `FilledTonalButton` underneath, but the composable a media app calls is this one.",
+      "wireframe": "wireframes/media-showplaylistbutton.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 375
     },
     {
       "componentId": "DatePicker",
@@ -37809,7 +42990,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.22.0",
-  "generatedAt": "2026-08-20T10:00:59.453Z",
+  "generatedAt": "2026-08-20T10:15:22.319Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
