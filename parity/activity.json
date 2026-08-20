@@ -1,11 +1,30 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-20T17:23:29.724Z",
+  "generatedAt": "2026-08-20T17:53:15.600Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "d96288594c2abc358c260efda57b1327f0df3327",
+        "subject": "fix(toggle-buttons): size the toggle glyph the way the kit does (#71)",
+        "at": "2026-08-20T18:38:27+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "icontogglebutton__ideal__default",
+          "icontogglebutton__ideal__extra-large",
+          "icontogglebutton__ideal__large",
+          "icontogglebutton__ideal__small",
+          "texttogglebutton__ideal__default",
+          "texttogglebutton__ideal__extra-large",
+          "texttogglebutton__ideal__large"
+        ],
+        "components": [
+          "IconToggleButton",
+          "TextToggleButton"
+        ]
+      },
       {
         "sha": "fa872c7d648ff7f3dc685a1b318b66194ddd3cd1",
         "subject": "feat(motion): record the placeholders resolving into real content (#64)",
