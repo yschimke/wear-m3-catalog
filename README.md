@@ -282,7 +282,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `PlaceholderCardMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlaceholderCardMotion-0edbd3c1.gif" width="150" /> |
 | `PlaceholderIconButtonMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlaceholderIconButtonMotion-f1d3922c.gif" width="150" /> |
 | `SwipeToRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealMotion-671dbb6d.gif" width="150" /> |
+| `SwitchTransitionMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwitchTransitionMotion-62450b91.png" width="150" /> |
 | `SwitchTransitionMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwitchTransitionMotion-62450b91.gif" width="150" /> |
+| `ToggleButtonShapeMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ToggleButtonShapeMotion-a1b71b0e.png" width="150" /> |
 | `ToggleButtonShapeMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ToggleButtonShapeMotion-a1b71b0e.gif" width="150" /> |
 | `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_192dp-320fa31f.png" width="150" /> |
 | `DateWheels` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/DateWheels_192dp_VARIANT_month_first-1cbb213f.png" width="150" /> |
