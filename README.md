@@ -277,6 +277,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `EdgeButtonRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/EdgeButtonRevealMotion-ca40423c.gif" width="150" /> |
 | `IndeterminateProgressMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IndeterminateProgressMotion-712acc69.gif" width="150" /> |
 | `MediaTransportMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaTransportMotion-104cef80.gif" width="150" /> |
+| `PlaceholderButtonMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlaceholderButtonMotion-b9022d06.gif" width="150" /> |
+| `PlaceholderCardMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlaceholderCardMotion-0edbd3c1.gif" width="150" /> |
+| `PlaceholderIconButtonMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlaceholderIconButtonMotion-f1d3922c.gif" width="150" /> |
 | `SwipeToRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwipeToRevealMotion-671dbb6d.gif" width="150" /> |
 | `SwitchTransitionMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SwitchTransitionMotion-62450b91.gif" width="150" /> |
 | `ToggleButtonShapeMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ToggleButtonShapeMotion-a1b71b0e.gif" width="150" /> |
