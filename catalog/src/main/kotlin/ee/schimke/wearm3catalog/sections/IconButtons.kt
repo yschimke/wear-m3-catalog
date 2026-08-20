@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -62,7 +63,19 @@ private fun iconButtonSize(): Dp =
 
 // The kit draws a plus in every icon-button cell, so this does too — a heart is a different
 // picture in the one slot these components have.
-@Composable private fun kitGlyph() = Icon(Icons.Filled.Add, contentDescription = "Add")
+//
+// The size is passed explicitly because Wear's `IconButton` does not size its content: the slot
+// takes whatever the caller puts in it, and a bare `Icon` falls back to Material's 24dp default.
+// The kit's `Size=Default` cell is a 52x52 frame around a 26x26 icon (34732:103015), so the
+// default drew two dp small in every cell and the icon-to-button ratio was wrong at every size —
+// `iconSizeFor` is the pairing Wear publishes for exactly this.
+@Composable
+private fun kitGlyph(size: Dp = iconButtonSize()) =
+  Icon(
+    Icons.Filled.Add,
+    contentDescription = "Add",
+    modifier = Modifier.size(IconButtonDefaults.iconSizeFor(size)),
+  )
 
 @CatalogComponent(
   id = "IconButton/Filled",
