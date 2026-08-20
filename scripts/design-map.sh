@@ -42,7 +42,7 @@ trap 'rm -rf "$WORK"' EXIT
 # `ButtonGroup`, `TransformingLazyColumn`, `Scaffold` and `ArcProgressIndicator` are through door 2,
 # so plain `--strict` reddened this repo on four components that are exactly as intended. The
 # Horologist components added since (the media parts, the sign-in surfaces, the fast-scrolling list)
-# go through the same door for the same reason, so the count is fifteen now rather than four.
+# go through the same door for the same reason, so the count is sixteen now rather than four.
 #
 # `--allow-stated-absence` narrows the gate to what it is actually for: still fatal on a missing
 # reference and on captures that pair with none, permissive about a stated one. They are still

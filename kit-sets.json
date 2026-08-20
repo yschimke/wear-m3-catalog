@@ -334,10 +334,7 @@
       "page": "Media Controls",
       "set": "Media-Player",
       "node": "71575:22328",
-      "components": [
-        "Media/PlayerScreen"
-      ],
-      "$note": "Reproduced with HOROLOGIST, not Wear Compose Material 3, which publishes no media player. The exclusion this replaces read 'assembled by an app (or by Horologist), not a library component' — true of Wear Compose and wrong about the ecosystem: horologist-media-ui-material3 publishes the screen and its parts as library components. See sections/MediaControls.kt."
+      "excluded": "IMPLEMENTED BUT NOT COMPARABLE — the exclusion is about the reference, not the component. `Media/PlayerScreen` (Horologist's `PlayerScreen`, see sections/MediaControls.kt) reproduces this set, but the published cell `71575:22329` does not EXPORT as the player: its `.Base / Media / Album Artwork/Primary NEW` child composites over the full 192×192, and exported on its own it stops compositing and covers everything, so the reference image is an opaque purple wash. A comparison against that reports the whole frame and means nothing, so the mapping is withdrawn rather than published. The two `AOD=Yes` cells (`71575:22344`, `71575:22375`) carry no artwork instance and export faithfully — this becomes mappable again when the exporter composites the overlay."
     }
   ]
 }
