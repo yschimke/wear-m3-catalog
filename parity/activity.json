@@ -1,11 +1,59 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-20T11:39:53.259Z",
+  "generatedAt": "2026-08-20T12:54:31.814Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "2fdeb4d35df345dba9cba0fdfd528feb8e60c829",
+        "subject": "fix(icon-buttons): size the glyph the way the kit does (#57)",
+        "at": "2026-08-20T13:39:36+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "iconbutton-filled__ideal__default",
+          "iconbutton-filled__ideal__disabled",
+          "iconbutton-filled__ideal__extra-small",
+          "iconbutton-filled__ideal__large",
+          "iconbutton-filled__ideal__small",
+          "iconbutton-filledvariant__ideal__default",
+          "iconbutton-filledvariant__ideal__disabled",
+          "iconbutton-filledvariant__ideal__extra-small",
+          "iconbutton-filledvariant__ideal__large",
+          "iconbutton-filledvariant__ideal__small",
+          "iconbutton-outlined__ideal__default",
+          "iconbutton-outlined__ideal__disabled",
+          "iconbutton-outlined__ideal__extra-small",
+          "iconbutton-outlined__ideal__large",
+          "iconbutton-outlined__ideal__small",
+          "iconbutton-standard__ideal__default",
+          "iconbutton-standard__ideal__disabled",
+          "iconbutton-standard__ideal__large",
+          "iconbutton-standard__ideal__small",
+          "textbutton__ideal__default",
+          "textbutton__ideal__child",
+          "textbutton__ideal__disabled",
+          "textbutton__ideal__filled-variant",
+          "textbutton__ideal__large",
+          "textbutton__ideal__outlined",
+          "textbutton__ideal__small",
+          "textbutton__ideal__tonal",
+          "iconbutton-tonal__ideal__default",
+          "iconbutton-tonal__ideal__disabled",
+          "iconbutton-tonal__ideal__extra-small",
+          "iconbutton-tonal__ideal__large",
+          "iconbutton-tonal__ideal__small"
+        ],
+        "components": [
+          "IconButton/Filled",
+          "IconButton/FilledVariant",
+          "IconButton/Outlined",
+          "IconButton/Standard",
+          "TextButton",
+          "IconButton/Tonal"
+        ]
+      },
       {
         "sha": "74c769c7e6e6ec48cc206b37ef83f56860298a99",
         "subject": "fix(catalog): claim the motion captures so they actually publish (#50)",
@@ -1630,37 +1678,5 @@
       }
     ],
     "comments": []
-  },
-  "gaps": [
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#SegmentedProgress",
-      "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#CheckboxRow",
-      "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.CheckboxRow"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#RadioRow",
-      "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.RadioRow"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SelectionButtons.kt#SwitchRow",
-      "previewId": "ee.schimke.wearm3catalog.sections.SelectionButtonsKt.SwitchRow"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Shapes.kt#MaterialShapesSticker",
-      "previewId": "ee.schimke.wearm3catalog.sections.ShapesKt.MaterialShapesSticker"
-    }
-  ]
+  }
 }
