@@ -11574,7 +11574,7 @@
       "wireframe": "wireframes/fastscrollingtransforminglazycolumn.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/FastScrolling.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 59
+      "bodyLine": 60
     },
     {
       "componentId": "IconButton/Filled",
@@ -22279,7 +22279,7 @@
       "wireframe": "wireframes/media-playerscreen.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 156
+      "bodyLine": 166
     },
     {
       "componentId": "Media/ControlButtons",
@@ -22708,7 +22708,7 @@
       "wireframe": "wireframes/media-controlbuttons.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 264
+      "bodyLine": 274
     },
     {
       "componentId": "Media/PodcastControlButtons",
@@ -22898,7 +22898,8 @@
       "motion": [
         {
           "path": "motion/media-podcastcontrolbuttons/ee.schimke.wearm3catalog.sections.MotionKt.MediaTransportMotion.gif",
-          "kind": "animation"
+          "kind": "interaction",
+          "caption": "Seek back, play/pause, seek forward pressed in turn: the pressed button swells and its neighbours yield, the middle button re-morphs on any press, and pausing resolves its scallop to a circle — all over a progress ring that never stops moving."
         }
       ],
       "section": "Horologist",
@@ -22908,7 +22909,7 @@
       "wireframe": "wireframes/media-podcastcontrolbuttons.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 292
+      "bodyLine": 302
     },
     {
       "componentId": "Media/PlayPauseProgressButton",
@@ -23255,7 +23256,7 @@
       "wireframe": "wireframes/media-playpauseprogressbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 337
+      "bodyLine": 347
     },
     {
       "componentId": "Media/InfoDisplay",
@@ -23435,7 +23436,7 @@
       "wireframe": "wireframes/media-infodisplay.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 369
+      "bodyLine": 379
     },
     {
       "componentId": "Media/ShowPlaylistButton",
@@ -23518,7 +23519,7 @@
       "wireframe": "wireframes/media-showplaylistbutton.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 397
+      "bodyLine": 407
     },
     {
       "componentId": "DatePicker",
@@ -47996,7 +47997,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.25.0",
-  "generatedAt": "2026-08-20T14:17:51.125Z",
+  "generatedAt": "2026-08-20T14:48:48.508Z",
   "display": {
     "surface": "dark",
     "hero": "Shape/MaterialShapes"
