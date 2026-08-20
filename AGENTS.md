@@ -288,10 +288,17 @@ Three rules, each learned the hard way:
   it is implemented in the **desktop** renderer only; on Robolectric nothing writes the animated
   file and the still then fails to decode `<id>.apng: file is missing on disk` — which also costs
   the component its ordinary PNG. Use a `LaunchedEffect` state change instead, and say so.
+- **A placeholder only animates under an `AppScaffold`.** `PlaceholderState` reads its frame clock
+  from the library's internal `AnimationCoordinator`, and `AppScaffold` is the one thing in Wear
+  Compose that composes that coordinator's looper — so a shimmer drawn in a bare `Sticker` stands
+  perfectly still, on a watch as much as here. `AnimatedSticker` is that scaffold and nothing else;
+  the placeholder recordings use it. This is the worked example of the rule below: a still recording
+  looks exactly like a renderer limitation, and this one was written down as one for a while.
 
 A recording must actually move: `CatalogRenderTest` fails a GIF with fewer than six distinct frames.
-If a component does not animate under this renderer — the placeholder is the live example — publish
-no recording rather than one that implies motion nobody would see.
+If a component does not animate under this renderer, publish no recording rather than one that
+implies motion nobody would see — but rule out a missing wrapper first, because that is what the
+placeholder's "3 distinct frames in 46" turned out to be.
 
 ## Kotlin
 

@@ -7,11 +7,16 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,10 +27,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
+import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconToggleButton
 import androidx.wear.compose.material3.IconToggleButtonDefaults
@@ -33,10 +40,14 @@ import androidx.wear.compose.material3.RevealValue
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.placeholder
+import androidx.wear.compose.material3.placeholderShimmer
+import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.material3.rememberRevealState
 import com.google.android.horologist.media.ui.material3.components.PodcastControlButtons
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.wearm3catalog.AnimatedSticker
 import ee.schimke.wearm3catalog.EdgeButtonScreen
 import ee.schimke.wearm3catalog.HorologistSamples
 import ee.schimke.wearm3catalog.Sticker
@@ -79,6 +90,9 @@ import kotlinx.coroutines.delay
 //   ToggleButtonShapeMotion     -> IconToggleButton           (ToggleButtons.kt)
 //   SwipeToRevealMotion         -> SwipeToReveal/Card         (SwipeToReveal.kt)
 //   EdgeButtonRevealMotion      -> EdgeButton                 (EdgeButtons.kt)
+//   PlaceholderButtonMotion     -> Placeholder/Button         (Placeholders.kt)
+//   PlaceholderIconButtonMotion -> Placeholder/IconButton     (Placeholders.kt)
+//   PlaceholderCardMotion       -> Placeholder/Card           (Placeholders.kt)
 //   MediaTransportMotion        -> Media/PodcastControlButtons (MediaControls.kt)
 //
 // ONE FUNCTION PER COMPONENT, which is a constraint on what a recording may cover rather than a
@@ -103,15 +117,17 @@ import kotlinx.coroutines.delay
 // Tracked upstream; when it lands, the toggles below become real tap recordings instead of
 // state-driven ones.
 //
-// WHAT IS NOT HERE: THE PLACEHOLDER
+// THE PLACEHOLDER, WHICH WAS "NOT HERE" AND IS NOW
 //
-// The obvious extra recording — the shimmer, and the wipe-off when content lands — does not run
-// under this renderer. Held visible it came out with 3 distinct frames in 46; toggling `isVisible`
-// so the wipe plays made it 4. Forcing `LocalReduceMotion` off (the sandbox reports the system
-// animator scale as zero, which Wear reads as a wearer asking for less motion) changed nothing, so
-// that is not the cause either — `PlaceholderState` drives itself from a coordinator the paused
-// clock does not advance. Four near-identical frames is a still with extra bytes, so there is no
-// placeholder GIF rather than one that implies motion nobody would see.
+// This file used to record the placeholder as a thing the renderer could not do: held visible it
+// came out with 3 distinct frames in 46, and toggling `isVisible` so the wipe plays made it 4.
+// That reading was wrong, and the correction is worth keeping because it looks nothing like a
+// missing wrapper: `PlaceholderState` reads its frame clock from the library's internal
+// `AnimationCoordinator`, and the ONLY thing in Wear Compose that composes that coordinator's
+// looper is `AppScaffold`. No scaffold, no frames — under any renderer, on a watch as much as
+// here. The placeholder recordings below therefore go in `AnimatedSticker`, which is that scaffold
+// and nothing else; the component stickers keep [Sticker] and keep their placeholder frozen, which
+// is what a baked capture wants anyway.
 //
 // WHAT DRIVES THESE, THEN
 //
@@ -272,6 +288,95 @@ fun EdgeButtonRevealMotion() {
   }
   EdgeButtonScreen(state) {
     EdgeButton(onClick = {}, buttonSize = EdgeButtonSize.Small) { Text("Done") }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Loading — a placeholder resolving into the content it was standing in for.
+// ---------------------------------------------------------------------------
+
+/**
+ * The loading flag the three placeholder recordings share: content is missing, then it arrives,
+ * then it is missing again so the recording loops.
+ *
+ * Both directions on purpose, as with [flipping]. The wipe-off is the animation a designer is
+ * choosing here, but a window that only ever wiped off would spend most of itself as a held still
+ * of a loaded button, and the shimmer — the other half of what a placeholder does — would show for
+ * a moment and never come back.
+ */
+@Composable private fun loading(): Boolean = flipping(initial = true, everyMs = 700)
+
+/**
+ * The placeholder resolving: the label and icon are covered while they are in flight, the shimmer
+ * sweeps across them, and when the content lands the cover wipes off to reveal it.
+ *
+ * `Modifier.placeholder` sits on the CONTENT here — on the `Text` and on the icon — rather than on
+ * a chip standing in for it, which is what makes the reveal a reveal: the real label is drawn
+ * underneath the whole time and the placeholder is what is taken away. The component sticker in
+ * `Placeholders.kt` cannot do that, because it has no content to cover; it draws the kit's chips at
+ * the kit's sizes, and this is the same component with the words filled in.
+ *
+ * Copy that reads like an app, not [KitCopy]: a recording answers to no kit node, and a wipe-off
+ * revealing the words `Primary label` reveals nothing.
+ */
+@MotionCanvas
+@AnimatedPreview(showCurves = false)
+@Composable
+fun PlaceholderButtonMotion() = AnimatedSticker {
+  val state = rememberPlaceholderState(isVisible = loading())
+  Button(
+    onClick = {},
+    modifier = Modifier.width(172.dp).placeholderShimmer(state),
+    icon = {
+      Icon(
+        Icons.Filled.Place,
+        contentDescription = null,
+        modifier = Modifier.placeholder(state, CircleShape),
+      )
+    },
+    secondaryLabel = { Text("6.2 km", modifier = Modifier.placeholder(state, CircleShape)) },
+    label = { Text("Morning run", modifier = Modifier.placeholder(state, CircleShape)) },
+  )
+}
+
+/** The same reveal with nothing but an icon to reveal — the icon button's whole content. */
+@MotionCanvas
+@AnimatedPreview(showCurves = false)
+@Composable
+fun PlaceholderIconButtonMotion() = AnimatedSticker {
+  val state = rememberPlaceholderState(isVisible = loading())
+  FilledIconButton(onClick = {}, modifier = Modifier.placeholderShimmer(state, CircleShape)) {
+    Icon(
+      Icons.Filled.Place,
+      contentDescription = "Activity",
+      modifier = Modifier.placeholder(state, CircleShape),
+    )
+  }
+}
+
+/**
+ * Three lines and an icon arriving at once, which is the case a placeholder is really for: a card
+ * of loaded content appearing all together rather than line by line as each string lands.
+ */
+@MotionCanvas
+@AnimatedPreview(showCurves = false)
+@Composable
+fun PlaceholderCardMotion() = AnimatedSticker {
+  val state = rememberPlaceholderState(isVisible = loading())
+  Card(onClick = {}, modifier = Modifier.width(172.dp).placeholderShimmer(state)) {
+    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+      Icon(
+        Icons.Filled.Place,
+        contentDescription = null,
+        modifier = Modifier.placeholder(state, CircleShape),
+      )
+      // Spaced, unlike the loaded text: two placeholder pills on adjacent baselines touch and read
+      // as one blob, which is a shape no line of text has.
+      Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text("Morning run", modifier = Modifier.placeholder(state, CircleShape))
+        Text("6.2 km in 31:04", modifier = Modifier.placeholder(state, CircleShape))
+      }
+    }
   }
 }
 

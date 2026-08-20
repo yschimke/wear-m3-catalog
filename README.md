@@ -163,13 +163,14 @@ pixels — so the frame stands down when a provider has already installed one.
 
 ## Motion
 
-Six recordings live in
+Nine recordings live in
 [`Motion.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Motion.kt), published as
 GIFs beside the sticker sheet: the indeterminate progress ring, the switch thumb travelling, the
-toggle button's shape morph, swipe-to-reveal revealing, the edge button rising out of a scroll, and
-the media transport row — its playback progress sweeping while play becomes pause. They carry no
-`@CatalogComponent` — a recording is not a component, and membership is still the kit's call — but
-each is **claimed** by the component it records, through `motionPreview` on that component's
+toggle button's shape morph, swipe-to-reveal revealing, the edge button rising out of a scroll, the
+media transport row — its playback progress sweeping while play becomes pause — and the button,
+icon button and card placeholders shimmering and then wiping off to reveal real content. They carry
+no `@CatalogComponent` — a recording is not a component, and membership is still the kit's call —
+but each is **claimed** by the component it records, through `motionPreview` on that component's
 `@CatalogComponent`. One function per component, so a recording covering two axes covers them in one
 window.
 
