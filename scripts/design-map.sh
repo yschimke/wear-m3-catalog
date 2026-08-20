@@ -56,7 +56,7 @@ trap 'rm -rf "$WORK"' EXIT
 #
 # Gated BEFORE anything is written, so a failed run leaves the committed map intact rather than
 # replacing it with one CI would report as merely stale.
-npx --yes @yschimke/compose-design-map@1.20.0 \
+npx --yes @yschimke/compose-design-map@1.25.0 \
   --previews catalog/build/compose-previews/previews.json \
   --out "$WORK/design-map.json" \
   --variants "$WORK/design-map-variants.json" \
