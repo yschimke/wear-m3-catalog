@@ -193,13 +193,14 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | [`compose-preview.yml`](.github/workflows/compose-preview.yml) | renders the previews and posts a before/after visual diff on every PR |
 | [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes the importable bundle to `design-artifacts/wear-m3-catalog` |
 | [`design-parity.yml`](.github/workflows/design-parity.yml) | compares the render against the Figma kit and publishes the report to `design-parity/main` |
+| [`design-parity-import.yml`](.github/workflows/design-parity-import.yml) | owns the Figma traffic: refreshes the reference cache on `design-parity/reference` |
+| [`figma-pages.yml`](.github/workflows/figma-pages.yml) | imports the kit's page SVGs and commits the cache under `design/pages` |
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |
+| [`no-agent-attribution.yml`](.github/workflows/no-agent-attribution.yml) | blocks agent `Co-authored-by:` trailers and agent commit identities from reaching `main` |
 
-design-parity is wired but **manual-only** for now: it needs a `FIGMA_TOKEN` repository secret (a
-read-only PAT with `file_content:read`), which it skips with a notice while absent, and a
-design-map.json carrying a component, which it does *not* — an empty map fails the run outright.
-This catalog cannot project one yet, for a reason that is upstream and documented in
-[`docs/DESIGN_MAP.md`](docs/DESIGN_MAP.md).
+design-parity now runs on **every push to `main`** and weekly: the `FIGMA_TOKEN` secret is set and
+`design-map.json` is committed, so the two prerequisites this section used to describe as missing
+are both met.
 
 Dependencies update themselves via Renovate ([`renovate.json`](.github/renovate.json)).
 
