@@ -288,7 +288,7 @@ Three rules, each learned the hard way:
   It used to be desktop-only: on Robolectric nothing wrote the animated file and the still then
   failed to decode `<id>.apng: file is missing on disk`, which also cost the component its ordinary
   PNG. That is compose-ai-tools issue #4215, closed by #4240 with the ripple's clock fixed in #4315,
-  both shipped in **1.25.0** — the version this repo pins. Prefer it over a `LaunchedEffect` for
+  both shipped in **1.25.0** — below the version this repo pins. Prefer it over a `LaunchedEffect` for
   anything a finger provokes: it dispatches a real pointer at nodes resolved from the live semantics
   tree, so the component responds through its own wiring rather than through state a preview set on
   its behalf, and the Android backend advances the **main looper** per frame, which is the only way

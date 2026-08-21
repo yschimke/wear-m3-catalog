@@ -178,7 +178,7 @@ transport row is the exception and the first here to use **`@InteractionPreview`
 a real pointer at nodes resolved from the live semantics tree: the row's buttons respond through
 their own wiring, and pressing the middle one genuinely pauses playback rather than a preview
 setting `playing` on its behalf. That annotation was desktop-only when this file's Motion notes were
-first written; it has run on Robolectric since compose-ai-tools 1.25.0, which this repo pins. See
+first written; it has run on Robolectric since compose-ai-tools 1.25.0, below the version this repo pins. See
 [`AGENTS.md`](AGENTS.md) and the notes in `Motion.kt` for when to reach for which, and for why a
 press that dispatches cleanly still needs measuring before you call it motion.
 
