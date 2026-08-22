@@ -1,11 +1,26 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-21T20:58:13.109Z",
+  "generatedAt": "2026-08-22T08:10:45.075Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "c9939cab6081ff150a703312ae001f29cd8fef9f",
+        "subject": "fix(dialogs): draw the alert dialog's icon, and the layout that follows it (#75)",
+        "at": "2026-08-22T10:56:09+03:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "alertdialog__ideal__default__192dp",
+          "alertdialog__ideal__edge-button__192dp",
+          "openonphonedialog__ideal__default__192dp"
+        ],
+        "components": [
+          "AlertDialog",
+          "OpenOnPhoneDialog"
+        ]
+      },
       {
         "sha": "d96288594c2abc358c260efda57b1327f0df3327",
         "subject": "fix(toggle-buttons): size the toggle glyph the way the kit does (#71)",
@@ -2138,73 +2153,5 @@
       }
     ],
     "comments": []
-  },
-  "gaps": [
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueSlider",
-      "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueSlider"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Sliders.kt#ValueStepper",
-      "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_192dp"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealButton",
-      "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard",
-      "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#BodyText",
-      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#CaptionText",
-      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.CaptionText"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#FixedTimeText",
-      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText_192dp"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListHeading",
-      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/TextComponents.kt#ListSubHeading",
-      "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt#IconToggle",
-      "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.IconToggle"
-    },
-    {
-      "kind": "unrendered-reference",
-      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ToggleButtons.kt#TextToggle",
-      "previewId": "ee.schimke.wearm3catalog.sections.ToggleButtonsKt.TextToggle"
-    }
-  ]
+  }
 }
