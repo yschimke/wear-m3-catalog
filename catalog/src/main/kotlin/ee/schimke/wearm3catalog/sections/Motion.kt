@@ -28,7 +28,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
@@ -372,15 +374,76 @@ fun EdgeButtonRevealMotion() {
 // ---------------------------------------------------------------------------
 
 /**
- * The loading flag the three placeholder recordings share: content is missing, then it arrives,
- * then it is missing again so the recording loops.
+ * How long the placeholder is held before its content lands: one full shimmer sweep.
  *
- * Both directions on purpose, as with [flipping]. The wipe-off is the animation a designer is
- * choosing here, but a window that only ever wiped off would spend most of itself as a held still
- * of a loaded button, and the shimmer — the other half of what a placeholder does — would show for
- * a moment and never come back.
+ * `PLACEHOLDER_SHIMMER_DURATION_MS` in Wear Compose — `MotionTokens.DurationExtraLong2`. The
+ * library's own number, not a taste: the sweep runs for 800ms and then the shimmer **stops** for
+ * the rest of a 2000ms loop (`PLACEHOLDER_SHIMMER_GAP_BETWEEN_ANIMATION_LOOPS_MS`), so a window
+ * that holds the placeholder any longer than this spends the extra time on a motionless
+ * placeholder.
  */
-@Composable private fun loading(): Boolean = flipping(initial = true, everyMs = 700)
+private const val SHIMMER_SWEEP_MS = 800
+
+/**
+ * The wipe-off, once the content has landed — the part of it that is visible on a component.
+ *
+ * `PLACEHOLDER_WIPE_OFF_PROGRESSION_ALPHA_DURATION_MS`, and **not** the 300ms
+ * `PLACEHOLDER_WIPE_OFF_PROGRESSION_DURATION_MS` the state machine runs for. The placeholder's
+ * alpha reaches 1 at 80/300 of that progression — Wear Compose's own KDoc on
+ * `placeholderWipeOffAlpha` says "the time taken for this progression is 80ms" — and the remaining
+ * 220ms changes no pixel on the component. Recording them would be 220ms of held still.
+ */
+private const val WIPE_OFF_MS = 80
+
+/**
+ * The loading flag the three placeholder recordings share: content is missing for one shimmer
+ * sweep, then it arrives. **One direction only**, unlike [flipping].
+ *
+ * This used to flip both ways every 700ms, on the reasoning that a recording which only ever wiped
+ * off would spend most of itself as a held still of a loaded card. Measuring the GIF said the
+ * opposite: of 2.8s of playback, roughly 2.2s was a frozen frame. Two whole load/unload cycles were
+ * being crammed into a 1.5s window — so neither reveal had room — and the second placeholder period
+ * landed entirely inside the shimmer's 1200ms dead gap, which is a *motionless* placeholder held
+ * for a third of a second. A GIF loops, so the shimmer comes back either way; what it does not do
+ * is come back sooner for having been recorded twice.
+ *
+ * So the window is one cycle, phase-locked to the library's own timings: sweep, reveal, and the
+ * renderer's own end-of-capture hold to read the loaded state by. See [SHIMMER_SWEEP_MS].
+ */
+@Composable
+private fun loading(): Boolean {
+  var value by remember { mutableStateOf(true) }
+  LaunchedEffect(Unit) {
+    delay(SHIMMER_SWEEP_MS.toLong())
+    value = false
+  }
+  return value
+}
+
+/**
+ * The capture window the three placeholder recordings share: one shimmer sweep, then the wipe-off
+ * that reveals the content, and nothing after it.
+ *
+ * Stated rather than auto-detected, which is what `durationMs = 0` would do. `PlaceholderState`
+ * drives itself from Wear Compose's internal `AnimationCoordinator` rather than from a Compose
+ * `Animatable`, so `PreviewAnimationClock` finds nothing to measure and auto-detection falls back
+ * to a flat 1500ms — a number with no relationship to what a placeholder actually does, and long
+ * enough to record a second cycle nobody asked for.
+ */
+private const val PLACEHOLDER_CAPTURE_MS = SHIMMER_SWEEP_MS + WIPE_OFF_MS
+
+/**
+ * Per-frame step for the placeholder recordings, in place of `@AnimatedPreview`'s 33ms default.
+ *
+ * **A multiple of 16 on purpose, and the difference is 1.5× of playback speed.** The renderer steps
+ * the capture with `mainClock.advanceTimeBy(frameIntervalMs)`, which rounds *up* to a whole number
+ * of 16ms Compose frames: a nominal 33ms step advances the clock 48ms, while the GIF still plays
+ * that frame for 33ms. Every recording taken at the default therefore plays at ~1.6× the speed the
+ * animation actually runs. 32ms is two whole frames, so a frame of capture and a frame of playback
+ * are the same 32ms and the sweep plays at the 800ms Wear Compose spends on it. (GIF delays
+ * quantise to 10ms, so 32ms is encoded as 30ms — 7% fast, against 60% before.)
+ */
+private const val PLACEHOLDER_FRAME_MS = 32
 
 /**
  * The placeholder resolving: the label and icon are covered while they are in flight, the shimmer
@@ -396,13 +459,17 @@ fun EdgeButtonRevealMotion() {
  * revealing the words `Primary label` reveals nothing.
  */
 @MotionCanvas
-@AnimatedPreview(showCurves = false)
+@AnimatedPreview(
+  durationMs = PLACEHOLDER_CAPTURE_MS,
+  frameIntervalMs = PLACEHOLDER_FRAME_MS,
+  showCurves = false,
+)
 @Composable
 fun PlaceholderButtonMotion() = AnimatedSticker {
   val state = rememberPlaceholderState(isVisible = loading())
   Button(
     onClick = {},
-    modifier = Modifier.width(172.dp).placeholderShimmer(state),
+    modifier = Modifier.width(172.dp).placeholderShimmer(state, ButtonDefaults.shape),
     icon = {
       Icon(
         Icons.Filled.Place,
@@ -417,7 +484,11 @@ fun PlaceholderButtonMotion() = AnimatedSticker {
 
 /** The same reveal with nothing but an icon to reveal — the icon button's whole content. */
 @MotionCanvas
-@AnimatedPreview(showCurves = false)
+@AnimatedPreview(
+  durationMs = PLACEHOLDER_CAPTURE_MS,
+  frameIntervalMs = PLACEHOLDER_FRAME_MS,
+  showCurves = false,
+)
 @Composable
 fun PlaceholderIconButtonMotion() = AnimatedSticker {
   val state = rememberPlaceholderState(isVisible = loading())
@@ -435,11 +506,18 @@ fun PlaceholderIconButtonMotion() = AnimatedSticker {
  * of loaded content appearing all together rather than line by line as each string lands.
  */
 @MotionCanvas
-@AnimatedPreview(showCurves = false)
+@AnimatedPreview(
+  durationMs = PLACEHOLDER_CAPTURE_MS,
+  frameIntervalMs = PLACEHOLDER_FRAME_MS,
+  showCurves = false,
+)
 @Composable
 fun PlaceholderCardMotion() = AnimatedSticker {
   val state = rememberPlaceholderState(isVisible = loading())
-  Card(onClick = {}, modifier = Modifier.width(172.dp).placeholderShimmer(state)) {
+  Card(
+    onClick = {},
+    modifier = Modifier.width(172.dp).placeholderShimmer(state, CardDefaults.shape),
+  ) {
     Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
       Icon(
         Icons.Filled.Place,
