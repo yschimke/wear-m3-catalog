@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.FilledTonalIconButton
@@ -68,6 +69,14 @@ import ee.schimke.wearm3catalog.Sticker
 // so `Modifier.placeholderShimmer` here is a declaration of what the component does rather than a
 // sweep — which is what a baked capture wants, since a frame of a shimmer would differ on every
 // publish. The kit's own `Placeholder-gradient` overlay is that same sweep, drawn frozen.
+//
+// A DECLARATION STILL HAS TO NAME THE RIGHT SHAPE. `placeholderShimmer` defaults to
+// `PlaceholderDefaults.shape`, which is `CornerFull` — right for the icon button, whose own shape
+// is `CornerFull`, and WRONG for the button and the card, which are `CornerLarge` (26dp). The
+// sweep is clipped to the shape it is given, so a `CornerFull` sweep over a 26dp container leaves
+// the container's own corner arc outside it and the component reads as having two corners. It
+// costs nothing here, where nothing sweeps, and it cost `Motion.kt` real pixels until this was
+// fixed; either way the declaration is only true if it names the component's shape.
 //
 // The moving version is not lost: `Motion.kt` records all three resolving into real content, and
 // each component claims its recording with `motionPreview` above.
@@ -134,7 +143,7 @@ private fun PlaceholderLine(state: PlaceholderState, width: Dp, height: Dp, slot
 @Composable
 fun ButtonPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
-  val modifier = Modifier.width(172.dp).placeholderShimmer(state)
+  val modifier = Modifier.width(172.dp).placeholderShimmer(state, ButtonDefaults.shape)
   val icon: @Composable BoxScope.() -> Unit = { PlaceholderIcon(state, ButtonDefaults.IconSize) }
   val label: @Composable RowScope.() -> Unit = { PlaceholderLine(state, 94.dp, 12.dp, 18.dp) }
   val secondaryLabel: @Composable RowScope.() -> Unit = {
@@ -240,7 +249,7 @@ fun IconButtonPlaceholder() = Sticker {
 @Composable
 fun CardPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
-  val modifier = Modifier.width(172.dp).placeholderShimmer(state)
+  val modifier = Modifier.width(172.dp).placeholderShimmer(state, CardDefaults.shape)
   // The kit's card cell is the same row an `AppCard` draws — an icon beside a title and two lines
   // of body — with every slot still empty, so the content is laid out here rather than borrowed
   // from `AppCard`, which requires an app name and a time it does not have yet.
