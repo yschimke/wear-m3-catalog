@@ -1,11 +1,26 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-22T08:10:45.075Z",
+  "generatedAt": "2026-08-22T09:58:43.072Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "99e236224c5ad01db8b4c46b66f7913e32ce5f8d",
+        "subject": "docs(dialogs): say what the two extra nodes on the alert dialog are (#79)",
+        "at": "2026-08-22T12:43:14+03:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "alertdialog__ideal__default__192dp",
+          "alertdialog__ideal__edge-button__192dp",
+          "openonphonedialog__ideal__default__192dp"
+        ],
+        "components": [
+          "AlertDialog",
+          "OpenOnPhoneDialog"
+        ]
+      },
       {
         "sha": "c9939cab6081ff150a703312ae001f29cd8fef9f",
         "subject": "fix(dialogs): draw the alert dialog's icon, and the layout that follows it (#75)",
