@@ -1,11 +1,34 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-08-22T09:58:43.072Z",
+  "generatedAt": "2026-08-22T10:29:20.100Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "b39d93b7ee2e27c565efac83c79d9d2feab366d4",
+        "subject": "fix(motion): give the placeholder shimmer the component's shape, and one cycle to run in (#80)",
+        "at": "2026-08-22T12:52:44+03:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "placeholder-button__ideal__default",
+          "placeholder-button__ideal__outlined",
+          "placeholder-button__ideal__tonal",
+          "placeholder-button__ideal__variant",
+          "placeholder-card__ideal__default",
+          "placeholder-card__ideal__outlined",
+          "placeholder-iconbutton__ideal__default",
+          "placeholder-iconbutton__ideal__outlined",
+          "placeholder-iconbutton__ideal__tonal",
+          "placeholder-iconbutton__ideal__variant"
+        ],
+        "components": [
+          "Placeholder/Button",
+          "Placeholder/Card",
+          "Placeholder/IconButton"
+        ]
+      },
       {
         "sha": "99e236224c5ad01db8b4c46b66f7913e32ce5f8d",
         "subject": "docs(dialogs): say what the two extra nodes on the alert dialog are (#79)",
@@ -2168,5 +2191,92 @@
       }
     ],
     "comments": []
-  }
+  },
+  "gaps": [
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/IconButtons.kt#TonalIconAction",
+      "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#HorizontalPages",
+      "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.HorizontalPages_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#LevelRail",
+      "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.LevelRail_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#ScrollRail",
+      "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.ScrollRail_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Indicators.kt#VerticalPages",
+      "previewId": "ee.schimke.wearm3catalog.sections.IndicatorsKt.VerticalPages_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#DateWheels",
+      "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#SingleColumnPicker",
+      "ref": "figma:B24oss2tTeXAFykyeyusz0/43678:8581",
+      "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#TimeWheels",
+      "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt#ButtonPlaceholder",
+      "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt#CardPlaceholder",
+      "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt#IconButtonPlaceholder",
+      "previewId": "ee.schimke.wearm3catalog.sections.PlaceholdersKt.IconButtonPlaceholder"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#CircularProgress",
+      "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.CircularProgress_192dp"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#LinearProgress",
+      "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.LinearProgress"
+    },
+    {
+      "kind": "unrendered-reference",
+      "detail": "Mapped to a Figma node, but no reference raster was published for it — the render step could not produce one, so nothing can score this preview against its spec.",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/ProgressIndicators.kt#SegmentedProgress",
+      "previewId": "ee.schimke.wearm3catalog.sections.ProgressIndicatorsKt.SegmentedProgress"
+    }
+  ]
 }
