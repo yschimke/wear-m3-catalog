@@ -16,3 +16,10 @@ hero, captured from the server's committed page fixture with the catalog's own p
 served into it. What they show is not a component but a **choice** — which component this catalog
 puts on the index (`catalog.spec.json`'s `display.hero`) — and that is a picture of the server, not
 of a sticker, so no render task here produces it.
+
+A few are a render with an **overlay drawn on top** — the boxes the preview server's inspection
+layers put over the same frame, baked in so a PR body can show what a reader saw on the page. They
+are named for the question they answer rather than for the preview
+(`alert-dialog-confirm-a11y-stops.png`: the two nested accessibility stops on the alert dialog's
+confirm button, [#76](https://github.com/yschimke/wear-m3-catalog/issues/76)). The frame underneath
+is still an ordinary `composePreviewRender` output, so it moves with the component like the rest.
