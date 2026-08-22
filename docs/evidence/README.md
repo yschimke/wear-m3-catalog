@@ -9,3 +9,10 @@ These are `./gradlew :catalog:composePreviewRender` outputs, copied out of
 **evidence, not inventory**: the published sheet renders from the annotations on every run, the CI
 visual-diff bot posts its own comparison, and nothing reads this directory. Replace a file when the
 render it shows moves, and delete one whose component is gone.
+
+A few are a render with an **overlay drawn on top** — the boxes the preview server's inspection
+layers put over the same frame, baked in so a PR body can show what a reader saw on the page. They
+are named for the question they answer rather than for the preview
+(`alert-dialog-confirm-a11y-stops.png`: the two nested accessibility stops on the alert dialog's
+confirm button, [#76](https://github.com/yschimke/wear-m3-catalog/issues/76)). The frame underneath
+is still an ordinary `composePreviewRender` output, so it moves with the component like the rest.
