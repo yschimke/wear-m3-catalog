@@ -146,6 +146,44 @@ import ee.schimke.wearm3catalog.kitCopy
 // comparison in this catalog is for — so the sticker keeps the library's default and the residual
 // is written down instead.
 //
+// TWO THINGS THE INSPECTION OVERLAYS SHOW ON THIS STICKER THAT NOTHING HERE ASKED FOR
+//
+// Both are `AlertDialogContent`'s own structure rather than anything this file does, and both were
+// asked about from the preview page rather than read off the picture — so they are written down
+// here, where the next reader of those overlays will look.
+//
+// **The unlabelled clickable around the confirm button is a SECOND button, and it is the
+// library's** ([#76](https://github.com/yschimke/wear-m3-catalog/issues/76)). Tick
+// **Accessibility** and the confirm button carries two boxes: an outer `(unlabelled)` stop at
+// 83×83dp and an inner `Confirm` stop at 68×68dp inside it. The dismiss button carries one.
+//
+// `AlertDialogDefaults.ConfirmButton` is a `FilledIconButton` sized 63×54dp and rotated **-45°**
+// — which is why the outer box is a square 83dp, the bounding box of that rotated rect, and why
+// the shape reads as a leaning cookie rather than a circle. Its content is a `Row` counter-rotated
+// +45° so the check stands upright, and that `Row` carries
+// `Modifier.semantics(mergeDescendants = true) { onClick(…); role = Role.Button }` of its own. So
+// the tree really does hold two nested merged, clickable `Button` nodes: the outer one is the
+// `FilledIconButton`, and the copy — the check `Icon`'s `contentDescription`, "Confirm" — sits
+// in the inner one. A label does not roll up across a nested stop (it belongs to that stop's own
+// announcement), so the outer stop has nothing to announce and the overlay says so.
+//
+// That is a real finding rather than an artifact of the overlay: TalkBack presents the same two
+// nodes, the first of them unlabelled. It is upstream's to fix — the sticker calls
+// `AlertDialogDefaults.ConfirmButton`, which is the confirm slot's own default, and swapping in a
+// hand-built button to tidy the tree would stop the comparison testing the library (the
+// `*DialogContent` carve-out above). Recorded here, not worked around.
+//
+// **The second typography element was a copy of the dialog the layout only measured**
+// ([#77](https://github.com/yschimke/wear-m3-catalog/issues/77)). `AlertDialogContent` picks
+// between a scrolling and a fixed layout by subcomposing a whole trial copy of itself and
+// measuring its unconstrained height (`DynamicScrollableOrFixedLayout`), then placing only the
+// arrangement it chose. The trial copy is `clearAndSetSemantics {}`-wrapped but still in the
+// semantics tree, and an unplaced node has no position — so it reported `0,0` and the Typography
+// layer drew a second title in the frame's top-left corner. Nothing to fix here: the tree gained a
+// `placed` flag upstream and the overlays now skip what was never placed
+// ([compose-ai-tools#4432](https://github.com/yschimke/compose-ai-tools/pull/4432)). Worth knowing
+// anyway, because it is why this component appears twice in any dump of its semantics.
+//
 // THE REFERENCE IS A `Scrolling=No` CELL, AND THAT IS THE WHOLE POINT
 //
 // The `Dialog` set varies `Scrolling=` as well as `Edge Option=`, and the two values are not two
