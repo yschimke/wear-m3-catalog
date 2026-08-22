@@ -2,13 +2,21 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.AlertDialogContent
 import androidx.wear.compose.material3.AlertDialogDefaults
+import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OpenOnPhoneDialogContent
 import androidx.wear.compose.material3.OpenOnPhoneDialogDefaults
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
+import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -99,6 +107,45 @@ import ee.schimke.wearm3catalog.kitCopy
 // after the ring completes is a picture of the wait being over. The confirmation overlay has no
 // such defence — unsettled, it publishes nothing at all.
 //
+// THE ICON IS PART OF THE LAYOUT, NOT DECORATION ON TOP OF IT
+//
+// Every `Dialog` cell the kit publishes draws an icon above the title — it lives in the shared
+// `.Base / Dialog / Top` (`58475:87080`), so `Double Angled Button`, `Edge Button` and `None` all
+// carry it and there is no axis that turns it off. The sticker passed no `icon`, and the cost was
+// not only a missing glyph: the icon is a row of the layout, so without it the title rose to fill
+// the space — it sat at 42–71dp against the kit's 62–91dp, 20dp high, with the buttons already
+// landing on the kit's own row ([#74](https://github.com/yschimke/wear-m3-catalog/issues/74)).
+//
+// Three numbers come off the kit rather than off a Compose default, because the library supplies
+// none — `AlertDialogContent` hands its `icon` slot to the caller unstyled:
+//
+//  - **32dp**, not `Icon`'s 24dp default. The kit's `Icon` instance is a 32×32 box, and the disc
+//    inside it measures 26.67 — the 20-of-24 Material grid scaled to 32.
+//  - **`secondaryDim`**. The kit fills the glyph `#BAC3FF`, which is `Secondary80`, which is what
+//    `ColorTokens.SecondaryDim` resolves to. It is deliberately not the `primary` (`#E9DDFF`) the
+//    confirm button beside it is filled with.
+//  - **`Icons.Filled.Info`** stands in for the kit's `error` glyph — the same disc on the same
+//    grid, with a different shape knocked out of it. This catalog depends on `material-icons-core`
+//    only, which publishes `Info` and `Warning` but no `Error`, and one glyph is not a reason to
+//    pull the ~1400-icon extended artifact in.
+//
+// It is a knob (`icon`, default on) rather than a cell: a cell resolves against a kit axis, and the
+// kit has no axis here for it to resolve against.
+//
+// **~9dp of the gap is Wear Compose's, and it stays.** With the icon in, the block lands 8–9dp
+// above the kit's row (icon disc 13.5–39dp against 23–48.5dp, title 53.5–83dp against 62–91.5dp;
+// the buttons match to half a dp). The cause is `AlertDialogDefaults`: adding an icon swaps the
+// top padding from `verticalContentPadding()` (10% of the screen — 20dp here) to
+// `screenHeightFraction(iconTopPaddingFraction)`, 1.2%, or 3dp. That trade reads as top-anchored,
+// but the fixed layout gives its content column `weight(1f)` and centres the block inside it, so
+// half of the 17dp it gave up comes straight off the block's centre. Feed the same layout the
+// kit's 20dp and it lands on 19.3dp, i.e. on the kit.
+//
+// It is not papered over here. Passing a hand-built `contentPadding` would line the picture up
+// while no longer drawing what a caller of `AlertDialogContent` gets, which is the one thing a
+// comparison in this catalog is for — so the sticker keeps the library's default and the residual
+// is written down instead.
+//
 // THE REFERENCE IS A `Scrolling=No` CELL, AND THAT IS THE WHOLE POINT
 //
 // The `Dialog` set varies `Scrolling=` as well as `Edge Option=`, and the two values are not two
@@ -141,21 +188,41 @@ import ee.schimke.wearm3catalog.kitCopy
 )
 @Composable
 fun AlertDialogSticker() = FullScreenSticker {
+  val icon: (@Composable () -> Unit)? =
+    if (previewOverrideBoolean("icon", true)) {
+      {
+        Icon(
+          Icons.Filled.Info,
+          contentDescription = null,
+          modifier = Modifier.size(AlertIconSize),
+          tint = MaterialTheme.colorScheme.secondaryDim,
+        )
+      }
+    } else {
+      null
+    }
+
   when (previewOverrideChoice("edge", "double", listOf("double", "single", "none"))) {
     "single" ->
       AlertDialogContent(
         edgeButton = { AlertDialogDefaults.EdgeButton(onClick = {}) },
         title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
+        icon = icon,
       )
-    "none" -> AlertDialogContent(title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) })
+    "none" ->
+      AlertDialogContent(title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) }, icon = icon)
     else ->
       AlertDialogContent(
         confirmButton = { AlertDialogDefaults.ConfirmButton(onClick = {}) },
         dismissButton = { AlertDialogDefaults.DismissButton(onClick = {}) },
         title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
+        icon = icon,
       )
   }
 }
+
+/** The kit's alert icon box (`.Base / Dialog / Top` → `Icon`), not `Icon`'s own 24dp default. */
+private val AlertIconSize = 32.dp
 
 @CatalogComponent(
   id = "OpenOnPhoneDialog",
