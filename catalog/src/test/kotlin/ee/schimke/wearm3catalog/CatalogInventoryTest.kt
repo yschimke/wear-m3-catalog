@@ -230,6 +230,29 @@ class CatalogInventoryTest {
     assertEquals("conference seeds must be distinct", seeds.size, seeds.toSet().size)
   }
 
+  /**
+   * The cover sheet's `display.hero` is the ONE field in `catalog.spec.json` that names something
+   * the annotations own, and nothing downstream complains when it names nothing: the preview server
+   * resolves a declared hero by slug and, finding no preview, silently falls back to its own
+   * representative pick ([ServeBundleHost.declaredHeroPreviewId] in compose-ai-tools). So a renamed
+   * or mistyped component id costs this catalog its front-door picture and reports it nowhere — the
+   * index simply shows a different sticker than the one that was chosen.
+   */
+  @Test
+  fun `the declared front-door hero names a real component`() {
+    val spec = File("../catalog.spec.json").readText()
+    val hero =
+      Regex(""""hero"\s*:\s*"([^"]+)"""").find(spec)?.groupValues?.get(1)
+        ?: error("catalog.spec.json declares no display.hero")
+    val ids = components.mapNotNull { arg(it.second, "id") }.toSet()
+    assertTrue(
+      "catalog.spec.json's display.hero is \"$hero\", which is not a @CatalogComponent id — the " +
+        "front door would quietly feature whatever the server picks instead. Known ids: " +
+        ids.sorted().joinToString(", "),
+      hero in ids,
+    )
+  }
+
   private companion object {
     const val WEAR_KIT_FILE_KEY = "B24oss2tTeXAFykyeyusz0"
   }

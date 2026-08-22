@@ -106,6 +106,13 @@ fun MaterialShapesSticker() = Sticker { /* … */ }
 [`catalog.spec.json`](catalog.spec.json) carries only cover-sheet fields the code has no opinion
 about: the system slug, title, primary modes, the round-size breakpoints and the front-door hero.
 
+`display.hero` is `Media/PlayerScreen` — a whole round watch face, not a component swatch. It is
+the picture the preview server's index shows for this catalog, and on a sheet of Wear stickers a
+running media player says "this is a watch design system" at a glance where an isolated shape or
+button cannot. It names a `@CatalogComponent` id; `CatalogInventoryTest` holds it to one that
+exists, because a hero naming nothing does not fail anything — the server just quietly features
+its own pick instead.
+
 ## Android, not desktop — and why
 
 The phone catalog is a Compose **Multiplatform desktop** module, which is what lets the preview
