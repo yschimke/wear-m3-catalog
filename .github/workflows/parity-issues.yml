@@ -1,0 +1,69 @@
+name: Parity Issues
+
+# Publish this repository's parity issues to `design-artifacts/wear-m3-catalog` as
+# `parity/issues.json`, so the preview server can show a component's open issues on
+# the page where the difference is visible.
+#
+# The pipeline — read issues -> parse each body's `compose-parity-locator/v1` block
+# -> commit the one path — is the shared reusable workflow in compose-ai-tools. This
+# repo has no bespoke lane, so the caller is just the `uses:` block. Same shape as
+# the m3-catalog caller; the only per-catalog values are `system` and `repositories`.
+#
+# Two things are worth knowing before wondering why an issue is missing from the index:
+#
+# 1. **A locator block is the entry ticket.** An issue with no
+#    ```compose-parity-locator/v1``` fence in its body is skipped — not because it is
+#    unimportant, but because nothing can say which component and preview variant it
+#    belongs to. The prefilled report on the focused comparison
+#    (`/wear-m3-catalog/compare/<previewId>?reference=…`) writes the block for you; a
+#    hand-written issue needs one pasted in. Until an issue carries one, this workflow
+#    correctly publishes an empty index rather than failing.
+# 2. **Labels are enrichment, not identity.** `area:{spec,component,preview,renderer,
+#    comparison}` and `parity:{regression,known-difference,verification-needed}` are read
+#    when present and ignored when absent. There is deliberately no label per component —
+#    that lives in the locator.
+#
+# Publishing this file does NOT need a re-render. The delivery branch's tip gains one
+# commit touching `parity/issues.json` alone, and the serving host re-fetches on any head
+# move, so a relabelled issue reaches preview.coo.ee within one refresh tick instead of
+# behind a full catalog render. The render lane cooperates: `design-artifacts-reusable.yml`
+# lists `parity/issues.json` in `CARRY_FORWARD_PATHS`, so a republished catalog keeps the
+# index the branch already owns instead of deleting it.
+
+on:
+  # Every event that can change a row: the body carries the locator, the state carries
+  # open/closed, and the labels carry the area/parity classification.
+  issues:
+    types: [opened, edited, deleted, closed, reopened, labeled, unlabeled, transferred]
+  # A safety net, not the mechanism. Webhook events are best-effort, and the delivery
+  # branch can be re-rooted — a weekly rebuild means a missed event costs at most a week
+  # of staleness rather than being permanent. An hour after the Monday 06:00 render, so
+  # the two publishers are not racing for the branch tip.
+  schedule:
+    - cron: '0 7 * * 1' # Mondays 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: wear-m3-catalog
+    # Don't let forks push to the delivery branch.
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' }}
+    permissions:
+      # `contents: write` commits the one path onto the delivery branch; `issues: read`
+      # is what the producer reads. Both have to be granted here: a called workflow
+      # cannot widen the permissions its caller hands it.
+      contents: write
+      issues: read
+    uses: yschimke/compose-ai-tools/.github/workflows/parity-issues-reusable.yml@main
+    with:
+      # The delivery branch is `design-artifacts/<system>`, and this catalog's is
+      # `design-artifacts/wear-m3-catalog` — the same slug `design-artifacts.yml` passes.
+      system: wear-m3-catalog
+      # Only this repository. The catalog's previews are declared here, so this is where a
+      # difference gets reported; add a source repo to this array only alongside a
+      # credential that can read its issues, since an unreadable repo is indistinguishable
+      # from one with no parity issues.
+      repositories: '["yschimke/wear-m3-catalog"]'
