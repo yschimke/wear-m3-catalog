@@ -37,6 +37,7 @@ jobs:
           cli-version: catalog
           catalog-key: composePreviewPlugin
           only: compose
-          # An Android (Robolectric) render of a handful of Wear stickers; the sheet is small
-          # today. Raise this as the sweep grows — the phone catalog needed 4800 at ~1150 previews.
-          timeout: '1800'
+          # An Android (Robolectric) render of both catalogs — the kit rendition and the Remote
+          # one, whose stickers additionally go through the Remote Compose player. Raised from 1800
+          # when `:remote-catalog` landed; the phone catalog needed 4800 at ~1150 previews.
+          timeout: '3600'

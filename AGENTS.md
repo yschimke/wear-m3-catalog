@@ -5,12 +5,42 @@ file records the conventions that are easy to violate by accident. It is the Wea
 [yschimke/m3-catalog](https://github.com/yschimke/m3-catalog) and inherits its rules; where they
 differ, it is because Wear differs.
 
+## Two modules, and which one you are in
+
+`:catalog` is the kit rendition (Wear Compose Material 3 + Horologist). `:remote-catalog` is the
+**Remote Compose** rendition of the same surface — every sticker a real `RemoteDocument` rasterised
+by the player. It publishes the `remote-m3` system and moved here from
+`:samples:design-catalog-remote-m3` in compose-ai-tools
+([issue #4588](https://github.com/yschimke/compose-ai-tools/issues/4588)).
+
+Three rules follow, and they are the ones easiest to break by accident:
+
+- **The alpha line stays in `:remote-catalog`.** It is on `compileSdk 37`, the alpha Remote Compose
+  trio, prerelease Compose UI and **no Compose BOM**, all declared in its own `dependencies` block.
+  `:catalog` is on the stable BOM. That separation is the reason there are two modules rather than
+  two source sets; do not "unify" the dependency lines.
+- **The Remote trio moves together.** `compose-remote`, `wear-compose-remote` and `glance-wear` are
+  built on the same `remote-creation*`, and a skewed pair fails inside the player at render time,
+  not at compile time. Bump all three in one PR and read the visual diff.
+- **Design-led applies to `:catalog` only.** `.design-parity.json` is repo-wide with no per-catalog
+  scoping, but `design-parity.yml` passes `module: ':catalog'`, so the Remote sheet is out of the
+  parity scan by construction. A Remote divergence from the kit is usually a gap in an alpha
+  library, not a defect to fix here — if that ever needs reporting, it needs a scoping mechanism
+  upstream first, not a second direction bolted on locally.
+
 ## Annotation-first is the rule, not a preference
 
 The catalog inventory lives in annotations next to the composables. **Do not** add a `groups` array
 to `catalog.spec.json` to add, rename or recaption a component — put it on the `@CatalogComponent` /
 `@CatalogVariant`. The spec is layered over the annotations as a field-level override and exists for
 cover-sheet fields only.
+
+**`:remote-catalog` is the one exception, and it is temporary.** Its inventory still lives in
+`remote-catalog/catalog.spec.json` as a `groups` array, which is how it arrived from
+compose-ai-tools; it was carried across unchanged so the published sheet is comparable either side
+of the move. Migrating it onto `@CatalogComponent` (the `parallel` and `motionPreview` fields it
+needs both exist) is tracked as a follow-up. Until then: for that module, edit the spec; for
+`:catalog`, never.
 
 If you find yourself writing a lot of mapping config to express something, that is a signal the
 upstream libraries are missing an annotation — **raise it in
@@ -360,7 +390,9 @@ placeholder's "3 distinct frames in 46" turned out to be.
 ## Verifying a change
 
 ```sh
-./gradlew :catalog:assembleDebug :catalog:composePreviewDiscover test ktfmtCheck
+./gradlew :catalog:assembleDebug :catalog:composePreviewDiscover \
+          :remote-catalog:assembleDebug :remote-catalog:composePreviewDiscover \
+          test ktfmtCheck
 ```
 
 `composePreviewDiscover` is the real contract: it is what turns the annotations into the published

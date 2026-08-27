@@ -1,8 +1,14 @@
 name: Design Artifacts
 
-# Render the Wear catalog and publish its importable bundle to the
-# `design-artifacts/wear-m3-catalog` branch, which the public preview server (preview.coo.ee)
-# serves at /wear-m3-catalog/.
+# Render this repo's catalogs and publish their importable bundles to the
+# `design-artifacts/<system>` branches, which the public preview server (preview.coo.ee) serves at
+# /<system>/:
+#
+#   :catalog         -> design-artifacts/wear-m3-catalog   the kit rendition (Wear Compose M3)
+#   :remote-catalog  -> design-artifacts/remote-m3         the Remote Compose rendition
+#
+# Two catalogs, one pipeline, and a `changes` job so a push that moves one of them does not spend a
+# runner re-rendering the other.
 #
 # The whole pipeline — install CLI -> validate spec -> render -> generate -> publish — is the
 # shared reusable workflow in compose-ai-tools. This repo has no bespoke lane, so the caller is
@@ -23,6 +29,8 @@ on:
     paths:
       - 'catalog/**'
       - 'catalog.spec.json'
+      - 'remote-catalog/**'
+      - '.github/ci/remote-m3-cmp-wasm-allowlist.json'
       # The page-backdrop opt-in and the cache the publisher actually copies into the bundle. A
       # refreshed SVG is a changed published page, so it is as much a render input as the spec —
       # and `figma-pages.yml` refreshes it on its own schedule rather than by a source edit, so
@@ -50,10 +58,57 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # WHICH delivery branches does this push dirty?
+  #
+  # The `paths:` filter above decides whether the workflow runs at all; this decides which catalogs
+  # inside it do. A render is 15-30 minutes, so a `catalog/**`-only push must not drag the Remote
+  # sheet through one for a change it cannot see, and vice versa. Shared inputs — the version
+  # catalog, the settings/build files, this workflow — dirty both, and so does anything that is not
+  # a `push` (a schedule or a dispatch means "republish everything").
+  #
+  # It fails SAFE: no resolvable change set means both. Publishing a fresh bundle is never wrong;
+  # skipping a stale one is.
+  changes:
+    name: Scope
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      wear: ${{ steps.scope.outputs.wear }}
+      remote: ${{ steps.scope.outputs.remote }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - id: scope
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" != 'push' ] ||
+             [ -z "$BEFORE" ] ||
+             [ "$BEFORE" = '0000000000000000000000000000000000000000' ] ||
+             ! files="$(git diff --name-only "$BEFORE" "$GITHUB_SHA")"; then
+            echo 'wear=true' >> "$GITHUB_OUTPUT"
+            echo 'remote=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          shared='^(gradle/|settings\.gradle\.kts$|build\.gradle\.kts$|\.github/workflows/design-artifacts\.yml$)'
+          if grep -qE "$shared" <<<"$files"; then
+            echo 'wear=true' >> "$GITHUB_OUTPUT"
+            echo 'remote=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          grep -qE '^(catalog/|catalog\.spec\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
+            echo 'wear=true' >> "$GITHUB_OUTPUT" || echo 'wear=false' >> "$GITHUB_OUTPUT"
+          grep -qE '^(remote-catalog/|\.github/ci/remote-m3-cmp-wasm-allowlist\.json$)' <<<"$files" &&
+            echo 'remote=true' >> "$GITHUB_OUTPUT" || echo 'remote=false' >> "$GITHUB_OUTPUT"
+
   publish:
     name: wear-m3-catalog
+    needs: changes
     # Don't let forks push to the delivery branch.
-    if: ${{ github.repository == 'yschimke/wear-m3-catalog' }}
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.wear == 'true' }}
     permissions:
       contents: write
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
@@ -117,3 +172,49 @@ jobs:
       # branch, which feeds the preview server's PNG ↔ Design reference lane. Without it those
       # entries are skipped with a warning and the catalog still publishes.
       figma_token: ${{ secrets.FIGMA_TOKEN }}
+
+  remote:
+    name: remote-m3
+    needs: changes
+    # Don't let forks push to the delivery branch.
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.remote == 'true' }}
+    permissions:
+      contents: write
+    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
+    with:
+      system: remote-m3
+      spec: remote-catalog/catalog.spec.json
+      module: ':remote-catalog'
+      # Same CLI/plugin lockstep as the job above: the pin is `composePreviewPlugin` in
+      # libs.versions.toml, and this catalog is the one that would notice a skew first — its
+      # connector and wear-preview-runtime dependencies ship from the same release.
+      cli-version: catalog
+      catalog-key: composePreviewPlugin
+      # An ANDROID module: every sticker is a RemoteDocument rasterised by the player under
+      # Robolectric, so this renders on the same lane the Wear catalog does rather than Skiko.
+      desktop-render: false
+      # A live bundle with a SHARED classpath, so a serve host carrying the Android sidecar can
+      # re-render any sticker on demand — which is what makes the viewer's Remote Compose knobs
+      # (`rc.<name>=`) do something — without the delivery branch carrying `app.jar` once per
+      # preview.
+      publish-live-bundle: true
+      split-per-preview: true
+      split-mode: full-shared-classpath
+      # The CMP/Wasm player lane: the same browser environment visitors use, scoring every document
+      # this sheet publishes. It is a GATE, not enrichment — a document it cannot draw fails the
+      # render rather than dropping a column — which is why it carries an expiring allowlist rather
+      # than being silently tolerant. The embedded (Robolectric) and cmp-jvm lanes are on by default
+      # in the reusable workflow and need no input here.
+      rc-cmp-wasm-lane: true
+      rc-cmp-wasm-allowlist: .github/ci/remote-m3-cmp-wasm-allowlist.json
+      commit-user-name: Yuri Schimke
+      commit-user-email: yuri@schimke.ee
+      timeout-minutes: 60
+      render-timeout: 1800
+      render-shards: 1
+      # NO `reference-backdrop` here, deliberately. That input exists because the kit's cells for
+      # specimen-board components arrive on transparency and had to be scored against a watch face;
+      # this sheet maps to no kit nodes at all (`referenceKits: []`), so it has no reference column
+      # to back. Its third column is the SIBLING's kit artwork, joined by `componentId` off the
+      # `design-artifacts/wear-m3-catalog` branch the job above publishes.
+      allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}

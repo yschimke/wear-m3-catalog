@@ -37,6 +37,29 @@ materialkolor = "5.0.0"
 # groups them (see .github/renovate.json).
 horologist = "0.8.4-alpha"
 
+# ── Remote Compose, for `:remote-catalog` only ──────────────────────────────────────────────────
+# The alpha line the Remote catalog renders against, resolved from Google Maven. The three groups
+# MOVE TOGETHER: `wear-compose-remote:remote-material3` and `glance-wear:wear` are both built on
+# `remote-creation*`, and a skewed pair fails at render time inside the player rather than at
+# compile time (compose-ai-tools records what that cost: a `NoClassDefFoundError` in `RemoteButton`
+# and a wear pin that briefly did not exist at all). Renovate must bump the trio in one PR, and a
+# human reads the visual diff — see .github/renovate.json.
+#
+# Nothing here reaches `:catalog`. That module is on the stable Compose BOM and the Wear Compose
+# beta line; this one deliberately is not, which is why the two are separate modules rather than
+# two source sets (see remote-catalog/build.gradle.kts).
+compose-remote = "1.0.0-alpha18"
+wear-compose-remote = "1.0.0-alpha10"
+glance-wear = "1.0.0-alpha17"
+
+# Pre-release compose-ui for `:remote-catalog`. The alpha remote artifacts align with the Compose
+# 1.11+ line (1.11.0 is the first release shipping `PreviewWrapper`), so that module pins explicit
+# versions instead of taking the 2026.08.00 BOM the rest of the repo uses.
+compose-ui-prerelease = "1.12.0"
+
+activity-compose = "1.13.0"
+truth = "1.4.5"
+
 robolectric = "4.17-beta-2"
 junit = "4.13.2"
 
@@ -83,8 +106,45 @@ horologist-auth-composables-material3 = { module = "com.google.android.horologis
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
 horologist-images-base = { module = "com.google.android.horologist:horologist-images-base", version.ref = "horologist" }
 
+# ── Remote Compose (`:remote-catalog`) ─────────────────────────────────────────────────────────
+# `remote-tooling-preview` declares its creation/compose deps at RUNTIME scope, so the compile
+# classpath does not see the remote primitive types (`RemoteModifier`, `RemoteString`,
+# `HostAction`, `RemoteBrush`, …) unless they are pulled in explicitly — hence the creation pair
+# beside it rather than trusted to transitivity. Same for the glance-wear trio.
+compose-remote-tooling-preview = { module = "androidx.compose.remote:remote-tooling-preview", version.ref = "compose-remote" }
+compose-remote-creation = { module = "androidx.compose.remote:remote-creation", version.ref = "compose-remote" }
+compose-remote-creation-compose = { module = "androidx.compose.remote:remote-creation-compose", version.ref = "compose-remote" }
+wear-compose-remote-material3 = { module = "androidx.wear.compose.remote:remote-material3", version.ref = "wear-compose-remote" }
+glance-wear = { module = "androidx.glance.wear:wear", version.ref = "glance-wear" }
+glance-wear-core = { module = "androidx.glance.wear:wear-core", version.ref = "glance-wear" }
+glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-tooling-preview", version.ref = "glance-wear" }
+
+# Compose UI at the prerelease line `:remote-catalog` needs, declared WITHOUT the BOM.
+compose-ui-tooling-preview-prerelease = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui-prerelease" }
+compose-ui-tooling-prerelease = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui-prerelease" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+
+# compose-ai-tools, `:remote-catalog` side. All three move with the plugin pin above — the CLI the
+# render runs (`cli-version: catalog`) is resolved FROM that pin, and a connector/CLI skew breaks
+# preview discovery outright.
+#
+#   data-remotecompose-connector    `RemoteOverridablePreview` + the `rememberOverridable*` knobs:
+#                                   the sticker frame the catalog captures through, so a named
+#                                   value is seedable in a live re-render and the captured
+#                                   RemoteDocument lands in the bundle's `.rc` sidecar.
+#   wear-preview-runtime            `CapturingWearWidgetPreview` — the glance-wear widget-container
+#                                   wrapper that emits the encoded document as the render's IR.
+#   third-party-rc-embedded-player  the EMBEDDED player, on the runtime classpath. See the
+#                                   dependency block in remote-catalog/build.gradle.kts for why
+#                                   this is the vendored coordinate and not upstream's published
+#                                   `remote-player-compose`.
+composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewAnnotations" }
+composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-runtime", version.ref = "composePreviewAnnotations" }
+composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "composePreviewAnnotations" }
+
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 junit = { module = "junit:junit", version.ref = "junit" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
