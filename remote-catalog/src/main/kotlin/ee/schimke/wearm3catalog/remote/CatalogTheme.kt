@@ -25,10 +25,11 @@ import ee.schimke.composeai.daemon.RemoteOverridablePreview
  * `@PreviewWrapper` tooling annotation), but additionally (a) applies any
  * `renderNow.overrides.remoteCompose.namedValues` the daemon seeds — so the named-value stickers
  * ([ee.schimke.wearm3catalog.remote.NamedLabelRemoteButton],
- * [ee.schimke.wearm3catalog.remote.ShaderGradientSticker]) actually flip in trusted live re-renders,
- * matching what the spec/captions advertise — and (b) offers the captured `RemoteDocument` into the
- * bundle's `.rc` sidecar for replay. With no seeded overrides (the vanilla `composePreviewRenderAll`
- * and the weekly design-artifacts render) it is the same output as plain `RemotePreview`.
+ * [ee.schimke.wearm3catalog.remote.ShaderGradientSticker]) actually flip in trusted live
+ * re-renders, matching what the spec/captions advertise — and (b) offers the captured
+ * `RemoteDocument` into the bundle's `.rc` sidecar for replay. With no seeded overrides (the
+ * vanilla `composePreviewRenderAll` and the weekly design-artifacts render) it is the same output
+ * as plain `RemotePreview`.
  *
  * **The recorded documents are default-themed**, which is what lets a theme be applied to them
  * afterwards by overriding named values (`USER:WearM3.<role>`) — see `RemoteThemeCatalogs.kt`. That
@@ -102,10 +103,10 @@ fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
  * The render density is declared here in the **preview configuration** rather than left to the
  * default (~2.625, a phone density). A Remote Compose document is authored for a target density,
  * and this catalog mirrors **Wear** Compose Material 3, so `dpi=320` pins it to **density 2.0** —
- * the scale every Wear render here is read at (`227dp → 454px`). A `spec:` device sets
- * size + density with no device frame, so the transparent centred-sticker contract is
- * unchanged; #2760 stamps this density into the captured `.rc` so the player replays the dp-typed
- * size modifiers at the same scale.
+ * the scale every Wear render here is read at (`227dp → 454px`). A `spec:` device sets size +
+ * density with no device frame, so the transparent centred-sticker contract is unchanged; #2760
+ * stamps this density into the captured `.rc` so the player replays the dp-typed size modifiers at
+ * the same scale.
  */
 @Preview(showBackground = false, device = "spec:width=227dp,height=100dp,dpi=320")
 annotation class CatalogRemoteModes
@@ -131,10 +132,10 @@ annotation class CatalogRemoteLarge
  * sheet captures one canvas per sticker, so it pins the one size rather than the range.
  *
  * Unlike the component stickers, a screen template paints its own surface (see
- * [ee.schimke.wearm3catalog.remote.WatchScreenRemote]) rather than rasterising onto transparency:
- * a screen IS a background plus its content, and the whole point of the capture is to read as a
- * real watch screen rather than a floating component. `showBackground = false` therefore still
- * holds — the fill comes from the document, not the preview frame.
+ * [ee.schimke.wearm3catalog.remote.WatchScreenRemote]) rather than rasterising onto transparency: a
+ * screen IS a background plus its content, and the whole point of the capture is to read as a real
+ * watch screen rather than a floating component. `showBackground = false` therefore still holds —
+ * the fill comes from the document, not the preview frame.
  */
 @Preview(showBackground = false, device = "spec:width=227dp,height=227dp,dpi=320")
 annotation class CatalogRemoteScreen

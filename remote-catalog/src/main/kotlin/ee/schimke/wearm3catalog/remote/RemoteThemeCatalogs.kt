@@ -13,7 +13,8 @@ import ee.schimke.composeai.preview.WearThemeCatalog
 
 /**
  * The catalog's declared themes — five names in two groups, inherited unchanged from the `wear-m3`
- * harness catalog in yschimke/compose-ai-tools, which this sheet was paired against before the move.
+ * harness catalog in yschimke/compose-ai-tools, which this sheet was paired against before the
+ * move.
  *
  * They are NOT the sibling `:catalog`'s set: that one declares the Confetti Wear conference
  * palettes (`CatalogThemes.kt`). So the two Theme selects no longer read as one set, and pairing
@@ -66,10 +67,10 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * `fonts.json` in yschimke/compose-ai-tools once a *document* names it — that lane is manifest-only
  * and never fetches, so an unlisted family a document asks for fails
  * `RcComposeSupport.fontFamilyIssue`'s availability check rather than degrading to a substitute. No
- * recorded document names it (recording is default-themed and the wrapper installs colours only), so
- * vendoring it now would add ~651 KB to the Wasm player's size ratchet to buy nothing — it failed
- * that ratchet once already on this branch. It lands with the lane that resolves it. Google Sans
- * Flex stays vendored: it was already there and the ratchet was already raised for it.
+ * recorded document names it (recording is default-themed and the wrapper installs colours only),
+ * so vendoring it now would add ~651 KB to the Wasm player's size ratchet to buy nothing — it
+ * failed that ratchet once already on this branch. It lands with the lane that resolves it. Google
+ * Sans Flex stays vendored: it was already there and the ratchet was already raised for it.
  *
  * ## What a theme deliberately does not reach
  *
