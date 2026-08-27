@@ -14,6 +14,7 @@ import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import ee.schimke.composeai.preview.CatalogComponent
 
 /**
  * The catalog's coverage of the **second** Remote Compose colour-theming mechanism.
@@ -78,6 +79,16 @@ private fun systemThemeColor(
  * The fallbacks are what a host without the resources draws, and are what this sticker's baked PNG
  * shows — the point of the fixture is the operations in the bytes, not the pixels.
  */
+@CatalogComponent(
+  id = "Theme/SystemThemeSwatches",
+  group = "Theme",
+  noReference =
+    "A specimen of the document's ColorTheme operations, which exist in Remote Compose and have " +
+      "no kit counterpart at all.",
+  caption =
+    "System-theme swatches — the catalog's only document carrying ColorTheme operations, where " +
+      "a light and a dark colour live in the document and the player selects between them.",
+)
 @CatalogRemoteModes
 @Composable
 fun SystemThemeSwatchesRemote() = RemoteSticker { RemoteColumn { RemoteRow { SwatchTriple() } } }

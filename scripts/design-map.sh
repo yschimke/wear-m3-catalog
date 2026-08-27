@@ -26,7 +26,27 @@
 set -euo pipefail
 
 CHECK=""
-[ "${1:-}" = "--check" ] && CHECK=1
+[ "${1:-}" = "--check" ] && { CHECK=1; shift; }
+
+# WHICH catalog. This repo publishes two, and each projects its own map:
+#
+#   scripts/design-map.sh [--check]                 -> :catalog        (the kit rendition)
+#   scripts/design-map.sh remote-catalog            -> :remote-catalog (the Remote Compose one)
+#
+# The output path is NOT a parameter, because design-parity does not treat it as one: the action
+# reads `<repoRoot>/design-map.json` (packages/action/src/config.ts), and the reusable workflow
+# hashes and figma-scans that same path. One map per checkout is the contract.
+#
+# That is workable because the two parity runs are separate JOBS with separate workspaces: each
+# regenerates the root map for its own module before comparing, and neither sees the other's. What
+# it means locally is that projecting the Remote map overwrites the committed one, which belongs to
+# `:catalog` — so say so, loudly, rather than letting someone commit the wrong map.
+MODULE_DIR="${1:-catalog}"
+if [ "$MODULE_DIR" != "catalog" ]; then
+  echo "note: projecting $MODULE_DIR into ./design-map.json, which is where design-parity reads it." >&2
+  echo "note: that file is COMMITTED for :catalog — restore it with 'git checkout -- design-map.json'" >&2
+  echo "      before committing anything else." >&2
+fi
 
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
@@ -57,7 +77,7 @@ trap 'rm -rf "$WORK"' EXIT
 # Gated BEFORE anything is written, so a failed run leaves the committed map intact rather than
 # replacing it with one CI would report as merely stale.
 npx --yes @yschimke/compose-design-map@1.25.0 \
-  --previews catalog/build/compose-previews/previews.json \
+  --previews "$MODULE_DIR/build/compose-previews/previews.json" \
   --out "$WORK/design-map.json" \
   --variants "$WORK/design-map-variants.json" \
   --strict \

@@ -103,3 +103,41 @@ jobs:
       timeout-minutes: 60
     secrets:
       figma-token: ${{ secrets.FIGMA_TOKEN }}
+
+  remote:
+    name: Design parity (remote-m3)
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' }}
+    uses: yschimke/design-parity/.github/workflows/design-parity-reusable.yml@main
+    permissions:
+      contents: write # publish the regenerated artifacts to design-parity/remote-m3
+    with:
+      module: ':remote-catalog'
+
+      # Same policy as the job above, deliberately. `.design-parity.json` is repo-wide and says
+      # `design-led`, so a divergence from the kit is a defect in this code — for the Remote
+      # rendition too. That is the honest setting while the two sheets reproduce the same kit: a
+      # Remote component that cannot draw what the kit specifies says so in its caption or KDoc,
+      # which is the same rule `:catalog` follows for a Wear Compose gap.
+      cache-paths: remote-catalog gradle build.gradle.kts settings.gradle.kts
+
+      force-refresh: ${{ github.event_name == 'schedule' }}
+      design-parity-ref: ${{ inputs.design_parity_ref || '' }}
+      reference-cache-branch: design-parity/reference
+
+      # A branch of its own. The job above publishes `design-parity/main`; two boards on one branch
+      # would each look like the other had gone stale.
+      artifact-branch: design-parity/remote-m3
+
+      shards: 1
+
+      # Projects the map for THIS module into ./design-map.json, which is the only path the action
+      # reads (see scripts/design-map.sh). Safe because this job has its own workspace: the root map
+      # committed for `:catalog` is regenerated here and never committed back.
+      design-map-command: >
+        ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
+        scripts/design-map.sh remote-catalog
+
+      render-timeout: 1800
+      timeout-minutes: 60
+    secrets:
+      figma-token: ${{ secrets.FIGMA_TOKEN }}

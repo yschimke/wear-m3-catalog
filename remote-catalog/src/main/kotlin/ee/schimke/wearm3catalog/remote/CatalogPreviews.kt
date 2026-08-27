@@ -65,6 +65,7 @@ import ee.schimke.composeai.daemon.rememberOverridableRemoteColor
 import ee.schimke.composeai.daemon.rememberOverridableRemoteDp
 import ee.schimke.composeai.daemon.rememberOverridableRemoteFloat
 import ee.schimke.composeai.daemon.rememberOverridableRemoteString
+import ee.schimke.composeai.preview.CatalogComponent
 
 // ---------------------------------------------------------------------------
 // Remote Compose design-catalog sticker sheet.
@@ -179,6 +180,14 @@ internal val starIcon: ImageVector =
 // named-value variants. Parallels of the Wear M3 button family.
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Button/Filled",
+  group = "Buttons",
+  parallel = "Button/Filled",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93092",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption = "Remote Material 3 filled button — the primary action.",
+)
 @CatalogRemoteModes
 @Composable
 fun FilledRemoteButton() = RemoteSticker {
@@ -203,6 +212,16 @@ fun FilledRemoteButton() = RemoteSticker {
 // `outline` token — the same tokens Wear's `outlinedButtonColors()` uses — so the
 // two systems' outlined buttons stay in lockstep with the theme. Wear M3 parallel:
 // `OutlinedButton` (`Button/Outlined`).
+@CatalogComponent(
+  id = "Button/Outlined",
+  group = "Buttons",
+  parallel = "Button/Outlined",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93116",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption =
+    "Remote Material 3 outlined-emphasis button (RemoteButton with an explicit border + border " +
+      "colour).",
+)
 @CatalogRemoteModes
 @Composable
 fun OutlinedRemoteButton() = RemoteSticker {
@@ -221,6 +240,16 @@ fun OutlinedRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/CustomShape",
+  group = "Buttons",
+  parallel = "Button/Filled",
+  noReference =
+    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "Filled button with a RemoteRoundedCornerShape override.",
+)
 @CatalogRemoteModes
 @Composable
 fun CustomShapeRemoteButton() = RemoteSticker {
@@ -242,6 +271,18 @@ fun CustomShapeRemoteButton() = RemoteSticker {
  * (`renderNow.overrides.remoteCompose.namedValues = {"label": …}`) flips the label live without
  * rebuilding the document — the interactive story the `:data-remotecompose-connector` demonstrates.
  */
+@CatalogComponent(
+  id = "Button/NamedLabel",
+  group = "Buttons",
+  parallel = "Button/Filled",
+  noReference =
+    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption =
+    "Filled button whose label is bound to a Remote Compose named value — the connector flips " +
+      "it live (default render shows \"Tap me\").",
+)
 @CatalogRemoteModes
 @Composable
 fun NamedLabelRemoteButton() = RemoteSticker {
@@ -259,6 +300,16 @@ fun NamedLabelRemoteButton() = RemoteSticker {
 
 // A low-emphasis round text button (`RemoteTextButton`), the Remote parallel of Wear
 // M3's `TextButton`.
+@CatalogComponent(
+  id = "Button/Text",
+  group = "Buttons",
+  parallel = "TextButton",
+  noReference =
+    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "Low-emphasis round text button (RemoteTextButton).",
+)
 @CatalogRemoteModes
 @Composable
 fun TextRemoteButton() = RemoteSticker {
@@ -284,6 +335,16 @@ fun TextRemoteButton() = RemoteSticker {
 // A round icon button (`RemoteIconButton`) carrying a single `RemoteIcon`. Inside the
 // button the icon inherits the button's (contrasting) content colour, so no explicit
 // tint is needed. Wear M3 parallel: `IconButton`.
+@CatalogComponent(
+  id = "Button/Icon",
+  group = "Buttons",
+  parallel = "IconButton/Standard",
+  noReference =
+    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
+      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
+      "base cell would score this against the wrong variant.",
+  caption = "Round icon button (RemoteIconButton) carrying a single RemoteIcon.",
+)
 @CatalogRemoteModes
 @Composable
 fun IconRemoteButton() = RemoteSticker {
@@ -304,6 +365,14 @@ fun IconRemoteButton() = RemoteSticker {
 
 // The compact, single-line button (`RemoteCompactButton`) — Wear M3 parallel:
 // `CompactButton`.
+@CatalogComponent(
+  id = "Button/Compact",
+  group = "Buttons",
+  parallel = "Button/Compact",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
+  caption = "Compact single-line button (RemoteCompactButton).",
+)
 @CatalogRemoteModes
 @Composable
 fun CompactRemoteButton() = RemoteSticker {
@@ -313,6 +382,16 @@ fun CompactRemoteButton() = RemoteSticker {
 
 // A pair of buttons laid out edge-to-edge by `RemoteButtonGroup`, each taking an equal
 // share of the row via `weight`. Wear M3 parallel: `ButtonGroup`.
+@CatalogComponent(
+  id = "Button/Group",
+  group = "Buttons",
+  parallel = "ButtonGroup",
+  noReference =
+    "The kit publishes no `ButtonGroup` set — the Wear sibling carries its own counterpart " +
+      "under `noReference` for the same reason, so there is no node to compare either rendition " +
+      "against.",
+  caption = "Two buttons laid out edge-to-edge by RemoteButtonGroup.",
+)
 @CatalogRemoteLarge
 @Composable
 fun ButtonGroupRemote() = RemoteSticker {
@@ -329,6 +408,14 @@ fun ButtonGroupRemote() = RemoteSticker {
 // Containment — the Remote Material 3 card family. Parallels of the Wear M3 cards.
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Card",
+  group = "Containment",
+  parallel = "Card",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "Remote Material 3 card.",
+)
 @CatalogRemoteLarge
 @Composable
 fun CardRemote() = RemoteSticker {
@@ -336,6 +423,14 @@ fun CardRemote() = RemoteSticker {
   RemoteCard(onClick = onClick, content = { RemoteText(label) })
 }
 
+@CatalogComponent(
+  id = "Card/Outlined",
+  group = "Containment",
+  parallel = "Card/Outlined",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39827:105691",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "Outlined card variant (RemoteOutlinedCard).",
+)
 @CatalogRemoteLarge
 @Composable
 fun OutlinedCardRemote() = RemoteSticker {
@@ -350,6 +445,14 @@ fun OutlinedCardRemote() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "TitleCard",
+  group = "Containment",
+  parallel = "TitleCard",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "Card with title, subtitle and supporting text slots.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TitleCardRemote() = RemoteSticker {
@@ -361,6 +464,14 @@ fun TitleCardRemote() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "AppCard",
+  group = "Containment",
+  parallel = "AppCard",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5712",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "App card with app name, icon and content slots.",
+)
 @CatalogRemoteLarge
 @Composable
 fun AppCardRemote() = RemoteSticker {
@@ -402,6 +513,19 @@ fun AppCardRemote() = RemoteSticker {
 // round crop, so the second card would fall off the bottom of the screen.
 private val screenActivities = listOf("Morning run" to "5.2 km", "Heart rate" to "72 bpm")
 
+@CatalogComponent(
+  id = "Template/WatchScreen",
+  group = "Scaffold templates",
+  parallel = "Scaffold",
+  noReference =
+    "The kit publishes no `Scaffold` set — the Wear sibling carries its own counterpart under " +
+      "`noReference` for the same reason, so there is no node to compare either rendition " +
+      "against.",
+  caption =
+    "Full-screen Remote Compose watch screen — a status clock, a list header and a stack of " +
+      "RemoteTitleCards on the theme's own background fill. The catalog's hero: a RemoteDocument " +
+      "driving a whole surface, not a single sticker.",
+)
 @CatalogRemoteScreen
 @Composable
 fun WatchScreenRemote() = RemoteSticker {
@@ -442,6 +566,16 @@ fun WatchScreenRemote() = RemoteSticker {
 // document clock). Wear M3 parallel: `CircularProgressIndicator` (`Progress/Circular`).
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Progress/Circular",
+  group = "Communication",
+  parallel = "CircularProgressIndicator",
+  noReference =
+    "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
+      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
+      "onto the base cell would score this against the wrong variant.",
+  caption = "Determinate circular progress indicator at a fixed 66%.",
+)
 @CatalogRemoteDisplay
 @Composable
 fun CircularProgressRemote() = RemoteSticker {
@@ -459,6 +593,14 @@ fun CircularProgressRemote() = RemoteSticker {
 // Wear M3 parallel: `Icon`.
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Icon",
+  group = "Iconography",
+  noReference =
+    "The standalone `RemoteIcon` primitive, not a kit component: the kit draws icons only " +
+      "inside the components that slot them.",
+  caption = "The standalone RemoteIcon primitive.",
+)
 @CatalogRemoteModes
 @Composable
 fun IconRemote() = RemoteSticker {
@@ -475,6 +617,14 @@ fun IconRemote() = RemoteSticker {
 // stage is what backs it.
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Text/Body",
+  group = "Text",
+  parallel = "Text/Body",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66993",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
+  caption = "The Remote Material 3 text primitive on its own.",
+)
 @CatalogRemoteModes
 @Composable
 fun RemoteTextSticker() = RemoteSticker {
@@ -488,6 +638,16 @@ fun RemoteTextSticker() = RemoteSticker {
 // The text primitive exercising the maxLines / overflow product on a narrow column —
 // the Remote parallel of Wear M3's `Text/MaxLines-Truncated`. `RemoteText` carries the
 // same `maxLines` + `overflow` knobs as Wear's `Text`.
+@CatalogComponent(
+  id = "Text/MaxLines-Truncated",
+  group = "Text",
+  parallel = "Text/Body",
+  noReference =
+    "Varies `Text/Body`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "maxLines=2 + ellipsis on a narrow column.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TruncatedTextRemote() = RemoteSticker {
@@ -518,6 +678,19 @@ fun TruncatedTextRemote() = RemoteSticker {
 // leaving them to guess from the name. Orbitron because the catalog already vendors its faces
 // (`role: "named"` in the fonts manifest), so the snapshot renderer resolves it locally while the
 // browser fetches the same family, and the parity page compares like with like.
+@CatalogComponent(
+  id = "Text/Branded",
+  group = "Text",
+  parallel = "Text/Body",
+  noReference =
+    "Varies `Text/Body`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption =
+    "Text in a named font family (RemoteFontFamily.Named(\"google:Orbitron\")) rather than a " +
+      "generic typeface — the google: namespace marks it a Google Fonts family, which the browser " +
+      "lane fetches and the snapshot renderer resolves from its vendored copy.",
+)
 @CatalogRemoteModes
 @Composable
 fun BrandedTextRemote() = RemoteSticker {
@@ -542,6 +715,17 @@ fun BrandedTextRemote() = RemoteSticker {
 // lane fetches it from the CSS API, the wasm lane reads the vendored copy, and the server-side
 // lanes
 // resolve it through the shared font cache.
+@CatalogComponent(
+  id = "Typeface/Specimen",
+  group = "Typeface",
+  noReference =
+    "A typeface specimen: four Google Fonts families each drawing their own name. The kit " +
+      "publishes type styles, not a family specimen.",
+  caption =
+    "Four branded Google Fonts families, each drawing its own name — geometric, script, " +
+      "grotesk, monospace. A lane that cannot resolve a named family renders four " +
+      "identical-looking lines.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TypefaceSpecimenRemote() = RemoteSticker {
@@ -580,6 +764,17 @@ fun TypefaceSpecimenRemote() = RemoteSticker {
 // Roboto Flex because it is the catalog's own default face (`role: "default"` in the fonts
 // manifest) and a genuine variable font: one file serving `wght` 100..1000, so the four lines below
 // are four *instances* of a single downloaded file rather than four separate faces.
+@CatalogComponent(
+  id = "Typeface/VariableWeight",
+  group = "Typeface",
+  noReference =
+    "A variable-font axis specimen (wght). Nothing in the kit varies a font axis as a published " +
+      "component.",
+  caption =
+    "One variable font (Roboto Flex) at wght 100/400/700/1000, written into the document as " +
+      "font-variation settings. A lane that resolves the family but drops the axes renders four " +
+      "lines in one weight.",
+)
 @CatalogRemoteLarge
 @Composable
 fun VariableWeightRemote() = RemoteSticker {
@@ -603,6 +798,16 @@ fun VariableWeightRemote() = RemoteSticker {
 // axis" from "synthesised a bold". Width can't be faked — nothing in a text API asks for a narrower
 // face — so three lines at `wdth` 25 / 100 / 151 either differ in set width or the axes were
 // dropped. Roboto Flex serves that whole range from the one file.
+@CatalogComponent(
+  id = "Typeface/VariableWidth",
+  group = "Typeface",
+  noReference =
+    "A variable-font axis specimen (wdth). Nothing in the kit varies a font axis as a published " +
+      "component.",
+  caption =
+    "The same variable font at wdth 25/100/151 — the axis nothing can fake, since no text API " +
+      "asks for a narrower face. Either the set widths differ or the axes were dropped.",
+)
 @CatalogRemoteLarge
 @Composable
 fun VariableWidthRemote() = RemoteSticker {
@@ -634,6 +839,14 @@ fun VariableWidthRemote() = RemoteSticker {
 // `RemoteMaterialTheme`. Parallels of the M3 typography / colour token sheets.
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Theme/Typography",
+  group = "Theme",
+  noReference =
+    "A type ramp read from `RemoteMaterialTheme.typography` — a specimen of the library's " +
+      "tokens, which the kit publishes as a styles page rather than a component set.",
+  caption = "A type ramp read from RemoteMaterialTheme.typography.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TypographyRemote() = RemoteSticker {
@@ -644,6 +857,14 @@ fun TypographyRemote() = RemoteSticker {
   }
 }
 
+@CatalogComponent(
+  id = "Theme/ColorScheme",
+  group = "Theme",
+  noReference =
+    "Colour-scheme swatches read from `RemoteMaterialTheme.colorScheme` — a token specimen, not " +
+      "a component the kit publishes as a set.",
+  caption = "Colour-scheme swatches read from RemoteMaterialTheme.colorScheme.",
+)
 @CatalogRemoteLarge
 @Composable
 fun ColorSchemeRemote() = RemoteSticker {
@@ -677,6 +898,16 @@ fun ColorSchemeRemote() = RemoteSticker {
 // stop is a named-value binding so the connector can recolour it live.
 // ---------------------------------------------------------------------------
 
+@CatalogComponent(
+  id = "Shader/LinearGradient",
+  group = "Shaders",
+  noReference =
+    "A `remote-creation-compose` document-level shader fill — a Remote Compose primitive with " +
+      "no Wear Material 3 component peer, and none in the kit.",
+  caption =
+    "Document-level gradient shader fill; the middle stop is a named value the connector can " +
+      "recolour live. A remote-creation-compose primitive with no Wear Material 3 component peer.",
+)
 @CatalogRemoteCanvas
 @Composable
 fun ShaderGradientSticker() = RemoteSticker {
