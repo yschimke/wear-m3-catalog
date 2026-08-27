@@ -39,12 +39,21 @@ import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
 import ee.schimke.composeai.preview.AnimatedPreview
+import ee.schimke.composeai.preview.CatalogComponent
 
 // This file is the variant matrix for the public component surface in remote-material3 alpha09.
 // CatalogPreviews.kt keeps the concise one-per-family set; these previews cover every public size,
 // the supported emphasis treatments, and the optional icon/label/time/content slots discovered by
 // reviewing the AndroidX source JAR that the module actually resolves.
 
+@CatalogComponent(
+  id = "Button/Tonal",
+  group = "Buttons",
+  parallel = "Button/Tonal",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93104",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption = "Tonal button using the theme's secondary-container emphasis.",
+)
 @CatalogRemoteModes
 @Composable
 fun TonalRemoteButton() = RemoteSticker {
@@ -62,6 +71,16 @@ fun TonalRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/IconLabel",
+  group = "Buttons",
+  parallel = "Button/Filled",
+  noReference =
+    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "Opinionated RemoteButton overload with its recommended icon and label slots.",
+)
 @CatalogRemoteLarge
 @Composable
 fun IconLabelRemoteButton() = RemoteSticker {
@@ -79,6 +98,16 @@ fun IconLabelRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/IconLabelSecondary",
+  group = "Buttons",
+  parallel = "Button/Filled",
+  noReference =
+    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "Two-line RemoteButton with a large icon, primary label and secondary label.",
+)
 @CatalogRemoteLarge
 @Composable
 fun IconLabelSecondaryRemoteButton() = RemoteSticker {
@@ -97,6 +126,16 @@ fun IconLabelSecondaryRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Disabled",
+  group = "Buttons",
+  parallel = "Button/Filled",
+  noReference =
+    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "Filled button with the library's disabled container and content colours.",
+)
 @CatalogRemoteModes
 @Composable
 fun DisabledRemoteButton() = RemoteSticker {
@@ -107,6 +146,16 @@ fun DisabledRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Compact-IconLabel",
+  group = "Buttons",
+  parallel = "Button/Compact",
+  noReference =
+    "Varies `Button/Compact`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "Compact button with the defined extra-small icon plus a label.",
+)
 @CatalogRemoteModes
 @Composable
 fun CompactIconLabelRemoteButton() = RemoteSticker {
@@ -124,6 +173,16 @@ fun CompactIconLabelRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Compact-IconOnly",
+  group = "Buttons",
+  parallel = "Button/Compact",
+  noReference =
+    "Varies `Button/Compact`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "Icon-only compact button using its dedicated 52dp visible width.",
+)
 @CatalogRemoteModes
 @Composable
 fun CompactIconOnlyRemoteButton() = RemoteSticker {
@@ -147,18 +206,48 @@ fun CompactIconOnlyRemoteButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Icon-ExtraSmall",
+  group = "Buttons",
+  parallel = "IconButton/Standard",
+  noReference =
+    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
+      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
+      "base cell would score this against the wrong variant.",
+  caption = "Extra-small RemoteIconButton at the defined 32dp size.",
+)
 @CatalogRemoteModes
 @Composable
 fun ExtraSmallRemoteIconButton() = RemoteSticker {
   SizedIconButton(RemoteIconButtonDefaults.ExtraSmallButtonSize)
 }
 
+@CatalogComponent(
+  id = "Button/Icon-Small",
+  group = "Buttons",
+  parallel = "IconButton/Standard",
+  noReference =
+    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
+      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
+      "base cell would score this against the wrong variant.",
+  caption = "Small RemoteIconButton at the defined 48dp size.",
+)
 @CatalogRemoteModes
 @Composable
 fun SmallRemoteIconButton() = RemoteSticker {
   SizedIconButton(RemoteIconButtonDefaults.SmallButtonSize)
 }
 
+@CatalogComponent(
+  id = "Button/Icon-Large",
+  group = "Buttons",
+  parallel = "IconButton/Standard",
+  noReference =
+    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
+      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
+      "base cell would score this against the wrong variant.",
+  caption = "Large RemoteIconButton at the defined 60dp size.",
+)
 @CatalogRemoteModes
 @Composable
 fun LargeRemoteIconButton() = RemoteSticker {
@@ -192,6 +281,16 @@ private fun SizedIconButton(size: androidx.compose.remote.creation.compose.state
   )
 }
 
+@CatalogComponent(
+  id = "Button/Icon-Filled",
+  group = "Buttons",
+  parallel = "IconButton/Filled",
+  noReference =
+    "Varies `IconButton/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
+      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
+      "cell would score this against the wrong variant.",
+  caption = "RemoteIconButton with a filled primary container.",
+)
 @CatalogRemoteModes
 @Composable
 fun FilledRemoteIconButton() = RemoteSticker {
@@ -217,6 +316,16 @@ fun FilledRemoteIconButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Icon-Outlined",
+  group = "Buttons",
+  parallel = "IconButton/Outlined",
+  noReference =
+    "Varies `IconButton/Outlined`, whose kit set the Wear sibling maps; the specific variant " +
+      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
+      "base cell would score this against the wrong variant.",
+  caption = "RemoteIconButton with an explicit outline treatment.",
+)
 @CatalogRemoteModes
 @Composable
 fun OutlinedRemoteIconButton() = RemoteSticker {
@@ -238,6 +347,16 @@ fun OutlinedRemoteIconButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Text-Small",
+  group = "Buttons",
+  parallel = "TextButton",
+  noReference =
+    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "Small RemoteTextButton at the defined 48dp size.",
+)
 @CatalogRemoteModes
 @Composable
 fun SmallRemoteTextButton() = RemoteSticker {
@@ -248,6 +367,16 @@ fun SmallRemoteTextButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Text-Large",
+  group = "Buttons",
+  parallel = "TextButton",
+  noReference =
+    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "Large RemoteTextButton at the defined 60dp size and labelLarge typography.",
+)
 @CatalogRemoteModes
 @Composable
 fun LargeRemoteTextButton() = RemoteSticker {
@@ -289,6 +418,16 @@ private fun SizedTextButton(
   )
 }
 
+@CatalogComponent(
+  id = "Button/Text-Filled",
+  group = "Buttons",
+  parallel = "TextButton",
+  noReference =
+    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "Round text button with a filled primary container.",
+)
 @CatalogRemoteModes
 @Composable
 fun FilledRemoteTextButton() = RemoteSticker {
@@ -311,6 +450,16 @@ fun FilledRemoteTextButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Button/Text-Outlined",
+  group = "Buttons",
+  parallel = "TextButton",
+  noReference =
+    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "Round text button with an explicit outline treatment.",
+)
 @CatalogRemoteModes
 @Composable
 fun OutlinedRemoteTextButton() = RemoteSticker {
@@ -334,6 +483,16 @@ fun OutlinedRemoteTextButton() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "TitleCard/TitleOnly",
+  group = "Containment",
+  parallel = "TitleCard",
+  noReference =
+    "Varies `TitleCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "Minimal title-card layout with no optional time, subtitle or body slots.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TitleOnlyRemoteTitleCard() = RemoteSticker {
@@ -341,6 +500,17 @@ fun TitleOnlyRemoteTitleCard() = RemoteSticker {
   RemoteTitleCard(onClick = onClick, title = { RemoteText(title) })
 }
 
+@CatalogComponent(
+  id = "TitleCard/TimeContent",
+  group = "Containment",
+  parallel = "TitleCard",
+  noReference =
+    "Varies `TitleCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption =
+    "Title card with time and supporting content, exercising the alternate title-row layout.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TimeContentRemoteTitleCard() = RemoteSticker {
@@ -353,6 +523,16 @@ fun TimeContentRemoteTitleCard() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "AppCard/Time",
+  group = "Containment",
+  parallel = "AppCard",
+  noReference =
+    "Varies `AppCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
+      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
+      "would score this against the wrong variant.",
+  caption = "App card with the optional time slot and no app image.",
+)
 @CatalogRemoteLarge
 @Composable
 fun TimeRemoteAppCard() = RemoteSticker {
@@ -366,6 +546,16 @@ fun TimeRemoteAppCard() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Progress/Circular-Disabled",
+  group = "Communication",
+  parallel = "CircularProgressIndicator",
+  noReference =
+    "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
+      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
+      "onto the base cell would score this against the wrong variant.",
+  caption = "Determinate progress using the component's disabled indicator and track brushes.",
+)
 @CatalogRemoteDisplay
 @Composable
 fun DisabledCircularProgressRemote() = RemoteSticker {
@@ -376,6 +566,19 @@ fun DisabledCircularProgressRemote() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "Progress/Circular-Indeterminate",
+  group = "Communication",
+  parallel = "CircularProgressIndicator",
+  noReference =
+    "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
+      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
+      "onto the base cell would score this against the wrong variant.",
+  motionPreview = "IndeterminateCircularProgressMotionRemote",
+  caption =
+    "Indeterminate circular progress; its motion capture records the continuous remote-clock " +
+      "animation.",
+)
 @CatalogRemoteDisplay
 @Composable
 fun IndeterminateCircularProgressRemote() = RemoteSticker {
@@ -394,6 +597,14 @@ fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
   RemoteCircularProgressIndicator(modifier = RemoteModifier.size(72.rdp))
 }
 
+@CatalogComponent(
+  id = "PageIndicator/Horizontal",
+  group = "Communication",
+  parallel = "PageIndicator/Horizontal",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38684:138301",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+  caption = "Five-page horizontal indicator curved along the bottom edge.",
+)
 @CatalogRemoteDisplay
 @Composable
 fun HorizontalPageIndicatorRemote() = RemoteSticker {
@@ -403,6 +614,14 @@ fun HorizontalPageIndicatorRemote() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "PageIndicator/Vertical",
+  group = "Communication",
+  parallel = "PageIndicator/Vertical",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38966:402",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
+  caption = "Eight-page vertical indicator exercising the scrolling-dot window.",
+)
 @CatalogRemoteDisplay
 @Composable
 fun VerticalPageIndicatorRemote() = RemoteSticker {
@@ -412,6 +631,18 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
   )
 }
 
+@CatalogComponent(
+  id = "PageIndicator/Interactive",
+  group = "Communication",
+  parallel = "PageIndicator/Horizontal",
+  noReference =
+    "Varies `PageIndicator/Horizontal`, whose kit set the Wear sibling maps; the specific " +
+      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
+      "onto the base cell would score this against the wrong variant.",
+  caption =
+    "Interactive page indicator: tapping Next animates the worm between adjacent pages inside " +
+      "the RemoteDocument.",
+)
 @CatalogRemoteDisplay
 @Composable
 fun InteractivePageIndicatorRemote() = RemoteSticker {

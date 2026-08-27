@@ -20,6 +20,7 @@ import androidx.glance.wear.core.WidgetInstanceId
 import androidx.glance.wear.verticalGradient
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
+import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.wear.preview.CapturingWearWidgetPreview
 
 // ---------------------------------------------------------------------------
@@ -135,6 +136,17 @@ private fun CenteredWidgetContent(content: @Composable @RemoteComposable () -> U
  * frame every widget that declares no background gets. `RemoteText`'s near-white default content
  * colour reads correctly on it.
  */
+@CatalogComponent(
+  id = "WidgetContainer/Small",
+  group = "Widget Container",
+  noReference =
+    "The Glance Wear widget *host* frame, drawn by the launcher around widget content. The kit " +
+      "publishes app components, not the widget host.",
+  caption =
+    "The Small (200×60dp) squircle widget container the Wear widget host draws around widget " +
+      "content — default surfaceContainerLow fill, 8dp padding, 26dp corners — rendered through " +
+      "the glance-wear WearWidgetPreview tooling wrapper.",
+)
 @CatalogRemoteWidgetSmall
 @Composable
 fun WidgetContainerSmallRemote() {
@@ -144,6 +156,16 @@ fun WidgetContainerSmallRemote() {
 }
 
 /** The Large widget container (default background) carrying a title + supporting line. */
+@CatalogComponent(
+  id = "WidgetContainer/Large",
+  group = "Widget Container",
+  noReference =
+    "The Glance Wear widget *host* frame at the Large size. As above: a host frame, not a kit " +
+      "component.",
+  caption =
+    "The Large (200×108dp) squircle widget container with the host's default background, " +
+      "carrying a title + supporting line.",
+)
 @CatalogRemoteWidgetLarge
 @Composable
 fun WidgetContainerLargeRemote() {
@@ -163,6 +185,16 @@ fun WidgetContainerLargeRemote() {
  * near-white content colour legible while making the brush (and the corner clipping over it)
  * obvious.
  */
+@CatalogComponent(
+  id = "WidgetContainer/GradientBackground",
+  group = "Widget Container",
+  noReference =
+    "A widget declaring its own `WearWidgetBrush` background inside the Glance Wear host frame. " +
+      "No kit counterpart.",
+  caption =
+    "A Small container whose widget declares its own WearWidgetBrush background (vertical " +
+      "gradient) — the corner clipping over the brush is the point.",
+)
 @CatalogRemoteWidgetSmall
 @Composable
 fun WidgetContainerGradientRemote() {

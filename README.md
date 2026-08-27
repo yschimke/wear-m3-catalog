@@ -45,9 +45,11 @@ The Remote catalog moved here from `:samples:design-catalog-remote-m3` in
 module rather than a source set because it is on the alpha Remote Compose line at `compileSdk 37`
 with no Compose BOM, and none of that may reach the catalog that reproduces the kit.
 
-**Only `:catalog` is design-led.** `.design-parity.json` is repo-wide, but the parity run is scoped
-to `module: ':catalog'`, so a Remote divergence — usually an upstream library gap rather than a
-defect here — is not reported as a bug against the kit.
+**Both are design-led.** `.design-parity.json` is repo-wide and the parity workflow runs a job per
+module, so each sheet is compared against the kit under the same policy: a divergence is a defect in
+this code. The Remote sheet's kit mapping is partial by design — eleven components share an id with
+their `:catalog` counterpart and inherit its kit node; the rest record why they are not mapped yet
+rather than pointing at a cell they do not draw.
 
 ## Status
 
@@ -234,7 +236,7 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | [`ci.yml`](.github/workflows/ci.yml) | compile, run preview discovery, unit tests, `ktfmtCheck`, and the build-free catalog-spec pre-flight |
 | [`compose-preview.yml`](.github/workflows/compose-preview.yml) | renders the previews and posts a before/after visual diff on every PR |
 | [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes both bundles — `design-artifacts/wear-m3-catalog` and `design-artifacts/remote-m3` — scoped so a push that moves one catalog does not re-render the other |
-| [`design-parity.yml`](.github/workflows/design-parity.yml) | compares `:catalog`'s render against the Figma kit and publishes the report to `design-parity/main` |
+| [`design-parity.yml`](.github/workflows/design-parity.yml) | compares each catalog's render against the Figma kit — `:catalog` to `design-parity/main`, `:remote-catalog` to `design-parity/remote-m3` |
 | [`design-parity-import.yml`](.github/workflows/design-parity-import.yml) | owns the Figma traffic: refreshes the reference cache on `design-parity/reference` |
 | [`figma-pages.yml`](.github/workflows/figma-pages.yml) | imports the kit's page SVGs and commits the cache under `design/pages` |
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |

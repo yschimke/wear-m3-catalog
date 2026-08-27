@@ -22,11 +22,17 @@ Three rules follow, and they are the ones easiest to break by accident:
 - **The Remote trio moves together.** `compose-remote`, `wear-compose-remote` and `glance-wear` are
   built on the same `remote-creation*`, and a skewed pair fails inside the player at render time,
   not at compile time. Bump all three in one PR and read the visual diff.
-- **Design-led applies to `:catalog` only.** `.design-parity.json` is repo-wide with no per-catalog
-  scoping, but `design-parity.yml` passes `module: ':catalog'`, so the Remote sheet is out of the
-  parity scan by construction. A Remote divergence from the kit is usually a gap in an alpha
-  library, not a defect to fix here — if that ever needs reporting, it needs a scoping mechanism
-  upstream first, not a second direction bolted on locally.
+- **Both catalogs are design-led, and both are in the parity scan.** `.design-parity.json` is
+  repo-wide, and `design-parity.yml` now runs a job per module — `:catalog` publishing
+  `design-parity/main`, `:remote-catalog` publishing `design-parity/remote-m3`. Same policy for
+  both: a divergence from the kit is a defect in this code. Where the Remote library genuinely
+  cannot draw what the kit specifies, say so in the caption or the component's KDoc — the same rule
+  `:catalog` follows for a Wear Compose gap — rather than silently rendering something else.
+- **One design map per checkout.** design-parity reads `<repoRoot>/design-map.json` and nothing
+  else, so the two modules cannot each commit one. `scripts/design-map.sh [<module-dir>]` projects
+  the named module into that one path; each parity job regenerates it for its own module in its own
+  workspace. The committed map is `:catalog`'s. If you project the Remote one locally, restore it
+  (`git checkout -- design-map.json`) before committing.
 
 ## Annotation-first is the rule, not a preference
 
@@ -35,12 +41,19 @@ to `catalog.spec.json` to add, rename or recaption a component — put it on the
 `@CatalogVariant`. The spec is layered over the annotations as a field-level override and exists for
 cover-sheet fields only.
 
-**`:remote-catalog` is the one exception, and it is temporary.** Its inventory still lives in
-`remote-catalog/catalog.spec.json` as a `groups` array, which is how it arrived from
-compose-ai-tools; it was carried across unchanged so the published sheet is comparable either side
-of the move. Migrating it onto `@CatalogComponent` (the `parallel` and `motionPreview` fields it
-needs both exist) is tracked as a follow-up. Until then: for that module, edit the spec; for
-`:catalog`, never.
+**That now holds for both modules.** `:remote-catalog` arrived from compose-ai-tools with its
+inventory in `catalog.spec.json` as a `groups` array and has been migrated onto annotations, so
+neither spec carries an inventory any more. Both specs are cover-sheet only.
+
+**Kit references on the Remote sheet are deliberately partial.** Eleven of its components name the
+same kit node as the `:catalog` component they share an id with — the same component, drawn twice.
+The rest carry `noReference` with a stated reason, and most of those reasons are the same one: the
+component *varies* a kit cell (`Button/Disabled` varies `Button/Filled`, `Button/Text-Small` varies
+`TextButton`) and the specific variant cell has not been mapped against its export yet. Do not
+"fix" those by copying the base component's node — that scores a disabled or small sticker against
+the kit's default cell and reports a divergence that is an artefact of the mapping. Map the variant
+(the kit sets carry them: `Button` has 50 cells, `Icon-Button` 40) and check the exported image
+first, exactly as the rules above require.
 
 If you find yourself writing a lot of mapping config to express something, that is a signal the
 upstream libraries are missing an annotation — **raise it in
