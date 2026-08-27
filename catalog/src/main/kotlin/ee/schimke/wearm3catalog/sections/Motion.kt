@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.ButtonGroup
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
@@ -291,6 +293,51 @@ fun ToggleButtonShapeMotion() = Sticker {
     shapes = IconToggleButtonDefaults.animatedShapes(),
   ) {
     Icon(Icons.Filled.Notifications, contentDescription = "Notifications")
+  }
+}
+
+/**
+ * The button group yielding: one button swells under a finger and its neighbours give up the width.
+ *
+ * A still cannot carry this at all. Every cell on the `ButtonGroup` card is the row at rest, where
+ * the buttons are equal and the component is indistinguishable from a `Row` that shares its
+ * spacing. The expansion IS the component, and it only exists while something is pressed.
+ *
+ * **The press is a real dispatched pointer, and the widths that move are the layout's own.**
+ * `ButtonGroupScope.animateWidth` hands each button's `MutableInteractionSource` to the layout, so
+ * `ButtonGroup` grows the pressed one by `ButtonGroupDefaults.ExpansionWidth` and takes the
+ * difference off its neighbours. Nothing here animates a width.
+ *
+ * The first and the last are pressed rather than one twice: the middle button yields on both sides,
+ * and a recording that only ever presses one end shows half of what the row does.
+ *
+ * `PressAndHold` rather than `Tap`: the swell lasts exactly as long as the press, so a momentary
+ * tap records the grow and the shrink colliding in a frame or two.
+ */
+@MotionRowCanvas
+@InteractionPreview(
+  gesture = InteractionGesture.PressAndHold,
+  targets = [0, 2],
+  format = MotionFormat.Gif,
+  caption =
+    "The first button held, then the last: the pressed one swells by the group's expansion width " +
+      "and its neighbours yield it back.",
+)
+@Composable
+fun ButtonGroupExpansionMotion() = Sticker {
+  ButtonGroup(modifier = Modifier.width(180.dp)) {
+    repeat(3) { index ->
+      // The component sticker's own wiring (`Buttons.kt`'s `ButtonRowGroup`), because the wiring is
+      // what is being recorded: the source `animateWidth` watches has to be the source the button
+      // emits its press into.
+      val interactionSource = remember { MutableInteractionSource() }
+      Button(
+        onClick = {},
+        modifier = Modifier.weight(1f).animateWidth(interactionSource),
+        interactionSource = interactionSource,
+        label = { Text(('A' + index).toString()) },
+      )
+    }
   }
 }
 

@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -519,6 +521,9 @@ fun LoadingButton() = Sticker {
     "The kit publishes no button-group set — it draws rows as side-by-side instances of its " +
       "button sets. This is a Wear Compose component with no kit counterpart.",
   caption = "Buttons that share a row and expand away from whichever one is pressed.",
+  // The expansion is the component, and it only exists under a finger — see
+  // `Motion.ButtonGroupExpansionMotion` for why no still on this card can carry it.
+  motionPreview = "ButtonGroupExpansionMotion",
 )
 @CatalogModes
 @OverrideVariant(name = "three", ints = ["count=3"])
@@ -527,9 +532,19 @@ fun ButtonRowGroup() = Sticker {
   val count = previewOverrideInt("count", 2)
   ButtonGroup(modifier = Modifier.width(180.dp)) {
     repeat(count) { index ->
+      // The expansion the caption promises is opt-in, and this is the opt-in:
+      // `ButtonGroupScope.animateWidth` is what makes the pressed button swell by
+      // `ButtonGroupDefaults.ExpansionWidth` while its neighbours yield the width. Without it a
+      // `ButtonGroup` is only a row that shares its spacing, and the card documented a behaviour
+      // the component never had.
+      //
+      // The interaction source has to be the button's OWN — passed to `Button` and read by
+      // `animateWidth` — or the layout is watching a source nothing ever emits a press into.
+      val interactionSource = remember { MutableInteractionSource() }
       Button(
         onClick = {},
-        modifier = Modifier.weight(1f),
+        modifier = Modifier.weight(1f).animateWidth(interactionSource),
+        interactionSource = interactionSource,
         label = { Text(('A' + index).toString()) },
       )
     }
