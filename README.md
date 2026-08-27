@@ -23,6 +23,32 @@ node ids and reference images, and the MCP server for variables and metadata.
 [kit]: https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/M3-Wear-OS-Apps-Design-Kit--Community-
 [m3]: https://github.com/yschimke/m3-catalog
 
+## Two renditions of the same surface
+
+This repo publishes **two** catalogs, and the pairing between them is the point.
+
+| Module | System | Library | Delivery branch |
+| --- | --- | --- | --- |
+| [`:catalog`](catalog) | `wear-m3-catalog` | `androidx.wear.compose:compose-material3` (+ Horologist) | `design-artifacts/wear-m3-catalog` |
+| [`:remote-catalog`](remote-catalog) | `remote-m3` | `androidx.wear.compose.remote:remote-material3` (+ `remote-creation-compose`, Glance Wear) | `design-artifacts/remote-m3` |
+
+`:catalog` draws the kit with Wear Compose Material 3. `:remote-catalog` draws the same components
+as **Remote Compose documents** — each sticker is a real `RemoteDocument`, rasterised by the player,
+which is the path a watch face, tile or widget takes on-device. Every Remote component names its
+`:catalog` counterpart, so the published compare page reads as three columns: **the kit**, the Wear
+Compose rendition, and the Remote one. Two implementations can only tell you that they differ; the
+kit is what says which one is wrong.
+
+The Remote catalog moved here from `:samples:design-catalog-remote-m3` in
+[compose-ai-tools](https://github.com/yschimke/compose-ai-tools) — see
+[issue #4588](https://github.com/yschimke/compose-ai-tools/issues/4588). It is a separate Gradle
+module rather than a source set because it is on the alpha Remote Compose line at `compileSdk 37`
+with no Compose BOM, and none of that may reach the catalog that reproduces the kit.
+
+**Only `:catalog` is design-led.** `.design-parity.json` is repo-wide, but the parity run is scoped
+to `module: ':catalog'`, so a Remote divergence — usually an upstream library gap rather than a
+defect here — is not reported as a bug against the kit.
+
 ## Status
 
 **Every published set in the kit is accounted for.** 33 of the kit's 42 published component sets are
@@ -192,10 +218,10 @@ press that dispatches cleanly still needs measuring before you call it motion.
 ## Building
 
 ```sh
-./gradlew :catalog:assembleDebug              # compile
-./gradlew :catalog:composePreviewDiscover     # the annotation-derived inventory
-./gradlew test                                # inventory invariants
-./gradlew ktfmtFormat                         # format
+./gradlew :catalog:assembleDebug :remote-catalog:assembleDebug              # compile
+./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
+./gradlew test                                                             # inventory invariants
+./gradlew ktfmtFormat                                                      # format
 ```
 
 `composePreviewDiscover` is the real contract: it is what turns the annotations into the published
@@ -207,8 +233,8 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | --- | --- |
 | [`ci.yml`](.github/workflows/ci.yml) | compile, run preview discovery, unit tests, `ktfmtCheck`, and the build-free catalog-spec pre-flight |
 | [`compose-preview.yml`](.github/workflows/compose-preview.yml) | renders the previews and posts a before/after visual diff on every PR |
-| [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes the importable bundle to `design-artifacts/wear-m3-catalog` |
-| [`design-parity.yml`](.github/workflows/design-parity.yml) | compares the render against the Figma kit and publishes the report to `design-parity/main` |
+| [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes both bundles — `design-artifacts/wear-m3-catalog` and `design-artifacts/remote-m3` — scoped so a push that moves one catalog does not re-render the other |
+| [`design-parity.yml`](.github/workflows/design-parity.yml) | compares `:catalog`'s render against the Figma kit and publishes the report to `design-parity/main` |
 | [`design-parity-import.yml`](.github/workflows/design-parity-import.yml) | owns the Figma traffic: refreshes the reference cache on `design-parity/reference` |
 | [`figma-pages.yml`](.github/workflows/figma-pages.yml) | imports the kit's page SVGs and commits the cache under `design/pages` |
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |
