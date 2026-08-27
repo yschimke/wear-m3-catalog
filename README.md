@@ -276,6 +276,8 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `MediaPodcastControlButtons` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPodcastControlButtons-940642af.png" width="150" /> |
 | `MediaPodcastControlButtons` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaPodcastControlButtons_VARIANT_paused-d55863ee.png" width="150" /> |
 | `MediaShowPlaylistButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaShowPlaylistButton-2ac82a78.png" width="150" /> |
+| `ButtonGroupExpansionMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonGroupExpansionMotion-8aae666e.png" width="150" /> |
+| `ButtonGroupExpansionMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ButtonGroupExpansionMotion-8aae666e.gif" width="150" /> |
 | `EdgeButtonRevealMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/EdgeButtonRevealMotion-ca40423c.gif" width="150" /> |
 | `IndeterminateProgressMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IndeterminateProgressMotion-712acc69.gif" width="150" /> |
 | `MediaTransportMotion` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/MediaTransportMotion-104cef80.png" width="150" /> |
