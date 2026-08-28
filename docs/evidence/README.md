@@ -17,6 +17,13 @@ served into it. What they show is not a component but a **choice** — which com
 puts on the index (`catalog.spec.json`'s `display.hero`) — and that is a picture of the server, not
 of a sticker, so no render task here produces it.
 
+`kit-*-cells*.png` are the other exception: a CONTACT SHEET of one component's variant cells,
+every `_VARIANT_` render of it composited onto one dark board with the cell's name under each. A
+change that adds cells by the dozen (the kit's `Edge-Button` set alone is 64) cannot be evidenced
+one PNG at a time, and the question a reviewer has — does every cell draw something, and is it the
+cell it claims to be — is a question about the grid rather than about any one frame. The frames
+inside are ordinary `composePreviewRender` outputs; only the board is assembled.
+
 A few are a render with an **overlay drawn on top** — the boxes the preview server's inspection
 layers put over the same frame, baked in so a PR body can show what a reader saw on the page. They
 are named for the question they answer rather than for the preview

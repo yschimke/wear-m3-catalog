@@ -77,15 +77,17 @@ private fun kitGlyph(size: Dp = iconButtonSize()) =
     modifier = Modifier.size(IconButtonDefaults.iconSizeFor(size)),
   )
 
-@CatalogComponent(
-  id = "IconButton/Filled",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
-  caption = "Highest emphasis; an icon-only action.",
-)
-@CatalogModes
-@OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
-@OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
+/**
+ * **Every `Icon-Button` cell one style publishes** — the kit's four sizes crossed with `Disabled`,
+ * eight nodes, seven of them variants of the base. Hoisted onto one annotation class and applied to
+ * each style component rather than written out five times: the size is a `touchTargetAwareSize`
+ * argument to whichever function you picked, so the cells are identical.
+ *
+ * The size run alone was already here; what was missing was the **crossing** — a disabled button at
+ * anything but the default size, which is half the set
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)). A crossing declares both values
+ * with `kitProps`, since `kitAxis` describes a cell that turns exactly one knob.
+ */
 @OverrideVariant(
   name = "extra-small",
   strings = ["size=extra-small"],
@@ -93,11 +95,88 @@ private fun kitGlyph(size: Dp = iconButtonSize()) =
   kitValue = "Extra-Small",
 )
 @OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+@OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
   kitAxis = "Disabled",
   kitValue = "Yes",
 )
+@OverrideVariant(
+  name = "extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=extra-small"],
+  kitProps = ["Size=Extra-Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=small"],
+  kitProps = ["Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Size=Large", "Disabled=Yes"],
+)
+annotation class IconButtonKitCells
+
+/**
+ * [IconButtonKitCells] without its two extra-small cells, for the one style that cannot draw them —
+ * see the note on `StandardIconAction`. Six of the kit's eight cells for that style; the two that
+ * stay out are a property of the child style rather than a gap in this file.
+ */
+@OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=small"],
+  kitProps = ["Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Size=Large", "Disabled=Yes"],
+)
+annotation class StandardIconButtonKitCells
+
+@CatalogComponent(
+  id = "IconButton/Filled",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+  caption = "Highest emphasis; an icon-only action.",
+)
+@CatalogModes
+@IconButtonKitCells
 @Composable
 fun FilledIconAction() = Sticker {
   val c = counted("filled")
@@ -117,20 +196,7 @@ fun FilledIconAction() = Sticker {
   caption = "The kit's highlighted style — a filled icon button in the variant palette.",
 )
 @CatalogModes
-@OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
-@OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
-@OverrideVariant(
-  name = "extra-small",
-  strings = ["size=extra-small"],
-  kitAxis = "Size",
-  kitValue = "Extra-Small",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@IconButtonKitCells
 @Composable
 fun FilledVariantIconAction() = Sticker {
   val c = counted("variant")
@@ -151,20 +217,7 @@ fun FilledVariantIconAction() = Sticker {
   caption = "Medium emphasis, on a tonal container.",
 )
 @CatalogModes
-@OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
-@OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
-@OverrideVariant(
-  name = "extra-small",
-  strings = ["size=extra-small"],
-  kitAxis = "Size",
-  kitValue = "Extra-Small",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@IconButtonKitCells
 @Composable
 fun TonalIconAction() = Sticker {
   val c = counted("tonal")
@@ -184,20 +237,7 @@ fun TonalIconAction() = Sticker {
   caption = "Medium emphasis, drawn as an outline over the background.",
 )
 @CatalogModes
-@OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
-@OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
-@OverrideVariant(
-  name = "extra-small",
-  strings = ["size=extra-small"],
-  kitAxis = "Size",
-  kitValue = "Extra-Small",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@IconButtonKitCells
 @Composable
 fun OutlinedIconAction() = Sticker {
   val c = counted("outlined")
@@ -217,21 +257,15 @@ fun OutlinedIconAction() = Sticker {
   caption = "Lowest emphasis; the kit's child style, with no container at all.",
 )
 @CatalogModes
-@OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
-@OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
+@StandardIconButtonKitCells
 // NO `extra-small` cell, and this is the one style that cannot have one. The kit publishes
 // `Size=Extra-Small` for all five, and `IconButtonDefaults.ExtraSmallButtonSize` exists — but the
 // size is a CONTAINER token, and the child style draws no container. Both extra-small and small
 // then clamp to the same minimum touch target around an unchanged glyph, so the cell published the
 // small render a second time: byte-identical, and caught by `CatalogRenderTest.no two renders of a
 // component are identical`. The other four styles carry the cell, because on them the container is
-// the thing that changes.
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+// the thing that changes — so this style takes the six-cell annotation and the others the
+// eight-cell one.
 @Composable
 fun StandardIconAction() = Sticker {
   val c = counted("standard")
@@ -244,24 +278,86 @@ fun StandardIconAction() = Sticker {
   }
 }
 
-@CatalogComponent(
-  id = "TextButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
-  caption = "A short label as a round action, with the kit's style and size axes folded in.",
+/**
+ * **Every cell of the kit's `Text-Button` set Compose can tell apart** — 24 of its 30 nodes. The
+ * set is five styles by three sizes by `Disabled`; eight cells were drawn, so every crossing (a
+ * small tonal button, a disabled outlined one) was compared against nothing
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * The six that stay out are the disabled `Filled-Variant` and `Tonal` cells, for the reason
+ * `EdgeButtonKitCells` states at length: Wear resolves all three filled styles' disabled colours to
+ * the same `onSurface` pair, so those cells are the disabled filled render under two more names.
+ *
+ * No `filled` and no `default` cell — filled at the default size IS the base render, and a cell for
+ * it publishes the base picture a second time under another name. No `extra-small` either: the kit
+ * gives this set three sizes and `TextButtonDefaults` publishes the same three, extra-small being
+ * an ICON-button size on both sides.
+ *
+ * The kit hyphenates `Filled-Variant` on THIS set and spaces it on `Icon-Button`. The seeds keep
+ * Compose's spelling either way; each cell declares the kit's.
+ */
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
 )
-@CatalogModes
-// No `filled` cell: filled IS the base render (see below), so a cell for it publishes the base
-// picture a second time under another name.
+@OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=small"],
+  kitProps = ["Style=Filled", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Style=Filled", "Size=Large", "Disabled=Yes"],
+)
 @OverrideVariant(
   name = "filled-variant",
   strings = ["style=filled-variant"],
   kitAxis = "Style",
-  // The kit hyphenates it on THIS set and spaces it on `Icon-Button` — `Filled-Variant` here,
-  // `Filled Variant` there. The seed keeps Compose's spelling either way; this names the kit's.
   kitValue = "Filled-Variant",
 )
-@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
+@OverrideVariant(
+  name = "filled-variant-small",
+  strings = ["style=filled-variant", "size=small"],
+  kitProps = ["Style=Filled-Variant", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-large",
+  strings = ["style=filled-variant", "size=large"],
+  kitProps = ["Style=Filled-Variant", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal",
+  strings = ["style=tonal"],
+  kitAxis = "Style",
+  kitValue = "Tonal",
+)
+@OverrideVariant(
+  name = "tonal-small",
+  strings = ["style=tonal", "size=small"],
+  kitProps = ["Style=Tonal", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-large",
+  strings = ["style=tonal", "size=large"],
+  kitProps = ["Style=Tonal", "Size=Large", "Disabled=No"],
+)
 @OverrideVariant(
   name = "outlined",
   strings = ["style=outlined"],
@@ -269,21 +365,77 @@ fun StandardIconAction() = Sticker {
   kitValue = "Outline",
 )
 @OverrideVariant(
+  name = "outlined-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Size=Default", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-small",
+  strings = ["style=outlined", "size=small"],
+  kitProps = ["Style=Outline", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=small"],
+  kitProps = ["Style=Outline", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-large",
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Size=Large", "Disabled=Yes"],
+)
+@OverrideVariant(
   name = "child",
   strings = ["style=child"],
   kitAxis = "Style",
   kitValue = "Child (No background)",
 )
-@OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
-@OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
-// No `extra-small` cell: the kit gives `Text-Button` three sizes and `TextButtonDefaults` publishes
-// the same three. Extra-small is an ICON-button size on both sides.
 @OverrideVariant(
-  name = "disabled",
+  name = "child-disabled",
   booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
+  strings = ["style=child"],
+  kitProps = ["Style=Child (No background)", "Size=Default", "Disabled=Yes"],
 )
+@OverrideVariant(
+  name = "child-small",
+  strings = ["style=child", "size=small"],
+  kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "size=small"],
+  kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "child-large",
+  strings = ["style=child", "size=large"],
+  kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "size=large"],
+  kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=Yes"],
+)
+annotation class TextButtonKitCells
+
+@CatalogComponent(
+  id = "TextButton",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
+  caption = "A short label as a round action, with the kit's style and size axes folded in.",
+)
+@CatalogModes
+@TextButtonKitCells
 @Composable
 fun TextAction() = Sticker {
   val c = counted(kitCopy("label", KitCopy.GLYPHS))

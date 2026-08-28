@@ -37,10 +37,295 @@ import ee.schimke.wearm3catalog.kitCopy
 // `Extra-Large` is `Large`. Reading the two lists off in parallel instead put every size one step
 // too big and invented two gaps that are not there (a kit `Extra-Large` with no counterpart, and a
 // Compose `ExtraSmall` the kit never published). The cells below keep Compose's names and name the
-// kit's spelling with `kitValue`.
+// kit's spelling with `kitProps`.
 //
 // Style folds rather than splitting — Compose ships one `EdgeButton` taking its emphasis as
 // `colors`, so there is no second function to choose at the call site (AGENTS.md).
+
+/**
+ * **Every cell of the kit's `Edge-Button` set Compose can tell apart** — 48 of its 64 nodes. The
+ * set is a clean product (four `Style` values by two `Type` values by four `Size` values by
+ * `Disabled`) and the catalog drew nine of it, the base plus one cell per axis, so 55 published
+ * nodes were compared against nothing
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * The 16 that stay out are the DISABLED cells of `Filled Variant` and `Tonal`. Wear Compose
+ * resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container,
+ * 38% content — so a disabled variant, tonal and filled button are one picture, and the three cells
+ * the kit draws for them cannot be told apart at the call site. Publishing them anyway is three
+ * names for one render, which `CatalogRenderTest.no two renders of a component are identical`
+ * rejects, and rightly: a comparison that cannot fail is not a comparison. The kit drawing a
+ * distinction the library does not is a finding about the pair, recorded here (AGENTS.md), and the
+ * `Outline` disabled cells DO differ, so they are drawn.
+ *
+ * Hoisted onto an annotation class rather than stacked on the composable so the component's own
+ * declaration still reads as one screen of code.
+ *
+ * **Written out rather than declared as a `@PreviewAxis` product**, even though the product is
+ * exactly what this is, because three of the four axes are spelled differently on the two sides and
+ * an axis cell carries no kit handle: `outlined` is the kit's `Outline`, `enabled=false` is its
+ * `Disabled=Yes`, and — the trap this file already carries a note about — Compose's `Small` is the
+ * kit's `Default`, one step off the whole way down. A product resolved through the alias tables
+ * would pair `size=medium` with `Size=Large`'s neighbour and report the miss as a design
+ * divergence. `kitProps` states each cell's WHOLE kit assignment instead, the same way
+ * `ButtonLayoutCells` does, so every cell either lands on the node the kit drew or resolves to
+ * nothing loudly.
+ *
+ * Names are the cell's non-default values joined by `-`, in `Style`, `Type`, `Size`, `Disabled`
+ * order, so the nine renders that already existed keep the ids they published (`icon`, `tonal`,
+ * `extra-small`, `disabled`, …) and the new ones read as their crossings (`tonal-icon-large`).
+ */
+@OverrideVariant(
+  name = "extra-small",
+  strings = ["size=extra-small"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=extra-small"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Default", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "medium",
+  strings = ["size=medium"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "medium-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=medium"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Style=Filled", "Type=Text", "Size=Extra-Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-extra-small",
+  strings = ["content=icon", "size=extra-small"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "icon-extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon", "size=extra-small"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon",
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "icon-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Default", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-medium",
+  strings = ["content=icon", "size=medium"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "icon-medium-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon", "size=medium"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-large",
+  strings = ["content=icon", "size=large"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "icon-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon", "size=large"],
+  kitProps = ["Style=Filled", "Type=Icon", "Size=Extra-Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "filled-variant-extra-small",
+  strings = ["style=filled-variant", "size=extra-small"],
+  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant",
+  strings = ["style=filled-variant"],
+  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-medium",
+  strings = ["style=filled-variant", "size=medium"],
+  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-large",
+  strings = ["style=filled-variant", "size=large"],
+  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-icon-extra-small",
+  strings = ["style=filled-variant", "content=icon", "size=extra-small"],
+  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-icon",
+  strings = ["style=filled-variant", "content=icon"],
+  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-icon-medium",
+  strings = ["style=filled-variant", "content=icon", "size=medium"],
+  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-icon-large",
+  strings = ["style=filled-variant", "content=icon", "size=large"],
+  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-extra-small",
+  strings = ["style=tonal", "size=extra-small"],
+  kitProps = ["Style=Tonal", "Type=Text", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal",
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Type=Text", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-medium",
+  strings = ["style=tonal", "size=medium"],
+  kitProps = ["Style=Tonal", "Type=Text", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-large",
+  strings = ["style=tonal", "size=large"],
+  kitProps = ["Style=Tonal", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-icon-extra-small",
+  strings = ["style=tonal", "content=icon", "size=extra-small"],
+  kitProps = ["Style=Tonal", "Type=Icon", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-icon",
+  strings = ["style=tonal", "content=icon"],
+  kitProps = ["Style=Tonal", "Type=Icon", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-icon-medium",
+  strings = ["style=tonal", "content=icon", "size=medium"],
+  kitProps = ["Style=Tonal", "Type=Icon", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-icon-large",
+  strings = ["style=tonal", "content=icon", "size=large"],
+  kitProps = ["Style=Tonal", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-extra-small",
+  strings = ["style=outlined", "size=extra-small"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=extra-small"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined",
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Default", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-medium",
+  strings = ["style=outlined", "size=medium"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-medium-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=medium"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-large",
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Type=Text", "Size=Extra-Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon-extra-small",
+  strings = ["style=outlined", "content=icon", "size=extra-small"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Small", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=icon", "size=extra-small"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Small", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon",
+  strings = ["style=outlined", "content=icon"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Default", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=icon"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Default", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon-medium",
+  strings = ["style=outlined", "content=icon", "size=medium"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-medium-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=icon", "size=medium"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Large", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon-large",
+  strings = ["style=outlined", "content=icon", "size=large"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=icon", "size=large"],
+  kitProps = ["Style=Outline", "Type=Icon", "Size=Extra-Large", "Disabled=Yes"],
+)
+annotation class EdgeButtonKitCells
 
 @CatalogComponent(
   id = "EdgeButton",
@@ -53,39 +338,7 @@ import ee.schimke.wearm3catalog.kitCopy
   motionPreview = "EdgeButtonRevealMotion",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "extra-small",
-  strings = ["size=extra-small"],
-  kitAxis = "Size",
-  kitValue = "Small",
-)
-@OverrideVariant(name = "medium", strings = ["size=medium"], kitAxis = "Size", kitValue = "Large")
-@OverrideVariant(
-  name = "large",
-  strings = ["size=large"],
-  kitAxis = "Size",
-  kitValue = "Extra-Large",
-)
-@OverrideVariant(name = "icon", strings = ["content=icon"], kitAxis = "Type", kitValue = "Icon")
-@OverrideVariant(
-  name = "filled-variant",
-  strings = ["style=filled-variant"],
-  kitAxis = "Style",
-  kitValue = "Filled Variant",
-)
-@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
-@OverrideVariant(
-  name = "outlined",
-  strings = ["style=outlined"],
-  kitAxis = "Style",
-  kitValue = "Outline",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@EdgeButtonKitCells
 @Composable
 fun ScreenEdgeButton() = EdgeButtonSticker {
   val c = counted(kitCopy("label", KitCopy.EDGE_BUTTON_LABEL))

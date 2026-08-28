@@ -32,13 +32,20 @@ import ee.schimke.wearm3catalog.toggleable
 //
 // These own their state: a selection control that cannot be selected is not the component.
 
-@CatalogComponent(
-  id = "CheckboxButton",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/35326:85642",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
-  caption = "A labelled row that toggles a checkbox; for a set where any number may be chosen.",
-)
-@CatalogModes
+/**
+ * **Every cell the kit publishes for one selection `Type`** — `Selected` by `Split (2 tap targets)`
+ * by `Disabled`, a clean eight-cell product, all eight of them drawn. The catalog used to draw the
+ * base plus one cell per axis, so the four crossings (an unselected split row, a disabled split
+ * row, …) were compared against nothing
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * Hoisted onto one annotation class and applied to all three types rather than written out three
+ * times: the axes are arguments to whichever function you picked, so the cells are identical for
+ * `Checkbox`, `Radio` and `Switch`, and `Type` is carried by each component's own `reference`.
+ *
+ * A crossing declares its whole assignment with `kitProps`, not `kitAxis` — a cell that turns two
+ * knobs has no single axis to name, and the pair would be dropped rather than guessed at.
+ */
 @OverrideVariant(
   name = "unselected",
   booleans = ["checked=false"],
@@ -57,6 +64,36 @@ import ee.schimke.wearm3catalog.toggleable
   kitAxis = "Disabled",
   kitValue = "Yes",
 )
+@OverrideVariant(
+  name = "unselected-split",
+  booleans = ["checked=false", "split=true"],
+  kitProps = ["Selected=No", "Split (2 tap targets)=Yes"],
+)
+@OverrideVariant(
+  name = "unselected-disabled",
+  booleans = ["checked=false", "enabled=false"],
+  kitProps = ["Selected=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "split-disabled",
+  booleans = ["split=true", "enabled=false"],
+  kitProps = ["Split (2 tap targets)=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "unselected-split-disabled",
+  booleans = ["checked=false", "split=true", "enabled=false"],
+  kitProps = ["Selected=No", "Split (2 tap targets)=Yes", "Disabled=Yes"],
+)
+annotation class SelectionCells
+
+@CatalogComponent(
+  id = "CheckboxButton",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35326:85642",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+  caption = "A labelled row that toggles a checkbox; for a set where any number may be chosen.",
+)
+@CatalogModes
+@SelectionCells
 @Composable
 fun CheckboxRow() = Sticker {
   val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
@@ -89,24 +126,7 @@ fun CheckboxRow() = Sticker {
   motionPreview = "SwitchTransitionMotion",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "unselected",
-  booleans = ["checked=false"],
-  kitAxis = "Selected",
-  kitValue = "No",
-)
-@OverrideVariant(
-  name = "split",
-  booleans = ["split=true"],
-  kitAxis = "Split (2 tap targets)",
-  kitValue = "Yes",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@SelectionCells
 @Composable
 fun SwitchRow() = Sticker {
   val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
@@ -137,24 +157,7 @@ fun SwitchRow() = Sticker {
   caption = "A labelled row in a set where exactly one may be chosen.",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "unselected",
-  booleans = ["checked=false"],
-  kitAxis = "Selected",
-  kitValue = "No",
-)
-@OverrideVariant(
-  name = "split",
-  booleans = ["split=true"],
-  kitAxis = "Split (2 tap targets)",
-  kitValue = "Yes",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@SelectionCells
 @Composable
 fun RadioRow() = Sticker {
   val (selected, onSelectedChange) = toggleable(previewOverrideBoolean("checked", true))
