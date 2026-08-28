@@ -133,3 +133,10 @@ jobs:
       # hand-kept — so the slug rule is the only thing holding those URLs still. Needs no token:
       # it exercises the resolver against fixtures.
       - run: node --test scripts/import-figma-pages.test.mjs
+
+      # The snapshot probe's decision logic — what makes `remote-snapshot-probe.yml` ping a human
+      # or stay quiet. Pure and stdlib-only, so it runs beside the resolver test rather than
+      # needing the probe's own Pillow/Android environment. A watchdog whose comparison silently
+      # stopped working would report "nothing changed" forever, which is the one failure mode it
+      # cannot have.
+      - run: python3 scripts/test_remote_snapshot_probe.py
