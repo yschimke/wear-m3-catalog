@@ -323,8 +323,17 @@ are out of scope.
   `CatalogInteractive.kt`.
 - **Dark-first, transparent.** A component sticker is a single dark capture on a transparent
   background (`@CatalogModes`). A component the kit draws on a display cell — scaffolds, lists,
-  dialogs, pickers, the indicator rails, swipe-to-reveal — takes `FullScreenSticker` and
-  `@CatalogFullScreenModes` instead: the round device frame plus the breakpoint fan-out.
+  dialogs, pickers, swipe-to-reveal — takes `FullScreenSticker` and `@CatalogFullScreenModes`
+  instead: the round device frame plus the breakpoint fan-out.
+- **A display cell the kit exports *transparent* takes `TransparentScreenSticker` and
+  `@CatalogTransparentScreenModes`** — the rails, the page indicators, the fixed clock, the circular
+  progress cell. Same device, same clip, same fan-out; no fill. Check the reference before choosing:
+  the kit exports most display cells over black, and those pair as they are.
+  **Both halves are load-bearing.** The black disc has two independent sources — the preview's
+  `showBackground = true, backgroundColor = 0xFF000000` and the `background(colorScheme.background)`
+  the frame paints over it — so changing either alone leaves the render pixel-for-pixel identical.
+  That is why they are a matched pair rather than a flag
+  ([#138](https://github.com/yschimke/wear-m3-catalog/issues/138)).
 - **A control the kit draws across its content column takes `Modifier.kitRowWidth()`.** Wear's
   `Button` applies no `fillMaxWidth` of its own — `Card`, `Slider` and `Stepper` do — so a button
   given no width hugs its label, and `Button/Filled` published at 120dp against a 172dp kit cell.

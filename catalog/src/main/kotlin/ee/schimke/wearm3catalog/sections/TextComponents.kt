@@ -22,11 +22,11 @@ import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
-import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
 import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.TransparentScreenSticker
 import ee.schimke.wearm3catalog.kitCopy
 
 // The kit's `Text` page: the two list headers, the two body roles, and the curved clock.
@@ -178,7 +178,7 @@ fun CaptionText() = Sticker {
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38973:10025",
   caption = "The curved status strip every Wear screen carries, pinned to a fixed time.",
 )
-@CatalogFullScreenModes
+@CatalogTransparentScreenModes
 @OverrideVariant(
   name = "24-hour",
   strings = ["time=09:30"],
@@ -186,7 +186,7 @@ fun CaptionText() = Sticker {
   kitValue = "24hr",
 )
 @Composable
-fun FixedTimeText() = FullScreenSticker {
+fun FixedTimeText() = TransparentScreenSticker {
   val time = kitCopy("time", KitCopy.TIME_12H)
   TimeText { timeTextCurvedText(time) }
 }
