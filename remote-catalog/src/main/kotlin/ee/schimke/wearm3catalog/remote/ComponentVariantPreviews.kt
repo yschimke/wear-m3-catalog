@@ -7,6 +7,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
+import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -52,7 +53,7 @@ import ee.schimke.composeai.preview.CatalogComponent
   parallel = "Button/Tonal",
   reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93104",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
-  caption = "Tonal button using the theme's secondary-container emphasis.",
+  caption = "Tonal button on the theme's surface-container emphasis.",
 )
 @CatalogRemoteModes
 @Composable
@@ -60,12 +61,18 @@ fun TonalRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   RemoteButton(
     onClick = onClick,
+    // `surfaceContainer`, NOT `secondaryContainer`. `RemoteButtonDefaults` publishes no tonal
+    // colours, so this style is written out here — and written out against the wrong token it drew
+    // a blue button beside a kit cell (and a `wear-m3-catalog` parallel) that is neutral grey.
+    // Wear Material 3 is where the token comes from: `ButtonDefaults.filledTonalButtonColors()` is
+    // `surfaceContainer` / `onSurface` on this platform, unlike phone M3's secondary-container
+    // tonal, and `Button/Tonal` in the sibling catalog is that function.
     colors =
       RemoteButtonDefaults.buttonColors(
-        containerColor = RemoteMaterialTheme.colorScheme.secondaryContainer,
-        contentColor = RemoteMaterialTheme.colorScheme.onSecondaryContainer,
-        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSecondaryContainer,
-        iconColor = RemoteMaterialTheme.colorScheme.onSecondaryContainer,
+        containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
+        contentColor = RemoteMaterialTheme.colorScheme.onSurface,
+        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
+        iconColor = RemoteMaterialTheme.colorScheme.primary,
       ),
     content = { RemoteText(label) },
   )
@@ -89,7 +96,7 @@ fun IconLabelRemoteButton() = RemoteSticker {
     onClick = onClick,
     icon = {
       RemoteIcon(
-        starIcon,
+        addIcon,
         contentDescription = null,
         modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
       )
@@ -116,7 +123,7 @@ fun IconLabelSecondaryRemoteButton() = RemoteSticker {
     onClick = onClick,
     icon = {
       RemoteIcon(
-        starIcon,
+        addIcon,
         contentDescription = null,
         modifier = RemoteModifier.size(RemoteButtonDefaults.LargeIconSize),
       )
@@ -146,31 +153,26 @@ fun DisabledRemoteButton() = RemoteSticker {
   )
 }
 
+// The kit's `Button-Compact` `Icon=No` cell, and the Wear sibling's `text-only` cell on the same
+// set. It used to be the OTHER way round — this was `Compact-IconLabel` and the base sticker drew
+// the label alone — which published the kit's base cell under a variant name and a variant cell as
+// the base. The base now draws what the kit's base cell draws (icon + label); what is left over,
+// and needs a name of its own, is the label without the icon.
 @CatalogComponent(
-  id = "Button/Compact-IconLabel",
+  id = "Button/Compact-TextOnly",
   group = "Buttons",
   parallel = "Button/Compact",
   noReference =
     "Varies `Button/Compact`, whose kit set the Wear sibling maps; the specific variant cell " +
       "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
       "cell would score this against the wrong variant.",
-  caption = "Compact button with the defined extra-small icon plus a label.",
+  caption = "Compact button with a label and no icon — the kit's Icon=No cell.",
 )
 @CatalogRemoteModes
 @Composable
-fun CompactIconLabelRemoteButton() = RemoteSticker {
+fun CompactTextOnlyRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
-  RemoteCompactButton(
-    onClick = onClick,
-    icon = {
-      RemoteIcon(
-        starIcon,
-        contentDescription = null,
-        modifier = RemoteModifier.size(RemoteButtonDefaults.ExtraSmallIconSize),
-      )
-    },
-    label = { RemoteText(label) },
-  )
+  RemoteCompactButton(onClick = onClick, label = { RemoteText(label) })
 }
 
 @CatalogComponent(
@@ -197,8 +199,8 @@ fun CompactIconOnlyRemoteButton() = RemoteSticker {
       ),
     icon = {
       RemoteIcon(
-        starIcon,
-        contentDescription = "Favourite".rs,
+        addIcon,
+        contentDescription = "Add".rs,
         modifier = RemoteModifier.size(RemoteButtonDefaults.SmallIconSize),
       )
     },
@@ -254,27 +256,34 @@ fun LargeRemoteIconButton() = RemoteSticker {
   SizedIconButton(RemoteIconButtonDefaults.LargeButtonSize)
 }
 
+/**
+ * The three size cells of `IconButton/Standard` — and standard means **no container**.
+ *
+ * The container is what the STYLE cells vary (`Button/Icon-Filled`, `Button/Icon-Outlined`); these
+ * three vary only the size, so they take the stock colours their base sticker ([IconRemoteButton])
+ * takes. Painting `surfaceContainer` behind them, as this did, drew a filled icon button under the
+ * name of the kit's child style and put a disc beside three parallels that have none — a difference
+ * on three rows that was this sticker's own doing rather than Remote Compose's. The tween end
+ * colour is unchanged: at rest `on` is 0f and `tween(a, b, 0f)` is `a`, so the baked capture is the
+ * stock (transparent) container and only a live tap moves it.
+ */
 @Composable
 @RemoteComposable
 private fun SizedIconButton(size: androidx.compose.remote.creation.compose.state.RemoteDp) {
   val (on, onClick) = toggledRemote()
+  val stock = RemoteIconButtonDefaults.iconButtonColors()
   RemoteIconButton(
     onClick = onClick,
     modifier = RemoteModifier.size(size),
     colors =
       RemoteIconButtonDefaults.iconButtonColors(
         containerColor =
-          tween(
-            RemoteMaterialTheme.colorScheme.surfaceContainer,
-            RemoteMaterialTheme.colorScheme.primaryContainer,
-            on,
-          ),
-        contentColor = RemoteMaterialTheme.colorScheme.onSurface,
+          tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primaryContainer, on)
       ),
     content = {
       RemoteIcon(
-        starIcon,
-        contentDescription = "Favourite".rs,
+        addIcon,
+        contentDescription = "Add".rs,
         modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
       )
     },
@@ -312,7 +321,7 @@ fun FilledRemoteIconButton() = RemoteSticker {
             on,
           ),
       ),
-    content = { RemoteIcon(starIcon, "Favourite".rs) },
+    content = { RemoteIcon(addIcon, "Add".rs) },
   )
 }
 
@@ -343,7 +352,7 @@ fun OutlinedRemoteIconButton() = RemoteSticker {
       ),
     border = 2.rdp,
     borderColor = RemoteMaterialTheme.colorScheme.outline,
-    content = { RemoteIcon(starIcon, "Favourite".rs) },
+    content = { RemoteIcon(addIcon, "Add".rs) },
   )
 }
 
@@ -387,6 +396,14 @@ fun LargeRemoteTextButton() = RemoteSticker {
   )
 }
 
+/**
+ * The two size cells of `TextButton`.
+ *
+ * They vary the SIZE, so they take the same filled container the base sticker ([TextRemoteButton])
+ * takes — the kit's `Text-Button` size cells are drawn on its base style, and the style cells are
+ * the ones that change the container. Painting `surfaceContainer` behind them, as this did, made
+ * every size cell read as a third style beside two parallels that are filled.
+ */
 @Composable
 @RemoteComposable
 private fun SizedTextButton(
@@ -402,49 +419,44 @@ private fun SizedTextButton(
       RemoteTextButtonDefaults.textButtonColors(
         containerColor =
           tween(
-            RemoteMaterialTheme.colorScheme.surfaceContainer,
             RemoteMaterialTheme.colorScheme.primary,
+            RemoteMaterialTheme.colorScheme.primaryDim,
             on,
           ),
-        // Travels with the container — see `OutlinedRemoteTextButton` for why.
-        contentColor =
-          tween(
-            RemoteMaterialTheme.colorScheme.onSurface,
-            RemoteMaterialTheme.colorScheme.onPrimary,
-            on,
-          ),
+        contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
       ),
     content = { RemoteText(label.rs, style = style) },
   )
 }
 
+// The kit's `Style=Child (No background)` cell — a round text button with no container at all,
+// which is what `RemoteTextButtonDefaults.textButtonColors()` returns. It was published as
+// `Button/Text-Filled` while the BASE sticker drew this style; the two swapped names when the base
+// took the kit's filled base cell, so no picture was lost, only relabelled.
 @CatalogComponent(
-  id = "Button/Text-Filled",
+  id = "Button/Text-Child",
   group = "Buttons",
   parallel = "TextButton",
   noReference =
     "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
       "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
       "would score this against the wrong variant.",
-  caption = "Round text button with a filled primary container.",
+  caption = "Round text button with no container — the kit's child style.",
 )
 @CatalogRemoteModes
 @Composable
-fun FilledRemoteTextButton() = RemoteSticker {
+fun ChildRemoteTextButton() = RemoteSticker {
   // A colour tween rather than a click tally: `MMM` already fills this circle, so a counter would
   // draw `MMM (1)` through its edge. See `toggledRemote`.
   val (on, onClick) = toggledRemote()
+  val stock = RemoteTextButtonDefaults.textButtonColors()
   RemoteTextButton(
     onClick = onClick,
     colors =
       RemoteTextButtonDefaults.textButtonColors(
-        containerColor =
-          tween(
-            RemoteMaterialTheme.colorScheme.primary,
-            RemoteMaterialTheme.colorScheme.primaryDim,
-            on,
-          ),
-        contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
+        // The content travels with the container — see `OutlinedRemoteTextButton` for why.
+        containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on),
+        contentColor = tween(stock.contentColor, RemoteMaterialTheme.colorScheme.onPrimary, on),
       ),
     content = { RemoteText(KitCopy.GLYPHS.rs) },
   )
@@ -483,21 +495,28 @@ fun OutlinedRemoteTextButton() = RemoteSticker {
   )
 }
 
+// The kit's `Title Card 3` layout, and the Wear sibling's `title-and-subtitle` cell. It used to be
+// `TitleCard/TitleOnly` while the BASE sticker drew the subtitle; the base now draws the kit's
+// `Title Card 1` base cell, so the subtitle layout is what needs a name of its own.
 @CatalogComponent(
-  id = "TitleCard/TitleOnly",
+  id = "TitleCard/Subtitle",
   group = "Containment",
   parallel = "TitleCard",
   noReference =
     "Varies `TitleCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
       "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
       "would score this against the wrong variant.",
-  caption = "Minimal title-card layout with no optional time, subtitle or body slots.",
+  caption = "Title card with the optional subtitle slot filled.",
 )
 @CatalogRemoteLarge
 @Composable
-fun TitleOnlyRemoteTitleCard() = RemoteSticker {
+fun SubtitleRemoteTitleCard() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
-  RemoteTitleCard(onClick = onClick, title = { RemoteText(title) })
+  RemoteTitleCard(
+    onClick = onClick,
+    title = { RemoteText(title) },
+    subtitle = { RemoteText(KitCopy.SUBTITLE.rs) },
+  )
 }
 
 @CatalogComponent(
@@ -523,19 +542,21 @@ fun TimeContentRemoteTitleCard() = RemoteSticker {
   )
 }
 
+// Renamed from `AppCard/Time` when the base sticker took the kit's own timestamp: the time is no
+// longer what tells this cell from the base one — the missing app image is.
 @CatalogComponent(
-  id = "AppCard/Time",
+  id = "AppCard/NoAppImage",
   group = "Containment",
   parallel = "AppCard",
   noReference =
     "Varies `AppCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
       "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
       "would score this against the wrong variant.",
-  caption = "App card with the optional time slot and no app image.",
+  caption = "App card with the app-image slot left empty — name, title, time and content only.",
 )
 @CatalogRemoteLarge
 @Composable
-fun TimeRemoteAppCard() = RemoteSticker {
+fun NoAppImageRemoteAppCard() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
   RemoteAppCard(
     onClick = onClick,
@@ -559,10 +580,12 @@ fun TimeRemoteAppCard() = RemoteSticker {
 @CatalogRemoteDisplay
 @Composable
 fun DisabledCircularProgressRemote() = RemoteSticker {
+  // Same 0.6 fill and same display-edge rail as `Progress/Circular`, so the only thing this cell
+  // varies against it is `enabled`.
   RemoteCircularProgressIndicator(
-    progress = 0.66f.rf,
+    progress = 0.6f.rf,
     enabled = false.rb,
-    modifier = RemoteModifier.size(72.rdp),
+    modifier = RemoteModifier.fillMaxSize(),
   )
 }
 
@@ -582,7 +605,7 @@ fun DisabledCircularProgressRemote() = RemoteSticker {
 @CatalogRemoteDisplay
 @Composable
 fun IndeterminateCircularProgressRemote() = RemoteSticker {
-  RemoteCircularProgressIndicator(modifier = RemoteModifier.size(72.rdp))
+  RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
 }
 
 @CatalogRemoteDisplay
@@ -594,7 +617,7 @@ fun IndeterminateCircularProgressRemote() = RemoteSticker {
 )
 @Composable
 fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
-  RemoteCircularProgressIndicator(modifier = RemoteModifier.size(72.rdp))
+  RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
 }
 
 @CatalogComponent(
@@ -603,14 +626,20 @@ fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
   parallel = "PageIndicator/Horizontal",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38684:138301",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
-  caption = "Five-page horizontal indicator curved along the bottom edge.",
+  caption = "Four-page horizontal indicator curved along the bottom edge, on the first page.",
 )
 @CatalogRemoteDisplay
 @Composable
 fun HorizontalPageIndicatorRemote() = RemoteSticker {
+  // FOUR pages on the FIRST, because that is the kit cell this row's `reference` names and what
+  // `wear-m3-catalog`'s `PageIndicator/Horizontal` draws (`pages = 4`, `initialPage = 0`). Five
+  // pages with the third selected put a different picture under the same node — and a middle
+  // selection is the one arrangement in which the selected dot is hardest to pick out.
   RemoteHorizontalPageIndicator(
-    state = rememberRemotePageIndicatorState(pageCount = 5, selectedPage = 2.ri),
-    modifier = RemoteModifier.size(180.rdp),
+    state = rememberRemotePageIndicatorState(pageCount = 4, selectedPage = 0.ri),
+    // `fillMaxSize`, not 180dp: the indicator curves against the BEZEL, so an inset box moves the
+    // curve inward and shrinks it. Same reason the sticker is on the 227dp display frame at all.
+    modifier = RemoteModifier.fillMaxSize(),
   )
 }
 
@@ -620,14 +649,19 @@ fun HorizontalPageIndicatorRemote() = RemoteSticker {
   parallel = "PageIndicator/Vertical",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38966:402",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
-  caption = "Eight-page vertical indicator exercising the scrolling-dot window.",
+  caption = "Four-page vertical indicator against the right bezel, on the first page.",
 )
 @CatalogRemoteDisplay
 @Composable
 fun VerticalPageIndicatorRemote() = RemoteSticker {
+  // Same four-on-the-first as the horizontal one, for the same reason: this row names a kit node,
+  // and `wear-m3-catalog`'s `PageIndicator/Vertical` draws the same cell. Eight pages with the
+  // fifth selected exercised the scrolling-dot window, which is a real behaviour — but it is a
+  // behaviour neither the kit cell nor the parallel draws, so it was reported as a divergence on
+  // every render rather than shown as itself.
   RemoteVerticalPageIndicator(
-    state = rememberRemotePageIndicatorState(pageCount = 8, selectedPage = 4.ri),
-    modifier = RemoteModifier.size(180.rdp),
+    state = rememberRemotePageIndicatorState(pageCount = 4, selectedPage = 0.ri),
+    modifier = RemoteModifier.fillMaxSize(),
   )
 }
 
@@ -655,7 +689,7 @@ fun InteractivePageIndicatorRemote() = RemoteSticker {
       override val pageOffset: RemoteFloat = animatedPage
     }
   RemoteBox(
-    modifier = RemoteModifier.size(180.rdp),
+    modifier = RemoteModifier.fillMaxSize(),
     contentAlignment = RemoteAlignment.Center,
   ) {
     RemoteHorizontalPageIndicator(state = state)
@@ -682,10 +716,7 @@ fun PageIndicatorMotionRemote() = RemoteSticker {
       override val pageOffset: RemoteFloat =
         animateRemoteFloat(1f.rf, duration = 0.8f, initialValue = 0f)
     }
-  RemoteHorizontalPageIndicator(
-    state = state,
-    modifier = RemoteModifier.size(180.rdp),
-  )
+  RemoteHorizontalPageIndicator(state = state, modifier = RemoteModifier.fillMaxSize())
 }
 
 @Composable

@@ -146,13 +146,19 @@ internal fun toggledRemote(): Pair<RemoteFloat, Action> {
   return animateRemoteFloat(on, duration = 0.45f) to valueChange(on, (1f.rf - on).createReference())
 }
 
-// A simple five-point star used by the icon stickers. Remote Compose has no bundled
-// icon set and `RemoteIcon` takes an `ImageVector`, so the catalog carries one
-// hand-built vector rather than depending on `material-icons`. `RemoteIcon` re-tints
-// it, so the path fill here is a placeholder.
-internal val starIcon: ImageVector =
+// The leading glyph every icon slot on this sheet draws.
+//
+// It is `Icons.Filled.Add` — the SAME glyph the kit's `Icon=Yes` cells carry and the same one
+// `wear-m3-catalog` passes to every slot (`Icon(Icons.Filled.Add, …)`). Remote Compose has no
+// bundled icon set and `RemoteIcon` takes an `ImageVector`, so the path is transcribed here
+// (`M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z`, the material `add` path on a 24dp viewport) rather than
+// depending on `material-icons`. It used to be a hand-built five-point star, which put a different
+// glyph in every icon slot from the cell it is compared against — a difference reported on ten
+// rows that said nothing about Remote Compose. `RemoteIcon` re-tints it, so the path fill here is
+// a placeholder.
+internal val addIcon: ImageVector =
   ImageVector.Builder(
-      name = "Star",
+      name = "Add",
       defaultWidth = 24.dp,
       defaultHeight = 24.dp,
       viewportWidth = 24f,
@@ -160,16 +166,18 @@ internal val starIcon: ImageVector =
     )
     .apply {
       path(fill = SolidColor(Color.White)) {
-        moveTo(12f, 2f)
-        lineTo(15.1f, 8.3f)
-        lineTo(22f, 9.3f)
-        lineTo(17f, 14.1f)
-        lineTo(18.2f, 21f)
-        lineTo(12f, 17.8f)
-        lineTo(5.8f, 21f)
-        lineTo(7f, 14.1f)
-        lineTo(2f, 9.3f)
-        lineTo(8.9f, 8.3f)
+        moveTo(19f, 13f)
+        lineTo(13f, 13f)
+        lineTo(13f, 19f)
+        lineTo(11f, 19f)
+        lineTo(11f, 13f)
+        lineTo(5f, 13f)
+        lineTo(5f, 11f)
+        lineTo(11f, 11f)
+        lineTo(11f, 5f)
+        lineTo(13f, 5f)
+        lineTo(13f, 11f)
+        lineTo(19f, 11f)
         close()
       }
     }
@@ -265,9 +273,9 @@ fun CustomShapeRemoteButton() = RemoteSticker {
 }
 
 /**
- * Reads its label from a Remote Compose named-value binding ([rememberNamedRemoteString]). The
- * default render shows `"Filled"` — the same label as its `Button/Filled` parallel, so the static
- * capture lines up apples-to-apples; the connector's override path
+ * Reads its label from a Remote Compose named-value binding. The default render shows
+ * [KitCopy.PRIMARY_LABEL] — the same label as its `Button/Filled` parallel, so the static capture
+ * lines up apples-to-apples; the connector's override path
  * (`renderNow.overrides.remoteCompose.namedValues = {"label": …}`) flips the label live without
  * rebuilding the document — the interactive story the `:data-remotecompose-connector` demonstrates.
  */
@@ -281,7 +289,7 @@ fun CustomShapeRemoteButton() = RemoteSticker {
       "cell would score this against the wrong variant.",
   caption =
     "Filled button whose label is bound to a Remote Compose named value — the connector flips " +
-      "it live (default render shows \"Tap me\").",
+      "it live (the default render shows the kit's own label).",
 )
 @CatalogRemoteModes
 @Composable
@@ -317,16 +325,23 @@ fun TextRemoteButton() = RemoteSticker {
   // drawn straight through its edge. `wear-m3-catalog`'s `TextButton` quotes the same constant.
   // `toggledRemote` rather than `countedRemote` for that same reason — see its KDoc.
   val (on, onClick) = toggledRemote()
-  val stock = RemoteTextButtonDefaults.textButtonColors()
+  // FILLED, because the kit's `Text-Button` base cell is filled and `wear-m3-catalog`'s
+  // `TextButton`
+  // is `filledTextButtonColors()` for that reason ("filled IS the base render", as it puts it).
+  // `RemoteTextButtonDefaults.textButtonColors()` is the CHILD style — no container at all — so
+  // taking it here drew the kit's lowest-emphasis cell under the base name, and the base cell went
+  // out under `Button/Text-Filled`. The no-container style keeps its own name: `Button/Text-Child`.
   RemoteTextButton(
     onClick = onClick,
     colors =
       RemoteTextButtonDefaults.textButtonColors(
-        // Content travels with the container: `primary` is a light fill in this dark-first scheme,
-        // so a label left at the stock near-white would end the tween light-on-light. `on` is 0f at
-        // rest, so the baked capture keeps the stock colours either way.
-        containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on),
-        contentColor = tween(stock.contentColor, RemoteMaterialTheme.colorScheme.onPrimary, on),
+        containerColor =
+          tween(
+            RemoteMaterialTheme.colorScheme.primary,
+            RemoteMaterialTheme.colorScheme.primaryDim,
+            on,
+          ),
+        contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
       ),
     content = { RemoteText(KitCopy.GLYPHS.rs) },
   )
@@ -359,7 +374,7 @@ fun IconRemoteButton() = RemoteSticker {
       RemoteIconButtonDefaults.iconButtonColors(
         containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on)
       ),
-    content = { RemoteIcon(starIcon, "Favourite".rs) },
+    content = { RemoteIcon(addIcon, "Add".rs) },
   )
 }
 
@@ -371,13 +386,27 @@ fun IconRemoteButton() = RemoteSticker {
   parallel = "Button/Compact",
   reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
-  caption = "Compact single-line button (RemoteCompactButton).",
+  caption = "Compact single-line button (RemoteCompactButton) with the kit's leading icon.",
 )
 @CatalogRemoteModes
 @Composable
 fun CompactRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
-  RemoteCompactButton(onClick = onClick, label = { RemoteText(label) })
+  // ICON AND LABEL, because that is what the kit cell this row is scored against draws
+  // (`Button-Compact`, `Icon=Yes`) and what `wear-m3-catalog`'s `Button/Compact` draws. It was
+  // label-only, which is the kit's `Icon=No` cell — that cell still exists, under its own name
+  // (`Button/Compact-TextOnly`), rather than standing in for the base one.
+  RemoteCompactButton(
+    onClick = onClick,
+    icon = {
+      RemoteIcon(
+        addIcon,
+        contentDescription = null,
+        modifier = RemoteModifier.size(RemoteButtonDefaults.ExtraSmallIconSize),
+      )
+    },
+    label = { RemoteText(label) },
+  )
 }
 
 // A pair of buttons laid out edge-to-edge by `RemoteButtonGroup`, each taking an equal
@@ -395,12 +424,18 @@ fun CompactRemoteButton() = RemoteSticker {
 @CatalogRemoteLarge
 @Composable
 fun ButtonGroupRemote() = RemoteSticker {
+  // `A` / `B`, the same two labels `wear-m3-catalog`'s `ButtonGroup` draws (`'A' + index`). The kit
+  // publishes no button-group set, so there is no kit copy to quote here — which makes the sibling
+  // the only reference this row has, and a `Yes` / `No` pair beside its `A` / `B` was a difference
+  // reported on the row that said nothing about either rendition. Same bargain `KitCopy` strikes
+  // everywhere else, applied to the one slot the kit leaves unspoken.
+  //
   // Each half counts independently, so a live tap tells you which one it landed on.
-  val (yes, onYes) = countedRemote("Yes")
-  val (no, onNo) = countedRemote("No")
+  val (first, onFirst) = countedRemote("A")
+  val (second, onSecond) = countedRemote("B")
   RemoteButtonGroup {
-    RemoteButton(onClick = onYes, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(yes) }
-    RemoteButton(onClick = onNo, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(no) }
+    RemoteButton(onClick = onFirst, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(first) }
+    RemoteButton(onClick = onSecond, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(second) }
   }
 }
 
@@ -451,17 +486,18 @@ fun OutlinedCardRemote() = RemoteSticker {
   parallel = "TitleCard",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "Card with title, subtitle and supporting text slots.",
+  caption = "Card led by a title — the kit's Title Card 1 layout.",
 )
 @CatalogRemoteLarge
 @Composable
 fun TitleCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
-  RemoteTitleCard(
-    onClick = onClick,
-    title = { RemoteText(title) },
-    subtitle = { RemoteText(KitCopy.SUBTITLE.rs) },
-  )
+  // TITLE ONLY. The kit's `Card` set numbers its title-card layouts and the base cell — the one
+  // this row's `reference` names — is `Title Card 1`: a title and nothing else, which is also what
+  // `wear-m3-catalog`'s `TitleCard` draws. Filling the subtitle slot here published `Title Card 3`
+  // under the base cell's node. The subtitle layout keeps its own sticker
+  // (`TitleCard/Subtitle`), and the time + content one is `TitleCard/TimeContent`.
+  RemoteTitleCard(onClick = onClick, title = { RemoteText(title) })
 }
 
 @CatalogComponent(
@@ -480,7 +516,11 @@ fun AppCardRemote() = RemoteSticker {
     onClick = onClick,
     appName = { RemoteText(KitCopy.APP_LABEL.rs) },
     title = { RemoteText(title) },
-    appImage = { RemoteIcon(starIcon, null, modifier = RemoteModifier.size(16.rdp)) },
+    // The kit's App Card cell fills its timestamp slot, and so does `wear-m3-catalog`'s `AppCard`.
+    // Leaving it empty here dropped the one thing that tells an app card from a title card at a
+    // glance, on the row scored against that cell.
+    time = { RemoteText(KitCopy.TIMESTAMP.rs) },
+    appImage = { RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp)) },
     content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
   )
 }
@@ -574,16 +614,22 @@ fun WatchScreenRemote() = RemoteSticker {
     "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
       "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
       "onto the base cell would score this against the wrong variant.",
-  caption = "Determinate circular progress indicator at a fixed 66%.",
+  caption = "Determinate circular progress rail against the display edge, at a fixed 60%.",
 )
 @CatalogRemoteDisplay
 @Composable
 fun CircularProgressRemote() = RemoteSticker {
   // The 0..1 fill is an editable `progress` float knob: the viewer's number field reseeds the arc
-  // live (`rc.progress=float:<0..1>`) without re-capturing the document. Default 0.66 keeps the
-  // static sticker deterministic.
-  val progress = rememberOverridableRemoteFloat("progress", 0.66f)
-  RemoteCircularProgressIndicator(progress = progress, modifier = RemoteModifier.size(72.rdp))
+  // live (`rc.progress=float:<0..1>`) without re-capturing the document. 0.6 keeps the static
+  // sticker deterministic AND is the value `wear-m3-catalog`'s `CircularProgressIndicator` pins,
+  // so the two renditions of the same kit cell draw the same arc.
+  val progress = rememberOverridableRemoteFloat("progress", 0.6f)
+  // `fillMaxSize`, not a 72dp box. The kit publishes this as a *display* cell — a ring struck 2dp
+  // inside the bezel of the whole round face — which is why the sticker is on the 227dp
+  // [CatalogRemoteDisplay] frame at all, and why the Wear sibling draws it `fillMaxSize` too. At
+  // 72dp it was a small dial floating in the middle of a display-sized capture: a different
+  // component from the one the row compares it against.
+  RemoteCircularProgressIndicator(progress = progress, modifier = RemoteModifier.fillMaxSize())
 }
 
 // ---------------------------------------------------------------------------
@@ -607,7 +653,7 @@ fun IconRemote() = RemoteSticker {
   // An editable `iconSize` dp knob: reseeding `rc.iconSize=dp:<value>` resizes the icon live. dp is
   // carried distinctly from a bare float so the connector binds it as a density-independent value.
   val iconSize = rememberOverridableRemoteDp("iconSize", 48.dp)
-  RemoteIcon(starIcon, "Star".rs, modifier = RemoteModifier.size(iconSize))
+  RemoteIcon(addIcon, "Add".rs, modifier = RemoteModifier.size(iconSize))
 }
 
 // ---------------------------------------------------------------------------
