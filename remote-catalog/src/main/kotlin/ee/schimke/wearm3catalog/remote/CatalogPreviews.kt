@@ -486,18 +486,30 @@ fun OutlinedCardRemote() = RemoteSticker {
   parallel = "TitleCard",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "Card led by a title — the kit's Title Card 1 layout.",
+  caption = "Card led by a title, with the kit's time and content slots filled — Title Card 1.",
 )
 @CatalogRemoteLarge
 @Composable
 fun TitleCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
-  // TITLE ONLY. The kit's `Card` set numbers its title-card layouts and the base cell — the one
-  // this row's `reference` names — is `Title Card 1`: a title and nothing else, which is also what
-  // `wear-m3-catalog`'s `TitleCard` draws. Filling the subtitle slot here published `Title Card 3`
-  // under the base cell's node. The subtitle layout keeps its own sticker
-  // (`TitleCard/Subtitle`), and the time + content one is `TitleCard/TimeContent`.
-  RemoteTitleCard(onClick = onClick, title = { RemoteText(title) })
+  // TITLE, TIME AND CONTENT — which is what `Title Card 1` draws. The note that used to sit here
+  // said the cell this row names is "a title and nothing else"; its export is not. `38437:5747` is
+  // a title, a timestamp at the top right, and a body, and `wear-m3-catalog`'s `TitleCard` fills
+  // all three on the same node (#101). Drawing the title alone put a picture the set does not
+  // publish under the set's base cell, and reported two empty slots as a divergence on every
+  // render.
+  //
+  // The three layouts, and where each lives: `Title Card 1` is this. `Title Card 2` adds the
+  // subtitle under the body — `TitleCard/WithSubtitle`. `Title Card 3` has no body at all, which
+  // `RemoteTitleCard` cannot arrange; the closest thing Compose does have is a title over a
+  // subtitle, and that ships under its own name rather than on a node it is not a picture of
+  // (`TitleCard/Subtitle`).
+  RemoteTitleCard(
+    onClick = onClick,
+    title = { RemoteText(title) },
+    time = { RemoteText(KitCopy.TIMESTAMP.rs) },
+    content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
+  )
 }
 
 @CatalogComponent(

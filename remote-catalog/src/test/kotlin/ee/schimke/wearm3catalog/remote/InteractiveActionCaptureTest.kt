@@ -50,7 +50,7 @@ class InteractiveActionCaptureTest {
       "TitleCardRemote" to KitCopy.CARD_TITLE,
       "AppCardRemote" to KitCopy.CARD_TITLE,
       "SubtitleRemoteTitleCard" to KitCopy.CARD_TITLE,
-      "TimeContentRemoteTitleCard" to KitCopy.CARD_TITLE,
+      "WithSubtitleRemoteTitleCard" to KitCopy.CARD_TITLE,
       "NoAppImageRemoteAppCard" to KitCopy.CARD_TITLE,
     )
 
