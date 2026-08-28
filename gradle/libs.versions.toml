@@ -4,7 +4,7 @@ ktfmt = "0.27.0"
 agp = "9.3.1"
 
 # Wear Compose Material 3 — the library this catalog reproduces the kit against.
-wear-compose = "1.7.0-beta01"
+wear-compose = "1.7.0-beta02"
 wear-tooling-preview = "1.0.0"
 
 # The mobile Compose BOM supplies `androidx.compose.ui`, the preview tooling and — see
@@ -17,7 +17,7 @@ compose-bom = "2026.08.00"
 # the only published home of the 35 shapes the kit's Shapes page draws. The alpha's AAR metadata
 # declares minCompileSdk 37, which is what `catalog/build.gradle.kts` already compiles at for
 # wear-compose 1.7.0-beta. Drop the pin once 1.5.0 is stable in the BOM.
-compose-material3 = "1.5.0-alpha26"
+compose-material3 = "1.5.0-alpha27"
 
 # compose-ai-tools: the `ee.schimke.composeai.preview` Gradle plugin and the annotation artifacts
 # are one release — keep them pinned together (Renovate groups them; see .github/renovate.json).
