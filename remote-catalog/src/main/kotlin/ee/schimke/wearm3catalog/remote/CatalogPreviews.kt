@@ -610,10 +610,8 @@ fun WatchScreenRemote() = RemoteSticker {
   id = "Progress/Circular",
   group = "Communication",
   parallel = "CircularProgressIndicator",
-  noReference =
-    "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
-      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
-      "onto the base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
   caption = "Determinate circular progress rail against the display edge, at a fixed 60%.",
 )
 @CatalogRemoteDisplay
@@ -689,9 +687,11 @@ fun RemoteTextSticker() = RemoteSticker {
   group = "Text",
   parallel = "Text/Body",
   noReference =
-    "Varies `Text/Body`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+    "The kit's `Text-Body` set has exactly one axis, `Alignment`, and exactly two cells: Left and " +
+      "Centre. Neither is truncated — the kit draws its body copy in full and says nothing about " +
+      "what a body does when it runs out of room. `maxLines` + `overflow` is a Compose product " +
+      "with no cell to compare against, and mapping it onto the Centre cell (which `Text/Body` " +
+      "already names) would report the ellipsis as a divergence on every render.",
   caption = "maxLines=2 + ellipsis on a narrow column.",
 )
 @CatalogRemoteLarge
@@ -729,9 +729,10 @@ fun TruncatedTextRemote() = RemoteSticker {
   group = "Text",
   parallel = "Text/Body",
   noReference =
-    "Varies `Text/Body`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+    "The kit's `Text-Body` set varies `Alignment` and nothing else; the typeface is fixed across " +
+      "both its cells, and the kit publishes its families as a styles page rather than as a " +
+      "component axis. A named family is what this row is for, so there is no cell that is a " +
+      "picture of it.",
   caption =
     "Text in a named font family (RemoteFontFamily.Named(\"google:Orbitron\")) rather than a " +
       "generic typeface — the google: namespace marks it a Google Fonts family, which the browser " +
