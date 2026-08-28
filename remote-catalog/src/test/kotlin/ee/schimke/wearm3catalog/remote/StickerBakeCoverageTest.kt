@@ -50,7 +50,11 @@ class StickerBakeCoverageTest {
    *
    * `RemoteTextButton(enabled = false)` draws nothing at all on the alpha surface: no container, no
    * label. The kit publishes fifteen `Disabled=Yes` cells for the `Text-Button` set and this
-   * rendition draws none of them.
+   * rendition draws none of them. Tracked as
+   * [#130](https://github.com/yschimke/wear-m3-catalog/issues/130), the sibling of
+   * [#91](https://github.com/yschimke/wear-m3-catalog/issues/91) one component over: there
+   * `RemoteButton` resolves its disabled container and loses the label; here neither resolves.
+   * `RemoteIconButton` resolves both, which is what makes it the library rather than this sheet.
    *
    * The alternative was to withdraw the cell and explain the gap in a KDoc, which is what the first
    * draft of #116 phase 3 did. A comment is invisible: nobody reads it again, and nothing announces
@@ -68,12 +72,13 @@ class StickerBakeCoverageTest {
    * only its label.
    *
    * **An entry here is never a way to quiet a sticker that is simply broken.** It says the LIBRARY
-   * draws nothing for this state, and the entry has to name which call does it.
+   * draws nothing for this state; the entry names the tracked issue and the call that does it, and
+   * `remote-snapshot-probe.yml` re-checks it against the newest androidx.dev build weekly.
    */
   private val knownBlank =
     mapOf(
       "TextRemoteButton_VARIANT_disabled" to
-        "RemoteTextButton(enabled = false) draws no container and no label on the alpha surface"
+        "#130 — RemoteTextButton(enabled = false) resolves neither of its disabled colours"
     )
 
   /**
