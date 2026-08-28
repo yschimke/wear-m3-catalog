@@ -495,18 +495,20 @@ fun OutlinedRemoteTextButton() = RemoteSticker {
   )
 }
 
-// The kit's `Title Card 3` layout, and the Wear sibling's `title-and-subtitle` cell. It used to be
-// `TitleCard/TitleOnly` while the BASE sticker drew the subtitle; the base now draws the kit's
-// `Title Card 1` base cell, so the subtitle layout is what needs a name of its own.
+// The Wear sibling's `title-and-subtitle` cell, and for the same reason it is a cell of its own
+// there rather than a kit node: see the `noReference` below.
 @CatalogComponent(
   id = "TitleCard/Subtitle",
   group = "Containment",
   parallel = "TitleCard",
   noReference =
-    "Varies `TitleCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
-  caption = "Title card with the optional subtitle slot filled.",
+    "The kit's nine `Title Card 3` cells are the `Card` set's remaining gap, in this rendition " +
+      "and in the Wear one (#101). That layout has NO body: its subtitle sits straight under the " +
+      "title with the timestamp beside it, and neither `RemoteTitleCard` nor Wear's `TitleCard` " +
+      "arranges a subtitle without a body. What Compose does have is a title over a subtitle, " +
+      "which is this — published under its own name rather than mapped onto a node it is not a " +
+      "picture of.",
+  caption = "Title card led by a title over a subtitle, with no body — a Compose-only arrangement.",
 )
 @CatalogRemoteLarge
 @Composable
@@ -519,25 +521,27 @@ fun SubtitleRemoteTitleCard() = RemoteSticker {
   )
 }
 
+// Renamed from `TitleCard/TimeContent`, which drew title + time + content — that is `Title Card 1`,
+// and `Title Card 1` is the BASE row's own cell. Time and content are no longer what tells this
+// one apart now that the base fills them; the subtitle is, which is exactly what `Title Card 2`
+// adds to `Title Card 1`.
 @CatalogComponent(
-  id = "TitleCard/TimeContent",
+  id = "TitleCard/WithSubtitle",
   group = "Containment",
   parallel = "TitleCard",
-  noReference =
-    "Varies `TitleCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
-  caption =
-    "Title card with time and supporting content, exercising the alternate title-row layout.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39662:45982",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "Title card with the subtitle under its body — the kit's Title Card 2 layout.",
 )
 @CatalogRemoteLarge
 @Composable
-fun TimeContentRemoteTitleCard() = RemoteSticker {
+fun WithSubtitleRemoteTitleCard() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
   RemoteTitleCard(
     onClick = onClick,
     title = { RemoteText(title) },
     time = { RemoteText(KitCopy.TIMESTAMP.rs) },
+    subtitle = { RemoteText(KitCopy.SUBTITLE.rs) },
     content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
   )
 }
@@ -549,9 +553,12 @@ fun TimeContentRemoteTitleCard() = RemoteSticker {
   group = "Containment",
   parallel = "AppCard",
   noReference =
-    "Varies `AppCard`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+    "The leading slot is not an axis of the kit's `Card` set: every one of its App-Card cells " +
+      "carries the app's square artwork, and the set spells the alternative as a different " +
+      "LAYOUT — `Title Card + Icon`, the same slot holding a vector icon — rather than as an " +
+      "empty slot. An app card with nothing in front of its name is a Compose arrangement the " +
+      "kit does not draw, so mapping it onto an App-Card cell would report the missing artwork " +
+      "as a divergence forever.",
   caption = "App card with the app-image slot left empty — name, title, time and content only.",
 )
 @CatalogRemoteLarge
