@@ -47,6 +47,19 @@ import ee.schimke.wearm3catalog.kitCopy
 // The kit's `Edge Option=` axis is the dialog's button arrangement, and it is a slot in Compose
 // (`edgeButton`, or the confirm/dismiss pair) rather than a property, so it folds as content cells.
 //
+// THREE OF THE KIT'S TEN ARRANGEMENTS ARE THE LIBRARY'S; THE REST ARE AN APP'S
+//
+// `AlertDialogContent` publishes exactly three bottom arrangements: an `edgeButton`, the
+// confirm/dismiss pair (`AlertDialogDefaults.ConfirmButton` / `DismissButton`, the rotated -45
+// degree pair the kit calls `Double Angled Button`), and neither. Those are the three cells below.
+//
+// `Double Button Fixed`, `Double Button Flex`, `Double Button Sml` and `Single Button Sml` are
+// rows of ordinary buttons under the title — a layout an app writes into the content slot, not an
+// arrangement the component offers, and a sticker that hand-built one would be a picture of this
+// file rather than of the library. The remaining three (`Double Button Stack`, and the two
+// `... + Edge Button Stack`) are published only as `Scrolling=Yes` long-scroll cells, which
+// nothing here can be diffed against for the reason the note at the bottom of this comment gives.
+//
 // THE EDGE-BUTTON CELL CARRIES A SCROLL, EVEN THOUGH NOTHING SCROLLS
 //
 // `AlertDialogContent(edgeButton = …)` is a `ScreenScaffold` with an `edgeButton` slot, and the
@@ -212,17 +225,20 @@ import ee.schimke.wearm3catalog.kitCopy
 )
 @CatalogFullScreenModes
 @ScrollingPreview(modes = [ScrollMode.END])
+// Both cells declare `Scrolling=No` with the arrangement, because the axes are coupled: the
+// comparable half of this set is its 192x192 column (see the note above), and `Edge Option=None`
+// is drawn there with `Bottom=No` — the only value of that axis it is published under. Naming the
+// arrangement alone asked for a node between the ones the kit drew, and `no-buttons` resolved to
+// nothing.
 @OverrideVariant(
   name = "edge-button",
   strings = ["edge=single"],
-  kitAxis = "Edge Option",
-  kitValue = "Edge Button",
+  kitProps = ["Edge Option=Edge Button", "Scrolling=No", "Bottom=Yes"],
 )
 @OverrideVariant(
   name = "no-buttons",
   strings = ["edge=none"],
-  kitAxis = "Edge Option",
-  kitValue = "None",
+  kitProps = ["Edge Option=None", "Scrolling=No", "Bottom=No"],
 )
 @Composable
 fun AlertDialogSticker() = FullScreenSticker {
@@ -269,14 +285,23 @@ private val AlertIconSize = 32.dp
   caption = "Hands the task to the paired phone, with the progress the wait needs.",
 )
 @CatalogFullScreenModes
+// NO `Text=No` CELL, and the reason is the unsettled capture described above rather than a missing
+// knob. `curvedText = null` is exactly the kit's other cell, and the `text` knob below turns it —
+// but this component's still is taken before its reveal has run, so the curved text is not in the
+// baked frame either way and the two renders come out byte-identical (`CatalogRenderTest.no two
+// renders of a component are identical` says so). The knob stays, because a live session settles
+// and a reader can see the difference there; the cell would publish one picture under two names.
+// The set stays at one of its two cells until a preview can ask to be captured settled
+// (compose-ai-tools#4202, above).
 @Composable
 fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   val style = OpenOnPhoneDialogDefaults.curvedTextStyle
   // Read outside the slot: `curvedText` is a `CurvedScope` lambda, not a `@Composable` one, so a
   // composable call inside it does not compile.
   val text = kitCopy("curvedText", KitCopy.OPEN_ON_PHONE)
+  val showText = previewOverrideBoolean("text", true)
   OpenOnPhoneDialogContent(
-    curvedText = { openOnPhoneDialogCurvedText(text, style) },
+    curvedText = if (showText) ({ openOnPhoneDialogCurvedText(text, style) }) else null,
     durationMillis = OpenOnPhoneDialogDefaults.DurationMillis,
   ) {
     OpenOnPhoneDialogDefaults.Icon()
