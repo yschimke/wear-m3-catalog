@@ -189,11 +189,23 @@ class OverlayTest(unittest.TestCase):
         'glance-wear = "1.0.0-alpha17"\n'
     )
 
-    def _tree(self, settings=None, toml=None):
+    # Only the shape `apply_density_sweep` patches: a dpi=320 `@Preview` directly above each
+    # multipreview annotation it sweeps.
+    THEME = (
+        '@Preview(showBackground = false, device = "spec:width=227dp,height=100dp,dpi=320")\n'
+        "annotation class CatalogRemoteModes\n\n"
+        '@Preview(showBackground = false, device = "spec:width=227dp,height=200dp,dpi=320")\n'
+        "annotation class CatalogRemoteLarge\n"
+    )
+
+    def _tree(self, settings=None, toml=None, theme=None):
         root = Path(tempfile.mkdtemp())
         (root / "gradle").mkdir()
         (root / "settings.gradle.kts").write_text(self.SETTINGS if settings is None else settings)
         (root / "gradle" / "libs.versions.toml").write_text(self.TOML if toml is None else toml)
+        source = root / probe.SWEEP_SOURCE
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(self.THEME if theme is None else theme)
         return root
 
     def test_it_adds_the_repository_and_pins_all_three_refs(self):
@@ -206,7 +218,23 @@ class OverlayTest(unittest.TestCase):
         # The trio MOVES TOGETHER — a partial overlay is the skew AGENTS.md warns
         # about, and would fail inside the player rather than at compile time.
         self.assertEqual(toml.count('"1.0.0-SNAPSHOT"'), 3)
-        self.assertEqual(len(changed), 4)
+        # Every edit is reported, because the report is what tells a human reading the run what
+        # the probe actually tested. Asserted by CONTENT rather than by count: a bare number says
+        # nothing about which edit went missing, and it was a bare number that had to be updated
+        # rather than examined when the density sweep was added.
+        self.assertEqual(
+            sorted(changed),
+            sorted(
+                [
+                    "settings.gradle.kts: + snapshot repository for build 16201507",
+                    "CatalogRemoteModes: + dpi 160, 240, 480",
+                    "CatalogRemoteLarge: + dpi 160, 240, 480",
+                    "compose-remote: 1.0.0-alpha18 -> 1.0.0-SNAPSHOT",
+                    "wear-compose-remote: 1.0.0-alpha10 -> 1.0.0-SNAPSHOT",
+                    "glance-wear: 1.0.0-alpha17 -> 1.0.0-SNAPSHOT",
+                ]
+            ),
+        )
 
     def test_the_group_regexes_survive_kotlin_string_escaping(self):
         # The block is written verbatim into a Kotlin string literal, where `\.` is an
@@ -217,6 +245,35 @@ class OverlayTest(unittest.TestCase):
         self.assertIn(r'includeGroupByRegex("androidx\\.compose\\.remote.*")', block)
         self.assertNotIn(r'("androidx\.compose', block)
         self.assertIn("/snapshots/builds/16201507/artifacts/repository", block)
+
+    def test_the_sweep_adds_every_density_to_every_annotation(self):
+        root = self._tree()
+        probe.apply_overlay(root, "123")
+        text = (root / probe.SWEEP_SOURCE).read_text()
+        for dpi in probe.SWEEP_DPI:
+            self.assertIn(f"height=100dp,dpi={dpi}", text)
+            self.assertIn(f"height=200dp,dpi={dpi}", text)
+        # The committed density survives, and is not duplicated.
+        self.assertEqual(text.count("height=100dp,dpi=320"), 1)
+        # Each annotation still follows its own previews.
+        self.assertIn('dpi=480")\nannotation class CatalogRemoteModes', text)
+        self.assertIn('dpi=480")\nannotation class CatalogRemoteLarge', text)
+
+    def test_a_renamed_sweep_annotation_is_fatal(self):
+        # Failing closed matters more here than anywhere: a sweep that silently stopped happening
+        # leaves the probe measuring one density again, which is the exact blindness #89 and #90
+        # asked it to stop having.
+        root = self._tree(theme='@Preview(device = "dpi=320")\nannotation class SomethingElse\n')
+        with self.assertRaises(SystemExit):
+            probe.apply_overlay(root, "123")
+
+    def test_a_sweep_anchor_that_is_not_the_capture_density_is_fatal(self):
+        root = self._tree(
+            theme='@Preview(showBackground = false, device = "spec:dpi=213")\n'
+            "annotation class CatalogRemoteModes\n"
+        )
+        with self.assertRaises(SystemExit):
+            probe.apply_overlay(root, "123")
 
     def test_a_moved_settings_anchor_is_fatal(self):
         # Rather than leaving the repository out and quietly probing the
@@ -280,6 +337,56 @@ class ProbeTableTest(unittest.TestCase):
         for entry in probe.PROBES:
             with self.subTest(issue=entry["issue"]):
                 self.assertTrue((root / entry["baseline"]).exists(), entry["baseline"])
+
+
+class DensityInvarianceTest(unittest.TestCase):
+    """The measure #89 and #90 asked for: does the component draw the same thing at every density."""
+
+    def _sweep(self, *pairs):
+        return {d: {"box": box, "ink": ink} for d, box, ink in pairs}
+
+    def test_a_correct_component_is_invariant_within_the_antialiasing_tolerance(self):
+        # The compact button's real numbers: a 0.5% spread on an identical shape.
+        sweep = self._sweep(("1", [52, 32], 1452.0), ("1.5", [52, 32], 1453.8),
+                            ("2", [52, 32], 1451.0), ("3", [52, 32], 1446.9))
+        self.assertIs(probe.is_density_invariant(sweep), True)
+
+    def test_ink_lost_as_density_rises_is_not_invariant(self):
+        # #89's real numbers: 3132 -> 2403 dp², a border degenerating rather than a shape moving.
+        # Note the BOX is identical throughout — the card keeps its extent while its arcs vanish,
+        # which is exactly why ink and not the box is what decides this.
+        sweep = self._sweep(("1", [227, 79], 3132.0), ("1.5", [227, 79], 2921.8),
+                            ("2", [227, 79], 2629.0), ("3", [227, 79], 2402.6))
+        self.assertIs(probe.is_density_invariant(sweep), False)
+
+    def test_nothing_drawn_anywhere_is_not_invariance(self):
+        # #130 draws nothing at any density. Reporting that as invariant would let a blank cell
+        # read as healthy, which is the opposite of what publishing it was for.
+        sweep = self._sweep(("1", None, 0.0), ("2", None, 0.0))
+        self.assertIsNone(probe.is_density_invariant(sweep))
+
+    def test_one_density_says_nothing(self):
+        # An ordinary checkout, where only the committed dpi=320 preview exists.
+        self.assertIsNone(probe.is_density_invariant(self._sweep(("2", [52, 32], 1451.0))))
+        self.assertIsNone(probe.is_density_invariant({}))
+
+
+class SweepComparisonTest(unittest.TestCase):
+    def _probe(self, sweep, invariant, issue=90):
+        return {"issue": issue, "preview": "P", "summary": "s", "rendered": True,
+                "identicalToKnownBroken": True, "densitySweep": sweep,
+                "densityInvariant": invariant, "metrics": {}}
+
+    def test_a_sweep_that_moved_is_reported(self):
+        before = report(probes=[self._probe({"2": {"box": [52, 16], "ink": 700.0}}, False)])
+        after = report(probes=[self._probe({"2": {"box": [52, 32], "ink": 1451.0}}, True)])
+        verdict = probe.compare(before, after)
+        self.assertTrue(verdict["report"])
+        self.assertTrue(any("density sweep moved" in r for r in verdict["reasons"]))
+
+    def test_an_unchanged_sweep_is_silent(self):
+        same = report(probes=[self._probe({"2": {"box": [52, 32], "ink": 1451.0}}, True)])
+        self.assertFalse(probe.compare(same, same)["report"])
 
 
 if __name__ == "__main__":

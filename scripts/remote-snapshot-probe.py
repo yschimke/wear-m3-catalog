@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 """Track the alpha Remote Compose line against androidx.dev snapshots.
 
-WHY THIS EXISTS. `:remote-catalog` is pinned to released alphas, and three
-divergences on its sheet are the library rendering its own API wrongly rather
-than this catalog asking for the wrong thing — issues #89, #90 and #91. Each is
-"fixed upstream or not at all", and the only way to know is to build the sheet
-against a newer artifact and look. Doing that by hand costs an afternoon and
-gets done once; this makes it a weekly job.
+WHY THIS EXISTS. `:remote-catalog` is pinned to released alphas, and several
+divergences on its sheet are the render pipeline drawing the API wrongly rather
+than this catalog asking for the wrong thing. The only way to know is to build
+the sheet against a newer artifact and look. Doing that by hand costs an
+afternoon and gets done once; this makes it a weekly job.
+
+NOT ALL OF THEM ARE UPSTREAM, and the file used to claim they were. #89 and #90
+were both re-diagnosed as OURS on 2026-08-28: their symptoms are conditional on
+render density — the outlined card's border closes at 1.0 and loses its arcs at
+2.0, the compact button's pill is right at 1.0 and half at 2.0 — which no
+snapshot bump can be expected to fix. They stay probed anyway, because the
+question "did the picture move" is worth asking of a bug wherever it lives, and
+because a snapshot that changes the drawing path would show up here first.
 
 WHAT IT IS NOT. It never decides that a bug is *fixed*. It decides that a render
 **changed**, which is the honest limit of a machine here: the captures it
@@ -51,6 +58,26 @@ SNAPSHOT_GROUPS = (
 )
 VERSION_REFS = ("compose-remote", "wear-compose-remote", "glance-wear")
 
+# THE DENSITY SWEEP, and why the probe grew one.
+#
+# #89 and #90 were both filed as upstream defects and both re-diagnosed as this repo's, on the same
+# evidence: they are CONDITIONAL ON RENDER DENSITY. The outlined card's border closes at 1.0 and
+# loses its arcs at 2.0; the compact button's pill is right at 1.0, half at 2.0 and gone at 3.0.
+# Both issues say the same thing about this job — "the probe renders at the same density, so it
+# re-measures the same conditional failure" — and ask for its baselines to be rebuilt around that.
+#
+# This is that. The overlay adds the three densities the committed previews do not carry, so every
+# probe is measured across the range rather than at the one point where the bug happens to sit.
+#
+# 320 is absent deliberately: it is the density the committed `@Preview`s already declare, and
+# adding it again would render every sticker twice for nothing.
+SWEEP_DPI = (160, 240, 480)
+# The multipreview annotations the probes' stickers wear. Patching the annotation rather than each
+# preview is what makes a CELL sweep too: a cell inherits its component's frame, so it inherits the
+# extra densities with it and needs no wrapper of its own.
+SWEEP_ANNOTATIONS = ("CatalogRemoteModes", "CatalogRemoteLarge")
+SWEEP_SOURCE = "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt"
+
 # One artifact per version ref, hashed to decide whether a run is worth doing at all.
 #
 # The build id is NOT that signal. androidx.dev publishes many builds a day and most of them carry
@@ -84,14 +111,14 @@ PROBES = [
         "issue": 89,
         "preview": "OutlinedCardRemote",
         "baseline": "docs/evidence/remote-m3-card-outlined-break.png",
-        "summary": "RemoteOutlinedCard draws two hairlines instead of a border",
+        "summary": "outlined border degenerates at density >= 1.5 (ours, not upstream)",
     },
     {
         "issue": 90,
         "preview": "CompactRemoteButton",
         "variant": "icon_only",
         "baseline": "docs/evidence/remote-m3-button-compact-icononly-break.png",
-        "summary": "RemoteCompactButton renders at half height; icon-only collapses the glyph",
+        "summary": "compact pill is density-dependent — right at 1.0, half at 2.0 (ours, not upstream)",
         "metrics": ("compact_heights_dp", "icononly_glyph_dp"),
     },
     {
@@ -207,6 +234,39 @@ def repository_block(build_id: str) -> str:
     )
 
 
+def apply_density_sweep(root: Path) -> list[str]:
+    """Give the probes' multipreview annotations the densities the committed sheet does not carry.
+
+    PROBE-ONLY, like the repository overlay beside it: rendering the whole sheet four times is a
+    cost this job is happy to pay weekly and `main` is not, and a committed sweep would quadruple
+    every PR's visual diff to answer a question only this job asks.
+
+    Patches the ANNOTATION rather than each preview, which is what makes cells sweep too — a cell
+    inherits its component's frame, so it inherits the extra densities with it.
+    """
+    source = root / SWEEP_SOURCE
+    text = source.read_text()
+    changed = []
+    for name in SWEEP_ANNOTATIONS:
+        anchor = f"annotation class {name}"
+        if anchor not in text:
+            raise SystemExit(
+                f"no `{anchor}` in {SWEEP_SOURCE} — the probe patches it to sweep densities, and "
+                "silently measuring one density is the failure #89 and #90 asked it to stop making."
+            )
+        head, _, tail = text.partition(anchor)
+        preview_at = head.rfind("@Preview(")
+        line_end = head.index("\n", preview_at)
+        line = head[preview_at:line_end]
+        if 'dpi=320' not in line:
+            raise SystemExit(f"the @Preview above `{anchor}` is not the dpi=320 one this patches: {line}")
+        extra = "\n".join(line.replace("dpi=320", f"dpi={dpi}") for dpi in SWEEP_DPI)
+        text = head[:line_end] + "\n" + extra + head[line_end:] + anchor + tail
+        changed.append(f"{name}: + dpi {', '.join(str(d) for d in SWEEP_DPI)}")
+    source.write_text(text)
+    return changed
+
+
 def apply_overlay(root: Path, build_id: str) -> list[str]:
     """Repoint the Remote groups at ``build_id``. Returns what it changed."""
     changed = []
@@ -225,6 +285,8 @@ def apply_overlay(root: Path, build_id: str) -> list[str]:
         raise SystemExit("settings.gradle.kts already carries a snapshot repository")
     settings.write_text(text.replace(anchor, anchor + repository_block(build_id), 1))
     changed.append(f"settings.gradle.kts: + snapshot repository for build {build_id}")
+
+    changed += apply_density_sweep(root)
 
     toml = root / "gradle" / "libs.versions.toml"
     text = toml.read_text()
@@ -317,6 +379,89 @@ def measure(renders: Path) -> dict:
     return {"captures": captures, "metrics": metrics}
 
 
+# Alpha above which a pixel counts as drawn. 8 matches what the rest of this repo means by
+# "opaque" — `rc-compare-pixels.mjs` and `StickerBakeCoverageTest` both use it — and it has to be
+# this low to see #91 at all: a disabled container resolves to alpha 31 and a 40 floor calls the
+# whole capture empty.
+INK_ALPHA = 8
+
+# How much the ink measure may wander between densities before it counts as varying.
+#
+# It cannot be zero. Antialiasing puts a different number of partly-covered pixels on the same
+# shape at each density, so a perfectly correct component still drifts a little: the compact button
+# measures 1452 / 1454 / 1451 / 1447 dp² across the sweep, a spread of 0.5%. #89, which is the
+# thing this is meant to catch, loses 3132 -> 2403 dp² over the same range — 23%. Five percent sits
+# an order of magnitude clear of the noise and an order of magnitude below the signal.
+INK_TOLERANCE = 0.05
+
+
+def drawn_ink_dp2(image, density: float) -> float:
+    """How much ink the render carries, in dp² — the measure that sees a stroke go missing.
+
+    The bounding box below cannot: #89's card keeps its full extent while its corner arcs vanish,
+    because the content inside the box is what sets the box. Ink counts the pixels themselves, so a
+    border that degenerates shows up as ink lost.
+
+    Normalised by density², which is what makes it comparable across the sweep: the same shape at
+    twice the density covers four times the pixels and the same dp².
+    """
+    alpha = image.getchannel("A")
+    drawn = sum(count for value, count in enumerate(alpha.histogram()) if value > INK_ALPHA)
+    return round(drawn / (density * density), 1)
+
+
+def drawn_box_dp(image, density: float):
+    """The drawn bounding box in dp, or None if nothing was drawn.
+
+    Reported beside the ink because it is the legible half — `52x32` is a number a reader can check
+    against the kit — but it is the coarser of the two: it catches a component whose whole extent
+    scales wrongly (#90) and misses ink going missing INSIDE a box of the right size (#89).
+    """
+    box = _drawn_bbox(image, lambda p: p[3] > INK_ALPHA)
+    return None if box is None else [round(box[2] / density), round(box[3] / density)]
+
+
+def density_sweep(renders: Path, preview: str, variant: str | None) -> dict:
+    """Every density this probe's render was captured at, mapped to what it drew there.
+
+    The committed sheet declares one density, so on an ordinary checkout this returns a single
+    entry and says nothing. The probe's overlay adds the rest (see [SWEEP_DPI]), which is what
+    turns it into evidence.
+    """
+    from PIL import Image
+
+    sweep = {}
+    marker = f"_VARIANT_{variant}-" if variant else None
+    for path in sorted(renders.glob(f"{preview}_*.png")):
+        if marker is None and "_VARIANT_" in path.name:
+            continue
+        if marker is not None and marker not in path.name:
+            continue
+        density = density_of(path.name)
+        image = Image.open(path).convert("RGBA")
+        sweep[f"{density:g}"] = {
+            "box": drawn_box_dp(image, density),
+            "ink": drawn_ink_dp2(image, density),
+        }
+    return sweep
+
+
+def is_density_invariant(sweep: dict) -> bool | None:
+    """Whether the component draws the same thing at every density it was measured at.
+
+    None when there is nothing to compare: fewer than two densities, or nothing drawn at any of
+    them. "Nothing at every density" is absence, not invariance, and reporting it as True would let
+    #130 — a cell that is blank everywhere — read as healthy.
+
+    False is the #89 signature: layout that resolves correctly and paint that does not.
+    """
+    inks = [entry["ink"] for entry in sweep.values() if entry["box"] is not None]
+    if len(inks) < 2:
+        return None
+    reference = max(inks)
+    return all(abs(ink - reference) <= reference * INK_TOLERANCE for ink in inks)
+
+
 def probe_states(report: dict, root: Path, renders: Path) -> list[dict]:
     """Whether each tracked issue's capture still matches its known-broken one."""
     states = []
@@ -326,6 +471,7 @@ def probe_states(report: dict, root: Path, renders: Path) -> list[dict]:
         current = sha256(match) if match else None
         known_broken = sha256(baseline) if baseline.exists() else None
         variant = probe.get("variant")
+        sweep = density_sweep(renders, probe["preview"], variant) if match else {}
         states.append(
             {
                 "issue": probe["issue"],
@@ -335,6 +481,8 @@ def probe_states(report: dict, root: Path, renders: Path) -> list[dict]:
                 "identicalToKnownBroken": (
                     None if current is None or known_broken is None else current == known_broken
                 ),
+                "densitySweep": sweep,
+                "densityInvariant": is_density_invariant(sweep),
                 "metrics": {k: report["metrics"][k] for k in probe.get("metrics", ()) if k in report["metrics"]},
             }
         )
@@ -374,6 +522,26 @@ def compare(previous: dict | None, current: dict) -> dict:
         reasons.append(
             "a tracked issue's capture no longer matches its known-broken one: "
             + ", ".join(f"#{p['issue']}" for p in flipped)
+        )
+
+    # A DENSITY SWEEP THAT MOVED is the finding #89 and #90 asked this job to be able to make.
+    #
+    # Both are conditional on render density, and both said the byte comparison above cannot see it:
+    # it re-measures the one density the committed sheet declares, which is the density the bug
+    # happens to sit at. The sweep measures the drawn box in dp across the range instead, so
+    # "invariant" flipping either way is reportable — a component that starts varying has regressed,
+    # and one that stops varying is fixed, which is as close to that word as this job ever gets.
+    swept = []
+    for probe in current.get("probes", []):
+        before = prev_probes.get(probe["issue"], {})
+        if probe.get("densitySweep") and before.get("densitySweep") != probe["densitySweep"]:
+            swept.append(probe)
+    if swept:
+        reasons.append(
+            "a tracked issue's density sweep moved: "
+            + ", ".join(
+                f"#{p['issue']} (invariant: {p.get('densityInvariant')})" for p in swept
+            )
         )
 
     # A PROBE THAT RESOLVES TO NO RENDER IS BLIND, AND SAYING SO IS THE POINT OF THIS JOB.
@@ -433,6 +601,26 @@ def _render_metric(key: str, value) -> str:
     return f"`{key}` {body}"
 
 
+def _render_sweep(probe: dict) -> str:
+    """One probe's density sweep as a markdown fragment, with the verdict in front of it."""
+    sweep = probe.get("densitySweep") or {}
+    if not sweep:
+        return "—"
+    invariant = probe.get("densityInvariant")
+    if invariant is None:
+        # Two different Nones, and calling both "one density" would misread the interesting one:
+        # #130 is measured at four densities and draws nothing at any of them.
+        drawn = [e for e in sweep.values() if e["box"] is not None]
+        head = "one density only" if len(sweep) < 2 else ("nothing drawn at any density" if not drawn else "one density drew")
+    else:
+        head = "invariant ✓" if invariant else "**varies with density**"
+    body = ", ".join(
+        f"{d}: " + ("nothing drawn" if e["box"] is None else f"{e['box'][0]}x{e['box'][1]}dp {e['ink']:g}dp²")
+        for d, e in sorted(sweep.items())
+    )
+    return f"{head}<br>`{body}`"
+
+
 def summary_markdown(current: dict, verdict: dict) -> str:
     build = current.get("build", {})
     lines = [
@@ -448,14 +636,22 @@ def summary_markdown(current: dict, verdict: dict) -> str:
         lines += [f"- {r}" for r in verdict["reasons"]]
         lines.append("")
 
-    lines += ["| issue | preview | still byte-identical to the known-broken capture | measured |",
-              "| --- | --- | --- | --- |"]
+    lines += ["| issue | preview | still byte-identical to the known-broken capture | drawn, by density | measured |",
+              "| --- | --- | --- | --- | --- |"]
     for probe in current.get("probes", []):
         identical = probe["identicalToKnownBroken"]
         mark = {True: "yes — still broken", False: "**no — look**", None: "not rendered"}[identical]
         measured = "<br>".join(_render_metric(k, v) for k, v in probe["metrics"].items()) or "—"
-        lines.append(f"| #{probe['issue']} | `{probe['preview']}` | {mark} | {measured} |")
+        lines.append(
+            f"| #{probe['issue']} | `{probe['preview']}` | {mark} | {_render_sweep(probe)} | {measured} |"
+        )
     lines.append("")
+    lines += [
+        "A component that lays out correctly occupies the **same dp box at every density**; one "
+        "whose paint is density-conditional does not. That is the shared signature of #89 and #90, "
+        "and it is why this table sweeps rather than reporting the one density the sheet declares.",
+        "",
+    ]
 
     if verdict["movedCaptures"]:
         lines += ["<details><summary>Renders that changed since the previous probe</summary>", ""]
