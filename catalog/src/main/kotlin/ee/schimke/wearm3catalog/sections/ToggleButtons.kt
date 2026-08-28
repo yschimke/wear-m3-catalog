@@ -156,15 +156,22 @@ private fun iconToggleSize(): Dp =
 annotation class IconToggleKitCells
 
 // The two ends of the corner morph as a static pair, which is what the kit's `Corner radius` axis
-// publishes a still of each of. `shapes(shape)` pins both the resting and the checked shape, so a
-// capture is a shape rather than a frame.
+// publishes a still of each of.
+//
+// NOT `shapes(shape)`, which is the overload that looks right: it copies the default pair with the
+// argument as the UNCHECKED shape only, so a checked sticker — every cell on this axis is
+// `Selected=On` — came out byte-identical to the circular one under a name claiming otherwise.
+// Both shapes are set explicitly instead, so what the capture holds is a shape rather than a frame
+// of the animation, and the live session still animates the press.
 @Composable
-private fun iconToggleShapes(): IconToggleButtonShapes =
-  if (previewOverrideChoice("shape", "circular", listOf("circular", "rounded")) == "rounded") {
-    IconToggleButtonDefaults.shapes(IconToggleButtonDefaults.checkedShape)
-  } else {
-    IconToggleButtonDefaults.shapes()
+private fun iconToggleShapes(): IconToggleButtonShapes {
+  val shapes = IconToggleButtonDefaults.shapes()
+  if (previewOverrideChoice("shape", "circular", listOf("circular", "rounded")) != "rounded") {
+    return shapes
   }
+  val rounded = IconToggleButtonDefaults.checkedShape
+  return shapes.copy(uncheckedShape = rounded, checkedShape = rounded)
+}
 
 @CatalogComponent(
   id = "IconToggleButton",
