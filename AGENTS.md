@@ -395,6 +395,13 @@ placeholder's "3 distinct frames in 46" turned out to be.
 - `compose-ai-tools` is the exception in the other direction: the Gradle plugin marker, the
   annotation coordinates and the pinned CI action ref are one release and move together in a single
   PR, unscheduled and automerged. A skew between them breaks preview discovery outright.
+- **The alpha Remote line is watched, not bumped.** `remote-snapshot-probe.yml` builds
+  `:remote-catalog` against the newest androidx.dev snapshot every Monday and comments on
+  [#95](https://github.com/yschimke/wear-m3-catalog/issues/95) only when the picture moves — it
+  stops compiling, a tracked upstream bug's capture stops matching its known-broken one, or a render
+  changes. It never touches `main`: the overlay that repoints the Remote trio at a snapshot is
+  applied to the runner's checkout and thrown away, because a committed snapshot pin is exactly the
+  skew the top of this file forbids. State lives on `snapshot-probe/remote-m3`.
 - Repository settings — squash-only merges, auto-merge, and the `Protect Main` ruleset — are applied
   by `scripts/setup-repo-protection.sh`. They need an admin token, so no workflow (and no agent
   session) can set them; the script is the record of what they are meant to be, and re-running it

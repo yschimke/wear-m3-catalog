@@ -1,0 +1,222 @@
+name: Remote snapshot probe
+
+# Build `:remote-catalog` against the newest androidx.dev snapshot and say when the picture moves.
+#
+# WHY. Three divergences on the `remote-m3` sheet are the Remote Compose library rendering its own
+# API wrongly rather than this catalog asking for the wrong thing — #89, #90, #91. Each is "fixed
+# upstream or not at all", so the only way to learn anything is to build the sheet against a newer
+# artifact and look. Done by hand that is an afternoon, and it gets done once; the alpha line
+# publishes several builds a day. This makes it a weekly job that stays quiet until something
+# actually changes.
+#
+# WHAT IT REPORTS. A comment on the tracking issue when — and only when — the snapshot stops
+# compiling, a tracked issue's capture stops matching its known-broken one, or any render's bytes
+# move. A run where nothing changed pushes state and says nothing. It never claims a bug is FIXED:
+# the captures it compares against are the broken ones, so identical means "still broken" with
+# certainty while anything else means "a human should look". `scripts/remote-snapshot-probe.py`
+# carries the reasoning.
+#
+# WHAT IT NEVER DOES. Touch `main`. The overlay repoints the Remote trio at an unreleased build,
+# which is exactly the skew AGENTS.md forbids in the committed build — it is applied to the runner's
+# checkout and thrown away. State lives on `snapshot-probe/remote-m3`, alongside this repo's other
+# long-lived delivery branches.
+
+on:
+  schedule:
+    # Mondays 08:00 UTC, after design-parity (05:00), design-artifacts (06:00) and parity-issues
+    # (07:00). Weekly rather than daily on purpose: the alpha line moves many times a day, and a
+    # fix landing on Tuesday is not more useful to know about on Tuesday than on the following
+    # Monday — while a daily render is a daily chance to spend CI on nothing.
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+    inputs:
+      build_id:
+        description: 'androidx.dev build to test. Empty resolves whatever `latest` points at.'
+        type: string
+        required: false
+        default: ''
+      force:
+        description: 'Run even if this build was already probed.'
+        type: boolean
+        required: false
+        default: false
+
+permissions: {}
+
+# One at a time: the job appends to a shared branch, and two runs racing on it would interleave.
+concurrency:
+  group: remote-snapshot-probe
+  cancel-in-progress: false
+
+env:
+  STATE_BRANCH: snapshot-probe/remote-m3
+  # The one issue this job talks to. Per-issue comments are deliberately left to a human: an
+  # automation that posts to #89 / #90 / #91 on every wobble teaches people to skim them.
+  TRACKING_ISSUE: '95'
+
+jobs:
+  probe:
+    name: Probe the latest androidx.dev snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: write # push the state branch
+      issues: write # comment on the tracking issue
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: 'true' # a snapshot build must never poison the shared Gradle cache
+
+      - name: Install Pillow
+        run: python3 -m pip install --quiet 'Pillow>=10'
+
+      - name: Probe script self-test
+        # The measurement needs a rendered sheet, but everything that decides whether a human gets
+        # pinged is pure — and a broken comparison would fail silent, which is the one failure mode
+        # a watchdog cannot have.
+        run: python3 scripts/test_remote_snapshot_probe.py
+
+      - name: Read the previous state
+        run: |
+          set -euo pipefail
+          if git clone --depth 1 --branch "$STATE_BRANCH" \
+               "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+               state 2>/dev/null; then
+            echo "state branch present"
+          else
+            echo "no state branch yet — first run"
+            mkdir state && git -C state init -q && git -C state checkout -q --orphan "$STATE_BRANCH"
+          fi
+
+      - name: Resolve the snapshot build
+        id: resolve
+        # Dispatch inputs reach the shell through `env`, never through `${{ }}` interpolation into
+        # the script body — that is the actions-injection shape CodeQL flags, and the mitigation is
+        # cheap enough to just always apply.
+        env:
+          INPUT_BUILD_ID: ${{ inputs.build_id }}
+        run: |
+          set -euo pipefail
+          python3 scripts/remote-snapshot-probe.py resolve --build-id "$INPUT_BUILD_ID" --out resolved.json
+          echo "buildId=$(python3 -c 'import json;print(json.load(open("resolved.json"))["buildId"])')" >> "$GITHUB_OUTPUT"
+
+      # The build ID is NOT the signal for "is there anything new to test". androidx.dev publishes
+      # many builds a day and most ship byte-identical Remote artifacts — 16201507 and 16202139,
+      # two hours apart, carry the same AAR for all three groups under different timestamps. So the
+      # gate is the artifact HASH: the common week costs thirty seconds, and a runner is spent only
+      # on a build that actually changed something.
+      - name: Is this build worth rendering?
+        id: gate
+        env:
+          FORCE: ${{ inputs.force }}
+        run: |
+          set -euo pipefail
+          worth=$(python3 scripts/remote-snapshot-probe.py gate \
+            --previous state/report.json --resolved resolved.json)
+          if [ "$worth" = "false" ] && [ "$FORCE" != "true" ]; then
+            echo "The Remote artifacts are byte-identical to the last probed build; nothing to do."
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Apply the snapshot overlay
+        if: steps.gate.outputs.run == 'true'
+        env:
+          BUILD_ID: ${{ steps.resolve.outputs.buildId }}
+        run: python3 scripts/remote-snapshot-probe.py apply --build-id "$BUILD_ID"
+
+      # `--refresh-dependencies` because every snapshot build publishes the SAME version string,
+      # `1.0.0-SNAPSHOT`: pointing at a different build id changes the repository URL but not the
+      # module coordinates, and Gradle caches a changing module for 24h by default while
+      # setup-gradle restores that cache across runs. This is hygiene rather than an observed
+      # failure — a rehearsal across two build ids came back UP-TO-DATE, but the fingerprint showed
+      # their artifacts were byte-identical, so nothing was being missed. The gate above now means
+      # the flag is only ever paid on a build whose bytes really did move.
+      - name: Compile against the snapshot
+        if: steps.gate.outputs.run == 'true'
+        id: compile
+        continue-on-error: true
+        run: ./gradlew :remote-catalog:compileDebugKotlin --refresh-dependencies --stacktrace
+
+      # `--rerun` for the reason .claude/skills/steward/SKILL.md gives upstream: a render task goes
+      # UP-TO-DATE off a stale sidecar, so a probe must force the capture rather than trust
+      # incrementality to notice that the library underneath it moved.
+      - name: Render the sheet
+        if: steps.gate.outputs.run == 'true' && steps.compile.outcome == 'success'
+        id: render
+        continue-on-error: true
+        run: ./gradlew :remote-catalog:composePreviewRenderAll --rerun --stacktrace
+
+      - name: Measure
+        if: steps.gate.outputs.run == 'true'
+        env:
+          COMPILE_OUTCOME: ${{ steps.compile.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          set -euo pipefail
+          compiled=false
+          if [ "$COMPILE_OUTCOME" = "success" ] && [ "$RENDER_OUTCOME" = "success" ]; then
+            compiled=true
+          fi
+          python3 scripts/remote-snapshot-probe.py measure \
+            --renders remote-catalog/build/compose-previews/renders \
+            --resolved resolved.json \
+            --compiled "$compiled" \
+            --out report.json
+
+      - name: Compare against the previous probe
+        if: steps.gate.outputs.run == 'true'
+        id: compare
+        run: |
+          set -euo pipefail
+          verdict=$(python3 scripts/remote-snapshot-probe.py compare \
+            --previous state/report.json --current report.json --out summary.md)
+          echo "$verdict"
+          echo "report=$(echo "$verdict" | python3 -c 'import json,sys;print(str(json.load(sys.stdin)["report"]).lower())')" >> "$GITHUB_OUTPUT"
+          cat summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the rendered sheet for this run
+        if: steps.gate.outputs.run == 'true' && steps.render.outcome == 'success'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: remote-m3-snapshot-${{ steps.resolve.outputs.buildId }}
+          path: remote-catalog/build/compose-previews/renders/*.png
+          retention-days: 30
+
+      - name: Publish the state
+        if: steps.gate.outputs.run == 'true'
+        env:
+          BUILD_ID: ${{ steps.resolve.outputs.buildId }}
+        run: |
+          set -euo pipefail
+          cp report.json summary.md resolved.json state/
+          # The three tracked captures ride along so a flip is permanently linkable rather than
+          # living only in a 30-day artifact.
+          mkdir -p state/probes
+          for stem in OutlinedCardRemote CompactIconOnlyRemoteButton DisabledRemoteButton; do
+            f=$(ls remote-catalog/build/compose-previews/renders/${stem}_*.png 2>/dev/null | head -1) || true
+            [ -n "${f:-}" ] && cp "$f" "state/probes/${stem}.png"
+          done
+          cd state
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && { echo "state unchanged"; exit 0; }
+          git commit -q -m "probe: androidx.dev build $BUILD_ID"
+          git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            "HEAD:$STATE_BRANCH"
+
+      - name: Report
+        if: steps.gate.outputs.run == 'true' && steps.compare.outputs.report == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          {
+            cat summary.md
+            echo
+            echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) · state on \`$STATE_BRANCH\`"
+          } > comment.md
+          gh issue comment "$TRACKING_ISSUE" --repo "${{ github.repository }}" --body-file comment.md
