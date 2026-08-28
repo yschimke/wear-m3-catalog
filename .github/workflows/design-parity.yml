@@ -52,6 +52,21 @@ name: Design parity
 on:
   schedule:
     # Hourly — the working cadence. Cache-gated, so it is a no-op when the catalog is quiet.
+    #
+    # NOT on the hour, and not a stylistic choice: GitHub delays scheduled events under load and
+    # the top of the hour is when that load is. `:17` is the quiet minute this repo parks on.
+    #
+    # If this stops firing, the schedule has come UNREGISTERED rather than gone wrong — the
+    # expression below is valid and the file is on the default branch, which is all a cron needs.
+    # It happened when #117 first added this line: five slots passed with nothing, while every
+    # other schedule in the repo fired exactly when due, and a dozen pushes to `main` for
+    # unrelated files did not help. What re-registers it is a commit that touches THIS FILE, which
+    # is what this comment is for. Check with
+    #
+    #   actions/list_workflow_runs design-parity.yml --event schedule
+    #
+    # before changing the expression: a correct cron edited on a guess loses the only clean signal
+    # there is, because the edit itself re-registers and the two causes then look identical.
     - cron: "17 * * * *"
     # Weekly, early Monday UTC — the kit moves on its own schedule and a drift nobody pushed for
     # should still surface within the week. This is the one that forces a reference refresh.
