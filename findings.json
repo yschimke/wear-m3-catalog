@@ -1289,6 +1289,240 @@
         ]
       }
     ],
+    "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.CircularProgressRemote_width=227dp,height=227dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "spacing.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "semantic",
+            "severity": "warn",
+            "message": "candidate exposes no accessibility roles",
+            "detail": {
+              "node": "tree",
+              "field": "role"
+            }
+          },
+          {
+            "kind": "semantic",
+            "severity": "warn",
+            "message": "candidate exposes no accessible labels",
+            "detail": {
+              "node": "tree",
+              "field": "label"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 4.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.04367",
+              "alphaLossPixels": "9001",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 8.7% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.087266",
+              "diffPixels": "17987"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 11.4% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.113659",
+              "diffPixels": "23427"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#CircularProgressRemote": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "spacing.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "semantic",
+            "severity": "warn",
+            "message": "candidate exposes no accessibility roles",
+            "detail": {
+              "node": "tree",
+              "field": "role"
+            }
+          },
+          {
+            "kind": "semantic",
+            "severity": "warn",
+            "message": "candidate exposes no accessible labels",
+            "detail": {
+              "node": "tree",
+              "field": "label"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 4.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.04367",
+              "alphaLossPixels": "9001",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 8.7% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.087266",
+              "diffPixels": "17987"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 11.4% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.113659",
+              "diffPixels": "23427"
+            }
+          }
+        ]
+      }
+    ],
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.CompactRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
@@ -1521,6 +1755,72 @@
               "key": "default",
               "score": "0.860529",
               "diffPixels": "78136"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76333"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 88.6% of pixels differ from reference",
+            "detail": {
+              "key": "icon-only",
+              "score": "0.885786",
+              "diffPixels": "112199"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44152"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 72.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "text-only",
+              "alphaLossRatio": "0.721987",
+              "alphaLossPixels": "43595",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 82.1% of pixels differ from reference",
+            "detail": {
+              "key": "text-only",
+              "score": "0.821256",
+              "diffPixels": "74570"
             }
           }
         ]
@@ -1759,6 +2059,72 @@
               "score": "0.860529",
               "diffPixels": "78136"
             }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76333"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 88.6% of pixels differ from reference",
+            "detail": {
+              "key": "icon-only",
+              "score": "0.885786",
+              "diffPixels": "112199"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44152"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 72.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "text-only",
+              "alphaLossRatio": "0.721987",
+              "alphaLossPixels": "43595",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 82.1% of pixels differ from reference",
+            "detail": {
+              "key": "text-only",
+              "score": "0.821256",
+              "diffPixels": "74570"
+            }
           }
         ]
       }
@@ -1996,6 +2362,138 @@
               "score": "0.754934",
               "diffPixels": "68548"
             }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "38426"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 73.8% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.738194",
+              "diffPixels": "67028"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "34182"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 49.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon",
+              "alphaLossRatio": "0.498424",
+              "alphaLossPixels": "31001",
+              "alphaComparedPixels": "62198"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 69.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon",
+              "score": "0.691454",
+              "diffPixels": "62784"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon-disabled",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "41528"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: 77.2% of pixels differ from reference",
+            "detail": {
+              "key": "icon-disabled",
+              "score": "0.772357",
+              "diffPixels": "70130"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon-large",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "33251"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large: 48.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-large",
+              "alphaLossRatio": "0.481253",
+              "alphaLossPixels": "29933",
+              "alphaComparedPixels": "62198"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large: 68.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon-large",
+              "score": "0.6812",
+              "diffPixels": "61853"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large-disabled: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon-large-disabled",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "41998"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large-disabled: 77.8% of pixels differ from reference",
+            "detail": {
+              "key": "icon-large-disabled",
+              "score": "0.777533",
+              "diffPixels": "70600"
+            }
           }
         ]
       }
@@ -2232,6 +2730,558 @@
               "key": "default",
               "score": "0.754934",
               "diffPixels": "68548"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "38426"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 73.8% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.738194",
+              "diffPixels": "67028"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "34182"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 49.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon",
+              "alphaLossRatio": "0.498424",
+              "alphaLossPixels": "31001",
+              "alphaComparedPixels": "62198"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 69.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon",
+              "score": "0.691454",
+              "diffPixels": "62784"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon-disabled",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "41528"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: 77.2% of pixels differ from reference",
+            "detail": {
+              "key": "icon-disabled",
+              "score": "0.772357",
+              "diffPixels": "70130"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon-large",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "33251"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large: 48.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-large",
+              "alphaLossRatio": "0.481253",
+              "alphaLossPixels": "29933",
+              "alphaComparedPixels": "62198"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large: 68.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon-large",
+              "score": "0.6812",
+              "diffPixels": "61853"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large-disabled: reference 454×137 vs candidate 454×200; compared over their 454×137 overlap, 31.5% of the frame uncovered",
+            "detail": {
+              "key": "icon-large-disabled",
+              "dw": "0",
+              "dh": "-63",
+              "borderPixels": "28602",
+              "contentPixels": "41998"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-large-disabled: 77.8% of pixels differ from reference",
+            "detail": {
+              "key": "icon-large-disabled",
+              "score": "0.777533",
+              "diffPixels": "70600"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.IconRemoteButton_width=227dp,height=100dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: not declared, but the render insets 13 on `Button` (spec 12)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "12",
+              "actual": "13",
+              "via": "measured-geometry",
+              "measuredOn": "Button"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Swap icon (24)=71422:44887, Swap icon (26)=71422:45279, Swap icon (32)=71422:45115 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"},{\"name\":\"Swap icon (26)\",\"type\":\"instance-swap\",\"value\":\"71422:45279\"},{\"name\":\"Swap icon (32)\",\"type\":\"instance-swap\",\"value\":\"71422:45115\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "918"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.563925",
+              "diffPixels": "116234"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "889"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.563784",
+              "diffPixels": "116205"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "1039"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 56.5% of pixels differ from reference",
+            "detail": {
+              "key": "default/large",
+              "score": "0.564512",
+              "diffPixels": "116355"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "1001"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "large-disabled",
+              "score": "0.564328",
+              "diffPixels": "116317"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "906"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "default/small",
+              "score": "0.563867",
+              "diffPixels": "116222"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "875"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "small-disabled",
+              "score": "0.563717",
+              "diffPixels": "116191"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#IconRemoteButton": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: not declared, but the render insets 13 on `Button` (spec 12)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "12",
+              "actual": "13",
+              "via": "measured-geometry",
+              "measuredOn": "Button"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Swap icon (24)=71422:44887, Swap icon (26)=71422:45279, Swap icon (32)=71422:45115 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"},{\"name\":\"Swap icon (26)\",\"type\":\"instance-swap\",\"value\":\"71422:45279\"},{\"name\":\"Swap icon (32)\",\"type\":\"instance-swap\",\"value\":\"71422:45115\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "918"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.563925",
+              "diffPixels": "116234"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "889"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.563784",
+              "diffPixels": "116205"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "1039"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 56.5% of pixels differ from reference",
+            "detail": {
+              "key": "default/large",
+              "score": "0.564512",
+              "diffPixels": "116355"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "1001"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "large-disabled",
+              "score": "0.564328",
+              "diffPixels": "116317"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "906"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "default/small",
+              "score": "0.563867",
+              "diffPixels": "116222"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "875"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: 56.4% of pixels differ from reference",
+            "detail": {
+              "key": "small-disabled",
+              "score": "0.563717",
+              "diffPixels": "116191"
             }
           }
         ]
@@ -3071,6 +4121,40 @@
         "status": "warn",
         "findings": [
           {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Body text lorem ipsum dolor sit amet\" risks truncation when localized: ≈333dp expanded vs 320dp available.",
+            "detail": {
+              "label": "Body text lorem ipsum dolor sit amet",
+              "availableWidth": "320",
+              "estimatedWidth": "238",
+              "expansionFactor": "1.4",
+              "estimatedExpandedWidth": "333"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 8,
+                  "y": 0,
+                  "width": 156,
+                  "height": 32
+                },
+                "label": "Body text lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 67,
+                  "y": 72,
+                  "width": 320,
+                  "height": 56
+                },
+                "label": "Body text lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
             "kind": "token",
             "severity": "info",
             "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
@@ -3180,13 +4264,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Body text lorem ipsum dolor sit amet\": offset (-3, -33), size Δ(6, 21) vs candidate",
+            "message": "layout \"Body text lorem ipsum dolor sit amet\": offset (-17, -27), size Δ(35, 11) vs candidate",
             "detail": {
               "label": "Body text lorem ipsum dolor sit amet",
-              "dx": "-3",
-              "dy": "-33",
-              "dw": "6",
-              "dh": "21"
+              "dx": "-17",
+              "dy": "-27",
+              "dw": "35",
+              "dh": "11"
             },
             "anchors": [
               {
@@ -3202,10 +4286,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 30,
-                  "y": 86,
-                  "width": 395,
-                  "height": 28
+                  "x": 67,
+                  "y": 72,
+                  "width": 320,
+                  "height": 56
                 },
                 "label": "Body text lorem ipsum dolor sit amet"
               }
@@ -3220,7 +4304,7 @@
               "dw": "0",
               "dh": "-116",
               "borderPixels": "52664",
-              "contentPixels": "4201"
+              "contentPixels": "4501"
             }
           },
           {
@@ -3237,11 +4321,44 @@
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 62.6% of pixels differ from reference",
+            "message": "default: 63.0% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.626267",
-              "diffPixels": "56865"
+              "score": "0.62957",
+              "diffPixels": "57165"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "left-aligned: reference 454×84 vs candidate 454×200; compared over their 454×84 overlap, 58.0% of the frame uncovered",
+            "detail": {
+              "key": "left-aligned",
+              "dw": "0",
+              "dh": "-116",
+              "borderPixels": "52664",
+              "contentPixels": "4572"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "left-aligned: 10.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "left-aligned",
+              "alphaLossRatio": "0.100142",
+              "alphaLossPixels": "3819",
+              "alphaComparedPixels": "38136"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "left-aligned: 63.0% of pixels differ from reference",
+            "detail": {
+              "key": "left-aligned",
+              "score": "0.630352",
+              "diffPixels": "57236"
             }
           }
         ]
@@ -3253,6 +4370,40 @@
         "status": "warn",
         "findings": [
           {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Body text lorem ipsum dolor sit amet\" risks truncation when localized: ≈333dp expanded vs 320dp available.",
+            "detail": {
+              "label": "Body text lorem ipsum dolor sit amet",
+              "availableWidth": "320",
+              "estimatedWidth": "238",
+              "expansionFactor": "1.4",
+              "estimatedExpandedWidth": "333"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 8,
+                  "y": 0,
+                  "width": 156,
+                  "height": 32
+                },
+                "label": "Body text lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 67,
+                  "y": 72,
+                  "width": 320,
+                  "height": 56
+                },
+                "label": "Body text lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
             "kind": "token",
             "severity": "info",
             "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
@@ -3362,13 +4513,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Body text lorem ipsum dolor sit amet\": offset (-3, -33), size Δ(6, 21) vs candidate",
+            "message": "layout \"Body text lorem ipsum dolor sit amet\": offset (-17, -27), size Δ(35, 11) vs candidate",
             "detail": {
               "label": "Body text lorem ipsum dolor sit amet",
-              "dx": "-3",
-              "dy": "-33",
-              "dw": "6",
-              "dh": "21"
+              "dx": "-17",
+              "dy": "-27",
+              "dw": "35",
+              "dh": "11"
             },
             "anchors": [
               {
@@ -3384,10 +4535,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 30,
-                  "y": 86,
-                  "width": 395,
-                  "height": 28
+                  "x": 67,
+                  "y": 72,
+                  "width": 320,
+                  "height": 56
                 },
                 "label": "Body text lorem ipsum dolor sit amet"
               }
@@ -3402,7 +4553,7 @@
               "dw": "0",
               "dh": "-116",
               "borderPixels": "52664",
-              "contentPixels": "4201"
+              "contentPixels": "4501"
             }
           },
           {
@@ -3419,11 +4570,1088 @@
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 62.6% of pixels differ from reference",
+            "message": "default: 63.0% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.626267",
-              "diffPixels": "56865"
+              "score": "0.62957",
+              "diffPixels": "57165"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "left-aligned: reference 454×84 vs candidate 454×200; compared over their 454×84 overlap, 58.0% of the frame uncovered",
+            "detail": {
+              "key": "left-aligned",
+              "dw": "0",
+              "dh": "-116",
+              "borderPixels": "52664",
+              "contentPixels": "4572"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "left-aligned: 10.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "left-aligned",
+              "alphaLossRatio": "0.100142",
+              "alphaLossPixels": "3819",
+              "alphaComparedPixels": "38136"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "left-aligned: 63.0% of pixels differ from reference",
+            "detail": {
+              "key": "left-aligned",
+              "score": "0.630352",
+              "diffPixels": "57236"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.TextRemoteButton_width=227dp,height=100dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Text=MMM — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Text\",\"type\":\"text\",\"value\":\"MMM\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"MMM\": offset (-19, 8), size Δ(39, 14) vs candidate",
+            "detail": {
+              "label": "MMM",
+              "dx": "-19",
+              "dy": "8",
+              "dw": "39",
+              "dh": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 2,
+                  "y": 17,
+                  "width": 48,
+                  "height": 18
+                },
+                "label": "MMM"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 187,
+                  "y": 82,
+                  "width": 81,
+                  "height": 36
+                },
+                "label": "MMM"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "60019"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 85.1% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.850662",
+              "diffPixels": "175335"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3558"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 3.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child",
+              "alphaLossRatio": "0.032115",
+              "alphaLossPixels": "2916",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 57.7% of pixels differ from reference",
+            "detail": {
+              "key": "child",
+              "score": "0.576733",
+              "diffPixels": "118874"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "2926"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-large",
+              "alphaLossRatio": "0.018932",
+              "alphaLossPixels": "1719",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 57.4% of pixels differ from reference",
+            "detail": {
+              "key": "child-large",
+              "score": "0.573667",
+              "diffPixels": "118242"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57929"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 84.1% of pixels differ from reference",
+            "detail": {
+              "key": "default/large",
+              "score": "0.840522",
+              "diffPixels": "173245"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "9762"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.088744",
+              "alphaLossPixels": "8058",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 60.7% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.606833",
+              "diffPixels": "125078"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6419"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-disabled",
+              "score": "0.590614",
+              "diffPixels": "121735"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "8577"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 6.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-large",
+              "alphaLossRatio": "0.067357",
+              "alphaLossPixels": "6116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 60.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large",
+              "score": "0.601084",
+              "diffPixels": "123893"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "4966"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: 58.4% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "score": "0.583565",
+              "diffPixels": "120282"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "10119"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 9.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-small",
+              "alphaLossRatio": "0.09337",
+              "alphaLossPixels": "8478",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 60.9% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small",
+              "score": "0.608565",
+              "diffPixels": "125435"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6499"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "score": "0.591002",
+              "diffPixels": "121815"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61417"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "default/small",
+              "score": "0.857444",
+              "diffPixels": "176733"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#TextRemoteButton": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Text=MMM — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Text\",\"type\":\"text\",\"value\":\"MMM\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"MMM\": offset (-19, 8), size Δ(39, 14) vs candidate",
+            "detail": {
+              "label": "MMM",
+              "dx": "-19",
+              "dy": "8",
+              "dw": "39",
+              "dh": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 2,
+                  "y": 17,
+                  "width": 48,
+                  "height": 18
+                },
+                "label": "MMM"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 187,
+                  "y": 82,
+                  "width": 81,
+                  "height": 36
+                },
+                "label": "MMM"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "60019"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 85.1% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.850662",
+              "diffPixels": "175335"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3558"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 3.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child",
+              "alphaLossRatio": "0.032115",
+              "alphaLossPixels": "2916",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 57.7% of pixels differ from reference",
+            "detail": {
+              "key": "child",
+              "score": "0.576733",
+              "diffPixels": "118874"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "2926"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-large",
+              "alphaLossRatio": "0.018932",
+              "alphaLossPixels": "1719",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 57.4% of pixels differ from reference",
+            "detail": {
+              "key": "child-large",
+              "score": "0.573667",
+              "diffPixels": "118242"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57929"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 84.1% of pixels differ from reference",
+            "detail": {
+              "key": "default/large",
+              "score": "0.840522",
+              "diffPixels": "173245"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "9762"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.088744",
+              "alphaLossPixels": "8058",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 60.7% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.606833",
+              "diffPixels": "125078"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6419"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-disabled",
+              "score": "0.590614",
+              "diffPixels": "121735"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "8577"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 6.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-large",
+              "alphaLossRatio": "0.067357",
+              "alphaLossPixels": "6116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 60.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large",
+              "score": "0.601084",
+              "diffPixels": "123893"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "4966"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: 58.4% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "score": "0.583565",
+              "diffPixels": "120282"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "10119"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 9.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-small",
+              "alphaLossRatio": "0.09337",
+              "alphaLossPixels": "8478",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 60.9% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small",
+              "score": "0.608565",
+              "diffPixels": "125435"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6499"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "score": "0.591002",
+              "diffPixels": "121815"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61417"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "default/small",
+              "score": "0.857444",
+              "diffPixels": "176733"
             }
           }
         ]
@@ -3437,10 +5665,10 @@
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 406dp available.",
+            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 334dp available.",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "406",
+              "availableWidth": "334",
               "estimatedWidth": "422",
               "expansionFactor": "1.4",
               "estimatedExpandedWidth": "591"
@@ -3460,11 +5688,45 @@
                 "side": "actual",
                 "bounds": {
                   "x": 24,
-                  "y": 160,
-                  "width": 406,
-                  "height": 74
+                  "y": 88,
+                  "width": 334,
+                  "height": 110
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "availableWidth": "406",
+              "estimatedWidth": "537",
+              "expansionFactor": "1.3",
+              "estimatedExpandedWidth": "698"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 24,
+                  "y": 202,
+                  "width": 406,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
               }
             ]
           },
@@ -3599,13 +5861,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -49), size Δ(-41, 8) vs candidate",
+            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -21), size Δ(-14, -6) vs candidate",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
               "dx": "3",
-              "dy": "-49",
-              "dw": "-41",
-              "dh": "8"
+              "dy": "-21",
+              "dw": "-14",
+              "dh": "-6"
             },
             "anchors": [
               {
@@ -3622,11 +5884,79 @@
                 "side": "actual",
                 "bounds": {
                   "x": 24,
-                  "y": 160,
-                  "width": 406,
-                  "height": 74
+                  "y": 88,
+                  "width": 334,
+                  "height": 110
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"XXm\": offset (-10, -21), size Δ(7, 3) vs candidate",
+            "detail": {
+              "label": "XXm",
+              "dx": "-10",
+              "dy": "-21",
+              "dw": "7",
+              "dh": "3"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 129,
+                  "y": 12,
+                  "width": 31,
+                  "height": 16
+                },
+                "label": "XXm"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 366,
+                  "y": 88,
+                  "width": 64,
+                  "height": 33
+                },
+                "label": "XXm"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -27), size Δ(-6, 12) vs candidate",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "dx": "3",
+              "dy": "-27",
+              "dw": "-6",
+              "dh": "12"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 24,
+                  "y": 202,
+                  "width": 406,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
               }
             ]
           },
@@ -3639,28 +5969,61 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "84985"
+              "contentPixels": "41587"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 56.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 20.2% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.567843",
-              "alphaLossPixels": "78887",
+              "alphaLossRatio": "0.202233",
+              "alphaLossPixels": "28095",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 70.3% of pixels differ from reference",
+            "message": "default: 46.4% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.702979",
-              "diffPixels": "127661"
+              "score": "0.464003",
+              "diffPixels": "84263"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "with-subtitle: reference 454×322 vs candidate 454×400; compared over their 454×322 overlap, 19.5% of the frame uncovered",
+            "detail": {
+              "key": "with-subtitle",
+              "dw": "0",
+              "dh": "-78",
+              "borderPixels": "35412",
+              "contentPixels": "34468"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "with-subtitle: 11.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "with-subtitle",
+              "alphaLossRatio": "0.117609",
+              "alphaLossPixels": "17193",
+              "alphaComparedPixels": "146188"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "with-subtitle: 38.5% of pixels differ from reference",
+            "detail": {
+              "key": "with-subtitle",
+              "score": "0.384802",
+              "diffPixels": "69880"
             }
           }
         ]
@@ -3674,10 +6037,10 @@
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 406dp available.",
+            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 334dp available.",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "406",
+              "availableWidth": "334",
               "estimatedWidth": "422",
               "expansionFactor": "1.4",
               "estimatedExpandedWidth": "591"
@@ -3697,11 +6060,45 @@
                 "side": "actual",
                 "bounds": {
                   "x": 24,
-                  "y": 160,
-                  "width": 406,
-                  "height": 74
+                  "y": 88,
+                  "width": 334,
+                  "height": 110
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "availableWidth": "406",
+              "estimatedWidth": "537",
+              "expansionFactor": "1.3",
+              "estimatedExpandedWidth": "698"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 24,
+                  "y": 202,
+                  "width": 406,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
               }
             ]
           },
@@ -3836,13 +6233,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -49), size Δ(-41, 8) vs candidate",
+            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -21), size Δ(-14, -6) vs candidate",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
               "dx": "3",
-              "dy": "-49",
-              "dw": "-41",
-              "dh": "8"
+              "dy": "-21",
+              "dw": "-14",
+              "dh": "-6"
             },
             "anchors": [
               {
@@ -3859,11 +6256,79 @@
                 "side": "actual",
                 "bounds": {
                   "x": 24,
-                  "y": 160,
-                  "width": 406,
-                  "height": 74
+                  "y": 88,
+                  "width": 334,
+                  "height": 110
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"XXm\": offset (-10, -21), size Δ(7, 3) vs candidate",
+            "detail": {
+              "label": "XXm",
+              "dx": "-10",
+              "dy": "-21",
+              "dw": "7",
+              "dh": "3"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 129,
+                  "y": 12,
+                  "width": 31,
+                  "height": 16
+                },
+                "label": "XXm"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 366,
+                  "y": 88,
+                  "width": 64,
+                  "height": 33
+                },
+                "label": "XXm"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -27), size Δ(-6, 12) vs candidate",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "dx": "3",
+              "dy": "-27",
+              "dw": "-6",
+              "dh": "12"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 24,
+                  "y": 202,
+                  "width": 406,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
               }
             ]
           },
@@ -3876,28 +6341,345 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "84985"
+              "contentPixels": "41587"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 56.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 20.2% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.567843",
-              "alphaLossPixels": "78887",
+              "alphaLossRatio": "0.202233",
+              "alphaLossPixels": "28095",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 70.3% of pixels differ from reference",
+            "message": "default: 46.4% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.702979",
-              "diffPixels": "127661"
+              "score": "0.464003",
+              "diffPixels": "84263"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "with-subtitle: reference 454×322 vs candidate 454×400; compared over their 454×322 overlap, 19.5% of the frame uncovered",
+            "detail": {
+              "key": "with-subtitle",
+              "dw": "0",
+              "dh": "-78",
+              "borderPixels": "35412",
+              "contentPixels": "34468"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "with-subtitle: 11.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "with-subtitle",
+              "alphaLossRatio": "0.117609",
+              "alphaLossPixels": "17193",
+              "alphaComparedPixels": "146188"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "with-subtitle: 38.5% of pixels differ from reference",
+            "detail": {
+              "key": "with-subtitle",
+              "score": "0.384802",
+              "diffPixels": "69880"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.FilledRemoteIconButton_width=227dp,height=100dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "fail",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.padding: renders 14 vs spec 12 (Δ2)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "12",
+              "actual": "14",
+              "delta": "2",
+              "via": "measured-geometry",
+              "measuredOn": "Button"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors: candidate resolved no colors tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "colors.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Swap icon (24)=71422:44887, Swap icon (26)=71422:45279, Swap icon (32)=71422:45115 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"},{\"name\":\"Swap icon (26)\",\"type\":\"instance-swap\",\"value\":\"71422:45279\"},{\"name\":\"Swap icon (32)\",\"type\":\"instance-swap\",\"value\":\"71422:45115\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59988"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 85.1% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.850511",
+              "diffPixels": "175304"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/ComponentVariantPreviews.kt#FilledRemoteIconButton": [
+      {
+        "source": "figma",
+        "status": "fail",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.padding: renders 14 vs spec 12 (Δ2)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "12",
+              "actual": "14",
+              "delta": "2",
+              "via": "measured-geometry",
+              "measuredOn": "Button"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors: candidate resolved no colors tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "colors.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Swap icon (24)=71422:44887, Swap icon (26)=71422:45279, Swap icon (32)=71422:45115 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"},{\"name\":\"Swap icon (26)\",\"type\":\"instance-swap\",\"value\":\"71422:45279\"},{\"name\":\"Swap icon (32)\",\"type\":\"instance-swap\",\"value\":\"71422:45115\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59988"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 85.1% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.850511",
+              "diffPixels": "175304"
             }
           }
         ]
@@ -4046,6 +6828,230 @@
               "key": "default",
               "score": "0.011523",
               "diffPixels": "2375"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.OutlinedRemoteIconButton_width=227dp,height=100dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "fail",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.padding: renders 14 vs spec 12 (Δ2)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "12",
+              "actual": "14",
+              "delta": "2",
+              "via": "measured-geometry",
+              "measuredOn": "Button"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Swap icon (24)=71422:44887, Swap icon (26)=71422:45279, Swap icon (32)=71422:45115 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"},{\"name\":\"Swap icon (26)\",\"type\":\"instance-swap\",\"value\":\"71422:45279\"},{\"name\":\"Swap icon (32)\",\"type\":\"instance-swap\",\"value\":\"71422:45115\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "7106"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 6.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.063943",
+              "alphaLossPixels": "5806",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 59.4% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.593947",
+              "diffPixels": "122422"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/ComponentVariantPreviews.kt#OutlinedRemoteIconButton": [
+      {
+        "source": "figma",
+        "status": "fail",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.padding: renders 14 vs spec 12 (Δ2)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "12",
+              "actual": "14",
+              "delta": "2",
+              "via": "measured-geometry",
+              "measuredOn": "Button"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Swap icon (24)=71422:44887, Swap icon (26)=71422:45279, Swap icon (32)=71422:45115 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"},{\"name\":\"Swap icon (26)\",\"type\":\"instance-swap\",\"value\":\"71422:45279\"},{\"name\":\"Swap icon (32)\",\"type\":\"instance-swap\",\"value\":\"71422:45115\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "7106"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 6.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.063943",
+              "alphaLossPixels": "5806",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 59.4% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.593947",
+              "diffPixels": "122422"
             }
           }
         ]
