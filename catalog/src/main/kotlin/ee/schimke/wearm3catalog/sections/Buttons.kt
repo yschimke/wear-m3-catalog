@@ -541,6 +541,11 @@ fun CompactActionButton() = Sticker {
   kitAxis = "Disabled",
   kitValue = "Yes",
 )
+@OverrideVariant(
+  name = "secondary-label-disabled",
+  booleans = ["secondary=true", "enabled=false"],
+  kitProps = ["Secondary label=Yes", "Disabled=Yes"],
+)
 @Composable
 fun ImageBackgroundButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
@@ -557,13 +562,49 @@ fun ImageBackgroundButton() = Sticker {
   )
 }
 
-@CatalogComponent(
-  id = "Button/Loading",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/68333:155116",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
-  caption = "A button waiting on the work it started — the kit's loading pattern.",
+/**
+ * **Every cell of the kit's `Button-Loading` set** — three styles by three icon sizes by
+ * `Disabled`, 18 nodes, against the three this drew
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * `Icon size` is the kit's axis for the SLOT the ring and the glyph share, so the knob sizes the
+ * stack rather than the icon inside it: at `Lrg 32` the kit draws a bigger ring around the same
+ * proportioned glyph, not the same ring around a bigger one. The 4dp the ring lives in scales with
+ * the slot, which is why the stroke stays where the note below puts it.
+ *
+ * No `filled` cell, because the kit publishes no filled loading button — see the note in the
+ * component.
+ */
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
 )
-@CatalogModes
+@OverrideVariant(
+  name = "icon-large",
+  strings = ["iconSize=large"],
+  kitAxis = "Icon size",
+  kitValue = "Lrg 32",
+)
+@OverrideVariant(
+  name = "icon-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["iconSize=large"],
+  kitProps = ["Style=Tonal", "Icon size=Lrg 32", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-extra-large",
+  strings = ["iconSize=extra-large"],
+  kitAxis = "Icon size",
+  kitValue = "xLg 36",
+)
+@OverrideVariant(
+  name = "icon-extra-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["iconSize=extra-large"],
+  kitProps = ["Style=Tonal", "Icon size=xLg 36", "Disabled=Yes"],
+)
 @OverrideVariant(
   name = "outlined",
   strings = ["style=outlined"],
@@ -571,11 +612,77 @@ fun ImageBackgroundButton() = Sticker {
   kitValue = "Outline",
 )
 @OverrideVariant(
+  name = "outlined-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Icon size=26 (Default)", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon-large",
+  strings = ["style=outlined", "iconSize=large"],
+  kitProps = ["Style=Outline", "Icon size=Lrg 32", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "iconSize=large"],
+  kitProps = ["Style=Outline", "Icon size=Lrg 32", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon-extra-large",
+  strings = ["style=outlined", "iconSize=extra-large"],
+  kitProps = ["Style=Outline", "Icon size=xLg 36", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-extra-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "iconSize=extra-large"],
+  kitProps = ["Style=Outline", "Icon size=xLg 36", "Disabled=Yes"],
+)
+@OverrideVariant(
   name = "child",
   strings = ["style=child"],
   kitAxis = "Style",
   kitValue = "Child (No background)",
 )
+@OverrideVariant(
+  name = "child-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child"],
+  kitProps = ["Style=Child (No background)", "Icon size=26 (Default)", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "child-icon-large",
+  strings = ["style=child", "iconSize=large"],
+  kitProps = ["Style=Child (No background)", "Icon size=Lrg 32", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-icon-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "iconSize=large"],
+  kitProps = ["Style=Child (No background)", "Icon size=Lrg 32", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "child-icon-extra-large",
+  strings = ["style=child", "iconSize=extra-large"],
+  kitProps = ["Style=Child (No background)", "Icon size=xLg 36", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-icon-extra-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "iconSize=extra-large"],
+  kitProps = ["Style=Child (No background)", "Icon size=xLg 36", "Disabled=Yes"],
+)
+annotation class LoadingButtonKitCells
+
+@CatalogComponent(
+  id = "Button/Loading",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/68333:155116",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/68333:155055",
+  caption = "A button waiting on the work it started — the kit's loading pattern.",
+)
+@CatalogModes
+@LoadingButtonKitCells
 @Composable
 fun LoadingButton() = Sticker {
   // TONAL is the base, and that is the kit's call rather than Compose's. `Button-Loading` publishes
@@ -592,6 +699,7 @@ fun LoadingButton() = Sticker {
     }
   Button(
     onClick = {},
+    enabled = previewOverrideBoolean("enabled", true),
     colors = colors,
     // As on the compact button: the outline is a `border`, not a colour, and without it the
     // outlined cell is the child cell's picture under another name.
@@ -618,13 +726,28 @@ fun LoadingButton() = Sticker {
     // a 26dp diameter a short arc reads as a blob stuck to one side of the icon rather than as
     // progress around it.
     icon = {
-      Box(contentAlignment = Alignment.Center, modifier = Modifier.size(ButtonDefaults.IconSize)) {
+      // The kit's `Icon size` axis is the SLOT, and the glyph keeps its proportion inside it: 18
+      // of the base cell's 26, so the ring's 4dp gap and its 3dp stroke scale with the slot rather
+      // than eating a bigger share of a bigger one.
+      val slot =
+        when (
+          previewOverrideChoice("iconSize", "default", listOf("default", "large", "extra-large"))
+        ) {
+          "large" -> ButtonDefaults.LargeIconSize
+          "extra-large" -> ButtonDefaults.ExtraLargeIconSize
+          else -> ButtonDefaults.IconSize
+        }
+      Box(contentAlignment = Alignment.Center, modifier = Modifier.size(slot)) {
         CircularProgressIndicator(
           progress = { 0.75f },
           modifier = Modifier.fillMaxSize(),
-          strokeWidth = 3.dp,
+          strokeWidth = slot * (3f / 26f),
         )
-        Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(18.dp))
+        Icon(
+          Icons.Filled.Add,
+          contentDescription = null,
+          modifier = Modifier.size(slot * (18f / 26f)),
+        )
       }
     },
     label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) },
