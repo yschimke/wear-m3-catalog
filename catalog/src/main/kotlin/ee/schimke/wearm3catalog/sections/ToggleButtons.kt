@@ -88,18 +88,21 @@ private fun iconToggleSize(): Dp =
   booleans = ["checked=false"],
   strings = ["size=small"],
   kitProps = ["Selected=Off", "Style=Tonal", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "off-large",
   booleans = ["checked=false"],
   strings = ["size=large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "off-extra-large",
   booleans = ["checked=false"],
   strings = ["size=extra-large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Size=Extra-Large"],
+  secondary = true,
 )
 @OverrideVariant(name = "small", strings = ["size=small"], kitAxis = "Size", kitValue = "Small")
 @OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
@@ -119,16 +122,19 @@ private fun iconToggleSize(): Dp =
   name = "rounded-small",
   strings = ["shape=rounded", "size=small"],
   kitProps = ["Corner radius=Rounded (18)", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "rounded-large",
   strings = ["shape=rounded", "size=large"],
   kitProps = ["Corner radius=Rounded (18)", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "rounded-extra-large",
   strings = ["shape=rounded", "size=extra-large"],
   kitProps = ["Corner radius=Rounded (18)", "Size=Extra-Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "disabled",
@@ -140,18 +146,21 @@ private fun iconToggleSize(): Dp =
   booleans = ["checked=false", "enabled=false"],
   strings = ["size=small"],
   kitProps = ["Selected=Off", "Style=Tonal", "Disabled=Yes", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "disabled-large",
   booleans = ["checked=false", "enabled=false"],
   strings = ["size=large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Disabled=Yes", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "disabled-extra-large",
   booleans = ["checked=false", "enabled=false"],
   strings = ["size=extra-large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Disabled=Yes", "Size=Extra-Large"],
+  secondary = true,
 )
 annotation class IconToggleKitCells
 
@@ -237,12 +246,14 @@ private fun textToggleSize(): Dp =
   booleans = ["checked=false"],
   strings = ["size=large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Radius=Circular", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "off-extra-large",
   booleans = ["checked=false"],
   strings = ["size=extra-large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Radius=Circular", "Size=Extra-Large"],
+  secondary = true,
 )
 @OverrideVariant(name = "large", strings = ["size=large"], kitAxis = "Size", kitValue = "Large")
 @OverrideVariant(
@@ -261,12 +272,14 @@ private fun textToggleSize(): Dp =
   booleans = ["checked=false", "enabled=false"],
   strings = ["size=large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Radius=Circular", "Disabled=Yes", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "disabled-extra-large",
   booleans = ["checked=false", "enabled=false"],
   strings = ["size=extra-large"],
   kitProps = ["Selected=Off", "Style=Tonal", "Radius=Circular", "Disabled=Yes", "Size=Extra-Large"],
+  secondary = true,
 )
 annotation class TextToggleKitCells
 

@@ -33,6 +33,12 @@ to the small one. Unlike the Wear contact sheets, every frame in it is composite
 `#141418` for the reason the next paragraph gives: the `remote-m3` stickers rasterise onto
 transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
 
+`remote-m3-crossing-cells.png` is the #116 phase-3 companion to the sheet above: the crossings the
+`secondary` tier made publishable, with each second-tier cell ringed and labelled so the picture
+shows which rows left the navigation. It is also the before/after for two fixes that pass no other
+review — `Progress/Circular`'s disabled ring, which was byte-identical to its base until the knob
+was wired, and `Button/Icon`'s three sizes, which had collapsed to two.
+
 `remote-m3-text-body-*.png` are the one set here composited onto the catalog's own stage rather
 than left transparent. Every other `remote-m3-*` file is the raw render, which is correct: those
 stickers draw a coloured container, so they read on any background. These three are near-white body

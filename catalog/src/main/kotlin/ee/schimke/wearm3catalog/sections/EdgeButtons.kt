@@ -85,6 +85,7 @@ import ee.schimke.wearm3catalog.kitCopy
   booleans = ["enabled=false"],
   strings = ["size=extra-small"],
   kitProps = ["Style=Filled", "Type=Text", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "disabled",
@@ -101,6 +102,7 @@ import ee.schimke.wearm3catalog.kitCopy
   booleans = ["enabled=false"],
   strings = ["size=medium"],
   kitProps = ["Style=Filled", "Type=Text", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "large",
@@ -112,17 +114,20 @@ import ee.schimke.wearm3catalog.kitCopy
   booleans = ["enabled=false"],
   strings = ["size=large"],
   kitProps = ["Style=Filled", "Type=Text", "Size=Extra-Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-extra-small",
   strings = ["content=icon", "size=extra-small"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-extra-small-disabled",
   booleans = ["enabled=false"],
   strings = ["content=icon", "size=extra-small"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon",
@@ -134,33 +139,39 @@ import ee.schimke.wearm3catalog.kitCopy
   booleans = ["enabled=false"],
   strings = ["content=icon"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Default", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-medium",
   strings = ["content=icon", "size=medium"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-medium-disabled",
   booleans = ["enabled=false"],
   strings = ["content=icon", "size=medium"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-large",
   strings = ["content=icon", "size=large"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-large-disabled",
   booleans = ["enabled=false"],
   strings = ["content=icon", "size=large"],
   kitProps = ["Style=Filled", "Type=Icon", "Size=Extra-Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-extra-small",
   strings = ["style=filled-variant", "size=extra-small"],
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant",
@@ -171,36 +182,43 @@ import ee.schimke.wearm3catalog.kitCopy
   name = "filled-variant-medium",
   strings = ["style=filled-variant", "size=medium"],
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-large",
   strings = ["style=filled-variant", "size=large"],
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-icon-extra-small",
   strings = ["style=filled-variant", "content=icon", "size=extra-small"],
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-icon",
   strings = ["style=filled-variant", "content=icon"],
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Default", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-icon-medium",
   strings = ["style=filled-variant", "content=icon", "size=medium"],
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-icon-large",
   strings = ["style=filled-variant", "content=icon", "size=large"],
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-extra-small",
   strings = ["style=tonal", "size=extra-small"],
   kitProps = ["Style=Tonal", "Type=Text", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal",
@@ -211,42 +229,50 @@ import ee.schimke.wearm3catalog.kitCopy
   name = "tonal-medium",
   strings = ["style=tonal", "size=medium"],
   kitProps = ["Style=Tonal", "Type=Text", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-large",
   strings = ["style=tonal", "size=large"],
   kitProps = ["Style=Tonal", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-icon-extra-small",
   strings = ["style=tonal", "content=icon", "size=extra-small"],
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-icon",
   strings = ["style=tonal", "content=icon"],
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Default", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-icon-medium",
   strings = ["style=tonal", "content=icon", "size=medium"],
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-icon-large",
   strings = ["style=tonal", "content=icon", "size=large"],
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-extra-small",
   strings = ["style=outlined", "size=extra-small"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-extra-small-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "size=extra-small"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined",
@@ -258,72 +284,85 @@ import ee.schimke.wearm3catalog.kitCopy
   booleans = ["enabled=false"],
   strings = ["style=outlined"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Default", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-medium",
   strings = ["style=outlined", "size=medium"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-medium-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "size=medium"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-large",
   strings = ["style=outlined", "size=large"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "size=large"],
   kitProps = ["Style=Outline", "Type=Text", "Size=Extra-Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-extra-small",
   strings = ["style=outlined", "content=icon", "size=extra-small"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-extra-small-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "content=icon", "size=extra-small"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon",
   strings = ["style=outlined", "content=icon"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Default", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "content=icon"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Default", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-medium",
   strings = ["style=outlined", "content=icon", "size=medium"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-medium-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "content=icon", "size=medium"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-large",
   strings = ["style=outlined", "content=icon", "size=large"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "content=icon", "size=large"],
   kitProps = ["Style=Outline", "Type=Icon", "Size=Extra-Large", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class EdgeButtonKitCells
 

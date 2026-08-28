@@ -227,16 +227,19 @@ fun ButtonPlaceholder() = Sticker {
   name = "variant-extra-small",
   strings = ["style=variant", "size=extra-small"],
   kitProps = ["Style=Filled Variant", "Size=Extra-Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "variant-small",
   strings = ["style=variant", "size=small"],
   kitProps = ["Style=Variant (Highlighted)", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "variant-large",
   strings = ["style=variant", "size=large"],
   kitProps = ["Style=Variant (Highlighted)", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal",
@@ -248,16 +251,19 @@ fun ButtonPlaceholder() = Sticker {
   name = "tonal-extra-small",
   strings = ["style=tonal", "size=extra-small"],
   kitProps = ["Style=Tonal", "Size=Extra-Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-small",
   strings = ["style=tonal", "size=small"],
   kitProps = ["Style=Tonal", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-large",
   strings = ["style=tonal", "size=large"],
   kitProps = ["Style=Tonal", "Size=Large"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined",
@@ -269,16 +275,19 @@ fun ButtonPlaceholder() = Sticker {
   name = "outlined-extra-small",
   strings = ["style=outlined", "size=extra-small"],
   kitProps = ["Style=Outline", "Size=Extra-Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-small",
   strings = ["style=outlined", "size=small"],
   kitProps = ["Style=Outline", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-large",
   strings = ["style=outlined", "size=large"],
   kitProps = ["Style=Outline", "Size=Large"],
+  secondary = true,
 )
 annotation class IconButtonPlaceholderKitCells
 

@@ -74,21 +74,25 @@ import ee.schimke.wearm3catalog.toggleable
   name = "unselected-split",
   booleans = ["checked=false", "split=true"],
   kitProps = ["Selected=No", "Split (2 tap targets)=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "unselected-disabled",
   booleans = ["checked=false", "enabled=false"],
   kitProps = ["Selected=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "split-disabled",
   booleans = ["split=true", "enabled=false"],
   kitProps = ["Split (2 tap targets)=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "unselected-split-disabled",
   booleans = ["checked=false", "split=true", "enabled=false"],
   kitProps = ["Selected=No", "Split (2 tap targets)=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class SelectionCells
 

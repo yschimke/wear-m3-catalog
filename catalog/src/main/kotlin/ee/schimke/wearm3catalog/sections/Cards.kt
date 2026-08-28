@@ -230,18 +230,21 @@ fun OutlineCard() = Sticker {
   name = "outlined-content-image",
   strings = ["style=outlined", "content=image"],
   kitProps = ["Layout type=Title Card 1", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-gallery-1",
   strings = ["style=outlined", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 1", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-gallery-2",
   strings = ["style=outlined", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 1", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "background-image",
@@ -263,40 +266,47 @@ fun OutlineCard() = Sticker {
   name = "with-subtitle-content-image",
   strings = ["layout=title-time-subtitle", "content=image"],
   kitProps = ["Layout type=Title Card 2", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-gallery-1",
   strings = ["layout=title-time-subtitle", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-gallery-2",
   strings = ["layout=title-time-subtitle", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-outlined",
   strings = ["layout=title-time-subtitle", "style=outlined"],
   kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-outlined-content-image",
   strings = ["layout=title-time-subtitle", "style=outlined", "content=image"],
   kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-outlined-gallery-1",
   strings = ["layout=title-time-subtitle", "style=outlined", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-outlined-gallery-2",
   strings = ["layout=title-time-subtitle", "style=outlined", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "with-subtitle-background-image",
@@ -308,6 +318,7 @@ fun OutlineCard() = Sticker {
       "Content type=Text",
       "Interactive=Yes",
     ],
+  secondary = true,
 )
 // NOT a kit cell, and the only cell here that names none. `Title Card 3` is the kit's third
 // layout — title, then the content, then the subtitle with the TIMESTAMP UNDER IT — and
@@ -412,16 +423,19 @@ fun TitledCard() = Sticker {
   name = "outlined-content-image",
   strings = ["style=outlined", "content=image"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-gallery-1",
   strings = ["style=outlined", "content=gallery-1"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-gallery-2",
   strings = ["style=outlined", "content=gallery-2"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon",
@@ -434,42 +448,49 @@ fun TitledCard() = Sticker {
   strings = ["appImage=icon", "content=image"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-gallery-1",
   strings = ["appImage=icon", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-gallery-2",
   strings = ["appImage=icon", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-outlined",
   strings = ["appImage=icon", "style=outlined"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-outlined-content-image",
   strings = ["appImage=icon", "style=outlined", "content=image"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-outlined-gallery-1",
   strings = ["appImage=icon", "style=outlined", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-outlined-gallery-2",
   strings = ["appImage=icon", "style=outlined", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
 )
 annotation class AppCardKitCells
 

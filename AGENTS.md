@@ -239,6 +239,34 @@ are out of scope.
 - **Fold variants behind defaults.** A state / content axis is an `@OverrideVariant` cell (or a
   `@CatalogVariant(of = …)`) under its parent, not a new top-level component. A sheet this size is
   only browsable because the card count tracks components, not renders.
+- **A cell that turns ONE knob is primary; a CROSSING is `secondary = true`.** Folding fixed the
+  card count and moved the problem down a level: drawing the kit exhaustively (#101) put 89 cells
+  on `SegmentedProgress` and 47 on `ScreenEdgeButton`, and a component subtree nobody can read is
+  the same failure as a grid nobody can read.
+  `@OverrideVariant(secondary = true)` is the tier for that
+  ([compose-ai-tools#4734](https://github.com/yschimke/compose-ai-tools/pull/4734), 1.46.0).
+
+  **Only the listing changes.** The cell still renders, still bakes, still keeps its own `/p/` URL
+  and still pairs with its kit node — so nothing is traded away for the shorter menu. It stays
+  reachable by every route that does not go through the tree: an imported kit page, a design-map
+  pairing, a search result, and the viewer keeps the render on screen with the primary cells under
+  it as the way back. **Never reach for `secondary` to hide a cell that is wrong.** A cell that
+  resolves to nothing, or draws a picture its node is not, is a defect; demoting it only makes it
+  harder to find.
+
+  The line is what a reader BROWSES BY. One knob off the base is a question somebody asks —
+  "what does the disabled one look like", "the small one", "the pentagon" — so all 35 shape cells
+  and all 14 `Segments=` cells stay primary. Two or more knobs at once is a crossing: it exists to
+  be compared against its kit node, and nobody navigates to `segments-11-small-stroke-overflow`
+  by name.
+
+  Count the KNOBS, not the `kitProps` entries — the kit spells one choice as several properties
+  wherever its axes are coupled, and four cells here are exactly that: `Button`'s `icon`
+  (the kit has no `Icon=Yes, Alignment=Center` node), `ArcProgressIndicator`'s `overflow`
+  (`allowProgressOverflow` is the flag that permits the value), the toggle buttons' `disabled`
+  (Wear draws checked and unchecked disabled differently and the kit publishes the unchecked one),
+  and `Date Picker`'s `year-first` (the kit publishes that type only under a limit). Each turns two
+  knobs and is one choice, so each stays primary.
 - **One kit component set is one catalog component — unless the axis is a different function.**
   The kit's set boundary decides the taxonomy, so a kit variant property folds in as a cell: all 35
   shapes are cells of one `Shape/MaterialShapes` component, because the kit models them as one set
