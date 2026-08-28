@@ -141,36 +141,42 @@ private fun alignedLabel(text: String) {
   booleans = ["icon=true"],
   strings = ["iconSize=large", "alignment=left"],
   kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-extra-large",
   booleans = ["icon=true"],
   strings = ["iconSize=extra-large", "alignment=left"],
   kitProps = ["Icon=Yes", "Icon size=xLg 36", "Alignment=Left"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "left-disabled",
   booleans = ["enabled=false"],
   strings = ["alignment=left"],
   kitProps = ["Icon=No", "Icon size=n/a", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-disabled",
   booleans = ["icon=true", "enabled=false"],
   strings = ["alignment=left"],
   kitProps = ["Icon=Yes", "Icon size=26 (Default)", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-large-disabled",
   booleans = ["icon=true", "enabled=false"],
   strings = ["iconSize=large", "alignment=left"],
   kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-extra-large-disabled",
   booleans = ["icon=true", "enabled=false"],
   strings = ["iconSize=extra-large", "alignment=left"],
   kitProps = ["Icon=Yes", "Icon size=xLg 36", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class ButtonLayoutCells
 
@@ -332,6 +338,7 @@ fun ChildLabelButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["content=icon"],
   kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "text-only",
@@ -343,6 +350,7 @@ fun ChildLabelButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["content=text"],
   kitProps = ["Style=Filled", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant",
@@ -354,12 +362,14 @@ fun ChildLabelButton() = Sticker {
   strings = ["style=filled-variant", "content=icon"],
   kitProps =
     ["Style=Filled Variant", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-text-only",
   strings = ["style=filled-variant", "content=text"],
   kitProps =
     ["Style=Filled Variant", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal",
@@ -370,11 +380,13 @@ fun ChildLabelButton() = Sticker {
   name = "tonal-icon-only",
   strings = ["style=tonal", "content=icon"],
   kitProps = ["Style=Tonal", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-text-only",
   strings = ["style=tonal", "content=text"],
   kitProps = ["Style=Tonal", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined",
@@ -386,28 +398,33 @@ fun ChildLabelButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["style=outlined"],
   kitProps = ["Style=Outline", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-only",
   strings = ["style=outlined", "content=icon"],
   kitProps = ["Style=Outline", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-only-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "content=icon"],
   kitProps = ["Style=Outline", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-text-only",
   strings = ["style=outlined", "content=text"],
   kitProps = ["Style=Outline", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-text-only-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "content=text"],
   kitProps = ["Style=Outline", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child",
@@ -421,12 +438,14 @@ fun ChildLabelButton() = Sticker {
   strings = ["style=child"],
   kitProps =
     ["Style=Child (No background)", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-icon-only",
   strings = ["style=child", "content=icon"],
   kitProps =
     ["Style=Child (No background)", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-icon-only-disabled",
@@ -434,12 +453,14 @@ fun ChildLabelButton() = Sticker {
   strings = ["style=child", "content=icon"],
   kitProps =
     ["Style=Child (No background)", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-text-only",
   strings = ["style=child", "content=text"],
   kitProps =
     ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-text-only-disabled",
@@ -447,6 +468,7 @@ fun ChildLabelButton() = Sticker {
   strings = ["style=child", "content=text"],
   kitProps =
     ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class CompactButtonKitCells
 
@@ -592,6 +614,7 @@ fun ImageBackgroundButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["iconSize=large"],
   kitProps = ["Style=Tonal", "Icon size=Lrg 32", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-extra-large",
@@ -604,6 +627,7 @@ fun ImageBackgroundButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["iconSize=extra-large"],
   kitProps = ["Style=Tonal", "Icon size=xLg 36", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined",
@@ -616,28 +640,33 @@ fun ImageBackgroundButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["style=outlined"],
   kitProps = ["Style=Outline", "Icon size=26 (Default)", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-large",
   strings = ["style=outlined", "iconSize=large"],
   kitProps = ["Style=Outline", "Icon size=Lrg 32", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "iconSize=large"],
   kitProps = ["Style=Outline", "Icon size=Lrg 32", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-extra-large",
   strings = ["style=outlined", "iconSize=extra-large"],
   kitProps = ["Style=Outline", "Icon size=xLg 36", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-icon-extra-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "iconSize=extra-large"],
   kitProps = ["Style=Outline", "Icon size=xLg 36", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child",
@@ -650,28 +679,33 @@ fun ImageBackgroundButton() = Sticker {
   booleans = ["enabled=false"],
   strings = ["style=child"],
   kitProps = ["Style=Child (No background)", "Icon size=26 (Default)", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-icon-large",
   strings = ["style=child", "iconSize=large"],
   kitProps = ["Style=Child (No background)", "Icon size=Lrg 32", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-icon-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=child", "iconSize=large"],
   kitProps = ["Style=Child (No background)", "Icon size=Lrg 32", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-icon-extra-large",
   strings = ["style=child", "iconSize=extra-large"],
   kitProps = ["Style=Child (No background)", "Icon size=xLg 36", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-icon-extra-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=child", "iconSize=extra-large"],
   kitProps = ["Style=Child (No background)", "Icon size=xLg 36", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class LoadingButtonKitCells
 

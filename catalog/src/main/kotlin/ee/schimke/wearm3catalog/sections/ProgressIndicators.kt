@@ -94,6 +94,7 @@ import ee.schimke.wearm3catalog.Sticker
       "Dot value=No",
       "Disabled=No",
     ],
+  secondary = true,
 )
 @OverrideVariant(
   name = "small-stroke-overflow",
@@ -108,6 +109,7 @@ import ee.schimke.wearm3catalog.Sticker
       "Dot value=No",
       "Disabled=No",
     ],
+  secondary = true,
 )
 @OverrideVariant(
   name = "small-stroke-zero",
@@ -122,6 +124,7 @@ import ee.schimke.wearm3catalog.Sticker
       "Dot value=No",
       "Disabled=No",
     ],
+  secondary = true,
 )
 @OverrideVariant(
   name = "small-stroke-disabled",
@@ -136,6 +139,7 @@ import ee.schimke.wearm3catalog.Sticker
       "Dot value=No",
       "Disabled=Yes",
     ],
+  secondary = true,
 )
 @OverrideVariant(
   name = "complete",
@@ -244,6 +248,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-overflow",
@@ -251,12 +256,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-zero",
   ints = ["segmentCount=1"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-disabled",
@@ -264,6 +271,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   kitProps =
     ["Type=Full", "Segments=1", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-zero-disabled",
@@ -271,6 +279,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-2",
@@ -283,6 +292,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=2"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=2", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-2-overflow",
@@ -290,12 +300,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=2"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=2", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-2-zero",
   ints = ["segmentCount=2"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=2", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-2-disabled",
@@ -303,6 +315,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=2"],
   kitProps =
     ["Type=Full", "Segments=2", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-2-zero-disabled",
@@ -310,6 +323,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=2"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=2", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-3",
@@ -322,6 +336,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=3"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=3", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-3-overflow",
@@ -329,12 +344,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=3"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=3", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-3-zero",
   ints = ["segmentCount=3"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=3", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-3-disabled",
@@ -342,6 +359,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=3"],
   kitProps =
     ["Type=Full", "Segments=3", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-3-zero-disabled",
@@ -349,6 +367,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=3"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=3", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-4",
@@ -361,6 +380,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=4"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=4", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-4-overflow",
@@ -368,12 +388,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=4"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=4", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-4-zero",
   ints = ["segmentCount=4"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=4", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-4-disabled",
@@ -381,6 +403,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=4"],
   kitProps =
     ["Type=Full", "Segments=4", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-4-zero-disabled",
@@ -388,6 +411,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=4"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=4", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-5",
@@ -400,6 +424,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=5"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=5", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-5-overflow",
@@ -407,12 +432,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=5"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=5", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-5-zero",
   ints = ["segmentCount=5"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=5", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-5-disabled",
@@ -420,6 +447,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=5"],
   kitProps =
     ["Type=Full", "Segments=5", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-5-zero-disabled",
@@ -427,6 +455,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=5"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=5", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "complete",
@@ -457,6 +486,7 @@ fun CircularProgress() = FullScreenSticker {
   booleans = ["enabled=false"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=6", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-7",
@@ -469,6 +499,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=7"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=7", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-7-overflow",
@@ -476,12 +507,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=7"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=7", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-7-zero",
   ints = ["segmentCount=7"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=7", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-7-disabled",
@@ -489,6 +522,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=7"],
   kitProps =
     ["Type=Full", "Segments=7", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-7-zero-disabled",
@@ -496,6 +530,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=7"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=7", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-8",
@@ -508,6 +543,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=8"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=8", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-8-overflow",
@@ -515,12 +551,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=8"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=8", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-8-zero",
   ints = ["segmentCount=8"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=8", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-8-disabled",
@@ -528,6 +566,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=8"],
   kitProps =
     ["Type=Full", "Segments=8", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-8-zero-disabled",
@@ -535,6 +574,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=8"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=8", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-9",
@@ -547,6 +587,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=9"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=9", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-9-overflow",
@@ -554,12 +595,14 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=9"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=9", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-9-zero",
   ints = ["segmentCount=9"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=9", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-9-disabled",
@@ -567,6 +610,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=9"],
   kitProps =
     ["Type=Full", "Segments=9", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-9-zero-disabled",
@@ -574,6 +618,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=9"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=9", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-10",
@@ -587,6 +632,7 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.0"],
   kitProps =
     ["Type=Full", "Segments=10", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-10-overflow",
@@ -595,12 +641,14 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.4"],
   kitProps =
     ["Type=Full", "Segments=10", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-10-zero",
   ints = ["segmentCount=10"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=10", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-10-disabled",
@@ -608,6 +656,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=10"],
   kitProps =
     ["Type=Full", "Segments=10", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-10-zero-disabled",
@@ -615,6 +664,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=10"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=10", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-11",
@@ -628,6 +678,7 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.0"],
   kitProps =
     ["Type=Full", "Segments=11", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-11-overflow",
@@ -636,12 +687,14 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.4"],
   kitProps =
     ["Type=Full", "Segments=11", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-11-zero",
   ints = ["segmentCount=11"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=11", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-11-disabled",
@@ -649,6 +702,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=11"],
   kitProps =
     ["Type=Full", "Segments=11", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-11-zero-disabled",
@@ -656,6 +710,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=11"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=11", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-12",
@@ -669,6 +724,7 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.0"],
   kitProps =
     ["Type=Full", "Segments=12", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-12-overflow",
@@ -677,12 +733,14 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.4"],
   kitProps =
     ["Type=Full", "Segments=12", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-12-zero",
   ints = ["segmentCount=12"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=12", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-12-disabled",
@@ -690,6 +748,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=12"],
   kitProps =
     ["Type=Full", "Segments=12", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-12-zero-disabled",
@@ -697,6 +756,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=12"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=12", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-13",
@@ -710,6 +770,7 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.0"],
   kitProps =
     ["Type=Full", "Segments=13", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-13-overflow",
@@ -718,12 +779,14 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.4"],
   kitProps =
     ["Type=Full", "Segments=13", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-13-zero",
   ints = ["segmentCount=13"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=13", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-13-disabled",
@@ -731,6 +794,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=13"],
   kitProps =
     ["Type=Full", "Segments=13", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-13-zero-disabled",
@@ -738,6 +802,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=13"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=13", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-14",
@@ -751,6 +816,7 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.0"],
   kitProps =
     ["Type=Full", "Segments=14", "Stroke Width=Medium", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-14-overflow",
@@ -759,12 +825,14 @@ fun CircularProgress() = FullScreenSticker {
   floats = ["progress=1.4"],
   kitProps =
     ["Type=Full", "Segments=14", "Stroke Width=Medium", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-14-zero",
   ints = ["segmentCount=14"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=14", "Stroke Width=Medium", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-14-disabled",
@@ -772,6 +840,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=14"],
   kitProps =
     ["Type=Full", "Segments=14", "Stroke Width=Medium", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-14-zero-disabled",
@@ -779,6 +848,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=14"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=14", "Stroke Width=Medium", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-small-stroke",
@@ -786,6 +856,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   kitProps =
     ["Type=Full", "Segments=1", "Stroke Width=Small", "Progress=In progress", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-small-stroke-complete",
@@ -793,6 +864,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=1.0"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Small", "Progress=Complete", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-small-stroke-overflow",
@@ -801,6 +873,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=1.4"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Small", "Progress=Overflow", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-small-stroke-zero",
@@ -808,6 +881,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Small", "Progress=Zero", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-small-stroke-disabled",
@@ -816,6 +890,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   kitProps =
     ["Type=Full", "Segments=1", "Stroke Width=Small", "Progress=In progress", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "segments-1-small-stroke-zero-disabled",
@@ -824,6 +899,7 @@ fun CircularProgress() = FullScreenSticker {
   ints = ["segmentCount=1"],
   floats = ["progress=0.0"],
   kitProps = ["Type=Full", "Segments=1", "Stroke Width=Small", "Progress=Zero", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class SegmentedProgressKitCells
 
@@ -925,12 +1001,14 @@ fun ArcProgress() = Sticker {
   strings = ["size=small"],
   floats = ["progress=0.0"],
   kitProps = ["Progress=Min", "Context=In Component", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "20-small",
   strings = ["size=small"],
   floats = ["progress=0.2"],
   kitProps = ["Progress=20%", "Context=In Component", "Size=Small"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "small",
@@ -943,6 +1021,7 @@ fun ArcProgress() = Sticker {
   strings = ["size=small"],
   floats = ["progress=1.0"],
   kitProps = ["Progress=Complete", "Context=In Component", "Size=Small"],
+  secondary = true,
 )
 annotation class LinearProgressKitCells
 

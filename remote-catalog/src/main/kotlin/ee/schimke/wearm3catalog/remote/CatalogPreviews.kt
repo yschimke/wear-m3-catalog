@@ -229,6 +229,19 @@ internal val addIcon: ImageVector =
   strings = ["iconSize=large"],
   kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left"],
 )
+@OverrideVariant(
+  name = "icon-disabled",
+  booleans = ["icon=true", "enabled=false"],
+  kitProps = ["Icon=Yes", "Icon size=26 (Default)", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-large-disabled",
+  booleans = ["icon=true", "enabled=false"],
+  strings = ["iconSize=large"],
+  kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
+)
 annotation class RemoteButtonKitCells
 
 @CatalogComponent(
@@ -385,15 +398,32 @@ fun NamedLabelRemoteButton() = RemoteSticker {
 }
 
 /**
- * **The kit's `Text-Button` style and size axes, as cells** — the four this sheet used to publish
- * as `Button/Text-Small`, `-Large`, `-Child` and `-Outlined`
- * ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
+ * **Every cell of the kit's `Text-Button` set this rendition can reach** — 7 of its 30 nodes.
+ *
+ * Four were top-level components until #116 folded them; the three crossings under them are what
+ * phase 3's tier made publishable, and they carry `secondary = true` per the tiering rule in
+ * AGENTS.md. `small`, `large`, `child` and `outlined` turn one knob each and stay in the tree;
+ * `child-large`, `outlined-small` and `outlined-large` exist to be compared, not browsed.
  *
  * They fold for the reason AGENTS.md gives for folding them on the Wear side: the test is the CALL
  * SITE, not the word. `Style=` on this set is not a choice between functions — `remote-material3`
  * ships one `RemoteTextButton` and it takes its emphasis as `colors` — so there is no second
  * function for a reader to pick, and nothing to split. `Size=` is a modifier argument on the same
  * one. The cell names are the Wear sibling's, so the compare page pairs them.
+ *
+ * **NO `Disabled` axis at all, and the render is why.** `RemoteTextButton(enabled = false)` draws
+ * NOTHING on the alpha surface — no container, no label, a fully transparent capture; the outlined
+ * cell keeps only the border, because this sticker draws that itself through `border` rather than
+ * through the component. Six disabled cells were written here and all six came out byte-identical
+ * blanks, which would have scored an empty frame against six drawn kit nodes. Withdrawn, and
+ * recorded here as a library gap rather than carried: the kit's fifteen `Disabled=Yes` cells for
+ * this set are absent from this rendition until the library draws a disabled text button.
+ * (`RemoteIconButton` does honour `enabled` — see `Button/Icon`, which keeps the axis.)
+ *
+ * **No `child-small` either**, and for the reason the icon button's withdrawn `extra-small` cell
+ * gives: the child style draws no container, `SmallButtonSize` clamps to the same glyph metrics as
+ * the default, and the capture came out byte-identical to `child`. `child-large` survives because
+ * the large TEXT style is bigger, which is a picture.
  *
  * Two of the kit's five styles, not five. `RemoteTextButtonDefaults` publishes exactly two colour
  * recipes (the filled base and the container-less child); `Filled-Variant` and `Tonal` have no
@@ -425,6 +455,24 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   strings = ["style=outlined"],
   kitAxis = "Style",
   kitValue = "Outline",
+)
+@OverrideVariant(
+  name = "child-large",
+  strings = ["style=child", "size=large"],
+  kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-small",
+  strings = ["style=outlined", "size=small"],
+  kitProps = ["Style=Outline", "Size=Small", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-large",
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 annotation class RemoteTextButtonKitCells
 
@@ -545,6 +593,26 @@ fun TextRemoteButton() = RemoteSticker {
   kitAxis = "Size",
   kitValue = "Large",
 )
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=small"],
+  kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
 annotation class RemoteIconButtonKitCells
 
 // A round icon button (`RemoteIconButton`) carrying a single `RemoteIcon`. Inside the
@@ -567,30 +635,32 @@ fun IconRemoteButton() = RemoteSticker {
   // `tween(a, b, 0f)` is `a`, so the baked sticker keeps the stock icon-button colours.
   val (on, onClick) = toggledRemote()
   val stock = RemoteIconButtonDefaults.iconButtonColors()
-  // `null` at the default, NOT `DefaultButtonSize`. The base sticker has always let the library
-  // size itself, and pinning it to the token it would have picked anyway is a change to the baked
-  // capture for no gain — the cells are what need an explicit size.
+  // `DefaultButtonSize` at the default, and NOT an unpinned `RemoteModifier`. #125 left the base
+  // unpinned on the reasoning that the library would pick this token anyway; it does not. Unpinned
+  // it renders a 28dp glyph — the same one `SmallButtonSize` resolves to — so the `small` cell was
+  // byte-identical to the base and scored against the kit's `Size=Small` node while drawing the
+  // default. Pinning the token the kit's `Size=Default` cell means gives 32dp, and the three sizes
+  // are three pictures again.
   val size =
     when (previewOverrideChoice("size", "default", listOf("default", "small", "large"))) {
       "small" -> RemoteIconButtonDefaults.SmallButtonSize
       "large" -> RemoteIconButtonDefaults.LargeButtonSize
-      else -> null
+      else -> RemoteIconButtonDefaults.DefaultButtonSize
     }
   RemoteIconButton(
     onClick = onClick,
-    modifier = if (size == null) RemoteModifier else RemoteModifier.size(size),
+    enabled = previewOverrideBoolean("enabled", true).rb,
+    modifier = RemoteModifier.size(size),
     colors =
       RemoteIconButtonDefaults.iconButtonColors(
         containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on)
       ),
     content = {
-      if (size == null) RemoteIcon(addIcon, "Add".rs)
-      else
-        RemoteIcon(
-          addIcon,
-          "Add".rs,
-          modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
-        )
+      RemoteIcon(
+        addIcon,
+        "Add".rs,
+        modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
+      )
     },
   )
 }
@@ -950,7 +1020,15 @@ fun CircularProgressRemote() = RemoteSticker {
   // [CatalogRemoteDisplay] frame at all, and why the Wear sibling draws it `fillMaxSize` too. At
   // 72dp it was a small dial floating in the middle of a display-sized capture: a different
   // component from the one the row compares it against.
-  RemoteCircularProgressIndicator(progress = progress, modifier = RemoteModifier.fillMaxSize())
+  // The kit's `Disabled` axis. #125 declared the cell and never wired the knob, so the disabled
+  // render was byte-identical to this one and scored against the kit's `Disabled=Yes` node while
+  // drawing the enabled picture — a comparison that could not fail. The knob is read at
+  // composition, so an unseeded render is the base cell, unchanged.
+  RemoteCircularProgressIndicator(
+    progress = progress,
+    enabled = previewOverrideBoolean("enabled", true).rb,
+    modifier = RemoteModifier.fillMaxSize(),
+  )
 }
 
 // ---------------------------------------------------------------------------

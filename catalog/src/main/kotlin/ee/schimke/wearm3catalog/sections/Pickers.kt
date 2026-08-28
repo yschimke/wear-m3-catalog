@@ -67,6 +67,7 @@ private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
   name = "year-first-past-only",
   strings = ["order=year", "limit=past"],
   kitProps = ["Type=Date Picker (Year first)", "Limit=Past only", "Focus=One"],
+  secondary = true,
 )
 @Composable
 fun DateWheels() = FullScreenSticker {

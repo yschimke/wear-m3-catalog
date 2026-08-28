@@ -115,6 +115,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=2"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Three", "Level=Low", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "three-increments-low-disabled",
@@ -122,6 +123,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=2"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Three", "Level=Low", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "three-increments",
@@ -134,12 +136,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   booleans = ["enabled=false"],
   ints = ["steps=2"],
   kitProps = ["Increments=Three", "Level=Mid", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "three-increments-full",
   ints = ["steps=2"],
   floats = ["value=3.0"],
   kitProps = ["Increments=Three", "Level=Full", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "three-increments-full-disabled",
@@ -147,12 +151,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=2"],
   floats = ["value=3.0"],
   kitProps = ["Increments=Three", "Level=Full", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "four-increments-low",
   ints = ["steps=3"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Four", "Level=Low", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "four-increments-low-disabled",
@@ -160,6 +166,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=3"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Four", "Level=Low", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "four-increments",
@@ -172,12 +179,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   booleans = ["enabled=false"],
   ints = ["steps=3"],
   kitProps = ["Increments=Four", "Level=Mid", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "four-increments-full",
   ints = ["steps=3"],
   floats = ["value=4.0"],
   kitProps = ["Increments=Four", "Level=Full", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "four-increments-full-disabled",
@@ -185,6 +194,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=3"],
   floats = ["value=4.0"],
   kitProps = ["Increments=Four", "Level=Full", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "low",
@@ -197,6 +207,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   booleans = ["enabled=false"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Five", "Level=Low", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "disabled",
@@ -215,12 +226,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   booleans = ["enabled=false"],
   floats = ["value=5.0"],
   kitProps = ["Increments=Five", "Level=Full", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-increments-low",
   ints = ["steps=5"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Six", "Level=Low", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-increments-low-disabled",
@@ -228,6 +241,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=5"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Six", "Level=Low", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-increments",
@@ -240,12 +254,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   booleans = ["enabled=false"],
   ints = ["steps=5"],
   kitProps = ["Increments=Six", "Level=Mid", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-increments-full",
   ints = ["steps=5"],
   floats = ["value=6.0"],
   kitProps = ["Increments=Six", "Level=Full", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-increments-full-disabled",
@@ -253,12 +269,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=5"],
   floats = ["value=6.0"],
   kitProps = ["Increments=Six", "Level=Full", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "seven-increments-low",
   ints = ["steps=6"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Seven", "Level=Low", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "seven-increments-low-disabled",
@@ -266,6 +284,7 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=6"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Seven", "Level=Low", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "seven-increments",
@@ -278,12 +297,14 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   booleans = ["enabled=false"],
   ints = ["steps=6"],
   kitProps = ["Increments=Seven", "Level=Mid", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "seven-increments-full",
   ints = ["steps=6"],
   floats = ["value=7.0"],
   kitProps = ["Increments=Seven", "Level=Full", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "seven-increments-full-disabled",
@@ -291,18 +312,21 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   ints = ["steps=6"],
   floats = ["value=7.0"],
   kitProps = ["Increments=Seven", "Level=Full", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "continuous-low",
   booleans = ["segmented=false"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Percentage", "Level=Low", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "continuous-low-disabled",
   booleans = ["segmented=false", "enabled=false"],
   floats = ["value=1.0"],
   kitProps = ["Increments=Percentage", "Level=Low", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "continuous",
@@ -314,18 +338,21 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   name = "continuous-disabled",
   booleans = ["segmented=false", "enabled=false"],
   kitProps = ["Increments=Percentage", "Level=Mid", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "continuous-full",
   booleans = ["segmented=false"],
   floats = ["value=5.0"],
   kitProps = ["Increments=Percentage", "Level=Full", "Changed=No", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "continuous-full-disabled",
   booleans = ["segmented=false", "enabled=false"],
   floats = ["value=5.0"],
   kitProps = ["Increments=Percentage", "Level=Full", "Changed=No", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class SliderKitCells
 
@@ -426,12 +453,14 @@ fun ValueSlider() = Sticker {
   booleans = ["enabled=false"],
   strings = ["content=icon"],
   kitProps = ["Button Fill=Yes", "Icon=Yes", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "icon-no-button-fill",
   booleans = ["buttonFill=false"],
   strings = ["content=icon"],
   kitProps = ["Button Fill=No", "Icon=Yes", "Disabled=No"],
+  secondary = true,
 )
 annotation class StepperKitCells
 

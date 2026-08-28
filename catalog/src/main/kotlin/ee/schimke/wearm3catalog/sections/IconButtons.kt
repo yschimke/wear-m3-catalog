@@ -117,18 +117,21 @@ private fun kitGlyph(size: Dp = iconButtonSize()) =
   booleans = ["enabled=false"],
   strings = ["size=extra-small"],
   kitProps = ["Size=Extra-Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "small-disabled",
   booleans = ["enabled=false"],
   strings = ["size=small"],
   kitProps = ["Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "large-disabled",
   booleans = ["enabled=false"],
   strings = ["size=large"],
   kitProps = ["Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class IconButtonKitCells
 
@@ -160,12 +163,14 @@ annotation class IconButtonKitCells
   booleans = ["enabled=false"],
   strings = ["size=small"],
   kitProps = ["Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "large-disabled",
   booleans = ["enabled=false"],
   strings = ["size=large"],
   kitProps = ["Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class StandardIconButtonKitCells
 
@@ -313,6 +318,7 @@ fun StandardIconAction() = Sticker {
   booleans = ["enabled=false"],
   strings = ["size=small"],
   kitProps = ["Style=Filled", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "large",
@@ -325,6 +331,7 @@ fun StandardIconAction() = Sticker {
   booleans = ["enabled=false"],
   strings = ["size=large"],
   kitProps = ["Style=Filled", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant",
@@ -336,11 +343,13 @@ fun StandardIconAction() = Sticker {
   name = "filled-variant-small",
   strings = ["style=filled-variant", "size=small"],
   kitProps = ["Style=Filled-Variant", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "filled-variant-large",
   strings = ["style=filled-variant", "size=large"],
   kitProps = ["Style=Filled-Variant", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal",
@@ -352,11 +361,13 @@ fun StandardIconAction() = Sticker {
   name = "tonal-small",
   strings = ["style=tonal", "size=small"],
   kitProps = ["Style=Tonal", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "tonal-large",
   strings = ["style=tonal", "size=large"],
   kitProps = ["Style=Tonal", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined",
@@ -369,28 +380,33 @@ fun StandardIconAction() = Sticker {
   booleans = ["enabled=false"],
   strings = ["style=outlined"],
   kitProps = ["Style=Outline", "Size=Default", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-small",
   strings = ["style=outlined", "size=small"],
   kitProps = ["Style=Outline", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-small-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "size=small"],
   kitProps = ["Style=Outline", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-large",
   strings = ["style=outlined", "size=large"],
   kitProps = ["Style=Outline", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "outlined-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=outlined", "size=large"],
   kitProps = ["Style=Outline", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child",
@@ -403,28 +419,33 @@ fun StandardIconAction() = Sticker {
   booleans = ["enabled=false"],
   strings = ["style=child"],
   kitProps = ["Style=Child (No background)", "Size=Default", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-small",
   strings = ["style=child", "size=small"],
   kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-small-disabled",
   booleans = ["enabled=false"],
   strings = ["style=child", "size=small"],
   kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-large",
   strings = ["style=child", "size=large"],
   kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=No"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "child-large-disabled",
   booleans = ["enabled=false"],
   strings = ["style=child", "size=large"],
   kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=Yes"],
+  secondary = true,
 )
 annotation class TextButtonKitCells
 

@@ -175,11 +175,13 @@ fun LevelRail() = FullScreenSticker {
   name = "six-pages-middle",
   ints = ["pages=6", "initialPage=3"],
   kitProps = ["Number=6  - MiddleEnd", "Position=Horizontal-Bottom"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-pages-end",
   ints = ["pages=6", "initialPage=5"],
   kitProps = ["Number=6 - End", "Position=Horizontal-Bottom"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "many-pages",
@@ -190,11 +192,13 @@ fun LevelRail() = FullScreenSticker {
   name = "many-pages-middle",
   ints = ["pages=8", "initialPage=4"],
   kitProps = ["Number=7+  - MiddleEnd", "Position=Horizontal-Bottom"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "many-pages-end",
   ints = ["pages=8", "initialPage=7"],
   kitProps = ["Number=7+ - End", "Position=Horizontal-Bottom"],
+  secondary = true,
 )
 annotation class HorizontalPageKitCells
 
@@ -260,11 +264,13 @@ fun HorizontalPages() = FullScreenSticker {
   name = "six-pages-middle",
   ints = ["pages=6", "initialPage=3"],
   kitProps = ["Number=6  - MiddleEnd", "Position=Vertical-Right"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "six-pages-end",
   ints = ["pages=6", "initialPage=5"],
   kitProps = ["Number=6 - End", "Position=Vertical-Right"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "many-pages",
@@ -275,11 +281,13 @@ fun HorizontalPages() = FullScreenSticker {
   name = "many-pages-middle",
   ints = ["pages=8", "initialPage=4"],
   kitProps = ["Number=7+  - MiddleEnd", "Position=Vertical-Right"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "many-pages-end",
   ints = ["pages=8", "initialPage=7"],
   kitProps = ["Number=7+ - End", "Position=Vertical-Right"],
+  secondary = true,
 )
 annotation class VerticalPageKitCells
 
