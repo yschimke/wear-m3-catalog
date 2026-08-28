@@ -39,6 +39,7 @@ import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
 import ee.schimke.wearm3catalog.kitCopy
+import ee.schimke.wearm3catalog.kitRowWidth
 
 // The kit's `Button` page. One kit set per file section, and one catalog component per EMPHASIS —
 // the documented carve-out to "one kit set is one catalog component".
@@ -199,6 +200,7 @@ fun FilledButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
+    modifier = Modifier.kitRowWidth(),
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
@@ -224,6 +226,7 @@ fun FilledVariantButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
+    modifier = Modifier.kitRowWidth(),
     enabled = previewOverrideBoolean("enabled", true),
     colors = ButtonDefaults.filledVariantButtonColors(),
     icon = leadingIcon(),
@@ -250,6 +253,7 @@ fun TonalButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   FilledTonalButton(
     onClick = c.onClick,
+    modifier = Modifier.kitRowWidth(),
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
@@ -275,6 +279,7 @@ fun OutlineButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   OutlinedButton(
     onClick = c.onClick,
+    modifier = Modifier.kitRowWidth(),
     enabled = previewOverrideBoolean("enabled", true),
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
@@ -573,6 +578,7 @@ fun ImageBackgroundButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
+    modifier = Modifier.kitRowWidth(),
     containerPainter = ButtonDefaults.containerPainter(image = CatalogImage),
     enabled = previewOverrideBoolean("enabled", true),
     colors = ButtonDefaults.buttonWithContainerPainterColors(),
@@ -733,6 +739,7 @@ fun LoadingButton() = Sticker {
     }
   Button(
     onClick = {},
+    modifier = Modifier.kitRowWidth(),
     enabled = previewOverrideBoolean("enabled", true),
     colors = colors,
     // As on the compact button: the outline is a `border`, not a colour, and without it the

@@ -65,6 +65,28 @@ fun Sticker(content: @Composable () -> Unit) {
 }
 
 /**
+ * The width the kit draws a **row-shaped control** at: 172dp, the content column of the 192dp
+ * screen every sticker cell is measured against.
+ *
+ * Wear's `Button` applies no `fillMaxWidth` of its own — unlike `Card`, `Slider` and `Stepper`,
+ * which do — so a button handed no width hugs its label. `Button/Filled` published at 120dp against
+ * a 172dp kit cell, and that is not a 52dp edge to trim: design-parity rasterises the reference at
+ * the CANDIDATE's width, so a narrow candidate rescales the whole comparison. See #138.
+ *
+ * `fillMaxWidth()` is **not** the fix here, and the tempting reading — that a wrap sandbox leaves
+ * it nothing to fill — is wrong. The sandbox is bounded at 227dp and it resolves perfectly well: to
+ * 211dp, which is simply a different wrong answer. 172 is the kit's number, so state it.
+ *
+ * Reach for this on a control the kit draws across its content column. A component that is
+ * *supposed to* size to its content — an icon button, a compact button, a text specimen — must not
+ * take it: pinning those would publish a component wider than the thing it is.
+ */
+val KitRowWidth = 172.dp
+
+/** [KitRowWidth] as a modifier, for the common case of a control that only needs the width. */
+fun Modifier.kitRowWidth(): Modifier = width(KitRowWidth)
+
+/**
  * Frame for a **full-screen** component — one that positions itself against the round display
  * rather than wrapping its content. The Wear dark [MaterialTheme] fills the screen black and the
  * component lays itself out against it; [Sticker]'s wrap-and-crop would leave it nothing to hug.
