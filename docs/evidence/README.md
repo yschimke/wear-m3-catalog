@@ -33,6 +33,13 @@ to the small one. Unlike the Wear contact sheets, every frame in it is composite
 `#141418` for the reason the next paragraph gives: the `remote-m3` stickers rasterise onto
 transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
 
+`remote-m3-disabled-resolve-triptych.png` is the evidence for the disabled-text-button report: the
+same `enabled = false` state across the three button families that publish it, on one build and at
+one density, with the measured max alpha under each. `RemoteIconButton` resolves it exactly as
+specified (97 = 0.38), `RemoteButton` resolves the container and loses the label (31, and #91),
+`RemoteTextButton` resolves neither (0). Three siblings on one build is what makes the report a
+claim about the library rather than about this catalog.
+
 `remote-m3-crossing-cells.png` is the #116 phase-3 companion to the sheet above: the crossings the
 `secondary` tier made publishable, with each second-tier cell ringed amber so the picture shows
 which rows left the navigation, and the one PUBLISHED LIBRARY GAP ringed red — `Button/Text`'s
