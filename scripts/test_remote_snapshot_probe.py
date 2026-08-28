@@ -132,6 +132,29 @@ class CompareTest(unittest.TestCase):
                               "identicalToKnownBroken": False, "metrics": {}}])
         self.assertTrue(probe.compare(off, off)["report"])
 
+    def test_a_probe_watching_nothing_is_reported(self):
+        # The regression #116 caused and nothing caught: a probe whose preview was folded into a
+        # cell matched no render, printed "not rendered", and added no reason -- so #90 and #91
+        # watched nothing for weeks while the report still looked complete.
+        blind = report(probes=[{"issue": 91, "preview": "GoneAway", "summary": "s",
+                                "rendered": False, "identicalToKnownBroken": None, "metrics": {}}])
+        verdict = probe.compare(report(), blind)
+        self.assertTrue(verdict["report"])
+        self.assertTrue(any("watching nothing" in r for r in verdict["reasons"]))
+        self.assertTrue(any("#91" in r for r in verdict["reasons"]))
+
+    def test_a_failed_compile_does_not_also_claim_every_probe_went_blind(self):
+        # A build that did not compile rendered nothing by definition; the compile reason already
+        # says so, and four "watching nothing" lines under it would bury it.
+        verdict = probe.compare(
+            report(),
+            report(compiled=False, captures={},
+                   probes=[{"issue": 91, "preview": "P", "summary": "s", "rendered": False,
+                            "identicalToKnownBroken": None, "metrics": {}}]),
+        )
+        self.assertEqual(len(verdict["reasons"]), 1)
+        self.assertIn("no longer compiles", verdict["reasons"][0])
+
     def test_a_moved_capture_is_reported_with_its_name(self):
         verdict = probe.compare(report(), report(captures={"A": "sha-a", "B": "moved"}))
         self.assertTrue(verdict["report"])
@@ -212,6 +235,51 @@ class OverlayTest(unittest.TestCase):
         probe.apply_overlay(root, "1")
         with self.assertRaises(SystemExit):
             probe.apply_overlay(root, "2")
+
+
+class FindRenderTest(unittest.TestCase):
+    """Addressing a render by preview and cell, which is what #116's fold made necessary."""
+
+    def _renders(self, *names):
+        directory = Path(tempfile.mkdtemp())
+        for name in names:
+            (directory / name).write_bytes(b"")
+        return directory
+
+    def test_a_base_capture_is_not_matched_by_its_cells(self):
+        directory = self._renders(
+            "FilledRemoteButton_width_227dp-aaaaaaaa.png",
+            "FilledRemoteButton_width_227dp_VARIANT_disabled-bbbbbbbb.png",
+        )
+        found = probe.find_render(directory, "FilledRemoteButton")
+        self.assertEqual(found.name, "FilledRemoteButton_width_227dp-aaaaaaaa.png")
+
+    def test_a_cell_is_addressed_by_name(self):
+        directory = self._renders(
+            "FilledRemoteButton_width_227dp-aaaaaaaa.png",
+            "FilledRemoteButton_width_227dp_VARIANT_disabled-bbbbbbbb.png",
+            "FilledRemoteButton_width_227dp_VARIANT_icon-cccccccc.png",
+        )
+        found = probe.find_render(directory, "FilledRemoteButton", "disabled")
+        self.assertEqual(found.name, "FilledRemoteButton_width_227dp_VARIANT_disabled-bbbbbbbb.png")
+
+    def test_a_cell_prefix_does_not_match_a_longer_cell(self):
+        # `icon` must not match `icon_large`, or a probe silently reads the wrong picture.
+        directory = self._renders("FilledRemoteButton_w_VARIANT_icon_large-aaaaaaaa.png")
+        self.assertIsNone(probe.find_render(directory, "FilledRemoteButton", "icon"))
+
+    def test_a_missing_render_is_none_rather_than_a_crash(self):
+        self.assertIsNone(probe.find_render(self._renders(), "Nope"))
+
+
+class ProbeTableTest(unittest.TestCase):
+    def test_every_probe_names_a_baseline_that_exists(self):
+        # A baseline that is not in the repo makes `identicalToKnownBroken` None forever, which is
+        # the same silent blindness the fold caused from the other end.
+        root = Path(__file__).resolve().parent.parent
+        for entry in probe.PROBES:
+            with self.subTest(issue=entry["issue"]):
+                self.assertTrue((root / entry["baseline"]).exists(), entry["baseline"])
 
 
 if __name__ == "__main__":

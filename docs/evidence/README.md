@@ -33,6 +33,15 @@ to the small one. Unlike the Wear contact sheets, every frame in it is composite
 `#141418` for the reason the next paragraph gives: the `remote-m3` stickers rasterise onto
 transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
 
+`remote-m3-*-break.png` are the **known-broken baselines** `remote-snapshot-probe.py` compares each
+tracked issue's weekly capture against; byte-identical means "still broken" with certainty. Refresh
+one only when THIS repo moved the sticker and the symptom is verified unchanged — never to quiet a
+probe that has started reporting, because a capture that stopped matching is the single most
+interesting thing that job can say. `remote-m3-button-disabled-break.png` was refreshed when #116
+folded `Button/Disabled` into `Button/Filled`'s `disabled` cell, which put the base sticker's
+`buttonSizeModifier()` under it and changed the pill: the symptom is unchanged (max alpha 31, the
+container, and no label anywhere), only this catalog's framing of it.
+
 `remote-m3-disabled-resolve-triptych.png` is the evidence for the disabled-text-button report: the
 same `enabled = false` state across the three button families that publish it, on one build and at
 one density, with the measured max alpha under each. `RemoteIconButton` resolves it exactly as
