@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.remote
 
+import androidx.compose.ui.graphics.Color
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -21,67 +22,59 @@ import org.junit.Test
 class RemoteCatalogThemeTest {
 
   /**
-   * The published set, pinned by name and order.
+   * The published set, pinned by name and order — and it is the **sibling `:catalog`'s** set, which
+   * is the point of it (#99). Two catalogs of the same surface offering two different Theme selects
+   * cannot be compared theme by theme, which is the comparison this repo publishes.
    *
-   * These names are what a published document's colour overrides are addressed by, so this is a
-   * test about the sheet rather than about a constant: renaming one re-points live re-themes at
-   * state that is no longer there. The set was inherited from the `wear-m3` harness catalog in
-   * yschimke/compose-ai-tools and deliberately carried across the move unchanged; aligning it with
-   * the `:catalog` sibling's Confetti set is a separate decision, and a visible one.
+   * These names are also what a published document's colour overrides are addressed by, so renaming
+   * one re-points live re-themes at state that is no longer there. Change them here and in
+   * `CatalogThemes.kt` together, or not at all.
    */
   @Test
-  fun `the declared themes are the published set`() {
+  fun `the declared themes are the sibling catalog's set`() {
     assertThat(REMOTE_THEME_NAMES)
-      .containsExactly("M3", "Coral", "Teal", "Google Sans Flex", "KotlinConf")
+      .containsExactly(
+        "Confetti (default)",
+        "KotlinConf",
+        "AndroidMakers",
+        "Droidcon",
+        "DevFest",
+        "Google Sans Flex",
+      )
       .inOrder()
   }
 
   /**
-   * Every key addresses a `RemoteMaterialTheme` role under the `WearM3.` prefix the document names
-   * its state with. A typo here costs nothing at build time and everything at render time: the
-   * player skips an unknown name, so the sticker comes back stock rather than failing.
+   * The four conference seeds, pinned as literals.
+   *
+   * The two modules cannot share a constant — different dependency lines, which is why there are
+   * two modules at all — so the seeds are duplicated, and a duplicate that nothing pins is a
+   * duplicate that drifts. `CatalogInventoryTest` pins the sibling's four to these same literals
+   * (and holds them apart from each other); this pins this module's copy. A seed edited on one side
+   * alone fails the other side's build.
    */
   @Test
-  fun `every override key is a WearM3-prefixed role`() {
-    for (name in REMOTE_THEME_NAMES) {
-      for (key in remoteCatalogThemeColors(name).keys) {
-        assertThat(key).startsWith("WearM3.")
-        assertThat(key.removePrefix("WearM3.")).isNotEmpty()
-      }
-    }
+  fun `the conference seeds are the sibling's seeds`() {
+    assertThat(RemoteKotlinConfSeed).isEqualTo(Color(0xFF7F52FF))
+    assertThat(RemoteAndroidMakersSeed).isEqualTo(Color(0xFFE59A4F))
+    assertThat(RemoteDroidconSeed).isEqualTo(Color(0xFF00D775))
+    assertThat(RemoteDevFestSeed).isEqualTo(Color(0xFF4285F4))
   }
 
   /**
-   * M3 is the stock scheme, and Google Sans Flex is palette-identical to it on purpose so the pair
-   * isolates the typeface. Both must therefore override no colour at all — a stray entry would make
-   * the Google Sans Flex / M3 comparison a type *and* colour change.
+   * Every key addresses a real `RemoteColorScheme` role, spelled the way the document names its
+   * state. A typo costs nothing at build time and everything at render time: the player skips an
+   * unknown name, so the sticker comes back stock under a successful status rather than failing.
+   *
+   * The list is `RemoteColorScheme`'s own — the 29 `WearM3.<role>` string constants it writes, read
+   * off `remote-material3` 1.0.0-alpha10 — pinned here rather than reflected over, because what
+   * matters is that a role we seed is a role a *published* document already carries: a name the
+   * library adds later is not one an already-packed catalog emits.
    */
   @Test
-  fun `the baseline themes override no colour`() {
-    assertThat(remoteCatalogThemeColors("M3")).isEmpty()
-    assertThat(remoteCatalogThemeColors("Google Sans Flex")).isEmpty()
-  }
-
-  /**
-   * Coral and Teal are the single-role edits the sibling makes: primary + secondary, nothing else.
-   */
-  @Test
-  fun `the single-role palettes move only primary and secondary`() {
-    for (name in listOf("Coral", "Teal")) {
-      assertThat(remoteCatalogThemeColors(name).keys)
-        .containsExactly("WearM3.primary", "WearM3.secondary")
-    }
-  }
-
-  /**
-   * KotlinConf carries the fuller seed ramp — both families, containers and `on*` roles included.
-   */
-  @Test
-  fun `KotlinConf carries the full primary and secondary ramp`() {
-    val keys = remoteCatalogThemeColors("KotlinConf").keys
-
-    assertThat(keys)
-      .containsAtLeast(
+  fun `every override key is a role the document actually names`() {
+    val roles =
+      setOf(
         "WearM3.primary",
         "WearM3.primaryDim",
         "WearM3.primaryContainer",
@@ -92,28 +85,125 @@ class RemoteCatalogThemeTest {
         "WearM3.secondaryContainer",
         "WearM3.onSecondary",
         "WearM3.onSecondaryContainer",
+        "WearM3.tertiary",
+        "WearM3.tertiaryDim",
+        "WearM3.tertiaryContainer",
+        "WearM3.onTertiary",
+        "WearM3.onTertiaryContainer",
+        "WearM3.surfaceContainerLow",
+        "WearM3.surfaceContainer",
+        "WearM3.surfaceContainerHigh",
+        "WearM3.onSurface",
+        "WearM3.onSurfaceVariant",
+        "WearM3.outline",
+        "WearM3.outlineVariant",
+        "WearM3.background",
+        "WearM3.onBackground",
+        "WearM3.error",
+        "WearM3.errorDim",
+        "WearM3.errorContainer",
+        "WearM3.onError",
+        "WearM3.onErrorContainer",
       )
-  }
 
-  /**
-   * Coral and Teal must not move the face: a palette that also changed the type would make a
-   * side-by-side against M3 a type *and* colour comparison. KotlinConf is the deliberate exception
-   * — its identity is a palette *and* a type pairing, matching the Wear sibling.
-   */
-  @Test
-  fun `only the type-moving themes name their own body face`() {
-    assertThat(remoteCatalogFont("Google Sans Flex")).isEqualTo("Google Sans Flex")
-    assertThat(remoteCatalogFont("KotlinConf")).isEqualTo("Inter")
-    for (palette in listOf("M3", "Coral", "Teal")) {
-      assertThat(remoteCatalogFont(palette)).isEqualTo("Roboto Flex")
+    for (name in REMOTE_THEME_NAMES) {
+      assertThat(roles).containsAtLeastElementsIn(remoteCatalogThemeColors(name).keys)
     }
   }
 
-  /** Only KotlinConf pairs a second face; everything else draws one family throughout. */
+  /**
+   * Confetti's unseeded theme is the stock scheme, and Google Sans Flex is palette-identical to it
+   * on purpose so the pair isolates the typeface. Both must therefore override no colour at all — a
+   * stray entry would make that comparison a type *and* colour change.
+   */
   @Test
-  fun `only KotlinConf pairs a display face`() {
+  fun `the baseline themes override no colour`() {
+    assertThat(remoteCatalogThemeColors("Confetti (default)")).isEmpty()
+    assertThat(remoteCatalogThemeColors("Google Sans Flex")).isEmpty()
+  }
+
+  /**
+   * A seeded identity re-skins the whole scheme, not a role or two: the sibling maps every Wear
+   * role `materialkolor` resolves, and a Remote theme that moved only `primary` would show a
+   * conference palette on the kit column and a stock card on the Remote one.
+   */
+  @Test
+  fun `every conference identity carries the full mapped scheme`() {
+    for (name in listOf("KotlinConf", "AndroidMakers", "Droidcon", "DevFest")) {
+      val colors = remoteCatalogThemeColors(name)
+
+      assertThat(colors.keys)
+        .containsAtLeast(
+          "WearM3.primary",
+          "WearM3.primaryDim",
+          "WearM3.primaryContainer",
+          "WearM3.onPrimary",
+          "WearM3.onPrimaryContainer",
+          "WearM3.secondary",
+          "WearM3.secondaryDim",
+          "WearM3.secondaryContainer",
+          "WearM3.onSecondary",
+          "WearM3.onSecondaryContainer",
+          "WearM3.tertiary",
+          "WearM3.surfaceContainer",
+          "WearM3.onSurface",
+          "WearM3.background",
+          "WearM3.error",
+        )
+    }
+  }
+
+  /**
+   * The palettes are built from the seeds, so two identities cannot silently be the same palette
+   * under two names — the failure `CatalogInventoryTest` guards on the sibling, guarded here on the
+   * output rather than the input.
+   */
+  @Test
+  fun `no two conference identities resolve to the same palette`() {
+    val palettes =
+      listOf("KotlinConf", "AndroidMakers", "Droidcon", "DevFest").map {
+        remoteCatalogThemeColors(it)
+      }
+
+    assertThat(palettes.toSet()).hasSize(palettes.size)
+  }
+
+  /**
+   * A seeded identity actually moves `primary` *away* from stock. Cheap, and it is the one
+   * assertion that fails if `materialkolor` ever returns an unseeded scheme for a seed we passed —
+   * a theme select whose entries all render the same pixels, which no reviewer catches by eye.
+   */
+  @Test
+  fun `a seeded identity moves primary off the seed-free baseline`() {
+    val kotlinConf = remoteCatalogThemeColors("KotlinConf")["WearM3.primary"]
+    val droidcon = remoteCatalogThemeColors("Droidcon")["WearM3.primary"]
+
+    assertThat(kotlinConf).isNotNull()
+    assertThat(kotlinConf).isNotEqualTo(droidcon)
+  }
+
+  /**
+   * The faces are the sibling's type scales read back out: Confetti's ship pairing puts Inter on
+   * body and label under the themes that ship it, and the two Google Sans Flex entries draw one
+   * family throughout.
+   */
+  @Test
+  fun `the body faces are the sibling's`() {
+    for (name in listOf("Confetti (default)", "KotlinConf", "AndroidMakers", "Droidcon")) {
+      assertThat(remoteCatalogFont(name)).isEqualTo("Inter")
+    }
+    assertThat(remoteCatalogFont("DevFest")).isEqualTo("Google Sans Flex")
+    assertThat(remoteCatalogFont("Google Sans Flex")).isEqualTo("Google Sans Flex")
+  }
+
+  /** Only the single-family themes pair nothing; everything else pairs Confetti's display face. */
+  @Test
+  fun `only the single-family themes pair no display face`() {
     assertThat(remoteCatalogDisplayFont("KotlinConf")).isEqualTo("JetBrains Mono")
-    for (name in listOf("M3", "Coral", "Teal", "Google Sans Flex")) {
+    for (name in listOf("Confetti (default)", "AndroidMakers", "Droidcon")) {
+      assertThat(remoteCatalogDisplayFont(name)).isEqualTo("Roboto Flex")
+    }
+    for (name in listOf("DevFest", "Google Sans Flex")) {
       assertThat(remoteCatalogDisplayFont(name)).isNull()
     }
   }

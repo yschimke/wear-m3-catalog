@@ -89,9 +89,28 @@ dependencies {
 
   implementation(libs.activity.compose)
 
-  // `@WearThemeCatalog` — the two declared typeface themes in `RemoteThemeCatalogs.kt`, which
-  // populate the preview server's Theme select and re-point the document's default font family.
+  // `@WearThemeCatalog` — the declared themes in `RemoteThemeCatalogs.kt`, which populate the
+  // preview server's Theme select and re-point the document's default font family.
   implementation(libs.composeai.preview.annotations)
+
+  // materialkolor — the dynamic-colour engine the conference palettes are BUILT with rather than
+  // transcribed from (`AGENTS.md` → Themes). `:catalog` declares it for the same reason and for
+  // the same four seeds, which is what keeps the two Theme selects one set instead of two tables
+  // of hex that drift apart (#99).
+  //
+  // The one pair here that is not on the alpha Remote line, and deliberately contained: it is read
+  // for a `ColorScheme` of plain `Color`s, and nothing it returns reaches a RemoteDocument except
+  // as a named colour value (`WearM3.<role>`). No Compose BOM is involved — both are explicit
+  // versions, the same two `:catalog` resolves, which is the point: two modules running the same
+  // recipe. The prerelease Compose UI this module pins is higher than either asks for, so
+  // resolution is unchanged.
+  //
+  // `material3` is declared because materialkolor's `dynamicColorScheme` RETURNS
+  // `androidx.compose.material3.ColorScheme` and does not put it on a consumer's compile classpath
+  // — the same runtime-scope hazard the Remote trio above carries, and it fails the same way:
+  // "Cannot access class androidx.compose.material3.ColorScheme".
+  implementation(libs.materialkolor)
+  implementation(libs.compose.material3)
 
   // The sticker frame captures through the connector's `RemoteOverridablePreview` rather than raw
   // upstream `RemotePreview`, so the named-value stickers (`NamedLabelRemoteButton`,
