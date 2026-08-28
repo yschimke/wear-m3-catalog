@@ -32,6 +32,7 @@ import androidx.wear.compose.material3.PlaceholderState
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
+import androidx.wear.compose.material3.touchTargetAwareSize
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -188,6 +189,111 @@ fun ButtonPlaceholder() = Sticker {
   }
 }
 
+/**
+ * **Every cell of the kit's `Icon-Button-Placeholder` set** — four styles by four sizes, 16 nodes,
+ * against the four this drew ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)). The
+ * size axis is new here: the placeholder is the same shimmer over the same containers the real icon
+ * buttons publish four sizes of, so the kit draws sixteen and Compose reaches all sixteen.
+ *
+ * The kit spells one style two ways ON THIS SET: `Variant (Highlighted)` at three sizes and `Filled
+ * Variant` at extra-small. Cells state the spelling their own node carries, since a value the kit
+ * does not publish resolves to nothing rather than to something adjacent.
+ */
+@OverrideVariant(
+  name = "extra-small",
+  strings = ["size=extra-small"],
+  kitAxis = "Size",
+  kitValue = "Extra-Small",
+)
+@OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+@OverrideVariant(
+  name = "variant",
+  strings = ["style=variant"],
+  kitAxis = "Style",
+  kitValue = "Variant (Highlighted)",
+)
+@OverrideVariant(
+  name = "variant-extra-small",
+  strings = ["style=variant", "size=extra-small"],
+  kitProps = ["Style=Filled Variant", "Size=Extra-Small"],
+)
+@OverrideVariant(
+  name = "variant-small",
+  strings = ["style=variant", "size=small"],
+  kitProps = ["Style=Variant (Highlighted)", "Size=Small"],
+)
+@OverrideVariant(
+  name = "variant-large",
+  strings = ["style=variant", "size=large"],
+  kitProps = ["Style=Variant (Highlighted)", "Size=Large"],
+)
+@OverrideVariant(
+  name = "tonal",
+  strings = ["style=tonal"],
+  kitAxis = "Style",
+  kitValue = "Tonal",
+)
+@OverrideVariant(
+  name = "tonal-extra-small",
+  strings = ["style=tonal", "size=extra-small"],
+  kitProps = ["Style=Tonal", "Size=Extra-Small"],
+)
+@OverrideVariant(
+  name = "tonal-small",
+  strings = ["style=tonal", "size=small"],
+  kitProps = ["Style=Tonal", "Size=Small"],
+)
+@OverrideVariant(
+  name = "tonal-large",
+  strings = ["style=tonal", "size=large"],
+  kitProps = ["Style=Tonal", "Size=Large"],
+)
+@OverrideVariant(
+  name = "outlined",
+  strings = ["style=outlined"],
+  kitAxis = "Style",
+  kitValue = "Outline",
+)
+@OverrideVariant(
+  name = "outlined-extra-small",
+  strings = ["style=outlined", "size=extra-small"],
+  kitProps = ["Style=Outline", "Size=Extra-Small"],
+)
+@OverrideVariant(
+  name = "outlined-small",
+  strings = ["style=outlined", "size=small"],
+  kitProps = ["Style=Outline", "Size=Small"],
+)
+@OverrideVariant(
+  name = "outlined-large",
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Size=Large"],
+)
+annotation class IconButtonPlaceholderKitCells
+
+/** The kit's `Size=` values on the placeholder set, as the touch-target sizes each one names. */
+@Composable
+private fun placeholderIconButtonSize(): Dp =
+  when (
+    previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
+  ) {
+    "extra-small" -> IconButtonDefaults.ExtraSmallButtonSize
+    "small" -> IconButtonDefaults.SmallButtonSize
+    "large" -> IconButtonDefaults.LargeButtonSize
+    else -> IconButtonDefaults.DefaultButtonSize
+  }
+
 @CatalogComponent(
   id = "Placeholder/IconButton",
   reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44842",
@@ -196,25 +302,14 @@ fun ButtonPlaceholder() = Sticker {
   motionPreview = "PlaceholderIconButtonMotion",
 )
 @CatalogModes
-@OverrideVariant(
-  name = "variant",
-  strings = ["style=variant"],
-  kitAxis = "Style",
-  kitValue = "Variant (Highlighted)",
-)
-@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
-@OverrideVariant(
-  name = "outlined",
-  strings = ["style=outlined"],
-  kitAxis = "Style",
-  kitValue = "Outline",
-)
+@IconButtonPlaceholderKitCells
 @Composable
 fun IconButtonPlaceholder() = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
-  val modifier = Modifier.placeholderShimmer(state, CircleShape)
+  val size = placeholderIconButtonSize()
+  val modifier = Modifier.touchTargetAwareSize(size).placeholderShimmer(state, CircleShape)
   val icon: @Composable BoxScope.() -> Unit = {
-    PlaceholderIcon(state, IconButtonDefaults.DefaultIconSize)
+    PlaceholderIcon(state, IconButtonDefaults.iconSizeFor(size))
   }
   when (
     previewOverrideChoice("style", "filled", listOf("filled", "variant", "tonal", "outlined"))

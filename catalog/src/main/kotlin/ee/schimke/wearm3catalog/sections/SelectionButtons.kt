@@ -31,6 +31,12 @@ import ee.schimke.wearm3catalog.toggleable
 // publish.
 //
 // These own their state: a selection control that cannot be selected is not the component.
+//
+// TWO LINES, because every cell of the kit's set has two. The stickers drew the primary label
+// alone, so the comparison reported the missing `Secondary` line as a difference in all 24 cells —
+// and a selection row is a visibly shorter shape with one line than with two, so it was not only
+// the words. `KitCopy.SECONDARY` was already transcribed for this set and unused, which is the
+// tell.
 
 /**
  * **Every cell the kit publishes for one selection `Type`** — `Selected` by `Split (2 tap targets)`
@@ -106,6 +112,7 @@ fun CheckboxRow() = Sticker {
       onContainerClick = {},
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
+      secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
     )
   } else {
     CheckboxButton(
@@ -113,6 +120,7 @@ fun CheckboxRow() = Sticker {
       onCheckedChange = onCheckedChange,
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
+      secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
     )
   }
 }
@@ -139,6 +147,7 @@ fun SwitchRow() = Sticker {
       onContainerClick = {},
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
+      secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
     )
   } else {
     SwitchButton(
@@ -146,6 +155,7 @@ fun SwitchRow() = Sticker {
       onCheckedChange = onCheckedChange,
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
+      secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
     )
   }
 }
@@ -170,6 +180,7 @@ fun RadioRow() = Sticker {
       onContainerClick = {},
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
+      secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
     )
   } else {
     RadioButton(
@@ -177,6 +188,7 @@ fun RadioRow() = Sticker {
       onSelect = { onSelectedChange(true) },
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
+      secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
     )
   }
 }
