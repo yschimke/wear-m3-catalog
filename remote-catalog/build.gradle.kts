@@ -93,6 +93,22 @@ dependencies {
   // preview server's Theme select and re-point the document's default font family.
   implementation(libs.composeai.preview.annotations)
 
+  // `previewOverride*` — the knobs an `@OverrideVariant` cell turns. This sheet published every
+  // size and style as its own top-level component until the fold (#116); a cell seeds these
+  // overrides and re-renders the SAME sticker with them, which is the only mechanism that makes a
+  // cell a cell rather than a second function.
+  //
+  // It is NOT the same thing as the connector's `rememberOverridableRemote*` next door, and both
+  // are wanted. Those bind a value into the recorded document as a named value, so the player
+  // reseeds it live without re-recording; these are read at RECORD time and decide what gets
+  // recorded at all — which colours, which slots, which size. A cell that changed the container
+  // has to be a record-time choice, because the document does not carry the alternative.
+  //
+  // On the alpha line and deliberately contained: it resolves a Compose-runtime read of a preview
+  // parameter map and nothing it returns reaches a RemoteDocument except as an ordinary Kotlin
+  // value the sticker code branches on. No Compose BOM is involved.
+  implementation(libs.composeai.preview.overrides)
+
   // materialkolor — the dynamic-colour engine the conference palettes are BUILT with rather than
   // transcribed from (`AGENTS.md` → Themes). `:catalog` declares it for the same reason and for
   // the same four seeds, which is what keeps the two Theme selects one set instead of two tables

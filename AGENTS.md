@@ -45,15 +45,30 @@ cover-sheet fields only.
 inventory in `catalog.spec.json` as a `groups` array and has been migrated onto annotations, so
 neither spec carries an inventory any more. Both specs are cover-sheet only.
 
-**Kit references on the Remote sheet are deliberately partial.** Eleven of its components name the
-same kit node as the `:catalog` component they share an id with — the same component, drawn twice.
-The rest carry `noReference` with a stated reason, and most of those reasons are the same one: the
-component *varies* a kit cell (`Button/Disabled` varies `Button/Filled`, `Button/Text-Small` varies
-`TextButton`) and the specific variant cell has not been mapped against its export yet. Do not
-"fix" those by copying the base component's node — that scores a disabled or small sticker against
-the kit's default cell and reports a divergence that is an artefact of the mapping. Map the variant
-(the kit sets carry them: `Button` has 50 cells, `Icon-Button` 40) and check the exported image
-first, exactly as the rules above require.
+**The two sheets have ONE taxonomy, and it is the kit's.** The Remote sheet used to have its own:
+every size, style and slot as a separate top-level component, 51 of them and not one
+`@OverrideVariant`, against `:catalog`'s 49-with-cells
+([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)). The compare page reads the two
+columns component by component through `parallel`, so that was two different answers to the same
+question. It is folded now: an axis that is an **argument** to a function is a cell on both sheets,
+under the **same cell name**, because the columns pair cell by cell as well as card by card.
+
+Where the two sheets legitimately differ is which axes have a function behind them, and the
+call-site test decides it exactly as it does on the Wear side. `Style=` on `Text-Button` folds on
+both, because each library ships one text button taking its emphasis as colours. `Style=` on
+`Button` and `Icon-Button` stays split on both — `remote-material3` publishes one `RemoteButton`
+and one `RemoteIconButton`, so it would fold by the letter of the rule, but those cards pair with
+`Button/Tonal`, `IconButton/Filled` and `IconButton/Outlined`, which are separate Wear Compose
+functions and therefore separate cards. Folding them would leave those facing nothing.
+
+**A cell must resolve to a kit node; a component may say why it does not.** That is what decides
+the shape of anything left over. A cell's kit vector is matched against the set, and a cell that
+resolves to nothing is compared against nothing with no diagnostic anywhere — so a render the kit
+publishes no cell for stays a top-level component carrying `noReference`, however variant-shaped it
+looks (`Button/CustomShape`, `Progress/Circular-Indeterminate`, `TitleCard/Subtitle`). And where
+the kit's axes are coupled — `Icon`, `Icon size` and `Alignment` on `Button` are one choice spelled
+three ways — a cell declares its WHOLE vector through `kitProps`, because naming one value asks for
+a node between the ones the kit drew.
 
 If you find yourself writing a lot of mapping config to express something, that is a signal the
 upstream libraries are missing an annotation — **raise it in
