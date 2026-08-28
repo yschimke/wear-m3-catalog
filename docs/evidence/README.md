@@ -34,9 +34,12 @@ to the small one. Unlike the Wear contact sheets, every frame in it is composite
 transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
 
 `remote-m3-crossing-cells.png` is the #116 phase-3 companion to the sheet above: the crossings the
-`secondary` tier made publishable, with each second-tier cell ringed and labelled so the picture
-shows which rows left the navigation. It is also the before/after for two fixes that pass no other
-review — `Progress/Circular`'s disabled ring, which was byte-identical to its base until the knob
+`secondary` tier made publishable, with each second-tier cell ringed amber so the picture shows
+which rows left the navigation, and the one PUBLISHED LIBRARY GAP ringed red — `Button/Text`'s
+`disabled` cell, which bakes fully transparent because `RemoteTextButton(enabled = false)` draws
+nothing on the alpha line. That empty frame is the point of the file: it is what a reader meets on
+the sheet, and `StickerBakeCoverageTest` fails the day it stops being empty. It is also the
+before/after for two fixes that pass no other review — `Progress/Circular`'s disabled ring, which was byte-identical to its base until the knob
 was wired, and `Button/Icon`'s three sizes, which had collapsed to two.
 
 `remote-m3-text-body-*.png` are the one set here composited onto the catalog's own stage rather
