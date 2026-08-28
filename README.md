@@ -242,9 +242,13 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |
 | [`no-agent-attribution.yml`](.github/workflows/no-agent-attribution.yml) | blocks agent `Co-authored-by:` trailers and agent commit identities from reaching `main` |
 
-design-parity now runs on **every push to `main`** and weekly: the `FIGMA_TOKEN` secret is set and
-`design-map.json` is committed, so the two prerequisites this section used to describe as missing
-are both met.
+design-parity runs **hourly** and weekly — the `FIGMA_TOKEN` secret is set and `design-map.json` is
+committed, so the two prerequisites this section used to describe as missing are both met. It is
+deliberately not per-push: a run takes ~35-45 min and merges land every few minutes, so the
+per-push trigger could never drain, and the concurrency lane resolved that by cancelling queued
+runs before they started. Hourly is the cadence the lane can actually serve, and the cache check
+makes a quiet hour a ~40s no-op. See the comment at the top of
+[`design-parity.yml`](.github/workflows/design-parity.yml).
 
 Dependencies update themselves via Renovate ([`renovate.json`](.github/renovate.json)).
 

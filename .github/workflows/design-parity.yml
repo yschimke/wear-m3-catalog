@@ -26,19 +26,43 @@ name: Design parity
 # The remaining prerequisite is a `FIGMA_TOKEN` repository secret — a read-only PAT with
 # `file_content:read`. That one makes the run skip with a notice rather than fail while absent.
 
+# Scheduled, NOT per-push — and that is a throughput fact, not a preference.
+#
+# A parity run is one writer publishing a whole board, and it takes ~35-45 min end to end. Merges
+# to `main` land every few minutes. Per-push, arrivals therefore outran service permanently, and
+# the concurrency lane below could only resolve that by dropping work: GitHub keeps exactly ONE
+# pending run per group and cancels any other, so on 2026-08-28 six of fifteen runs
+# (#56, #57, #58, #60, #61, #64) were cancelled having never scheduled a single job, and the run
+# that did survive started ~40 min after its commit landed. A board that skips most commits and
+# publishes the rest three merges late is not a per-commit signal — it only looks like one.
+#
+# Hourly is what the lane can actually drain: one arrival per hour against a ~45 min service time
+# leaves the queue empty between runs, so every scheduled run executes and none is evicted. The
+# board tracks `main`'s tip within the hour instead of claiming a per-commit attribution it could
+# never honour. Quiet hours are close to free — the `cache-paths` check below skips the whole run
+# in ~40s when nothing that feeds the comparison has moved.
+#
+# Do not re-add a `push:` trigger. It cannot keep up while a run outlasts the merge interval, and
+# re-adding it restores the eviction rather than the freshness it appears to buy. If per-commit
+# parity is genuinely wanted, the run has to get under the merge interval first.
+#
+# Minute :17 rather than :00 deliberately — GitHub's scheduler is heavily oversubscribed at the top
+# of the hour, and it keeps the hourly cron from ever colliding with the weekly one below, which
+# `force-refresh` distinguishes by its exact expression.
 on:
-  push:
-    branches: [main]
   schedule:
+    # Hourly — the working cadence. Cache-gated, so it is a no-op when the catalog is quiet.
+    - cron: "17 * * * *"
     # Weekly, early Monday UTC — the kit moves on its own schedule and a drift nobody pushed for
-    # should still surface within the week.
+    # should still surface within the week. This is the one that forces a reference refresh.
     - cron: "0 5 * * 1"
   workflow_dispatch:
     inputs:
       design_parity_ref:
         description: >
           Test an UNRELEASED design-parity: a git ref of yschimke/design-parity to build and run
-          instead of the published CLI. Empty runs the release, which is what every push does.
+          instead of the published CLI. Empty runs the release, which is what every scheduled run
+          does.
         type: string
         required: false
         default: ""
@@ -47,25 +71,20 @@ permissions: {}
 
 # ONE run at a time, and every one of them finishes.
 #
-# The group stays global on purpose: the job appends the regenerated board to
-# `design-parity/main`, so two runs publishing at once would race on the same
-# branch. Serialising them is right.
+# The group stays global on purpose: the jobs append their regenerated boards to
+# `design-parity/main` and `design-parity/remote-m3`, so two runs publishing at
+# once would race on the same branches. Serialising them is right, and
+# `cancel-in-progress: false` is what keeps a run that has already paid for its
+# render from being thrown away — the same shape `design-artifacts.yml` uses,
+# for the same reason.
 #
-# `cancel-in-progress` was how that serialisation was enforced, and it was the
-# wrong lever. A parity run takes ~20 min and merges to main land every few
-# minutes, so each run was killed by the next push before it could publish:
-# across the first 26 runs of this workflow, **13 were cancelled, 12 failed and
-# none succeeded**, and the published report sat at the last run that happened
-# to get a quiet window — several merges stale, while `design-parity/main` read
-# as if it were current. A report nobody can trust to be fresh is worse than a
-# slow one.
-#
-# Queuing gives the same one-writer guarantee without throwing the work away.
-# GitHub keeps only the newest *pending* run per group, so the backlog never
-# grows past one waiting run: the in-flight render completes and publishes, and
-# the newest commit is what runs next. That is exactly the shape
-# `design-artifacts.yml` already uses for the same reason (it publishes to a
-# delivery branch too), so the two heavy publishing workflows now behave alike.
+# What this lane is NOT is a way to absorb a faster arrival rate than it can
+# serve. GitHub keeps only the newest *pending* run per group and cancels the
+# rest, so queueing does not buffer a backlog — it silently discards one. That
+# is what the per-push trigger produced, and the trigger is where it was fixed
+# (see the comment above `on:`). With an hourly schedule the queue is empty
+# between runs, so this group now only ever does its real job: keeping two
+# publishers off the same branch, on the rare occasion a run overruns the hour.
 concurrency:
   group: design-parity-artifacts
   cancel-in-progress: false
@@ -84,7 +103,7 @@ jobs:
       # the version catalog the renderer is pinned from, and the build files that assemble them.
       cache-paths: catalog gradle build.gradle.kts settings.gradle.kts
 
-      force-refresh: ${{ github.event_name == 'schedule' }}
+      force-refresh: ${{ github.event.schedule == '0 5 * * 1' }}
       design-parity-ref: ${{ inputs.design_parity_ref || '' }}
 
       # The daily import workflow owns all Figma traffic and commits a versioned, carry-forward
@@ -120,7 +139,7 @@ jobs:
       # which is the same rule `:catalog` follows for a Wear Compose gap.
       cache-paths: remote-catalog gradle build.gradle.kts settings.gradle.kts
 
-      force-refresh: ${{ github.event_name == 'schedule' }}
+      force-refresh: ${{ github.event.schedule == '0 5 * * 1' }}
       design-parity-ref: ${{ inputs.design_parity_ref || '' }}
       reference-cache-branch: design-parity/reference
 
