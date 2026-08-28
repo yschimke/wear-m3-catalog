@@ -11,3 +11,10 @@ local.properties
 
 # Python bytecode from running scripts/test_remote_snapshot_probe.py locally.
 __pycache__/
+
+# The local design-parity working directory: the materialised reference cache
+# (`git archive design-parity/reference` — ~84 MB of kit PNGs) and the per-run
+# report.html output. Both are reproducible from the delivery branches, and the
+# cache is large enough that one `git add -A` after a local parity run would put
+# it in the history for good. See docs/PARITY_LOCAL.md.
+.design-parity/

@@ -32,7 +32,9 @@ Three rules follow, and they are the ones easiest to break by accident:
   else, so the two modules cannot each commit one. `scripts/design-map.sh [<module-dir>]` projects
   the named module into that one path; each parity job regenerates it for its own module in its own
   workspace. The committed map is `:catalog`'s. If you project the Remote one locally, restore it
-  (`git checkout -- design-map.json`) before committing.
+  (`git checkout -- design-map.json`) before committing. Which you will, if you run a parity check
+  locally — the recipe, and the three other things that waste an hour, are in
+  [docs/PARITY_LOCAL.md](docs/PARITY_LOCAL.md).
 
 ## Annotation-first is the rule, not a preference
 
