@@ -569,9 +569,10 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `WidgetContainerGradientRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerGradientRemote-48a21be7.png" width="150" /> |
 | `WidgetContainerLargeRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerLargeRemote-64343fde.png" width="150" /> |
 | `WidgetContainerSmallRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerSmallRemote-8c4118e7.png" width="150" /> |
-| `Coral theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__Coral.png" width="150" /> |
+| `AndroidMakers theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__AndroidMakers.png" width="150" /> |
+| `Confetti (default) theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__Confetti__default_.png" width="150" /> |
+| `DevFest theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__DevFest.png" width="150" /> |
+| `Droidcon theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__Droidcon.png" width="150" /> |
 | `Google Sans Flex theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__Google_Sans_Flex.png" width="150" /> |
 | `KotlinConf theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__KotlinConf.png" width="150" /> |
-| `M3 theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__M3.png" width="150" /> |
-| `Teal theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__Teal.png" width="150" /> |
 
