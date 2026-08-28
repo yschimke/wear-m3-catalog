@@ -49,6 +49,14 @@ import ee.schimke.wearm3catalog.kitCopy
  * both the content and the actions it reveals, and the arrangement the kit draws. The rest were
  * pinned out of reach: `Covered` is the card before the swipe and `RightRevealed` is after it, and
  * neither is discoverable from a still.
+ *
+ * **That is also why each set stops at two of its four cells**
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)). The kit's other two — `Full
+ * swipe (icon only)` and `Full swipe (icon + text)` — are two frames of the expansion that
+ * `RightRevealed` ends at, and a cell seeded with that value renders an EMPTY FRAME here: at rest
+ * in the revealed position the content has travelled off the screen and the expanded action has not
+ * been laid out, so there is nothing in the capture. `Motion.kt` has the recording, which is where
+ * a gesture's own frames belong.
  */
 @Composable
 private fun revealState(): RevealState {
