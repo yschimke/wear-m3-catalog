@@ -253,9 +253,11 @@ fun OutlinedRemoteButton() = RemoteSticker {
   group = "Buttons",
   parallel = "Button/Filled",
   noReference =
-    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
+    "The kit's `Button` set has no shape axis: its five styles are crossed with `Icon`, " +
+      "`Icon size`, `Alignment` and `Disabled` and nothing else, so every one of its fifty cells " +
+      "is the stock pill. A corner override is a Remote Compose capability the kit does not " +
+      "publish a picture of, and mapping it onto the pill cell would report the rounded corners " +
+      "as a divergence on every render.",
   caption = "Filled button with a RemoteRoundedCornerShape override.",
 )
 @CatalogRemoteModes
@@ -284,9 +286,10 @@ fun CustomShapeRemoteButton() = RemoteSticker {
   group = "Buttons",
   parallel = "Button/Filled",
   noReference =
-    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
+    "Not a variant cell at all: what this sticker varies is where the label comes from, not what " +
+      "the button looks like. Its default render is `Button/Filled`'s picture, and that row " +
+      "already names the kit cell — a second component pointing at the same node would score one " +
+      "picture twice and say nothing about the binding, which is the only thing this row is for.",
   caption =
     "Filled button whose label is bound to a Remote Compose named value — the connector flips " +
       "it live (the default render shows the kit's own label).",
@@ -312,10 +315,8 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   id = "Button/Text",
   group = "Buttons",
   parallel = "TextButton",
-  noReference =
-    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
   caption = "Low-emphasis round text button (RemoteTextButton).",
 )
 @CatalogRemoteModes
@@ -354,10 +355,8 @@ fun TextRemoteButton() = RemoteSticker {
   id = "Button/Icon",
   group = "Buttons",
   parallel = "IconButton/Standard",
-  noReference =
-    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
-      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
-      "base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103015",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
   caption = "Round icon button (RemoteIconButton) carrying a single RemoteIcon.",
 )
 @CatalogRemoteModes

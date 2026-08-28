@@ -41,7 +41,7 @@ class InteractiveActionCaptureTest {
       "NamedLabelRemoteButton" to KitCopy.PRIMARY_LABEL,
       "TonalRemoteButton" to KitCopy.PRIMARY_LABEL,
       "IconLabelRemoteButton" to KitCopy.PRIMARY_LABEL,
-      "IconLabelSecondaryRemoteButton" to KitCopy.PRIMARY_LABEL,
+      "IconLabelLargeRemoteButton" to KitCopy.PRIMARY_LABEL,
       "CompactRemoteButton" to KitCopy.PRIMARY_LABEL,
       "CompactTextOnlyRemoteButton" to KitCopy.PRIMARY_LABEL,
       // Cards quote the kit's card slots.

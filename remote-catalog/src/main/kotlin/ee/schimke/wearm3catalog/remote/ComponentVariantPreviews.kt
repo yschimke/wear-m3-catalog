@@ -78,15 +78,20 @@ fun TonalRemoteButton() = RemoteSticker {
   )
 }
 
+// The kit's `Icon size=26 (Default)` cell. Every `Icon=Yes` cell in the `Button` set draws TWO
+// lines — `Primary label` over `Secondary label` — because the icon and the second line are the
+// same arrangement in the kit: a leading icon is what gives the row the height to carry a second
+// line. This drew the icon and the primary label alone, which is a picture the set does not
+// publish, so the cell it now names reported a missing line on every render.
+// `KitCopy.SECONDARY_LABEL`
+// was already transcribed; it just was not being drawn here.
 @CatalogComponent(
   id = "Button/IconLabel",
   group = "Buttons",
   parallel = "Button/Filled",
-  noReference =
-    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
-  caption = "Opinionated RemoteButton overload with its recommended icon and label slots.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93167",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption = "RemoteButton's icon + two-label overload at the kit's default 26dp icon size.",
 )
 @CatalogRemoteLarge
 @Composable
@@ -101,23 +106,25 @@ fun IconLabelRemoteButton() = RemoteSticker {
         modifier = RemoteModifier.size(RemoteButtonDefaults.IconSize),
       )
     },
+    secondaryLabel = { RemoteText(KitCopy.SECONDARY_LABEL.rs) },
     label = { RemoteText(label) },
   )
 }
 
+// Renamed from `Button/IconLabelSecondary`: now that `Button/IconLabel` draws the second line its
+// own cell publishes, the secondary label is no longer what tells these two apart — the icon is,
+// at the kit's `Lrg 32` against its `26 (Default)`.
 @CatalogComponent(
-  id = "Button/IconLabelSecondary",
+  id = "Button/IconLabel-Large",
   group = "Buttons",
   parallel = "Button/Filled",
-  noReference =
-    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
-  caption = "Two-line RemoteButton with a large icon, primary label and secondary label.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/48689:57031",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption = "The same two-line button at the kit's large 32dp icon size.",
 )
 @CatalogRemoteLarge
 @Composable
-fun IconLabelSecondaryRemoteButton() = RemoteSticker {
+fun IconLabelLargeRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   RemoteButton(
     onClick = onClick,
@@ -137,10 +144,8 @@ fun IconLabelSecondaryRemoteButton() = RemoteSticker {
   id = "Button/Disabled",
   group = "Buttons",
   parallel = "Button/Filled",
-  noReference =
-    "Varies `Button/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93098",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
   caption = "Filled button with the library's disabled container and content colours.",
 )
 @CatalogRemoteModes
@@ -162,10 +167,8 @@ fun DisabledRemoteButton() = RemoteSticker {
   id = "Button/Compact-TextOnly",
   group = "Buttons",
   parallel = "Button/Compact",
-  noReference =
-    "Varies `Button/Compact`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87972",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
   caption = "Compact button with a label and no icon — the kit's Icon=No cell.",
 )
 @CatalogRemoteModes
@@ -179,10 +182,8 @@ fun CompactTextOnlyRemoteButton() = RemoteSticker {
   id = "Button/Compact-IconOnly",
   group = "Buttons",
   parallel = "Button/Compact",
-  noReference =
-    "Varies `Button/Compact`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87979",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
   caption = "Icon-only compact button using its dedicated 52dp visible width.",
 )
 @CatalogRemoteModes
@@ -212,10 +213,8 @@ fun CompactIconOnlyRemoteButton() = RemoteSticker {
   id = "Button/Icon-ExtraSmall",
   group = "Buttons",
   parallel = "IconButton/Standard",
-  noReference =
-    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
-      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
-      "base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103021",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
   caption = "Extra-small RemoteIconButton at the defined 32dp size.",
 )
 @CatalogRemoteModes
@@ -228,10 +227,8 @@ fun ExtraSmallRemoteIconButton() = RemoteSticker {
   id = "Button/Icon-Small",
   group = "Buttons",
   parallel = "IconButton/Standard",
-  noReference =
-    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
-      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
-      "base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103018",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
   caption = "Small RemoteIconButton at the defined 48dp size.",
 )
 @CatalogRemoteModes
@@ -244,10 +241,8 @@ fun SmallRemoteIconButton() = RemoteSticker {
   id = "Button/Icon-Large",
   group = "Buttons",
   parallel = "IconButton/Standard",
-  noReference =
-    "Varies `IconButton/Standard`, whose kit set the Wear sibling maps; the specific variant " +
-      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
-      "base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103012",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
   caption = "Large RemoteIconButton at the defined 60dp size.",
 )
 @CatalogRemoteModes
@@ -294,10 +289,8 @@ private fun SizedIconButton(size: androidx.compose.remote.creation.compose.state
   id = "Button/Icon-Filled",
   group = "Buttons",
   parallel = "IconButton/Filled",
-  noReference =
-    "Varies `IconButton/Filled`, whose kit set the Wear sibling maps; the specific variant cell " +
-      "this sticker draws has not been mapped against its export yet, and a mapping onto the base " +
-      "cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
   caption = "RemoteIconButton with a filled primary container.",
 )
 @CatalogRemoteModes
@@ -329,10 +322,8 @@ fun FilledRemoteIconButton() = RemoteSticker {
   id = "Button/Icon-Outlined",
   group = "Buttons",
   parallel = "IconButton/Outlined",
-  noReference =
-    "Varies `IconButton/Outlined`, whose kit set the Wear sibling maps; the specific variant " +
-      "cell this sticker draws has not been mapped against its export yet, and a mapping onto the " +
-      "base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103002",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
   caption = "RemoteIconButton with an explicit outline treatment.",
 )
 @CatalogRemoteModes
@@ -360,10 +351,8 @@ fun OutlinedRemoteIconButton() = RemoteSticker {
   id = "Button/Text-Small",
   group = "Buttons",
   parallel = "TextButton",
-  noReference =
-    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103084",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
   caption = "Small RemoteTextButton at the defined 48dp size.",
 )
 @CatalogRemoteModes
@@ -380,10 +369,8 @@ fun SmallRemoteTextButton() = RemoteSticker {
   id = "Button/Text-Large",
   group = "Buttons",
   parallel = "TextButton",
-  noReference =
-    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103087",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
   caption = "Large RemoteTextButton at the defined 60dp size and labelLarge typography.",
 )
 @CatalogRemoteModes
@@ -437,10 +424,8 @@ private fun SizedTextButton(
   id = "Button/Text-Child",
   group = "Buttons",
   parallel = "TextButton",
-  noReference =
-    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103107",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
   caption = "Round text button with no container — the kit's child style.",
 )
 @CatalogRemoteModes
@@ -466,10 +451,8 @@ fun ChildRemoteTextButton() = RemoteSticker {
   id = "Button/Text-Outlined",
   group = "Buttons",
   parallel = "TextButton",
-  noReference =
-    "Varies `TextButton`, whose kit set the Wear sibling maps; the specific variant cell this " +
-      "sticker draws has not been mapped against its export yet, and a mapping onto the base cell " +
-      "would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103098",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
   caption = "Round text button with an explicit outline treatment.",
 )
 @CatalogRemoteModes
