@@ -6643,7 +6643,7 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 40,
+                  "x": 80,
                   "y": 40,
                   "width": 129,
                   "height": 33
@@ -6800,10 +6800,10 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Label text\": offset (16, -5), size Δ(34, 2) vs candidate",
+            "message": "layout \"Label text\": offset (-1, -5), size Δ(34, 2) vs candidate",
             "detail": {
               "label": "Label text",
-              "dx": "16",
+              "dx": "-1",
               "dy": "-5",
               "dw": "34",
               "dh": "2"
@@ -6822,7 +6822,7 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 40,
+                  "x": 80,
                   "y": 40,
                   "width": 129,
                   "height": 33
@@ -6936,34 +6936,529 @@
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×278 vs candidate 392×349; compared over their 392×278 overlap, 20.3% of the frame uncovered",
+            "message": "default: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
             "detail": {
               "key": "default",
               "dw": "0",
-              "dh": "-71",
-              "borderPixels": "27832",
-              "contentPixels": "25290"
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "101723"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 12.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.120458",
-              "alphaLossPixels": "13127",
-              "alphaComparedPixels": "108976"
+              "alphaLossRatio": "0.019023",
+              "alphaLossPixels": "2513",
+              "alphaComparedPixels": "132104"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 38.8% of pixels differ from reference",
+            "message": "default: 77.8% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.388296",
-              "diffPixels": "53122"
+              "score": "0.77793",
+              "diffPixels": "106427"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "content-image",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "92907"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "content-image: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "content-image",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "content-image: 74.5% of pixels differ from reference",
+            "detail": {
+              "key": "content-image",
+              "score": "0.74483",
+              "diffPixels": "98395"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "gallery-1",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "88532"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "gallery-1: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "gallery-1",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "gallery-1: 71.2% of pixels differ from reference",
+            "detail": {
+              "key": "gallery-1",
+              "score": "0.711712",
+              "diffPixels": "94020"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "gallery-2",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "89055"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "gallery-2: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "gallery-2",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "gallery-2: 71.6% of pixels differ from reference",
+            "detail": {
+              "key": "gallery-2",
+              "score": "0.715671",
+              "diffPixels": "94543"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
+            "detail": {
+              "key": "icon",
+              "dw": "0",
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "101626"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon",
+              "alphaLossRatio": "0.019023",
+              "alphaLossPixels": "2513",
+              "alphaComparedPixels": "132104"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 77.7% of pixels differ from reference",
+            "detail": {
+              "key": "icon",
+              "score": "0.777221",
+              "diffPixels": "106330"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "icon-content-image",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "92810"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-content-image: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-content-image",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-content-image: 74.4% of pixels differ from reference",
+            "detail": {
+              "key": "icon-content-image",
+              "score": "0.744096",
+              "diffPixels": "98298"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "icon-gallery-1",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "88435"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-gallery-1: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-gallery-1",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-gallery-1: 71.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon-gallery-1",
+              "score": "0.710978",
+              "diffPixels": "93923"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "icon-gallery-2",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "88958"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-gallery-2: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-gallery-2",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-gallery-2: 71.5% of pixels differ from reference",
+            "detail": {
+              "key": "icon-gallery-2",
+              "score": "0.714937",
+              "diffPixels": "94446"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
+            "detail": {
+              "key": "icon-outlined",
+              "dw": "0",
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "43504"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined: 27.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-outlined",
+              "alphaLossRatio": "0.272732",
+              "alphaLossPixels": "36029",
+              "alphaComparedPixels": "132104"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined: 35.2% of pixels differ from reference",
+            "detail": {
+              "key": "icon-outlined",
+              "score": "0.352377",
+              "diffPixels": "48208"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "icon-outlined-content-image",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "44032"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-content-image: 13.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-outlined-content-image",
+              "alphaLossRatio": "0.138616",
+              "alphaLossPixels": "17551",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-content-image: 37.5% of pixels differ from reference",
+            "detail": {
+              "key": "icon-outlined-content-image",
+              "score": "0.374856",
+              "diffPixels": "49520"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "icon-outlined-gallery-1",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "39652"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-gallery-1: 14.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-outlined-gallery-1",
+              "alphaLossRatio": "0.147177",
+              "alphaLossPixels": "18635",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-gallery-1: 34.2% of pixels differ from reference",
+            "detail": {
+              "key": "icon-outlined-gallery-1",
+              "score": "0.3417",
+              "diffPixels": "45140"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "icon-outlined-gallery-2",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "40028"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-gallery-2: 16.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-outlined-gallery-2",
+              "alphaLossRatio": "0.161567",
+              "alphaLossPixels": "20457",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-outlined-gallery-2: 34.5% of pixels differ from reference",
+            "detail": {
+              "key": "icon-outlined-gallery-2",
+              "score": "0.344547",
+              "diffPixels": "45516"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "43886"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 27.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.26984",
+              "alphaLossPixels": "35647",
+              "alphaComparedPixels": "132104"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 35.5% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.355169",
+              "diffPixels": "48590"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "outlined-content-image",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "44414"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-content-image: 13.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-content-image",
+              "alphaLossRatio": "0.135599",
+              "alphaLossPixels": "17169",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-content-image: 37.8% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-content-image",
+              "score": "0.377748",
+              "diffPixels": "49902"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "outlined-gallery-1",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "40034"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-1: 14.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-gallery-1",
+              "alphaLossRatio": "0.14416",
+              "alphaLossPixels": "18253",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-1: 34.5% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-gallery-1",
+              "score": "0.344592",
+              "diffPixels": "45522"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "outlined-gallery-2",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "40410"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-2: 15.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-gallery-2",
+              "alphaLossRatio": "0.15855",
+              "alphaLossPixels": "20075",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-2: 34.7% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-gallery-2",
+              "score": "0.347438",
+              "diffPixels": "45898"
             }
           }
         ]
@@ -6999,7 +7494,7 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 40,
+                  "x": 80,
                   "y": 40,
                   "width": 129,
                   "height": 33
@@ -7156,10 +7651,10 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Label text\": offset (16, -5), size Δ(34, 2) vs candidate",
+            "message": "layout \"Label text\": offset (-1, -5), size Δ(34, 2) vs candidate",
             "detail": {
               "label": "Label text",
-              "dx": "16",
+              "dx": "-1",
               "dy": "-5",
               "dw": "34",
               "dh": "2"
@@ -7178,7 +7673,7 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 40,
+                  "x": 80,
                   "y": 40,
                   "width": 129,
                   "height": 33
@@ -7292,1348 +7787,529 @@
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×278 vs candidate 392×349; compared over their 392×278 overlap, 20.3% of the frame uncovered",
+            "message": "default: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
             "detail": {
               "key": "default",
               "dw": "0",
-              "dh": "-71",
-              "borderPixels": "27832",
-              "contentPixels": "25290"
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "101723"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 12.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.120458",
-              "alphaLossPixels": "13127",
-              "alphaComparedPixels": "108976"
+              "alphaLossRatio": "0.019023",
+              "alphaLossPixels": "2513",
+              "alphaComparedPixels": "132104"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 38.8% of pixels differ from reference",
+            "message": "default: 77.8% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.388296",
-              "diffPixels": "53122"
+              "score": "0.77793",
+              "diffPixels": "106427"
             }
-          }
-        ]
-      }
-    ],
-    "ee.schimke.wearm3catalog.sections.CardsKt.OutlineCard": [
-      {
-        "source": "figma",
-        "status": "warn",
-        "findings": [
-          {
-            "kind": "i18n",
-            "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 312dp available.",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "312",
-              "estimatedWidth": "537",
-              "expansionFactor": "1.3",
-              "estimatedExpandedWidth": "698"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
-            "detail": {
-              "token": "colors.label",
-              "expected": "#F5EEFB",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
-            "detail": {
-              "token": "typography.label",
-              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "pairing",
-            "severity": "info",
-            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
-            "detail": {
-              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
-            }
-          },
-          {
-            "kind": "semantic",
-            "severity": "warn",
-            "message": "candidate exposes no accessibility roles",
-            "detail": {
-              "node": "tree",
-              "field": "role"
-            }
-          },
-          {
-            "kind": "layout",
-            "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, 32), size Δ(11, 6) vs candidate",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "32",
-              "dw": "11",
-              "dh": "6"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×264 vs candidate 392×190; compared over their 392×190 overlap, 28.0% of the frame uncovered",
+            "message": "content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "default",
+              "key": "content-image",
               "dw": "0",
-              "dh": "74",
-              "borderPixels": "29008",
-              "contentPixels": "12406"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "92907"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "content-image: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "default",
-              "alphaLossRatio": "0.088708",
-              "alphaLossPixels": "6607",
-              "alphaComparedPixels": "74480"
+              "key": "content-image",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 40.0% of pixels differ from reference",
+            "message": "content-image: 74.5% of pixels differ from reference",
             "detail": {
-              "key": "default",
-              "score": "0.400182",
-              "diffPixels": "41414"
+              "key": "content-image",
+              "score": "0.74483",
+              "diffPixels": "98395"
             }
-          }
-        ]
-      }
-    ],
-    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#OutlineCard": [
-      {
-        "source": "figma",
-        "status": "warn",
-        "findings": [
-          {
-            "kind": "i18n",
-            "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 312dp available.",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "312",
-              "estimatedWidth": "537",
-              "expansionFactor": "1.3",
-              "estimatedExpandedWidth": "698"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
-            "detail": {
-              "token": "colors.label",
-              "expected": "#F5EEFB",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
-            "detail": {
-              "token": "typography.label",
-              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "pairing",
-            "severity": "info",
-            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
-            "detail": {
-              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
-            }
-          },
-          {
-            "kind": "semantic",
-            "severity": "warn",
-            "message": "candidate exposes no accessibility roles",
-            "detail": {
-              "node": "tree",
-              "field": "role"
-            }
-          },
-          {
-            "kind": "layout",
-            "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, 32), size Δ(11, 6) vs candidate",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "32",
-              "dw": "11",
-              "dh": "6"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×264 vs candidate 392×190; compared over their 392×190 overlap, 28.0% of the frame uncovered",
+            "message": "gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "default",
+              "key": "gallery-1",
               "dw": "0",
-              "dh": "74",
-              "borderPixels": "29008",
-              "contentPixels": "12406"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "88532"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "gallery-1: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "default",
-              "alphaLossRatio": "0.088708",
-              "alphaLossPixels": "6607",
-              "alphaComparedPixels": "74480"
+              "key": "gallery-1",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 40.0% of pixels differ from reference",
+            "message": "gallery-1: 71.2% of pixels differ from reference",
             "detail": {
-              "key": "default",
-              "score": "0.400182",
-              "diffPixels": "41414"
+              "key": "gallery-1",
+              "score": "0.711712",
+              "diffPixels": "94020"
             }
-          }
-        ]
-      }
-    ],
-    "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard": [
-      {
-        "source": "figma",
-        "status": "warn",
-        "findings": [
-          {
-            "kind": "i18n",
-            "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 312dp available.",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "312",
-              "estimatedWidth": "537",
-              "expansionFactor": "1.3",
-              "estimatedExpandedWidth": "698"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
-            "detail": {
-              "token": "colors.label",
-              "expected": "#F5EEFB",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
-            "detail": {
-              "token": "typography.label",
-              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "pairing",
-            "severity": "info",
-            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
-            "detail": {
-              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
-            }
-          },
-          {
-            "kind": "semantic",
-            "severity": "warn",
-            "message": "candidate exposes no accessibility roles",
-            "detail": {
-              "node": "tree",
-              "field": "role"
-            }
-          },
-          {
-            "kind": "layout",
-            "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, 32), size Δ(11, 6) vs candidate",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "32",
-              "dw": "11",
-              "dh": "6"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×292 vs candidate 392×190; compared over their 392×190 overlap, 34.9% of the frame uncovered",
+            "message": "gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "default",
+              "key": "gallery-2",
               "dw": "0",
-              "dh": "102",
-              "borderPixels": "39984",
-              "contentPixels": "63723"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "89055"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 24.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "gallery-2: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "default",
-              "alphaLossRatio": "0.24467",
-              "alphaLossPixels": "18223",
-              "alphaComparedPixels": "74480"
+              "key": "gallery-2",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 90.6% of pixels differ from reference",
+            "message": "gallery-2: 71.6% of pixels differ from reference",
             "detail": {
-              "key": "default",
-              "score": "0.906023",
-              "diffPixels": "103707"
+              "key": "gallery-2",
+              "score": "0.715671",
+              "diffPixels": "94543"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "background-image: reference 392×292 vs candidate 392×214; compared over their 392×214 overlap, 26.7% of the frame uncovered",
+            "message": "icon: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
             "detail": {
-              "key": "background-image",
+              "key": "icon",
               "dw": "0",
-              "dh": "78",
-              "borderPixels": "30576",
-              "contentPixels": "69778"
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "101626"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "background-image: 22.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "background-image",
-              "alphaLossRatio": "0.226183",
-              "alphaLossPixels": "18974",
-              "alphaComparedPixels": "83888"
+              "key": "icon",
+              "alphaLossRatio": "0.019023",
+              "alphaLossPixels": "2513",
+              "alphaComparedPixels": "132104"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "background-image: 87.7% of pixels differ from reference",
+            "message": "icon: 77.7% of pixels differ from reference",
             "detail": {
-              "key": "background-image",
-              "score": "0.87673",
-              "diffPixels": "100354"
+              "key": "icon",
+              "score": "0.777221",
+              "diffPixels": "106330"
             }
-          }
-        ]
-      }
-    ],
-    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#PlainCard": [
-      {
-        "source": "figma",
-        "status": "warn",
-        "findings": [
-          {
-            "kind": "i18n",
-            "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 312dp available.",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "312",
-              "estimatedWidth": "537",
-              "expansionFactor": "1.3",
-              "estimatedExpandedWidth": "698"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
-            "detail": {
-              "token": "colors.label",
-              "expected": "#F5EEFB",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
-            "detail": {
-              "token": "typography.label",
-              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "pairing",
-            "severity": "info",
-            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
-            "detail": {
-              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
-            }
-          },
-          {
-            "kind": "semantic",
-            "severity": "warn",
-            "message": "candidate exposes no accessibility roles",
-            "detail": {
-              "node": "tree",
-              "field": "role"
-            }
-          },
-          {
-            "kind": "layout",
-            "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, 32), size Δ(11, 6) vs candidate",
-            "detail": {
-              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "32",
-              "dw": "11",
-              "dh": "6"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 50,
-                  "width": 148,
-                  "height": 54
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×292 vs candidate 392×190; compared over their 392×190 overlap, 34.9% of the frame uncovered",
+            "message": "icon-content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "default",
+              "key": "icon-content-image",
               "dw": "0",
-              "dh": "102",
-              "borderPixels": "39984",
-              "contentPixels": "63723"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "92810"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 24.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-content-image: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "default",
-              "alphaLossRatio": "0.24467",
-              "alphaLossPixels": "18223",
-              "alphaComparedPixels": "74480"
+              "key": "icon-content-image",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 90.6% of pixels differ from reference",
+            "message": "icon-content-image: 74.4% of pixels differ from reference",
             "detail": {
-              "key": "default",
-              "score": "0.906023",
-              "diffPixels": "103707"
+              "key": "icon-content-image",
+              "score": "0.744096",
+              "diffPixels": "98298"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "background-image: reference 392×292 vs candidate 392×214; compared over their 392×214 overlap, 26.7% of the frame uncovered",
+            "message": "icon-gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "background-image",
+              "key": "icon-gallery-1",
               "dw": "0",
-              "dh": "78",
-              "borderPixels": "30576",
-              "contentPixels": "69778"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "88435"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "background-image: 22.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-gallery-1: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "background-image",
-              "alphaLossRatio": "0.226183",
-              "alphaLossPixels": "18974",
-              "alphaComparedPixels": "83888"
+              "key": "icon-gallery-1",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "background-image: 87.7% of pixels differ from reference",
+            "message": "icon-gallery-1: 71.1% of pixels differ from reference",
             "detail": {
-              "key": "background-image",
-              "score": "0.87673",
-              "diffPixels": "100354"
+              "key": "icon-gallery-1",
+              "score": "0.710978",
+              "diffPixels": "93923"
             }
-          }
-        ]
-      }
-    ],
-    "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard": [
-      {
-        "source": "figma",
-        "status": "warn",
-        "findings": [
-          {
-            "kind": "i18n",
-            "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 312dp available.",
-            "detail": {
-              "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "312",
-              "estimatedWidth": "422",
-              "expansionFactor": "1.4",
-              "estimatedExpandedWidth": "591"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 12,
-                  "width": 113,
-                  "height": 36
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
-            "detail": {
-              "token": "colors.label",
-              "expected": "#F5EEFB",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
-            "detail": {
-              "token": "typography.label",
-              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "pairing",
-            "severity": "info",
-            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
-            "detail": {
-              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
-            }
-          },
-          {
-            "kind": "semantic",
-            "severity": "warn",
-            "message": "candidate exposes no accessibility roles",
-            "detail": {
-              "node": "tree",
-              "field": "role"
-            }
-          },
-          {
-            "kind": "layout",
-            "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (-6, -6), size Δ(-24, -12) vs candidate",
-            "detail": {
-              "label": "Title card title text lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-6",
-              "dw": "-24",
-              "dh": "-12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 12,
-                  "width": 113,
-                  "height": 36
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              }
-            ]
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×278 vs candidate 392×190; compared over their 392×190 overlap, 31.7% of the frame uncovered",
+            "message": "icon-gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "default",
+              "key": "icon-gallery-2",
               "dw": "0",
-              "dh": "88",
-              "borderPixels": "34496",
-              "contentPixels": "23938"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "88958"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 24.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-gallery-2: 1.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "default",
-              "alphaLossRatio": "0.244697",
-              "alphaLossPixels": "18225",
-              "alphaComparedPixels": "74480"
+              "key": "icon-gallery-2",
+              "alphaLossRatio": "0.016372",
+              "alphaLossPixels": "2073",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 53.6% of pixels differ from reference",
+            "message": "icon-gallery-2: 71.5% of pixels differ from reference",
             "detail": {
-              "key": "default",
-              "score": "0.53621",
-              "diffPixels": "58434"
+              "key": "icon-gallery-2",
+              "score": "0.714937",
+              "diffPixels": "94446"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-subtitle: reference 392×278 vs candidate 392×230; compared over their 392×230 overlap, 17.3% of the frame uncovered",
+            "message": "icon-outlined: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
             "detail": {
-              "key": "title-and-subtitle",
+              "key": "icon-outlined",
               "dw": "0",
-              "dh": "48",
-              "borderPixels": "18816",
-              "contentPixels": "26980"
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "43504"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-subtitle: 21.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-outlined: 27.3% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "title-and-subtitle",
-              "alphaLossRatio": "0.216138",
-              "alphaLossPixels": "19487",
-              "alphaComparedPixels": "90160"
+              "key": "icon-outlined",
+              "alphaLossRatio": "0.272732",
+              "alphaLossPixels": "36029",
+              "alphaComparedPixels": "132104"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-subtitle: 42.0% of pixels differ from reference",
+            "message": "icon-outlined: 35.2% of pixels differ from reference",
             "detail": {
-              "key": "title-and-subtitle",
-              "score": "0.420239",
-              "diffPixels": "45796"
+              "key": "icon-outlined",
+              "score": "0.352377",
+              "diffPixels": "48208"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-time: reference 392×278 vs candidate 392×231; compared over their 392×231 overlap, 16.9% of the frame uncovered",
+            "message": "icon-outlined-content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "title-and-time",
+              "key": "icon-outlined-content-image",
               "dw": "0",
-              "dh": "47",
-              "borderPixels": "18424",
-              "contentPixels": "26919"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "44032"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-time: 21.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-outlined-content-image: 13.9% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "title-and-time",
-              "alphaLossRatio": "0.215512",
-              "alphaLossPixels": "19515",
-              "alphaComparedPixels": "90552"
+              "key": "icon-outlined-content-image",
+              "alphaLossRatio": "0.138616",
+              "alphaLossPixels": "17551",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-time: 41.6% of pixels differ from reference",
+            "message": "icon-outlined-content-image: 37.5% of pixels differ from reference",
             "detail": {
-              "key": "title-and-time",
-              "score": "0.416082",
-              "diffPixels": "45343"
+              "key": "icon-outlined-content-image",
+              "score": "0.374856",
+              "diffPixels": "49520"
             }
-          }
-        ]
-      }
-    ],
-    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#TitledCard": [
-      {
-        "source": "figma",
-        "status": "warn",
-        "findings": [
-          {
-            "kind": "i18n",
-            "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 312dp available.",
-            "detail": {
-              "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "312",
-              "estimatedWidth": "422",
-              "expansionFactor": "1.4",
-              "estimatedExpandedWidth": "591"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 12,
-                  "width": 113,
-                  "height": 36
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
-            "detail": {
-              "token": "colors.label",
-              "expected": "#F5EEFB",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
-            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
-            "detail": {
-              "token": "typography.label",
-              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
-              "unmapped": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 392,
-                  "height": 190
-                }
-              }
-            ]
-          },
-          {
-            "kind": "pairing",
-            "severity": "info",
-            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
-            "detail": {
-              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
-            }
-          },
-          {
-            "kind": "semantic",
-            "severity": "warn",
-            "message": "candidate exposes no accessibility roles",
-            "detail": {
-              "node": "tree",
-              "field": "role"
-            }
-          },
-          {
-            "kind": "layout",
-            "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (-6, -6), size Δ(-24, -12) vs candidate",
-            "detail": {
-              "label": "Title card title text lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-6",
-              "dw": "-24",
-              "dh": "-12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 12,
-                  "y": 12,
-                  "width": 113,
-                  "height": 36
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 40,
-                  "y": 40,
-                  "width": 312,
-                  "height": 110
-                },
-                "label": "Title card title text lorem ipsum dolor sit amet"
-              }
-            ]
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: reference 392×278 vs candidate 392×190; compared over their 392×190 overlap, 31.7% of the frame uncovered",
+            "message": "icon-outlined-gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "default",
+              "key": "icon-outlined-gallery-1",
               "dw": "0",
-              "dh": "88",
-              "borderPixels": "34496",
-              "contentPixels": "23938"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "39652"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 24.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-outlined-gallery-1: 14.7% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "default",
-              "alphaLossRatio": "0.244697",
-              "alphaLossPixels": "18225",
-              "alphaComparedPixels": "74480"
+              "key": "icon-outlined-gallery-1",
+              "alphaLossRatio": "0.147177",
+              "alphaLossPixels": "18635",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 53.6% of pixels differ from reference",
+            "message": "icon-outlined-gallery-1: 34.2% of pixels differ from reference",
             "detail": {
-              "key": "default",
-              "score": "0.53621",
-              "diffPixels": "58434"
+              "key": "icon-outlined-gallery-1",
+              "score": "0.3417",
+              "diffPixels": "45140"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-subtitle: reference 392×278 vs candidate 392×230; compared over their 392×230 overlap, 17.3% of the frame uncovered",
+            "message": "icon-outlined-gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
             "detail": {
-              "key": "title-and-subtitle",
+              "key": "icon-outlined-gallery-2",
               "dw": "0",
-              "dh": "48",
-              "borderPixels": "18816",
-              "contentPixels": "26980"
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "40028"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-subtitle: 21.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "icon-outlined-gallery-2: 16.2% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "title-and-subtitle",
-              "alphaLossRatio": "0.216138",
-              "alphaLossPixels": "19487",
-              "alphaComparedPixels": "90160"
+              "key": "icon-outlined-gallery-2",
+              "alphaLossRatio": "0.161567",
+              "alphaLossPixels": "20457",
+              "alphaComparedPixels": "126616"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-subtitle: 42.0% of pixels differ from reference",
+            "message": "icon-outlined-gallery-2: 34.5% of pixels differ from reference",
             "detail": {
-              "key": "title-and-subtitle",
-              "score": "0.420239",
-              "diffPixels": "45796"
+              "key": "icon-outlined-gallery-2",
+              "score": "0.344547",
+              "diffPixels": "45516"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-time: reference 392×278 vs candidate 392×231; compared over their 392×231 overlap, 16.9% of the frame uncovered",
+            "message": "outlined: reference 392×337 vs candidate 392×349; compared over their 392×337 overlap, 3.4% of the frame uncovered",
             "detail": {
-              "key": "title-and-time",
+              "key": "outlined",
               "dw": "0",
-              "dh": "47",
-              "borderPixels": "18424",
-              "contentPixels": "26919"
+              "dh": "-12",
+              "borderPixels": "4704",
+              "contentPixels": "43886"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-time: 21.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "outlined: 27.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
-              "key": "title-and-time",
-              "alphaLossRatio": "0.215512",
-              "alphaLossPixels": "19515",
-              "alphaComparedPixels": "90552"
+              "key": "outlined",
+              "alphaLossRatio": "0.26984",
+              "alphaLossPixels": "35647",
+              "alphaComparedPixels": "132104"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "title-and-time: 41.6% of pixels differ from reference",
+            "message": "outlined: 35.5% of pixels differ from reference",
             "detail": {
-              "key": "title-and-time",
-              "score": "0.416082",
-              "diffPixels": "45343"
+              "key": "outlined",
+              "score": "0.355169",
+              "diffPixels": "48590"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-content-image: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "outlined-content-image",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "44414"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-content-image: 13.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-content-image",
+              "alphaLossRatio": "0.135599",
+              "alphaLossPixels": "17169",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-content-image: 37.8% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-content-image",
+              "score": "0.377748",
+              "diffPixels": "49902"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-1: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "outlined-gallery-1",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "40034"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-1: 14.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-gallery-1",
+              "alphaLossRatio": "0.14416",
+              "alphaLossPixels": "18253",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-1: 34.5% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-gallery-1",
+              "score": "0.344592",
+              "diffPixels": "45522"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-2: reference 392×337 vs candidate 392×323; compared over their 392×323 overlap, 4.2% of the frame uncovered",
+            "detail": {
+              "key": "outlined-gallery-2",
+              "dw": "0",
+              "dh": "14",
+              "borderPixels": "5488",
+              "contentPixels": "40410"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-2: 15.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-gallery-2",
+              "alphaLossRatio": "0.15855",
+              "alphaLossPixels": "20075",
+              "alphaComparedPixels": "126616"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-gallery-2: 34.7% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-gallery-2",
+              "score": "0.347438",
+              "diffPixels": "45898"
             }
           }
         ]
@@ -28490,6 +28166,411 @@
               "key": "off-large",
               "score": "0.32397",
               "diffPixels": "7485"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#OutlineCard": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 312dp available.",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "availableWidth": "312",
+              "estimatedWidth": "537",
+              "expansionFactor": "1.3",
+              "estimatedExpandedWidth": "698"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 40,
+                  "y": 40,
+                  "width": 312,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#F5EEFB",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 116
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 392,
+                  "height": 190
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 116
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 392,
+                  "height": 190
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
+            }
+          },
+          {
+            "kind": "semantic",
+            "severity": "warn",
+            "message": "candidate exposes no accessibility roles",
+            "detail": {
+              "node": "tree",
+              "field": "role"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, 32), size Δ(11, 6) vs candidate",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "dx": "-6",
+              "dy": "32",
+              "dw": "11",
+              "dh": "6"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 40,
+                  "y": 40,
+                  "width": 312,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 392×264 vs candidate 392×190; compared over their 392×190 overlap, 28.0% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "74",
+              "borderPixels": "29008",
+              "contentPixels": "12406"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.088708",
+              "alphaLossPixels": "6607",
+              "alphaComparedPixels": "74480"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 40.0% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.400182",
+              "diffPixels": "41414"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#PlainCard": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 312dp available.",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "availableWidth": "312",
+              "estimatedWidth": "537",
+              "expansionFactor": "1.3",
+              "estimatedExpandedWidth": "698"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 40,
+                  "y": 40,
+                  "width": 312,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #F5EEFB)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#F5EEFB",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 116
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 392,
+                  "height": 190
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 116
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 392,
+                  "height": 190
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Additional image=false, Body=true, Body text (1-2 lines)=Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet, Content=true, Icon=true, Label text=Label text, Subtitle=true, Subtitle text=Subtitle, Swap app icon=142979:17528, Swap icon (18)=71422:44615, Time text=XXm, Timestamp=true, Title=true, Title text (1-2 lines)=Title card title text lorem ipsum dolor sit amet — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Additional image\",\"type\":\"boolean\",\"value\":\"false\"},{\"name\":\"Body\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Body text (1-2 lines)\",\"type\":\"text\",\"value\":\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\"},{\"name\":\"Content\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Icon\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Label text\",\"type\":\"text\",\"value\":\"Label text\"},{\"name\":\"Subtitle\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Subtitle text\",\"type\":\"text\",\"value\":\"Subtitle\"},{\"name\":\"Swap app icon\",\"type\":\"instance-swap\",\"value\":\"142979:17528\"},{\"name\":\"Swap icon (18)\",\"type\":\"instance-swap\",\"value\":\"71422:44615\"},{\"name\":\"Time text\",\"type\":\"text\",\"value\":\"XXm\"},{\"name\":\"Timestamp\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title\",\"type\":\"boolean\",\"value\":\"true\"},{\"name\":\"Title text (1-2 lines)\",\"type\":\"text\",\"value\":\"Title card title text lorem ipsum dolor sit amet\"}]"
+            }
+          },
+          {
+            "kind": "semantic",
+            "severity": "warn",
+            "message": "candidate exposes no accessibility roles",
+            "detail": {
+              "node": "tree",
+              "field": "role"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, 32), size Δ(11, 6) vs candidate",
+            "detail": {
+              "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
+              "dx": "-6",
+              "dy": "32",
+              "dw": "11",
+              "dh": "6"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 12,
+                  "y": 50,
+                  "width": 148,
+                  "height": 54
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 40,
+                  "y": 40,
+                  "width": 312,
+                  "height": 110
+                },
+                "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 392×292 vs candidate 392×190; compared over their 392×190 overlap, 34.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "102",
+              "borderPixels": "39984",
+              "contentPixels": "63723"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 24.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.24467",
+              "alphaLossPixels": "18223",
+              "alphaComparedPixels": "74480"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 90.6% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.906023",
+              "diffPixels": "103707"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "background-image: reference 392×292 vs candidate 392×214; compared over their 392×214 overlap, 26.7% of the frame uncovered",
+            "detail": {
+              "key": "background-image",
+              "dw": "0",
+              "dh": "78",
+              "borderPixels": "30576",
+              "contentPixels": "69778"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "background-image: 22.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "background-image",
+              "alphaLossRatio": "0.226183",
+              "alphaLossPixels": "18974",
+              "alphaComparedPixels": "83888"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "background-image: 87.7% of pixels differ from reference",
+            "detail": {
+              "key": "background-image",
+              "score": "0.87673",
+              "diffPixels": "100354"
             }
           }
         ]
