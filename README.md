@@ -109,12 +109,43 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TonalButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalButton_VARIANT_left-95a0a19e.png" width="150" /> |
 | `TonalButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TonalButton_VARIANT_left_disabled-8b83bd0b.png" width="150" /> |
 | `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard-c1fa564b.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_content_image-cf2ffec6.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_gallery_1-6aa85868.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_gallery_2-30f1c381.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon-72cb456b.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_content_image-aacf498b.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_gallery_1-6778be42.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_gallery_2-5808ea88.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_outlined-043102ce.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_outlined_content_image-75adbad3.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_outlined_gallery_1-442ccfaa.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_icon_outlined_gallery_2-0938bc4d.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_outlined-77d6affa.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_outlined_content_image-e82d3e8e.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_outlined_gallery_1-cd145ca4.png" width="150" /> |
+| `ApplicationCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ApplicationCard_VARIANT_outlined_gallery_2-f7bea1d5.png" width="150" /> |
 | `OutlineCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OutlineCard-1171689d.png" width="150" /> |
 | `PlainCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlainCard-55327def.png" width="150" /> |
 | `PlainCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/PlainCard_VARIANT_background_image-55eacde6.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard-f28652ac.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_background_image-b350f746.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_content_image-1ad2a359.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_gallery_1-b3ff7a46.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_gallery_2-a4c17876.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_outlined-7749a31e.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_outlined_content_image-0dacda80.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_outlined_gallery_1-ce16e882.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_outlined_gallery_2-cb347d6f.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_subtitle-f441ae75.png" width="150" /> |
-| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_title_and_time-5870f95c.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle-28d0895c.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_background_image-406c094d.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_content_image-3c031824.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_gallery_1-91db2e83.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_gallery_2-20d7a4bc.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined-f0562c57.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined_content_image-995224cf.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined_gallery_1-87403b60.png" width="150" /> |
+| `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined_gallery_2-065953fd.png" width="150" /> |
 | `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp-fa9a764f.png" width="150" /> |
 | `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp_VARIANT_edge_button-c0ff181d.png" width="150" /> |
 | `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp_VARIANT_no_buttons-7dafd065.png" width="150" /> |
