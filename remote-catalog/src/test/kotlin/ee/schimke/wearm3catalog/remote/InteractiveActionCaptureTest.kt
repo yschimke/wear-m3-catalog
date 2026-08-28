@@ -43,15 +43,15 @@ class InteractiveActionCaptureTest {
       "IconLabelRemoteButton" to KitCopy.PRIMARY_LABEL,
       "IconLabelSecondaryRemoteButton" to KitCopy.PRIMARY_LABEL,
       "CompactRemoteButton" to KitCopy.PRIMARY_LABEL,
-      "CompactIconLabelRemoteButton" to KitCopy.PRIMARY_LABEL,
+      "CompactTextOnlyRemoteButton" to KitCopy.PRIMARY_LABEL,
       // Cards quote the kit's card slots.
       "CardRemote" to KitCopy.CARD_CONTENT,
       "OutlinedCardRemote" to KitCopy.CARD_CONTENT,
       "TitleCardRemote" to KitCopy.CARD_TITLE,
       "AppCardRemote" to KitCopy.CARD_TITLE,
-      "TitleOnlyRemoteTitleCard" to KitCopy.CARD_TITLE,
+      "SubtitleRemoteTitleCard" to KitCopy.CARD_TITLE,
       "TimeContentRemoteTitleCard" to KitCopy.CARD_TITLE,
-      "TimeRemoteAppCard" to KitCopy.CARD_TITLE,
+      "NoAppImageRemoteAppCard" to KitCopy.CARD_TITLE,
     )
 
   /**
@@ -68,7 +68,7 @@ class InteractiveActionCaptureTest {
       "TextRemoteButton",
       "SmallRemoteTextButton",
       "LargeRemoteTextButton",
-      "FilledRemoteTextButton",
+      "ChildRemoteTextButton",
       "OutlinedRemoteTextButton",
     )
 
