@@ -3,10 +3,26 @@ name: Design parity reference cache
 # Import the Figma side on its own cadence. Design parity reads this committed cache and therefore
 # makes zero live Figma calls on ordinary code pushes; a rate limit costs freshness, not coverage.
 
-# Manual until design-parity itself runs on a schedule again: this workflow runs the same
-# design-map-command, and there is nothing yet for it to import a reference for. See
-# design-parity.yml and docs/DESIGN_MAP.md.
+# Daily at 05:30 UTC, plus a button. This is the ONLY lane that may spend the Figma token on
+# references: parity runs read the cache it commits and make zero calls (design-parity.yml), which
+# is the split issue #289 exists for.
+#
+# Cheap on a quiet day, because the import is version-gated: an unchanged kit costs ONE request
+# (the file `version` check) and refreshes nothing. The expensive path only runs when the kit has
+# actually moved, so a daily cadence buys freshness rather than traffic.
+#
+# 05:30 and not m3-catalog's 04:30 on purpose. The token is per-user, so its rate limiter is shared
+# across every repo that holds it — two catalogs importing at once would throttle each other. An
+# hour's offset keeps them apart; each import is ~10-20 minutes when the kit has moved.
+#
+# The bootstrap this file used to wait on is done: `design-parity/reference` was filled on
+# 2026-08-28 over four dispatched passes and reported `complete=true` — every mapped component at
+# the kit's current version. `design-parity.yml` reads it with `require-reference-cache` (default
+# true), so an empty or missing branch now fails loudly instead of silently fetching all 581
+# references live, which is what it had been doing.
 on:
+  schedule:
+    - cron: '30 5 * * *'
   workflow_dispatch:
     inputs:
       design_parity_ref:
