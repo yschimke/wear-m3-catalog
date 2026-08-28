@@ -1520,8 +1520,26 @@
           "name": "disabled",
           "seeds": [
             {
-              "key": "enabled",
-              "raw": "false",
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
               "kitAxis": "Disabled",
               "kitValue": "Yes"
             }
@@ -1532,10 +1550,58 @@
           "name": "extra-small",
           "seeds": [
             {
-              "key": "size",
-              "raw": "extra-small",
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
               "kitAxis": "Size",
               "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_extra-small-disabled",
+          "name": "extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -1544,10 +1610,478 @@
           "name": "filled-variant",
           "seeds": [
             {
-              "key": "style",
-              "raw": "filled-variant",
+              "key": "Style",
+              "raw": "Filled Variant",
               "kitAxis": "Style",
               "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-disabled",
+          "name": "filled-variant-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-extra-small",
+          "name": "filled-variant-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-extra-small-disabled",
+          "name": "filled-variant-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon",
+          "name": "filled-variant-icon",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-disabled",
+          "name": "filled-variant-icon-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-extra-small",
+          "name": "filled-variant-icon-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-extra-small-disabled",
+          "name": "filled-variant-icon-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-large",
+          "name": "filled-variant-icon-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-large-disabled",
+          "name": "filled-variant-icon-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-medium",
+          "name": "filled-variant-icon-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-icon-medium-disabled",
+          "name": "filled-variant-icon-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-large",
+          "name": "filled-variant-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-large-disabled",
+          "name": "filled-variant-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-medium",
+          "name": "filled-variant-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_filled-variant-medium-disabled",
+          "name": "filled-variant-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled Variant",
+              "kitAxis": "Style",
+              "kitValue": "Filled Variant"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -1556,10 +2090,238 @@
           "name": "icon",
           "seeds": [
             {
-              "key": "content",
-              "raw": "icon",
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
               "kitAxis": "Type",
               "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-disabled",
+          "name": "icon-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-extra-small",
+          "name": "icon-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-extra-small-disabled",
+          "name": "icon-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-large",
+          "name": "icon-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-large-disabled",
+          "name": "icon-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-medium",
+          "name": "icon-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_icon-medium-disabled",
+          "name": "icon-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -1568,10 +2330,58 @@
           "name": "large",
           "seeds": [
             {
-              "key": "size",
-              "raw": "large",
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
               "kitAxis": "Size",
               "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_large-disabled",
+          "name": "large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -1580,10 +2390,58 @@
           "name": "medium",
           "seeds": [
             {
-              "key": "size",
-              "raw": "medium",
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
               "kitAxis": "Size",
               "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_medium-disabled",
+          "name": "medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Filled",
+              "kitAxis": "Style",
+              "kitValue": "Filled"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -1592,10 +2450,478 @@
           "name": "outlined",
           "seeds": [
             {
-              "key": "style",
-              "raw": "outlined",
+              "key": "Style",
+              "raw": "Outline",
               "kitAxis": "Style",
               "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-disabled",
+          "name": "outlined-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-extra-small",
+          "name": "outlined-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-extra-small-disabled",
+          "name": "outlined-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon",
+          "name": "outlined-icon",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-disabled",
+          "name": "outlined-icon-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-extra-small",
+          "name": "outlined-icon-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-extra-small-disabled",
+          "name": "outlined-icon-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-large",
+          "name": "outlined-icon-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-large-disabled",
+          "name": "outlined-icon-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-medium",
+          "name": "outlined-icon-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-icon-medium-disabled",
+          "name": "outlined-icon-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-large",
+          "name": "outlined-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-large-disabled",
+          "name": "outlined-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-medium",
+          "name": "outlined-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_outlined-medium-disabled",
+          "name": "outlined-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -1604,10 +2930,478 @@
           "name": "tonal",
           "seeds": [
             {
-              "key": "style",
-              "raw": "tonal",
+              "key": "Style",
+              "raw": "Tonal",
               "kitAxis": "Style",
               "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-disabled",
+          "name": "tonal-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-extra-small",
+          "name": "tonal-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-extra-small-disabled",
+          "name": "tonal-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon",
+          "name": "tonal-icon",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-disabled",
+          "name": "tonal-icon-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Default",
+              "kitAxis": "Size",
+              "kitValue": "Default"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-extra-small",
+          "name": "tonal-icon-extra-small",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-extra-small-disabled",
+          "name": "tonal-icon-extra-small-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Small",
+              "kitAxis": "Size",
+              "kitValue": "Small"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-large",
+          "name": "tonal-icon-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-large-disabled",
+          "name": "tonal-icon-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-medium",
+          "name": "tonal-icon-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-icon-medium-disabled",
+          "name": "tonal-icon-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Icon",
+              "kitAxis": "Type",
+              "kitValue": "Icon"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-large",
+          "name": "tonal-large",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-large-disabled",
+          "name": "tonal-large-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Extra-Large",
+              "kitAxis": "Size",
+              "kitValue": "Extra-Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-medium",
+          "name": "tonal-medium",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "No",
+              "kitAxis": "Disabled",
+              "kitValue": "No"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton_VARIANT_tonal-medium-disabled",
+          "name": "tonal-medium-disabled",
+          "seeds": [
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Type",
+              "raw": "Text",
+              "kitAxis": "Type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Size",
+              "raw": "Large",
+              "kitAxis": "Size",
+              "kitValue": "Large"
+            },
+            {
+              "key": "Disabled",
+              "raw": "Yes",
+              "kitAxis": "Disabled",
+              "kitValue": "Yes"
             }
           ]
         }
