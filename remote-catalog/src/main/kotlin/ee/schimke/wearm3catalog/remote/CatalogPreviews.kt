@@ -42,6 +42,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.text.font.FontVariation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteAppCard
@@ -65,7 +66,9 @@ import ee.schimke.composeai.daemon.rememberOverridableRemoteColor
 import ee.schimke.composeai.daemon.rememberOverridableRemoteDp
 import ee.schimke.composeai.daemon.rememberOverridableRemoteFloat
 import ee.schimke.composeai.daemon.rememberOverridableRemoteString
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
+import ee.schimke.composeai.preview.OverrideVariant
 
 // ---------------------------------------------------------------------------
 // Remote Compose design-catalog sticker sheet.
@@ -672,22 +675,52 @@ fun IconRemote() = RemoteSticker {
 // stage is what backs it.
 // ---------------------------------------------------------------------------
 
+/**
+ * **Both cells of the kit's `Text-Body` set.** The set has exactly one axis, `Alignment`, and
+ * exactly two nodes; this component named the `Centre` one and nothing drew `Left`
+ * ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
+ *
+ * `kitAxis` / `kitValue` rather than `kitProps`, because `Alignment` is the set's ONLY axis: there
+ * is no other assignment for the cell to also name, so the single-axis form resolves exactly. The
+ * Wear sibling's `Text/Body` spells the same cell the same way.
+ *
+ * The axis needs a frame to be an axis at all. This drew `RemoteText(text)` unconstrained, so the
+ * run sized itself to its own glyphs and `Left` and `Centre` were the same picture — the base cell
+ * was not really drawing `Alignment=Centre`, it was drawing text with no alignment to speak of. The
+ * width is `160.rdp`, matching what `wear-m3-catalog`'s `BodyText` gives the same string, so the
+ * two renditions of each cell are compared at the same measure rather than differing by the frame
+ * this sticker chose. (Its neighbour `Text/MaxLines-Truncated` keeps its narrower `150.rdp`: that
+ * one exists to overflow, and the width is what makes it.)
+ */
 @CatalogComponent(
   id = "Text/Body",
   group = "Text",
   parallel = "Text/Body",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66993",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66990",
-  caption = "The Remote Material 3 text primitive on its own.",
+  caption = "The Remote Material 3 text primitive, with the kit's alignment axis folded in.",
 )
 @CatalogRemoteModes
+@OverrideVariant(
+  name = "left-aligned",
+  strings = ["align=left"],
+  kitAxis = "Alignment",
+  kitValue = "Left",
+)
 @Composable
 fun RemoteTextSticker() = RemoteSticker {
   // The kit's own `Text-Body` string, which is what the `Text/Body` parallel draws — here it flows
   // in full; the `Text/MaxLines-Truncated` sticker below clips the same string. Still an editable
   // `text` string knob, so the viewer can retype it live (`rc.text=<string>`).
   val text = rememberOverridableRemoteString("text", KitCopy.BODY)
-  RemoteText(text)
+  // `centre` is the default because `38977:66993` — the node this row names — is the kit's Centre
+  // cell. The knob is read here at composition, so it turns the Compose call and never reaches the
+  // RemoteDocument as state; an unseeded render is the base cell, unchanged.
+  val align =
+    if (previewOverrideChoice("align", "centre", listOf("centre", "left")) == "left")
+      TextAlign.Start
+    else TextAlign.Center
+  RemoteText(text, modifier = RemoteModifier.width(160.rdp), textAlign = align)
 }
 
 // The text primitive exercising the maxLines / overflow product on a narrow column —

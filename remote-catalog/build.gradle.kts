@@ -120,6 +120,16 @@ dependencies {
   // `RemotePreview` produces.
   implementation(libs.composeai.remotecompose.connector)
 
+  // The knob runtime the kit AXES are read through (`previewOverrideChoice` and friends), and the
+  // reason this module can carry `@OverrideVariant` cells at all. `:catalog` has declared it since
+  // it started folding the kit's axes into cells (#101); this module published one component per
+  // variant instead, so it never needed it. Folding here starts with `Text/Body`'s `Alignment`
+  // ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116) phase 2) — a knob read inside a
+  // `RemoteSticker` resolves at composition, before the document is built, so what it turns is the
+  // Compose call rather than anything in the RemoteDocument. A render with no override seeded is
+  // byte-for-byte what the sticker produced before.
+  implementation(libs.composeai.preview.overrides)
+
   // The widget-container stickers render through `CapturingWearWidgetPreview` rather than
   // upstream's `WearWidgetPreview`, so each one emits its encoded RemoteCompose document as the
   // render's `.rc` sidecar and the bundle packs it as the sticker's IR.
