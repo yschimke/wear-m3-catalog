@@ -1,0 +1,523 @@
+{
+  "document": {
+    "id": "38977:66990",
+    "name": "Text-Body",
+    "type": "COMPONENT_SET",
+    "scrollBehavior": "SCROLLS",
+    "componentPropertyDefinitions": {
+      "Text#36753:2": {
+        "type": "TEXT",
+        "defaultValue": "Body text lorem ipsum dolor sit amet"
+      },
+      "Alignment": {
+        "type": "VARIANT",
+        "defaultValue": "Left",
+        "variantOptions": [
+          "Centre",
+          "Left"
+        ]
+      }
+    },
+    "boundVariables": {
+      "fills": [
+        {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:35803:6443"
+        }
+      ],
+      "strokes": [
+        {
+          "type": "VARIABLE_ALIAS",
+          "id": "VariableID:35803:6441"
+        }
+      ]
+    },
+    "children": [
+      {
+        "id": "38977:66991",
+        "name": "Alignment=Left",
+        "type": "COMPONENT",
+        "scrollBehavior": "SCROLLS",
+        "boundVariables": {
+          "paddingLeft": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:45403:38796"
+          },
+          "paddingRight": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:45403:38796"
+          }
+        },
+        "children": [
+          {
+            "id": "38977:66992",
+            "name": "Body text lorem ipsum dolor sit amet",
+            "type": "TEXT",
+            "scrollBehavior": "SCROLLS",
+            "componentPropertyReferences": {
+              "characters": "Text#36753:2"
+            },
+            "boundVariables": {
+              "fills": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:35803:6439"
+                }
+              ],
+              "lineHeight": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:39569:89728"
+                }
+              ],
+              "letterSpacing": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:39569:89729"
+                }
+              ],
+              "fontSize": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:39569:89727"
+                }
+              ]
+            },
+            "blendMode": "PASS_THROUGH",
+            "fills": [
+              {
+                "blendMode": "NORMAL",
+                "type": "SOLID",
+                "color": {
+                  "r": 0.9607843160629272,
+                  "g": 0.9333333373069763,
+                  "b": 0.9843137264251709,
+                  "a": 1
+                },
+                "boundVariables": {
+                  "color": {
+                    "type": "VARIABLE_ALIAS",
+                    "id": "VariableID:35803:6439"
+                  }
+                }
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 0.5002167224884033,
+            "strokeAlign": "OUTSIDE",
+            "absoluteBoundingBox": {
+              "x": 687,
+              "y": 1422,
+              "width": 156,
+              "height": 32
+            },
+            "absoluteRenderBounds": {
+              "x": 687.5673828125,
+              "y": 1424.5068359375,
+              "width": 150.0849609375,
+              "height": 26.6982421875
+            },
+            "constraints": {
+              "vertical": "TOP",
+              "horizontal": "LEFT"
+            },
+            "layoutAlign": "INHERIT",
+            "layoutGrow": 1,
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "characters": "Body text lorem ipsum dolor sit amet",
+            "characterStyleOverrides": [],
+            "styleOverrideTable": {},
+            "lineTypes": [
+              "NONE"
+            ],
+            "lineIndentations": [
+              0
+            ],
+            "style": {
+              "fontFamily": "Roboto Flex",
+              "fontPostScriptName": "RobotoFlex-Regular",
+              "fontStyle": "Regular",
+              "fontWeight": 450,
+              "paragraphSpacing": 10,
+              "textAutoResize": "HEIGHT",
+              "fontSize": 14,
+              "textAlignHorizontal": "LEFT",
+              "textAlignVertical": "TOP",
+              "opentypeFlags": {
+                "KERN": 0,
+                "LNUM": 1,
+                "PNUM": 1
+              },
+              "letterSpacing": 0.4000000059604645,
+              "lineHeightPx": 16,
+              "lineHeightPercent": 97.52381134033203,
+              "lineHeightPercentFontSize": 114.28571319580078,
+              "lineHeightUnit": "PIXELS"
+            },
+            "layoutVersion": 4,
+            "styles": {
+              "text": "47942:129515"
+            },
+            "effects": [],
+            "interactions": [],
+            "complexStrokeProperties": {
+              "strokeType": "BASIC"
+            }
+          }
+        ],
+        "blendMode": "PASS_THROUGH",
+        "clipsContent": false,
+        "background": [],
+        "fills": [],
+        "strokes": [],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "backgroundColor": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 0
+        },
+        "layoutMode": "HORIZONTAL",
+        "primaryAxisSizingMode": "FIXED",
+        "counterAxisAlignItems": "CENTER",
+        "primaryAxisAlignItems": "CENTER",
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "layoutWrap": "NO_WRAP",
+        "absoluteBoundingBox": {
+          "x": 679,
+          "y": 1422,
+          "width": 172,
+          "height": 32
+        },
+        "absoluteRenderBounds": {
+          "x": 679,
+          "y": 1422,
+          "width": 172,
+          "height": 32
+        },
+        "constraints": {
+          "vertical": "TOP",
+          "horizontal": "LEFT"
+        },
+        "layoutAlign": "INHERIT",
+        "layoutGrow": 0,
+        "layoutSizingHorizontal": "FIXED",
+        "layoutSizingVertical": "HUG",
+        "effects": [],
+        "interactions": [],
+        "complexStrokeProperties": {
+          "strokeType": "BASIC"
+        }
+      },
+      {
+        "id": "38977:66993",
+        "name": "Alignment=Centre",
+        "type": "COMPONENT",
+        "scrollBehavior": "SCROLLS",
+        "boundVariables": {
+          "paddingLeft": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:45403:38796"
+          },
+          "paddingRight": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:45403:38796"
+          }
+        },
+        "children": [
+          {
+            "id": "38977:66994",
+            "name": "Body text lorem ipsum dolor sit amet",
+            "type": "TEXT",
+            "scrollBehavior": "SCROLLS",
+            "componentPropertyReferences": {
+              "characters": "Text#36753:2"
+            },
+            "boundVariables": {
+              "fills": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:35803:6439"
+                }
+              ],
+              "lineHeight": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:39569:89728"
+                }
+              ],
+              "letterSpacing": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:39569:89729"
+                }
+              ],
+              "fontSize": [
+                {
+                  "type": "VARIABLE_ALIAS",
+                  "id": "VariableID:39569:89727"
+                }
+              ]
+            },
+            "blendMode": "PASS_THROUGH",
+            "fills": [
+              {
+                "blendMode": "NORMAL",
+                "type": "SOLID",
+                "color": {
+                  "r": 0.9607843160629272,
+                  "g": 0.9333333373069763,
+                  "b": 0.9843137264251709,
+                  "a": 1
+                },
+                "boundVariables": {
+                  "color": {
+                    "type": "VARIABLE_ALIAS",
+                    "id": "VariableID:35803:6439"
+                  }
+                }
+              }
+            ],
+            "strokes": [],
+            "strokeWeight": 0.5002167224884033,
+            "strokeAlign": "OUTSIDE",
+            "absoluteBoundingBox": {
+              "x": 687,
+              "y": 1494,
+              "width": 156,
+              "height": 32
+            },
+            "absoluteRenderBounds": {
+              "x": 690.1574096679688,
+              "y": 1496.5068359375,
+              "width": 149.50390625,
+              "height": 26.6982421875
+            },
+            "constraints": {
+              "vertical": "TOP",
+              "horizontal": "LEFT"
+            },
+            "layoutAlign": "INHERIT",
+            "layoutGrow": 1,
+            "layoutSizingHorizontal": "FILL",
+            "layoutSizingVertical": "HUG",
+            "characters": "Body text lorem ipsum dolor sit amet",
+            "characterStyleOverrides": [],
+            "styleOverrideTable": {},
+            "lineTypes": [
+              "NONE"
+            ],
+            "lineIndentations": [
+              0
+            ],
+            "style": {
+              "fontFamily": "Roboto Flex",
+              "fontPostScriptName": "RobotoFlex-Regular",
+              "fontStyle": "Regular",
+              "fontWeight": 450,
+              "paragraphSpacing": 10,
+              "textAutoResize": "HEIGHT",
+              "fontSize": 14,
+              "textAlignHorizontal": "CENTER",
+              "textAlignVertical": "TOP",
+              "opentypeFlags": {
+                "KERN": 0,
+                "LNUM": 1,
+                "PNUM": 1
+              },
+              "letterSpacing": 0.4000000059604645,
+              "lineHeightPx": 16,
+              "lineHeightPercent": 97.52381134033203,
+              "lineHeightPercentFontSize": 114.28571319580078,
+              "lineHeightUnit": "PIXELS"
+            },
+            "layoutVersion": 4,
+            "styles": {
+              "text": "47942:129515"
+            },
+            "effects": [],
+            "interactions": [],
+            "complexStrokeProperties": {
+              "strokeType": "BASIC"
+            }
+          }
+        ],
+        "blendMode": "PASS_THROUGH",
+        "clipsContent": false,
+        "background": [],
+        "fills": [],
+        "strokes": [],
+        "strokeWeight": 1,
+        "strokeAlign": "INSIDE",
+        "backgroundColor": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 0
+        },
+        "layoutMode": "HORIZONTAL",
+        "primaryAxisSizingMode": "FIXED",
+        "counterAxisAlignItems": "CENTER",
+        "primaryAxisAlignItems": "CENTER",
+        "paddingLeft": 8,
+        "paddingRight": 8,
+        "layoutWrap": "NO_WRAP",
+        "absoluteBoundingBox": {
+          "x": 679,
+          "y": 1494,
+          "width": 172,
+          "height": 32
+        },
+        "absoluteRenderBounds": {
+          "x": 679,
+          "y": 1494,
+          "width": 172,
+          "height": 32
+        },
+        "constraints": {
+          "vertical": "TOP",
+          "horizontal": "LEFT"
+        },
+        "layoutAlign": "INHERIT",
+        "layoutGrow": 0,
+        "layoutSizingHorizontal": "FIXED",
+        "layoutSizingVertical": "HUG",
+        "effects": [],
+        "interactions": [],
+        "complexStrokeProperties": {
+          "strokeType": "BASIC"
+        }
+      }
+    ],
+    "blendMode": "PASS_THROUGH",
+    "clipsContent": true,
+    "background": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "boundVariables": {
+          "color": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:35803:6443"
+          }
+        }
+      }
+    ],
+    "fills": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "a": 1
+        },
+        "boundVariables": {
+          "color": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:35803:6443"
+          }
+        }
+      }
+    ],
+    "strokes": [
+      {
+        "blendMode": "NORMAL",
+        "type": "SOLID",
+        "color": {
+          "r": 0.5803921818733215,
+          "g": 0.5607843399047852,
+          "b": 0.6039215922355652,
+          "a": 1
+        },
+        "boundVariables": {
+          "color": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:35803:6441"
+          }
+        }
+      }
+    ],
+    "cornerRadius": 24,
+    "cornerSmoothing": 0,
+    "strokeWeight": 1,
+    "strokeAlign": "INSIDE",
+    "backgroundColor": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 1
+    },
+    "layoutMode": "VERTICAL",
+    "paddingLeft": 24,
+    "paddingRight": 24,
+    "paddingTop": 24,
+    "paddingBottom": 24,
+    "itemSpacing": 40,
+    "layoutWrap": "NO_WRAP",
+    "strokeDashes": [
+      10,
+      5
+    ],
+    "absoluteBoundingBox": {
+      "x": 655,
+      "y": 1398,
+      "width": 220,
+      "height": 152
+    },
+    "absoluteRenderBounds": {
+      "x": 655,
+      "y": 1398,
+      "width": 220,
+      "height": 152
+    },
+    "constraints": {
+      "vertical": "TOP",
+      "horizontal": "LEFT"
+    },
+    "layoutSizingHorizontal": "HUG",
+    "layoutSizingVertical": "HUG",
+    "effects": [],
+    "interactions": [],
+    "complexStrokeProperties": {
+      "strokeType": "BASIC"
+    }
+  },
+  "styles": {
+    "47942:129515": {
+      "key": "0c992398f56b1fd9ae0fa99f2615a0fdb07f4d8e",
+      "name": "body/med",
+      "styleType": "TEXT",
+      "remote": false,
+      "description": "Body Medium is second largest body. \n\nBody texts are typically used for long-form writing as it works well for small text sizes. For longer sections of text, a serif or sans serif typeface is recommended."
+    }
+  },
+  "components": {
+    "38977:66991": {
+      "key": "ba04305683878da1affafa8b6f24f3ddba226df7",
+      "name": "Alignment=Left",
+      "description": "",
+      "remote": false,
+      "componentSetId": "38977:66990",
+      "documentationLinks": []
+    },
+    "38977:66993": {
+      "key": "eda2b2704c10f624612b97ae0889cbcc24801ccb",
+      "name": "Alignment=Centre",
+      "description": "",
+      "remote": false,
+      "componentSetId": "38977:66990",
+      "documentationLinks": []
+    }
+  }
+}
