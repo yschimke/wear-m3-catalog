@@ -94,28 +94,109 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   return start..maxOf(end, start + 0.0001f)
 }
 
-@CatalogComponent(
-  id = "Slider",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/43711:37256",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
-  caption = "A value across a fixed number of steps, with the kit's levels folded in as cells.",
+/**
+ * **Every `Slider` cell that is a still** — six `Increments` values by three `Level` values by
+ * `Disabled`, 36 of the set's 54 nodes, against the six that were drawn
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * The other 18 are the `Changed=Yes` column: the kit's picture of a bar that has JUST been moved,
+ * which is a moment rather than a state — Wear Compose has no parameter for it, and the sticker
+ * that could show it is a recording. It is the same reason `Motion.kt` exists.
+ *
+ * `Level` is a band COUNT here, not a fraction, because the value range runs over the bands (see
+ * the component). So `Full` is `steps + 1` and moves with `Increments`, which is why every crossing
+ * seeds both knobs and declares the pair.
+ *
+ * `Increments=Percentage` is not a step count at all: it is the kit's bar with no separators in it,
+ * which is what `segmented = false` draws, so those cells seed that instead of `steps`.
+ */
+@OverrideVariant(
+  name = "three-increments-low",
+  ints = ["steps=2"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Three", "Level=Low", "Changed=No", "Disabled=No"],
 )
-@CatalogModes
-@OverrideVariant(name = "low", floats = ["value=1.0"], kitAxis = "Level", kitValue = "Low")
-@OverrideVariant(name = "full", floats = ["value=5.0"], kitAxis = "Level", kitValue = "Full")
+@OverrideVariant(
+  name = "three-increments-low-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=2"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Three", "Level=Low", "Changed=No", "Disabled=Yes"],
+)
 @OverrideVariant(
   name = "three-increments",
   ints = ["steps=2"],
   kitAxis = "Increments",
   kitValue = "Three",
 )
-// The kit's `Increments=Percentage` is a bar with no separators in it — which is what `segmented =
-// false` draws, so it is that cell rather than a step count.
 @OverrideVariant(
-  name = "continuous",
-  booleans = ["segmented=false"],
+  name = "three-increments-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=2"],
+  kitProps = ["Increments=Three", "Level=Mid", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "three-increments-full",
+  ints = ["steps=2"],
+  floats = ["value=3.0"],
+  kitProps = ["Increments=Three", "Level=Full", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "three-increments-full-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=2"],
+  floats = ["value=3.0"],
+  kitProps = ["Increments=Three", "Level=Full", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "four-increments-low",
+  ints = ["steps=3"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Four", "Level=Low", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "four-increments-low-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=3"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Four", "Level=Low", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "four-increments",
+  ints = ["steps=3"],
   kitAxis = "Increments",
-  kitValue = "Percentage",
+  kitValue = "Four",
+)
+@OverrideVariant(
+  name = "four-increments-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=3"],
+  kitProps = ["Increments=Four", "Level=Mid", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "four-increments-full",
+  ints = ["steps=3"],
+  floats = ["value=4.0"],
+  kitProps = ["Increments=Four", "Level=Full", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "four-increments-full-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=3"],
+  floats = ["value=4.0"],
+  kitProps = ["Increments=Four", "Level=Full", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "low",
+  floats = ["value=1.0"],
+  kitAxis = "Level",
+  kitValue = "Low",
+)
+@OverrideVariant(
+  name = "low-disabled",
+  booleans = ["enabled=false"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Five", "Level=Low", "Changed=No", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "disabled",
@@ -123,6 +204,139 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
   kitAxis = "Disabled",
   kitValue = "Yes",
 )
+@OverrideVariant(
+  name = "full",
+  floats = ["value=5.0"],
+  kitAxis = "Level",
+  kitValue = "Full",
+)
+@OverrideVariant(
+  name = "full-disabled",
+  booleans = ["enabled=false"],
+  floats = ["value=5.0"],
+  kitProps = ["Increments=Five", "Level=Full", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "six-increments-low",
+  ints = ["steps=5"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Six", "Level=Low", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "six-increments-low-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=5"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Six", "Level=Low", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "six-increments",
+  ints = ["steps=5"],
+  kitAxis = "Increments",
+  kitValue = "Six",
+)
+@OverrideVariant(
+  name = "six-increments-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=5"],
+  kitProps = ["Increments=Six", "Level=Mid", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "six-increments-full",
+  ints = ["steps=5"],
+  floats = ["value=6.0"],
+  kitProps = ["Increments=Six", "Level=Full", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "six-increments-full-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=5"],
+  floats = ["value=6.0"],
+  kitProps = ["Increments=Six", "Level=Full", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "seven-increments-low",
+  ints = ["steps=6"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Seven", "Level=Low", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "seven-increments-low-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=6"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Seven", "Level=Low", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "seven-increments",
+  ints = ["steps=6"],
+  kitAxis = "Increments",
+  kitValue = "Seven",
+)
+@OverrideVariant(
+  name = "seven-increments-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=6"],
+  kitProps = ["Increments=Seven", "Level=Mid", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "seven-increments-full",
+  ints = ["steps=6"],
+  floats = ["value=7.0"],
+  kitProps = ["Increments=Seven", "Level=Full", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "seven-increments-full-disabled",
+  booleans = ["enabled=false"],
+  ints = ["steps=6"],
+  floats = ["value=7.0"],
+  kitProps = ["Increments=Seven", "Level=Full", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "continuous-low",
+  booleans = ["segmented=false"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Percentage", "Level=Low", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "continuous-low-disabled",
+  booleans = ["segmented=false", "enabled=false"],
+  floats = ["value=1.0"],
+  kitProps = ["Increments=Percentage", "Level=Low", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "continuous",
+  booleans = ["segmented=false"],
+  kitAxis = "Increments",
+  kitValue = "Percentage",
+)
+@OverrideVariant(
+  name = "continuous-disabled",
+  booleans = ["segmented=false", "enabled=false"],
+  kitProps = ["Increments=Percentage", "Level=Mid", "Changed=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "continuous-full",
+  booleans = ["segmented=false"],
+  floats = ["value=5.0"],
+  kitProps = ["Increments=Percentage", "Level=Full", "Changed=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "continuous-full-disabled",
+  booleans = ["segmented=false", "enabled=false"],
+  floats = ["value=5.0"],
+  kitProps = ["Increments=Percentage", "Level=Full", "Changed=No", "Disabled=Yes"],
+)
+annotation class SliderKitCells
+
+@CatalogComponent(
+  id = "Slider",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/43711:37256",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34828:79081",
+  caption = "A value across a fixed number of steps, with the kit's levels folded in as cells.",
+)
+@CatalogModes
+@SliderKitCells
 @Composable
 fun ValueSlider() = Sticker {
   // THE KIT COUNTS BANDS; COMPOSE COUNTS THE STOPS BETWEEN THEM. The kit's axis is `Increments` —
@@ -174,17 +388,27 @@ fun ValueSlider() = Sticker {
 // is not a picture of; the projector said so out loud ("the reference already draws this") the
 // moment a cell claimed `Button Fill=No` for itself. `45007:258717` is the same arrangement with
 // the fill on, which is what the base render actually is.
-@CatalogComponent(
-  id = "Stepper",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/45007:258717",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
-  caption = "A value moved a step at a time, between buttons at the top and bottom of the screen.",
+/**
+ * **Every `Stepper` cell Compose can tell apart** — `Button Fill` by `Icon` by `Disabled`, six of
+ * the set's eight nodes, against the four that were drawn
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * The two absences are the disabled `Button Fill=No` cells. A disabled stepper draws no button
+ * container to begin with, so turning the fill off changes nothing and the cell is the plain
+ * disabled render under a second name — which `CatalogRenderTest` catches, and which the kit
+ * drawing two cells there does not make true of the library.
+ *
+ * `Button Fill=No` is a colour rather than a flag in Compose — the buttons keep their icons and
+ * lose their container, which is `StepperDefaults.colors(buttonContainerColor = Color.Transparent)`
+ * on the real component. It is also the cell that caught this component's reference pointing at the
+ * wrong node; the note above `ValueStepper` has that story.
+ */
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
 )
-@CatalogFullScreenModes
-@OverrideVariant(name = "icon", strings = ["content=icon"], kitAxis = "Icon", kitValue = "Yes")
-// `Button Fill=No` is the kit's third axis and it was not reachable at all. Compose spells it as a
-// colour rather than a flag — the buttons keep their icons and lose their container — so it is
-// `StepperDefaults.colors(buttonContainerColor = Color.Transparent)` on the real component.
 @OverrideVariant(
   name = "no-button-fill",
   booleans = ["buttonFill=false"],
@@ -192,11 +416,33 @@ fun ValueSlider() = Sticker {
   kitValue = "No",
 )
 @OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
+  name = "icon",
+  strings = ["content=icon"],
+  kitAxis = "Icon",
   kitValue = "Yes",
 )
+@OverrideVariant(
+  name = "icon-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon"],
+  kitProps = ["Button Fill=Yes", "Icon=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-no-button-fill",
+  booleans = ["buttonFill=false"],
+  strings = ["content=icon"],
+  kitProps = ["Button Fill=No", "Icon=Yes", "Disabled=No"],
+)
+annotation class StepperKitCells
+
+@CatalogComponent(
+  id = "Stepper",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/45007:258717",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
+  caption = "A value moved a step at a time, between buttons at the top and bottom of the screen.",
+)
+@CatalogFullScreenModes
+@StepperKitCells
 @Composable
 fun ValueStepper() = FullScreenSticker {
   val (value, onValueChange) = heldValue(previewOverrideFloat("value", 0.5f))
