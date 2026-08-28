@@ -300,6 +300,156 @@ fun ChildLabelButton() = Sticker {
   )
 }
 
+/**
+ * **Every `Button-Compact` cell Compose can reach and tell apart** — 24 of the set's 40 nodes,
+ * against the seven that were drawn: the base plus one cell per axis
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * Six of the sixteen absences are the disabled `Filled Variant` and `Tonal` cells, which Wear draws
+ * with the same `onSurface` colours as the disabled filled one — see `EdgeButtonKitCells`. The
+ * other ten are the `Alignment=Icon right` column. `CompactButton` has ONE icon slot and it leads;
+ * a trailing icon is not something the component takes, and putting a glyph in the label to fake
+ * one would publish a picture of this file rather than of the library.
+ *
+ * Every cell declares its whole kit vector, because this set's axes are coupled three deep:
+ * `Alignment`, `Icon` and `Text` are one choice the kit spells as three properties, so
+ * `content=icon` alone asks for a node between the ones the kit drew. Which is exactly what the
+ * `icon-only` and `text-only` cells did — the projector reported `no counterpart for content=icon`
+ * on both, and they were compared against nothing.
+ */
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitProps = ["Style=Filled", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "icon-only",
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "text-only",
+  strings = ["content=text"],
+  kitProps = ["Style=Filled", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=text"],
+  kitProps = ["Style=Filled", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "filled-variant",
+  strings = ["style=filled-variant"],
+  kitProps = ["Style=Filled Variant", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-icon-only",
+  strings = ["style=filled-variant", "content=icon"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "filled-variant-text-only",
+  strings = ["style=filled-variant", "content=text"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal",
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-icon-only",
+  strings = ["style=tonal", "content=icon"],
+  kitProps = ["Style=Tonal", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "tonal-text-only",
+  strings = ["style=tonal", "content=text"],
+  kitProps = ["Style=Tonal", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined",
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-icon-only",
+  strings = ["style=outlined", "content=icon"],
+  kitProps = ["Style=Outline", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=icon"],
+  kitProps = ["Style=Outline", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "outlined-text-only",
+  strings = ["style=outlined", "content=text"],
+  kitProps = ["Style=Outline", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "outlined-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=text"],
+  kitProps = ["Style=Outline", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "child",
+  strings = ["style=child"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "child-icon-only",
+  strings = ["style=child", "content=icon"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "content=icon"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+)
+@OverrideVariant(
+  name = "child-text-only",
+  strings = ["style=child", "content=text"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "child-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "content=text"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+)
+annotation class CompactButtonKitCells
+
 // The compact set is its own kit set and its own Compose function, so it is one component with the
 // kit's content axis folded in. `Style=` is NOT split here the way it is above: `CompactButton`
 // takes its emphasis as `colors`, so there is no second function to choose at the call site — the
@@ -311,33 +461,7 @@ fun ChildLabelButton() = Sticker {
   caption = "A short button for a dense screen, with the kit's content and style axes folded in.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon-only", strings = ["content=icon"], kitAxis = "Text", kitValue = "No")
-@OverrideVariant(name = "text-only", strings = ["content=text"], kitAxis = "Icon", kitValue = "No")
-@OverrideVariant(
-  name = "filled-variant",
-  strings = ["style=filled-variant"],
-  kitAxis = "Style",
-  kitValue = "Filled Variant",
-)
-@OverrideVariant(name = "tonal", strings = ["style=tonal"], kitAxis = "Style", kitValue = "Tonal")
-@OverrideVariant(
-  name = "outlined",
-  strings = ["style=outlined"],
-  kitAxis = "Style",
-  kitValue = "Outline",
-)
-@OverrideVariant(
-  name = "child",
-  strings = ["style=child"],
-  kitAxis = "Style",
-  kitValue = "Child (No background)",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
+@CompactButtonKitCells
 @Composable
 fun CompactActionButton() = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))

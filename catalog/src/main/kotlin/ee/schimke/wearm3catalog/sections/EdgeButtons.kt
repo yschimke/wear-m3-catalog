@@ -43,11 +43,20 @@ import ee.schimke.wearm3catalog.kitCopy
 // `colors`, so there is no second function to choose at the call site (AGENTS.md).
 
 /**
- * **Every cell of the kit's `Edge-Button` set**, which is a clean product: four `Style` values by
- * two `Type` values by four `Size` values by `Disabled`, 64 nodes, all of them published. The
- * catalog used to draw nine of them — the base plus one cell per axis — so 55 nodes the kit
- * publishes were compared against nothing
+ * **Every cell of the kit's `Edge-Button` set Compose can tell apart** — 48 of its 64 nodes. The
+ * set is a clean product (four `Style` values by two `Type` values by four `Size` values by
+ * `Disabled`) and the catalog drew nine of it, the base plus one cell per axis, so 55 published
+ * nodes were compared against nothing
  * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * The 16 that stay out are the DISABLED cells of `Filled Variant` and `Tonal`. Wear Compose
+ * resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container,
+ * 38% content — so a disabled variant, tonal and filled button are one picture, and the three cells
+ * the kit draws for them cannot be told apart at the call site. Publishing them anyway is three
+ * names for one render, which `CatalogRenderTest.no two renders of a component are identical`
+ * rejects, and rightly: a comparison that cannot fail is not a comparison. The kit drawing a
+ * distinction the library does not is a finding about the pair, recorded here (AGENTS.md), and the
+ * `Outline` disabled cells DO differ, so they are drawn.
  *
  * Hoisted onto an annotation class rather than stacked on the composable so the component's own
  * declaration still reads as one screen of code.
@@ -154,21 +163,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Small", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "filled-variant-extra-small-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "size=extra-small"],
-  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Small", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "filled-variant",
   strings = ["style=filled-variant"],
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Default", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "filled-variant-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant"],
-  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Default", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "filled-variant-medium",
@@ -176,21 +173,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Large", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "filled-variant-medium-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "size=medium"],
-  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Large", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "filled-variant-large",
   strings = ["style=filled-variant", "size=large"],
   kitProps = ["Style=Filled Variant", "Type=Text", "Size=Extra-Large", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "filled-variant-large-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "size=large"],
-  kitProps = ["Style=Filled Variant", "Type=Text", "Size=Extra-Large", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "filled-variant-icon-extra-small",
@@ -198,21 +183,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Small", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "filled-variant-icon-extra-small-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "content=icon", "size=extra-small"],
-  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Small", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "filled-variant-icon",
   strings = ["style=filled-variant", "content=icon"],
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Default", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "filled-variant-icon-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "content=icon"],
-  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Default", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "filled-variant-icon-medium",
@@ -220,21 +193,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Large", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "filled-variant-icon-medium-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "content=icon", "size=medium"],
-  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Large", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "filled-variant-icon-large",
   strings = ["style=filled-variant", "content=icon", "size=large"],
   kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "filled-variant-icon-large-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=filled-variant", "content=icon", "size=large"],
-  kitProps = ["Style=Filled Variant", "Type=Icon", "Size=Extra-Large", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "tonal-extra-small",
@@ -242,21 +203,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Tonal", "Type=Text", "Size=Small", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "tonal-extra-small-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "size=extra-small"],
-  kitProps = ["Style=Tonal", "Type=Text", "Size=Small", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "tonal",
   strings = ["style=tonal"],
   kitProps = ["Style=Tonal", "Type=Text", "Size=Default", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "tonal-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal"],
-  kitProps = ["Style=Tonal", "Type=Text", "Size=Default", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "tonal-medium",
@@ -264,21 +213,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Tonal", "Type=Text", "Size=Large", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "tonal-medium-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "size=medium"],
-  kitProps = ["Style=Tonal", "Type=Text", "Size=Large", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "tonal-large",
   strings = ["style=tonal", "size=large"],
   kitProps = ["Style=Tonal", "Type=Text", "Size=Extra-Large", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "tonal-large-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "size=large"],
-  kitProps = ["Style=Tonal", "Type=Text", "Size=Extra-Large", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "tonal-icon-extra-small",
@@ -286,21 +223,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Small", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "tonal-icon-extra-small-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "content=icon", "size=extra-small"],
-  kitProps = ["Style=Tonal", "Type=Icon", "Size=Small", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "tonal-icon",
   strings = ["style=tonal", "content=icon"],
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Default", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "tonal-icon-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "content=icon"],
-  kitProps = ["Style=Tonal", "Type=Icon", "Size=Default", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "tonal-icon-medium",
@@ -308,21 +233,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Large", "Disabled=No"],
 )
 @OverrideVariant(
-  name = "tonal-icon-medium-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "content=icon", "size=medium"],
-  kitProps = ["Style=Tonal", "Type=Icon", "Size=Large", "Disabled=Yes"],
-)
-@OverrideVariant(
   name = "tonal-icon-large",
   strings = ["style=tonal", "content=icon", "size=large"],
   kitProps = ["Style=Tonal", "Type=Icon", "Size=Extra-Large", "Disabled=No"],
-)
-@OverrideVariant(
-  name = "tonal-icon-large-disabled",
-  booleans = ["enabled=false"],
-  strings = ["style=tonal", "content=icon", "size=large"],
-  kitProps = ["Style=Tonal", "Type=Icon", "Size=Extra-Large", "Disabled=Yes"],
 )
 @OverrideVariant(
   name = "outlined-extra-small",
