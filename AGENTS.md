@@ -325,6 +325,15 @@ are out of scope.
   background (`@CatalogModes`). A component the kit draws on a display cell — scaffolds, lists,
   dialogs, pickers, the indicator rails, swipe-to-reveal — takes `FullScreenSticker` and
   `@CatalogFullScreenModes` instead: the round device frame plus the breakpoint fan-out.
+- **A control the kit draws across its content column takes `Modifier.kitRowWidth()`.** Wear's
+  `Button` applies no `fillMaxWidth` of its own — `Card`, `Slider` and `Stepper` do — so a button
+  given no width hugs its label, and `Button/Filled` published at 120dp against a 172dp kit cell.
+  That is not a trimmable edge: design-parity rasterises the reference at the *candidate's* width,
+  so a narrow candidate rescales the whole comparison
+  ([#138](https://github.com/yschimke/wear-m3-catalog/issues/138)). `fillMaxWidth()` is not the fix
+  either — the sandbox is bounded at 227dp, so it resolves to 211dp, a different wrong answer.
+  Components that are *supposed* to size to their content — icon buttons, the compact button, the
+  text specimens — must NOT take it: pinning those would publish a component wider than it is.
 - Renders must be **deterministic**: a `TimeText` is pinned to a fixed instant, never the system
   clock. An unpinned clock would make every nightly render differ from the last, which turns the
   delivery branch's history into noise.

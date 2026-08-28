@@ -3,6 +3,7 @@
 package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.wear.compose.material3.CheckboxButton
 import androidx.wear.compose.material3.RadioButton
 import androidx.wear.compose.material3.SplitCheckboxButton
@@ -18,6 +19,7 @@ import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.kitCopy
+import ee.schimke.wearm3catalog.kitRowWidth
 import ee.schimke.wearm3catalog.toggleable
 
 // The kit's `Toggle+Selection-Buttons` set — one set carrying `Type = Checkbox | Radio | Switch |
@@ -112,6 +114,7 @@ fun CheckboxRow() = Sticker {
     SplitCheckboxButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
+      modifier = Modifier.kitRowWidth(),
       toggleContentDescription = kitCopy("label", KitCopy.PRIMARY),
       onContainerClick = {},
       enabled = enabled,
@@ -122,6 +125,7 @@ fun CheckboxRow() = Sticker {
     CheckboxButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
+      modifier = Modifier.kitRowWidth(),
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
       secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
@@ -147,6 +151,7 @@ fun SwitchRow() = Sticker {
     SplitSwitchButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
+      modifier = Modifier.kitRowWidth(),
       toggleContentDescription = kitCopy("label", KitCopy.PRIMARY),
       onContainerClick = {},
       enabled = enabled,
@@ -157,6 +162,7 @@ fun SwitchRow() = Sticker {
     SwitchButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
+      modifier = Modifier.kitRowWidth(),
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
       secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
@@ -180,6 +186,7 @@ fun RadioRow() = Sticker {
     SplitRadioButton(
       selected = selected,
       onSelectionClick = { onSelectedChange(true) },
+      modifier = Modifier.kitRowWidth(),
       selectionContentDescription = kitCopy("label", KitCopy.PRIMARY),
       onContainerClick = {},
       enabled = enabled,
@@ -190,6 +197,7 @@ fun RadioRow() = Sticker {
     RadioButton(
       selected = selected,
       onSelect = { onSelectedChange(true) },
+      modifier = Modifier.kitRowWidth(),
       enabled = enabled,
       label = { Text(kitCopy("label", KitCopy.PRIMARY)) },
       secondaryLabel = { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY)) },
