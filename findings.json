@@ -4,7 +4,7 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.AppCardRemote_width=227dp,height=200dp,dpi=320": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -31,8 +31,8 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 88,
-                  "y": 66,
+                  "x": 64,
+                  "y": 84,
                   "width": 131,
                   "height": 33
                 },
@@ -43,10 +43,10 @@
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 358dp available.",
+            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 406dp available.",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "422",
               "expansionFactor": "1.4",
               "estimatedExpandedWidth": "591"
@@ -65,10 +65,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 111,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 129,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
               }
@@ -77,10 +77,10 @@
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 358dp available.",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "537",
               "expansionFactor": "1.3",
               "estimatedExpandedWidth": "698"
@@ -99,43 +99,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 225,
-                  "width": 358,
+                  "x": 24,
+                  "y": 207,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 122
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -270,11 +239,11 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Label text\": offset (1, -12), size Δ(41, 3) vs candidate",
+            "message": "layout \"Label text\": offset (10, -19), size Δ(41, 3) vs candidate",
             "detail": {
               "label": "Label text",
-              "dx": "1",
-              "dy": "-12",
+              "dx": "10",
+              "dy": "-19",
               "dw": "41",
               "dh": "3"
             },
@@ -292,8 +261,8 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 88,
-                  "y": 66,
+                  "x": 64,
+                  "y": 84,
                   "width": 131,
                   "height": 33
                 },
@@ -304,11 +273,11 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"XXm\": offset (-1, -12), size Δ(7, 3) vs candidate",
+            "message": "layout \"XXm\": offset (-10, -19), size Δ(7, 3) vs candidate",
             "detail": {
               "label": "XXm",
-              "dx": "-1",
-              "dy": "-12",
+              "dx": "-10",
+              "dy": "-19",
               "dw": "7",
               "dh": "3"
             },
@@ -326,8 +295,8 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 342,
-                  "y": 66,
+                  "x": 366,
+                  "y": 84,
                   "width": 64,
                   "height": 33
                 },
@@ -338,13 +307,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (-6, -6), size Δ(12, -6) vs candidate",
+            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -13), size Δ(-6, 8) vs candidate",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-6",
-              "dw": "12",
-              "dh": "-6"
+              "dx": "3",
+              "dy": "-13",
+              "dw": "-6",
+              "dh": "8"
             },
             "anchors": [
               {
@@ -360,10 +329,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 111,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 129,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
               }
@@ -372,12 +341,12 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, -11), size Δ(12, -6) vs candidate",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -4), size Δ(-6, -6) vs candidate",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-11",
-              "dw": "12",
+              "dx": "3",
+              "dy": "-4",
+              "dw": "-6",
               "dh": "-6"
             },
             "anchors": [
@@ -394,9 +363,9 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 225,
-                  "width": 358,
+                  "x": 24,
+                  "y": 207,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -412,28 +381,28 @@
               "dw": "0",
               "dh": "-78",
               "borderPixels": "35412",
-              "contentPixels": "29600"
+              "contentPixels": "43408"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 7.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 18.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.072544",
-              "alphaLossPixels": "10605",
+              "alphaLossRatio": "0.179721",
+              "alphaLossPixels": "26273",
               "alphaComparedPixels": "146188"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 35.8% of pixels differ from reference",
+            "message": "default: 43.4% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.357996",
-              "diffPixels": "65012"
+              "score": "0.434031",
+              "diffPixels": "78820"
             }
           }
         ]
@@ -442,7 +411,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#AppCardRemote": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -469,8 +438,8 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 88,
-                  "y": 66,
+                  "x": 64,
+                  "y": 84,
                   "width": 131,
                   "height": 33
                 },
@@ -481,10 +450,10 @@
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 358dp available.",
+            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 406dp available.",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "422",
               "expansionFactor": "1.4",
               "estimatedExpandedWidth": "591"
@@ -503,10 +472,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 111,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 129,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
               }
@@ -515,10 +484,10 @@
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 358dp available.",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "537",
               "expansionFactor": "1.3",
               "estimatedExpandedWidth": "698"
@@ -537,43 +506,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 225,
-                  "width": 358,
+                  "x": 24,
+                  "y": 207,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 122
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -708,11 +646,11 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Label text\": offset (1, -12), size Δ(41, 3) vs candidate",
+            "message": "layout \"Label text\": offset (10, -19), size Δ(41, 3) vs candidate",
             "detail": {
               "label": "Label text",
-              "dx": "1",
-              "dy": "-12",
+              "dx": "10",
+              "dy": "-19",
               "dw": "41",
               "dh": "3"
             },
@@ -730,8 +668,8 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 88,
-                  "y": 66,
+                  "x": 64,
+                  "y": 84,
                   "width": 131,
                   "height": 33
                 },
@@ -742,11 +680,11 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"XXm\": offset (-1, -12), size Δ(7, 3) vs candidate",
+            "message": "layout \"XXm\": offset (-10, -19), size Δ(7, 3) vs candidate",
             "detail": {
               "label": "XXm",
-              "dx": "-1",
-              "dy": "-12",
+              "dx": "-10",
+              "dy": "-19",
               "dw": "7",
               "dh": "3"
             },
@@ -764,8 +702,8 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 342,
-                  "y": 66,
+                  "x": 366,
+                  "y": 84,
                   "width": 64,
                   "height": 33
                 },
@@ -776,13 +714,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (-6, -6), size Δ(12, -6) vs candidate",
+            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -13), size Δ(-6, 8) vs candidate",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-6",
-              "dw": "12",
-              "dh": "-6"
+              "dx": "3",
+              "dy": "-13",
+              "dw": "-6",
+              "dh": "8"
             },
             "anchors": [
               {
@@ -798,10 +736,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 111,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 129,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
               }
@@ -810,12 +748,12 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, -11), size Δ(12, -6) vs candidate",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -4), size Δ(-6, -6) vs candidate",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-11",
-              "dw": "12",
+              "dx": "3",
+              "dy": "-4",
+              "dw": "-6",
               "dh": "-6"
             },
             "anchors": [
@@ -832,9 +770,9 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 225,
-                  "width": 358,
+                  "x": 24,
+                  "y": 207,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -850,28 +788,28 @@
               "dw": "0",
               "dh": "-78",
               "borderPixels": "35412",
-              "contentPixels": "29600"
+              "contentPixels": "43408"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 7.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 18.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.072544",
-              "alphaLossPixels": "10605",
+              "alphaLossRatio": "0.179721",
+              "alphaLossPixels": "26273",
               "alphaComparedPixels": "146188"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 35.8% of pixels differ from reference",
+            "message": "default: 43.4% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.357996",
-              "diffPixels": "65012"
+              "score": "0.434031",
+              "diffPixels": "78820"
             }
           }
         ]
@@ -880,15 +818,15 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.CardRemote_width=227dp,height=200dp,dpi=320": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 358dp available.",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "537",
               "expansionFactor": "1.3",
               "estimatedExpandedWidth": "698"
@@ -907,43 +845,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -1078,12 +985,12 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, -5), size Δ(12, 12) vs candidate",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -5), size Δ(-6, 12) vs candidate",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
+              "dx": "3",
               "dy": "-5",
-              "dw": "12",
+              "dw": "-6",
               "dh": "12"
             },
             "anchors": [
@@ -1100,9 +1007,9 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -1118,28 +1025,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "57182"
+              "contentPixels": "70254"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 36.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 47.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.360614",
-              "alphaLossPixels": "50098",
+              "alphaLossRatio": "0.469804",
+              "alphaLossPixels": "65267",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 55.0% of pixels differ from reference",
+            "message": "default: 62.2% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.549879",
-              "diffPixels": "99858"
+              "score": "0.621861",
+              "diffPixels": "112930"
             }
           }
         ]
@@ -1148,15 +1055,15 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#CardRemote": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 358dp available.",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "537",
               "expansionFactor": "1.3",
               "estimatedExpandedWidth": "698"
@@ -1175,43 +1082,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -1346,12 +1222,12 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, -5), size Δ(12, 12) vs candidate",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -5), size Δ(-6, 12) vs candidate",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
+              "dx": "3",
               "dy": "-5",
-              "dw": "12",
+              "dw": "-6",
               "dh": "12"
             },
             "anchors": [
@@ -1368,9 +1244,9 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -1386,28 +1262,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "57182"
+              "contentPixels": "70254"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 36.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 47.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.360614",
-              "alphaLossPixels": "50098",
+              "alphaLossRatio": "0.469804",
+              "alphaLossPixels": "65267",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 55.0% of pixels differ from reference",
+            "message": "default: 62.2% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.549879",
-              "diffPixels": "99858"
+              "score": "0.621861",
+              "diffPixels": "112930"
             }
           }
         ]
@@ -1455,36 +1331,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 137,
-                  "height": 32
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -1653,28 +1499,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "38220"
+              "contentPixels": "35460"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 80.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 75.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.807767",
-              "alphaLossPixels": "38873",
+              "alphaLossRatio": "0.749522",
+              "alphaLossPixels": "36070",
               "alphaComparedPixels": "48124"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 89.1% of pixels differ from reference",
+            "message": "default: 86.1% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.890925",
-              "diffPixels": "80896"
+              "score": "0.860529",
+              "diffPixels": "78136"
             }
           }
         ]
@@ -1722,36 +1568,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 137,
-                  "height": 32
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -1920,28 +1736,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "38220"
+              "contentPixels": "35460"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 80.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 75.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.807767",
-              "alphaLossPixels": "38873",
+              "alphaLossRatio": "0.749522",
+              "alphaLossPixels": "36070",
               "alphaComparedPixels": "48124"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 89.1% of pixels differ from reference",
+            "message": "default: 86.1% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.890925",
-              "diffPixels": "80896"
+              "score": "0.860529",
+              "diffPixels": "78136"
             }
           }
         ]
@@ -1989,36 +1805,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "14",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 52
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -2187,28 +1973,28 @@
               "dw": "0",
               "dh": "-63",
               "borderPixels": "28602",
-              "contentPixels": "35377"
+              "contentPixels": "39946"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 52.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 60.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.525612",
-              "alphaLossPixels": "32692",
+              "alphaLossRatio": "0.605743",
+              "alphaLossPixels": "37676",
               "alphaComparedPixels": "62198"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 70.5% of pixels differ from reference",
+            "message": "default: 75.5% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.704615",
-              "diffPixels": "63979"
+              "score": "0.754934",
+              "diffPixels": "68548"
             }
           }
         ]
@@ -2256,36 +2042,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "14",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 52
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -2454,28 +2210,28 @@
               "dw": "0",
               "dh": "-63",
               "borderPixels": "28602",
-              "contentPixels": "35377"
+              "contentPixels": "39946"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 52.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 60.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.525612",
-              "alphaLossPixels": "32692",
+              "alphaLossRatio": "0.605743",
+              "alphaLossPixels": "37676",
               "alphaComparedPixels": "62198"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 70.5% of pixels differ from reference",
+            "message": "default: 75.5% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.704615",
-              "diffPixels": "63979"
+              "score": "0.754934",
+              "diffPixels": "68548"
             }
           }
         ]
@@ -2484,15 +2240,15 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.OutlinedCardRemote_width=227dp,height=200dp,dpi=320": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 358dp available.",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "537",
               "expansionFactor": "1.3",
               "estimatedExpandedWidth": "698"
@@ -2511,43 +2267,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -2652,12 +2377,12 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, -5), size Δ(12, 12) vs candidate",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -5), size Δ(-6, 12) vs candidate",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
+              "dx": "3",
               "dy": "-5",
-              "dw": "12",
+              "dw": "-6",
               "dh": "12"
             },
             "anchors": [
@@ -2674,9 +2399,9 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -2692,28 +2417,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "18599"
+              "contentPixels": "19425"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 9.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.089034",
-              "alphaLossPixels": "12369",
+              "alphaLossRatio": "0.089682",
+              "alphaLossPixels": "12459",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 33.7% of pixels differ from reference",
+            "message": "default: 34.2% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.337417",
-              "diffPixels": "61275"
+              "score": "0.341966",
+              "diffPixels": "62101"
             }
           }
         ]
@@ -2722,15 +2447,15 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#OutlinedCardRemote": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 358dp available.",
+            "message": "\"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\" risks truncation when localized: ≈698dp expanded vs 406dp available.",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "537",
               "expansionFactor": "1.3",
               "estimatedExpandedWidth": "698"
@@ -2749,43 +2474,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -2890,12 +2584,12 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (-6, -5), size Δ(12, 12) vs candidate",
+            "message": "layout \"Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet\": offset (3, -5), size Δ(-6, 12) vs candidate",
             "detail": {
               "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet",
-              "dx": "-6",
+              "dx": "3",
               "dy": "-5",
-              "dw": "12",
+              "dw": "-6",
               "dh": "12"
             },
             "anchors": [
@@ -2912,9 +2606,9 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
+                  "x": 24,
                   "y": 145,
-                  "width": 358,
+                  "width": 406,
                   "height": 110
                 },
                 "label": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
@@ -2930,28 +2624,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "18599"
+              "contentPixels": "19425"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 9.0% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.089034",
-              "alphaLossPixels": "12369",
+              "alphaLossRatio": "0.089682",
+              "alphaLossPixels": "12459",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 33.7% of pixels differ from reference",
+            "message": "default: 34.2% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.337417",
-              "diffPixels": "61275"
+              "score": "0.341966",
+              "diffPixels": "62101"
             }
           }
         ]
@@ -2999,36 +2693,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "14",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 52
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -3167,28 +2831,28 @@
               "dw": "0",
               "dh": "-63",
               "borderPixels": "28602",
-              "contentPixels": "6860"
+              "contentPixels": "6586"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 6.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 6.1% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.061594",
-              "alphaLossPixels": "3831",
+              "alphaLossRatio": "0.060934",
+              "alphaLossPixels": "3790",
               "alphaComparedPixels": "62198"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 39.1% of pixels differ from reference",
+            "message": "default: 38.8% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.390551",
-              "diffPixels": "35462"
+              "score": "0.387533",
+              "diffPixels": "35188"
             }
           }
         ]
@@ -3236,36 +2900,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "14",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 52
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -3404,28 +3038,28 @@
               "dw": "0",
               "dh": "-63",
               "borderPixels": "28602",
-              "contentPixels": "6860"
+              "contentPixels": "6586"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 6.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 6.1% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.061594",
-              "alphaLossPixels": "3831",
+              "alphaLossRatio": "0.060934",
+              "alphaLossPixels": "3790",
               "alphaComparedPixels": "62198"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 39.1% of pixels differ from reference",
+            "message": "default: 38.8% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.390551",
-              "diffPixels": "35462"
+              "score": "0.387533",
+              "diffPixels": "35188"
             }
           }
         ]
@@ -3798,15 +3432,15 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.TitleCardRemote_width=227dp,height=200dp,dpi=320": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 358dp available.",
+            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 406dp available.",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "422",
               "expansionFactor": "1.4",
               "estimatedExpandedWidth": "591"
@@ -3825,43 +3459,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 145,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 160,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -3996,13 +3599,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (-6, -43), size Δ(-23, -6) vs candidate",
+            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -49), size Δ(-41, 8) vs candidate",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-43",
-              "dw": "-23",
-              "dh": "-6"
+              "dx": "3",
+              "dy": "-49",
+              "dw": "-41",
+              "dh": "8"
             },
             "anchors": [
               {
@@ -4018,10 +3621,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 145,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 160,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
               }
@@ -4036,28 +3639,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "57807"
+              "contentPixels": "84985"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 36.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 56.8% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.360614",
-              "alphaLossPixels": "50098",
+              "alphaLossRatio": "0.567843",
+              "alphaLossPixels": "78887",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 55.3% of pixels differ from reference",
+            "message": "default: 70.3% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.55332",
-              "diffPixels": "100483"
+              "score": "0.702979",
+              "diffPixels": "127661"
             }
           }
         ]
@@ -4066,15 +3669,15 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#TitleCardRemote": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
             "severity": "warn",
-            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 358dp available.",
+            "message": "\"Title card title text lorem ipsum dolor sit amet\" risks truncation when localized: ≈591dp expanded vs 406dp available.",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "availableWidth": "358",
+              "availableWidth": "406",
               "estimatedWidth": "422",
               "expansionFactor": "1.4",
               "estimatedExpandedWidth": "591"
@@ -4093,43 +3696,12 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 145,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 160,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "error",
-            "message": "spacing.padding: 24 vs spec 12 (Δ12)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "12",
-              "actual": "24",
-              "delta": "12"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 116
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 400
-                }
               }
             ]
           },
@@ -4264,13 +3836,13 @@
           {
             "kind": "layout",
             "severity": "warn",
-            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (-6, -43), size Δ(-23, -6) vs candidate",
+            "message": "layout \"Title card title text lorem ipsum dolor sit amet\": offset (3, -49), size Δ(-41, 8) vs candidate",
             "detail": {
               "label": "Title card title text lorem ipsum dolor sit amet",
-              "dx": "-6",
-              "dy": "-43",
-              "dw": "-23",
-              "dh": "-6"
+              "dx": "3",
+              "dy": "-49",
+              "dw": "-41",
+              "dh": "8"
             },
             "anchors": [
               {
@@ -4286,10 +3858,10 @@
               {
                 "side": "actual",
                 "bounds": {
-                  "x": 48,
-                  "y": 145,
-                  "width": 358,
-                  "height": 110
+                  "x": 24,
+                  "y": 160,
+                  "width": 406,
+                  "height": 74
                 },
                 "label": "Title card title text lorem ipsum dolor sit amet"
               }
@@ -4304,28 +3876,28 @@
               "dw": "0",
               "dh": "-94",
               "borderPixels": "42676",
-              "contentPixels": "57807"
+              "contentPixels": "84985"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 36.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 56.8% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.360614",
-              "alphaLossPixels": "50098",
+              "alphaLossRatio": "0.567843",
+              "alphaLossPixels": "78887",
               "alphaComparedPixels": "138924"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 55.3% of pixels differ from reference",
+            "message": "default: 70.3% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.55332",
-              "diffPixels": "100483"
+              "score": "0.702979",
+              "diffPixels": "127661"
             }
           }
         ]
@@ -4521,36 +4093,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "14",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 52
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -4719,28 +4261,28 @@
               "dw": "0",
               "dh": "-63",
               "borderPixels": "28602",
-              "contentPixels": "35383"
+              "contentPixels": "39955"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 52.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 60.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.525612",
-              "alphaLossPixels": "32692",
+              "alphaLossRatio": "0.605743",
+              "alphaLossPixels": "37676",
               "alphaComparedPixels": "62198"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 70.5% of pixels differ from reference",
+            "message": "default: 75.5% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.704681",
-              "diffPixels": "63985"
+              "score": "0.755033",
+              "diffPixels": "68557"
             }
           }
         ]
@@ -4788,36 +4330,6 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
-            "detail": {
-              "token": "spacing.padding",
-              "expected": "14",
-              "unverified": "true"
-            },
-            "anchors": [
-              {
-                "side": "reference",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 172,
-                  "height": 52
-                }
-              },
-              {
-                "side": "actual",
-                "bounds": {
-                  "x": 0,
-                  "y": 0,
-                  "width": 454,
-                  "height": 200
-                }
-              }
-            ]
-          },
-          {
-            "kind": "token",
-            "severity": "info",
             "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
             "detail": {
               "token": "radius.*",
@@ -4986,28 +4498,28 @@
               "dw": "0",
               "dh": "-63",
               "borderPixels": "28602",
-              "contentPixels": "35383"
+              "contentPixels": "39955"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 52.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "message": "default: 60.6% of aligned pixels are opaque in the reference but transparent in the candidate",
             "detail": {
               "key": "default",
-              "alphaLossRatio": "0.525612",
-              "alphaLossPixels": "32692",
+              "alphaLossRatio": "0.605743",
+              "alphaLossPixels": "37676",
               "alphaComparedPixels": "62198"
             }
           },
           {
             "kind": "visual",
             "severity": "warn",
-            "message": "default: 70.5% of pixels differ from reference",
+            "message": "default: 75.5% of pixels differ from reference",
             "detail": {
               "key": "default",
-              "score": "0.704681",
-              "diffPixels": "63985"
+              "score": "0.755033",
+              "diffPixels": "68557"
             }
           }
         ]
