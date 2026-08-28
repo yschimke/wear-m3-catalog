@@ -102,7 +102,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: 24.19.0
+          node-version: 24.20.0
       # The build-free pre-flight: resolves every spec reference against the module's actual
       # `@Preview` functions and flags PNG-less previews, before the (long) render in
       # design-artifacts.yml spends a runner discovering the same problem.
@@ -127,7 +127,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: 24.19.0
+          node-version: 24.20.0
       # Which pages the import covers, and what each one is called. Both answers are published URLs
       # (`/{system}/pages/{id}`), and the page list is discovered from the Figma file rather than
       # hand-kept — so the slug rule is the only thing holding those URLs still. Needs no token:
