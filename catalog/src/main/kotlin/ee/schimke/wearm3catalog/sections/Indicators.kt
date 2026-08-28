@@ -27,8 +27,8 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogFullScreenModes
-import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
+import ee.schimke.wearm3catalog.TransparentScreenSticker
 
 // The kit's `Position Indicators` and `Page Indicators` pages. Every one of these is a curved rail
 // positioned against the bezel — it has no size of its own to be cropped to — so they publish on
@@ -62,7 +62,7 @@ import ee.schimke.wearm3catalog.FullScreenSticker
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/44998:18342",
   caption = "Where the screen sits in a scroll, drawn against the right bezel.",
 )
-@CatalogFullScreenModes
+@CatalogTransparentScreenModes
 @OverrideVariant(
   name = "middle",
   floats = ["position=0.5"],
@@ -76,7 +76,7 @@ import ee.schimke.wearm3catalog.FullScreenSticker
   kitValue = "Bottom",
 )
 @Composable
-fun ScrollRail() = FullScreenSticker {
+fun ScrollRail() = TransparentScreenSticker {
   // SCROLLABLE, BUT EMPTY — and it has to be both.
   //
   // Scrollable, because a `ScrollState` seeded to an offset it cannot reach reports position zero:
@@ -108,7 +108,7 @@ fun ScrollRail() = FullScreenSticker {
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/46619:47146",
   caption = "The value a rotating side button is setting, while it is being turned.",
 )
-@CatalogFullScreenModes
+@CatalogTransparentScreenModes
 @OverrideVariant(name = "low", floats = ["value=0.15"])
 @OverrideVariant(name = "full", floats = ["value=1.0"])
 @OverrideVariant(
@@ -118,7 +118,7 @@ fun ScrollRail() = FullScreenSticker {
   kitValue = "Yes",
 )
 @Composable
-fun LevelRail() = FullScreenSticker {
+fun LevelRail() = TransparentScreenSticker {
   // `value`, not `level`: the knob carries the name of the parameter it sets, so a reader of the
   // controls panel can find it in `LevelIndicator`'s signature. The kit calls the axis something
   // else on some sets and that word rides on the cell, not on the knob (see Sliders.kt).
@@ -208,10 +208,10 @@ annotation class HorizontalPageKitCells
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
   caption = "Which page of a horizontal pager is showing, along the bottom of the display.",
 )
-@CatalogFullScreenModes
+@CatalogTransparentScreenModes
 @HorizontalPageKitCells
 @Composable
-fun HorizontalPages() = FullScreenSticker {
+fun HorizontalPages() = TransparentScreenSticker {
   val pages = previewOverrideInt("pages", 4)
   // Which page is showing is the other half of what this component draws, and it was pinned to the
   // first one — so the kit's `6 - Start` / `6 - End` / `6 - MiddleEnd` positions were unreachable
@@ -297,10 +297,10 @@ annotation class VerticalPageKitCells
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38684:137917",
   caption = "The same indicator for a vertical pager, drawn against the right bezel.",
 )
-@CatalogFullScreenModes
+@CatalogTransparentScreenModes
 @VerticalPageKitCells
 @Composable
-fun VerticalPages() = FullScreenSticker {
+fun VerticalPages() = TransparentScreenSticker {
   val pages = previewOverrideInt("pages", 4)
   val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
   VerticalPageIndicator(

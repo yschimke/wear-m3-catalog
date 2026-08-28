@@ -108,6 +108,27 @@ fun FullScreenSticker(content: @Composable BoxScope.() -> Unit) {
 }
 
 /**
+ * [FullScreenSticker] for a display cell the kit exports **transparent**: the whole `192×192` to
+ * lay out against, with no fill behind it. Pairs with [CatalogTransparentScreenModes], and only
+ * with it.
+ *
+ * **Both halves are load-bearing, which is the trap.** The black disc has two independent sources —
+ * the preview's own `showBackground = true, backgroundColor = 0xFF000000`, and the
+ * `background(colorScheme.background)` that [FullScreenSticker] paints over it. Remove either alone
+ * and the render is pixel-for-pixel unchanged, because the other still fills the same circle. That
+ * is why this is a separate frame rather than a flag: the two must move together, and a pair of
+ * knobs either of which silently does nothing is worse than one thing with a name.
+ *
+ * Everything else is [FullScreenSticker]: same round device, same clip, same breakpoint fan-out
+ * under the same `<dp>dp` names. See [CatalogTransparentScreenModes] for which cells want this and
+ * the measurements behind that list.
+ */
+@Composable
+fun TransparentScreenSticker(content: @Composable BoxScope.() -> Unit) {
+  CatalogMaterialTheme { Box(Modifier.fillMaxSize()) { content() } }
+}
+
+/**
  * Frame for a component that is **a screen with chrome** — one that needs the curved clock and the
  * scroll furniture around it to be the thing it is, rather than only the round display underneath.
  *
@@ -293,3 +314,48 @@ fun EdgeButtonScreen(
   backgroundColor = 0xFF000000,
 )
 annotation class CatalogFullScreenModes
+
+/**
+ * [CatalogFullScreenModes] for a display cell the kit exports **transparent** — same five devices,
+ * same names, `showBackground = false`.
+ *
+ * The black disc is the *preview's*, not the component's: `showBackground = true` with
+ * `backgroundColor = 0xFF000000` fills the round device, and `FullScreenSticker`'s own
+ * `background(colorScheme.background)` then paints the same black on top of it, which is why
+ * removing that modifier changes nothing. The fill has to go from here.
+ *
+ * Most of these cells want it. A dialog, a picker, a swipe-to-reveal and the stepper are drawn by
+ * the kit over a filled screen, and their references are ~78.8% opaque — the same π/4 disc — so
+ * they pair as they are and must keep [CatalogFullScreenModes].
+ *
+ * Six do not: `ScrollRail` (0.6% opaque), `HorizontalPages` and `VerticalPages` (1.4%), `LevelRail`
+ * (2.0%), `FixedTimeText` (2.3%) and `CircularProgress` (12.6%) are exported over transparency. A
+ * filled candidate against a transparent reference differs at every background pixel, which scored
+ * those six 70–79% different whatever the component itself drew — the fill, not divergence
+ * ([#138](https://github.com/yschimke/wear-m3-catalog/issues/138)). That is also why the board's
+ * number for `CircularProgress` says nothing about
+ * [#89](https://github.com/yschimke/wear-m3-catalog/issues/89) or
+ * [#90](https://github.com/yschimke/wear-m3-catalog/issues/90) either way.
+ *
+ * The device, the round clip and the breakpoint fan-out are unchanged — the component still lays
+ * itself out against the whole `192×192` display, and the five cells still fold as `<dp>dp` under
+ * the 192 base, because the names here are the same names. Only the paint is gone.
+ */
+@Preview(name = "192dp", device = "id:wearos_small_round", showBackground = false)
+@Preview(
+  name = "204dp",
+  device = "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+  showBackground = false,
+)
+@Preview(
+  name = "216dp",
+  device = "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+  showBackground = false,
+)
+@Preview(
+  name = "225dp",
+  device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+  showBackground = false,
+)
+@Preview(name = "240dp", device = "id:wearos_xl_round", showBackground = false)
+annotation class CatalogTransparentScreenModes

@@ -24,10 +24,10 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
-import ee.schimke.wearm3catalog.FullScreenSticker
+import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.TransparentScreenSticker
 
 // The kit's three progress sets. They are three components because Compose has three functions —
 // the segmented ring is `SegmentedCircularProgressIndicator`, not a property of the round one — and
@@ -177,7 +177,7 @@ annotation class CircularProgressKitCells
   // four progress names, and a GIF needs the pinned canvas a cropped sticker does not have.
   motionPreview = "IndeterminateProgressMotion",
 )
-@CatalogFullScreenModes
+@CatalogTransparentScreenModes
 @CircularProgressKitCells
 // The kit publishes four determinate `Progress=` values and no indeterminate one, but the library
 // ships both on the same name — so it folds in here as a cell rather than standing up a second
@@ -185,7 +185,7 @@ annotation class CircularProgressKitCells
 // motion; `Motion.kt` carries the recording.
 @OverrideVariant(name = "indeterminate", strings = ["mode=indeterminate"])
 @Composable
-fun CircularProgress() = FullScreenSticker {
+fun CircularProgress() = TransparentScreenSticker {
   val progress = previewOverrideFloat("progress", 0.6f)
   val stroke =
     if (previewOverrideChoice("stroke", "medium", listOf("medium", "small")) == "small")
