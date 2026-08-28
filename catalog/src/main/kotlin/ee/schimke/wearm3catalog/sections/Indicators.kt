@@ -137,6 +137,67 @@ fun LevelRail() = FullScreenSticker {
   )
 }
 
+/**
+ * **Every `Page-Indicator` cell along the bottom** — the kit's `Number` axis at
+ * `Position=Horizontal-Bottom`, ten nodes, against the two that were drawn
+ * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+ *
+ * `Number` is two knobs, not one, past five pages: the kit draws `6` and `7+` three times each, for
+ * a window sitting at the start, in the middle and at the end of the run, and which of those you
+ * see is `initialPage` rather than the count. `7+` is eight pages here — the indicator collapses
+ * identically past its maximum, and eight is far enough past it to show that.
+ */
+@OverrideVariant(
+  name = "two-pages",
+  ints = ["pages=2"],
+  kitAxis = "Number",
+  kitValue = "2",
+)
+@OverrideVariant(
+  name = "three-pages",
+  ints = ["pages=3"],
+  kitAxis = "Number",
+  kitValue = "3",
+)
+@OverrideVariant(
+  name = "five-pages",
+  ints = ["pages=5"],
+  kitAxis = "Number",
+  kitValue = "5",
+)
+@OverrideVariant(
+  name = "six-pages",
+  ints = ["pages=6"],
+  kitAxis = "Number",
+  kitValue = "6 - Start",
+)
+@OverrideVariant(
+  name = "six-pages-middle",
+  ints = ["pages=6", "initialPage=3"],
+  kitProps = ["Number=6  - MiddleEnd", "Position=Horizontal-Bottom"],
+)
+@OverrideVariant(
+  name = "six-pages-end",
+  ints = ["pages=6", "initialPage=5"],
+  kitProps = ["Number=6 - End", "Position=Horizontal-Bottom"],
+)
+@OverrideVariant(
+  name = "many-pages",
+  ints = ["pages=8"],
+  kitProps = ["Number=7+ - Start", "Position=Horizontal-Bottom"],
+)
+@OverrideVariant(
+  name = "many-pages-middle",
+  ints = ["pages=8", "initialPage=4"],
+  kitProps = ["Number=7+  - MiddleEnd", "Position=Horizontal-Bottom"],
+)
+@OverrideVariant(
+  name = "many-pages-end",
+  ints = ["pages=8", "initialPage=7"],
+  kitProps = ["Number=7+ - End", "Position=Horizontal-Bottom"],
+)
+annotation class HorizontalPageKitCells
+
 @CatalogComponent(
   id = "PageIndicator/Horizontal",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38684:138301",
@@ -144,8 +205,7 @@ fun LevelRail() = FullScreenSticker {
   caption = "Which page of a horizontal pager is showing, along the bottom of the display.",
 )
 @CatalogFullScreenModes
-@OverrideVariant(name = "six-pages", ints = ["pages=6"], kitAxis = "Number", kitValue = "6 - Start")
-@OverrideVariant(name = "two-pages", ints = ["pages=2"], kitAxis = "Number", kitValue = "2")
+@HorizontalPageKitCells
 @Composable
 fun HorizontalPages() = FullScreenSticker {
   val pages = previewOverrideInt("pages", 4)
@@ -164,6 +224,65 @@ fun HorizontalPages() = FullScreenSticker {
   )
 }
 
+/**
+ * The same ten cells at `Position=Vertical-Right`, for the vertical pager.
+ *
+ * The kit's third column, `Vertical-Left`, is not drawn: which bezel the rail sits against is the
+ * caller's `Alignment` (or the layout direction), not a parameter of `VerticalPageIndicator` — see
+ * the placement note at the top of this file. A cell for it would be a picture of the sticker's own
+ * layout under the kit's name.
+ */
+@OverrideVariant(
+  name = "two-pages",
+  ints = ["pages=2"],
+  kitAxis = "Number",
+  kitValue = "2",
+)
+@OverrideVariant(
+  name = "three-pages",
+  ints = ["pages=3"],
+  kitAxis = "Number",
+  kitValue = "3",
+)
+@OverrideVariant(
+  name = "five-pages",
+  ints = ["pages=5"],
+  kitAxis = "Number",
+  kitValue = "5",
+)
+@OverrideVariant(
+  name = "six-pages",
+  ints = ["pages=6"],
+  kitAxis = "Number",
+  kitValue = "6 - Start",
+)
+@OverrideVariant(
+  name = "six-pages-middle",
+  ints = ["pages=6", "initialPage=3"],
+  kitProps = ["Number=6  - MiddleEnd", "Position=Vertical-Right"],
+)
+@OverrideVariant(
+  name = "six-pages-end",
+  ints = ["pages=6", "initialPage=5"],
+  kitProps = ["Number=6 - End", "Position=Vertical-Right"],
+)
+@OverrideVariant(
+  name = "many-pages",
+  ints = ["pages=8"],
+  kitProps = ["Number=7+ - Start", "Position=Vertical-Right"],
+)
+@OverrideVariant(
+  name = "many-pages-middle",
+  ints = ["pages=8", "initialPage=4"],
+  kitProps = ["Number=7+  - MiddleEnd", "Position=Vertical-Right"],
+)
+@OverrideVariant(
+  name = "many-pages-end",
+  ints = ["pages=8", "initialPage=7"],
+  kitProps = ["Number=7+ - End", "Position=Vertical-Right"],
+)
+annotation class VerticalPageKitCells
+
 @CatalogComponent(
   id = "PageIndicator/Vertical",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38966:402",
@@ -171,7 +290,7 @@ fun HorizontalPages() = FullScreenSticker {
   caption = "The same indicator for a vertical pager, drawn against the right bezel.",
 )
 @CatalogFullScreenModes
-@OverrideVariant(name = "six-pages", ints = ["pages=6"], kitAxis = "Number", kitValue = "6 - Start")
+@VerticalPageKitCells
 @Composable
 fun VerticalPages() = FullScreenSticker {
   val pages = previewOverrideInt("pages", 4)
