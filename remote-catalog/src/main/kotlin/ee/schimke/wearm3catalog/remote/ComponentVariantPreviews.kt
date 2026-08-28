@@ -561,10 +561,8 @@ fun NoAppImageRemoteAppCard() = RemoteSticker {
   id = "Progress/Circular-Disabled",
   group = "Communication",
   parallel = "CircularProgressIndicator",
-  noReference =
-    "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
-      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
-      "onto the base cell would score this against the wrong variant.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58909",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
   caption = "Determinate progress using the component's disabled indicator and track brushes.",
 )
 @CatalogRemoteDisplay
@@ -584,9 +582,11 @@ fun DisabledCircularProgressRemote() = RemoteSticker {
   group = "Communication",
   parallel = "CircularProgressIndicator",
   noReference =
-    "Varies `CircularProgressIndicator`, whose kit set the Wear sibling maps; the specific " +
-      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
-      "onto the base cell would score this against the wrong variant.",
+    "The kit's `Progress` axis is four determinate values — Zero, In progress, Complete, " +
+      "Overflow — and a still frame is all a kit cell can be, so nothing in the " +
+      "`Progress-Indicator` set is the indeterminate sweep. Any cell this named would be a " +
+      "picture of a fixed arc, and the arc here is never at rest; what stands in for a reference " +
+      "is the motion capture below.",
   motionPreview = "IndeterminateCircularProgressMotionRemote",
   caption =
     "Indeterminate circular progress; its motion capture records the continuous remote-clock " +
@@ -660,9 +660,12 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
   group = "Communication",
   parallel = "PageIndicator/Horizontal",
   noReference =
-    "Varies `PageIndicator/Horizontal`, whose kit set the Wear sibling maps; the specific " +
-      "variant cell this sticker draws has not been mapped against its export yet, and a mapping " +
-      "onto the base cell would score this against the wrong variant.",
+    "The four-page horizontal cell this would map to (`38684:138301`) is already named by " +
+      "`PageIndicator/Horizontal`, and what this row adds is not in the picture: a Next button " +
+      "over the indicator and a worm that animates between pages inside the document. The kit's " +
+      "`Page-Indicator` set varies `Number` and `Position` only — it has no control affordance " +
+      "and no in-between state — so the cell would score the button as a divergence and say " +
+      "nothing about the animation, which is the only thing this row is for.",
   caption =
     "Interactive page indicator: tapping Next animates the worm between adjacent pages inside " +
       "the RemoteDocument.",
