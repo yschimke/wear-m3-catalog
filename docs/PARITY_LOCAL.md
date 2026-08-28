@@ -8,13 +8,27 @@ This is the same check, on your machine, for one component, with **zero Figma
 calls**.
 
 ```sh
+scripts/parity-local.sh FilledButton                              # :catalog
+scripts/parity-local.sh --module remote-catalog OutlinedCardRemote
+scripts/parity-local.sh --no-build Button IconButton              # catalog unchanged since last run
+```
+
+You get the markdown verdict on stdout — pairing, semantics and the visual diff
+— plus a self-contained `report.html` per component under `.design-parity/out`
+with reference, candidate and diff side by side. Name components bare; the
+script resolves each against the map it just projected and stops on an unknown
+or ambiguous one rather than comparing the wrong thing.
+
+## What it runs, if you would rather run it by hand
+
+```sh
 # once per session — materialise the reference cache
 git fetch origin design-parity/reference --depth 1
 mkdir -p .design-parity/reference
 git archive FETCH_HEAD | tar -x -C .design-parity/reference
 
 # once per code change
-./gradlew :remote-catalog:composePreviewBundle     # ~50s
+./gradlew :remote-catalog:composePreviewDiscover :remote-catalog:composePreviewBundle
 ./scripts/design-map.sh remote-catalog
 
 # per question — seconds
@@ -25,21 +39,19 @@ npx design-parity run \
   --out .design-parity/out
 ```
 
-You get the markdown verdict on stdout — pairing, semantics and the visual diff
-— plus a self-contained `report.html` per component under `--out` with
-reference, candidate and diff side by side.
-
-For `:catalog`, swap the module in the two Gradle/script lines and drop the
-`remote-catalog` argument to `design-map.sh`.
-
 ## The four things that waste an hour if nobody wrote them down
+
+The script handles the first and the fourth. They are written down anyway,
+because the second half of this page is what you need the day you run the CLI
+directly.
 
 **`--candidate-bundles` wants the bundle, not the renders.** It is a PNG+zip
 polyglot that `composePreviewBundle` writes to
 `build/compose-previews/bundle.png`. Pointing it at `renders/` or at
 `previews.json` fails with *"the file has no readable zip appended"*; pointing
 it at the `compose-previews/` directory reports *"no candidate render
-available"* and passes vacuously, which is the worse of the two failures.
+available"* and passes vacuously, which is the worse of the two failures — a
+green verdict that compared nothing.
 
 **`--reference-cache` wants a directory, not the branch.** `design-parity/reference`
 is a git branch; materialise it with `git archive` first. It is ~84 MB.
@@ -55,7 +67,10 @@ last import — check the branch date before trusting a *pass*.
 projecting the Remote module clobbers it. Restore it with
 `git checkout -- design-map.json design-map-variants.json` before committing
 anything. AGENTS.md says this too; it is repeated here because this is the
-workflow that trips it.
+workflow that trips it. `parity-local.sh` copies both files aside before
+projecting and puts them back on exit — including on failure and on Ctrl-C, and
+by copy rather than `git checkout --`, so it cannot eat an edit you were making
+to them.
 
 ## What this does not replace
 
