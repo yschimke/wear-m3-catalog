@@ -33,10 +33,29 @@ to the small one. Unlike the Wear contact sheets, every frame in it is composite
 `#141418` for the reason the next paragraph gives: the `remote-m3` stickers rasterise onto
 transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
 
+`remote-m3-*-break.png` are the **known-broken baselines** `remote-snapshot-probe.py` compares each
+tracked issue's weekly capture against; byte-identical means "still broken" with certainty. Refresh
+one only when THIS repo moved the sticker and the symptom is verified unchanged — never to quiet a
+probe that has started reporting, because a capture that stopped matching is the single most
+interesting thing that job can say. `remote-m3-button-disabled-break.png` was refreshed when #116
+folded `Button/Disabled` into `Button/Filled`'s `disabled` cell, which put the base sticker's
+`buttonSizeModifier()` under it and changed the pill: the symptom is unchanged (max alpha 31, the
+container, and no label anywhere), only this catalog's framing of it.
+
+`remote-m3-disabled-resolve-triptych.png` is the evidence for the disabled-text-button report: the
+same `enabled = false` state across the three button families that publish it, on one build and at
+one density, with the measured max alpha under each. `RemoteIconButton` resolves it exactly as
+specified (97 = 0.38), `RemoteButton` resolves the container and loses the label (31, and #91),
+`RemoteTextButton` resolves neither (0). Three siblings on one build is what makes the report a
+claim about the library rather than about this catalog.
+
 `remote-m3-crossing-cells.png` is the #116 phase-3 companion to the sheet above: the crossings the
-`secondary` tier made publishable, with each second-tier cell ringed and labelled so the picture
-shows which rows left the navigation. It is also the before/after for two fixes that pass no other
-review — `Progress/Circular`'s disabled ring, which was byte-identical to its base until the knob
+`secondary` tier made publishable, with each second-tier cell ringed amber so the picture shows
+which rows left the navigation, and the one PUBLISHED LIBRARY GAP ringed red — `Button/Text`'s
+`disabled` cell, which bakes fully transparent because `RemoteTextButton(enabled = false)` draws
+nothing on the alpha line. That empty frame is the point of the file: it is what a reader meets on
+the sheet, and `StickerBakeCoverageTest` fails the day it stops being empty. It is also the
+before/after for two fixes that pass no other review — `Progress/Circular`'s disabled ring, which was byte-identical to its base until the knob
 was wired, and `Button/Icon`'s three sizes, which had collapsed to two.
 
 `remote-m3-text-body-*.png` are the one set here composited onto the catalog's own stage rather

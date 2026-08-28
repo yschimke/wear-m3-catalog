@@ -71,6 +71,14 @@ _DPI_IN_NAME = re.compile(r"_dpi_(\d+)")
 # One entry per tracked issue. `baseline` is the KNOWN-BROKEN capture committed
 # under docs/evidence — identical to it is the only verdict this script states
 # with confidence.
+# A probe names the RENDER it watches, and a render is a preview plus optionally a CELL.
+#
+# `variant` is not decoration. #116 folded most of this sheet's variants from top-level components
+# into `@OverrideVariant` cells, which renames their captures from `DisabledRemoteButton_*` to
+# `FilledRemoteButton_*_VARIANT_disabled-*` — and #90 and #91 kept naming the old stems, matched
+# nothing, and reported "not rendered" week after week without ever saying a human should look.
+# That is the exact silence this job exists to prevent, so `probe_states` now treats a probe that
+# resolves to no render as a reason to report (see `compare`).
 PROBES = [
     {
         "issue": 89,
@@ -80,19 +88,45 @@ PROBES = [
     },
     {
         "issue": 90,
-        "preview": "CompactIconOnlyRemoteButton",
+        "preview": "CompactRemoteButton",
+        "variant": "icon_only",
         "baseline": "docs/evidence/remote-m3-button-compact-icononly-break.png",
         "summary": "RemoteCompactButton renders at half height; icon-only collapses the glyph",
         "metrics": ("compact_heights_dp", "icononly_glyph_dp"),
     },
     {
         "issue": 91,
-        "preview": "DisabledRemoteButton",
+        "preview": "FilledRemoteButton",
+        "variant": "disabled",
         "baseline": "docs/evidence/remote-m3-button-disabled-break.png",
         "summary": "a disabled RemoteButton draws no label",
         "metrics": ("disabled_max_alpha",),
     },
+    {
+        "issue": 130,
+        "preview": "TextRemoteButton",
+        "variant": "disabled",
+        "baseline": "docs/evidence/remote-m3-text-button-disabled-break.png",
+        "summary": "a disabled RemoteTextButton draws nothing at all — neither colour resolves",
+        "metrics": ("text_disabled_max_alpha",),
+    },
 ]
+
+
+def find_render(renders: Path, preview: str, variant: str | None = None):
+    """The capture a probe watches, or None.
+
+    A base capture is `<preview>_<device>-<digest>.png`; a cell adds `_VARIANT_<cell>` before the
+    digest. Both halves are matched EXPLICITLY, and that matters in both directions: `<preview>_*`
+    alone also matches every cell of that preview, so a base probe would silently start reading a
+    cell's bytes the day one is added, with sort order the only thing keeping them apart.
+    """
+    candidates = sorted(renders.glob(f"{preview}_*.png"))
+    if variant is None:
+        matches = [p for p in candidates if "_VARIANT_" not in p.name]
+    else:
+        matches = [p for p in candidates if f"_VARIANT_{variant}-" in p.name]
+    return matches[0] if matches else None
 
 
 def sha256(path: Path) -> str:
@@ -235,30 +269,45 @@ def measure(renders: Path) -> dict:
     for png in sorted(renders.glob("*.png")):
         captures[png.name.rsplit("-", 1)[0]] = sha256(png)
 
-    def one(stem: str):
-        matches = sorted(renders.glob(f"{stem}_*.png"))
-        return (Image.open(matches[0]).convert("RGBA"), matches[0].name) if matches else (None, None)
+    def one(stem: str, variant: str | None = None):
+        match = find_render(renders, stem, variant)
+        return (Image.open(match).convert("RGBA"), match.name) if match else (None, None)
+
+    def max_alpha(stem: str, variant: str | None = None):
+        image, _ = one(stem, variant)
+        return None if image is None else image.getchannel("A").getextrema()[1]
 
     metrics: dict[str, object] = {}
 
-    # #91 — the disabled label resolves to nothing above the 12% container.
-    image, name = one("DisabledRemoteButton")
-    if image:
-        alpha = image.getchannel("A")
-        metrics["disabled_max_alpha"] = alpha.getextrema()[1]
+    # #91 — the disabled label resolves to nothing above the 12% container. A CELL of
+    # `FilledRemoteButton` since #116 folded it; it was `DisabledRemoteButton` before.
+    alpha = max_alpha("FilledRemoteButton", "disabled")
+    if alpha is not None:
+        metrics["disabled_max_alpha"] = alpha
+
+    # #130 — the disabled TEXT button resolves neither of its colours, so the whole capture is
+    # transparent. 0 is "still broken"; anything above it means a human should look.
+    alpha = max_alpha("TextRemoteButton", "disabled")
+    if alpha is not None:
+        metrics["text_disabled_max_alpha"] = alpha
 
     # #90 — the compact container renders at half its declared 32dp, and the
-    # icon-only overload collapses its 24dp glyph.
+    # icon-only overload collapses its 24dp glyph. Two of these three are cells since #116.
     heights = {}
-    for stem in ("CompactRemoteButton", "CompactTextOnlyRemoteButton", "CompactIconOnlyRemoteButton"):
-        image, name = one(stem)
+    for stem, variant in (
+        ("CompactRemoteButton", None),
+        ("CompactRemoteButton", "text_only"),
+        ("CompactRemoteButton", "icon_only"),
+    ):
+        image, name = one(stem, variant)
         if not image:
             continue
+        label = stem if variant is None else f"{stem}#{variant}"
         scale = density_of(name)
         box = _drawn_bbox(image, lambda p: p[3] > 40)
         if box:
-            heights[stem] = round(box[3] / scale)
-        if stem == "CompactIconOnlyRemoteButton":
+            heights[label] = round(box[3] / scale)
+        if variant == "icon_only":
             glyph = _drawn_bbox(image, lambda p: p[3] > 40 and p[0] < 120)
             if glyph:
                 metrics["icononly_glyph_dp"] = [round(glyph[2] / scale), round(glyph[3] / scale)]
@@ -272,14 +321,15 @@ def probe_states(report: dict, root: Path, renders: Path) -> list[dict]:
     """Whether each tracked issue's capture still matches its known-broken one."""
     states = []
     for probe in PROBES:
-        matches = sorted(renders.glob(f"{probe['preview']}_*.png"))
+        match = find_render(renders, probe["preview"], probe.get("variant"))
         baseline = root / probe["baseline"]
-        current = sha256(matches[0]) if matches else None
+        current = sha256(match) if match else None
         known_broken = sha256(baseline) if baseline.exists() else None
+        variant = probe.get("variant")
         states.append(
             {
                 "issue": probe["issue"],
-                "preview": probe["preview"],
+                "preview": probe["preview"] + (f"#{variant}" if variant else ""),
                 "summary": probe["summary"],
                 "rendered": current is not None,
                 "identicalToKnownBroken": (
@@ -324,6 +374,29 @@ def compare(previous: dict | None, current: dict) -> dict:
         reasons.append(
             "a tracked issue's capture no longer matches its known-broken one: "
             + ", ".join(f"#{p['issue']}" for p in flipped)
+        )
+
+    # A PROBE THAT RESOLVES TO NO RENDER IS BLIND, AND SAYING SO IS THE POINT OF THIS JOB.
+    #
+    # It used to be silent: `identicalToKnownBroken` is None when nothing matched, which the table
+    # printed as "not rendered" and no reason picked up — so the row read like a fact about the
+    # snapshot rather than a fault in the probe. #116 folded `DisabledRemoteButton` and
+    # `CompactIconOnlyRemoteButton` into cells of other previews, #90 and #91 kept naming the old
+    # stems, and both watched nothing at all while the report still looked complete. A probe is
+    # only worth having if it is loud when it stops working, so a missing render is now a reason.
+    #
+    # Guarded on `compiled`, because a build that failed to compile rendered nothing by definition
+    # and the compile reason above already says so — the same carve-out the removed-captures block
+    # below makes, and for the same reason.
+    blind = [
+        probe
+        for probe in current.get("probes", [])
+        if not probe.get("rendered") and current.get("build", {}).get("compiled") is not False
+    ]
+    if blind:
+        reasons.append(
+            "a tracked issue's preview no longer renders, so the probe is watching nothing: "
+            + ", ".join(f"#{p['issue']} (`{p['preview']}`)" for p in blind)
         )
 
     # A failed build measures nothing, so its empty capture set is not "every render was

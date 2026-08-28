@@ -474,6 +474,33 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   kitProps = ["Style=Outline", "Size=Large", "Disabled=No"],
   secondary = true,
 )
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "outlined-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Size=Default", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=small"],
+  kitProps = ["Style=Outline", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "size=large"],
+  kitProps = ["Style=Outline", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
 annotation class RemoteTextButtonKitCells
 
 // A low-emphasis round text button (`RemoteTextButton`), the Remote parallel of Wear
@@ -531,6 +558,7 @@ fun TextRemoteButton() = RemoteSticker {
   val size = previewOverrideChoice("size", "default", listOf("default", "small", "large"))
   RemoteTextButton(
     onClick = onClick,
+    enabled = previewOverrideBoolean("enabled", true).rb,
     modifier =
       when (size) {
         "small" -> RemoteModifier.size(RemoteTextButtonDefaults.SmallButtonSize)
