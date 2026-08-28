@@ -93,22 +93,6 @@ dependencies {
   // preview server's Theme select and re-point the document's default font family.
   implementation(libs.composeai.preview.annotations)
 
-  // `previewOverride*` — the knobs an `@OverrideVariant` cell turns. This sheet published every
-  // size and style as its own top-level component until the fold (#116); a cell seeds these
-  // overrides and re-renders the SAME sticker with them, which is the only mechanism that makes a
-  // cell a cell rather than a second function.
-  //
-  // It is NOT the same thing as the connector's `rememberOverridableRemote*` next door, and both
-  // are wanted. Those bind a value into the recorded document as a named value, so the player
-  // reseeds it live without re-recording; these are read at RECORD time and decide what gets
-  // recorded at all — which colours, which slots, which size. A cell that changed the container
-  // has to be a record-time choice, because the document does not carry the alternative.
-  //
-  // On the alpha line and deliberately contained: it resolves a Compose-runtime read of a preview
-  // parameter map and nothing it returns reaches a RemoteDocument except as an ordinary Kotlin
-  // value the sticker code branches on. No Compose BOM is involved.
-  implementation(libs.composeai.preview.overrides)
-
   // materialkolor — the dynamic-colour engine the conference palettes are BUILT with rather than
   // transcribed from (`AGENTS.md` → Themes). `:catalog` declares it for the same reason and for
   // the same four seeds, which is what keeps the two Theme selects one set instead of two tables
@@ -135,6 +119,22 @@ dependencies {
   // seeded overrides — the vanilla render this repo's CI does — the output is byte-for-byte what
   // `RemotePreview` produces.
   implementation(libs.composeai.remotecompose.connector)
+
+  // The knob runtime the kit AXES are read through (`previewOverrideChoice` and friends), and the
+  // reason this module can carry `@OverrideVariant` cells at all. `:catalog` has declared it since
+  // it started folding the kit's axes into cells (#101); this module published one component per
+  // variant instead, so it never needed it. It does now: `Text/Body`'s `Alignment` and then the
+  // whole button surface ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116) phase 2).
+  // A knob read inside a `RemoteSticker` resolves at composition, before the document is built, so
+  // what it turns is the Compose call rather than anything in the RemoteDocument. A render with no
+  // override seeded is byte-for-byte what the sticker produced before.
+  //
+  // It is NOT the connector's `rememberOverridableRemote*` next door, and both are wanted. Those
+  // bind a value into the recorded document as a named value, so the player reseeds it live
+  // without re-recording; these are read at RECORD time and decide what gets recorded at all —
+  // which colours, which slots, which size. A cell that changes the container has to be a
+  // record-time choice, because the document does not carry the alternative.
+  implementation(libs.composeai.preview.overrides)
 
   // The widget-container stickers render through `CapturingWearWidgetPreview` rather than
   // upstream's `WearWidgetPreview`, so each one emits its encoded RemoteCompose document as the

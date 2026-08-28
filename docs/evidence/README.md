@@ -24,6 +24,23 @@ one PNG at a time, and the question a reviewer has — does every cell draw some
 cell it claims to be — is a question about the grid rather than about any one frame. The frames
 inside are ordinary `composePreviewRender` outputs; only the board is assembled.
 
+`remote-m3-folded-cells.png` is a contact sheet in the `kit-*-cells*.png` sense above, for the
+Remote sheet rather than the Wear one: every family #116 folded, its base render beside each
+`@OverrideVariant` cell it gained, with the cell's name under each frame. The question it answers
+is the same grid-shaped one — does every cell draw something, and is it different from its
+neighbour — and it is the picture that caught the extra-small icon-button cell being byte-identical
+to the small one. Unlike the Wear contact sheets, every frame in it is composited onto the sheet's
+`#141418` for the reason the next paragraph gives: the `remote-m3` stickers rasterise onto
+transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
+
+`remote-m3-text-body-*.png` are the one set here composited onto the catalog's own stage rather
+than left transparent. Every other `remote-m3-*` file is the raw render, which is correct: those
+stickers draw a coloured container, so they read on any background. These three are near-white body
+copy on transparency — the `remote-m3` sheet declares `display.surface: "dark"` and the SERVER
+supplies the ground, so the bare PNG is invisible against a light page and a reviewer opening the
+PR sees nothing at all. The composite is the sheet's own `#141418` behind an unmodified render; no
+pixel of the sticker is touched.
+
 A few are a render with an **overlay drawn on top** — the boxes the preview server's inspection
 layers put over the same frame, baked in so a PR body can show what a reader saw on the page. They
 are named for the question they answer rather than for the preview
