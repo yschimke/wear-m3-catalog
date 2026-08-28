@@ -166,6 +166,33 @@ jobs:
       # 17 references whose kit cell already draws the face — those score identically before and
       # after. See yschimke/compose-ai-tools docs/design/evidence/reference-backdrop/.
       reference-backdrop: '#000000'
+      # Read each mapped node's STRUCTURE from the design-parity reference cache
+      # (`design-parity/reference`, maintained by design-parity-import.yml) instead of asking
+      # `/v1/files/:key/nodes` for it. Same JSON either way — the import wrote that branch from
+      # exactly that endpoint's response.
+      #
+      # Worth setting because the Figma limiter is per TOKEN, not per repo or per workflow. This
+      # one credential is shared by both catalogs' parity runs, both imports, and this lane in
+      # both repos, and this lane was the last one still spending it unguarded: it runs on every
+      # push that touches the catalog, while the kit moves rarely. All 581 `figma:` entries in
+      # design-map.json are present on the branch today, so the structure half of this lane goes
+      # from ~12 `/nodes` requests per run to one `?depth=1` freshness check.
+      #
+      # PIXELS ARE UNAFFECTED, deliberately — which matters more here than in the sibling repo,
+      # because `reference-backdrop` above only does anything to pixels the Figma renderer
+      # produced. The cache also holds a resolution-free `image.svg`, but the exports here are PNG
+      # at a per-record density and the `match` score baked into the published manifest is
+      # computed from those very pixels; rasterising the SVG locally would move every score,
+      # including the 18 specimen-board rows the backdrop exists to fix. Images keep coming from
+      # Figma's own renderer and this input only removes the structure calls, so the two are
+      # independent.
+      #
+      # A miss is not an error: the node falls through to the API exactly as before, so a partial
+      # or absent cache costs requests, never coverage. And the cache is used only when its
+      # recorded file `version` still matches the live one, because the image export below is
+      # unversioned — mixing cached structure with current pixels would measure annotations
+      # against one raster and draw them on another.
+      reference-cache-branch: design-parity/reference
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
     secrets:
       # Publishes the `figma:` entries in design-map.json as design references on the delivery
