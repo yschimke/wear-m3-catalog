@@ -54,11 +54,19 @@ private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
   kitAxis = "Type",
   kitValue = "Date Picker (Month first)",
 )
+// The kit publishes `Type=Date Picker (Year first)` ONLY under a limit — `Future only` and
+// `Past only`, never `Limit=None` — so a `year-first` cell naming the type alone asked for a node
+// between the ones it drew, and the projector said so: `no counterpart for order=year`. Both cells
+// declare the pair, and the year-first render now carries a limit the way the kit's does.
 @OverrideVariant(
   name = "year-first",
-  strings = ["order=year"],
-  kitAxis = "Type",
-  kitValue = "Date Picker (Year first)",
+  strings = ["order=year", "limit=future"],
+  kitProps = ["Type=Date Picker (Year first)", "Limit=Future only", "Focus=One"],
+)
+@OverrideVariant(
+  name = "year-first-past-only",
+  strings = ["order=year", "limit=past"],
+  kitProps = ["Type=Date Picker (Year first)", "Limit=Past only", "Focus=One"],
 )
 @Composable
 fun DateWheels() = FullScreenSticker {
@@ -68,7 +76,29 @@ fun DateWheels() = FullScreenSticker {
       "year" -> DatePickerType.YearMonthDay
       else -> DatePickerType.DayMonthYear
     }
-  DatePicker(initialDate = PINNED_DATE, onDatePicked = {}, datePickerType = type)
+  // The kit's `Limit` axis, as the two bounds `DatePicker` takes. The pinned date is the bound in
+  // both directions, so `future` starts the valid range at the date on the wheels and `past` ends
+  // it there — which is what the kit's cells draw, a picker with half its range already spent.
+  // Branched rather than passing a bound of `null`: `minValidDate` / `maxValidDate` are
+  // non-nullable with library defaults spanning a century either way, so `none` has to be the call
+  // that names neither.
+  when (previewOverrideChoice("limit", "none", listOf("none", "future", "past"))) {
+    "future" ->
+      DatePicker(
+        initialDate = PINNED_DATE,
+        onDatePicked = {},
+        minValidDate = PINNED_DATE,
+        datePickerType = type,
+      )
+    "past" ->
+      DatePicker(
+        initialDate = PINNED_DATE,
+        onDatePicked = {},
+        maxValidDate = PINNED_DATE,
+        datePickerType = type,
+      )
+    else -> DatePicker(initialDate = PINNED_DATE, onDatePicked = {}, datePickerType = type)
+  }
 }
 
 @CatalogComponent(
