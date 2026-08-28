@@ -3420,10 +3420,22 @@
           "name": "edge-button",
           "seeds": [
             {
-              "key": "edge",
-              "raw": "single",
+              "key": "Edge Option",
+              "raw": "Edge Button",
               "kitAxis": "Edge Option",
               "kitValue": "Edge Button"
+            },
+            {
+              "key": "Scrolling",
+              "raw": "No",
+              "kitAxis": "Scrolling",
+              "kitValue": "No"
+            },
+            {
+              "key": "Bottom",
+              "raw": "Yes",
+              "kitAxis": "Bottom",
+              "kitValue": "Yes"
             }
           ]
         },
@@ -3432,10 +3444,22 @@
           "name": "no-buttons",
           "seeds": [
             {
-              "key": "edge",
-              "raw": "none",
+              "key": "Edge Option",
+              "raw": "None",
               "kitAxis": "Edge Option",
               "kitValue": "None"
+            },
+            {
+              "key": "Scrolling",
+              "raw": "No",
+              "kitAxis": "Scrolling",
+              "kitValue": "No"
+            },
+            {
+              "key": "Bottom",
+              "raw": "No",
+              "kitAxis": "Bottom",
+              "kitValue": "No"
             }
           ]
         },
@@ -12250,14 +12274,38 @@
       "basePreviewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading",
       "renders": [
         {
+          "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading_VARIANT_centred",
+          "name": "centred",
+          "seeds": [
+            {
+              "key": "Icon",
+              "raw": "No",
+              "kitAxis": "Icon",
+              "kitValue": "No"
+            },
+            {
+              "key": "Alignment",
+              "raw": "Centre",
+              "kitAxis": "Alignment",
+              "kitValue": "Centre"
+            }
+          ]
+        },
+        {
           "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading_VARIANT_icon",
           "name": "icon",
           "seeds": [
             {
-              "key": "icon",
-              "raw": "true",
+              "key": "Icon",
+              "raw": "Yes",
               "kitAxis": "Icon",
               "kitValue": "Yes"
+            },
+            {
+              "key": "Alignment",
+              "raw": "Left",
+              "kitAxis": "Alignment",
+              "kitValue": "Left"
             }
           ]
         }

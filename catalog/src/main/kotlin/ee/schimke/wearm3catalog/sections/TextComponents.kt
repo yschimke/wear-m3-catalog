@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -58,6 +59,12 @@ private fun textAlign(): TextAlign =
   caption = "Titles the screen a list belongs to; the first thing above the list.",
 )
 @CatalogModes
+// The kit's other axis, `Type = Page-Top | Page-Mid`, is NOT a cell and cannot be one:
+// `ListHeaderDefaults` publishes a single `contentPadding` and `ListHeader` takes no argument that
+// distinguishes the first header on a screen from one further down a list. The two kit cells
+// differ in the space above them, which is a property of where the header sits rather than of the
+// component — so the set stays at two of its four cells, with the reason here rather than in a
+// silence ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
 @OverrideVariant(
   name = "left-aligned",
   strings = ["align=left"],
@@ -78,7 +85,19 @@ fun ListHeading() = Sticker {
   caption = "Divides a long list into named runs, without leaving the screen's title behind.",
 )
 @CatalogModes
-@OverrideVariant(name = "icon", booleans = ["icon=true"], kitAxis = "Icon", kitValue = "Yes")
+// The kit publishes `Icon=Yes` at `Alignment=Left` only — the icon leads the row, so there is
+// nothing for a centred variant of it to be — which is why the icon cell names one axis and the
+// centred one names the pair.
+@OverrideVariant(
+  name = "icon",
+  booleans = ["icon=true"],
+  kitProps = ["Icon=Yes", "Alignment=Left"],
+)
+@OverrideVariant(
+  name = "centred",
+  strings = ["align=centre"],
+  kitProps = ["Icon=No", "Alignment=Centre"],
+)
 @Composable
 fun ListSubHeading() = Sticker {
   ListSubHeader(
@@ -87,7 +106,20 @@ fun ListSubHeading() = Sticker {
       if (previewOverrideBoolean("icon", false)) {
         { Icon(Icons.Filled.Add, contentDescription = null) }
       } else null,
-    label = { Text(kitCopy("label", KitCopy.SUBTITLE)) },
+    // The kit's `Alignment` axis, which is what the label does with the width it is given rather
+    // than a parameter of the sub-header. `left` is the base cell here (a run of list rows starts
+    // its text at the same place), so this knob's default differs from the shared `textAlign`
+    // helper's — the header above it is centred and this one is not.
+    label = {
+      Text(
+        kitCopy("label", KitCopy.SUBTITLE),
+        modifier = Modifier.fillMaxWidth(),
+        textAlign =
+          if (previewOverrideChoice("align", "left", listOf("left", "centre")) == "centre")
+            TextAlign.Center
+          else TextAlign.Start,
+      )
+    },
   )
 }
 
