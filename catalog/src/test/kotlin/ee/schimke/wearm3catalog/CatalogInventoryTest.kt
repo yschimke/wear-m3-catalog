@@ -1,5 +1,6 @@
 package ee.schimke.wearm3catalog
 
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
 import ee.schimke.wearm3catalog.sections.SHAPE_SET
 import java.io.File
@@ -228,6 +229,24 @@ class CatalogInventoryTest {
   fun `each conference identity has its own seed`() {
     val seeds = listOf(KotlinConfSeed, AndroidMakersSeed, DroidconSeed, DevFestSeed)
     assertEquals("conference seeds must be distinct", seeds.size, seeds.toSet().size)
+  }
+
+  /**
+   * …and they are the same four the **`:remote-catalog` sibling** builds its palettes from.
+   *
+   * The two modules cannot share a constant: they are on different dependency lines, which is the
+   * whole reason there are two of them (`AGENTS.md` → Two modules). So the seeds are duplicated in
+   * `RemoteThemeCatalogs.kt`, and a duplicate that nothing pins is a duplicate that drifts — into
+   * two catalogs of the same surface publishing a "Droidcon" apiece in two different greens, which
+   * is exactly the split #99 closed. Each side pins the literals; editing a seed fails the other
+   * side's build until both move.
+   */
+  @Test
+  fun `the conference seeds are pinned, so the sibling's copy cannot drift`() {
+    assertEquals(Color(0xFF7F52FF), KotlinConfSeed)
+    assertEquals(Color(0xFFE59A4F), AndroidMakersSeed)
+    assertEquals(Color(0xFF00D775), DroidconSeed)
+    assertEquals(Color(0xFF4285F4), DevFestSeed)
   }
 
   /**

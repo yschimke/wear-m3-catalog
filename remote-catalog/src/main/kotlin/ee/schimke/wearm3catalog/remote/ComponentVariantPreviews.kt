@@ -485,9 +485,9 @@ fun OutlinedRemoteTextButton() = RemoteSticker {
       RemoteTextButtonDefaults.textButtonColors(
         // The content travels with the container. `primary` is a LIGHT fill in the dark-first
         // scheme, so leaving the label at the stock near-white `onSurface` would land light text on
-        // a light container at the end of the tween — and further off under the catalog's light
-        // Coral / Teal primary overrides. At rest `on` is 0f and both are their stock values, so
-        // the baked capture is unchanged.
+        // a light container at the end of the tween — and further off under the catalog's declared
+        // themes, whose seeded primaries are lighter still. At rest `on` is 0f and both are their
+        // stock values, so the baked capture is unchanged.
         containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on),
         contentColor = tween(stock.contentColor, RemoteMaterialTheme.colorScheme.onPrimary, on),
       ),

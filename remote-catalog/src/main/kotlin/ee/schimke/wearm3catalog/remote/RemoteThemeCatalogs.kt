@@ -9,18 +9,22 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
 import androidx.wear.compose.remote.material3.RemoteColorScheme
+import com.materialkolor.dynamicColorScheme
 import ee.schimke.composeai.preview.WearThemeCatalog
 
 /**
- * The catalog's declared themes — five names in two groups, inherited unchanged from the `wear-m3`
- * harness catalog in yschimke/compose-ai-tools, which this sheet was paired against before the
- * move.
+ * The catalog's declared themes — **the sibling `:catalog`'s set**, name for name and seed for
+ * seed: Confetti Wear's stock theme plus the four conference identities its `conferenceThemeFor`
+ * resolves, and the stock palette re-typed in Google Sans Flex.
  *
- * They are NOT the sibling `:catalog`'s set: that one declares the Confetti Wear conference
- * palettes (`CatalogThemes.kt`). So the two Theme selects no longer read as one set, and pairing
- * them off is a follow-up rather than something this move should have changed — renaming a theme
- * renames the state a published document's overrides address, which is a change to the sheet, not
- * to its packaging.
+ * They used to be a different five (`M3`, `Coral`, `Teal`, `Google Sans Flex`, `KotlinConf`),
+ * inherited unchanged from the `wear-m3` harness catalog in yschimke/compose-ai-tools when this
+ * sheet moved here. Two catalogs of the same surface offering two different Theme selects made the
+ * one comparison this repo exists to publish impossible to read: a reviewer picking "Droidcon" on
+ * the kit rendition had nothing to pick beside it on the Remote one, and picking "Coral" here
+ * compared a palette that exists nowhere else against a component drawn in a palette that does
+ * ([issue #99](https://github.com/yschimke/wear-m3-catalog/issues/99)). The sets are now one set,
+ * so the compare page's two columns move together.
  *
  * ## A theme can be applied after recording, not only during it
  *
@@ -35,10 +39,11 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * document therefore re-themes it with no recomposition:
  * ```
  * /render/button-filled__ideal__default__compact.png
- *     ?rc.WearM3.primary=color:%23FF6F61&rc.WearM3.onPrimary=color:%23210F48
+ *     ?rc.WearM3.primary=color:%237F52FF&rc.WearM3.onPrimary=color:%23FFFFFF
  * ```
  *
- * returns a coral button from the *published* catalog, whose bytecode was dropped at pack time.
+ * returns a KotlinConf-purple button from the *published* catalog, whose bytecode was dropped at
+ * pack time.
  *
  * Recording under the default theme is what makes that possible. A document captured with a theme
  * baked in would carry that theme's values as its constants, so every theme would need its own
@@ -54,23 +59,41 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * that recomposed to one palette and replayed to another would be worse than either, and nothing
  * would catch it, because both renders succeed.
  *
+ * ## The palettes are built from the seed, not transcribed from the sibling
+ *
+ * `AGENTS.md` → Themes: *reproduce a borrowed theme by its recipe, not its output*. So the four
+ * conference palettes run the same seed through the same `materialkolor` dynamic dark scheme
+ * `:catalog` runs it through, mapped onto the Wear roles by the same rules ([confettiWearRoles]) —
+ * rather than a table of the hex values that module happened to resolve to, which would drift
+ * silently the first time either side moved.
+ *
+ * The **seeds themselves** are duplicated, because the two modules cannot share code: `:catalog` is
+ * on the stable Compose BOM and this one is on the alpha Remote line with no BOM, which is the
+ * whole reason there are two modules (`AGENTS.md` → Two modules). `RemoteCatalogThemeTest` pins
+ * each literal, and `CatalogInventoryTest` pins the sibling's, so a seed moved on one side fails
+ * the other side's build rather than quietly publishing two "Droidcon"s.
+ *
  * ## The typeface half is a host choice, not a named value
  *
  * A named value can carry a colour, a float, an int or a bool — not a face. The typeface is
  * host-side in a different way: the stickers emit the built-in **default family id**, and which
  * face that id resolves to is decided by the player at draw time. So [remoteCatalogFont] /
  * [remoteCatalogDisplayFont] are published here as data for that lane to configure its resolver
- * with, rather than being installed into the document. Until a lane does, a type-moving theme
- * (Google Sans Flex, KotlinConf) is declared and its colours apply while its face does not.
+ * with, rather than being installed into the document. Until a lane does, a theme's colours apply
+ * while its faces do not.
  *
- * Inter is not vendored yet, deliberately. A face only has to reach the `cmp-wasm-catalog`
- * `fonts.json` in yschimke/compose-ai-tools once a *document* names it — that lane is manifest-only
- * and never fetches, so an unlisted family a document asks for fails
+ * The faces are the sibling's too: Confetti's ship pairing (Roboto Flex on display / title /
+ * numerals, Inter on body and label) under the three themes that ship it, JetBrains Mono over Inter
+ * for KotlinConf, and Google Sans Flex throughout for DevFest and the Wear M3 type entry.
+ *
+ * Neither Inter nor JetBrains Mono is vendored yet, deliberately. A face only has to reach the
+ * `cmp-wasm-catalog` `fonts.json` in yschimke/compose-ai-tools once a *document* names it — that
+ * lane is manifest-only and never fetches, so an unlisted family a document asks for fails
  * `RcComposeSupport.fontFamilyIssue`'s availability check rather than degrading to a substitute. No
- * recorded document names it (recording is default-themed and the wrapper installs colours only),
- * so vendoring it now would add ~651 KB to the Wasm player's size ratchet to buy nothing — it
- * failed that ratchet once already on this branch. It lands with the lane that resolves it. Google
- * Sans Flex stays vendored: it was already there and the ratchet was already raised for it.
+ * recorded document names one (recording is default-themed and the wrapper installs colours only),
+ * so vendoring them now would add to the Wasm player's size ratchet to buy nothing — Inter failed
+ * that ratchet once already. They land with the lane that resolves them. Google Sans Flex stays
+ * vendored: it was already there and the ratchet was already raised for it.
  *
  * ## What a theme deliberately does not reach
  *
@@ -83,23 +106,44 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  *
  * `@WearThemeCatalog` also makes the renderer synthesise a specimen sheet per theme, read
  * reflectively off `androidx.wear.compose.material3.MaterialTheme` — a *phone/watch* Compose theme
- * these providers never install. Those five sheets are byte-identical to each other and are not
- * evidence of anything here; a sticker re-rendered under a seeded theme is.
+ * these providers never install. Those sheets are byte-identical to each other and are not evidence
+ * of anything here; a sticker re-rendered under a seeded theme is.
  */
 
-/** The declared theme names, in display order. */
+/** The declared theme names, in display order — the sibling's order. */
 val REMOTE_THEME_NAMES: List<String> =
-  listOf("M3", "Coral", "Teal", "Google Sans Flex", "KotlinConf")
+  listOf(
+    "Confetti (default)",
+    "KotlinConf",
+    "AndroidMakers",
+    "Droidcon",
+    "DevFest",
+    "Google Sans Flex",
+  )
+
+// The four curated seeds, lifted from Confetti Wear's `conferenceThemeFor` and duplicated from the
+// sibling's `CatalogThemes.kt` — see this file's header for why they are duplicated rather than
+// shared, and `RemoteCatalogThemeTest` for what holds the two copies together.
+
+/** KotlinConf: JetBrains purple, the warm end of the gradient the 2025/2026 site leans on. */
+internal val RemoteKotlinConfSeed = Color(0xFF7F52FF)
+
+/** AndroidMakers: warm Parisian ochre, from the venue imagery the droidcon-run edition uses. */
+internal val RemoteAndroidMakersSeed = Color(0xFFE59A4F)
+
+/** Droidcon: the green is the whole identity, used at full saturation on their site. */
+internal val RemoteDroidconSeed = Color(0xFF00D775)
+
+/** DevFest: Google Blue, the anchor of the GDG identity. */
+internal val RemoteDevFestSeed = Color(0xFF4285F4)
 
 /**
  * The named-value overrides that apply [name] to an already-recorded document, keyed by the
  * document's own state names (`WearM3.<role>`, which the player qualifies to `USER:WearM3.<role>`).
  *
- * Ported role-for-role from the Wear sibling's `wearColorScheme`, so a component themed "Coral"
- * here and there differs only by what the two libraries draw, never by what the theme asked for.
- *
- * Empty for the themes that move no colour: **M3** is the stock scheme (selecting it is a no-op by
- * construction — it is the baseline the others are read against), and **Google Sans Flex** is
+ * Empty for the two themes that move no colour: **Confetti (default)** is Confetti's unseeded
+ * theme, which is the stock Wear scheme (it is the baseline the four identities are departures
+ * from, and it differs from stock only in its type scale), and **Google Sans Flex** is
  * palette-identical to it on purpose, so a side-by-side of the two is a type comparison and nothing
  * else.
  *
@@ -108,55 +152,94 @@ val REMOTE_THEME_NAMES: List<String> =
  */
 fun remoteCatalogThemeColors(name: String): Map<String, Color> =
   when (name) {
-    // Confetti Wear's KotlinConf identity, built from the JetBrains seed purple (#7F52FF): the full
-    // primary + secondary ramp rather than the two-role edits below, matching the sibling.
-    "KotlinConf" ->
-      mapOf(
-        "WearM3.primary" to Color(0xFF7F52FF),
-        "WearM3.primaryDim" to Color(0xFF633BDB),
-        "WearM3.primaryContainer" to Color(0xFF3D247F),
-        "WearM3.onPrimary" to Color.White,
-        "WearM3.onPrimaryContainer" to Color(0xFFE8DDFF),
-        "WearM3.secondary" to Color(0xFFFF8DA1),
-        "WearM3.secondaryDim" to Color(0xFFD96C81),
-        "WearM3.secondaryContainer" to Color(0xFF652936),
-        "WearM3.onSecondary" to Color(0xFF3A0715),
-        "WearM3.onSecondaryContainer" to Color(0xFFFFD9E0),
-      )
-    "Coral" ->
-      mapOf(
-        "WearM3.primary" to Color(0xFFFF6F61),
-        "WearM3.secondary" to Color(0xFFFFB4A9),
-      )
-    "Teal" ->
-      mapOf(
-        "WearM3.primary" to Color(0xFF4DD0E1),
-        "WearM3.secondary" to Color(0xFF80CBC4),
-      )
+    "KotlinConf" -> confettiWearRoles(RemoteKotlinConfSeed)
+    "AndroidMakers" -> confettiWearRoles(RemoteAndroidMakersSeed)
+    "Droidcon" -> confettiWearRoles(RemoteDroidconSeed)
+    "DevFest" -> confettiWearRoles(RemoteDevFestSeed)
     else -> emptyMap()
   }
+
+/**
+ * [seed] through `materialkolor`'s dynamic **dark** scheme, mapped onto the `WearM3.<role>` names a
+ * recorded document carries.
+ *
+ * This is Confetti Wear's `toWearMaterialColors`, role for role, and the sibling runs the identical
+ * mapping into `androidx.wear.compose.material3.ColorScheme`. Wear names some roles differently and
+ * has some the mobile scheme lacks:
+ * * `surfaceContainerLowest` (M3) becomes Wear's `background` — the darkest surface, which is what
+ *   the round bezel blends into.
+ * * Wear's `*Dim` roles have no mobile equivalent, so each reuses its container colour — Confetti's
+ *   own choice, and close enough for a dimmed state on a round display.
+ * * Wear has no `surfaceVariant` ramp, so the mobile one is simply not carried across.
+ *
+ * `isDark = true` is not a default worth parameterising: every document here is recorded in the
+ * dark-first Remote Material scheme and the catalog publishes one dark mode (`modes: ["dark"]`), so
+ * a light variant of a theme would be a palette nothing on this sheet could be rendered in.
+ */
+private fun confettiWearRoles(seed: Color): Map<String, Color> {
+  val m3 = dynamicColorScheme(seedColor = seed, isDark = true, isAmoled = false)
+  return mapOf(
+    "WearM3.primary" to m3.primary,
+    "WearM3.primaryDim" to m3.primaryContainer,
+    "WearM3.primaryContainer" to m3.primaryContainer,
+    "WearM3.onPrimary" to m3.onPrimary,
+    "WearM3.onPrimaryContainer" to m3.onPrimaryContainer,
+    "WearM3.secondary" to m3.secondary,
+    "WearM3.secondaryDim" to m3.secondaryContainer,
+    "WearM3.secondaryContainer" to m3.secondaryContainer,
+    "WearM3.onSecondary" to m3.onSecondary,
+    "WearM3.onSecondaryContainer" to m3.onSecondaryContainer,
+    "WearM3.tertiary" to m3.tertiary,
+    "WearM3.tertiaryDim" to m3.tertiaryContainer,
+    "WearM3.tertiaryContainer" to m3.tertiaryContainer,
+    "WearM3.onTertiary" to m3.onTertiary,
+    "WearM3.onTertiaryContainer" to m3.onTertiaryContainer,
+    "WearM3.surfaceContainerLow" to m3.surfaceContainerLow,
+    "WearM3.surfaceContainer" to m3.surfaceContainer,
+    "WearM3.surfaceContainerHigh" to m3.surfaceContainerHigh,
+    "WearM3.onSurface" to m3.onSurface,
+    "WearM3.onSurfaceVariant" to m3.onSurfaceVariant,
+    "WearM3.outline" to m3.outline,
+    "WearM3.outlineVariant" to m3.outlineVariant,
+    "WearM3.background" to m3.surfaceContainerLowest,
+    "WearM3.onBackground" to m3.onBackground,
+    "WearM3.error" to m3.error,
+    "WearM3.errorDim" to m3.errorContainer,
+    "WearM3.errorContainer" to m3.errorContainer,
+    "WearM3.onError" to m3.onError,
+    "WearM3.onErrorContainer" to m3.onErrorContainer,
+  )
+}
 
 /**
  * The Google Fonts family [name] draws its **body** text in — data for a player lane to point its
  * default-family resolution at, not something installed into the document.
  *
- * Coral and Teal keep the catalog's own default face (`role: "default"` in the fonts manifest), so
- * a palette comparison isn't also a type comparison; the two type-moving themes name their own.
+ * Confetti's ship pairing puts Inter on body and label under every theme it ships, which is four of
+ * the six here; DevFest and the Wear M3 type entry draw Google Sans Flex throughout.
  */
 fun remoteCatalogFont(name: String): String =
   when (name) {
+    "DevFest",
     "Google Sans Flex" -> "Google Sans Flex"
-    // KotlinConf's body face; its display / title / numeral roles pair against JetBrains Mono.
-    "KotlinConf" -> "Inter"
-    else -> "Roboto Flex"
+    else -> "Inter"
   }
 
 /**
  * The face [name] pairs against its body face on the display / title / numeral roles, or null when
- * it uses one family throughout. Only KotlinConf pairs, matching the sibling.
+ * it uses one family throughout — the sibling's type scales, read back out.
+ *
+ * Confetti's ship scale pairs Roboto Flex against Inter; KotlinConf swaps in JetBrains Mono, whose
+ * tabular figures are exactly what the numeral roles want. DevFest and the Wear M3 type entry are
+ * single-family, so they pair nothing.
  */
 fun remoteCatalogDisplayFont(name: String): String? =
-  if (name == "KotlinConf") "JetBrains Mono" else null
+  when (name) {
+    "KotlinConf" -> "JetBrains Mono"
+    "DevFest",
+    "Google Sans Flex" -> null
+    else -> "Roboto Flex"
+  }
 
 /**
  * The theme a **recomposing** session selected, or null — the state every capture is taken in.
@@ -193,6 +276,25 @@ fun remoteCatalogColorScheme(name: String, base: RemoteColorScheme): RemoteColor
     secondaryContainer = role("secondaryContainer") ?: base.secondaryContainer,
     onSecondary = role("onSecondary") ?: base.onSecondary,
     onSecondaryContainer = role("onSecondaryContainer") ?: base.onSecondaryContainer,
+    tertiary = role("tertiary") ?: base.tertiary,
+    tertiaryDim = role("tertiaryDim") ?: base.tertiaryDim,
+    tertiaryContainer = role("tertiaryContainer") ?: base.tertiaryContainer,
+    onTertiary = role("onTertiary") ?: base.onTertiary,
+    onTertiaryContainer = role("onTertiaryContainer") ?: base.onTertiaryContainer,
+    surfaceContainerLow = role("surfaceContainerLow") ?: base.surfaceContainerLow,
+    surfaceContainer = role("surfaceContainer") ?: base.surfaceContainer,
+    surfaceContainerHigh = role("surfaceContainerHigh") ?: base.surfaceContainerHigh,
+    onSurface = role("onSurface") ?: base.onSurface,
+    onSurfaceVariant = role("onSurfaceVariant") ?: base.onSurfaceVariant,
+    outline = role("outline") ?: base.outline,
+    outlineVariant = role("outlineVariant") ?: base.outlineVariant,
+    background = role("background") ?: base.background,
+    onBackground = role("onBackground") ?: base.onBackground,
+    error = role("error") ?: base.error,
+    errorDim = role("errorDim") ?: base.errorDim,
+    errorContainer = role("errorContainer") ?: base.errorContainer,
+    onError = role("onError") ?: base.onError,
+    onErrorContainer = role("onErrorContainer") ?: base.onErrorContainer,
   )
 }
 
@@ -206,49 +308,60 @@ private fun RemoteThemeOverride(name: String, content: @Composable () -> Unit) {
 // shared base: the renderer resolves the method reflectively **on the concrete class**, so an
 // inherited implementation is a `NoSuchMethodException` and every specimen sheet fails to render.
 //
-// Empty because a theme is not applied while recording — see this file's header. The class exists
-// so
-// `@WearThemeCatalog` has something to annotate, which is what puts the theme in the server's Theme
-// select; the values it stands for are in [remoteCatalogThemeColors].
+// The `name` / `group` pairs are the sibling's, exactly — that is what makes the two Theme selects
+// one set. The values each name stands for are in [remoteCatalogThemeColors].
 
-/** The stock scheme and default face — the baseline the other four are read against. */
-@WearThemeCatalog(name = "M3", group = "Wear")
-class RemoteM3ThemeCatalog : PreviewWrapperProvider {
+/**
+ * Confetti Wear's stock theme: the Wear M3 defaults, unseeded, over its ship typography. The
+ * baseline the four conference identities are departures from.
+ */
+@WearThemeCatalog(name = "Confetti (default)", group = "Confetti")
+class RemoteConfettiDefaultThemeCatalog : PreviewWrapperProvider {
   @Composable
-  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("M3", content)
+  override fun Wrap(content: @Composable () -> Unit) =
+    RemoteThemeOverride("Confetti (default)", content)
 }
 
-/** Warm coral primary over the stock dark scheme. */
-@WearThemeCatalog(name = "Coral", group = "Wear")
-class RemoteCoralThemeCatalog : PreviewWrapperProvider {
+/** KotlinConf: [RemoteKotlinConfSeed] purple with JetBrains Mono titles over an Inter body. */
+@WearThemeCatalog(name = "KotlinConf", group = "Confetti")
+class RemoteKotlinConfThemeCatalog : PreviewWrapperProvider {
   @Composable
-  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("Coral", content)
+  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("KotlinConf", content)
 }
 
-/** Cool teal primary over the stock dark scheme. */
-@WearThemeCatalog(name = "Teal", group = "Wear")
-class RemoteTealThemeCatalog : PreviewWrapperProvider {
+/** AndroidMakers: [RemoteAndroidMakersSeed] ochre over Confetti's ship typography. */
+@WearThemeCatalog(name = "AndroidMakers", group = "Confetti")
+class RemoteAndroidMakersThemeCatalog : PreviewWrapperProvider {
   @Composable
-  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("Teal", content)
+  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("AndroidMakers", content)
+}
+
+/** Droidcon: [RemoteDroidconSeed] green over Confetti's ship typography. */
+@WearThemeCatalog(name = "Droidcon", group = "Confetti")
+class RemoteDroidconThemeCatalog : PreviewWrapperProvider {
+  @Composable
+  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("Droidcon", content)
 }
 
 /**
- * Google Sans Flex — the Material 3 Expressive brand face. Palette-identical to
- * [RemoteM3ThemeCatalog] on purpose: it isolates the typeface.
+ * DevFest: [RemoteDevFestSeed] blue with Google Sans Flex on every role — the only conference
+ * identity Confetti swaps typography for, because the face is as much of the GDG brand as the
+ * colour.
  */
-@WearThemeCatalog(name = "Google Sans Flex", group = "Wear")
+@WearThemeCatalog(name = "DevFest", group = "Confetti")
+class RemoteDevFestThemeCatalog : PreviewWrapperProvider {
+  @Composable
+  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("DevFest", content)
+}
+
+/**
+ * The stock Wear M3 theme with its type scale re-pointed at **Google Sans Flex**, the Material 3
+ * Expressive brand face. Palette-identical to [RemoteConfettiDefaultThemeCatalog] on purpose: it
+ * isolates the typeface. Not one of Confetti's — hence its own group.
+ */
+@WearThemeCatalog(name = "Google Sans Flex", group = "Wear M3")
 class RemoteGoogleSansFlexThemeCatalog : PreviewWrapperProvider {
   @Composable
   override fun Wrap(content: @Composable () -> Unit) =
     RemoteThemeOverride("Google Sans Flex", content)
-}
-
-/**
- * Confetti Wear's dark KotlinConf identity: its JetBrains purple seed palette, plus the typeface
- * pairing — JetBrains Mono on the display / title / numeral roles, Inter on the body.
- */
-@WearThemeCatalog(name = "KotlinConf", group = "Confetti Wear")
-class RemoteKotlinConfThemeCatalog : PreviewWrapperProvider {
-  @Composable
-  override fun Wrap(content: @Composable () -> Unit) = RemoteThemeOverride("KotlinConf", content)
 }

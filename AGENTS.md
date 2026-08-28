@@ -312,6 +312,18 @@ already a member.
 - **Reproduce a borrowed theme by its recipe, not its output.** The Confetti palettes run the same
   seed through the same library Confetti uses rather than transcribing the roles it resolved to,
   because a transcribed table drifts the first time either side moves and nothing notices.
+- **Both modules declare the SAME theme set.** `CatalogThemes.kt` and
+  `remote-catalog/…/RemoteThemeCatalogs.kt` publish the same six names in the same two groups, built
+  from the same four seeds through the same `materialkolor` recipe — because the compare page reads
+  the two columns theme by theme, and a Theme select offering "Droidcon" on one column and "Coral"
+  on the other cannot be read at all (#99). Add, rename or reseed a theme in **both**, in one PR.
+  The seeds are duplicated (the two modules are on different dependency lines and cannot share a
+  constant); `CatalogInventoryTest` and `RemoteCatalogThemeTest` each pin the literals, so a
+  one-sided edit fails the other side.
+- **What a Remote theme can carry is narrower, and that is not a licence to diverge.** A recorded
+  document is re-themed by overriding named colour state (`USER:WearM3.<role>`), so the Remote side
+  publishes a theme's *colours* mapped onto those 29 roles and its *faces* as data for a player lane
+  to resolve — never a `Typography`. Same names, same palettes; only the mechanism differs.
 
 ## Motion
 
