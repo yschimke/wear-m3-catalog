@@ -2082,20 +2082,458 @@
       ]
     },
     {
-      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#PlainCard",
-      "componentId": "Card",
-      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
-      "basePreviewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard",
+      "code": "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#ApplicationCard",
+      "componentId": "AppCard",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/38437:5712",
+      "basePreviewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.PlainCard_VARIANT_background-image",
-          "name": "background-image",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_content-image",
+          "name": "content-image",
           "seeds": [
             {
-              "key": "style",
-              "raw": "image",
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
               "kitAxis": "Style",
-              "kitValue": "Background Image"
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_gallery-1",
+          "name": "gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_gallery-2",
+          "name": "gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon",
+          "name": "icon",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-content-image",
+          "name": "icon-content-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-gallery-1",
+          "name": "icon-gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-gallery-2",
+          "name": "icon-gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-outlined",
+          "name": "icon-outlined",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-outlined-content-image",
+          "name": "icon-outlined-content-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-outlined-gallery-1",
+          "name": "icon-outlined-gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_icon-outlined-gallery-2",
+          "name": "icon-outlined-gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card + Icon",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card + Icon"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_outlined",
+          "name": "outlined",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_outlined-content-image",
+          "name": "outlined-content-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_outlined-gallery-1",
+          "name": "outlined-gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.ApplicationCard_VARIANT_outlined-gallery-2",
+          "name": "outlined-gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "App Card",
+              "kitAxis": "Layout type",
+              "kitValue": "App Card"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
             }
           ]
         }
@@ -2108,26 +2546,522 @@
       "basePreviewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard",
       "renders": [
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-subtitle",
-          "name": "title-and-subtitle",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_background-image",
+          "name": "background-image",
           "seeds": [
             {
-              "key": "content",
-              "raw": "subtitle",
+              "key": "Layout type",
+              "raw": "Title Card 1",
               "kitAxis": "Layout type",
-              "kitValue": "Title Card 3"
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Background Image",
+              "kitAxis": "Style",
+              "kitValue": "Background Image"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
             }
           ]
         },
         {
-          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-time",
-          "name": "title-and-time",
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_content-image",
+          "name": "content-image",
           "seeds": [
             {
-              "key": "content",
-              "raw": "time",
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_gallery-1",
+          "name": "gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_gallery-2",
+          "name": "gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_outlined",
+          "name": "outlined",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_outlined-content-image",
+          "name": "outlined-content-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_outlined-gallery-1",
+          "name": "outlined-gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_outlined-gallery-2",
+          "name": "outlined-gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 1",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 1"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_title-and-subtitle",
+          "name": "title-and-subtitle",
+          "seeds": [
+            {
+              "key": "layout",
+              "raw": "title-subtitle"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle",
+          "name": "with-subtitle",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
               "kitAxis": "Layout type",
               "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-background-image",
+          "name": "with-subtitle-background-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Background Image",
+              "kitAxis": "Style",
+              "kitValue": "Background Image"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-content-image",
+          "name": "with-subtitle-content-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-gallery-1",
+          "name": "with-subtitle-gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-gallery-2",
+          "name": "with-subtitle-gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Tonal",
+              "kitAxis": "Style",
+              "kitValue": "Tonal"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-outlined",
+          "name": "with-subtitle-outlined",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Text",
+              "kitAxis": "Content type",
+              "kitValue": "Text"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-outlined-content-image",
+          "name": "with-subtitle-outlined-content-image",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Image",
+              "kitAxis": "Content type",
+              "kitValue": "Image"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-outlined-gallery-1",
+          "name": "with-subtitle-outlined-gallery-1",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 1",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 1"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
+            }
+          ]
+        },
+        {
+          "previewId": "ee.schimke.wearm3catalog.sections.CardsKt.TitledCard_VARIANT_with-subtitle-outlined-gallery-2",
+          "name": "with-subtitle-outlined-gallery-2",
+          "seeds": [
+            {
+              "key": "Layout type",
+              "raw": "Title Card 2",
+              "kitAxis": "Layout type",
+              "kitValue": "Title Card 2"
+            },
+            {
+              "key": "Style",
+              "raw": "Outline",
+              "kitAxis": "Style",
+              "kitValue": "Outline"
+            },
+            {
+              "key": "Content type",
+              "raw": "Gallery 2",
+              "kitAxis": "Content type",
+              "kitValue": "Gallery 2"
+            },
+            {
+              "key": "Interactive",
+              "raw": "Yes",
+              "kitAxis": "Interactive",
+              "kitValue": "Yes"
             }
           ]
         }
