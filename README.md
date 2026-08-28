@@ -875,6 +875,7 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `ListHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListHeading-7a2c3267.png" width="150" /> |
 | `ListHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListHeading_VARIANT_left_aligned-eea2e0e1.png" width="150" /> |
 | `ListSubHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListSubHeading-960f2575.png" width="150" /> |
+| `ListSubHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListSubHeading_VARIANT_centred-7f57121b.png" width="150" /> |
 | `ListSubHeading` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ListSubHeading_VARIANT_icon-0c90e373.png" width="150" /> |
 | `IconToggle` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconToggle-787db54f.png" width="150" /> |
 | `IconToggle` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/IconToggle_VARIANT_disabled-b0c197b2.png" width="150" /> |
