@@ -66,6 +66,7 @@ import ee.schimke.composeai.daemon.rememberOverridableRemoteColor
 import ee.schimke.composeai.daemon.rememberOverridableRemoteDp
 import ee.schimke.composeai.daemon.rememberOverridableRemoteFloat
 import ee.schimke.composeai.daemon.rememberOverridableRemoteString
+import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.OverrideVariant
@@ -191,6 +192,45 @@ internal val addIcon: ImageVector =
 // named-value variants. Parallels of the Wear M3 button family.
 // ---------------------------------------------------------------------------
 
+/**
+ * The three `Button` cells this sheet used to publish as three top-level components —
+ * `Button/Disabled`, `Button/IconLabel` and `Button/IconLabel-Large` — folded onto the style they
+ * are variants OF ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
+ *
+ * The names are the Wear sibling's (`disabled`, `icon`, `icon-large`), because the compare page
+ * reads the two columns cell by cell as well as component by component: a cell called
+ * `icon-default` here beside `icon` there pairs with nothing, and the row silently halves.
+ *
+ * Every cell that turns the icon on declares its WHOLE kit vector, because the kit's axes are
+ * coupled. There is no `Icon=Yes, Icon size=n/a` node and no `Icon=Yes, Alignment=Center` one — a
+ * leading icon is what gives the row the height for the second label, so the kit draws every
+ * `Icon=Yes` cell left-aligned and two-line. A cell naming only `Icon=Yes` asks for a node between
+ * the ones the kit drew. `disabled` turns exactly one knob and takes `kitAxis` / `kitValue`.
+ *
+ * TWO icon sizes, not the kit's three. `RemoteButtonDefaults` publishes `IconSize` and
+ * `LargeIconSize` and stops there — there is no extra-large on the alpha `remote-material3` surface
+ * — so the kit's `Icon size=xLg 36` column has no argument to reach it with. That is a library gap
+ * stated here rather than a fourth cell mapped onto a node this cannot draw.
+ */
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "icon",
+  booleans = ["icon=true"],
+  kitProps = ["Icon=Yes", "Icon size=26 (Default)", "Alignment=Left"],
+)
+@OverrideVariant(
+  name = "icon-large",
+  booleans = ["icon=true"],
+  strings = ["iconSize=large"],
+  kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left"],
+)
+annotation class RemoteButtonKitCells
+
 @CatalogComponent(
   id = "Button/Filled",
   group = "Buttons",
@@ -200,15 +240,47 @@ internal val addIcon: ImageVector =
   caption = "Remote Material 3 filled button — the primary action.",
 )
 @CatalogRemoteModes
+@RemoteButtonKitCells
 @Composable
 fun FilledRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
-  RemoteButton(
-    onClick = onClick,
-    modifier = RemoteModifier.buttonSizeModifier(),
-    enabled = true.rb,
-    content = { RemoteText(label) },
-  )
+  val enabled = previewOverrideBoolean("enabled", true).rb
+  if (!previewOverrideBoolean("icon", false)) {
+    // The kit's `Icon=No` column, and the base render. `buttonSizeModifier()` is what makes a
+    // label-only button measure like the kit's one-line cell.
+    RemoteButton(
+      onClick = onClick,
+      modifier = RemoteModifier.buttonSizeModifier(),
+      enabled = enabled,
+      content = { RemoteText(label) },
+    )
+  } else {
+    // The kit's `Icon=Yes` column: a leading icon, and the SECOND label the kit couples to it.
+    // Every `Icon=Yes` cell in the `Button` set draws `Primary label` over `Secondary label` —
+    // the icon is what gives the row the height for a second line — so there is no single-line
+    // icon cell to map an icon-without-subtitle render onto (#116, and the same finding as the
+    // selection rows in #112). No `buttonSizeModifier()` here: a two-line button sizes itself
+    // from its slots, and pinning it to the one-line height clips the second row off.
+    RemoteButton(
+      onClick = onClick,
+      enabled = enabled,
+      icon = {
+        RemoteIcon(
+          addIcon,
+          contentDescription = null,
+          modifier =
+            RemoteModifier.size(
+              when (previewOverrideChoice("iconSize", "default", listOf("default", "large"))) {
+                "large" -> RemoteButtonDefaults.LargeIconSize
+                else -> RemoteButtonDefaults.IconSize
+              }
+            ),
+        )
+      },
+      secondaryLabel = { RemoteText(KitCopy.SECONDARY_LABEL.rs) },
+      label = { RemoteText(label) },
+    )
+  }
 }
 
 // Remote Material 3's outlined-emphasis button. Remote Compose alpha06 has no
@@ -312,32 +384,85 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   )
 }
 
+/**
+ * **The kit's `Text-Button` style and size axes, as cells** — the four this sheet used to publish
+ * as `Button/Text-Small`, `-Large`, `-Child` and `-Outlined`
+ * ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
+ *
+ * They fold for the reason AGENTS.md gives for folding them on the Wear side: the test is the CALL
+ * SITE, not the word. `Style=` on this set is not a choice between functions — `remote-material3`
+ * ships one `RemoteTextButton` and it takes its emphasis as `colors` — so there is no second
+ * function for a reader to pick, and nothing to split. `Size=` is a modifier argument on the same
+ * one. The cell names are the Wear sibling's, so the compare page pairs them.
+ *
+ * Two of the kit's five styles, not five. `RemoteTextButtonDefaults` publishes exactly two colour
+ * recipes (the filled base and the container-less child); `Filled-Variant` and `Tonal` have no
+ * tokens on the alpha surface and are not written out here by hand, because a style transcribed
+ * from the Wear library's resolved colours is a picture of this file rather than of
+ * `remote-material3`. The outlined cell is the one exception and it is not a colour recipe: the
+ * border is its own parameter, which is what the child colours plus `border` amount to.
+ */
+@OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+@OverrideVariant(
+  name = "child",
+  strings = ["style=child"],
+  kitAxis = "Style",
+  kitValue = "Child (No background)",
+)
+@OverrideVariant(
+  name = "outlined",
+  strings = ["style=outlined"],
+  kitAxis = "Style",
+  kitValue = "Outline",
+)
+annotation class RemoteTextButtonKitCells
+
 // A low-emphasis round text button (`RemoteTextButton`), the Remote parallel of Wear
-// M3's `TextButton`.
+// M3's `TextButton`, with the kit's `Style` and `Size` axes folded in as cells.
 @CatalogComponent(
   id = "Button/Text",
   group = "Buttons",
   parallel = "TextButton",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:103080",
-  caption = "Low-emphasis round text button (RemoteTextButton).",
+  caption =
+    "Low-emphasis round text button (RemoteTextButton), with the kit's style and size " +
+      "axes folded in.",
 )
 @CatalogRemoteModes
+@RemoteTextButtonKitCells
 @Composable
 fun TextRemoteButton() = RemoteSticker {
   // The kit's glyph run, not `PRIMARY_LABEL`: this container is a circle, and a two-word label is
   // drawn straight through its edge. `wear-m3-catalog`'s `TextButton` quotes the same constant.
   // `toggledRemote` rather than `countedRemote` for that same reason — see its KDoc.
   val (on, onClick) = toggledRemote()
-  // FILLED, because the kit's `Text-Button` base cell is filled and `wear-m3-catalog`'s
-  // `TextButton`
-  // is `filledTextButtonColors()` for that reason ("filled IS the base render", as it puts it).
-  // `RemoteTextButtonDefaults.textButtonColors()` is the CHILD style — no container at all — so
-  // taking it here drew the kit's lowest-emphasis cell under the base name, and the base cell went
-  // out under `Button/Text-Filled`. The no-container style keeps its own name: `Button/Text-Child`.
-  RemoteTextButton(
-    onClick = onClick,
-    colors =
+  // Read once, used for the colours and the border below.
+  val style = previewOverrideChoice("style", "filled", listOf("filled", "child", "outlined"))
+  val stock = RemoteTextButtonDefaults.textButtonColors()
+  // FILLED is the base, because the kit's `Text-Button` base cell is filled and
+  // `wear-m3-catalog`'s `TextButton` is `filledTextButtonColors()` for that reason ("filled IS the
+  // base render", as it puts it). `RemoteTextButtonDefaults.textButtonColors()` is the CHILD style
+  // — no container at all — which is why taking it as the base once drew the kit's lowest-emphasis
+  // cell under the base name.
+  //
+  // The content travels with the container on the two container-less styles: `primary` is a LIGHT
+  // fill in the dark-first scheme, so leaving the label at the stock near-white `onSurface` would
+  // land light text on a light container at the end of the tween. At rest `on` is 0f and
+  // `tween(a, b, 0f)` is `a`, so every baked capture keeps its stock colours.
+  val colors =
+    if (style == "filled") {
       RemoteTextButtonDefaults.textButtonColors(
         containerColor =
           tween(
@@ -346,23 +471,95 @@ fun TextRemoteButton() = RemoteSticker {
             on,
           ),
         contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
-      ),
-    content = { RemoteText(KitCopy.GLYPHS.rs) },
+      )
+    } else {
+      RemoteTextButtonDefaults.textButtonColors(
+        containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on),
+        contentColor = tween(stock.contentColor, RemoteMaterialTheme.colorScheme.onPrimary, on),
+      )
+    }
+  // The two size cells take the same filled container the base does — the kit draws its size cells
+  // on its base style, and the style cells are the ones that change the container.
+  val size = previewOverrideChoice("size", "default", listOf("default", "small", "large"))
+  RemoteTextButton(
+    onClick = onClick,
+    modifier =
+      when (size) {
+        "small" -> RemoteModifier.size(RemoteTextButtonDefaults.SmallButtonSize)
+        "large" -> RemoteModifier.size(RemoteTextButtonDefaults.LargeButtonSize)
+        else -> RemoteModifier
+      },
+    colors = colors,
+    // The border is its OWN parameter, not part of `colors`: an outlined text button built from
+    // the container-less colours alone draws no outline and is pixel-identical to the child cell.
+    border = if (style == "outlined") 2.rdp else null,
+    borderColor = if (style == "outlined") RemoteMaterialTheme.colorScheme.outline else null,
+    content = {
+      RemoteText(
+        KitCopy.GLYPHS.rs,
+        style =
+          when (size) {
+            "small" -> RemoteTextButtonDefaults.smallButtonTextStyle
+            "large" -> RemoteTextButtonDefaults.largeButtonTextStyle
+            else -> RemoteTextButtonDefaults.defaultButtonTextStyle
+          },
+      )
+    },
   )
 }
 
+/**
+ * **The kit's `Icon-Button` `Size` axis, as cells** — two of the three this sheet used to publish
+ * as `Button/Icon-ExtraSmall`, `-Small` and `-Large`
+ * ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
+ *
+ * Size is an argument to the one `RemoteIconButton`, so it folds; `Style` is the axis that stays
+ * split, because `Button/Icon-Filled` and `Button/Icon-Outlined` pair with `IconButton/Filled` and
+ * `IconButton/Outlined` on the Wear column, where they are separate functions. This component IS
+ * the kit's child style — no container at all — and its cells vary only the size, so they take the
+ * stock colours the base sticker takes.
+ *
+ * **NO `extra-small` cell, and the render is why.** `Button/Icon-ExtraSmall` named the kit's
+ * `Style=Child (No background), Size=Extra-Small` cell (`34732:103021`) and its capture is
+ * BYTE-IDENTICAL to the small one: `iconSizeFor` resolves `ExtraSmallButtonSize` and
+ * `SmallButtonSize` to the same glyph, and with no container there is nothing else in the picture
+ * to tell them apart. So that row was publishing one render twice and scoring it against two
+ * different kit nodes — a mapping that cannot fail, which AGENTS.md rates worse than no mapping.
+ * Withdrawn here rather than carried across the fold.
+ *
+ * The Wear sibling's `IconButton/Standard` reaches the same place by the same road and says so at
+ * length: the size is a container token, the child style draws no container, and
+ * `CatalogRenderTest` caught the duplicate there. It is the one gap of the five styles, on both
+ * sheets, and the kit's five `Size=Extra-Small` cells are covered by the four styles that do draw a
+ * container.
+ */
+@OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+annotation class RemoteIconButtonKitCells
+
 // A round icon button (`RemoteIconButton`) carrying a single `RemoteIcon`. Inside the
 // button the icon inherits the button's (contrasting) content colour, so no explicit
-// tint is needed. Wear M3 parallel: `IconButton`.
+// tint is needed. Wear M3 parallel: `IconButton/Standard`.
 @CatalogComponent(
   id = "Button/Icon",
   group = "Buttons",
   parallel = "IconButton/Standard",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103015",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
-  caption = "Round icon button (RemoteIconButton) carrying a single RemoteIcon.",
+  caption = "Round icon button (RemoteIconButton), with the kit's size axis folded in.",
 )
 @CatalogRemoteModes
+@RemoteIconButtonKitCells
 @Composable
 fun IconRemoteButton() = RemoteSticker {
   // No label to count into, so this one reads as a favourite toggle instead: the container colour
@@ -370,44 +567,117 @@ fun IconRemoteButton() = RemoteSticker {
   // `tween(a, b, 0f)` is `a`, so the baked sticker keeps the stock icon-button colours.
   val (on, onClick) = toggledRemote()
   val stock = RemoteIconButtonDefaults.iconButtonColors()
+  // `null` at the default, NOT `DefaultButtonSize`. The base sticker has always let the library
+  // size itself, and pinning it to the token it would have picked anyway is a change to the baked
+  // capture for no gain — the cells are what need an explicit size.
+  val size =
+    when (previewOverrideChoice("size", "default", listOf("default", "small", "large"))) {
+      "small" -> RemoteIconButtonDefaults.SmallButtonSize
+      "large" -> RemoteIconButtonDefaults.LargeButtonSize
+      else -> null
+    }
   RemoteIconButton(
     onClick = onClick,
+    modifier = if (size == null) RemoteModifier else RemoteModifier.size(size),
     colors =
       RemoteIconButtonDefaults.iconButtonColors(
         containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on)
       ),
-    content = { RemoteIcon(addIcon, "Add".rs) },
+    content = {
+      if (size == null) RemoteIcon(addIcon, "Add".rs)
+      else
+        RemoteIcon(
+          addIcon,
+          "Add".rs,
+          modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
+        )
+    },
   )
 }
 
+/**
+ * **The kit's `Button-Compact` content axis, as cells** — the two this sheet used to publish as
+ * `Button/Compact-TextOnly` and `Button/Compact-IconOnly`
+ * ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
+ *
+ * Both cells declare their WHOLE kit vector, because this set's axes are coupled three deep:
+ * `Alignment`, `Icon` and `Text` are one choice the kit spells as three properties, so a cell
+ * naming `Icon=No` alone asks for a node between the ones the kit drew. The Wear sibling's
+ * `Button/Compact` cells carry the same vectors under the same two names.
+ *
+ * `Style=` stays off this component, unlike the Wear sibling's, and the reason is the same one the
+ * text button gives: `RemoteButtonDefaults` publishes one colour recipe, and a tonal or outlined
+ * compact button written out here by hand would be a picture of this file rather than of
+ * `remote-material3`.
+ */
+@OverrideVariant(
+  name = "icon-only",
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+)
+@OverrideVariant(
+  name = "text-only",
+  strings = ["content=text"],
+  kitProps = ["Style=Filled", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+)
+annotation class RemoteCompactButtonKitCells
+
 // The compact, single-line button (`RemoteCompactButton`) — Wear M3 parallel:
-// `CompactButton`.
+// `Button/Compact`.
 @CatalogComponent(
   id = "Button/Compact",
   group = "Buttons",
   parallel = "Button/Compact",
   reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35276:87971",
-  caption = "Compact single-line button (RemoteCompactButton) with the kit's leading icon.",
+  caption =
+    "Compact single-line button (RemoteCompactButton) with the kit's leading icon, and " +
+      "its icon-only and text-only cells.",
 )
 @CatalogRemoteModes
+@RemoteCompactButtonKitCells
 @Composable
 fun CompactRemoteButton() = RemoteSticker {
+  // ICON AND LABEL is the base, because that is what the kit cell this row is scored against draws
+  // (`Button-Compact`, `Icon=Yes`, `Text=Yes`) and what `wear-m3-catalog`'s `Button/Compact`
+  // draws. It was label-only once, which is the kit's `Icon=No` cell — that cell is still here,
+  // as the `text-only` cell, rather than standing in for the base one.
+  val content =
+    previewOverrideChoice("content", "icon-and-text", listOf("icon-and-text", "icon", "text"))
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
-  // ICON AND LABEL, because that is what the kit cell this row is scored against draws
-  // (`Button-Compact`, `Icon=Yes`) and what `wear-m3-catalog`'s `Button/Compact` draws. It was
-  // label-only, which is the kit's `Icon=No` cell — that cell still exists, under its own name
-  // (`Button/Compact-TextOnly`), rather than standing in for the base one.
+  // The icon-only cell has no label to count into, so it reads as a toggle instead — the same
+  // bargain `Button/Icon` strikes. At rest `on` is 0f and the baked capture is the stock filled
+  // container.
+  val (on, toggle) = toggledRemote()
+  val stock = RemoteButtonDefaults.buttonColors()
   RemoteCompactButton(
-    onClick = onClick,
-    icon = {
-      RemoteIcon(
-        addIcon,
-        contentDescription = null,
-        modifier = RemoteModifier.size(RemoteButtonDefaults.ExtraSmallIconSize),
-      )
-    },
-    label = { RemoteText(label) },
+    onClick = if (content == "icon") toggle else onClick,
+    colors =
+      if (content != "icon") RemoteButtonDefaults.buttonColors()
+      else
+        RemoteButtonDefaults.buttonColors(
+          containerColor =
+            tween(stock.containerColor, RemoteMaterialTheme.colorScheme.tertiaryContainer, on)
+        ),
+    icon =
+      if (content == "text") null
+      else
+        ({
+          RemoteIcon(
+            addIcon,
+            // The icon-only cell is the whole button, so it carries the description the label
+            // carries on the other two.
+            contentDescription = if (content == "icon") "Add".rs else null,
+            modifier =
+              RemoteModifier.size(
+                // Its dedicated 52dp visible width gives the glyph more room than the leading
+                // slot beside a label does.
+                if (content == "icon") RemoteButtonDefaults.SmallIconSize
+                else RemoteButtonDefaults.ExtraSmallIconSize
+              ),
+          )
+        }),
+    label = if (content == "icon") null else ({ RemoteText(label) }),
   )
 }
 
@@ -482,13 +752,29 @@ fun OutlinedCardRemote() = RemoteSticker {
   )
 }
 
+// `Title Card 2` — the kit's second layout, which adds a subtitle under the body. It used to be a
+// top-level component (`TitleCard/WithSubtitle`); the kit models the layouts as one `Layout type`
+// property on one `Card` set, and `RemoteTitleCard` reaches them by filling one more slot rather
+// than by being a different function, so it is a cell
+// ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)). The Wear sibling's `TitleCard`
+// carries it under the same name.
+//
+// `Title Card 3` is the set's remaining gap in BOTH renditions and stays a stated absence rather
+// than a third cell: it draws the timestamp under the subtitle, and neither `RemoteTitleCard` nor
+// Wear's `TitleCard` has an argument that moves the time off the title's row. What Compose can
+// arrange instead ships under its own name, `TitleCard/Subtitle`.
+@OverrideVariant(
+  name = "with-subtitle",
+  strings = ["layout=title-time-subtitle"],
+  kitProps = ["Layout type=Title Card 2", "Style=Tonal", "Content type=Text", "Interactive=Yes"],
+)
 @CatalogComponent(
   id = "TitleCard",
   group = "Containment",
   parallel = "TitleCard",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "Card led by a title, with the kit's time and content slots filled — Title Card 1.",
+  caption = "Card led by a title, with the kit's numbered layouts folded in as cells.",
 )
 @CatalogRemoteLarge
 @Composable
@@ -510,6 +796,18 @@ fun TitleCardRemote() = RemoteSticker {
     onClick = onClick,
     title = { RemoteText(title) },
     time = { RemoteText(KitCopy.TIMESTAMP.rs) },
+    // `Title Card 2`'s subtitle sits UNDER the body, which is where `RemoteTitleCard` draws its
+    // `subtitle` slot. The base cell leaves it empty.
+    subtitle =
+      if (
+        previewOverrideChoice(
+          "layout",
+          "title-time",
+          listOf("title-time", "title-time-subtitle"),
+        ) == "title-time-subtitle"
+      )
+        ({ RemoteText(KitCopy.SUBTITLE.rs) })
+      else null,
     content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
   )
 }
@@ -620,6 +918,17 @@ fun WatchScreenRemote() = RemoteSticker {
 // document clock). Wear M3 parallel: `CircularProgressIndicator` (`Progress/Circular`).
 // ---------------------------------------------------------------------------
 
+// The kit's `Disabled=Yes` cell, folded on
+// ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116))
+// — it used to be `Progress/Circular-Disabled`, a top-level component. `enabled` is an argument to
+// the one `RemoteCircularProgressIndicator`, so it is a cell, and the Wear sibling's
+// `CircularProgressIndicator` carries the same axis under the same name.
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
 @CatalogComponent(
   id = "Progress/Circular",
   group = "Communication",

@@ -123,11 +123,17 @@ dependencies {
   // The knob runtime the kit AXES are read through (`previewOverrideChoice` and friends), and the
   // reason this module can carry `@OverrideVariant` cells at all. `:catalog` has declared it since
   // it started folding the kit's axes into cells (#101); this module published one component per
-  // variant instead, so it never needed it. Folding here starts with `Text/Body`'s `Alignment`
-  // ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116) phase 2) — a knob read inside a
-  // `RemoteSticker` resolves at composition, before the document is built, so what it turns is the
-  // Compose call rather than anything in the RemoteDocument. A render with no override seeded is
-  // byte-for-byte what the sticker produced before.
+  // variant instead, so it never needed it. It does now: `Text/Body`'s `Alignment` and then the
+  // whole button surface ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116) phase 2).
+  // A knob read inside a `RemoteSticker` resolves at composition, before the document is built, so
+  // what it turns is the Compose call rather than anything in the RemoteDocument. A render with no
+  // override seeded is byte-for-byte what the sticker produced before.
+  //
+  // It is NOT the connector's `rememberOverridableRemote*` next door, and both are wanted. Those
+  // bind a value into the recorded document as a named value, so the player reseeds it live
+  // without re-recording; these are read at RECORD time and decide what gets recorded at all —
+  // which colours, which slots, which size. A cell that changes the container has to be a
+  // record-time choice, because the document does not carry the alternative.
   implementation(libs.composeai.preview.overrides)
 
   // The widget-container stickers render through `CapturingWearWidgetPreview` rather than
