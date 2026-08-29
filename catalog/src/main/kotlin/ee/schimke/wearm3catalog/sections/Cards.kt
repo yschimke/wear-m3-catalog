@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.AppCard
 import androidx.wear.compose.material3.Card
@@ -83,33 +83,37 @@ import ee.schimke.wearm3catalog.kitCopy
 
 private val CardWidth = 180.dp
 
-/** The height the kit gives the thumbnails in its `Image` and `Gallery` cells. */
-private val GalleryHeight = 42.dp
+private val GallerySlotWidth = 148.dp
+private val GalleryGap = 4.dp
 
 @Composable
-private fun galleryRow(shape: Shape) {
+private fun galleryRow(height: Dp, leadWidth: Dp, trailingWidth: Dp, shape: Shape) {
   Row(
-    horizontalArrangement = Arrangement.spacedBy(4.dp),
-    modifier = Modifier.fillMaxWidth().height(GalleryHeight),
+    horizontalArrangement = Arrangement.spacedBy(GalleryGap),
+    modifier = Modifier.width(GallerySlotWidth).height(height),
   ) {
-    repeat(2) {
-      Image(
-        painter = CatalogImage,
-        contentDescription = null,
-        contentScale = ContentScale.Crop,
-        modifier = Modifier.weight(1f).fillMaxWidth().clip(shape),
-      )
-    }
+    Image(
+      painter = CatalogImage,
+      contentDescription = null,
+      contentScale = ContentScale.Crop,
+      modifier = Modifier.width(leadWidth).height(height).clip(shape),
+    )
+    Image(
+      painter = CatalogImage,
+      contentDescription = null,
+      contentScale = ContentScale.Crop,
+      modifier = Modifier.width(trailingWidth).height(height).clip(shape),
+    )
   }
 }
 
 /**
  * The kit's `Content type` axis, as what the card's content slot holds.
  *
- * `Text` is the body copy; the other three are imagery — one wide frame, two rounded thumbnails, or
- * two pill-shaped ones, which is the only thing that separates the kit's two galleries. [bodyText]
- * is null on the one layout the kit draws without body copy (`Title Card 3`), and its `Text` cell
- * is then an empty slot rather than a line of text.
+ * `Text` is the body copy; the other three are imagery. The galleries use the kit's unequal 86/58
+ * frames in opposite orders; Gallery 2 is also shorter and pill-shaped. [bodyText] is null on the
+ * one layout the kit draws without body copy (`Title Card 3`), and its `Text` cell is then an empty
+ * slot rather than a line of text.
  */
 @Composable
 private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
@@ -122,15 +126,29 @@ private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
           painter = CatalogImage,
           contentDescription = null,
           contentScale = ContentScale.Crop,
-          modifier = Modifier.fillMaxWidth().height(GalleryHeight).clip(RoundedCornerShape(12.dp)),
+          modifier = Modifier.width(GallerySlotWidth).height(64.dp).clip(RoundedCornerShape(14.dp)),
         )
       }
     }
     "gallery-1" -> {
-      { galleryRow(RoundedCornerShape(12.dp)) }
+      {
+        galleryRow(
+          height = 64.dp,
+          leadWidth = 86.dp,
+          trailingWidth = 58.dp,
+          shape = RoundedCornerShape(14.dp),
+        )
+      }
     }
     "gallery-2" -> {
-      { galleryRow(CircleShape) }
+      {
+        galleryRow(
+          height = 58.dp,
+          leadWidth = 58.dp,
+          trailingWidth = 86.dp,
+          shape = CircleShape,
+        )
+      }
     }
     else -> bodyText?.let { text -> { Text(text) } }
   }

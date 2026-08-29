@@ -43,9 +43,7 @@ import androidx.compose.ui.graphics.painter.Painter
  * twice.
  *
  * A flat fill is the only option that stays monotonic across the range. The residual over these
- * slots is now our geometry and nothing else — which is the point, because the geometry is wrong:
- * the kit's `Slot Image` is 64dp against our 42dp, and its `Gallery 1` is three stepped frames
- * against our two equal ones.
+ * slots is then geometry and nothing else.
  *
  * ## Why drawn rather than shipped
  *
@@ -73,6 +71,23 @@ object CatalogImage : Painter() {
 
   override fun DrawScope.onDraw() {
     drawRect(Fill)
+  }
+}
+
+/**
+ * The kit's empty image fill with the flat 50% black overlay used by `Button-ImageBackground`.
+ *
+ * Wear's [androidx.wear.compose.material3.ButtonDefaults.containerPainter] intentionally adds a
+ * directional scrim. The kit cell instead exports one uniform overlay across the full container, so
+ * the catalog supplies that artwork through the real `Button` painter overload rather than
+ * substituting a hand-built button.
+ */
+object CatalogImageWithFlatScrim : Painter() {
+  override val intrinsicSize: Size = Size.Unspecified
+
+  override fun DrawScope.onDraw() {
+    drawRect(Color(0xFFECECEC))
+    drawRect(Color.Black.copy(alpha = 0.5f))
   }
 }
 

@@ -176,9 +176,10 @@ annotation class CatalogRemoteScreen
 annotation class CatalogRemoteCanvas
 
 /**
- * The **display-cell** frame: a full round watch face's worth of square canvas (227×227dp at the
- * same density-2.0 pin), for a component that positions itself against the display edge rather than
- * wrapping its content.
+ * The **display-cell** frame: the five round sizes the kit recognises, for a component that
+ * positions itself against the display edge rather than wrapping its content. The 192dp cell is the
+ * base because the kit draws its base display nodes at 192×192; the other four fold beneath it with
+ * the same names as the Wear sibling.
  *
  * This is the Remote counterpart of the Wear sibling's `FullScreenSticker`, and what decides it is
  * the same thing: the SHAPE of the kit cell the render is compared against. The kit publishes its
@@ -193,5 +194,29 @@ annotation class CatalogRemoteCanvas
  * template paints its own surface and IS the watch face, where these rasterise onto transparency
  * like every other component sticker.
  */
-@Preview(showBackground = false, device = "spec:width=227dp,height=227dp,dpi=320")
+@Preview(
+  name = "192dp",
+  showBackground = false,
+  device = "spec:width=192dp,height=192dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "204dp",
+  showBackground = false,
+  device = "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "216dp",
+  showBackground = false,
+  device = "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "225dp",
+  showBackground = false,
+  device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "240dp",
+  showBackground = false,
+  device = "spec:width=240dp,height=240dp,dpi=320,isRound=true",
+)
 annotation class CatalogRemoteDisplay
