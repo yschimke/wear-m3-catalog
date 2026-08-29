@@ -61,13 +61,45 @@ if [ ! -d "$CACHE" ] || [ "$REFRESH" = 1 ]; then
 fi
 echo "==> reference cache: $(git log -1 --format=%cd --date=short FETCH_HEAD 2>/dev/null || echo "unknown date") (refresh with --refresh-cache)"
 
+BUNDLE="$MODULE/build/compose-previews/bundle.png"
+
 if [ "$BUILD" = 1 ]; then
   echo "==> rendering :$MODULE"
   ./gradlew ":$MODULE:composePreviewDiscover" ":$MODULE:composePreviewBundle"
+  # Stamp it, because Gradle is content-addressed and this check is not. A task
+  # that decides it is UP-TO-DATE writes nothing, so a source file whose mtime
+  # moved without its content changing — a touch, an edit reverted, a branch
+  # switched back — would leave the bundle looking older than a source it in
+  # fact describes, and the guard below would then refuse every `--no-build` run
+  # with no way to satisfy it. After a successful build the bundle DOES match
+  # the sources, whether or not Gradle had to do anything, so say so.
+  touch "$BUNDLE"
 fi
 
-BUNDLE="$MODULE/build/compose-previews/bundle.png"
 [ -f "$BUNDLE" ] || { echo "no bundle at $BUNDLE — drop --no-build" >&2; exit 1; }
+
+# A STALE BUNDLE IS THE WORST FAILURE THIS SCRIPT HAS, because it does not look
+# like one: the run succeeds, prints a verdict, and the verdict describes the
+# code as it was before your edit. The reading is "my change did nothing" —
+# which is indistinguishable from a change that genuinely did nothing, and it
+# cost two wrong conclusions in the session that wrote this guard.
+#
+# So `--no-build` is checked rather than trusted. Any Kotlin source in the
+# module newer than the bundle means the bundle cannot describe it.
+#
+# This refuses rather than rebuilding: `--no-build` is a claim about what you
+# have already done, and a script that silently did the opposite of the flag
+# would be its own surprise. Fatal, not a warning — a warning above a verdict
+# is a warning nobody reads.
+if [ "$BUILD" = 0 ]; then
+  stale=$(find "$MODULE/src" -name '*.kt' -newer "$BUNDLE" -print -quit 2>/dev/null || true)
+  if [ -n "$stale" ]; then
+    echo "stale bundle: $stale is newer than $BUNDLE." >&2
+    echo "  The comparison would describe the code as it was BEFORE that edit," >&2
+    echo "  and read as 'my change did nothing'. Drop --no-build." >&2
+    exit 1
+  fi
+fi
 
 # Save the committed map BEFORE projecting, restore it however this exits. See the header.
 SAVED="$(mktemp -d)"
