@@ -362,6 +362,13 @@ component, not a sentence — and that work is done
   outside its bounds — a shadow, a focus ring — asks with `@CaptureGutter`, which extends the
   capture without changing what the composable measures and declares the margin in `previews.json`.
   That is for a real gutter only; stating one where nothing draws is a lie a consumer acts on.
+  **A gutter reaches the baked capture and the override-free live render, and not the live daemon
+  render behind a theme or a knob.** `?themeProvider=` and `?knob.` come back cropped to the bare
+  frame, because the Android daemon re-serialises the spec without the token — which is why the two
+  transport rows look clipped on the live sheet and correct on the published one
+  ([compose-ai-tools#4822](https://github.com/yschimke/compose-ai-tools/issues/4822),
+  [#179](https://github.com/yschimke/wear-m3-catalog/issues/179)). Fix that there, not here: padding
+  a frame to cover it reinstates exactly the margin #138 took out.
 - **Dark-first, transparent.** A component sticker is a single dark capture on a transparent
   background (`@CatalogModes`). A component the kit draws on a display cell — scaffolds, lists,
   dialogs, pickers, swipe-to-reveal — takes `FullScreenSticker` and `@CatalogFullScreenModes`

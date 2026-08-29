@@ -552,6 +552,18 @@ fun MediaShowPlaylistButton() = Sticker {
  * the rows measure against. Do not make this frame 80dp high instead — that changes the component's
  * layout rather than preserving what it draws outside its bounds.
  *
+ * THE LIVE SHEET STILL CLIPS THEM, AND THAT IS UPSTREAM. The gutter reaches the baked capture and
+ * the override-free live render — both 384×160 at density 2 — but any request that wakes the live
+ * Android daemon comes back 384×128, the bare 192×64 frame with the middle button's scallop cut off
+ * top and bottom. A `?themeProvider=` from the Theme select does it, and so does a `?knob.` edit;
+ * the theme is not the cause, it is just one of the overrides that forces the request off the baked
+ * lane. `RobolectricHost.reshapeRenderPayload` re-serialises the resolved spec without a
+ * `captureGutter=` token and every edge then defaults to zero, silently
+ * ([compose-ai-tools#4822](https://github.com/yschimke/compose-ai-tools/issues/4822), reported as
+ * [#179](https://github.com/yschimke/wear-m3-catalog/issues/179)). Nothing in this file fixes it:
+ * padding the frame back would put undeclared transparent margin in the baked capture, which is
+ * [#138](https://github.com/yschimke/wear-m3-catalog/issues/138)'s mistake in a new place.
+ *
  * `internal` rather than file-private because `Motion.kt`'s media recordings render in it too: a
  * motion capture needs a **pinned** canvas and this is the pin, so a recording that framed itself
  * some other way would move the row relative to every still it is published beside.
