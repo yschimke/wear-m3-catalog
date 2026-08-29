@@ -263,7 +263,7 @@ fun FilledRemoteButton() = RemoteSticker {
     // label-only button measure like the kit's one-line cell.
     RemoteButton(
       onClick = onClick,
-      modifier = RemoteModifier.buttonSizeModifier(),
+      modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
       enabled = enabled,
       content = { RemoteText(label) },
     )
@@ -324,7 +324,7 @@ fun OutlinedRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   RemoteButton(
     onClick = onClick,
-    modifier = RemoteModifier.buttonSizeModifier(),
+    modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
     colors =
       RemoteButtonDefaults.buttonColors(
         containerColor = RemoteColor(Color.Transparent),
@@ -825,7 +825,11 @@ fun ButtonGroupRemote() = RemoteSticker {
 @Composable
 fun CardRemote() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.CARD_CONTENT)
-  RemoteCard(onClick = onClick, content = { RemoteText(label) })
+  RemoteCard(
+    onClick = onClick,
+    modifier = RemoteModifier.width(KitRowWidth),
+    content = { RemoteText(label) },
+  )
 }
 
 @CatalogComponent(
@@ -846,6 +850,7 @@ fun OutlinedCardRemote() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.CARD_CONTENT)
   RemoteOutlinedCard(
     onClick = onClick,
+    modifier = RemoteModifier.width(KitRowWidth),
     content = { RemoteText(label, color = RemoteMaterialTheme.colorScheme.onSurface) },
   )
 }
@@ -892,6 +897,7 @@ fun TitleCardRemote() = RemoteSticker {
   // (`TitleCard/Subtitle`).
   RemoteTitleCard(
     onClick = onClick,
+    modifier = RemoteModifier.width(KitRowWidth),
     title = { RemoteText(title) },
     time = { RemoteText(KitCopy.TIMESTAMP.rs) },
     // `Title Card 2`'s subtitle sits UNDER the body, which is where `RemoteTitleCard` draws its
@@ -924,6 +930,7 @@ fun AppCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
   RemoteAppCard(
     onClick = onClick,
+    modifier = RemoteModifier.width(KitRowWidth),
     appName = { RemoteText(KitCopy.APP_LABEL.rs) },
     title = { RemoteText(title) },
     // The kit's App Card cell fills its timestamp slot, and so does `wear-m3-catalog`'s `AppCard`.
