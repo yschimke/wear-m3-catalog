@@ -15,6 +15,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.height
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.width
@@ -24,6 +25,7 @@ import androidx.compose.remote.creation.compose.shaders.solidColor
 import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.animateRemoteFloat
@@ -50,6 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.remote.material3.RemoteAppCard
 import androidx.wear.compose.remote.material3.RemoteButton
+import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteButtonGroup
 import androidx.wear.compose.remote.material3.RemoteCard
@@ -57,6 +60,7 @@ import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteCompactButton
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteIconButton
+import androidx.wear.compose.remote.material3.RemoteIconButtonColors
 import androidx.wear.compose.remote.material3.RemoteIconButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteOutlinedCard
@@ -245,6 +249,32 @@ internal val addIcon: ImageVector =
   kitProps = ["Icon=Yes", "Icon size=Lrg 32", "Alignment=Left", "Disabled=Yes"],
   secondary = true,
 )
+@OverrideVariant(
+  name = "icon-extra-large",
+  booleans = ["icon=true"],
+  strings = ["iconSize=extra-large"],
+  kitProps = ["Icon=Yes", "Icon size=xLg 36", "Alignment=Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-extra-large-disabled",
+  booleans = ["icon=true", "enabled=false"],
+  strings = ["iconSize=extra-large"],
+  kitProps = ["Icon=Yes", "Icon size=xLg 36", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left",
+  strings = ["alignment=left"],
+  kitProps = ["Icon=No", "Icon size=n/a", "Alignment=Left"],
+)
+// NO `left-disabled` CELL, on any of the five styles, and the render is why. A disabled
+// `RemoteButton` draws its container and NOT its label on the alpha surface — the same loss
+// `RemoteTextButton(enabled = false)` shows whole — so aligning a label that is not in the picture
+// changes nothing, and the cell came back byte-identical to `disabled` on all five styles at once
+// (`RemoteRenderTest.no two renders of a component are identical`). The kit's five
+// `Icon=No, Alignment=Left, Disabled=Yes` cells are what that costs; they are a library gap rather
+// than a gap in this file, and the Wear column draws all five.
 annotation class RemoteButtonKitCells
 
 @CatalogComponent(
@@ -258,7 +288,34 @@ annotation class RemoteButtonKitCells
 @CatalogRemoteModes
 @RemoteButtonKitCells
 @Composable
-fun FilledRemoteButton() = RemoteSticker {
+fun FilledRemoteButton() = RemoteSticker { RemoteKitButton(RemoteButtonDefaults.buttonColors()) }
+
+/**
+ * One style's worth of the kit's `Button` cells: the `Icon` / `Icon size` / `Disabled` axes, drawn
+ * against whichever emphasis the caller passes.
+ *
+ * Hoisted for the same reason [RemoteButtonKitCells] is, one level down. Those axes are ARGUMENTS
+ * to `RemoteButton` rather than a choice of function, so the cells are identical for every emphasis
+ * — and until this existed only the filled style read the knobs, so `Button/Outlined` and
+ * `Button/Tonal` published their base cell and nothing else. Ten of the set's fifty nodes were
+ * undrawn on that account alone ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
+ *
+ * `border` and `borderColor` are passed rather than defaulted because `remote-material3` publishes
+ * one `buttonColors()` and no outline treatment: the outlined style is this catalog holding a
+ * transparent container against a border, the way Wear's own `OutlinedButton` is built underneath.
+ * A zero-width border is a no-op whatever colour rides with it, which is what the filled and tonal
+ * callers pass.
+ *
+ * `internal` rather than `private` because `Button/Tonal` lives in ComponentVariantPreviews.kt — it
+ * stays a top-level component so the compare page's `Button/Tonal` card faces something, since the
+ * Wear column reaches that emphasis through a separate function.
+ */
+@Composable
+internal fun RemoteKitButton(
+  colors: RemoteButtonColors,
+  border: RemoteDp = 0.rdp,
+  borderColor: RemoteColor = RemoteColor(Color.Transparent),
+) {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   val enabled = previewOverrideBoolean("enabled", true).rb
   if (!previewOverrideBoolean("icon", false)) {
@@ -268,7 +325,20 @@ fun FilledRemoteButton() = RemoteSticker {
       onClick = onClick,
       modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
       enabled = enabled,
-      content = { RemoteText(label) },
+      colors = colors,
+      border = border,
+      borderColor = borderColor,
+      // The kit's `Alignment` axis, which is not a parameter on either platform: it is what the
+      // label does with the width it is given. `Center` is the base cell and what a label-only
+      // button does on its own; `Left` fills the row and starts the text. The Wear column spells
+      // it the same way, under the same cell name.
+      content = {
+        if (previewOverrideChoice("alignment", "center", listOf("center", "left")) == "left") {
+          RemoteText(label, modifier = RemoteModifier.fillMaxWidth(), textAlign = TextAlign.Start)
+        } else {
+          RemoteText(label)
+        }
+      },
     )
   } else {
     // The kit's `Icon=Yes` column: a leading icon, and the SECOND label the kit couples to it.
@@ -280,14 +350,29 @@ fun FilledRemoteButton() = RemoteSticker {
     RemoteButton(
       onClick = onClick,
       enabled = enabled,
+      colors = colors,
+      border = border,
+      borderColor = borderColor,
       icon = {
         RemoteIcon(
           addIcon,
           contentDescription = null,
           modifier =
             RemoteModifier.size(
-              when (previewOverrideChoice("iconSize", "default", listOf("default", "large"))) {
+              when (
+                previewOverrideChoice(
+                  "iconSize",
+                  "default",
+                  listOf("default", "large", "extra-large"),
+                )
+              ) {
                 "large" -> RemoteButtonDefaults.LargeIconSize
+                // A LITERAL, and the only one in this body. `RemoteButtonDefaults` publishes
+                // `IconSize` and `LargeIconSize` and stops there — the alpha `remote-material3`
+                // surface has no extra-large token — so the kit's `Icon size=xLg 36` column is
+                // reached by naming the kit's own 36dp rather than left undrawn. If the library
+                // gains the token, this becomes `ExtraLargeIconSize` and nothing else moves.
+                "extra-large" -> 36.rdp
                 else -> RemoteButtonDefaults.IconSize
               }
             ),
@@ -322,12 +407,10 @@ fun FilledRemoteButton() = RemoteSticker {
       "colour).",
 )
 @CatalogRemoteModes
+@RemoteButtonKitCells
 @Composable
 fun OutlinedRemoteButton() = RemoteSticker {
-  val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
-  RemoteButton(
-    onClick = onClick,
-    modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
+  RemoteKitButton(
     colors =
       RemoteButtonDefaults.buttonColors(
         containerColor = RemoteColor(Color.Transparent),
@@ -335,7 +418,6 @@ fun OutlinedRemoteButton() = RemoteSticker {
       ),
     border = 2.rdp,
     borderColor = RemoteMaterialTheme.colorScheme.outline,
-    content = { RemoteText(label) },
   )
 }
 
@@ -645,6 +727,103 @@ fun TextRemoteButton() = RemoteSticker {
   secondary = true,
 )
 annotation class RemoteIconButtonKitCells
+
+/**
+ * [RemoteIconButtonKitCells] plus the two `Extra-Small` cells, for the four styles that DRAW a
+ * container and can therefore tell that size apart. Eight cells — the kit's whole `Size` run
+ * crossed with `Disabled` — and the same eight the Wear column's [IconButtonKitCells] carries.
+ *
+ * Until this existed, `Button/Icon-Filled` and `Button/Icon-Outlined` published their base render
+ * and nothing else, and the kit's `Tonal` and `Variant (Highlighted)` columns had no component at
+ * all: 32 of the set's 40 nodes were undrawn
+ * ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
+ */
+@OverrideVariant(
+  name = "extra-small",
+  strings = ["size=extra-small"],
+  kitAxis = "Size",
+  kitValue = "Extra-Small",
+)
+@OverrideVariant(
+  name = "small",
+  strings = ["size=small"],
+  kitAxis = "Size",
+  kitValue = "Small",
+)
+@OverrideVariant(
+  name = "large",
+  strings = ["size=large"],
+  kitAxis = "Size",
+  kitValue = "Large",
+)
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=small"],
+  kitProps = ["Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
+// NO `extra-small-disabled` HERE, because a disabled icon button loses its glyph and
+// `ExtraSmallButtonSize` and `SmallButtonSize` then leave nothing to tell the two apart — the cell
+// came back byte-identical to `small-disabled` on the filled, variant and tonal styles. It is NOT
+// undrawable everywhere: `Button/Icon-Outlined` draws its own border at the container's size, so
+// there the two differ and that one component carries the cell directly.
+annotation class RemoteContainedIconButtonKitCells
+
+/**
+ * One style's worth of the kit's `Icon-Button` cells, drawn against whichever emphasis the caller
+ * passes — the icon-button twin of [RemoteKitButton], and hoisted for the same reason.
+ *
+ * `Size` and `Disabled` are arguments to the one `RemoteIconButton`, so the cells are identical
+ * across the styles; only the colours (and, for the outlined one, the border it draws itself)
+ * differ. `iconSizeFor` is the pairing the library publishes for exactly this: the glyph is sized
+ * from the container token rather than left at Material's default.
+ */
+@Composable
+internal fun RemoteKitIconButton(
+  colors: RemoteIconButtonColors,
+  border: RemoteDp = 0.rdp,
+  borderColor: RemoteColor = RemoteColor(Color.Transparent),
+) {
+  val size =
+    when (
+      previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
+    ) {
+      "extra-small" -> RemoteIconButtonDefaults.ExtraSmallButtonSize
+      "small" -> RemoteIconButtonDefaults.SmallButtonSize
+      "large" -> RemoteIconButtonDefaults.LargeButtonSize
+      else -> RemoteIconButtonDefaults.DefaultButtonSize
+    }
+  val (_, onClick) = toggledRemote()
+  RemoteIconButton(
+    onClick = onClick,
+    enabled = previewOverrideBoolean("enabled", true).rb,
+    modifier = RemoteModifier.size(size),
+    colors = colors,
+    border = border,
+    borderColor = borderColor,
+    content = {
+      RemoteIcon(
+        addIcon,
+        "Add".rs,
+        modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
+      )
+    },
+  )
+}
 
 // A round icon button (`RemoteIconButton`) carrying a single `RemoteIcon`. Inside the
 // button the icon inherits the button's (contrasting) content colour, so no explicit
