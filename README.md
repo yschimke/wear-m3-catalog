@@ -916,6 +916,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | Preview | Image |
 |---------|-------|
 | `AppCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/AppCardRemote_width_227dp_height_200dp_dpi_320-f9961794.png" width="150" /> |
+| `AppCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/AppCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_content_image-3f89228c.png" width="150" /> |
+| `AppCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/AppCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_gallery_1-9a51b148.png" width="150" /> |
+| `AppCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/AppCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_gallery_2-9e66a910.png" width="150" /> |
 | `BrandedTextRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/BrandedTextRemote_width_227dp_height_100dp_dpi_320-fac2d36f.png" width="150" /> |
 | `ButtonGroupRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/ButtonGroupRemote_width_227dp_height_200dp_dpi_320-09bb8e13.png" width="150" /> |
 | `CardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/CardRemote_width_227dp_height_200dp_dpi_320-8f7f0eb4.png" width="150" /> |
@@ -958,6 +961,9 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TextRemoteButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TextRemoteButton_width_227dp_height_100dp_dpi_320_VARIANT_outlined_small_disable-7ca55912.png" width="150" /> |
 | `TextRemoteButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TextRemoteButton_width_227dp_height_100dp_dpi_320_VARIANT_small-f9daaa72.png" width="150" /> |
 | `TitleCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TitleCardRemote_width_227dp_height_200dp_dpi_320-6b2547bd.png" width="150" /> |
+| `TitleCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TitleCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_content_image-b25a76bc.png" width="150" /> |
+| `TitleCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TitleCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_gallery_1-c7f1eb33.png" width="150" /> |
+| `TitleCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TitleCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_gallery_2-10db5e03.png" width="150" /> |
 | `TitleCardRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TitleCardRemote_width_227dp_height_200dp_dpi_320_VARIANT_with_subtitle-fbbdf0c1.png" width="150" /> |
 | `TruncatedTextRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TruncatedTextRemote_width_227dp_height_200dp_dpi_320-2ebcfb06.png" width="150" /> |
 | `TypefaceSpecimenRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TypefaceSpecimenRemote_width_227dp_height_200dp_dpi_320-0e281920.png" width="150" /> |
