@@ -53,27 +53,33 @@ import ee.schimke.wearm3catalog.TransparentScreenSticker
 
 /**
  * **Every `Progress-Indicator` cell this function draws** — the kit's `Stroke Width` by `Progress`
- * by `Disabled` grid at `Segments=1`, 10 nodes of the set's 90, against the six that were drawn
+ * by `Disabled` grid at `Segments=1`, 12 nodes of the set's 90, against the six that were drawn
  * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)). The grid is ragged and these
  * cells are generated from the kit's own cell list rather than from a product: the kit draws
  * `Disabled=Yes` only against `In progress` and `Zero`, so a product would mint two renders per
  * stroke that map to nothing.
  *
- * The two `Progress=Zero, Disabled=Yes` cells stay out as well, and that one IS a difference worth
- * writing down: Wear draws a disabled ring entirely in its disabled track colour, and at zero
- * progress on a transparent sticker that comes out as an empty frame — 0.00000 of it lit, which
- * `CatalogRenderTest.no sticker publishes an empty frame` rejects. The kit draws a visible track
- * there. Publishing a blank PNG against it would report the whole cell as a difference on every run
- * without saying anything the reader could act on.
+ * The two `Progress=Zero, Disabled=Yes` cells are drawn now, and the reason they were not is worth
+ * keeping: they were withheld as EMPTY FRAMES — a disabled ring is drawn entirely in its disabled
+ * track colour, and at zero progress that was 0.00000 of the sticker lit, which
+ * `CatalogRenderTest.no sticker publishes an empty frame` rejects. That is no longer true. This
+ * version of Wear draws the disabled track, so both cells publish a visible ring and stand as
+ * ordinary comparisons against the kit's own
+ * ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)). A gap held open by a library
+ * limitation is worth re-testing rather than re-reading.
  *
  * Two whole axes of that set stay out, and neither is a gap in this file:
  * * `Segments=6..14` is the SEGMENTED ring, which is `SegmentedCircularProgressIndicator` below — a
  *   different function, and the kit draws it here at display size and again in its own
  *   `Progress-Indicator-Small` set. The component that folds this axis is the one that calls the
  *   function taking it.
- * * `Type=Top Gap | Bottom Gap` is the pair of angles the component's own note explains: the kit
- *   does not publish the angles its gap cells draw, and an invented number under the kit's name is
- *   worse than an honest absence.
+ * * `Type=Top Gap | Bottom Gap` is a pair of angles, and the API is not what is missing:
+ *   `CircularProgressIndicator` takes `startAngle` and `endAngle`, and the knobs below expose them.
+ *   What is missing is the kit's numbers. The gap is bound to no variable (its cells resolve only
+ *   `primary`, `surface-container`, a 2dp spacing and the screen size), the set carries no property
+ *   for it, and each cell exports as a FLATTENED SVG — so the angles exist only inside that path
+ *   data, and reading them off it is what these cells wait on. An invented number under the kit's
+ *   name is worse than an honest absence.
  */
 @OverrideVariant(
   name = "small-stroke",
@@ -164,6 +170,37 @@ import ee.schimke.wearm3catalog.TransparentScreenSticker
   booleans = ["enabled=false"],
   kitAxis = "Disabled",
   kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "zero-disabled",
+  booleans = ["enabled=false"],
+  floats = ["progress=0.0"],
+  kitProps =
+    [
+      "Type=Full",
+      "Segments=1",
+      "Stroke Width=Medium",
+      "Progress=Zero",
+      "Dot value=No",
+      "Disabled=Yes",
+    ],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "small-stroke-zero-disabled",
+  booleans = ["enabled=false"],
+  strings = ["stroke=small"],
+  floats = ["progress=0.0"],
+  kitProps =
+    [
+      "Type=Full",
+      "Segments=1",
+      "Stroke Width=Small",
+      "Progress=Zero",
+      "Dot value=No",
+      "Disabled=Yes",
+    ],
+  secondary = true,
 )
 annotation class CircularProgressKitCells
 

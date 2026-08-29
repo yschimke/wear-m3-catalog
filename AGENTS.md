@@ -224,7 +224,16 @@ Wear sheet too, and it did not used to**: 30 of its cells were withheld because 
 repeat a sibling — every disabled `Filled Variant` and `Tonal` cell of `Edge-Button`, `Text-Button`
 and `Button-Compact`, plus the child icon button's two extra-small cells — which put the library's
 collapse behind a gap that read as unfinished work
-([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)). A cell is withdrawn only when
+([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
+
+**A gap held open by a library limitation is worth RE-TESTING rather than re-reading**, and the
+sweep of the other 18 short sets is the evidence. Three more collapses joined `knownDuplicate`
+(`Stepper`'s disabled `Button Fill=No` pair, `OpenOnPhone-Overlay`'s `Text=No`), one absence was a
+knob nobody had added rather than an API that was missing (`Text-ToggleButton`'s `Fixed Width`,
+which is this catalog's own `touchTargetAwareSize` and not a limit of `RoundButton`), and one
+recorded limitation had simply expired — the disabled progress ring at zero progress used to render
+an empty frame and now draws its track, so both cells stand as ordinary comparisons. A cell is
+withdrawn only when
 there is no API to call at all (`RemoteTitleCard` takes no painter argument), never because the
 result is ugly. `:remote-catalog` was carved
 out of the first while its gaps were mostly cells nobody had drawn — the honest answer to those is a

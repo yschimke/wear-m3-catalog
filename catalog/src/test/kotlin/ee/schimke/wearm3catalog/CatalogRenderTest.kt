@@ -33,6 +33,16 @@ class CatalogRenderTest {
   private val minimumVisibleFraction = 0.0002
 
   /**
+   * The screen sizes a full-screen sticker renders at, which is what puts a `_<n>dp` into its
+   * render name and therefore into every key of the two maps below — the kit's own five
+   * (`.WatchPuck`, see AGENTS.md). A component cell has no such suffix and its keys carry none.
+   *
+   * Declared before those maps on purpose: a Kotlin property initialiser reading one declared later
+   * gets null, and the maps would silently come out keyed `null`.
+   */
+  private val screenSizes = listOf(192, 204, 216, 225, 240)
+
+  /**
    * A capture that failed writes `<id>.png.error.json` INSTEAD of the PNG, so the blank check below
    * cannot see it — there is no file to measure. That is how a broken `@InteractionPreview` cost
    * two components their ordinary stills while every other check stayed green.
@@ -141,6 +151,37 @@ class CatalogRenderTest {
         "it clamps to the same minimum touch target as SmallButtonSize"
     put("StandardIconAction: extra_small == small", childSizeCollapse)
     put("StandardIconAction: extra_small_disabled == small_disabled", childSizeCollapse)
+    // A disabled stepper draws no button container at all, so `buttonFill=false` — which is
+    // `StepperDefaults.colors(buttonContainerColor = Transparent)` — has nothing left to turn off.
+    val stepperFillCollapse =
+      "a disabled Stepper draws no button container, so buttonContainerColor = Transparent " +
+        "removes nothing and this is the plain disabled render"
+    for (screen in screenSizes) {
+      put("ValueStepper_${screen}dp: no_button_fill_disabled == disabled", stepperFillCollapse)
+      put(
+        "ValueStepper_${screen}dp: icon_no_button_fill_disabled == icon_disabled",
+        stepperFillCollapse,
+      )
+    }
+    // `Fixed Width=False` at the DEFAULT size only: the label the kit draws these cells with is
+    // as wide as the box the size names, so hugging lands on the same 52dp square. The kit's own
+    // two nodes export identically for the same reason (`39083:776` and `39083:767` are both 52×52)
+    // — and `hug_large` / `hug_extra_large` do differ from their fixed twins, so the knob works.
+    put(
+      "TextToggle: hug == base",
+      "the label is as wide as TextToggleButtonDefaults.Size, so hugging lands on the same box — " +
+        "the kit's own Fixed Width cells export identically at this size for the same reason",
+    )
+    // The one entry here that is the RENDERER's doing rather than the library's, and it is labelled
+    // as such: the still is captured before the dialog's reveal has run, so the curved text is
+    // absent from both cells' frames. The pair separates the day #4202 lands, and this fails then.
+    for (screen in screenSizes) {
+      put(
+        "OpenOnPhoneDialogSticker_${screen}dp: no_text == base",
+        "compose-ai-tools#4202 — the capture is taken before the reveal settles, so curvedText is " +
+          "missing from the baked frame whether or not it was passed",
+      )
+    }
   }
 
   /**
@@ -190,16 +231,20 @@ class CatalogRenderTest {
   /**
    * Every byte-identical pair among the renders, keyed `<component>: <cell> == <cell>`.
    *
-   * Read shortest cell name first, so the pair is the same on every machine AND the cell on the
-   * right is the plainer of the two — `filled_variant_disabled == disabled`, never the other way
-   * round. Which the filesystem happened to list first decides nothing.
+   * Read the component's own render first and then the shortest cell name, so the pair is the same
+   * on every machine AND the cell on the right is the plainer of the two — `filled_variant_disabled
+   * == disabled`, never the other way round. Which the filesystem happened to list first decides
+   * nothing. `base` leads on its own term rather than on length, because a cell can be spelled
+   * shorter than it (`hug`) without being plainer than it.
    */
   private fun clashes(): Map<String, String> {
     val byComponent =
       renders
         .listFiles { f: File -> f.name.endsWith(".png") }
         .orEmpty()
-        .sortedWith(compareBy({ cellOf(it.name).length }, { cellOf(it.name) }))
+        .sortedWith(
+          compareBy({ cellOf(it.name) != "base" }, { cellOf(it.name).length }, { cellOf(it.name) })
+        )
         .groupBy { componentOf(it.name) }
     return buildMap {
       for ((component, files) in byComponent) {
@@ -230,18 +275,25 @@ class CatalogRenderTest {
       "no renders under ${renders.absolutePath} — is renderBeforeUnitTests still set?",
       pngs.isNotEmpty(),
     )
-    val blank =
-      pngs
-        .map { it to visibleFraction(it) }
-        .filter { (_, fraction) -> fraction < minimumVisibleFraction }
-        .map { (file, fraction) -> "${file.name} (${"%.5f".format(fraction)})" }
+    val blank = blanks().map { (cell, fraction) -> "$cell ($fraction)" }
     assertTrue(
       "these renders are blank or all but blank — a component that draws nothing usually means a " +
         "missing Modifier.align, an unsettled animation, or a state the sticker forgot to seed:\n" +
-        blank.joinToString("\n") { "  $it" },
+        blank.sorted().joinToString("\n") { "  $it" },
       blank.isEmpty(),
     )
   }
+
+  /** Every render that draws nothing, keyed `<component>: <cell>` with its visible fraction. */
+  private fun blanks(): Map<String, String> =
+    renders
+      .listFiles { f: File -> f.name.endsWith(".png") }
+      .orEmpty()
+      .map { it to visibleFraction(it) }
+      .filter { (_, fraction) -> fraction < minimumVisibleFraction }
+      .associate { (file, fraction) ->
+        "${componentOf(file.name)}: ${cellOf(file.name)}" to "%.5f".format(fraction)
+      }
 
   /** The fraction of pixels that are visible and not near-black. */
   private fun visibleFraction(file: File): Double {
