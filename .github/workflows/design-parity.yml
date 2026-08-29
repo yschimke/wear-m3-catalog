@@ -121,6 +121,24 @@ jobs:
       force-refresh: ${{ github.event.schedule == '0 5 * * 1' }}
       design-parity-ref: ${{ inputs.design_parity_ref || '' }}
 
+      # RED HERE MEANS BROKEN, not "the catalog still diverges".
+      #
+      # This workflow runs on `schedule` and `workflow_dispatch` only, so it gates nothing: there is
+      # no PR for a blocking verdict to hold back. What blocking bought instead was a run that fails
+      # on EVERY execution — the catalog is design-led and does still diverge, so the run rendered,
+      # compared, published its board, and then exited 1 by design
+      # ([#145](https://github.com/yschimke/wear-m3-catalog/issues/145)).
+      #
+      # A signal that is always red carries no information. Nobody could tell a render crash, a lost
+      # reference cache or an expired token from the steady state without opening the log, so a real
+      # breakage arrived looking exactly like every other run and read as more of the same.
+      #
+      # The verdict is not discarded. It lands on the job summary, as a warning annotation, and in
+      # the reusable workflow's `blocked` output (yschimke/design-parity#430). What it no longer
+      # does is own this job's colour. Where a divergence SHOULD gate — a pull request — leave the
+      # default `true`.
+      block-on-verdict: false
+
       # The daily import workflow owns all Figma traffic and commits a versioned, carry-forward
       # cache here. Ordinary parity runs are cache-only: no per-push API burst.
       reference-cache-branch: design-parity/reference
@@ -157,6 +175,11 @@ jobs:
       force-refresh: ${{ github.event.schedule == '0 5 * * 1' }}
       design-parity-ref: ${{ inputs.design_parity_ref || '' }}
       reference-cache-branch: design-parity/reference
+
+      # Same reasoning as the job above, and this half needs it more: its verdict is usually the
+      # CACHED one, re-applied because nothing moved since a run that already blocked. That path
+      # failed in 0 seconds without rendering anything, which is the least informative red there is.
+      block-on-verdict: false
 
       # A branch of its own. The job above publishes `design-parity/main`; two boards on one branch
       # would each look like the other had gone stale.
