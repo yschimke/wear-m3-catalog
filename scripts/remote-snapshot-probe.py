@@ -106,21 +106,17 @@ _DPI_IN_NAME = re.compile(r"_dpi_(\d+)")
 # nothing, and reported "not rendered" week after week without ever saying a human should look.
 # That is the exact silence this job exists to prevent, so `probe_states` now treats a probe that
 # resolves to no render as a reason to report (see `compare`).
+# #89 (outlined border) and #90 (compact pill height) were CLOSED on 2026-08-29 and their
+# entries removed. A probe's whole verdict is "identical to the committed known-broken capture",
+# so a probe whose bug is fixed reports `changed` every week for the rest of time and means
+# nothing by it — the same silence-by-noise this job exists to avoid, from the other direction.
+# Retire the entry when the issue closes; the evidence PNG stays under docs/evidence as the record
+# of what the break looked like.
+#
+# A density sweep at 160/240/320/480 is what closed both: the compact pill measures 32dp at every
+# density (its baseline capture is 16dp), and the card's outline closes with its corner arcs
+# present at 2.0. Notably it was NOT the renderer — 1.46.1 and 1.46.2 render identically today.
 PROBES = [
-    {
-        "issue": 89,
-        "preview": "OutlinedCardRemote",
-        "baseline": "docs/evidence/remote-m3-card-outlined-break.png",
-        "summary": "outlined border degenerates at density >= 1.5 (ours, not upstream)",
-    },
-    {
-        "issue": 90,
-        "preview": "CompactRemoteButton",
-        "variant": "icon_only",
-        "baseline": "docs/evidence/remote-m3-button-compact-icononly-break.png",
-        "summary": "compact pill is density-dependent — right at 1.0, half at 2.0 (ours, not upstream)",
-        "metrics": ("compact_heights_dp", "icononly_glyph_dp"),
-    },
     {
         "issue": 91,
         "preview": "FilledRemoteButton",
@@ -352,29 +348,6 @@ def measure(renders: Path) -> dict:
     alpha = max_alpha("TextRemoteButton", "disabled")
     if alpha is not None:
         metrics["text_disabled_max_alpha"] = alpha
-
-    # #90 — the compact container renders at half its declared 32dp, and the
-    # icon-only overload collapses its 24dp glyph. Two of these three are cells since #116.
-    heights = {}
-    for stem, variant in (
-        ("CompactRemoteButton", None),
-        ("CompactRemoteButton", "text_only"),
-        ("CompactRemoteButton", "icon_only"),
-    ):
-        image, name = one(stem, variant)
-        if not image:
-            continue
-        label = stem if variant is None else f"{stem}#{variant}"
-        scale = density_of(name)
-        box = _drawn_bbox(image, lambda p: p[3] > 40)
-        if box:
-            heights[label] = round(box[3] / scale)
-        if variant == "icon_only":
-            glyph = _drawn_bbox(image, lambda p: p[3] > 40 and p[0] < 120)
-            if glyph:
-                metrics["icononly_glyph_dp"] = [round(glyph[2] / scale), round(glyph[3] / scale)]
-    if heights:
-        metrics["compact_heights_dp"] = heights
 
     return {"captures": captures, "metrics": metrics}
 

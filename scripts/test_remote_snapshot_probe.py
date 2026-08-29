@@ -173,9 +173,11 @@ class SummaryTest(unittest.TestCase):
         self.assertIn("never claims a bug is fixed", text)
 
     def test_metrics_read_as_markdown_not_python(self):
-        text = probe._render_metric("compact_heights_dp", {"B": 16, "A": 16})
-        self.assertEqual(text, "`compact_heights_dp` A=16, B=16")
-        self.assertEqual(probe._render_metric("icononly_glyph_dp", [2, 1]), "`icononly_glyph_dp` 2x1")
+        # Shapes, not specific metrics: the formatter has to render whatever a probe measures, so
+        # the names here are stand-ins. They used to be #89's and #90's, which no longer exist.
+        text = probe._render_metric("heights_dp", {"B": 16, "A": 16})
+        self.assertEqual(text, "`heights_dp` A=16, B=16")
+        self.assertEqual(probe._render_metric("glyph_dp", [2, 1]), "`glyph_dp` 2x1")
 
 
 class OverlayTest(unittest.TestCase):
