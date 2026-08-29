@@ -39,6 +39,14 @@ npx design-parity run \
   --out .design-parity/out
 ```
 
+**`--no-build` is checked, not trusted.** If any Kotlin source in the module is
+newer than the bundle, the run refuses rather than comparing. A stale bundle is
+this loop's worst failure precisely because it does not look like one: the run
+succeeds, prints a verdict, and the verdict describes the code as it was before
+your edit — which reads as *"my change did nothing"*, indistinguishable from a
+change that genuinely did nothing. It cost two wrong conclusions before the
+guard existed.
+
 ## The four things that waste an hour if nobody wrote them down
 
 The script handles the first and the fourth. They are written down anyway,
