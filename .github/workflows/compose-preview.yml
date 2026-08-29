@@ -29,7 +29,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.51.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v1.52.0
         with:
           # Single source of truth for the renderer version: the composePreviewPlugin entry in
           # libs.versions.toml. A newer published CLI auto-installed against an older applied
