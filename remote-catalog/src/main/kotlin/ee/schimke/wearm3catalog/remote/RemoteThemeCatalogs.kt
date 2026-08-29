@@ -75,12 +75,10 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  *
  * ## The typeface half is a host choice, not a named value
  *
- * A named value can carry a colour, a float, an int or a bool — not a face. The typeface is
- * host-side in a different way: the stickers emit the built-in **default family id**, and which
- * face that id resolves to is decided by the player at draw time. So [remoteCatalogFont] /
- * [remoteCatalogDisplayFont] are published here as data for that lane to configure its resolver
- * with, rather than being installed into the document. Until a lane does, a theme's colours apply
- * while its faces do not.
+ * A named value can carry a colour, a float, an int or a bool — not a face. The stickers name
+ * **Roboto Flex** explicitly for deterministic baseline renders, while [remoteCatalogFont] /
+ * [remoteCatalogDisplayFont] publish each theme's faces as data for a player lane to configure its
+ * resolver with. Until a lane does, a theme's colours apply while its faces do not.
  *
  * The faces are the sibling's too: Confetti's ship pairing (Roboto Flex on display / title /
  * numerals, Inter on body and label) under the three themes that ship it, JetBrains Mono over Inter
