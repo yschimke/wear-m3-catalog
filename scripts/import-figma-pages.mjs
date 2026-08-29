@@ -113,6 +113,7 @@ const configPath = arg("config", "design-pages.json");
 const designMapPath = arg("design-map", "design-map.json");
 const onlyPage = arg("page", null);
 const relinkOnly = process.argv.includes("--relink");
+const checkOnly = process.argv.includes("--check");
 const token = process.env.FIGMA_TOKEN;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -540,7 +541,7 @@ export function linkNode(node, { fileKey, byRef }) {
  * The SVGs and the node walk are left exactly as they are: this refreshes what the nodes MEAN, not
  * what the kit contains. A kit that has actually moved still needs the real import.
  */
-function relink({ fileKey, byRef, outDir }) {
+function relink({ fileKey, byRef, outDir, check = false }) {
   const cached = readCachedPages(outDir);
   if (cached.length === 0) {
     console.error(`import-figma-pages: nothing cached in ${outDir} to relink`);
@@ -548,18 +549,39 @@ function relink({ fileKey, byRef, outDir }) {
   }
   let total = 0;
   let linked = 0;
+  let moved = 0;
   const pages = cached.map((page) => {
     const nodes = (page.nodes ?? []).map((node) => linkNode(node, { fileKey, byRef }));
     const hits = nodes.filter((n) => n.link !== "unlinked").length;
+    const was = (page.nodes ?? []).filter((n) => n.link !== "unlinked").length;
     total += nodes.length;
     linked += hits;
-    console.log(`${page.id}: ${hits}/${nodes.length} nodes linked`);
+    moved += hits === was ? 0 : 1;
+    const drift = hits === was ? "" : ` (was ${was})`;
+    console.log(`${page.id}: ${hits}/${nodes.length} nodes linked${drift}`);
     return { ...page, nodes };
   });
-  writeFileSync(
-    path.join(outDir, "pages.json"),
-    `${JSON.stringify({ version: PAGES_VERSION, source: "figma", fileKey, pages }, null, 2)}\n`,
-  );
+  const contents = `${JSON.stringify({ version: PAGES_VERSION, source: "figma", fileKey, pages }, null, 2)}\n`;
+  const file = path.join(outDir, "pages.json");
+
+  // `--check` is the same computation without the write, for the CI gate. The join is a pure
+  // function of the cache and `design-map.json`, so a difference here is always the same thing:
+  // the map moved and nobody relinked, which the served page reports as "no code behind this" on
+  // components that have had code behind them for months.
+  if (check) {
+    if (readFileSync(file, "utf8") === contents) {
+      console.log(`import-figma-pages: the page join is up to date (${linked}/${total} nodes)`);
+      return;
+    }
+    console.error(
+      `import-figma-pages: ${file} is stale — ${moved} page(s) would change, and the join would ` +
+        `be ${linked}/${total} nodes. Run \`node scripts/import-figma-pages.mjs --relink\` and ` +
+        `commit the result. No Figma token is needed.`,
+    );
+    process.exit(1);
+  }
+
+  writeFileSync(file, contents);
   console.log(
     `import-figma-pages: relinked ${pages.length} cached page(s) — ${linked}/${total} nodes now ` +
       `join to code, from ${byRef.size} mapped reference(s).`,
@@ -570,12 +592,14 @@ async function main() {
   const config = JSON.parse(readFileSync(configPath, "utf8"));
 
   // Before the token check, deliberately: relinking reads and rewrites files this repo has already
-  // committed, so it is the one mode a contributor without a Figma PAT can still run.
-  if (relinkOnly) {
+  // committed, so it is the one mode a contributor without a Figma PAT can still run. `--check`
+  // rides on the same path for the same reason — CI holds no Figma token on an ordinary PR.
+  if (relinkOnly || checkOnly) {
     relink({
       fileKey: config.fileKey,
       byRef: readDesignMap(designMapPath),
       outDir: arg("out", config.outDir ?? "design/pages"),
+      check: checkOnly,
     });
     return;
   }

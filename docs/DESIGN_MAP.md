@@ -317,3 +317,21 @@ node scripts/import-figma-pages.mjs --relink
 recomputes it in place from `design-map.json`, touching no network and leaving the SVGs and the node
 walk alone. It shares the import's own `linkNode` decorator, so the two cannot drift. A kit that has
 actually moved still needs the real import.
+
+**Having the command was not enough, and the Cards page is the proof.** Nothing re-ran it when the
+map moved, so the committed join kept the state it had before cells were mapped at all: 7 of the
+page's 50 nodes linked, against the 36 the catalog actually draws, and 29 components that have had
+code behind them for months were served with the dashed red outline that means *no code behind
+this*. The red is the page's
+coverage read — a reader cannot tell a stale join from a real gap, which spends the one signal the
+page has.
+
+So `--check` is the gate, and it runs in CI beside the other two:
+
+```sh
+node scripts/import-figma-pages.mjs --check
+```
+
+Same computation, no write, exit 1 with the fix in the message. It sits in the job that already
+proves `design-map.json` is current, because a fresh map and a stale join are exactly the pair that
+produced this.
