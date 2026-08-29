@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontVariation
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -1849,10 +1850,16 @@ fun CircularProgressRemote() = RemoteSticker {
   // value the document is built with, and the live path is untouched.
   val progress = rememberOverridableRemoteFloat("progress", previewOverrideFloat("progress", 0.6f))
   // `fillMaxSize`, not a 72dp box. The kit publishes this as a *display* cell — a ring struck 2dp
-  // inside the bezel of the whole round face — which is why the sticker is on the 227dp
+  // inside the bezel of the whole round face — which is why the sticker is on the
   // [CatalogRemoteDisplay] frame at all, and why the Wear sibling draws it `fillMaxSize` too. At
   // 72dp it was a small dial floating in the middle of a display-sized capture: a different
   // component from the one the row compares it against.
+  //
+  // That reaches the kit's 192dp cell only because [CatalogRemoteDisplay] is now based on the
+  // 192dp round device. On the single 227dp frame it used to be, the same `fillMaxSize` published
+  // the ring 35dp oversized with its stroke out where the bezel would be
+  // ([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)) — so the size here is the
+  // frame's to state, and it states it.
   // The kit's `Disabled` axis. #125 declared the cell and never wired the knob, so the disabled
   // render was byte-identical to this one and scored against the kit's `Disabled=Yes` node while
   // drawing the enabled picture — a comparison that could not fail. The knob is read at
@@ -2040,25 +2047,37 @@ fun BrandedTextRemote() = RemoteSticker {
 @CatalogRemoteLarge
 @Composable
 fun TypefaceSpecimenRemote() = RemoteSticker {
+  // WEIGHT IS PINNED, and it has to be. These four ask for a family by name and nothing else, so
+  // the weight comes from the ambient `RemoteMaterialTheme` type scale — which is 450, a weight
+  // only a VARIABLE font can serve. Orbitron, Space Grotesk and JetBrains Mono are variable and
+  // resolved it; **Lobster Two ships static 400 and 700**, so Google serves no 450 file for it and
+  // the render died on `FontFallbackException` the moment a typography started being installed on
+  // every capture (#174). A specimen whose job is to prove four named families RESOLVE must not
+  // inherit a weight that decides whether they can.
+  val specimenWeight = FontWeight.Normal
   RemoteColumn {
     RemoteText(
       "Orbitron".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:Orbitron"),
     )
     RemoteText(
       "Lobster Two".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:Lobster Two"),
     )
     RemoteText(
       "Space Grotesk".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:Space Grotesk"),
     )
     RemoteText(
       "JetBrains Mono".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:JetBrains Mono"),
     )
   }

@@ -47,12 +47,20 @@ import ee.schimke.composeai.daemon.RemoteOverridablePreview
  * reads the same [remoteCatalogThemeColors] map the replay path seeds, so the two lanes cannot
  * disagree about what a theme is.
  *
- * Every capture installs [RemoteCatalogTypography], including the un-themed path. That makes the
- * document ask for one exact Google Fonts family instead of emitting the stock `roboto-flex`
- * device-family id and trusting each player to resolve it the same way. Typeface is not named
- * state, so a replayed document cannot swap it with the colour overrides. Published captures keep
- * this baseline face; each theme's intended pairing remains player-lane data in
- * `RemoteThemeCatalogs.kt`.
+ * Every capture installs a typeface, and which one depends on the branch.
+ *
+ * The **un-themed** path takes [RemoteCatalogTypography]: one exact Google Fonts family, so the
+ * document asks for a face rather than emitting the stock `roboto-flex` device-family id and
+ * trusting each player to resolve it the same way. Typeface is not named state, so a replayed
+ * document cannot swap it alongside the colour overrides — every published capture keeps this
+ * baseline face, and `RemoteTypographyIrCaptureTest` holds it there.
+ *
+ * The **themed** path takes that theme's own pairing on top ([remoteCatalogTypography]). It used
+ * not to: a theme moved colour and nothing else, so the six identities differed in palette alone
+ * while the Wear column showed four typefaces
+ * ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)). That is a live re-render rather
+ * than a replay, which is exactly why it can carry a face where the replay lane cannot — so the
+ * baseline above is untouched, and with it the Wasm lane's font ratchet.
  */
 @Composable
 fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
@@ -61,7 +69,10 @@ fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
     val colorScheme =
       if (themeName == null) RemoteMaterialTheme.colorScheme
       else remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
-    RemoteMaterialTheme(colorScheme = colorScheme, typography = RemoteCatalogTypography) {
+    val typography =
+      if (themeName == null) RemoteCatalogTypography
+      else remoteCatalogTypography(themeName, RemoteCatalogTypography)
+    RemoteMaterialTheme(colorScheme = colorScheme, typography = typography) {
       RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
