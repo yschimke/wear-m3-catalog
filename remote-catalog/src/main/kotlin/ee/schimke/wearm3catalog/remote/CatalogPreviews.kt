@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontVariation
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -2046,25 +2047,37 @@ fun BrandedTextRemote() = RemoteSticker {
 @CatalogRemoteLarge
 @Composable
 fun TypefaceSpecimenRemote() = RemoteSticker {
+  // WEIGHT IS PINNED, and it has to be. These four ask for a family by name and nothing else, so
+  // the weight comes from the ambient `RemoteMaterialTheme` type scale — which is 450, a weight
+  // only a VARIABLE font can serve. Orbitron, Space Grotesk and JetBrains Mono are variable and
+  // resolved it; **Lobster Two ships static 400 and 700**, so Google serves no 450 file for it and
+  // the render died on `FontFallbackException` the moment a typography started being installed on
+  // every capture (#174). A specimen whose job is to prove four named families RESOLVE must not
+  // inherit a weight that decides whether they can.
+  val specimenWeight = FontWeight.Normal
   RemoteColumn {
     RemoteText(
       "Orbitron".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:Orbitron"),
     )
     RemoteText(
       "Lobster Two".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:Lobster Two"),
     )
     RemoteText(
       "Space Grotesk".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:Space Grotesk"),
     )
     RemoteText(
       "JetBrains Mono".rs,
       fontSize = 22.rsp,
+      fontWeight = specimenWeight,
       fontFamily = RemoteFontFamily.Named("google:JetBrains Mono"),
     )
   }
