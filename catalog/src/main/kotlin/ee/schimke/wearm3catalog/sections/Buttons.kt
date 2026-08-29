@@ -33,7 +33,7 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.wearm3catalog.CatalogImage
+import ee.schimke.wearm3catalog.CatalogImageWithFlatScrim
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
@@ -534,10 +534,9 @@ fun CompactActionButton() = Sticker {
 // The kit's `Button-ImageBackground` sets and `Button-Loading`, the three remaining sets on its
 // Buttons page.
 //
-// The image ones call the `Button` overload that takes a container `Painter`, with the scrim
-// `ButtonDefaults.containerPainter` applies — the scrim is most of what the style IS, so a sticker
-// that skipped it would publish a different component. The image itself is drawn
-// (`CatalogImage`) rather than shipped: see its KDoc.
+// The image ones call the real `Button` overload that takes a container `Painter`. The kit exports
+// a flat 50% black wash rather than `ButtonDefaults.containerPainter`'s directional scrim, so the
+// supplied painter composes that wash with the deterministic placeholder. See `CatalogImage`.
 //
 // The kit's `Button-ImageBackground-Round` set has no counterpart and stays out: Compose's image
 // container painter is on `Button` and `Card`, and `IconButton` takes no painter — so there is no
@@ -579,7 +578,7 @@ fun ImageBackgroundButton() = Sticker {
   Button(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
-    containerPainter = ButtonDefaults.containerPainter(image = CatalogImage),
+    containerPainter = CatalogImageWithFlatScrim,
     enabled = previewOverrideBoolean("enabled", true),
     colors = ButtonDefaults.buttonWithContainerPainterColors(),
     secondaryLabel =

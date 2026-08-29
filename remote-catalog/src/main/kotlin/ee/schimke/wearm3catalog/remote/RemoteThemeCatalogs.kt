@@ -73,19 +73,26 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * each literal, and `CatalogInventoryTest` pins the sibling's, so a seed moved on one side fails
  * the other side's build rather than quietly publishing two "Droidcon"s.
  *
- * ## The typeface half rides the document, and only on the themed branch
+ * ## The typeface half rides the document, and the theme's half only on the themed branch
  *
  * A named value can carry a colour, a float, an int or a bool — not a face — so the two halves of a
  * theme arrive by different routes. The colours are named-value overrides, which is what lets one
- * default-themed capture be re-themed afterwards. The typeface cannot be, so it is installed into
- * the document instead: `RemoteCatalogFonts.kt` turns [remoteCatalogFont] /
- * [remoteCatalogDisplayFont] into a `RemoteTypography` with all eighteen roles re-pointed, and
- * `RemoteSticker` passes it to `RemoteMaterialTheme` on the themed branch.
+ * default-themed capture be re-themed afterwards. The typeface cannot be, and that splits it in
+ * two:
  *
- * That was a real gap, not a stylistic one: before it, every theme emitted the built-in
- * `roboto-flex` device family on every role, so the six identities differed in colour alone while
- * the sibling column showed four typefaces
- * ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)).
+ * - **A baseline face is in every capture.** `RemoteCatalogTypography` names `google:Roboto Flex`
+ *   outright rather than emitting the stock `roboto-flex` device-family id and trusting each player
+ *   to resolve it the same way; `RemoteTypographyIrCaptureTest` holds it there. That is determinism
+ *   for the recorded documents, not a theme.
+ * - **A theme's own pairing is installed on the themed branch only.** `RemoteCatalogFonts.kt` turns
+ *   [remoteCatalogFont] / [remoteCatalogDisplayFont] into a `RemoteTypography` with all eighteen
+ *   roles re-pointed, and `RemoteSticker` layers it over the baseline. A themed render is a live
+ *   re-render rather than a replay, which is exactly why it can carry a face where the replay lane
+ *   cannot.
+ *
+ * The second half was a real gap, not a stylistic one: before it a theme moved colour and nothing
+ * else, so the six identities differed in palette alone while the sibling column showed four
+ * typefaces ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)).
  *
  * The faces are the sibling's: Confetti's ship pairing (Roboto Flex on display / title / numerals,
  * Inter on body and label) under the three themes that ship it, JetBrains Mono over Inter for
@@ -93,17 +100,17 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * functions stay the single statement of that — `RemoteCatalogFonts.kt` reads them rather than
  * repeating them, so the document and the published data cannot drift apart.
  *
- * Neither Inter nor JetBrains Mono is vendored yet, and installing the typeface does not change
- * that. A face only has to reach the `cmp-wasm-catalog` `fonts.json` in yschimke/compose-ai-tools
- * once a *document* names it — that lane is manifest-only and never fetches, so an unlisted family
- * a document asks for fails `RcComposeSupport.fontFamilyIssue`'s availability check rather than
- * degrading to a substitute. The documents that lane replays are the **recorded** ones, and
- * `composePreviewRenderAll` records with no provider, so they still name no family. Only the theme
- * specimen stickers (`RemoteThemeSpecimens.kt`) take the themed branch, and they are rendered here
- * rather than replayed there. Vendoring the two now would add to the Wasm player's size ratchet to
- * buy nothing — Inter failed that ratchet once already. They land with the lane that replays a
- * themed document. Google Sans Flex stays vendored: it was already there and the ratchet was
- * already raised for it.
+ * Neither Inter nor JetBrains Mono is vendored yet, and neither half changes that. A face only has
+ * to reach the `cmp-wasm-catalog` `fonts.json` in yschimke/compose-ai-tools once a *document* names
+ * it — that lane is manifest-only and never fetches, so an unlisted family a document asks for
+ * fails `RcComposeSupport.fontFamilyIssue`'s availability check rather than degrading to a
+ * substitute. The documents that lane replays are the **recorded** ones, and those name only Roboto
+ * Flex: `composePreviewRenderAll` records with no provider, so the themed branch never runs for
+ * them. Only the theme specimen stickers (`RemoteThemeSpecimens.kt`) name Inter or JetBrains Mono,
+ * and they are rendered here rather than replayed there. Vendoring the two now would add to the
+ * Wasm player's size ratchet to buy nothing — Inter failed that ratchet once already. They land
+ * with the lane that replays a themed document. Google Sans Flex stays vendored: it was already
+ * there and the ratchet was already raised for it.
  *
  * ## What a theme deliberately does not reach
  *

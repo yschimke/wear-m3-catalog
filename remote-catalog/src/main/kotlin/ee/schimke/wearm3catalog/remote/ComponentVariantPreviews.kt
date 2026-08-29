@@ -402,10 +402,7 @@ fun NoAppImageRemoteAppCard() = RemoteSticker {
 @CatalogRemoteDisplay
 @Composable
 fun IndeterminateCircularProgressRemote() = RemoteSticker {
-  // [KitDisplaySize] for the same reason the determinate ring takes it (#149): this frame is 227dp
-  // and the display is 192dp. No kit cell of its own, but it is the same component on the same
-  // sheet, and publishing one function at two sizes would read as two.
-  RemoteCircularProgressIndicator(modifier = RemoteModifier.size(KitDisplaySize))
+  RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
 }
 
 @CatalogRemoteDisplay
@@ -417,7 +414,7 @@ fun IndeterminateCircularProgressRemote() = RemoteSticker {
 )
 @Composable
 fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
-  RemoteCircularProgressIndicator(modifier = RemoteModifier.size(KitDisplaySize))
+  RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
 }
 
 /**
@@ -540,21 +537,21 @@ fun HorizontalPageIndicatorRemote() = RemoteSticker {
   // `wear-m3-catalog`'s `PageIndicator/Horizontal` draws (`pages = 4`, `initialPage = 0`). Five
   // pages with the third selected put a different picture under the same node — and a middle
   // selection is the one arrangement in which the selected dot is hardest to pick out.
-  // MEASURED, not assumed: `fillMaxSize` does nothing for this component. The comment here used to
-  // say the indicator curves against the bezel and that an inset box would move the curve inward —
-  // it does not curve at all. Given the whole 227dp display frame it draws a straight, content-
-  // sized rail of 36×8dp and centres it: 0.2% of a cell the kit publishes as the whole 192dp face,
-  // with the rail struck against the round edge
+  // MEASURED, not assumed: the SIZE this is given changes nothing. The comment here used to say
+  // the indicator curves against the bezel and that an inset box would move the curve inward — it
+  // does not curve at all. Handed the whole display it draws a straight, CONTENT-sized rail of
+  // 36×8dp and centres it, which is 0.2% of a cell the kit publishes as the round face whole with
+  // the rail struck against the edge
   // ([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)).
-  // `RemoteHorizontalPageIndicator`
-  // has no curvature and no edge affinity; the Wear sibling's `HorizontalPageIndicator` has both.
+  // `RemoteHorizontalPageIndicator` has no curvature and no edge affinity; the Wear sibling's
+  // `HorizontalPageIndicator` has both.
   //
-  // So this places the rail where the kit's sits — bottom-centre of the 192dp display — which is as
-  // close as the API goes. The remaining gap is the curve, and it stays VISIBLE rather than hidden:
-  // a straight rail against a round bezel is the divergence, and a sticker that quietly drew a
-  // centred rail in a 227dp void said nothing about it either way.
+  // So the ALIGNMENT is what this sticker can supply, and it does: the rail sits bottom-centre of
+  // the display, where the kit's sits, which is as close as the API goes. The remaining gap is the
+  // curve, and it stays VISIBLE rather than hidden — a straight rail against a round bezel is the
+  // divergence, where a rail floating in the middle said nothing about it either way.
   RemoteBox(
-    modifier = RemoteModifier.size(KitDisplaySize),
+    modifier = RemoteModifier.fillMaxSize(),
     contentAlignment = RemoteAlignment.BottomCenter,
     content = { RemoteHorizontalPageIndicator(state = rememberKitPageIndicatorState()) },
   )
@@ -577,11 +574,11 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
   // fifth selected exercised the scrolling-dot window, which is a real behaviour — but it is a
   // behaviour neither the kit cell nor the parallel draws, so it was reported as a divergence on
   // every render rather than shown as itself.
-  // Against the right bezel of the 192dp display, for the reason spelled out on the horizontal one:
-  // the component draws a straight content-sized rail wherever it is put, so the sticker supplies
+  // Against the right bezel, for the reason spelled out on the horizontal one: the component draws
+  // a straight content-sized rail wherever it is put and at whatever size, so the sticker supplies
   // the position the kit cell is about and leaves the missing curvature on show.
   RemoteBox(
-    modifier = RemoteModifier.size(KitDisplaySize),
+    modifier = RemoteModifier.fillMaxSize(),
     contentAlignment = RemoteAlignment.CenterEnd,
     content = { RemoteVerticalPageIndicator(state = rememberKitPageIndicatorState()) },
   )

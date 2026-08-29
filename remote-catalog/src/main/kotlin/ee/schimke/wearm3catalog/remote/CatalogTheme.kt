@@ -8,10 +8,12 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.text.RemoteFontFamily
 import androidx.compose.remote.creation.profile.RcPlatformProfiles
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import androidx.wear.compose.remote.material3.RemoteTypography
 import ee.schimke.composeai.daemon.RemoteOverridablePreview
 
 /**
@@ -45,36 +47,44 @@ import ee.schimke.composeai.daemon.RemoteOverridablePreview
  * reads the same [remoteCatalogThemeColors] map the replay path seeds, so the two lanes cannot
  * disagree about what a theme is.
  *
- * The colour scheme AND the typeface are installed. The typeface used not to be: every theme
- * emitted the built-in `roboto-flex` device family for all six type roles, so the six specimens
- * differed only in colour while the Wear column showed four typefaces
- * ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)). A sheet whose theme page says
- * "typography" and shows one face is overstating what it demonstrates.
+ * Every capture installs a typeface, and which one depends on the branch.
+ *
+ * The **un-themed** path takes [RemoteCatalogTypography]: one exact Google Fonts family, so the
+ * document asks for a face rather than emitting the stock `roboto-flex` device-family id and
+ * trusting each player to resolve it the same way. Typeface is not named state, so a replayed
+ * document cannot swap it alongside the colour overrides — every published capture keeps this
+ * baseline face, and `RemoteTypographyIrCaptureTest` holds it there.
+ *
+ * The **themed** path takes that theme's own pairing on top ([remoteCatalogTypography]). It used
+ * not to: a theme moved colour and nothing else, so the six identities differed in palette alone
+ * while the Wear column showed four typefaces
+ * ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)). That is a live re-render rather
+ * than a replay, which is exactly why it can carry a face where the replay lane cannot — so the
+ * baseline above is untouched, and with it the Wasm lane's font ratchet.
  */
 @Composable
 fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
   val themeName = LocalRemoteCatalogTheme.current
   RemoteOverridablePreview(profile = RcPlatformProfiles.ANDROIDX) {
-    if (themeName == null) {
+    val colorScheme =
+      if (themeName == null) RemoteMaterialTheme.colorScheme
+      else remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
+    val typography =
+      if (themeName == null) RemoteCatalogTypography
+      else remoteCatalogTypography(themeName, RemoteCatalogTypography)
+    RemoteMaterialTheme(colorScheme = colorScheme, typography = typography) {
       RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
         content = content,
       )
-    } else {
-      RemoteMaterialTheme(
-        colorScheme = remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme),
-        typography = remoteCatalogTypography(themeName, RemoteMaterialTheme.typography),
-      ) {
-        RemoteBox(
-          modifier = RemoteModifier.fillMaxSize(),
-          contentAlignment = RemoteAlignment.Center,
-          content = content,
-        )
-      }
     }
   }
 }
+
+/** The explicit, replay-stable face used by every Material-themed Remote text role. */
+internal val RemoteCatalogTypography =
+  RemoteTypography(defaultFontFamily = RemoteFontFamily.Named("google:Roboto Flex"))
 
 /**
  * The width the kit draws a **row-shaped control** at: 172dp, the content column of the 192dp
@@ -96,28 +106,6 @@ fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
  * *supposed* to size to its content — an icon button, the compact button — must not take it.
  */
 val KitRowWidth = 172.rdp
-
-/**
- * The size the kit draws a **display cell** at: 192dp, the round face whole — the small-round
- * breakpoint its display cells are measured against.
- *
- * The counterpart to [KitRowWidth] for the components the kit publishes as a whole screen rather
- * than as a row: the circular progress rail, the page indicators. Those are the cells whose subject
- * is *where a curve sits relative to the bezel*, so their kit node's own bounding box is the 192dp
- * display, not a wrapped control.
- *
- * The sticker frame is 227dp (`CatalogRemoteDisplay`), because this sheet pins one canvas at the
- * largeRound breakpoint where the sibling fans across five. `fillMaxSize` inside that frame
- * therefore draws to 227 and not to the cell: `Progress/Circular` published a 227×227 ring against
- * a 192×192 node — 35dp oversized, with its stroke out where the bezel would be
- * ([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)). That is not the open framing
- * question in #138: the ring is drawing to the frame instead of to a display, and the display is a
- * number the kit states.
- *
- * So a display-cell sticker takes this rather than `fillMaxSize`, and the 17.5dp of frame left over
- * on each side is transparent margin — the same shape of allowance [KitRowWidth] makes.
- */
-val KitDisplaySize = 192.rdp
 
 /**
  * The catalog's Remote Compose **component** multipreview. A single 227×100 capture. Remote Compose
@@ -201,9 +189,10 @@ annotation class CatalogRemoteScreen
 annotation class CatalogRemoteCanvas
 
 /**
- * The **display-cell** frame: a full round watch face's worth of square canvas (227×227dp at the
- * same density-2.0 pin), for a component that positions itself against the display edge rather than
- * wrapping its content.
+ * The **display-cell** frame: the five round sizes the kit recognises, for a component that
+ * positions itself against the display edge rather than wrapping its content. The 192dp cell is the
+ * base because the kit draws its base display nodes at 192×192; the other four fold beneath it with
+ * the same names as the Wear sibling.
  *
  * This is the Remote counterpart of the Wear sibling's `FullScreenSticker`, and what decides it is
  * the same thing: the SHAPE of the kit cell the render is compared against. The kit publishes its
@@ -218,5 +207,29 @@ annotation class CatalogRemoteCanvas
  * template paints its own surface and IS the watch face, where these rasterise onto transparency
  * like every other component sticker.
  */
-@Preview(showBackground = false, device = "spec:width=227dp,height=227dp,dpi=320")
+@Preview(
+  name = "192dp",
+  showBackground = false,
+  device = "spec:width=192dp,height=192dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "204dp",
+  showBackground = false,
+  device = "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "216dp",
+  showBackground = false,
+  device = "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "225dp",
+  showBackground = false,
+  device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+)
+@Preview(
+  name = "240dp",
+  showBackground = false,
+  device = "spec:width=240dp,height=240dp,dpi=320,isRound=true",
+)
 annotation class CatalogRemoteDisplay
