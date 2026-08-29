@@ -9,10 +9,12 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
+import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.animateRemoteFloat
+import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.rf
@@ -21,6 +23,7 @@ import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.remote.material3.RemoteAppCard
+import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteHorizontalPageIndicator
@@ -32,7 +35,9 @@ import androidx.wear.compose.remote.material3.RemoteTextButton
 import androidx.wear.compose.remote.material3.RemoteTimeText
 import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
+import androidx.wear.compose.remote.material3.buttonSizeModifier
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
+import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogComponent
@@ -157,6 +162,80 @@ fun ChildRemoteButton() = RemoteSticker {
       secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
       iconColor = RemoteMaterialTheme.colorScheme.primary,
     )
+  )
+}
+
+@CatalogComponent(
+  id = "Button/ImageBackground",
+  group = "Buttons",
+  parallel = "Button/ImageBackground",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38425:101029",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38425:101028",
+  caption = "A button over an image, with the scrim that keeps its label legible.",
+)
+@CatalogRemoteModes
+@OverrideVariant(
+  name = "secondary-label",
+  booleans = ["secondary=true"],
+  kitAxis = "Secondary label",
+  kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitAxis = "Disabled",
+  kitValue = "Yes",
+)
+// THIS ROW IS BROKEN ON PURPOSE, and that is the whole reason it is here.
+//
+// `Button-ImageBackground` publishes four cells and this column reproduced none of them, while the
+// Wear column draws all four ([#157](https://github.com/yschimke/wear-m3-catalog/issues/157)). The
+// library looks ready for it: `remote-material3-1.0.0-alpha10` ships `containerPainter`, its
+// disabled companion, `buttonWithContainerPainterColors()` and a `RemoteButton` overload taking
+// both painters. Call them and the button renders an OPAQUE BLACK PILL with no image in it —
+// under the default scrim, a transparent one, `ContentScale.FillBounds`, and a bitmap 64x larger.
+// `RemoteImage` draws that same bitmap in the card content slots, so it is the container painter
+// specifically rather than the bitmap or the player.
+//
+// The first pass withdrew the component over that, on the grounds that a black pill scored against
+// an image-backed node claims a comparison it is not making. That was the wrong call, and it is
+// worth writing down why: withdrawing leaves the SET reading as unreproduced, which is
+// indistinguishable from nobody having got to it — the sheet looks fine and the defect is
+// invisible.
+// Publishing it puts the break where a reader meets it and lets design-parity score it as the real
+// divergence it is, which on a design-led scan is exactly what the number is for. It is the same
+// bargain `StickerBakeCoverageTest.knownBlank` already strikes for the blank text button, and it
+// makes the fix self-announcing: the day the painter draws, this row moves on its own.
+//
+// The image is the flat placeholder every other slot here draws — the kit publishes this cell's
+// background as an empty `IMAGE` fill, which design-parity normalises to a flat colour at import.
+//
+// All four cells are drawn. `secondary-label-disabled` is the same picture as `disabled`, because
+// a disabled `RemoteButton` draws its container and not its labels — the same loss the `Button`
+// row's five `Alignment=Left, Disabled` cells record, and recorded here the same way.
+@OverrideVariant(
+  name = "secondary-label-disabled",
+  booleans = ["secondary=true", "enabled=false"],
+  kitProps = ["Secondary label=Yes", "Disabled=Yes"],
+)
+@Composable
+fun ImageBackgroundRemoteButton() = RemoteSticker {
+  val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
+  val container = RemoteButtonDefaults.containerPainter(CatalogRemoteImage.bitmap())
+  RemoteButton(
+    onClick = onClick,
+    modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
+    enabled = previewOverrideBoolean("enabled", true).rb,
+    containerPainter = container,
+    // The library's own dimming of the same painter, not a second image: the kit's `Disabled=Yes`
+    // cell is this picture at a lower opacity, and `disabledContainerPainter` is the pair published
+    // for exactly that.
+    disabledContainerPainter = RemoteButtonDefaults.disabledContainerPainter(container),
+    colors = RemoteButtonDefaults.buttonWithContainerPainterColors(),
+    secondaryLabel =
+      if (previewOverrideBoolean("secondary", false)) ({ RemoteText(KitCopy.SECONDARY_LABEL.rs) })
+      else null,
+    label = { RemoteText(label) },
   )
 }
 

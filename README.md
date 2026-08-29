@@ -62,8 +62,8 @@ that earned it.
 
 **How much of each set is drawn is a second question, and it now has an answer too.**
 [`kit-cells.json`](kit-cells.json) counts it cell by cell, for both sheets: `:catalog` draws 550 of
-the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 163 of the 327 published by
-the 8 it names. Twelve of those 41 sheet-rows draw their set in full. The record is projected from
+the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 196 of the 331 published by
+the 9 it names. Fifteen of those 42 sheet-rows draw their set in full. The record is projected from
 each module's resolved design map and reconciled by CI, so a cell that stops being drawn moves a
 number in a reviewable diff — the check that was missing when the Remote sheet drew 15 of the `Card`
 set's 45 cells with everything green
@@ -75,8 +75,17 @@ missing cannot go quiet. Most of those reasons are a library declining to draw a
 does: Wear resolves the three filled styles' disabled colours to one `onSurface` pair, so 28 cells
 across `Text-Button`, `Button-Compact` and `Edge-Button` are one picture under two or three names —
 a comparison that cannot fail. The Remote line says the same thing in its own accent, and adds
-absences of its own: no outlined title or app card, no segmented progress ring, a text button that
-draws nothing at all when disabled.
+absences of its own: no outlined title or app card, no segmented progress ring.
+
+**Where the library draws the wrong thing, the sheet draws it anyway.** A cell whose API exists is
+called and published even when the result is blank or identical to its neighbour — an image-backed
+button that renders a black pill with no image in it, a text button that draws nothing at all when
+disabled, a disabled tonal button that is the disabled filled one to the byte. Withdrawing those
+would leave the set reading as unreproduced, which is indistinguishable from nobody having got to
+it: the sheet would look finished and the defect would be nowhere. `StickerBakeCoverageTest`'s
+`knownBlank` and `RemoteRenderTest`'s `knownDuplicate` record each one against the call that causes
+it, and both fail in the other direction too — the day the library starts drawing, the exemption is
+what announces it.
 
 Sixteen components enter through the **library's** door instead — components carrying `noReference`
 with the reason there is nothing to compare against. A sheet whose reader is looking for the

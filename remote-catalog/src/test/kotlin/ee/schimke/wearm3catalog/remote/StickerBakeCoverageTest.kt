@@ -32,6 +32,14 @@ import org.junit.Test
  */
 class StickerBakeCoverageTest {
 
+  /**
+   * One reason, twelve cells: the whole `Disabled=Yes` column of the kit's `Text-Button` set, none
+   * of which `remote-material3` draws anything for.
+   */
+  private val REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED =
+    "#130 — RemoteTextButton(enabled = false) draws nothing at all: no container, no label, and " +
+      "passing disabledContainerColor / disabledContentColor explicitly does not change it"
+
   private val rendersDir = File("build/compose-previews/renders")
 
   /** Alpha above which a pixel counts as drawn; matches `rc-compare-pixels.mjs`. */
@@ -63,13 +71,22 @@ class StickerBakeCoverageTest {
    * genuinely does not draw what the kit specifies, which is what a design-led scan is for — and
    * makes the fix self-announcing through the second assertion below.
    *
-   * ONE blank cell, not four. `small-disabled`, `large-disabled` and `child-disabled` bake
-   * byte-identically to this one, so publishing them would be the same empty picture four times
-   * under four names; `disabled` is the single-knob cell naming the kit's `Disabled=Yes` axis
-   * directly, so it is the one that carries the gap. The three `outlined-*-disabled` cells are not
-   * listed and are not blank: the border survives, because this sticker draws it itself through
-   * `border` rather than through the component, so each is a real picture of a button that lost
-   * only its label.
+   * ALL TWELVE of them, not one. This used to carry `disabled` alone, on the reasoning that the
+   * others bake byte-identically and publishing them would be the same empty picture under a dozen
+   * names. That reasoning traded one invisibility for another: the kit publishes fifteen
+   * `Disabled=Yes` cells for this set, and a sheet drawing one of them reads as a sheet that has
+   * nearly finished. Drawing all twelve the library can be asked for says the size of the hole, and
+   * design-parity scores twelve divergences rather than one. The duplication is recorded next door
+   * in `RemoteRenderTest.knownDuplicate`, which is the test that owns that question.
+   *
+   * The three `outlined-*-disabled` cells are not listed and are not blank: the border survives,
+   * because this sticker draws it itself through `border` rather than through the component, so
+   * each is a real picture of a button that lost only its label.
+   *
+   * PASSING THE COLOURS DOES NOT HELP, which is worth knowing before anyone tries.
+   * `textButtonColors` takes `disabledContainerColor` and `disabledContentColor`; handing it both,
+   * at the tokens Wear resolves, still bakes transparent. The failure is in what the disabled path
+   * draws rather than in what it looks up, so a caller cannot reach it from the call site.
    *
    * **An entry here is never a way to quiet a sticker that is simply broken.** It says the LIBRARY
    * draws nothing for this state; the entry names the tracked issue and the call that does it, and
@@ -77,12 +94,31 @@ class StickerBakeCoverageTest {
    */
   private val knownBlank =
     mapOf(
-      "TextRemoteButton_VARIANT_disabled" to
-        "#130 — RemoteTextButton(enabled = false) resolves neither of its disabled colours"
+      "TextRemoteButton_VARIANT_disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_filled-variant-disable" to
+        REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_filled-variant-small-d" to
+        REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_filled-variant-large-d" to
+        REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_tonal-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_tonal-small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_tonal-large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_child-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_child-small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
+      "TextRemoteButton_VARIANT_child-large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
     )
 
   /**
    * `<stem>_VARIANT_<cell>`, the identity a [knownBlank] entry names, or null for a base render.
+   *
+   * **The name can arrive TRUNCATED**, which is why [matches] compares by prefix rather than by
+   * equality. The renderer caps a capture's filename, so `…_VARIANT_filled_variant_large_disabled`
+   * reaches disk as `…_VARIANT_filled_variant_large_d`. Keying the map on what survived would put
+   * `filled-variant-large-d` in the source, which reads as a typo and breaks the moment the cap
+   * moves; keying it on the cell's real name and matching forwards keeps the map readable.
    */
   private fun blankKey(file: File): String? {
     val stem = file.name.substringBefore("_width")
