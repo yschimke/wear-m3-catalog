@@ -1,5 +1,5 @@
 {
-  "$comment": "EVERY PUBLISHED SET IN THE KIT, and what this catalog does about it. Generated from the kit walk (.github/workflows/figma-refs.yml) joined to the @CatalogComponent references in the sources; CatalogKitCoverageTest holds the two together in both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation that earned it. Out of scope, and not listed: the kit's own internals (names beginning '.', and the 'Base components' each page builds its published set from) and the 1072-component Icons page, which is an icon set rather than a component inventory.",
+  "$comment": "EVERY PUBLISHED SET IN THE KIT, and what this catalog does about it. Generated from the kit walk (.github/workflows/figma-refs.yml) joined to the @CatalogComponent references in the sources; CatalogKitCoverageTest holds the two together in both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation that earned it. A row may also carry `cells`: per sheet, WHY that sheet falls short of the set's published cells. How far short is not written here — that is a number, and kit-cells.json carries it; KitCellCoverageTest holds the reason against the count, so a reason cannot outlive its gap either. Out of scope, and not listed: the kit's own internals (names beginning '.', and the 'Base components' each page builds its published set from) and the 1072-component Icons page, which is an icon set rather than a component inventory.",
   "fileKey": "B24oss2tTeXAFykyeyusz0",
   "sets": [
     {
@@ -165,7 +165,10 @@
       "components": [
         "AppCard",
         "TitleCard"
-      ]
+      ],
+      "cells": {
+        "catalog": "Nine of the eleven are `Title Card 3`, the layout that puts the timestamp UNDER the subtitle; `TitleCard` draws its `time` slot on the title's row and there is no argument that moves it, so that arrangement is published under its own name as `TitleCard/Subtitle` rather than mapped onto a node it is not a picture of. The other two are the `Background Image` cells of `App Card` and `Title Card + Icon`: Wear Compose gives `TitleCard` a second overload taking a `Painter`, and gives `AppCard` none, so there is no image-backed app card to draw."
+      }
     },
     {
       "page": "Confirmation Overlays",

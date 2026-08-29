@@ -49,6 +49,17 @@ jobs:
       - name: design-map.json is up to date
         run: scripts/design-map.sh --check
 
+      # kit-cells.json is the same argument one level down. It records how much of each published
+      # kit set each sheet actually DRAWS — the question `kit-sets.json` does not ask, which is how
+      # `:remote-catalog` came to draw 15 of the `Card` set's 45 cells with every test green
+      # (#158). It is projected from both modules' resolved maps, so this is the job that holds its
+      # inputs: both manifests were just discovered above.
+      #
+      # `--check` regenerates into a temp dir and diffs; it never writes the working tree, and it
+      # never touches the committed map that belongs to `:catalog`.
+      - name: kit-cells.json is up to date
+        run: scripts/kit-cells.sh --check
+
       - uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
@@ -133,6 +144,11 @@ jobs:
       # hand-kept — so the slug rule is the only thing holding those URLs still. Needs no token:
       # it exercises the resolver against fixtures.
       - run: node --test scripts/import-figma-pages.test.mjs
+
+      # What counts as a cell a sheet draws. The coverage record this decides is committed and
+      # reconciled in the `map` job above, so a bug here would move every number in it at once and
+      # the diff would look like a change to the catalog rather than to the counter.
+      - run: node --test scripts/kit-cells.test.mjs
 
       # The snapshot probe's decision logic — what makes `remote-snapshot-probe.yml` ping a human
       # or stay quiet. Pure and stdlib-only, so it runs beside the resolver test rather than

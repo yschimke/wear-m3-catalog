@@ -2,6 +2,7 @@
 # Regenerate design-map.json (and its variant sidecar) from the @CatalogComponent annotations.
 #
 #   scripts/design-map.sh [--check]
+#   scripts/design-map.sh --out-dir DIR [MODULE]
 #
 # Two steps, in two upstream packages, because the question splits there:
 #
@@ -28,6 +29,23 @@ set -euo pipefail
 CHECK=""
 [ "${1:-}" = "--check" ] && { CHECK=1; shift; }
 
+# `--out-dir DIR` projects into DIR and leaves the working tree alone.
+#
+# The committed map belongs to `:catalog` (see WHICH catalog, below), so anything that wants a
+# SECOND module's map alongside it — `scripts/kit-cells.sh` reads both, to count how much of each
+# kit set each sheet draws — cannot go through the root path without clobbering the one that is
+# committed. This is that door: same two pinned upstream steps, same inputs, a destination that is
+# not the repo. It never reconciles against the working tree, so `--check` means nothing with it.
+OUT_DIR=""
+if [ "${1:-}" = "--out-dir" ]; then
+  OUT_DIR="${2:?--out-dir needs a directory}"
+  shift 2
+fi
+if [ -n "$OUT_DIR" ] && [ -n "$CHECK" ]; then
+  echo "error: --check reconciles the committed map; --out-dir writes somewhere else. Pick one." >&2
+  exit 2
+fi
+
 # WHICH catalog. This repo publishes two, and each projects its own map:
 #
 #   scripts/design-map.sh [--check]                 -> :catalog        (the kit rendition)
@@ -42,7 +60,7 @@ CHECK=""
 # it means locally is that projecting the Remote map overwrites the committed one, which belongs to
 # `:catalog` — so say so, loudly, rather than letting someone commit the wrong map.
 MODULE_DIR="${1:-catalog}"
-if [ "$MODULE_DIR" != "catalog" ]; then
+if [ "$MODULE_DIR" != "catalog" ] && [ -z "$OUT_DIR" ]; then
   echo "note: projecting $MODULE_DIR into ./design-map.json, which is where design-parity reads it." >&2
   echo "note: that file is COMMITTED for :catalog — restore it with 'git checkout -- design-map.json'" >&2
   echo "      before committing anything else." >&2
@@ -101,6 +119,15 @@ fi
 # A component that declares no variant axis writes no sidecar; an empty file would assert only that
 # it has nothing to say. Reconcile the absence too, so a catalog that loses its last axis does not
 # keep a stale one committed.
+if [ -n "$OUT_DIR" ]; then
+  mkdir -p "$OUT_DIR"
+  for f in design-map.json design-map-variants.json; do
+    rm -f "$OUT_DIR/$f"
+    if [ -f "$WORK/$f" ]; then cp "$WORK/$f" "$OUT_DIR/$f"; fi
+  done
+  exit 0
+fi
+
 for f in design-map.json design-map-variants.json; do
   if [ -n "$CHECK" ]; then
     if [ -f "$WORK/$f" ]; then

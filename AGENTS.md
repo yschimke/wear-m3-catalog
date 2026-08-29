@@ -193,6 +193,27 @@ when the kit itself moves, and reconcile the file in the same commit. It records
 publishes: private sets (names beginning `.`, and each page's `Base components`) and the Icons page
 are out of scope.
 
+**That record works at the level of the SET, and the level below it is where things go missing.** A
+set counts as reproduced when a component exists for it; nothing in `kit-sets.json` asks how much of
+it is drawn. `:remote-catalog` drew 15 of the `Card` set's 45 cells with the whole suite green
+([#158](https://github.com/yschimke/wear-m3-catalog/issues/158)) — the `Content type` axis absent
+entirely, two thirds of the set missing, and no file that would have said so.
+
+[`kit-cells.json`](kit-cells.json) is that missing number, for **both sheets**: per set, how many
+cells the kit publishes, how many each sheet draws, and the kit's own vector for every cell it does
+not. It is an OUTPUT — `scripts/kit-cells.sh` projects it from each module's resolved design map
+joined to the kit index, and CI reconciles it in the same job that checks `design-map.json` — so a
+cell that stops being drawn moves a number in a reviewable diff rather than vanishing.
+
+Do not hand-edit it, and do not re-derive the numerator from the annotations: whether a cell resolves
+is `@design-parity/kit-index`'s judgement (`@OverrideVariant(name = "square")` carries no `kitProps`
+and still resolves), and a second implementation of that here undercounted eight sets out of
+thirty-five. **WHY a sheet falls short is prose, and it goes on the `kit-sets.json` row** under
+`cells`, keyed by sheet — a written reason in a generated file is a merge conflict waiting to
+happen. `KitCellCoverageTest` holds the two against each other, and fails on a reason that has
+outlived its gap. Most gaps carry no reason yet; that half is
+[#160](https://github.com/yschimke/wear-m3-catalog/issues/160).
+
 ## Sticker conventions
 
 - **A sticker says what the kit says.** Content is not decoration here: a button the kit labels

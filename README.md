@@ -60,6 +60,17 @@ that reproduce it or why it is absent — and `CatalogKitCoverageTest` holds it 
 both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation
 that earned it.
 
+**How much of each set is drawn is a second question, and it now has an answer too.**
+[`kit-cells.json`](kit-cells.json) counts it cell by cell, for both sheets: `:catalog` draws 548 of
+the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 47 of the 327 published by
+the 8 it names. Eleven of those 41 sheet-rows draw their set in full. The record is projected from
+each module's resolved design map and reconciled by CI, so a cell that stops being drawn moves a
+number in a reviewable diff — the check that was missing when the Remote sheet drew 15 of the `Card`
+set's 45 cells with everything green
+([#158](https://github.com/yschimke/wear-m3-catalog/issues/158)). Why a sheet falls short is prose
+and lives on the `kit-sets.json` row; most gaps do not carry one yet
+([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
+
 Sixteen components enter through the **library's** door instead — components carrying `noReference`
 with the reason there is nothing to compare against. A sheet whose reader is looking for the
 component set should not omit a component because a design file did. Four are Wear Compose Material 3
