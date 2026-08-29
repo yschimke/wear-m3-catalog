@@ -29,6 +29,15 @@ import ee.schimke.wearm3catalog.Sticker
 // silhouettes. The point of the sticker is the outline, so anything inside it would only be
 // something else to compare.
 //
+// THE FILL IS `primaryDim`, NOT `primary`
+//
+// Every cell of the kit's set binds its fill to the `primary/primary-dim` variable, `#D0BCFF` —
+// which is Wear M3's `PrimaryDim` token (`PaletteTokens.Primary80`). `primary` is `Primary90`,
+// `#E9DDFF`, a visibly lighter lavender: a silhouette drawn in it differs from the kit over the
+// whole of its area, which is most of the sticker
+// ([#144](https://github.com/yschimke/wear-m3-catalog/issues/144)). A specimen sheet whose only
+// content is one flat fill has to name the role the kit named.
+//
 // ONE COMPONENT, ONE CELL PER SHAPE
 //
 // The kit models the whole page as ONE component set varying a single `Shape=` property, so by this
@@ -148,6 +157,6 @@ fun MaterialShapesSticker() = Sticker {
   Box(
     Modifier.size(72.dp)
       .clip(catalogShape().toShape())
-      .background(MaterialTheme.colorScheme.primary)
+      .background(MaterialTheme.colorScheme.primaryDim)
   )
 }
