@@ -9,11 +9,14 @@ import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.modifier.height
+import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
@@ -41,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -855,6 +859,102 @@ fun OutlinedCardRemote() = RemoteSticker {
   )
 }
 
+// ---------------------------------------------------------------------------
+// The kit's `Content type` axis, as what a card's content slot holds.
+//
+// Thirty of the `Card` set's forty-five cells put imagery there — ten `Image`, ten `Gallery 1`, ten
+// `Gallery 2` — against fifteen that hold text. The remote sheet drew none of them until now, and
+// nothing failed: the inventory test asks whether a COMPONENT is mapped, and
+// `CatalogKitCoverageTest`
+// asks whether a SET is reproduced. Neither looks at the cells inside a set, so two-thirds of this
+// one could go undrawn in silence.
+//
+// The geometry below is read off the kit's own nodes rather than copied from `:catalog`, which has
+// the shape wrong on every count and is tracked in #153: it draws two equal 42dp thumbnails for
+// both
+// galleries where the kit draws stepped frames at 64dp and 58dp, in opposite orders, with different
+// corners, plus an overflow badge that `:catalog` has no equivalent of at all.
+//
+//   Slot Image      148 x 64        (the App Card cell measures 66.2 — its aspect-ratio keeper)
+//   Slot Gallery 1  148 x 64        left 86 @0 r14, right 58 @90 r14, badge 24 @120 r26
+//   Slot Gallery 2  148 x 58        right 58 @0 r200, left 86 @62 r200, badge 24 @120 r26
+//
+// The badge OVERLAPS the trailing image in both — 120..144 against a slot ending at 148 — so it is
+// a
+// sibling in a `RemoteBox` rather than a third item in the row. `RemoteAlignment` is a property of
+// the box, not of each child, so start-aligned row and end-aligned badge are two boxes.
+private const val GallerySlotWidth = 148
+private const val GalleryGap = 4
+private const val BadgeWidth = 24
+private const val BadgeCorner = 26
+private const val BadgeInset = 4
+
+/** One frame of the kit's imagery, at the size and corner the cell gives it. */
+@Composable
+private fun imageFrame(width: Int, height: Int, corner: Int) {
+  RemoteImage(
+    CatalogRemoteImage.bitmap(),
+    null,
+    modifier =
+      RemoteModifier.width(width.rdp).height(height.rdp).clip(RemoteRoundedCornerShape(corner.rdp)),
+    // FillBounds, because the placeholder is one colour and these frames are not
+    // square. The default scale preserves the bitmap's own 1:1 aspect and
+    // letterboxes inside the layout box, which drew every frame wider than tall
+    // as a square: the 148dp image slot came out 64x64 and the gallery's 86dp
+    // lead frame came out 64 too, with the letterboxing read as a 15dp gap.
+    // Stretching a solid colour distorts nothing.
+    contentScale = ContentScale.FillBounds,
+  )
+}
+
+/**
+ * A gallery row: two frames of unequal width, and the overflow badge that sits over the second.
+ *
+ * [lead] is drawn first, which is what separates the kit's two galleries as much as their corners
+ * do — `Gallery 1` leads with the wide frame, `Gallery 2` with the narrow one.
+ */
+@Composable
+private fun galleryRow(height: Int, lead: Int, trail: Int, corner: Int) {
+  RemoteBox(modifier = RemoteModifier.width(GallerySlotWidth.rdp).height(height.rdp)) {
+    RemoteBox(
+      modifier = RemoteModifier.fillMaxSize(),
+      contentAlignment = RemoteAlignment.CenterStart,
+    ) {
+      RemoteRow(horizontalArrangement = RemoteArrangement.spacedBy(GalleryGap.rdp)) {
+        imageFrame(lead, height, corner)
+        imageFrame(trail, height, corner)
+      }
+    }
+    RemoteBox(
+      modifier = RemoteModifier.fillMaxSize().padding(end = BadgeInset.rdp),
+      contentAlignment = RemoteAlignment.CenterEnd,
+    ) {
+      imageFrame(BadgeWidth, height, BadgeCorner)
+    }
+  }
+}
+
+/**
+ * What the kit's `Content type` axis puts in the content slot.
+ *
+ * Null for `Text`, so the caller keeps its own body copy — the text cells are the ones the sheet
+ * already drew.
+ */
+@Composable
+private fun cardImagery(): (@Composable () -> Unit)? =
+  when (
+    previewOverrideChoice("content", "text", listOf("text", "image", "gallery-1", "gallery-2"))
+  ) {
+    "image" -> ({ imageFrame(GallerySlotWidth, 64, 14) })
+    "gallery-1" -> ({ galleryRow(height = 64, lead = 86, trail = 58, corner = 14) })
+    // `Gallery 2` is 58 tall, not 64, and leads with the narrow frame at a corner radius that
+    // rounds
+    // it to a pill. Copying `Gallery 1` and only swapping the shape would put the wrong picture
+    // under a cell that differs in three ways.
+    "gallery-2" -> ({ galleryRow(height = 58, lead = 58, trail = 86, corner = 200) })
+    else -> null
+  }
+
 // `Title Card 2` — the kit's second layout, which adds a subtitle under the body. It used to be a
 // top-level component (`TitleCard/WithSubtitle`); the kit models the layouts as one `Layout type`
 // property on one `Card` set, and `RemoteTitleCard` reaches them by filling one more slot rather
@@ -870,6 +970,23 @@ fun OutlinedCardRemote() = RemoteSticker {
   name = "with-subtitle",
   strings = ["layout=title-time-subtitle"],
   kitProps = ["Layout type=Title Card 2", "Style=Tonal", "Content type=Text", "Interactive=Yes"],
+)
+@OverrideVariant(
+  name = "content-image",
+  strings = ["content=image"],
+  kitProps = ["Layout type=Title Card 1", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+)
+@OverrideVariant(
+  name = "gallery-1",
+  strings = ["content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card 1", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+)
+@OverrideVariant(
+  name = "gallery-2",
+  strings = ["content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card 1", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
 )
 @CatalogComponent(
   id = "TitleCard",
@@ -912,10 +1029,25 @@ fun TitleCardRemote() = RemoteSticker {
       )
         ({ RemoteText(KitCopy.SUBTITLE.rs) })
       else null,
-    content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
+    content = cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
 }
 
+@OverrideVariant(
+  name = "content-image",
+  strings = ["content=image"],
+  kitProps = ["Layout type=App Card", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+)
+@OverrideVariant(
+  name = "gallery-1",
+  strings = ["content=gallery-1"],
+  kitProps = ["Layout type=App Card", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+)
+@OverrideVariant(
+  name = "gallery-2",
+  strings = ["content=gallery-2"],
+  kitProps = ["Layout type=App Card", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
+)
 @CatalogComponent(
   id = "AppCard",
   group = "Containment",
@@ -938,7 +1070,7 @@ fun AppCardRemote() = RemoteSticker {
     // glance, on the row scored against that cell.
     time = { RemoteText(KitCopy.TIMESTAMP.rs) },
     appImage = { RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp)) },
-    content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
+    content = cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
 }
 
