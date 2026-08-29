@@ -90,6 +90,60 @@ class CatalogRenderTest {
   }
 
   /**
+   * The cell pairs that are **expected** to render identically, each one a distinction the KIT
+   * draws and the LIBRARY does not — the Wear-side twin of `RemoteRenderTest.knownDuplicate`, added
+   * for the same reason ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
+   *
+   * Without it the only way past the test below was to withdraw the cell, and withdrawing is what
+   * makes the collapse invisible: 30 published kit cells were absent from this sheet on that
+   * ground, which reads exactly like nobody having drawn them. Publishing them puts the collapse
+   * where a reader meets it, lets design-parity score it against the node the kit drew, and makes
+   * the fix self-announcing through [every known duplicate still collapses].
+   *
+   * **An entry here is never a way to quiet a cell that is simply wrong.** A cell whose seed
+   * nothing reads is what the test exists to catch, and that is a bug in the sources rather than in
+   * the library. The test for the difference: if passing the knob through correctly would separate
+   * the pictures, it is a bug here; if the library draws one picture for both states however it is
+   * called, it belongs here.
+   *
+   * Keys are `<component>: <cell> == <cell>`, exactly as the failure below prints them — the cell
+   * that repeats on the left, the plainer cell it repeats on the right.
+   */
+  private val knownDuplicate: Map<String, String> = buildMap {
+    // Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12%
+    // container, 38% content — so `filledVariantButtonColors()` and `filledTonalButtonColors()`
+    // hand a disabled button exactly what `buttonColors()` does. The kit publishes a disabled
+    // cell for each style; the library draws one picture for the three. `Outline` DOES differ,
+    // and its cells are ordinary comparisons.
+    val filledStylesCollapse =
+      "a disabled button takes the same onSurface pair whichever filled style's colours it was " +
+        "given, so this is the disabled FILLED render under another name"
+    for (cell in listOf("disabled", "icon_only_disabled", "text_only_disabled")) {
+      put("CompactActionButton: filled_variant_$cell == $cell", filledStylesCollapse)
+      put("CompactActionButton: tonal_$cell == $cell", filledStylesCollapse)
+    }
+    for (type in listOf("", "icon_")) {
+      for (size in listOf("", "extra_small_", "medium_", "large_")) {
+        val cell = "$type${size}disabled"
+        put("ScreenEdgeButton: filled_variant_$cell == $cell", filledStylesCollapse)
+        put("ScreenEdgeButton: tonal_$cell == $cell", filledStylesCollapse)
+      }
+    }
+    // `TextButtonDefaults` resolves the same three the same way.
+    for (cell in listOf("disabled", "small_disabled", "large_disabled")) {
+      put("TextAction: filled_variant_$cell == $cell", filledStylesCollapse)
+      put("TextAction: tonal_$cell == $cell", filledStylesCollapse)
+    }
+    // `IconButtonDefaults.ExtraSmallButtonSize` is a CONTAINER token, and the child style draws
+    // no container: both sizes clamp to the same minimum touch target around an unchanged glyph.
+    val childSizeCollapse =
+      "IconButtonDefaults.ExtraSmallButtonSize sizes a container this style does not draw, so " +
+        "it clamps to the same minimum touch target as SmallButtonSize"
+    put("StandardIconAction: extra_small == small", childSizeCollapse)
+    put("StandardIconAction: extra_small_disabled == small_disabled", childSizeCollapse)
+  }
+
+  /**
    * A cell that renders identically to the render it varies is a **wrong picture that renders
    * green**: the sheet publishes the same image twice under two names, and the second one claims to
    * show something it does not.
@@ -100,31 +154,74 @@ class CatalogRenderTest {
    * revealed by scroll position, so at rest there is nothing to see).
    *
    * Deliberately compares only renders of the SAME component. Two different components may
-   * legitimately look alike at this size; two renders of one component may not.
+   * legitimately look alike at this size; two renders of one component may not — unless
+   * [knownDuplicate] says the library draws one picture for both.
    */
   @Test
   fun `no two renders of a component are identical`() {
+    val unexplained = clashes().keys - knownDuplicate.keys
+    assertTrue(
+      "these renders of one component are byte-identical — a cell that varies nothing publishes " +
+        "the same picture twice, under two names and against two kit nodes. If the LIBRARY draws " +
+        "one picture for both states however it is called, publish the cell and record it in " +
+        "`knownDuplicate` with the call that collapses it, rather than withdrawing it:\n" +
+        unexplained.sorted().joinToString("\n") { "  $it" },
+      unexplained.isEmpty(),
+    )
+  }
+
+  /**
+   * The other direction, and the reason a known collapse is published rather than withdrawn: when
+   * the library learns to tell the two states apart, this fails, and the fix is to delete the entry
+   * and let the cells stand as ordinary comparisons. Without it the gap would close in silence and
+   * the sheet would keep an exemption it no longer needs.
+   */
+  @Test
+  fun `every known duplicate still collapses`() {
+    val separated = knownDuplicate.keys - clashes().keys
+    assertTrue(
+      "these pairs no longer render alike — the library collapse they record has been FIXED. Drop " +
+        "the entry from `knownDuplicate` and let the cells stand as ordinary comparisons:\n" +
+        separated.sorted().joinToString("\n") { "  $it (was: ${knownDuplicate[it]})" },
+      separated.isEmpty(),
+    )
+  }
+
+  /**
+   * Every byte-identical pair among the renders, keyed `<component>: <cell> == <cell>`.
+   *
+   * Read shortest cell name first, so the pair is the same on every machine AND the cell on the
+   * right is the plainer of the two — `filled_variant_disabled == disabled`, never the other way
+   * round. Which the filesystem happened to list first decides nothing.
+   */
+  private fun clashes(): Map<String, String> {
     val byComponent =
       renders
         .listFiles { f: File -> f.name.endsWith(".png") }
         .orEmpty()
-        .groupBy { it.name.substringBefore("_VARIANT_").substringBeforeLast("-") }
-    val duplicates = byComponent.mapNotNull { (component, files) ->
-      val seen = mutableMapOf<String, String>()
-      val clashes = files.mapNotNull { file ->
-        val digest = file.readBytes().toList().hashCode().toString()
-        val first = seen.put(digest, file.name)
-        if (first == null) null else "${file.name} == $first"
+        .sortedWith(compareBy({ cellOf(it.name).length }, { cellOf(it.name) }))
+        .groupBy { componentOf(it.name) }
+    return buildMap {
+      for ((component, files) in byComponent) {
+        val seen = mutableMapOf<Int, String>()
+        for (file in files) {
+          val digest = file.readBytes().toList().hashCode()
+          // `putIfAbsent`, not `put`: three cells carrying one picture all name the FIRST of them,
+          // so a three-way collapse reads as two pairs against the plain cell rather than a chain.
+          val first = seen.putIfAbsent(digest, cellOf(file.name))
+          if (first != null) put("$component: ${cellOf(file.name)} == $first", file.name)
+        }
       }
-      if (clashes.isEmpty()) null else "$component: ${clashes.joinToString(", ")}"
     }
-    assertTrue(
-      "these renders of one component are byte-identical — a cell that varies nothing publishes " +
-        "the same picture twice:\n" +
-        duplicates.joinToString("\n") { "  $it" },
-      duplicates.isEmpty(),
-    )
   }
+
+  /** The composable a render belongs to: `ScreenEdgeButton_VARIANT_tonal-1a2b3c4d.png`. */
+  private fun componentOf(name: String): String =
+    name.substringBefore("_VARIANT_").substringBeforeLast("-")
+
+  /** The `@OverrideVariant` a render belongs to, or `base` for the component's own render. */
+  private fun cellOf(name: String): String =
+    if ("_VARIANT_" in name) name.substringAfter("_VARIANT_").substringBeforeLast("-") else "base"
 
   @Test
   fun `no sticker publishes an empty frame`() {

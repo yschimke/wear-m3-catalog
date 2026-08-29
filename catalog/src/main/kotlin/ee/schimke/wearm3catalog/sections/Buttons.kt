@@ -312,15 +312,21 @@ fun ChildLabelButton() = Sticker {
 }
 
 /**
- * **Every `Button-Compact` cell Compose can reach and tell apart** — 24 of the set's 40 nodes,
- * against the seven that were drawn: the base plus one cell per axis
+ * **Every `Button-Compact` cell Compose can reach** — 30 of the set's 40 nodes, against the seven
+ * that were drawn: the base plus one cell per axis
  * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
  *
- * Six of the sixteen absences are the disabled `Filled Variant` and `Tonal` cells, which Wear draws
- * with the same `onSurface` colours as the disabled filled one — see `EdgeButtonKitCells`. The
- * other ten are the `Alignment=Icon right` column. `CompactButton` has ONE icon slot and it leads;
- * a trailing icon is not something the component takes, and putting a glyph in the label to fake
- * one would publish a picture of this file rather than of the library.
+ * Six of them are the disabled `Filled Variant` and `Tonal` cells, which Wear draws with the same
+ * `onSurface` colours as the disabled filled one — see `EdgeButtonKitCells`. They render as that
+ * one picture under three names, and they are published anyway, recorded in
+ * `CatalogRenderTest.knownDuplicate`
+ * ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)): withholding a cell the library
+ * collapses leaves the set reading as unreproduced, which looks exactly like nobody having drawn
+ * it.
+ *
+ * The ten that stay out are the `Alignment=Icon right` column. `CompactButton` has ONE icon slot
+ * and it leads; a trailing icon is not something the component takes, and putting a glyph in the
+ * label to fake one would publish a picture of this file rather than of the library.
  *
  * Every cell declares its whole kit vector, because this set's axes are coupled three deep:
  * `Alignment`, `Icon` and `Text` are one choice the kit spells as three properties, so
@@ -377,6 +383,30 @@ fun ChildLabelButton() = Sticker {
   secondary = true,
 )
 @OverrideVariant(
+  name = "filled-variant-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "content=icon"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "content=text"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
   name = "tonal",
   strings = ["style=tonal"],
   kitProps = ["Style=Tonal", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
@@ -391,6 +421,27 @@ fun ChildLabelButton() = Sticker {
   name = "tonal-text-only",
   strings = ["style=tonal", "content=text"],
   kitProps = ["Style=Tonal", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "content=icon"],
+  kitProps = ["Style=Tonal", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "content=text"],
+  kitProps = ["Style=Tonal", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
   secondary = true,
 )
 @OverrideVariant(

@@ -135,45 +135,6 @@ private fun kitGlyph(size: Dp = iconButtonSize()) =
 )
 annotation class IconButtonKitCells
 
-/**
- * [IconButtonKitCells] without its two extra-small cells, for the one style that cannot draw them —
- * see the note on `StandardIconAction`. Six of the kit's eight cells for that style; the two that
- * stay out are a property of the child style rather than a gap in this file.
- */
-@OverrideVariant(
-  name = "small",
-  strings = ["size=small"],
-  kitAxis = "Size",
-  kitValue = "Small",
-)
-@OverrideVariant(
-  name = "large",
-  strings = ["size=large"],
-  kitAxis = "Size",
-  kitValue = "Large",
-)
-@OverrideVariant(
-  name = "disabled",
-  booleans = ["enabled=false"],
-  kitAxis = "Disabled",
-  kitValue = "Yes",
-)
-@OverrideVariant(
-  name = "small-disabled",
-  booleans = ["enabled=false"],
-  strings = ["size=small"],
-  kitProps = ["Size=Small", "Disabled=Yes"],
-  secondary = true,
-)
-@OverrideVariant(
-  name = "large-disabled",
-  booleans = ["enabled=false"],
-  strings = ["size=large"],
-  kitProps = ["Size=Large", "Disabled=Yes"],
-  secondary = true,
-)
-annotation class StandardIconButtonKitCells
-
 @CatalogComponent(
   id = "IconButton/Filled",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
@@ -262,15 +223,15 @@ fun OutlinedIconAction() = Sticker {
   caption = "Lowest emphasis; the kit's child style, with no container at all.",
 )
 @CatalogModes
-@StandardIconButtonKitCells
-// NO `extra-small` cell, and this is the one style that cannot have one. The kit publishes
-// `Size=Extra-Small` for all five, and `IconButtonDefaults.ExtraSmallButtonSize` exists — but the
-// size is a CONTAINER token, and the child style draws no container. Both extra-small and small
-// then clamp to the same minimum touch target around an unchanged glyph, so the cell published the
-// small render a second time: byte-identical, and caught by `CatalogRenderTest.no two renders of a
-// component are identical`. The other four styles carry the cell, because on them the container is
-// the thing that changes — so this style takes the six-cell annotation and the others the
-// eight-cell one.
+@IconButtonKitCells
+// The `extra-small` cells here are the kit's distinction that the library does not draw. The size
+// is a CONTAINER token and the child style draws no container, so extra-small and small clamp to
+// the same minimum touch target around an unchanged glyph: `extra-small` is byte-identical to
+// `small`, and `extra-small-disabled` to `small-disabled`. They used to be withheld for that, which
+// left this style reading as six of the kit's eight cells with the collapse recorded nowhere a
+// reader of the sheet would meet it. Both are published now and named in
+// `CatalogRenderTest.knownDuplicate`, which fails from the other side when Wear learns to tell the
+// two sizes apart ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 @Composable
 fun StandardIconAction() = Sticker {
   val c = counted("standard")
@@ -284,14 +245,17 @@ fun StandardIconAction() = Sticker {
 }
 
 /**
- * **Every cell of the kit's `Text-Button` set Compose can tell apart** — 24 of its 30 nodes. The
- * set is five styles by three sizes by `Disabled`; eight cells were drawn, so every crossing (a
- * small tonal button, a disabled outlined one) was compared against nothing
+ * **Every cell of the kit's `Text-Button` set** — all 30 nodes. The set is five styles by three
+ * sizes by `Disabled`; eight cells were drawn, so every crossing (a small tonal button, a disabled
+ * outlined one) was compared against nothing
  * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
  *
- * The six that stay out are the disabled `Filled-Variant` and `Tonal` cells, for the reason
+ * The six disabled `Filled-Variant` and `Tonal` cells used to stay out, for the reason
  * `EdgeButtonKitCells` states at length: Wear resolves all three filled styles' disabled colours to
- * the same `onSurface` pair, so those cells are the disabled filled render under two more names.
+ * the same `onSurface` pair, so those cells ARE the disabled filled render under two more names.
+ * They are drawn now, and recorded in `CatalogRenderTest.knownDuplicate` — a collapse the library
+ * makes belongs on the sheet where a reader meets it, not behind a gap that reads as work nobody
+ * got to ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
  *
  * No `filled` and no `default` cell — filled at the default size IS the base render, and a cell for
  * it publishes the base picture a second time under another name. No `extra-small` either: the kit
@@ -352,6 +316,27 @@ fun StandardIconAction() = Sticker {
   secondary = true,
 )
 @OverrideVariant(
+  name = "filled-variant-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant"],
+  kitProps = ["Style=Filled-Variant", "Size=Default", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "size=small"],
+  kitProps = ["Style=Filled-Variant", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "size=large"],
+  kitProps = ["Style=Filled-Variant", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
   name = "tonal",
   strings = ["style=tonal"],
   kitAxis = "Style",
@@ -367,6 +352,27 @@ fun StandardIconAction() = Sticker {
   name = "tonal-large",
   strings = ["style=tonal", "size=large"],
   kitProps = ["Style=Tonal", "Size=Large", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Size=Default", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "size=small"],
+  kitProps = ["Style=Tonal", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "size=large"],
+  kitProps = ["Style=Tonal", "Size=Large", "Disabled=Yes"],
   secondary = true,
 )
 @OverrideVariant(

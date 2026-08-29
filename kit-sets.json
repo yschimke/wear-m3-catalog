@@ -52,10 +52,7 @@
       "node": "34732:103080",
       "components": [
         "TextButton"
-      ],
-      "cells": {
-        "catalog": "The six that stay out are the disabled `Filled-Variant` and `Tonal` cells. Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container, 38% content — so those cells are the disabled filled render under two more names, which `CatalogRenderTest.no two renders of a component are identical` rejects. A comparison that cannot fail is not a comparison."
-      }
+      ]
     },
     {
       "page": "Buttons",
@@ -119,7 +116,7 @@
         "Button/Compact"
       ],
       "cells": {
-        "catalog": "Six are the disabled `Filled Variant` and `Tonal` cells, which Wear draws with the same `onSurface` colours as the disabled filled one — see the `Edge-Button` row. The other ten are the `Alignment=Icon right` column: `CompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library.",
+        "catalog": "All ten are the `Alignment=Icon right` column: `CompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library — the same absence the Remote column states for the same ten. The six disabled `Filled Variant` and `Tonal` cells this row used to be short of are drawn now: Wear resolves all three filled styles' disabled colours to the same `onSurface` pair, so each is the disabled FILLED button to the byte, and they are published under `CatalogRenderTest.knownDuplicate` so the collapse is on the sheet instead of behind it (#178).",
         "remote-catalog": "All ten are the `Alignment=Icon right` column. `RemoteCompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library — the same absence the Wear column states for the same ten. The nine `Disabled=Yes` cells this row used to be short of are now drawn, and three of them are the disabled FILLED button to the byte, because `RemoteButtonDefaults.buttonColors` leaves the disabled pair at its defaults; they are published under `knownDuplicate` so the collapse is on the sheet instead of behind it."
       }
     },
@@ -135,8 +132,7 @@
         "IconButton/Tonal"
       ],
       "cells": {
-        "catalog": "The two are `Child (No background)` at `Size=Extra-Small`. The size is a CONTAINER token and the child style draws no container, so extra-small and small clamp to the same minimum touch target around an unchanged glyph — the cell would publish the small render a second time. The other four styles carry it, because on them the container is the thing that changes.",
-        "remote-catalog": "Both are `Child (No background)` at `Size=Extra-Small`. The size is a container token and the child style draws no container, so extra-small and small clamp to the same glyph — the same absence the `catalog` row states, reached by the same road. Every other `Disabled=Yes` cell of this set IS drawn, including the three where the library collapses extra-small onto small; those are published and recorded in `RemoteRenderTest.knownDuplicate` rather than withdrawn."
+        "remote-catalog": "Both are `Child (No background)` at `Size=Extra-Small`. The size is a container token and the child style draws no container, so extra-small and small clamp to the same glyph. The Wear sheet reached the same collapse by the same road and now DRAWS both cells anyway, under `CatalogRenderTest.knownDuplicate` (#178); this column still withholds them, and closing it the same way is the obvious follow-up. Every other `Disabled=Yes` cell of this set IS drawn, including the three where the library collapses extra-small onto small; those are published and recorded in `RemoteRenderTest.knownDuplicate` rather than withdrawn."
       }
     },
     {
@@ -225,10 +221,7 @@
       "node": "36601:6586",
       "components": [
         "EdgeButton"
-      ],
-      "cells": {
-        "catalog": "All sixteen are the disabled `Filled Variant` and `Tonal` cells. Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container, 38% content — so a disabled variant, tonal and filled button are one picture, and publishing them anyway is three names for one render. The `Outline` disabled cells DO differ, so they are drawn. The kit drawing a distinction the library does not is a finding about the pair, recorded rather than papered over."
-      }
+      ]
     },
     {
       "page": "Page Indicators",
