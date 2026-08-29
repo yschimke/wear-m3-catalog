@@ -18,7 +18,7 @@ import kotlin.time.Duration.Companion.seconds
  * slightly different ways is three renders that differ for a reason nobody intended.
  *
  * Everything below is **deterministic and offline**. No clock, no network, no `ImageLoader`: the
- * artwork is [CatalogImage] wrapped as a [Paintable] rather than a `CoilPaintable`, which is the
+ * artwork is [CatalogArtwork] wrapped as a [Paintable] rather than a `CoilPaintable`, which is the
  * type Horologist's own samples use and the one thing in these APIs that would otherwise reach out
  * of the render. A nightly capture has to come out byte-identical to the last one or the delivery
  * branch's history turns into noise (AGENTS.md).
@@ -33,10 +33,11 @@ object HorologistSamples {
    *
    * [Paintable] is Horologist's image abstraction and every artwork parameter in these APIs is one.
    * The production implementation is `CoilPaintable`, which resolves a URI through an
-   * `ImageLoader`; a catalog render must not, so this returns the repo's drawn gradient directly.
+   * `ImageLoader`; a catalog render must not, so this returns the repo's drawn placeholder
+   * directly.
    */
   object Artwork : Paintable {
-    @Composable override fun rememberPainter(): Painter = CatalogImage
+    @Composable override fun rememberPainter(): Painter = CatalogArtwork
   }
 
   /** A track that is playing: what the kit's `Media-Player` cell draws. */

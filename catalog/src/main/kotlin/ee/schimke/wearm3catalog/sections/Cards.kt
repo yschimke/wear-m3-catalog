@@ -32,6 +32,7 @@ import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.wearm3catalog.CatalogArtwork
 import ee.schimke.wearm3catalog.CatalogImage
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.KitCopy
@@ -518,7 +519,7 @@ fun ApplicationCard() = Sticker {
       } else {
         {
           Image(
-            painter = CatalogImage,
+            painter = CatalogArtwork,
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.size(16.dp).clip(RoundedCornerShape(4.dp)),
