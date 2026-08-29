@@ -33,7 +33,8 @@ object HorologistSamples {
    *
    * [Paintable] is Horologist's image abstraction and every artwork parameter in these APIs is one.
    * The production implementation is `CoilPaintable`, which resolves a URI through an
-   * `ImageLoader`; a catalog render must not, so this returns the repo's drawn gradient directly.
+   * `ImageLoader`; a catalog render must not, so this returns the repo's drawn placeholder
+   * directly.
    */
   object Artwork : Paintable {
     @Composable override fun rememberPainter(): Painter = CatalogImage

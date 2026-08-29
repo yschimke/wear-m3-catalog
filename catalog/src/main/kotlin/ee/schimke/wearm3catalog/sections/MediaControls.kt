@@ -573,7 +573,8 @@ private val HeaderHeight = 38.dp
  * The tint under `RadialBackground`.
  *
  * Production seeds this from the artwork's own dominant colour, which Horologist extracts with
- * Coil. The catalog's artwork is a drawn gradient with no loader behind it, so the seed is stated
- * rather than extracted — and stating it is also what keeps the wash identical on every render.
+ * Coil. The catalog's artwork is a drawn placeholder with no loader behind it, so the seed is
+ * stated rather than extracted — and stating it is also what keeps the wash identical on every
+ * render.
  */
 private val MediaBackgroundTint = Color(0xFF2B4C7E)
