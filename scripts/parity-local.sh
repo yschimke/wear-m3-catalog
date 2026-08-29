@@ -62,18 +62,49 @@ fi
 echo "==> reference cache: $(git log -1 --format=%cd --date=short FETCH_HEAD 2>/dev/null || echo "unknown date") (refresh with --refresh-cache)"
 
 BUNDLE="$MODULE/build/compose-previews/bundle.png"
+RENDERS="$MODULE/build/compose-previews/renders"
+# Written only by a successful build in THIS script, and what the staleness
+# guard measures against. See the two comments that use it.
+STAMP="$MODULE/build/compose-previews/.parity-local-rendered"
 
 if [ "$BUILD" = 1 ]; then
   echo "==> rendering :$MODULE"
-  ./gradlew ":$MODULE:composePreviewDiscover" ":$MODULE:composePreviewBundle"
+  # THE BUNDLE TASK DOES NOT RENDER, AND DOES NOT DEPEND ON ANYTHING THAT DOES.
+  # `./gradlew :catalog:composePreviewBundle --dry-run` lists exactly two tasks,
+  # `composePreviewDiscover` and itself: the pixels come from the separate
+  # `composePreviewRender*` family, and nothing in the graph connects them. So a
+  # bundle built without an explicit render packs whatever happens to be left in
+  # `renders/` from some earlier run — which is not a hypothetical. This script
+  # asked for discover+bundle only, and spent a session serving 05:12 pixels for
+  # a 09:23 edit, reading exactly like "my change did nothing".
+  #
+  # Two invocations, not one. Asked for together, Gradle's validation rejects the
+  # build outright — "Declare an explicit dependency on
+  # ':catalog:composePreviewRenderLottie' from ':catalog:composePreviewBundle'" —
+  # because bundle consumes that task's output without declaring it. Split, each
+  # build's graph is internally consistent and the ordering here supplies what
+  # the plugin does not. The missing edge belongs upstream in compose-ai-tools;
+  # until it lands, this is the fix that does not need a plugin release.
+  ./gradlew ":$MODULE:composePreviewDiscover" ":$MODULE:composePreviewRenderAll"
+  ./gradlew ":$MODULE:composePreviewBundle"
+
+  # A bundle whose renders are missing is not a broken build — design-parity
+  # accepts it and fails SOFT, "none of the N listed preview(s) carry an image;
+  # the pack rendered nothing", after which the run prints no verdict at all.
+  # Catch it here, where the cause is one line away.
+  if [ ! -d "$RENDERS" ] || [ -z "$(ls -A "$RENDERS" 2>/dev/null)" ]; then
+    echo "the render pass produced no pixels in $RENDERS." >&2
+    echo "  A bundle packed from an empty renders/ compares nothing and still exits 0." >&2
+    exit 1
+  fi
   # Stamp it, because Gradle is content-addressed and this check is not. A task
   # that decides it is UP-TO-DATE writes nothing, so a source file whose mtime
   # moved without its content changing — a touch, an edit reverted, a branch
-  # switched back — would leave the bundle looking older than a source it in
-  # fact describes, and the guard below would then refuse every `--no-build` run
-  # with no way to satisfy it. After a successful build the bundle DOES match
-  # the sources, whether or not Gradle had to do anything, so say so.
-  touch "$BUNDLE"
+  # switched back — would leave every render looking older than a source they in
+  # fact describe, and the guard below would then refuse every `--no-build` run
+  # with no way to satisfy it. After a successful build the renders DO match the
+  # sources, whether or not Gradle had to do anything, so say so.
+  touch "$STAMP"
 fi
 
 [ -f "$BUNDLE" ] || { echo "no bundle at $BUNDLE — drop --no-build" >&2; exit 1; }
@@ -92,9 +123,22 @@ fi
 # would be its own surprise. Fatal, not a warning — a warning above a verdict
 # is a warning nobody reads.
 if [ "$BUILD" = 0 ]; then
-  stale=$(find "$MODULE/src" -name '*.kt' -newer "$BUNDLE" -print -quit 2>/dev/null || true)
+  # Measured against the PIXELS, not the pack. The bundle can arrive whole from
+  # Gradle's build cache, so its mtime says when it was packed rather than when
+  # what is inside it was drawn — which is how a bundle rebuilt at 09:25 came to
+  # carry renders from 05:12 and pass this check.
+  #
+  # The newest of the stamp and the newest render, so a render pass run by hand
+  # outside this script still satisfies the guard.
+  newest=$(ls -t "$STAMP" "$RENDERS"/*.png 2>/dev/null | head -1 || true)
+  stale=""
+  if [ -z "$newest" ]; then
+    stale="(nothing rendered yet)"
+  else
+    stale=$(find "$MODULE/src" -name '*.kt' -newer "$newest" -print -quit 2>/dev/null || true)
+  fi
   if [ -n "$stale" ]; then
-    echo "stale bundle: $stale is newer than $BUNDLE." >&2
+    echo "stale renders: $stale is newer than anything in $RENDERS." >&2
     echo "  The comparison would describe the code as it was BEFORE that edit," >&2
     echo "  and read as 'my change did nothing'. Drop --no-build." >&2
     exit 1
