@@ -1375,9 +1375,11 @@ fun ButtonGroupRemote() = RemoteSticker {
   id = "Card",
   group = "Containment",
   parallel = "Card",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "Remote Material 3 card.",
+  noReference =
+    "The kit's `Card` set publishes no title-less cell — all 45 cells are App Card or Title " +
+      "Card layouts. This is Remote Material 3's plain one-slot card; the mapped title-card " +
+      "cells are published by `TitleCard` and `AppCard`.",
+  caption = "Remote Material 3's plain one-slot card.",
 )
 @CatalogRemoteLarge
 @Composable
@@ -1394,9 +1396,10 @@ fun CardRemote() = RemoteSticker {
   id = "Card/Outlined",
   group = "Containment",
   parallel = "Card/Outlined",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/39827:105691",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "Outlined card variant (RemoteOutlinedCard).",
+  noReference =
+    "The kit's `Card` set publishes no title-less outlined cell. Its Outline cells are App Card " +
+      "or Title Card layouts; this is Remote Material 3's plain `RemoteOutlinedCard`.",
+  caption = "Remote Material 3's plain outlined one-slot card.",
 )
 @CatalogRemoteLarge
 @Composable
