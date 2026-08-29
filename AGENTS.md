@@ -321,6 +321,15 @@ are out of scope.
   reach for it when the question really is "did the handler run?", never as a sticker's standing
   answer to a press ([#32](https://github.com/yschimke/wear-m3-catalog/issues/32)). See
   `CatalogInteractive.kt`.
+- **A wrap sticker is cropped tight — no decorative padding in the capture.** `Sticker` adds none,
+  and nothing should put any back. A transparent margin inside a capture is not a tolerable border:
+  design-parity rasterises the reference to the *candidate's* width, so 16dp on a 136dp frame is a
+  12% zoom error plus a top-left offset, and components matching the kit pixel-for-pixel reported
+  ~30% differing until the 8dp this frame used to add came off
+  ([#138](https://github.com/yschimke/wear-m3-catalog/issues/138)). A component that genuinely draws
+  outside its bounds — a shadow, a focus ring — asks with `@CaptureGutter`, which extends the
+  capture without changing what the composable measures and declares the margin in `previews.json`.
+  That is for a real gutter only; stating one where nothing draws is a lie a consumer acts on.
 - **Dark-first, transparent.** A component sticker is a single dark capture on a transparent
   background (`@CatalogModes`). A component the kit draws on a display cell — scaffolds, lists,
   dialogs, pickers, swipe-to-reveal — takes `FullScreenSticker` and `@CatalogFullScreenModes`
