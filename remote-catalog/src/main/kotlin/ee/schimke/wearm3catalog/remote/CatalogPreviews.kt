@@ -826,20 +826,29 @@ fun TextRemoteButton() = RemoteSticker {
  * the kit's child style — no container at all — and its cells vary only the size, so they take the
  * stock colours the base sticker takes.
  *
- * **NO `extra-small` cell, and the render is why.** `Button/Icon-ExtraSmall` named the kit's
- * `Style=Child (No background), Size=Extra-Small` cell (`34732:103021`) and its capture is
- * BYTE-IDENTICAL to the small one: `iconSizeFor` resolves `ExtraSmallButtonSize` and
- * `SmallButtonSize` to the same glyph, and with no container there is nothing else in the picture
- * to tell them apart. So that row was publishing one render twice and scoring it against two
- * different kit nodes — a mapping that cannot fail, which AGENTS.md rates worse than no mapping.
- * Withdrawn here rather than carried across the fold.
+ * **The two `extra-small` cells are a COLLAPSE, and they are drawn.** `iconSizeFor` resolves
+ * `ExtraSmallButtonSize` and `SmallButtonSize` to the same glyph, and with no container there is
+ * nothing else in the picture to tell them apart — so `extra-small` is byte-identical to `small`,
+ * and `extra-small-disabled` to `small-disabled`. They were withdrawn for that, on the reasoning
+ * that a mapping which cannot fail is worse than no mapping.
  *
- * The Wear sibling's `IconButton/Standard` reaches the same place by the same road and says so at
- * length: the size is a container token, the child style draws no container, and
- * `CatalogRenderTest` caught the duplicate there. It is the one gap of the five styles, on both
- * sheets, and the kit's five `Size=Extra-Small` cells are covered by the four styles that do draw a
- * container.
+ * That reasoning was half right. A cell publishing one render under two names IS the thing to avoid
+ * when this file is what collapses them; when the LIBRARY collapses them however it is called,
+ * withdrawing hides the collapse and leaves the kit's node reading as undrawn — which is
+ * indistinguishable from nobody having got to it. `RemoteRenderTest.knownDuplicate` is where such a
+ * pair is recorded instead, and it fails from the other side if `RemoteIconButton` ever sizes the
+ * child style's glyph from the container token
+ * ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
+ *
+ * The Wear sibling's `IconButton/Standard` reached the same place by the same road and now draws
+ * them the same way, so the kit's `Size=Extra-Small` column is complete on both sheets.
  */
+@OverrideVariant(
+  name = "extra-small",
+  strings = ["size=extra-small"],
+  kitAxis = "Size",
+  kitValue = "Extra-Small",
+)
 @OverrideVariant(
   name = "small",
   strings = ["size=small"],
@@ -857,6 +866,13 @@ fun TextRemoteButton() = RemoteSticker {
   booleans = ["enabled=false"],
   kitAxis = "Disabled",
   kitValue = "Yes",
+)
+@OverrideVariant(
+  name = "extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=extra-small"],
+  kitProps = ["Style=Child (No background)", "Size=Extra-Small", "Disabled=Yes"],
+  secondary = true,
 )
 @OverrideVariant(
   name = "small-disabled",
@@ -1005,7 +1021,13 @@ fun IconRemoteButton() = RemoteSticker {
   // default. Pinning the token the kit's `Size=Default` cell means gives 32dp, and the three sizes
   // are three pictures again.
   val size =
-    when (previewOverrideChoice("size", "default", listOf("default", "small", "large"))) {
+    when (
+      previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
+    ) {
+      // The kit's fourth size. It resolves to the same glyph `SmallButtonSize` does on a style
+      // that draws no container — see the note on `RemoteIconButtonKitCells` — but the value the
+      // kit's cell names is this one, so this is the call it takes.
+      "extra-small" -> RemoteIconButtonDefaults.ExtraSmallButtonSize
       "small" -> RemoteIconButtonDefaults.SmallButtonSize
       "large" -> RemoteIconButtonDefaults.LargeButtonSize
       else -> RemoteIconButtonDefaults.DefaultButtonSize
@@ -1826,6 +1848,29 @@ fun WatchScreenRemote() = RemoteSticker {
   floats = ["progress=0.0"],
   kitAxis = "Progress",
   kitValue = "Zero",
+)
+// The crossing of the two, and the last cell of this set that has a call site. It was withheld as
+// an EMPTY FRAME — a disabled ring draws entirely in its disabled track colour, and at zero
+// progress that used to leave nothing lit — which is the same reason the Wear sibling gave, and
+// which turned out to have expired there
+// ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
+// A gap held open by a library limitation is worth re-rendering rather than re-reading, so this
+// one is drawn and the renderer decides: `StickerBakeCoverageTest` fails it if it really is blank
+// and nothing exempts it.
+@OverrideVariant(
+  name = "zero-disabled",
+  booleans = ["enabled=false"],
+  floats = ["progress=0.0"],
+  kitProps =
+    [
+      "Type=Full",
+      "Segments=1",
+      "Stroke Width=Medium",
+      "Progress=Zero",
+      "Dot value=No",
+      "Disabled=Yes",
+    ],
+  secondary = true,
 )
 @CatalogComponent(
   id = "Progress/Circular",
