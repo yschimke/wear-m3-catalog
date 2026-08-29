@@ -60,6 +60,20 @@ jobs:
       - name: kit-cells.json is up to date
         run: scripts/kit-cells.sh --check
 
+      # The page join is the third committed output projected from the map, and it was the one with
+      # no gate — which is exactly how it went stale. `design/pages/pages.json` records, per kit
+      # node, the preview that implements it, and the server draws every node it does not know
+      # about with a dashed red outline meaning "no code behind this". Recomputing it needs no
+      # Figma token (it is a pure function of the cache and the map), but nothing re-ran it when
+      # the map moved, so the Cards page reported 7 of 50 nodes implemented while the catalog was
+      # drawing 36 of them. A reader cannot tell that from a real gap, which is the whole
+      # value of the red.
+      #
+      # `--check` recomputes in memory and diffs; it never writes the working tree. A failure names
+      # the one-line fix, and no token is needed to apply it.
+      - name: The imported page join is up to date
+        run: node scripts/import-figma-pages.mjs --check
+
       - uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
