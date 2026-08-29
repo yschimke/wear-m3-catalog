@@ -416,14 +416,17 @@ fun ValueSlider() = Sticker {
 // moment a cell claimed `Button Fill=No` for itself. `45007:258717` is the same arrangement with
 // the fill on, which is what the base render actually is.
 /**
- * **Every `Stepper` cell Compose can tell apart** — `Button Fill` by `Icon` by `Disabled`, six of
- * the set's eight nodes, against the four that were drawn
+ * **Every `Stepper` cell** — `Button Fill` by `Icon` by `Disabled`, all eight of the set's nodes,
+ * against the four that were drawn
  * ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
  *
- * The two absences are the disabled `Button Fill=No` cells. A disabled stepper draws no button
- * container to begin with, so turning the fill off changes nothing and the cell is the plain
- * disabled render under a second name — which `CatalogRenderTest` catches, and which the kit
- * drawing two cells there does not make true of the library.
+ * The two disabled `Button Fill=No` cells are a collapse rather than a difference: a disabled
+ * stepper draws no button container to begin with, so turning the fill off changes nothing and the
+ * render repeats the plain disabled one. They are drawn anyway and recorded in
+ * `CatalogRenderTest.knownDuplicate` — the kit draws two cells there and the library draws one
+ * picture for both, which is a finding about the pair and belongs on the sheet rather than behind a
+ * gap that reads as unfinished work
+ * ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
  *
  * `Button Fill=No` is a colour rather than a flag in Compose — the buttons keep their icons and
  * lose their container, which is `StepperDefaults.colors(buttonContainerColor = Color.Transparent)`
@@ -460,6 +463,19 @@ fun ValueSlider() = Sticker {
   booleans = ["buttonFill=false"],
   strings = ["content=icon"],
   kitProps = ["Button Fill=No", "Icon=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "no-button-fill-disabled",
+  booleans = ["buttonFill=false", "enabled=false"],
+  kitProps = ["Button Fill=No", "Icon=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-no-button-fill-disabled",
+  booleans = ["buttonFill=false", "enabled=false"],
+  strings = ["content=icon"],
+  kitProps = ["Button Fill=No", "Icon=Yes", "Disabled=Yes"],
   secondary = true,
 )
 annotation class StepperKitCells

@@ -62,7 +62,7 @@
         "TextToggleButton"
       ],
       "cells": {
-        "catalog": "Three of the six are the selected `Tonal` cells: Wear Compose ships ONE `colors()` per toggle button — emphasis is not an argument here the way it is on `Button` — so there is no call site that draws them. The other three are `Fixed Width=False`; the sticker sizes the button with `touchTargetAwareSize`, and a label-hugging width is not something the component takes."
+        "catalog": "The three that stay out are the selected `Tonal` cells: Wear Compose ships ONE named `colors()` per toggle button — emphasis is not an argument here the way it is on `Button` — so there is no call site that draws them, and a palette written out through the raw `colors(...)` overload would be a picture of this catalog rather than of the library. The three `Fixed Width=False` cells this row used to be short of are drawn now: `RoundButton` applies no size of its own, so the 52/60/72dp came from the sticker's own `touchTargetAwareSize`, and the `fixedWidth` knob keeps the height the size names while handing the width back to the label (#178)."
       }
     },
     {
@@ -199,10 +199,7 @@
       "node": "46964:90920",
       "components": [
         "OpenOnPhoneDialog"
-      ],
-      "cells": {
-        "catalog": "`Text=No` is `curvedText = null`, which the sticker's `text` knob turns — but this component's still is taken before its reveal has run, so the curved text is missing from the baked frame either way and the two renders come out byte-identical. The knob stays, because a live session settles and a reader can see the difference there. Waiting on a preview that can ask to be captured settled ([compose-ai-tools#4202](https://github.com/yschimke/compose-ai-tools/issues/4202))."
-      }
+      ]
     },
     {
       "page": "Dialogs",
@@ -257,7 +254,7 @@
         "LevelIndicator"
       ],
       "cells": {
-        "catalog": "All four are `Size = Long | Short`, which in Compose is the arc's `sweepAngle` — 72 degrees, a fifth of the circumference, by default. The kit does not publish the angles those two cells draw, and guessing one would put an invented number under the kit's name."
+        "catalog": "All four are `Size = Long | Short`, which in Compose is the arc's `sweepAngle` — 72 degrees, a fifth of the circumference, by default. The API takes it; the kit does not publish the two angles its cells draw. They are bound to no variable and the cells export as flattened SVGs, so the numbers live in that path data and guessing one would put an invented angle under the kit's name — the same blocker as the progress rings' `Top Gap`/`Bottom Gap`."
       }
     },
     {
@@ -279,7 +276,7 @@
         "CircularProgressIndicator"
       ],
       "cells": {
-        "catalog": "Two whole axes and one pair. `Segments=6..14` is the SEGMENTED ring, which is `SegmentedCircularProgressIndicator` and has its own `Progress-Indicator-Small` set. `Type=Top Gap | Bottom Gap` draws angles the kit does not publish. And the `Progress=Zero, Disabled=Yes` cells stay out on their own account: Wear draws a disabled ring entirely in its disabled track colour, which at zero progress on a transparent sticker is an empty frame — 0.00000 of it lit, which `CatalogRenderTest.no sticker publishes an empty frame` rejects.",
+        "catalog": "Two whole axes, and neither is a gap in the annotations. `Segments=6..14` is the SEGMENTED ring — `SegmentedCircularProgressIndicator`, a different function, whose own cells are counted against `Progress-Indicator-Small`. `Type=Top Gap | Bottom Gap` is the pair of angles the kit does not publish: `CircularProgressIndicator` takes `startAngle`/`endAngle`, so the API is there, but the kit binds no variable for the gap, carries no component property for it, and draws each cell as a flattened SVG — the numbers exist only inside that exported path data. Reading them off it is what the cells wait on, not a library limitation. The two `Progress=Zero, Disabled=Yes` cells are drawn now. They were withheld as empty frames — a disabled ring is drawn entirely in its disabled track colour, and at zero progress that used to leave nothing lit — and that is no longer true of the library: this Wear version draws the track, so both cells publish a visible ring and stand as ordinary comparisons (#178).",
         "remote-catalog": "Fifty-four are `Segments=6..14`, the SEGMENTED ring: `remote-material3` publishes `RemoteCircularProgressIndicator` and `RemoteCurvedProgressIndicator` and no segmented function at all, so unlike the Wear column — where those cells belong to `SegmentedCircularProgressIndicator` and its own set — there is nothing here to call. Twenty-four are `Type=Top Gap | Bottom Gap`, angles the kit does not publish and which an invented number would misreport. Six are `Stroke Width=Small`: `RemoteProgressIndicatorDefaults` publishes no small or large stroke token, and the Wear pair it would borrow resolves by screen breakpoint. The last is `Progress=Zero, Disabled=Yes` — a disabled ring in its disabled track colour, which at zero progress on a transparent sticker is an empty frame that `StickerBakeCoverageTest` would have to exempt for no finding."
       }
     },
@@ -291,7 +288,7 @@
         "SegmentedCircularProgressIndicator"
       ],
       "cells": {
-        "catalog": "All eighty-four are `Type=Top Gap | Bottom Gap`, the angles the kit does not publish — the same absence the `Progress-Indicator` row states."
+        "catalog": "All eighty-four are `Type=Top Gap | Bottom Gap` — the same absence the `Progress-Indicator` row states, and the same shape of blocker: `SegmentedCircularProgressIndicator` takes `startAngle`/`endAngle`, and the kit publishes the angles nowhere but inside the flattened SVG each gap cell exports."
       }
     },
     {
@@ -322,10 +319,7 @@
       "node": "44993:61162",
       "components": [
         "Stepper"
-      ],
-      "cells": {
-        "catalog": "The two are the disabled `Button Fill=No` cells. A disabled stepper draws no button container to begin with, so turning the fill off changes nothing and the cell is the plain disabled render under a second name — which `CatalogRenderTest` catches, and which the kit drawing two cells there does not make true of the library."
-      }
+      ]
     },
     {
       "page": "Swipe to Reveal",
@@ -335,7 +329,7 @@
         "SwipeToReveal/Card"
       ],
       "cells": {
-        "catalog": "The two are `Full swipe (icon only)` and `Full swipe (icon + text)` — two frames of the expansion that `RevealValue.RightRevealed` ends at. A cell seeded with that value renders an EMPTY FRAME: at rest in the revealed position the content has travelled off screen and the expanded action has not been laid out. `Motion.kt` has the recording, which is where a gesture's own frames belong."
+        "catalog": "The two are `Full swipe (icon only)` and `Full swipe (icon + text)`, and there is no call site that tells them apart: they are two frames of ONE expansion, which `SwipeToReveal` runs off the gesture's own distance — `RevealValue.RightRevealed` is the single resting value that reaches it, and neither the composable nor `PrimaryActionButton` takes an argument that selects the icon-only frame over the icon-and-text one. Two cells seeded alike would be one picture published under two names, which is what `knownDuplicate` exists to forbid rather than excuse. Seeded with that value the still is empty anyway: at rest in the revealed position the card has travelled off screen and the expanded action has not been laid out. `Motion.kt` has the recording, which is where a gesture's own frames belong."
       }
     },
     {
@@ -346,7 +340,7 @@
         "SwipeToReveal/Button"
       ],
       "cells": {
-        "catalog": "The two are `Full swipe (icon only)` and `Full swipe (icon + text)` — two frames of the expansion that `RevealValue.RightRevealed` ends at, and a still seeded with that value has nothing in it: the content has travelled off screen and the expanded action has not been laid out. `Motion.kt` has the recording."
+        "catalog": "The two are `Full swipe (icon only)` and `Full swipe (icon + text)`, and there is no call site that tells them apart: they are two frames of ONE expansion, which `SwipeToReveal` runs off the gesture's own distance — `RevealValue.RightRevealed` is the single resting value that reaches it, and neither the composable nor `PrimaryActionButton` takes an argument that selects the icon-only frame over the icon-and-text one. Two cells seeded alike would be one picture published under two names, which is what `knownDuplicate` exists to forbid rather than excuse. Seeded with that value the still is empty anyway: at rest in the revealed position the button has travelled off screen and the expanded action has not been laid out. `Motion.kt` has the recording, which is where a gesture's own frames belong."
       }
     },
     {
@@ -357,7 +351,7 @@
         "ListHeader"
       ],
       "cells": {
-        "catalog": "The two are `Type=Page-Mid`. `ListHeaderDefaults` publishes a single `contentPadding` and `ListHeader` takes no argument that distinguishes the first header on a screen from one further down a list; the two kit cells differ in the space ABOVE them, which is a property of where the header sits rather than of the component."
+        "catalog": "The two are `Type=Page-Mid`. `ListHeader` takes a `contentPadding`, but `ListHeaderDefaults` publishes one value for it (the second, `subHeaderContentPadding`, belongs to `ListSubHeader` and its own kit set) and nothing distinguishes the first header on a screen from one further down a list. The two kit cells differ in the space ABOVE them, which is a property of where the header sits rather than of the component — and a wrap sticker is cropped tight, so that space is not in the picture either way."
       }
     },
     {

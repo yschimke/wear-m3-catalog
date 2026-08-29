@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -49,10 +50,17 @@ import ee.schimke.wearm3catalog.toggleable
 // selected cells in `Filled` and `Secondary`, `Text-ToggleButton` in `Filled` and `Tonal`, but
 // Wear Compose ships ONE `colors()` per component — emphasis is not an argument here the way it is
 // on `Button` — so the eight `Secondary` cells and the three selected `Tonal` ones have no call
-// site to render them. `Text-ToggleButton`'s `Fixed Width=False` cells are out for a second
-// reason: the sticker sizes the button with `touchTargetAwareSize`, and a label-hugging width is
-// not something the component takes as a parameter. The remaining 16 of 24 and 9 of 15 cells are
-// drawn ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+// site to render them. The raw `colors(checkedContainerColor = …, …)` overload could be handed a
+// palette written out here, but a palette this file invented is a picture of this catalog rather
+// than of the library, which is the same test `Button-Compact`'s trailing icon fails. The
+// remaining 16 of 24 and 12 of 15 cells are drawn
+// ([#101](https://github.com/yschimke/wear-m3-catalog/issues/101)).
+//
+// `Text-ToggleButton`'s `Fixed Width=False` cells used to be out alongside them, on the grounds
+// that a label-hugging width is not something the component takes. It is: `RoundButton` applies no
+// size of its own, so the 52/60/72dp comes from this file's own `touchTargetAwareSize` and dropping
+// it hands the button back to its content. The `fixedWidth` knob below is that, and the three cells
+// are drawn ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 
 @Composable
 private fun iconToggleSize(): Dp =
@@ -227,10 +235,15 @@ private fun textToggleSize(): Dp =
   }
 
 /**
- * **Every `Text-ToggleButton` cell Compose can draw** — the selected `Filled` size run, and the
- * unselected `Tonal` run enabled and disabled at all three sizes: 9 of the set's 15 nodes. The
- * other six are the three selected `Tonal` cells and the three `Fixed Width=False` ones, neither of
- * which this component takes as an argument (see the note at the top of the file).
+ * **Every `Text-ToggleButton` cell Compose can draw** — the selected `Filled` size run at both
+ * `Fixed Width` values, and the unselected `Tonal` run enabled and disabled at all three sizes: 12
+ * of the set's 15 nodes. The other three are the selected `Tonal` cells, which this component takes
+ * no emphasis argument for (see the note at the top of the file).
+ *
+ * The `Fixed Width=False` cells hand the button back to its content. The kit's own cells for them
+ * are 52/60/72 wide — the same as their `True` twins, because the label it draws them with is
+ * exactly that wide — so whether the two pictures differ here is a fact about the label, not about
+ * the axis, and either answer is a comparison against the node the kit drew.
  *
  * `off` and `disabled` used to name `Selected=Off` and `Disabled=Yes` alone and resolved to
  * nothing: the kit couples them to `Style=Tonal` and `Radius=Circular`, and it publishes no
@@ -281,6 +294,42 @@ private fun textToggleSize(): Dp =
   kitProps = ["Selected=Off", "Style=Tonal", "Radius=Circular", "Disabled=Yes", "Size=Extra-Large"],
   secondary = true,
 )
+@OverrideVariant(
+  name = "hug",
+  booleans = ["fixedWidth=false"],
+  kitAxis = "Fixed Width",
+  kitValue = "False",
+)
+@OverrideVariant(
+  name = "hug-large",
+  booleans = ["fixedWidth=false"],
+  strings = ["size=large"],
+  kitProps =
+    [
+      "Selected=On",
+      "Style=Filled",
+      "Radius=Standard",
+      "Size=Large",
+      "Disabled=No",
+      "Fixed Width=False",
+    ],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "hug-extra-large",
+  booleans = ["fixedWidth=false"],
+  strings = ["size=extra-large"],
+  kitProps =
+    [
+      "Selected=On",
+      "Style=Filled",
+      "Radius=Standard",
+      "Size=Extra-Large",
+      "Disabled=No",
+      "Fixed Width=False",
+    ],
+  secondary = true,
+)
 annotation class TextToggleKitCells
 
 @CatalogComponent(
@@ -294,11 +343,17 @@ annotation class TextToggleKitCells
 @Composable
 fun TextToggle() = Sticker {
   val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
+  // The kit's `Fixed Width` axis. Wear's `RoundButton` applies no size of its own, so pinning the
+  // button IS this modifier: `touchTargetAwareSize` sets both dimensions, and `Fixed Width=False`
+  // keeps the height the size names and hands the width back to the label — which is what the kit
+  // draws, its three `False` cells being the same 52/60/72 boxes as their `True` twins.
+  val size = textToggleSize()
+  val fixedWidth = previewOverrideBoolean("fixedWidth", true)
   TextToggleButton(
     checked = checked,
     onCheckedChange = onCheckedChange,
     enabled = previewOverrideBoolean("enabled", true),
-    modifier = Modifier.touchTargetAwareSize(textToggleSize()),
+    modifier = if (fixedWidth) Modifier.touchTargetAwareSize(size) else Modifier.height(size),
   ) {
     Text(kitCopy("label", KitCopy.GLYPHS))
   }

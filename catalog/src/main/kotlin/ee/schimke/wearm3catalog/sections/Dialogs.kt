@@ -285,14 +285,20 @@ private val AlertIconSize = 32.dp
   caption = "Hands the task to the paired phone, with the progress the wait needs.",
 )
 @CatalogFullScreenModes
-// NO `Text=No` CELL, and the reason is the unsettled capture described above rather than a missing
-// knob. `curvedText = null` is exactly the kit's other cell, and the `text` knob below turns it —
-// but this component's still is taken before its reveal has run, so the curved text is not in the
-// baked frame either way and the two renders come out byte-identical (`CatalogRenderTest.no two
-// renders of a component are identical` says so). The knob stays, because a live session settles
-// and a reader can see the difference there; the cell would publish one picture under two names.
-// The set stays at one of its two cells until a preview can ask to be captured settled
-// (compose-ai-tools#4202, above).
+// The `Text=No` cell is `curvedText = null`, which the `text` knob below turns — and under this
+// renderer it is a COLLAPSE rather than a difference: the still is taken before the reveal has run,
+// so the curved text is missing from the baked frame either way and the two captures come out
+// byte-identical at all five screen sizes. That is the tooling's gap (compose-ai-tools#4202,
+// above), not the library's, and it is recorded as one in `CatalogRenderTest.knownDuplicate` —
+// which fails from the other side the day a preview can ask to be captured settled, because the
+// cells will then differ ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)). The set
+// used to stop at one of its two cells for this, which read as a cell nobody had drawn.
+@OverrideVariant(
+  name = "no-text",
+  booleans = ["text=false"],
+  kitAxis = "Text",
+  kitValue = "No",
+)
 @Composable
 fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   val style = OpenOnPhoneDialogDefaults.curvedTextStyle
