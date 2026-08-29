@@ -16,7 +16,6 @@ import androidx.compose.remote.creation.compose.modifier.background
 import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.height
-import androidx.compose.remote.creation.compose.modifier.padding
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
@@ -885,9 +884,6 @@ fun OutlinedCardRemote() = RemoteSticker {
 // the box, not of each child, so start-aligned row and end-aligned badge are two boxes.
 private const val GallerySlotWidth = 148
 private const val GalleryGap = 4
-private const val BadgeWidth = 24
-private const val BadgeCorner = 26
-private const val BadgeInset = 4
 
 /** One frame of the kit's imagery, at the size and corner the cell gives it. */
 @Composable
@@ -915,22 +911,12 @@ private fun imageFrame(width: Int, height: Int, corner: Int) {
  */
 @Composable
 private fun galleryRow(height: Int, lead: Int, trail: Int, corner: Int) {
-  RemoteBox(modifier = RemoteModifier.width(GallerySlotWidth.rdp).height(height.rdp)) {
-    RemoteBox(
-      modifier = RemoteModifier.fillMaxSize(),
-      contentAlignment = RemoteAlignment.CenterStart,
-    ) {
-      RemoteRow(horizontalArrangement = RemoteArrangement.spacedBy(GalleryGap.rdp)) {
-        imageFrame(lead, height, corner)
-        imageFrame(trail, height, corner)
-      }
-    }
-    RemoteBox(
-      modifier = RemoteModifier.fillMaxSize().padding(end = BadgeInset.rdp),
-      contentAlignment = RemoteAlignment.CenterEnd,
-    ) {
-      imageFrame(BadgeWidth, height, BadgeCorner)
-    }
+  RemoteRow(
+    modifier = RemoteModifier.width(GallerySlotWidth.rdp).height(height.rdp),
+    horizontalArrangement = RemoteArrangement.spacedBy(GalleryGap.rdp),
+  ) {
+    imageFrame(lead, height, corner)
+    imageFrame(trail, height, corner)
   }
 }
 
