@@ -54,7 +54,8 @@
         "TextButton"
       ],
       "cells": {
-        "catalog": "The six that stay out are the disabled `Filled-Variant` and `Tonal` cells. Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container, 38% content — so those cells are the disabled filled render under two more names, which `CatalogRenderTest.no two renders of a component are identical` rejects. A comparison that cannot fail is not a comparison."
+        "catalog": "The six that stay out are the disabled `Filled-Variant` and `Tonal` cells. Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container, 38% content — so those cells are the disabled filled render under two more names, which `CatalogRenderTest.no two renders of a component are identical` rejects. A comparison that cannot fail is not a comparison.",
+        "remote-catalog": "Eleven of the twelve are `Disabled=Yes`. `RemoteTextButton(enabled = false)` draws NOTHING on the alpha surface — no container, no label, a fully transparent capture — so those cells cannot be published at all; the outlined ones keep only the border this sticker draws itself, which is why three of them exist. Tracked as [#130](https://github.com/yschimke/wear-m3-catalog/issues/130). The twelfth is `Child (No background), Size=Small`: the size is a container token and the child style draws no container, so it is byte-identical to the default child cell."
       }
     },
     {
@@ -119,7 +120,8 @@
         "Button/Compact"
       ],
       "cells": {
-        "catalog": "Six are the disabled `Filled Variant` and `Tonal` cells, which Wear draws with the same `onSurface` colours as the disabled filled one — see the `Edge-Button` row. The other ten are the `Alignment=Icon right` column: `CompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library."
+        "catalog": "Six are the disabled `Filled Variant` and `Tonal` cells, which Wear draws with the same `onSurface` colours as the disabled filled one — see the `Edge-Button` row. The other ten are the `Alignment=Icon right` column: `CompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library.",
+        "remote-catalog": "Ten are the `Alignment=Icon right` column. `RemoteCompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library — the same absence the Wear column states for the same ten. The other nine are the `Disabled=Yes` cells of `Filled Variant`, `Tonal` and `Child (No background)`: `RemoteButtonDefaults.buttonColors` takes the disabled pair as its own arguments, so a style written out by passing `containerColor` and `contentColor` leaves them at their defaults and a disabled one of any of those three is the disabled FILLED button, to the byte. `Outline` keeps its three, because the border it draws itself survives being disabled."
       }
     },
     {
@@ -189,7 +191,8 @@
         "TitleCard"
       ],
       "cells": {
-        "catalog": "Nine of the eleven are `Title Card 3`, the layout that puts the timestamp UNDER the subtitle; `TitleCard` draws its `time` slot on the title's row and there is no argument that moves it, so that arrangement is published under its own name as `TitleCard/Subtitle` rather than mapped onto a node it is not a picture of. The other two are the `Background Image` cells of `App Card` and `Title Card + Icon`: Wear Compose gives `TitleCard` a second overload taking a `Painter`, and gives `AppCard` none, so there is no image-backed app card to draw."
+        "catalog": "Nine of the eleven are `Title Card 3`, the layout that puts the timestamp UNDER the subtitle; `TitleCard` draws its `time` slot on the title's row and there is no argument that moves it, so that arrangement is published under its own name as `TitleCard/Subtitle` rather than mapped onto a node it is not a picture of. The other two are the `Background Image` cells of `App Card` and `Title Card + Icon`: Wear Compose gives `TitleCard` a second overload taking a `Painter`, and gives `AppCard` none, so there is no image-backed app card to draw.",
+        "remote-catalog": "Nineteen are the `Outline` column, and they are unreachable rather than undrawn: `RemoteOutlinedCard` is the TITLE-LESS container, and neither `RemoteTitleCard` nor `RemoteAppCard` takes a border or a border colour at `remote-material3-1.0.0-alpha10` — the outlined title and app cards have no call site. Five are `Background Image`, which is the same absence one parameter over: no painter on either function ([#157](https://github.com/yschimke/wear-m3-catalog/issues/157)). The remaining four are `Title Card 3`, whose layout puts the timestamp under the subtitle with no body at all; neither `RemoteTitleCard` nor Wear's `TitleCard` arranges that, and what Compose does have ships as `TitleCard/Subtitle` under its own name."
       }
     },
     {
@@ -240,7 +243,8 @@
         "PageIndicator/Vertical"
       ],
       "cells": {
-        "catalog": "All ten are `Position=Vertical-Left`. Which bezel the rail sits against is the caller's `Alignment` (or the layout direction), not a parameter of `VerticalPageIndicator` — a cell for it would be a picture of the sticker's own layout under the kit's name."
+        "catalog": "All ten are `Position=Vertical-Left`. Which bezel the rail sits against is the caller's `Alignment` (or the layout direction), not a parameter of `VerticalPageIndicator` — a cell for it would be a picture of the sticker's own layout under the kit's name.",
+        "remote-catalog": "All ten are `Position=Vertical-Left`. Which bezel the rail sits against is where the caller puts it, not a parameter of `RemoteVerticalPageIndicator` — the same absence the `catalog` row states for the same ten cells, and a cell for it would be a picture of the sticker's own layout under the kit's name."
       }
     },
     {
@@ -286,7 +290,8 @@
         "CircularProgressIndicator"
       ],
       "cells": {
-        "catalog": "Two whole axes and one pair. `Segments=6..14` is the SEGMENTED ring, which is `SegmentedCircularProgressIndicator` and has its own `Progress-Indicator-Small` set. `Type=Top Gap | Bottom Gap` draws angles the kit does not publish. And the `Progress=Zero, Disabled=Yes` cells stay out on their own account: Wear draws a disabled ring entirely in its disabled track colour, which at zero progress on a transparent sticker is an empty frame — 0.00000 of it lit, which `CatalogRenderTest.no sticker publishes an empty frame` rejects."
+        "catalog": "Two whole axes and one pair. `Segments=6..14` is the SEGMENTED ring, which is `SegmentedCircularProgressIndicator` and has its own `Progress-Indicator-Small` set. `Type=Top Gap | Bottom Gap` draws angles the kit does not publish. And the `Progress=Zero, Disabled=Yes` cells stay out on their own account: Wear draws a disabled ring entirely in its disabled track colour, which at zero progress on a transparent sticker is an empty frame — 0.00000 of it lit, which `CatalogRenderTest.no sticker publishes an empty frame` rejects.",
+        "remote-catalog": "Four absences, and only the last is small. Fifty-four are `Segments=6..14`, the SEGMENTED ring: `remote-material3` publishes `RemoteCircularProgressIndicator` and `RemoteCurvedProgressIndicator` and no segmented function at all, so unlike the Wear column — where those cells belong to `SegmentedCircularProgressIndicator` and its own `Progress-Indicator-Small` set — there is nothing here to call. Twenty-four are `Type=Top Gap | Bottom Gap`, angles the kit does not publish and which an invented number would misreport. Six are `Stroke Width=Small`: `RemoteProgressIndicatorDefaults` publishes no small or large stroke token (only the indeterminate and curved ones), and the Wear pair it would have to borrow resolves by screen breakpoint. The last is `Progress=Zero, Disabled=Yes` — a disabled ring drawn entirely in its disabled track colour, which at zero progress on a transparent sticker is an empty frame."
       }
     },
     {
