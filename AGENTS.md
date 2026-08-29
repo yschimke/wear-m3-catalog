@@ -210,9 +210,11 @@ is `@design-parity/kit-index`'s judgement (`@OverrideVariant(name = "square")` c
 and still resolves), and a second implementation of that here undercounted eight sets out of
 thirty-five. **WHY a sheet falls short is prose, and it goes on the `kit-sets.json` row** under
 `cells`, keyed by sheet — a written reason in a generated file is a merge conflict waiting to
-happen. `KitCellCoverageTest` holds the two against each other, and fails on a reason that has
-outlived its gap. Most gaps carry no reason yet; that half is
-[#160](https://github.com/yschimke/wear-m3-catalog/issues/160).
+happen. `KitCellCoverageTest` holds the two against each other, and it fails in both directions on
+`:catalog`: a gap with no reason, and a reason that has outlived its gap. `:remote-catalog` is not
+held to the first yet — most of its gaps are cells nobody has drawn rather than cells nothing can
+draw, so the honest answer to them is a component and not a sentence, and
+[#160](https://github.com/yschimke/wear-m3-catalog/issues/160) carries that work.
 
 ## Sticker conventions
 

@@ -52,7 +52,10 @@
       "node": "34732:103080",
       "components": [
         "TextButton"
-      ]
+      ],
+      "cells": {
+        "catalog": "The six that stay out are the disabled `Filled-Variant` and `Tonal` cells. Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container, 38% content — so those cells are the disabled filled render under two more names, which `CatalogRenderTest.no two renders of a component are identical` rejects. A comparison that cannot fail is not a comparison."
+      }
     },
     {
       "page": "Buttons",
@@ -60,7 +63,10 @@
       "node": "39083:760",
       "components": [
         "TextToggleButton"
-      ]
+      ],
+      "cells": {
+        "catalog": "Three of the six are the selected `Tonal` cells: Wear Compose ships ONE `colors()` per toggle button — emphasis is not an argument here the way it is on `Button` — so there is no call site that draws them. The other three are `Fixed Width=False`; the sticker sizes the button with `touchTargetAwareSize`, and a label-hugging width is not something the component takes."
+      }
     },
     {
       "page": "Buttons",
@@ -100,7 +106,10 @@
         "CheckboxButton",
         "RadioButton",
         "SwitchButton"
-      ]
+      ],
+      "cells": {
+        "catalog": "All eight are `Type=Custom - Task`, which is the kit showing that the control slot is swappable rather than publishing a fourth component — Compose spells it as the `toggleControl` slot on the same three functions. It stays out until a sticker can draw it without inventing a control the kit does not publish."
+      }
     },
     {
       "page": "Buttons",
@@ -108,7 +117,10 @@
       "node": "35276:87971",
       "components": [
         "Button/Compact"
-      ]
+      ],
+      "cells": {
+        "catalog": "Six are the disabled `Filled Variant` and `Tonal` cells, which Wear draws with the same `onSurface` colours as the disabled filled one — see the `Edge-Button` row. The other ten are the `Alignment=Icon right` column: `CompactButton` has ONE icon slot and it leads, so a trailing icon is not something the component takes, and putting a glyph in the label to fake one would publish a picture of this catalog rather than of the library."
+      }
     },
     {
       "page": "Buttons",
@@ -120,7 +132,10 @@
         "IconButton/Outlined",
         "IconButton/Standard",
         "IconButton/Tonal"
-      ]
+      ],
+      "cells": {
+        "catalog": "The two are `Child (No background)` at `Size=Extra-Small`. The size is a CONTAINER token and the child style draws no container, so extra-small and small clamp to the same minimum touch target around an unchanged glyph — the cell would publish the small render a second time. The other four styles carry it, because on them the container is the thing that changes."
+      }
     },
     {
       "page": "Buttons",
@@ -128,7 +143,10 @@
       "node": "39083:679",
       "components": [
         "IconToggleButton"
-      ]
+      ],
+      "cells": {
+        "catalog": "All eight are `Style=Secondary`. Wear Compose ships ONE `colors()` per toggle button, so unlike `Button` there is no emphasis argument and no call site that draws them."
+      }
     },
     {
       "page": "Buttons",
@@ -182,7 +200,10 @@
       "node": "46964:90920",
       "components": [
         "OpenOnPhoneDialog"
-      ]
+      ],
+      "cells": {
+        "catalog": "`Text=No` is `curvedText = null`, which the sticker's `text` knob turns — but this component's still is taken before its reveal has run, so the curved text is missing from the baked frame either way and the two renders come out byte-identical. The knob stays, because a live session settles and a reader can see the difference there. Waiting on a preview that can ask to be captured settled ([compose-ai-tools#4202](https://github.com/yschimke/compose-ai-tools/issues/4202))."
+      }
     },
     {
       "page": "Dialogs",
@@ -190,7 +211,10 @@
       "node": "58475:87022",
       "components": [
         "AlertDialog"
-      ]
+      ],
+      "cells": {
+        "catalog": "The four `Scrolling=No` absences are button ROWS under the title — an arrangement an app writes into the content slot, not one `AlertDialogContent` offers, and a sticker that hand-built one would be a picture of this catalog rather than of the library. The library publishes exactly three bottom arrangements and all three are drawn. The other ten are `Scrolling=Yes` long-scroll cells, which nothing captured at rest can be diffed against."
+      }
     },
     {
       "page": "Edge-Hugging Buttons",
@@ -198,7 +222,10 @@
       "node": "36601:6586",
       "components": [
         "EdgeButton"
-      ]
+      ],
+      "cells": {
+        "catalog": "All sixteen are the disabled `Filled Variant` and `Tonal` cells. Wear resolves all three filled styles' disabled colours to the same `onSurface` pair — 12% container, 38% content — so a disabled variant, tonal and filled button are one picture, and publishing them anyway is three names for one render. The `Outline` disabled cells DO differ, so they are drawn. The kit drawing a distinction the library does not is a finding about the pair, recorded rather than papered over."
+      }
     },
     {
       "page": "Page Indicators",
@@ -207,7 +234,10 @@
       "components": [
         "PageIndicator/Horizontal",
         "PageIndicator/Vertical"
-      ]
+      ],
+      "cells": {
+        "catalog": "All ten are `Position=Vertical-Left`. Which bezel the rail sits against is the caller's `Alignment` (or the layout direction), not a parameter of `VerticalPageIndicator` — a cell for it would be a picture of the sticker's own layout under the kit's name."
+      }
     },
     {
       "page": "Pickers",
@@ -217,7 +247,10 @@
         "DatePicker",
         "Picker",
         "TimePicker"
-      ]
+      ],
+      "cells": {
+        "catalog": "Two absences, and they are different kinds. Thirteen are `Focus=Two | Three` — which of the wheels the picker has advanced to, which it does as the user confirms each column; neither `TimePicker` nor `DatePicker` takes it as an argument (the selection is internal state), so there is no call site that opens a picker already focused on its second column. The other twenty-one are `Larger Screen (BP)=Yes`. Those pictures EXIST — every full-screen sticker here renders at the five screen sizes the kit recognises — but only the narrowest carries the design reference and the other four fold under it as `<dp>dp` captures, so nothing yet says which of them is the kit's larger screen. This is the one set in the kit that publishes screen size as an axis, and establishing that correspondence is [#160](https://github.com/yschimke/wear-m3-catalog/issues/160) rather than a limitation of the library."
+      }
     },
     {
       "page": "Position Indicators",
@@ -225,7 +258,10 @@
       "node": "46619:47146",
       "components": [
         "LevelIndicator"
-      ]
+      ],
+      "cells": {
+        "catalog": "All four are `Size = Long | Short`, which in Compose is the arc's `sweepAngle` — 72 degrees, a fifth of the circumference, by default. The kit does not publish the angles those two cells draw, and guessing one would put an invented number under the kit's name."
+      }
     },
     {
       "page": "Position Indicators",
@@ -233,7 +269,10 @@
       "node": "44998:18342",
       "components": [
         "ScrollIndicator"
-      ]
+      ],
+      "cells": {
+        "catalog": "All four are the thumb-LENGTH half of the kit's `Position` axis (`40%` to `70% (Max)`; the `Middle` and `Bottom` cells, which are a scroll offset, are drawn). Length is derived from how much of the content fits on screen, and seeding a content height that lands on 40% or 50% renders byte-identical to the base: `ScrollIndicator` animates its thumb, so a still holds an unsettled frame — the 70% capture comes back flagged `still_changing`. Same blocker as `OpenOnPhone-Overlay` ([compose-ai-tools#4202](https://github.com/yschimke/compose-ai-tools/issues/4202))."
+      }
     },
     {
       "page": "Progress Indicators",
@@ -241,7 +280,10 @@
       "node": "41424:58385",
       "components": [
         "CircularProgressIndicator"
-      ]
+      ],
+      "cells": {
+        "catalog": "Two whole axes and one pair. `Segments=6..14` is the SEGMENTED ring, which is `SegmentedCircularProgressIndicator` and has its own `Progress-Indicator-Small` set. `Type=Top Gap | Bottom Gap` draws angles the kit does not publish. And the `Progress=Zero, Disabled=Yes` cells stay out on their own account: Wear draws a disabled ring entirely in its disabled track colour, which at zero progress on a transparent sticker is an empty frame — 0.00000 of it lit, which `CatalogRenderTest.no sticker publishes an empty frame` rejects."
+      }
     },
     {
       "page": "Progress Indicators",
@@ -249,7 +291,10 @@
       "node": "52431:56915",
       "components": [
         "SegmentedCircularProgressIndicator"
-      ]
+      ],
+      "cells": {
+        "catalog": "All eighty-four are `Type=Top Gap | Bottom Gap`, the angles the kit does not publish — the same absence the `Progress-Indicator` row states."
+      }
     },
     {
       "page": "Progress Indicators",
@@ -257,7 +302,10 @@
       "node": "45011:259051",
       "components": [
         "LinearProgressIndicator"
-      ]
+      ],
+      "cells": {
+        "catalog": "All eight are the same eight again under `Context=In List`. Context is not a parameter: it is where the caller puts the indicator, and the kit draws both because the surrounding row changes what you see around it. A sticker of the component alone is the `In Component` half."
+      }
     },
     {
       "page": "Sliders",
@@ -265,7 +313,10 @@
       "node": "34828:79081",
       "components": [
         "Slider"
-      ]
+      ],
+      "cells": {
+        "catalog": "All eighteen are the `Changed=Yes` column — the kit's picture of a bar that has JUST been moved, which is a moment rather than a state. Wear Compose has no parameter for it and the sticker that could show it is a recording, which is what `Motion.kt` is for."
+      }
     },
     {
       "page": "Steppers",
@@ -273,7 +324,10 @@
       "node": "44993:61162",
       "components": [
         "Stepper"
-      ]
+      ],
+      "cells": {
+        "catalog": "The two are the disabled `Button Fill=No` cells. A disabled stepper draws no button container to begin with, so turning the fill off changes nothing and the cell is the plain disabled render under a second name — which `CatalogRenderTest` catches, and which the kit drawing two cells there does not make true of the library."
+      }
     },
     {
       "page": "Swipe to Reveal",
@@ -281,7 +335,10 @@
       "node": "56392:155752",
       "components": [
         "SwipeToReveal/Card"
-      ]
+      ],
+      "cells": {
+        "catalog": "The two are `Full swipe (icon only)` and `Full swipe (icon + text)` — two frames of the expansion that `RevealValue.RightRevealed` ends at. A cell seeded with that value renders an EMPTY FRAME: at rest in the revealed position the content has travelled off screen and the expanded action has not been laid out. `Motion.kt` has the recording, which is where a gesture's own frames belong."
+      }
     },
     {
       "page": "Swipe to Reveal",
@@ -289,7 +346,10 @@
       "node": "56392:155784",
       "components": [
         "SwipeToReveal/Button"
-      ]
+      ],
+      "cells": {
+        "catalog": "The two are `Full swipe (icon only)` and `Full swipe (icon + text)` — two frames of the expansion that `RevealValue.RightRevealed` ends at, and a still seeded with that value has nothing in it: the content has travelled off screen and the expanded action has not been laid out. `Motion.kt` has the recording."
+      }
     },
     {
       "page": "Text",
@@ -297,7 +357,10 @@
       "node": "38977:66977",
       "components": [
         "ListHeader"
-      ]
+      ],
+      "cells": {
+        "catalog": "The two are `Type=Page-Mid`. `ListHeaderDefaults` publishes a single `contentPadding` and `ListHeader` takes no argument that distinguishes the first header on a screen from one further down a list; the two kit cells differ in the space ABOVE them, which is a property of where the header sits rather than of the component."
+      }
     },
     {
       "page": "Text",

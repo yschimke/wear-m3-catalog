@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
@@ -19,6 +22,7 @@ import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.timeTextCurvedText
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
+import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -179,14 +183,36 @@ fun CaptionText() = Sticker {
   caption = "The curved status strip every Wear screen carries, pinned to a fixed time.",
 )
 @CatalogTransparentScreenModes
+// The kit's `Size=` axis is the WEARER'S font setting, not a parameter — `User Config - Largest
+// (124%)` is the top notch of the watch's text-size control. Compose spells that as the density's
+// `fontScale`, which is what turns an sp into a px, so a cell for it provides a density with the
+// scale in it and calls the same `TimeText` underneath. That is the setting itself rather than a
+// picture of one: the strip re-measures its own curve at the larger size exactly as it does on a
+// watch whose owner has turned the text up.
 @OverrideVariant(
   name = "24-hour",
   strings = ["time=09:30"],
   kitAxis = "Type",
   kitValue = "24hr",
 )
+@OverrideVariant(
+  name = "largest-font",
+  floats = ["fontScale=1.24"],
+  kitProps = ["Type=12hr", "Size=User Config - Largest (124%)"],
+)
+@OverrideVariant(
+  name = "24-hour-largest-font",
+  strings = ["time=09:30"],
+  floats = ["fontScale=1.24"],
+  kitProps = ["Type=24hr", "Size=User Config - Largest (124%)"],
+  secondary = true,
+)
 @Composable
 fun FixedTimeText() = TransparentScreenSticker {
   val time = kitCopy("time", KitCopy.TIME_12H)
-  TimeText { timeTextCurvedText(time) }
+  val fontScale = previewOverrideFloat("fontScale", 1f)
+  val density = LocalDensity.current
+  CompositionLocalProvider(LocalDensity provides Density(density.density, fontScale)) {
+    TimeText { timeTextCurvedText(time) }
+  }
 }
