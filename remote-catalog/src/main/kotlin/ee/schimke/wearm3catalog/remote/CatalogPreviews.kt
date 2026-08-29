@@ -75,6 +75,7 @@ import ee.schimke.composeai.daemon.rememberOverridableRemoteFloat
 import ee.schimke.composeai.daemon.rememberOverridableRemoteString
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
+import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.OverrideVariant
 
@@ -559,6 +560,45 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   kitProps = ["Style=Outline", "Size=Large", "Disabled=No"],
   secondary = true,
 )
+// NO `child-small` CELL. The size is a CONTAINER token and the child style draws no container, so
+// small and default leave the same glyph in the same place — byte-identical to `child`. The same
+// absence `IconButton/Standard` states on the Wear column, one set over.
+@OverrideVariant(
+  name = "filled-variant",
+  strings = ["style=filled-variant"],
+  kitAxis = "Style",
+  kitValue = "Filled-Variant",
+)
+@OverrideVariant(
+  name = "filled-variant-small",
+  strings = ["style=filled-variant", "size=small"],
+  kitProps = ["Style=Filled-Variant", "Size=Small", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-large",
+  strings = ["style=filled-variant", "size=large"],
+  kitProps = ["Style=Filled-Variant", "Size=Large", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal",
+  strings = ["style=tonal"],
+  kitAxis = "Style",
+  kitValue = "Tonal",
+)
+@OverrideVariant(
+  name = "tonal-small",
+  strings = ["style=tonal", "size=small"],
+  kitProps = ["Style=Tonal", "Size=Small", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-large",
+  strings = ["style=tonal", "size=large"],
+  kitProps = ["Style=Tonal", "Size=Large", "Disabled=No"],
+  secondary = true,
+)
 @OverrideVariant(
   name = "disabled",
   booleans = ["enabled=false"],
@@ -609,7 +649,12 @@ fun TextRemoteButton() = RemoteSticker {
   // `toggledRemote` rather than `countedRemote` for that same reason — see its KDoc.
   val (on, onClick) = toggledRemote()
   // Read once, used for the colours and the border below.
-  val style = previewOverrideChoice("style", "filled", listOf("filled", "child", "outlined"))
+  val style =
+    previewOverrideChoice(
+      "style",
+      "filled",
+      listOf("filled", "filled-variant", "tonal", "child", "outlined"),
+    )
   val stock = RemoteTextButtonDefaults.textButtonColors()
   // FILLED is the base, because the kit's `Text-Button` base cell is filled and
   // `wear-m3-catalog`'s `TextButton` is `filledTextButtonColors()` for that reason ("filled IS the
@@ -631,6 +676,22 @@ fun TextRemoteButton() = RemoteSticker {
             on,
           ),
         contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
+      )
+    } else if (style == "filled-variant" || style == "tonal") {
+      // The kit's other two filled emphases. `RemoteTextButtonDefaults` publishes one
+      // `textButtonColors()` — the CHILD style — so, like every other emphasis on this surface,
+      // these are the tokens the Wear function they pair with resolves to:
+      // `filledVariantTextButtonColors()` is the primary container, `filledTonalTextButtonColors()`
+      // the neutral surface container.
+      val container =
+        if (style == "tonal") RemoteMaterialTheme.colorScheme.surfaceContainer
+        else RemoteMaterialTheme.colorScheme.primaryContainer
+      val onContainer =
+        if (style == "tonal") RemoteMaterialTheme.colorScheme.onSurface
+        else RemoteMaterialTheme.colorScheme.onPrimaryContainer
+      RemoteTextButtonDefaults.textButtonColors(
+        containerColor = tween(container, RemoteMaterialTheme.colorScheme.primaryDim, on),
+        contentColor = onContainer,
       )
     } else {
       RemoteTextButtonDefaults.textButtonColors(
@@ -896,10 +957,140 @@ fun IconRemoteButton() = RemoteSticker {
   kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
 )
 @OverrideVariant(
+  name = "disabled",
+  booleans = ["enabled=false"],
+  kitProps = ["Style=Filled", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-only",
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=icon"],
+  kitProps = ["Style=Filled", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
   name = "text-only",
   strings = ["content=text"],
   kitProps = ["Style=Filled", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
 )
+@OverrideVariant(
+  name = "text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["content=text"],
+  kitProps = ["Style=Filled", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant",
+  strings = ["style=filled-variant"],
+  kitProps = ["Style=Filled Variant", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-icon-only",
+  strings = ["style=filled-variant", "content=icon"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-text-only",
+  strings = ["style=filled-variant", "content=text"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal",
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-icon-only",
+  strings = ["style=tonal", "content=icon"],
+  kitProps = ["Style=Tonal", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-text-only",
+  strings = ["style=tonal", "content=text"],
+  kitProps = ["Style=Tonal", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined",
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined"],
+  kitProps = ["Style=Outline", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-icon-only",
+  strings = ["style=outlined", "content=icon"],
+  kitProps = ["Style=Outline", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=icon"],
+  kitProps = ["Style=Outline", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-text-only",
+  strings = ["style=outlined", "content=text"],
+  kitProps = ["Style=Outline", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=outlined", "content=text"],
+  kitProps = ["Style=Outline", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child",
+  strings = ["style=child"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-icon-only",
+  strings = ["style=child", "content=icon"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=No"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-text-only",
+  strings = ["style=child", "content=text"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
+  secondary = true,
+)
+// NO `Child (No background)` DISABLED CELLS, three of them, and it is the collapse the `Button`
+// row already states: `RemoteButtonDefaults.buttonColors` takes the disabled pair as its own
+// arguments, so a style written out by passing `containerColor` and `contentColor` leaves them at
+// their defaults — and a disabled child compact button is then the disabled FILLED one, to the
+// byte. `Outline` keeps its three, because the border it draws itself survives being disabled.
 annotation class RemoteCompactButtonKitCells
 
 // The compact, single-line button (`RemoteCompactButton`) — Wear M3 parallel:
@@ -924,21 +1115,51 @@ fun CompactRemoteButton() = RemoteSticker {
   // as the `text-only` cell, rather than standing in for the base one.
   val content =
     previewOverrideChoice("content", "icon-and-text", listOf("icon-and-text", "icon", "text"))
+  // The kit's `Style` axis, folded the way it folds on `RemoteButton`: `remote-material3` publishes
+  // one `buttonColors()` and no emphasis variants, so each style is the tokens the Wear function it
+  // pairs with resolves to. Only `Outline` needs a border, which is its own parameter here.
+  val style =
+    previewOverrideChoice(
+      "style",
+      "filled",
+      listOf("filled", "filled-variant", "tonal", "outlined", "child"),
+    )
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   // The icon-only cell has no label to count into, so it reads as a toggle instead — the same
-  // bargain `Button/Icon` strikes. At rest `on` is 0f and the baked capture is the stock filled
-  // container.
+  // bargain `Button/Icon` strikes. At rest `on` is 0f and `tween(a, b, 0f)` is `a`, so the baked
+  // capture is whichever style's own container.
   val (on, toggle) = toggledRemote()
-  val stock = RemoteButtonDefaults.buttonColors()
+  val container =
+    when (style) {
+      "filled-variant" -> RemoteMaterialTheme.colorScheme.primaryContainer
+      "tonal" -> RemoteMaterialTheme.colorScheme.surfaceContainer
+      "outlined",
+      "child" -> RemoteColor(Color.Transparent)
+      else -> RemoteButtonDefaults.buttonColors().containerColor
+    }
+  val contentColor =
+    when (style) {
+      "filled-variant" -> RemoteMaterialTheme.colorScheme.onPrimaryContainer
+      "tonal",
+      "outlined",
+      "child" -> RemoteMaterialTheme.colorScheme.onSurface
+      else -> RemoteButtonDefaults.buttonColors().contentColor
+    }
   RemoteCompactButton(
     onClick = if (content == "icon") toggle else onClick,
+    enabled = previewOverrideBoolean("enabled", true).rb,
+    border = if (style == "outlined") 2.rdp else 0.rdp,
+    borderColor =
+      if (style == "outlined") RemoteMaterialTheme.colorScheme.outline
+      else RemoteColor(Color.Transparent),
     colors =
-      if (content != "icon") RemoteButtonDefaults.buttonColors()
-      else
-        RemoteButtonDefaults.buttonColors(
-          containerColor =
-            tween(stock.containerColor, RemoteMaterialTheme.colorScheme.tertiaryContainer, on)
-        ),
+      RemoteButtonDefaults.buttonColors(
+        containerColor =
+          if (content == "icon")
+            tween(container, RemoteMaterialTheme.colorScheme.tertiaryContainer, on)
+          else container,
+        contentColor = contentColor,
+      ),
     icon =
       if (content == "text") null
       else
@@ -1153,6 +1374,26 @@ private fun cardImagery(): (@Composable () -> Unit)? =
   kitProps =
     ["Layout type=Title Card 1", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
 )
+@OverrideVariant(
+  name = "with-subtitle-content-image",
+  strings = ["layout=title-time-subtitle", "content=image"],
+  kitProps = ["Layout type=Title Card 2", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "with-subtitle-gallery-1",
+  strings = ["layout=title-time-subtitle", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card 2", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "with-subtitle-gallery-2",
+  strings = ["layout=title-time-subtitle", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card 2", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
 @CatalogComponent(
   id = "TitleCard",
   group = "Containment",
@@ -1213,6 +1454,39 @@ fun TitleCardRemote() = RemoteSticker {
   strings = ["content=gallery-2"],
   kitProps = ["Layout type=App Card", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
 )
+// THE KIT'S SECOND LAYOUT ON THIS FUNCTION. `App Card` and `Title Card + Icon` differ only in what
+// sits in the leading slot — the app's own square artwork on one, a vector icon on the other — and
+// `RemoteAppCard` spells both as `appImage`. So the kit axis is a knob here rather than a second
+// component, exactly as it is on the Wear column's `ApplicationCard`. Nine of the set's cells had
+// no component naming them at all before this
+// ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
+@OverrideVariant(
+  name = "icon",
+  strings = ["appImage=icon"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Text", "Interactive=Yes"],
+)
+@OverrideVariant(
+  name = "icon-content-image",
+  strings = ["appImage=icon", "content=image"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-gallery-1",
+  strings = ["appImage=icon", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "icon-gallery-2",
+  strings = ["appImage=icon", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
 @CatalogComponent(
   id = "AppCard",
   group = "Containment",
@@ -1234,7 +1508,18 @@ fun AppCardRemote() = RemoteSticker {
     // Leaving it empty here dropped the one thing that tells an app card from a title card at a
     // glance, on the row scored against that cell.
     time = { RemoteText(KitCopy.TIMESTAMP.rs) },
-    appImage = { RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp)) },
+    // The base render draws the app's square ARTWORK, because that is what the kit's `App Card`
+    // cell — this row's `reference` — puts in the slot; the icon is the `Title Card + Icon` cell
+    // beside it. Drawing the icon under the App Card node claimed one layout and pictured the
+    // other. The artwork is the same flat placeholder the content slots take: the kit publishes it
+    // as an empty `IMAGE` fill there too.
+    appImage = {
+      if (previewOverrideChoice("appImage", "image", listOf("image", "icon")) == "icon") {
+        RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp))
+      } else {
+        imageFrame(16, 16, 4)
+      }
+    },
     content = cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
 }
@@ -1331,6 +1616,28 @@ fun WatchScreenRemote() = RemoteSticker {
   kitAxis = "Disabled",
   kitValue = "Yes",
 )
+// The kit's `Progress` axis, which is the `progress` knob this row already carries — three more of
+// the set's cells for three seeded floats
+// ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)). The cell names and the values
+// are the Wear sibling's, so the two columns pair.
+@OverrideVariant(
+  name = "complete",
+  floats = ["progress=1.0"],
+  kitAxis = "Progress",
+  kitValue = "Complete",
+)
+@OverrideVariant(
+  name = "overflow",
+  floats = ["progress=1.4"],
+  kitAxis = "Progress",
+  kitValue = "Overflow",
+)
+@OverrideVariant(
+  name = "zero",
+  floats = ["progress=0.0"],
+  kitAxis = "Progress",
+  kitValue = "Zero",
+)
 @CatalogComponent(
   id = "Progress/Circular",
   group = "Communication",
@@ -1346,7 +1653,13 @@ fun CircularProgressRemote() = RemoteSticker {
   // live (`rc.progress=float:<0..1>`) without re-capturing the document. 0.6 keeps the static
   // sticker deterministic AND is the value `wear-m3-catalog`'s `CircularProgressIndicator` pins,
   // so the two renditions of the same kit cell draw the same arc.
-  val progress = rememberOverridableRemoteFloat("progress", 0.6f)
+  // TWO override paths on one name, and the cells need both. `rememberOverridableRemoteFloat`
+  // publishes `progress` as a document NAMED VALUE, which the viewer reseeds live
+  // (`rc.progress=float:<0..1>`) without re-capturing — but a `@OverrideVariant` seeds a PREVIEW
+  // override, which that call never reads, so the kit's `Progress` cells all baked the same 0.6
+  // arc. Feeding the preview override in as the named value's default settles it: a cell picks the
+  // value the document is built with, and the live path is untouched.
+  val progress = rememberOverridableRemoteFloat("progress", previewOverrideFloat("progress", 0.6f))
   // `fillMaxSize`, not a 72dp box. The kit publishes this as a *display* cell — a ring struck 2dp
   // inside the bezel of the whole round face — which is why the sticker is on the 227dp
   // [CatalogRemoteDisplay] frame at all, and why the Wear sibling draws it `fillMaxSize` too. At

@@ -34,11 +34,8 @@ import org.junit.Test
  */
 class KitCellCoverageTest {
 
-  /**
-   * The sheets whose gaps must carry a written reason. See `every gap on a reasoned sheet says why`
-   * for why `remote-catalog` is not one of them yet.
-   */
-  private val reasoned = setOf("catalog")
+  /** The sheets whose gaps must carry a written reason — both of them, since #160. */
+  private val reasoned = setOf("catalog", "remote-catalog")
 
   private val root = File("..")
 
@@ -176,13 +173,12 @@ class KitCellCoverageTest {
    * `CatalogInventoryTest.every component is either mapped to the kit or says why not`, one level
    * down: an uncovered cell is fine when something says why, and only silence fails.
    *
-   * **`remote-catalog` is not held to it yet**, and the carve-out is deliberate rather than an
-   * oversight. That sheet's eight rows are the largest gaps in the record — 47 of 327 cells — and
-   * they are mostly cells nobody has drawn rather than cells nothing can draw, so the honest answer
-   * to most of them is a component, not a sentence. Writing "not drawn yet" against each would
-   * satisfy this test and tell a reader nothing.
-   * [#160](https://github.com/yschimke/wear-m3-catalog/issues/160) carries that work, and adding
-   * `remote-catalog` to [reasoned] is what finishes it.
+   * **Both sheets are held to it now.** `remote-catalog` was carved out when the record landed,
+   * because its rows were mostly cells nobody had drawn rather than cells nothing could draw — the
+   * honest answer to those is a component, not a sentence, and writing "not drawn yet" against each
+   * would have satisfied this test while telling a reader nothing. That work is done
+   * ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)): the sheet went from 47 of 327
+   * cells to 163, and what is left is written down.
    */
   @Test
   fun `every gap on a reasoned sheet says why`() {

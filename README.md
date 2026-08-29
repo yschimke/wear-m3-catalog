@@ -62,21 +62,21 @@ that earned it.
 
 **How much of each set is drawn is a second question, and it now has an answer too.**
 [`kit-cells.json`](kit-cells.json) counts it cell by cell, for both sheets: `:catalog` draws 550 of
-the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 111 of the 327 published by
+the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 163 of the 327 published by
 the 8 it names. Twelve of those 41 sheet-rows draw their set in full. The record is projected from
 each module's resolved design map and reconciled by CI, so a cell that stops being drawn moves a
 number in a reviewable diff — the check that was missing when the Remote sheet drew 15 of the `Card`
 set's 45 cells with everything green
 ([#158](https://github.com/yschimke/wear-m3-catalog/issues/158)).
 
-**And every gap on the Wear sheet now says why.** All 22 of `:catalog`'s short rows carry a written
-reason on their `kit-sets.json` row, and `KitCellCoverageTest` fails on a gap that states none —
-so a cell that goes missing from that sheet cannot go quiet. Most of those reasons are the library
-declining to draw a distinction the kit does: Wear resolves the three filled styles' disabled
-colours to one `onSurface` pair, so 28 cells across `Text-Button`, `Button-Compact` and
-`Edge-Button` are one picture under two or three names — a comparison that cannot fail.
-`:remote-catalog`'s eight rows are the other kind — cells nobody has drawn yet — and are tracked in
-[#160](https://github.com/yschimke/wear-m3-catalog/issues/160).
+**And every gap on both sheets now says why.** All 29 short rows carry a written reason on their
+`kit-sets.json` row, and `KitCellCoverageTest` fails on a gap that states none — so a cell that goes
+missing cannot go quiet. Most of those reasons are a library declining to draw a distinction the kit
+does: Wear resolves the three filled styles' disabled colours to one `onSurface` pair, so 28 cells
+across `Text-Button`, `Button-Compact` and `Edge-Button` are one picture under two or three names —
+a comparison that cannot fail. The Remote line says the same thing in its own accent, and adds
+absences of its own: no outlined title or app card, no segmented progress ring, a text button that
+draws nothing at all when disabled.
 
 Sixteen components enter through the **library's** door instead — components carrying `noReference`
 with the reason there is nothing to compare against. A sheet whose reader is looking for the

@@ -33,6 +33,7 @@ import androidx.wear.compose.remote.material3.RemoteTimeText
 import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
+import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.OverrideVariant
@@ -337,6 +338,110 @@ fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
   RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
 }
 
+/**
+ * **The kit's `Number` axis along the bottom** — nine cells against the one this drew.
+ *
+ * `Number` is two knobs, not one, past five pages: the kit draws `6` and `7+` three times each, for
+ * a window sitting at the start, in the middle and at the end of the run, and which of those you
+ * see is the selected page rather than the count. `7+` is eight pages here, far enough past the
+ * maximum to show the indicator collapsing. Cell names and seeds are the Wear sibling's, so the
+ * compare page pairs them ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
+ */
+@OverrideVariant(name = "two-pages", ints = ["pages=2"], kitAxis = "Number", kitValue = "2")
+@OverrideVariant(name = "three-pages", ints = ["pages=3"], kitAxis = "Number", kitValue = "3")
+@OverrideVariant(name = "five-pages", ints = ["pages=5"], kitAxis = "Number", kitValue = "5")
+@OverrideVariant(
+  name = "six-pages",
+  ints = ["pages=6"],
+  kitAxis = "Number",
+  kitValue = "6 - Start",
+)
+@OverrideVariant(
+  name = "six-pages-middle",
+  ints = ["pages=6", "initialPage=3"],
+  kitProps = ["Number=6  - MiddleEnd", "Position=Horizontal-Bottom"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "six-pages-end",
+  ints = ["pages=6", "initialPage=5"],
+  kitProps = ["Number=6 - End", "Position=Horizontal-Bottom"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "many-pages",
+  ints = ["pages=8"],
+  kitProps = ["Number=7+ - Start", "Position=Horizontal-Bottom"],
+)
+@OverrideVariant(
+  name = "many-pages-middle",
+  ints = ["pages=8", "initialPage=4"],
+  kitProps = ["Number=7+  - MiddleEnd", "Position=Horizontal-Bottom"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "many-pages-end",
+  ints = ["pages=8", "initialPage=7"],
+  kitProps = ["Number=7+ - End", "Position=Horizontal-Bottom"],
+  secondary = true,
+)
+annotation class RemoteHorizontalPageKitCells
+
+/**
+ * The same nine cells at `Position=Vertical-Right`, for the vertical indicator.
+ *
+ * The kit's third column, `Vertical-Left`, is not drawn: which bezel the rail sits against is where
+ * the caller puts it, not a parameter of `RemoteVerticalPageIndicator` — the same absence the Wear
+ * column states for the same ten cells.
+ */
+@OverrideVariant(name = "two-pages", ints = ["pages=2"], kitAxis = "Number", kitValue = "2")
+@OverrideVariant(name = "three-pages", ints = ["pages=3"], kitAxis = "Number", kitValue = "3")
+@OverrideVariant(name = "five-pages", ints = ["pages=5"], kitAxis = "Number", kitValue = "5")
+@OverrideVariant(
+  name = "six-pages",
+  ints = ["pages=6"],
+  kitAxis = "Number",
+  kitValue = "6 - Start",
+)
+@OverrideVariant(
+  name = "six-pages-middle",
+  ints = ["pages=6", "initialPage=3"],
+  kitProps = ["Number=6  - MiddleEnd", "Position=Vertical-Right"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "six-pages-end",
+  ints = ["pages=6", "initialPage=5"],
+  kitProps = ["Number=6 - End", "Position=Vertical-Right"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "many-pages",
+  ints = ["pages=8"],
+  kitProps = ["Number=7+ - Start", "Position=Vertical-Right"],
+)
+@OverrideVariant(
+  name = "many-pages-middle",
+  ints = ["pages=8", "initialPage=4"],
+  kitProps = ["Number=7+  - MiddleEnd", "Position=Vertical-Right"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "many-pages-end",
+  ints = ["pages=8", "initialPage=7"],
+  kitProps = ["Number=7+ - End", "Position=Vertical-Right"],
+  secondary = true,
+)
+annotation class RemoteVerticalPageKitCells
+
+/** The two knobs the kit's `Number` axis needs, coerced so a live knob cannot outrun the count. */
+@Composable
+private fun rememberKitPageIndicatorState(): RemotePageIndicatorState {
+  val pages = previewOverrideInt("pages", 4)
+  val selected = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
+  return rememberRemotePageIndicatorState(pageCount = pages, selectedPage = selected.ri)
+}
+
 @CatalogComponent(
   id = "PageIndicator/Horizontal",
   group = "Communication",
@@ -346,6 +451,7 @@ fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
   caption = "Four-page horizontal indicator curved along the bottom edge, on the first page.",
 )
 @CatalogRemoteDisplay
+@RemoteHorizontalPageKitCells
 @Composable
 fun HorizontalPageIndicatorRemote() = RemoteSticker {
   // FOUR pages on the FIRST, because that is the kit cell this row's `reference` names and what
@@ -353,7 +459,7 @@ fun HorizontalPageIndicatorRemote() = RemoteSticker {
   // pages with the third selected put a different picture under the same node — and a middle
   // selection is the one arrangement in which the selected dot is hardest to pick out.
   RemoteHorizontalPageIndicator(
-    state = rememberRemotePageIndicatorState(pageCount = 4, selectedPage = 0.ri),
+    state = rememberKitPageIndicatorState(),
     // `fillMaxSize`, not 180dp: the indicator curves against the BEZEL, so an inset box moves the
     // curve inward and shrinks it. Same reason the sticker is on the 227dp display frame at all.
     modifier = RemoteModifier.fillMaxSize(),
@@ -369,6 +475,7 @@ fun HorizontalPageIndicatorRemote() = RemoteSticker {
   caption = "Four-page vertical indicator against the right bezel, on the first page.",
 )
 @CatalogRemoteDisplay
+@RemoteVerticalPageKitCells
 @Composable
 fun VerticalPageIndicatorRemote() = RemoteSticker {
   // Same four-on-the-first as the horizontal one, for the same reason: this row names a kit node,
@@ -377,7 +484,7 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
   // behaviour neither the kit cell nor the parallel draws, so it was reported as a divergence on
   // every render rather than shown as itself.
   RemoteVerticalPageIndicator(
-    state = rememberRemotePageIndicatorState(pageCount = 4, selectedPage = 0.ri),
+    state = rememberKitPageIndicatorState(),
     modifier = RemoteModifier.fillMaxSize(),
   )
 }
