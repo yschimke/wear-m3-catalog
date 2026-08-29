@@ -1615,6 +1615,2064 @@
         ]
       }
     ],
+    "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.CompactRemoteButton_width=227dp,height=100dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Primary label\" risks truncation when localized: ≈167dp expanded vs 159dp available.",
+            "detail": {
+              "label": "Primary label",
+              "availableWidth": "159",
+              "estimatedWidth": "93",
+              "expansionFactor": "1.8",
+              "estimatedExpandedWidth": "167"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 38,
+                  "y": 8,
+                  "width": 85,
+                  "height": 16
+                },
+                "label": "Primary label"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 172,
+                  "y": 84,
+                  "width": 159,
+                  "height": 32
+                },
+                "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":13,\"fontWeight\":500,\"lineHeight\":16,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":13,\"fontWeight\":500,\"lineHeight\":16,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Primary label=Primary label, Swap icon (20)=71422:44802, Swap icon (24)=71422:44887 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Primary label\",\"type\":\"text\",\"value\":\"Primary label\"},{\"name\":\"Swap icon (20)\",\"type\":\"instance-swap\",\"value\":\"71422:44802\"},{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"Primary label\": offset (-14, -17), size Δ(37, 6) vs candidate",
+            "detail": {
+              "label": "Primary label",
+              "dx": "-14",
+              "dy": "-17",
+              "dw": "37",
+              "dh": "6"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 38,
+                  "y": 8,
+                  "width": 85,
+                  "height": 16
+                },
+                "label": "Primary label"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 172,
+                  "y": 84,
+                  "width": 159,
+                  "height": 32
+                },
+                "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "35586"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 75.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.755049",
+              "alphaLossPixels": "36336",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 86.2% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.861916",
+              "diffPixels": "78262"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "child",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "3209"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 5.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child",
+              "alphaLossRatio": "0.05224",
+              "alphaLossPixels": "2514",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 50.5% of pixels differ from reference",
+            "detail": {
+              "key": "child",
+              "score": "0.505341",
+              "diffPixels": "45885"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "child-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "11660"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: 59.8% of pixels differ from reference",
+            "detail": {
+              "key": "child-disabled",
+              "score": "0.598414",
+              "diffPixels": "54336"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "child-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "3754"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only: 3.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-icon-only",
+              "alphaLossRatio": "0.038117",
+              "alphaLossPixels": "3461",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only: 31.3% of pixels differ from reference",
+            "detail": {
+              "key": "child-icon-only",
+              "score": "0.312791",
+              "diffPixels": "39620"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "child-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "8361"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only-disabled: 34.9% of pixels differ from reference",
+            "detail": {
+              "key": "child-icon-only-disabled",
+              "score": "0.349162",
+              "diffPixels": "44227"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "child-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "4515"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only: 6.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-text-only",
+              "alphaLossRatio": "0.062055",
+              "alphaLossPixels": "3747",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only: 38.5% of pixels differ from reference",
+            "detail": {
+              "key": "child-text-only",
+              "score": "0.384725",
+              "diffPixels": "34933"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "child-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "14912"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only-disabled: 49.9% of pixels differ from reference",
+            "detail": {
+              "key": "child-text-only-disabled",
+              "score": "0.499229",
+              "diffPixels": "45330"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "28174"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 78.0% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.780286",
+              "diffPixels": "70850"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "35599"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 75.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant",
+              "alphaLossRatio": "0.755049",
+              "alphaLossPixels": "36336",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 86.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant",
+              "score": "0.862059",
+              "diffPixels": "78275"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "28174"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: 78.0% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "score": "0.780286",
+              "diffPixels": "70850"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76373"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only: 88.6% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-icon-only",
+              "score": "0.886102",
+              "diffPixels": "112239"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "44792"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only-disabled: 63.7% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-icon-only-disabled",
+              "score": "0.636777",
+              "diffPixels": "80658"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44370"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only: 72.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-text-only",
+              "alphaLossRatio": "0.729423",
+              "alphaLossPixels": "44044",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only: 82.4% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-text-only",
+              "score": "0.823656",
+              "diffPixels": "74788"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "35164"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only-disabled: 72.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-text-only-disabled",
+              "score": "0.722269",
+              "diffPixels": "65582"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76333"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 88.6% of pixels differ from reference",
+            "detail": {
+              "key": "icon-only",
+              "score": "0.885786",
+              "diffPixels": "112199"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "44792"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only-disabled: 63.7% of pixels differ from reference",
+            "detail": {
+              "key": "icon-only-disabled",
+              "score": "0.636777",
+              "diffPixels": "80658"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "7656"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 10.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.107888",
+              "alphaLossPixels": "5192",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 55.4% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.554317",
+              "diffPixels": "50332"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "outlined-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "12399"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: 60.7% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-disabled",
+              "score": "0.606553",
+              "diffPixels": "55075"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "outlined-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "10505"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only: 10.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-icon-only",
+              "alphaLossRatio": "0.10054",
+              "alphaLossPixels": "9129",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only: 36.6% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-icon-only",
+              "score": "0.366089",
+              "diffPixels": "46371"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "outlined-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "11046"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only-disabled: 37.0% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-icon-only-disabled",
+              "score": "0.37036",
+              "diffPixels": "46912"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "outlined-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "9488"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only: 11.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-text-only",
+              "alphaLossRatio": "0.115349",
+              "alphaLossPixels": "6965",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only: 43.9% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-text-only",
+              "score": "0.439493",
+              "diffPixels": "39906"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "outlined-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "16302"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only-disabled: 51.5% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-text-only-disabled",
+              "score": "0.514537",
+              "diffPixels": "46720"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44352"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 72.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "text-only",
+              "alphaLossRatio": "0.729423",
+              "alphaLossPixels": "44044",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 82.3% of pixels differ from reference",
+            "detail": {
+              "key": "text-only",
+              "score": "0.823458",
+              "diffPixels": "74770"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "35164"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only-disabled: 72.2% of pixels differ from reference",
+            "detail": {
+              "key": "text-only-disabled",
+              "score": "0.722269",
+              "diffPixels": "65582"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "tonal",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "35610"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 75.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal",
+              "alphaLossRatio": "0.755049",
+              "alphaLossPixels": "36336",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 86.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal",
+              "score": "0.862181",
+              "diffPixels": "78286"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "tonal-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "28174"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: 78.0% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-disabled",
+              "score": "0.780286",
+              "diffPixels": "70850"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "tonal-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76513"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only: 88.7% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-icon-only",
+              "score": "0.887207",
+              "diffPixels": "112379"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "tonal-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "44792"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only-disabled: 63.7% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-icon-only-disabled",
+              "score": "0.636777",
+              "diffPixels": "80658"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "tonal-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44369"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only: 72.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-text-only",
+              "alphaLossRatio": "0.729423",
+              "alphaLossPixels": "44044",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only: 82.4% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-text-only",
+              "score": "0.823645",
+              "diffPixels": "74787"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "tonal-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "35164"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only-disabled: 72.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-text-only-disabled",
+              "score": "0.722269",
+              "diffPixels": "65582"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#CompactRemoteButton": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Primary label\" risks truncation when localized: ≈167dp expanded vs 159dp available.",
+            "detail": {
+              "label": "Primary label",
+              "availableWidth": "159",
+              "estimatedWidth": "93",
+              "expansionFactor": "1.8",
+              "estimatedExpandedWidth": "167"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 38,
+                  "y": 8,
+                  "width": 85,
+                  "height": 16
+                },
+                "label": "Primary label"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 172,
+                  "y": 84,
+                  "width": 159,
+                  "height": 32
+                },
+                "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":13,\"fontWeight\":500,\"lineHeight\":16,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":13,\"fontWeight\":500,\"lineHeight\":16,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Primary label=Primary label, Swap icon (20)=71422:44802, Swap icon (24)=71422:44887 — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Primary label\",\"type\":\"text\",\"value\":\"Primary label\"},{\"name\":\"Swap icon (20)\",\"type\":\"instance-swap\",\"value\":\"71422:44802\"},{\"name\":\"Swap icon (24)\",\"type\":\"instance-swap\",\"value\":\"71422:44887\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"Primary label\": offset (-14, -17), size Δ(37, 6) vs candidate",
+            "detail": {
+              "label": "Primary label",
+              "dx": "-14",
+              "dy": "-17",
+              "dw": "37",
+              "dh": "6"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 38,
+                  "y": 8,
+                  "width": 85,
+                  "height": 16
+                },
+                "label": "Primary label"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 172,
+                  "y": 84,
+                  "width": 159,
+                  "height": 32
+                },
+                "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "35586"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 75.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.755049",
+              "alphaLossPixels": "36336",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 86.2% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.861916",
+              "diffPixels": "78262"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "child",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "3209"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 5.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child",
+              "alphaLossRatio": "0.05224",
+              "alphaLossPixels": "2514",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 50.5% of pixels differ from reference",
+            "detail": {
+              "key": "child",
+              "score": "0.505341",
+              "diffPixels": "45885"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "child-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "11660"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: 59.8% of pixels differ from reference",
+            "detail": {
+              "key": "child-disabled",
+              "score": "0.598414",
+              "diffPixels": "54336"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "child-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "3754"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only: 3.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-icon-only",
+              "alphaLossRatio": "0.038117",
+              "alphaLossPixels": "3461",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only: 31.3% of pixels differ from reference",
+            "detail": {
+              "key": "child-icon-only",
+              "score": "0.312791",
+              "diffPixels": "39620"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "child-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "8361"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-icon-only-disabled: 34.9% of pixels differ from reference",
+            "detail": {
+              "key": "child-icon-only-disabled",
+              "score": "0.349162",
+              "diffPixels": "44227"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "child-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "4515"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only: 6.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-text-only",
+              "alphaLossRatio": "0.062055",
+              "alphaLossPixels": "3747",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only: 38.5% of pixels differ from reference",
+            "detail": {
+              "key": "child-text-only",
+              "score": "0.384725",
+              "diffPixels": "34933"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "child-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "14912"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-text-only-disabled: 49.9% of pixels differ from reference",
+            "detail": {
+              "key": "child-text-only-disabled",
+              "score": "0.499229",
+              "diffPixels": "45330"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "28174"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 78.0% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.780286",
+              "diffPixels": "70850"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "35599"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 75.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant",
+              "alphaLossRatio": "0.755049",
+              "alphaLossPixels": "36336",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 86.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant",
+              "score": "0.862059",
+              "diffPixels": "78275"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "28174"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: 78.0% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "score": "0.780286",
+              "diffPixels": "70850"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76373"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only: 88.6% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-icon-only",
+              "score": "0.886102",
+              "diffPixels": "112239"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "44792"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-icon-only-disabled: 63.7% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-icon-only-disabled",
+              "score": "0.636777",
+              "diffPixels": "80658"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44370"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only: 72.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-text-only",
+              "alphaLossRatio": "0.729423",
+              "alphaLossPixels": "44044",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only: 82.4% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-text-only",
+              "score": "0.823656",
+              "diffPixels": "74788"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "35164"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-text-only-disabled: 72.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-text-only-disabled",
+              "score": "0.722269",
+              "diffPixels": "65582"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76333"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only: 88.6% of pixels differ from reference",
+            "detail": {
+              "key": "icon-only",
+              "score": "0.885786",
+              "diffPixels": "112199"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "44792"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-only-disabled: 63.7% of pixels differ from reference",
+            "detail": {
+              "key": "icon-only-disabled",
+              "score": "0.636777",
+              "diffPixels": "80658"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "7656"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 10.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.107888",
+              "alphaLossPixels": "5192",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 55.4% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.554317",
+              "diffPixels": "50332"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "outlined-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "12399"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: 60.7% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-disabled",
+              "score": "0.606553",
+              "diffPixels": "55075"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "outlined-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "10505"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only: 10.1% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-icon-only",
+              "alphaLossRatio": "0.10054",
+              "alphaLossPixels": "9129",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only: 36.6% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-icon-only",
+              "score": "0.366089",
+              "diffPixels": "46371"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "outlined-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "11046"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-icon-only-disabled: 37.0% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-icon-only-disabled",
+              "score": "0.37036",
+              "diffPixels": "46912"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "outlined-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "9488"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only: 11.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-text-only",
+              "alphaLossRatio": "0.115349",
+              "alphaLossPixels": "6965",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only: 43.9% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-text-only",
+              "score": "0.439493",
+              "diffPixels": "39906"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "outlined-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "16302"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-text-only-disabled: 51.5% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-text-only-disabled",
+              "score": "0.514537",
+              "diffPixels": "46720"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44352"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 72.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "text-only",
+              "alphaLossRatio": "0.729423",
+              "alphaLossPixels": "44044",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only: 82.3% of pixels differ from reference",
+            "detail": {
+              "key": "text-only",
+              "score": "0.823458",
+              "diffPixels": "74770"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "35164"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "text-only-disabled: 72.2% of pixels differ from reference",
+            "detail": {
+              "key": "text-only-disabled",
+              "score": "0.722269",
+              "diffPixels": "65582"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "tonal",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "35610"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 75.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal",
+              "alphaLossRatio": "0.755049",
+              "alphaLossPixels": "36336",
+              "alphaComparedPixels": "48124"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 86.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal",
+              "score": "0.862181",
+              "diffPixels": "78286"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: reference 454×106 vs candidate 454×200; compared over their 454×106 overlap, 47.0% of the frame uncovered",
+            "detail": {
+              "key": "tonal-disabled",
+              "dw": "0",
+              "dh": "-94",
+              "borderPixels": "42676",
+              "contentPixels": "28174"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: 78.0% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-disabled",
+              "score": "0.780286",
+              "diffPixels": "70850"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "tonal-icon-only",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "76513"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only: 83.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-icon-only",
+              "alphaLossRatio": "0.835848",
+              "alphaLossPixels": "75895",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only: 88.7% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-icon-only",
+              "score": "0.887207",
+              "diffPixels": "112379"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only-disabled: reference 454×279 vs candidate 454×200; compared over their 454×200 overlap, 28.3% of the frame uncovered",
+            "detail": {
+              "key": "tonal-icon-only-disabled",
+              "dw": "0",
+              "dh": "79",
+              "borderPixels": "35866",
+              "contentPixels": "44792"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-icon-only-disabled: 63.7% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-icon-only-disabled",
+              "score": "0.636777",
+              "diffPixels": "80658"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "tonal-text-only",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "44369"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only: 72.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-text-only",
+              "alphaLossRatio": "0.729423",
+              "alphaLossPixels": "44044",
+              "alphaComparedPixels": "60382"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only: 82.4% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-text-only",
+              "score": "0.823645",
+              "diffPixels": "74787"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only-disabled: reference 454×133 vs candidate 454×200; compared over their 454×133 overlap, 33.5% of the frame uncovered",
+            "detail": {
+              "key": "tonal-text-only-disabled",
+              "dw": "0",
+              "dh": "-67",
+              "borderPixels": "30418",
+              "contentPixels": "35164"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-text-only-disabled: 72.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-text-only-disabled",
+              "score": "0.722269",
+              "diffPixels": "65582"
+            }
+          }
+        ]
+      }
+    ],
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.FilledRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
@@ -4384,6 +6442,1996 @@
               "key": "left-aligned",
               "score": "0.631531",
               "diffPixels": "57343"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.TextRemoteButton_width=227dp,height=100dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Text=MMM — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Text\",\"type\":\"text\",\"value\":\"MMM\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"MMM\": offset (-19, 8), size Δ(39, 14) vs candidate",
+            "detail": {
+              "label": "MMM",
+              "dx": "-19",
+              "dy": "8",
+              "dw": "39",
+              "dh": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 2,
+                  "y": 17,
+                  "width": 48,
+                  "height": 18
+                },
+                "label": "MMM"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 187,
+                  "y": 82,
+                  "width": 81,
+                  "height": 36
+                },
+                "label": "MMM"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59872"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 85.0% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.849949",
+              "diffPixels": "175188"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3411"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 3.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child",
+              "alphaLossRatio": "0.032115",
+              "alphaLossPixels": "2916",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 57.6% of pixels differ from reference",
+            "detail": {
+              "key": "child",
+              "score": "0.57602",
+              "diffPixels": "118727"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3009"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: 57.4% of pixels differ from reference",
+            "detail": {
+              "key": "child-disabled",
+              "score": "0.57407",
+              "diffPixels": "118325"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "2467"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-large",
+              "alphaLossRatio": "0.018932",
+              "alphaLossPixels": "1719",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 57.1% of pixels differ from reference",
+            "detail": {
+              "key": "child-large",
+              "score": "0.57144",
+              "diffPixels": "117783"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "1769"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large-disabled: 56.8% of pixels differ from reference",
+            "detail": {
+              "key": "child-large-disabled",
+              "score": "0.568054",
+              "diffPixels": "117085"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3367"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small: 3.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-small",
+              "alphaLossRatio": "0.03174",
+              "alphaLossPixels": "2882",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small: 57.6% of pixels differ from reference",
+            "detail": {
+              "key": "child-small",
+              "score": "0.575807",
+              "diffPixels": "118683"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "2908"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small-disabled: 57.4% of pixels differ from reference",
+            "detail": {
+              "key": "child-small-disabled",
+              "score": "0.57358",
+              "diffPixels": "118224"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59951"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 85.0% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant",
+              "score": "0.850332",
+              "diffPixels": "175267"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57556"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large: 83.9% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-large",
+              "score": "0.838712",
+              "diffPixels": "172872"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "34974"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large-disabled: 72.9% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-large-disabled",
+              "score": "0.729153",
+              "diffPixels": "150290"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61353"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-small",
+              "score": "0.857134",
+              "diffPixels": "176669"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35530"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-small-disabled",
+              "score": "0.73185",
+              "diffPixels": "150846"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57470"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 83.8% of pixels differ from reference",
+            "detail": {
+              "key": "default/large",
+              "score": "0.838295",
+              "diffPixels": "172786"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "34974"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: 72.9% of pixels differ from reference",
+            "detail": {
+              "key": "large-disabled",
+              "score": "0.729153",
+              "diffPixels": "150290"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "9615"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.088744",
+              "alphaLossPixels": "8058",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 60.6% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.60612",
+              "diffPixels": "124931"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6419"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-disabled",
+              "score": "0.590614",
+              "diffPixels": "121735"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "8118"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 6.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-large",
+              "alphaLossRatio": "0.067357",
+              "alphaLossPixels": "6116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 59.9% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large",
+              "score": "0.598857",
+              "diffPixels": "123434"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "4966"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: 58.4% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "score": "0.583565",
+              "diffPixels": "120282"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "9972"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 9.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-small",
+              "alphaLossRatio": "0.09337",
+              "alphaLossPixels": "8478",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 60.8% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small",
+              "score": "0.607852",
+              "diffPixels": "125288"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6499"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "score": "0.591002",
+              "diffPixels": "121815"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61270"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "default/small",
+              "score": "0.856731",
+              "diffPixels": "176586"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35530"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "small-disabled",
+              "score": "0.73185",
+              "diffPixels": "150846"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59876"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 85.0% of pixels differ from reference",
+            "detail": {
+              "key": "tonal",
+              "score": "0.849968",
+              "diffPixels": "175192"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57474"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large: 83.8% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-large",
+              "score": "0.838314",
+              "diffPixels": "172790"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "34974"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large-disabled: 72.9% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-large-disabled",
+              "score": "0.729153",
+              "diffPixels": "150290"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61274"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-small",
+              "score": "0.856751",
+              "diffPixels": "176590"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35530"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-small-disabled",
+              "score": "0.73185",
+              "diffPixels": "150846"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#TextRemoteButton": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Text=MMM — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Text\",\"type\":\"text\",\"value\":\"MMM\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"MMM\": offset (-19, 8), size Δ(39, 14) vs candidate",
+            "detail": {
+              "label": "MMM",
+              "dx": "-19",
+              "dy": "8",
+              "dw": "39",
+              "dh": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 2,
+                  "y": 17,
+                  "width": 48,
+                  "height": 18
+                },
+                "label": "MMM"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 187,
+                  "y": 82,
+                  "width": 81,
+                  "height": 36
+                },
+                "label": "MMM"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59872"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 85.0% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.849949",
+              "diffPixels": "175188"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3411"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 3.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child",
+              "alphaLossRatio": "0.032115",
+              "alphaLossPixels": "2916",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child: 57.6% of pixels differ from reference",
+            "detail": {
+              "key": "child",
+              "score": "0.57602",
+              "diffPixels": "118727"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3009"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-disabled: 57.4% of pixels differ from reference",
+            "detail": {
+              "key": "child-disabled",
+              "score": "0.57407",
+              "diffPixels": "118325"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "2467"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 1.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-large",
+              "alphaLossRatio": "0.018932",
+              "alphaLossPixels": "1719",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large: 57.1% of pixels differ from reference",
+            "detail": {
+              "key": "child-large",
+              "score": "0.57144",
+              "diffPixels": "117783"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "1769"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-large-disabled: 56.8% of pixels differ from reference",
+            "detail": {
+              "key": "child-large-disabled",
+              "score": "0.568054",
+              "diffPixels": "117085"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "3367"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small: 3.2% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "child-small",
+              "alphaLossRatio": "0.03174",
+              "alphaLossPixels": "2882",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small: 57.6% of pixels differ from reference",
+            "detail": {
+              "key": "child-small",
+              "score": "0.575807",
+              "diffPixels": "118683"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "child-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "2908"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "child-small-disabled: 57.4% of pixels differ from reference",
+            "detail": {
+              "key": "child-small-disabled",
+              "score": "0.57358",
+              "diffPixels": "118224"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59951"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant: 85.0% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant",
+              "score": "0.850332",
+              "diffPixels": "175267"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57556"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large: 83.9% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-large",
+              "score": "0.838712",
+              "diffPixels": "172872"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "34974"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-large-disabled: 72.9% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-large-disabled",
+              "score": "0.729153",
+              "diffPixels": "150290"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61353"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "filled-variant-small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-small",
+              "score": "0.857134",
+              "diffPixels": "176669"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "filled-variant-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35530"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "filled-variant-small-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "filled-variant-small-disabled",
+              "score": "0.73185",
+              "diffPixels": "150846"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57470"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/large: 83.8% of pixels differ from reference",
+            "detail": {
+              "key": "default/large",
+              "score": "0.838295",
+              "diffPixels": "172786"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "34974"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "large-disabled: 72.9% of pixels differ from reference",
+            "detail": {
+              "key": "large-disabled",
+              "score": "0.729153",
+              "diffPixels": "150290"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "9615"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 8.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined",
+              "alphaLossRatio": "0.088744",
+              "alphaLossPixels": "8058",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined: 60.6% of pixels differ from reference",
+            "detail": {
+              "key": "outlined",
+              "score": "0.60612",
+              "diffPixels": "124931"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6419"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-disabled",
+              "score": "0.590614",
+              "diffPixels": "121735"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "8118"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 6.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-large",
+              "alphaLossRatio": "0.067357",
+              "alphaLossPixels": "6116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large: 59.9% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large",
+              "score": "0.598857",
+              "diffPixels": "123434"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "4966"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-large-disabled: 58.4% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-large-disabled",
+              "score": "0.583565",
+              "diffPixels": "120282"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "9972"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 9.3% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "outlined-small",
+              "alphaLossRatio": "0.09337",
+              "alphaLossPixels": "8478",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small: 60.8% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small",
+              "score": "0.607852",
+              "diffPixels": "125288"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "6499"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "outlined-small-disabled: 59.1% of pixels differ from reference",
+            "detail": {
+              "key": "outlined-small-disabled",
+              "score": "0.591002",
+              "diffPixels": "121815"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "default/small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61270"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default/small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default/small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "default/small",
+              "score": "0.856731",
+              "diffPixels": "176586"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35530"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "small-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "small-disabled",
+              "score": "0.73185",
+              "diffPixels": "150846"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "59876"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 66.0% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal",
+              "alphaLossRatio": "0.660198",
+              "alphaLossPixels": "59946",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal: 85.0% of pixels differ from reference",
+            "detail": {
+              "key": "tonal",
+              "score": "0.849968",
+              "diffPixels": "175192"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35554"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-disabled",
+              "score": "0.731966",
+              "diffPixels": "150870"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-large",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "57474"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large: 62.9% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-large",
+              "alphaLossRatio": "0.629031",
+              "alphaLossPixels": "57116",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large: 83.8% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-large",
+              "score": "0.838314",
+              "diffPixels": "172790"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-large-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "34974"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-large-disabled: 72.9% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-large-disabled",
+              "score": "0.729153",
+              "diffPixels": "150290"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-small",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "61274"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "tonal-small",
+              "alphaLossRatio": "0.674053",
+              "alphaLossPixels": "61204",
+              "alphaComparedPixels": "90800"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small: 85.7% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-small",
+              "score": "0.856751",
+              "diffPixels": "176590"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small-disabled: reference 454×454 vs candidate 454×200; compared over their 454×200 overlap, 55.9% of the frame uncovered",
+            "detail": {
+              "key": "tonal-small-disabled",
+              "dw": "0",
+              "dh": "254",
+              "borderPixels": "115316",
+              "contentPixels": "35530"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "tonal-small-disabled: 73.2% of pixels differ from reference",
+            "detail": {
+              "key": "tonal-small-disabled",
+              "score": "0.73185",
+              "diffPixels": "150846"
             }
           }
         ]
