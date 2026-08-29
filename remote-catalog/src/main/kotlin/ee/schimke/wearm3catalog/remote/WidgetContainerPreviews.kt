@@ -102,31 +102,23 @@ private val largeWidgetParams =
 // `WearWidgetContainer` lays content out top-start; a real widget supplies its own
 // layout, so the stickers do too.
 //
-// Also installs a selected `@WearThemeCatalog` theme's colour scheme, the same way `RemoteSticker`
-// does for the component stickers. These previews bypass `RemoteSticker` entirely (the Glance Wear
-// preview path owns its own capture), so without this a recomposing session's Theme select would
-// silently skip the three widget cards. Absent a provider nothing is installed and the captures are
-// byte-for-byte unchanged — which is every recorded render, so the packed documents stay
-// theme-independent and the replay path can seed them.
+// Also installs the catalog typography and a selected `@WearThemeCatalog` theme's colour scheme,
+// the same way `RemoteSticker` does for the component stickers. These previews bypass
+// `RemoteSticker` entirely (the Glance Wear preview path owns its own capture), so without this a
+// recomposing session's Theme select would silently skip the three widget cards — and their default
+// captures would fall back to the player's device-family resolution instead of naming Roboto Flex.
 @Composable
 private fun CenteredWidgetContent(content: @Composable @RemoteComposable () -> Unit) {
   val themeName = LocalRemoteCatalogTheme.current
-  if (themeName == null) {
+  val colorScheme =
+    if (themeName == null) RemoteMaterialTheme.colorScheme
+    else remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
+  RemoteMaterialTheme(colorScheme = colorScheme, typography = RemoteCatalogTypography) {
     RemoteBox(
       modifier = RemoteModifier.fillMaxSize(),
       contentAlignment = RemoteAlignment.Center,
       content = content,
     )
-  } else {
-    RemoteMaterialTheme(
-      colorScheme = remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
-    ) {
-      RemoteBox(
-        modifier = RemoteModifier.fillMaxSize(),
-        contentAlignment = RemoteAlignment.Center,
-        content = content,
-      )
-    }
   }
 }
 

@@ -8,10 +8,12 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.text.RemoteFontFamily
 import androidx.compose.remote.creation.profile.RcPlatformProfiles
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import androidx.wear.compose.remote.material3.RemoteTypography
 import ee.schimke.composeai.daemon.RemoteOverridablePreview
 
 /**
@@ -45,33 +47,33 @@ import ee.schimke.composeai.daemon.RemoteOverridablePreview
  * reads the same [remoteCatalogThemeColors] map the replay path seeds, so the two lanes cannot
  * disagree about what a theme is.
  *
- * Only the colour scheme is installed. The typeface is not a document property — the stickers emit
- * the built-in default family id and the player resolves it at draw time — so it stays data for a
- * lane to configure its resolver with rather than something captured.
+ * Every capture installs [RemoteCatalogTypography], including the un-themed path. That makes the
+ * document ask for one exact Google Fonts family instead of emitting the stock `roboto-flex`
+ * device-family id and trusting each player to resolve it the same way. Typeface is not named
+ * state, so a replayed document cannot swap it with the colour overrides. Published captures keep
+ * this baseline face; each theme's intended pairing remains player-lane data in
+ * `RemoteThemeCatalogs.kt`.
  */
 @Composable
 fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
   val themeName = LocalRemoteCatalogTheme.current
   RemoteOverridablePreview(profile = RcPlatformProfiles.ANDROIDX) {
-    if (themeName == null) {
+    val colorScheme =
+      if (themeName == null) RemoteMaterialTheme.colorScheme
+      else remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
+    RemoteMaterialTheme(colorScheme = colorScheme, typography = RemoteCatalogTypography) {
       RemoteBox(
         modifier = RemoteModifier.fillMaxSize(),
         contentAlignment = RemoteAlignment.Center,
         content = content,
       )
-    } else {
-      RemoteMaterialTheme(
-        colorScheme = remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
-      ) {
-        RemoteBox(
-          modifier = RemoteModifier.fillMaxSize(),
-          contentAlignment = RemoteAlignment.Center,
-          content = content,
-        )
-      }
     }
   }
 }
+
+/** The explicit, replay-stable face used by every Material-themed Remote text role. */
+internal val RemoteCatalogTypography =
+  RemoteTypography(defaultFontFamily = RemoteFontFamily.Named("google:Roboto Flex"))
 
 /**
  * The width the kit draws a **row-shaped control** at: 172dp, the content column of the 192dp
