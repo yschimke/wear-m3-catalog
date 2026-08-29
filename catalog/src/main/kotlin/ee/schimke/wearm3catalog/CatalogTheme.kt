@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -58,10 +57,25 @@ internal val LocalCatalogThemeOverride = staticCompositionLocalOf { false }
  * A component the kit publishes as a *display* cell — the round watch face, whole — wants
  * [FullScreenSticker] instead, and the edge button wants [EdgeButtonSticker]: what decides is the
  * shape of the kit cell the render is compared against, not how the component feels.
+ *
+ * **No padding, and that is the point of "tight".** This used to wrap the component in
+ * `Modifier.padding(8.dp)`, which put 8dp of transparent frame inside every capture. Nothing drew
+ * into it — Wear's components stay within their bounds here — so it bought nothing, and it cost a
+ * great deal: design-parity rasterises the reference to the CANDIDATE's width, so the margin did
+ * not add a tolerable border, it rescaled the whole comparison and shifted the content under a
+ * top-left alignment. 16dp on a 136dp frame is a 12% zoom error, and components matching their
+ * reference pixel-for-pixel reported ~30% differing because of it
+ * ([#138](https://github.com/yschimke/wear-m3-catalog/issues/138)).
+ *
+ * A component that genuinely draws outside its bounds — an elevation shadow, a focus ring — asks
+ * for room with `@CaptureGutter`, which extends the *capture* without changing what the composable
+ * measures and travels in `previews.json` as a declared fact. That is the tool for a real gutter.
+ * It is not a way to reinstate decorative margin: a gutter states "the component draws this far
+ * past its bounds", and saying it where nothing does would be a lie a consumer acts on.
  */
 @Composable
 fun Sticker(content: @Composable () -> Unit) {
-  CatalogMaterialTheme { Box(Modifier.padding(8.dp)) { content() } }
+  CatalogMaterialTheme { Box { content() } }
 }
 
 /**
