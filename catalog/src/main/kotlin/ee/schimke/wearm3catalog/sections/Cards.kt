@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.AppCard
 import androidx.wear.compose.material3.Card
@@ -83,21 +85,57 @@ import ee.schimke.wearm3catalog.kitCopy
 
 private val CardWidth = 180.dp
 
-/** The height the kit gives the thumbnails in its `Image` and `Gallery` cells. */
-private val GalleryHeight = 42.dp
+// The kit's content slots, read off the nodes rather than guessed
+// ([#153](https://github.com/yschimke/wear-m3-catalog/issues/153)). Every one is 148dp wide — the
+// card's content column — and they differ in height and in what they hold:
+//
+//   Slot Image    `38437:5766` (Title Card 1)  148 × 64      one frame
+//   Slot Image    `38437:5736` (App Card)      148 × 66.2    one frame
+//   Slot Gallery  `39710:11182` (Gallery 1)    148 × 64      86 + 4 + 58
+//   Slot Gallery  `39880:105427` (Gallery 2)   148 × 58      58 + 4 + 86
+//
+// All four were drawn at 42dp here, against a comment that stated the kit's height as a fact and
+// had it wrong by more than a third.
+//
+// The two galleries also hold a THIRD frame, `Image-Additional` at 24dp — an overflow affordance.
+// It is `hidden="true"` in both, so it is published but not drawn, and a row that rendered it would
+// differ from the cell in the other direction. Two frames is what the cells show.
+
+/** The height the kit gives the single-frame `Image` slot. */
+private val ImageSlotHeight = 64.dp
+
+/**
+ * The kit's two gallery slots, as the geometry that separates them.
+ *
+ * They are NOT two equal thumbnails in different shapes, which is what this drew before: both are
+ * one wide frame and one narrow one, `86 : 58`, and what the axis actually swaps is the **order**
+ * (wide-first in Gallery 1, narrow-first in Gallery 2) and the **height** (64dp against 58dp). The
+ * shapes differ too — Gallery 1 is rounded, Gallery 2 is a pill — but on a 58dp-tall row a pill and
+ * a 12dp radius are a few pixels apart, so shape alone was never what the cells were about.
+ */
+private enum class Gallery(val height: Dp, val wideFirst: Boolean, val shape: Shape) {
+  One(height = 64.dp, wideFirst = true, shape = RoundedCornerShape(12.dp)),
+  Two(height = 58.dp, wideFirst = false, shape = CircleShape),
+}
+
+/** The kit's wide and narrow gallery frames, as weights of the 148dp content column. */
+private const val WideWeight = 86f
+private const val NarrowWeight = 58f
 
 @Composable
-private fun galleryRow(shape: Shape) {
+private fun galleryRow(gallery: Gallery) {
+  val weights =
+    if (gallery.wideFirst) listOf(WideWeight, NarrowWeight) else listOf(NarrowWeight, WideWeight)
   Row(
     horizontalArrangement = Arrangement.spacedBy(4.dp),
-    modifier = Modifier.fillMaxWidth().height(GalleryHeight),
+    modifier = Modifier.fillMaxWidth().height(gallery.height),
   ) {
-    repeat(2) {
+    for (weight in weights) {
       Image(
         painter = CatalogImage,
         contentDescription = null,
         contentScale = ContentScale.Crop,
-        modifier = Modifier.weight(1f).fillMaxWidth().clip(shape),
+        modifier = Modifier.weight(weight).fillMaxHeight().clip(gallery.shape),
       )
     }
   }
@@ -122,15 +160,16 @@ private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
           painter = CatalogImage,
           contentDescription = null,
           contentScale = ContentScale.Crop,
-          modifier = Modifier.fillMaxWidth().height(GalleryHeight).clip(RoundedCornerShape(12.dp)),
+          modifier =
+            Modifier.fillMaxWidth().height(ImageSlotHeight).clip(RoundedCornerShape(12.dp)),
         )
       }
     }
     "gallery-1" -> {
-      { galleryRow(RoundedCornerShape(12.dp)) }
+      { galleryRow(Gallery.One) }
     }
     "gallery-2" -> {
-      { galleryRow(CircleShape) }
+      { galleryRow(Gallery.Two) }
     }
     else -> bodyText?.let { text -> { Text(text) } }
   }

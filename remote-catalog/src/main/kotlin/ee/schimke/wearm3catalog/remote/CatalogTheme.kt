@@ -45,9 +45,11 @@ import ee.schimke.composeai.daemon.RemoteOverridablePreview
  * reads the same [remoteCatalogThemeColors] map the replay path seeds, so the two lanes cannot
  * disagree about what a theme is.
  *
- * Only the colour scheme is installed. The typeface is not a document property — the stickers emit
- * the built-in default family id and the player resolves it at draw time — so it stays data for a
- * lane to configure its resolver with rather than something captured.
+ * The colour scheme AND the typeface are installed. The typeface used not to be: every theme
+ * emitted the built-in `roboto-flex` device family for all six type roles, so the six specimens
+ * differed only in colour while the Wear column showed four typefaces
+ * ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)). A sheet whose theme page says
+ * "typography" and shows one face is overstating what it demonstrates.
  */
 @Composable
 fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
@@ -61,7 +63,8 @@ fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
       )
     } else {
       RemoteMaterialTheme(
-        colorScheme = remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme)
+        colorScheme = remoteCatalogColorScheme(themeName, RemoteMaterialTheme.colorScheme),
+        typography = remoteCatalogTypography(themeName, RemoteMaterialTheme.typography),
       ) {
         RemoteBox(
           modifier = RemoteModifier.fillMaxSize(),
@@ -93,6 +96,28 @@ fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
  * *supposed* to size to its content — an icon button, the compact button — must not take it.
  */
 val KitRowWidth = 172.rdp
+
+/**
+ * The size the kit draws a **display cell** at: 192dp, the round face whole — the small-round
+ * breakpoint its display cells are measured against.
+ *
+ * The counterpart to [KitRowWidth] for the components the kit publishes as a whole screen rather
+ * than as a row: the circular progress rail, the page indicators. Those are the cells whose subject
+ * is *where a curve sits relative to the bezel*, so their kit node's own bounding box is the 192dp
+ * display, not a wrapped control.
+ *
+ * The sticker frame is 227dp (`CatalogRemoteDisplay`), because this sheet pins one canvas at the
+ * largeRound breakpoint where the sibling fans across five. `fillMaxSize` inside that frame
+ * therefore draws to 227 and not to the cell: `Progress/Circular` published a 227×227 ring against
+ * a 192×192 node — 35dp oversized, with its stroke out where the bezel would be
+ * ([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)). That is not the open framing
+ * question in #138: the ring is drawing to the frame instead of to a display, and the display is a
+ * number the kit states.
+ *
+ * So a display-cell sticker takes this rather than `fillMaxSize`, and the 17.5dp of frame left over
+ * on each side is transparent margin — the same shape of allowance [KitRowWidth] makes.
+ */
+val KitDisplaySize = 192.rdp
 
 /**
  * The catalog's Remote Compose **component** multipreview. A single 227×100 capture. Remote Compose

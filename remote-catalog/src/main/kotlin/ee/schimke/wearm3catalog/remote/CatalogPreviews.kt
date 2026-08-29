@@ -1375,8 +1375,14 @@ fun ButtonGroupRemote() = RemoteSticker {
   id = "Card",
   group = "Containment",
   parallel = "Card",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/38437:5747",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  noReference =
+    "The absence the `:catalog` twin states, for the same reason: the kit's `Card` set publishes " +
+      "no title-less cell — all 45 of them draw a title, a timestamp and a body. This is the " +
+      "plain one-slot container the titled cards are built on. It used to name `38437:5747`, " +
+      "which is `Layout type=Title Card 1, Style=Tonal` — a cell it is not a picture of, and one " +
+      "`TitleCard` already claims " +
+      "([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)). The kit's titled cells " +
+      "are on `TitleCard` and `AppCard`.",
   caption = "Remote Material 3 card.",
 )
 @CatalogRemoteLarge
@@ -1394,8 +1400,12 @@ fun CardRemote() = RemoteSticker {
   id = "Card/Outlined",
   group = "Containment",
   parallel = "Card/Outlined",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/39827:105691",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  noReference =
+    "The same absence `Card` states. The kit's outline column draws outlined TITLE and APP " +
+      "cards, which ride as cells on those components; `RemoteOutlinedCard` is the title-less " +
+      "outlined container and the kit publishes no title-less cell. It used to name " +
+      "`39827:105691` — `Layout type=Title Card 1, Style=Outline` " +
+      "([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)).",
   caption = "Outlined card variant (RemoteOutlinedCard).",
 )
 @CatalogRemoteLarge
@@ -1845,11 +1855,14 @@ fun CircularProgressRemote() = RemoteSticker {
   // arc. Feeding the preview override in as the named value's default settles it: a cell picks the
   // value the document is built with, and the live path is untouched.
   val progress = rememberOverridableRemoteFloat("progress", previewOverrideFloat("progress", 0.6f))
-  // `fillMaxSize`, not a 72dp box. The kit publishes this as a *display* cell — a ring struck 2dp
-  // inside the bezel of the whole round face — which is why the sticker is on the 227dp
-  // [CatalogRemoteDisplay] frame at all, and why the Wear sibling draws it `fillMaxSize` too. At
-  // 72dp it was a small dial floating in the middle of a display-sized capture: a different
-  // component from the one the row compares it against.
+  // [KitDisplaySize], not a 72dp box and not `fillMaxSize`. The kit publishes this as a *display*
+  // cell — a ring struck 2dp inside the bezel of the whole round face — which is why the sticker is
+  // on the 227dp [CatalogRemoteDisplay] frame at all. At 72dp it was a small dial floating in the
+  // middle of a display-sized capture: a different component from the one the row compares it
+  // against. But `fillMaxSize` overshot the other way, because this frame is 227dp where the cell
+  // is 192dp: the ring published 35dp oversized, its stroke out where the bezel would be
+  // ([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)). The Wear sibling reaches the
+  // same 192dp with `fillMaxSize` because its frame IS the 192dp device; this one has to say so.
   // The kit's `Disabled` axis. #125 declared the cell and never wired the knob, so the disabled
   // render was byte-identical to this one and scored against the kit's `Disabled=Yes` node while
   // drawing the enabled picture — a comparison that could not fail. The knob is read at
@@ -1857,7 +1870,7 @@ fun CircularProgressRemote() = RemoteSticker {
   RemoteCircularProgressIndicator(
     progress = progress,
     enabled = previewOverrideBoolean("enabled", true).rb,
-    modifier = RemoteModifier.fillMaxSize(),
+    modifier = RemoteModifier.size(KitDisplaySize),
   )
 }
 

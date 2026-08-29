@@ -73,27 +73,37 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * each literal, and `CatalogInventoryTest` pins the sibling's, so a seed moved on one side fails
  * the other side's build rather than quietly publishing two "Droidcon"s.
  *
- * ## The typeface half is a host choice, not a named value
+ * ## The typeface half rides the document, and only on the themed branch
  *
- * A named value can carry a colour, a float, an int or a bool — not a face. The typeface is
- * host-side in a different way: the stickers emit the built-in **default family id**, and which
- * face that id resolves to is decided by the player at draw time. So [remoteCatalogFont] /
- * [remoteCatalogDisplayFont] are published here as data for that lane to configure its resolver
- * with, rather than being installed into the document. Until a lane does, a theme's colours apply
- * while its faces do not.
+ * A named value can carry a colour, a float, an int or a bool — not a face — so the two halves of a
+ * theme arrive by different routes. The colours are named-value overrides, which is what lets one
+ * default-themed capture be re-themed afterwards. The typeface cannot be, so it is installed into
+ * the document instead: `RemoteCatalogFonts.kt` turns [remoteCatalogFont] /
+ * [remoteCatalogDisplayFont] into a `RemoteTypography` with all eighteen roles re-pointed, and
+ * `RemoteSticker` passes it to `RemoteMaterialTheme` on the themed branch.
  *
- * The faces are the sibling's too: Confetti's ship pairing (Roboto Flex on display / title /
- * numerals, Inter on body and label) under the three themes that ship it, JetBrains Mono over Inter
- * for KotlinConf, and Google Sans Flex throughout for DevFest and the Wear M3 type entry.
+ * That was a real gap, not a stylistic one: before it, every theme emitted the built-in
+ * `roboto-flex` device family on every role, so the six identities differed in colour alone while
+ * the sibling column showed four typefaces
+ * ([#150](https://github.com/yschimke/wear-m3-catalog/issues/150)).
  *
- * Neither Inter nor JetBrains Mono is vendored yet, deliberately. A face only has to reach the
- * `cmp-wasm-catalog` `fonts.json` in yschimke/compose-ai-tools once a *document* names it — that
- * lane is manifest-only and never fetches, so an unlisted family a document asks for fails
- * `RcComposeSupport.fontFamilyIssue`'s availability check rather than degrading to a substitute. No
- * recorded document names one (recording is default-themed and the wrapper installs colours only),
- * so vendoring them now would add to the Wasm player's size ratchet to buy nothing — Inter failed
- * that ratchet once already. They land with the lane that resolves them. Google Sans Flex stays
- * vendored: it was already there and the ratchet was already raised for it.
+ * The faces are the sibling's: Confetti's ship pairing (Roboto Flex on display / title / numerals,
+ * Inter on body and label) under the three themes that ship it, JetBrains Mono over Inter for
+ * KotlinConf, and Google Sans Flex throughout for DevFest and the Wear M3 type entry. Those two
+ * functions stay the single statement of that — `RemoteCatalogFonts.kt` reads them rather than
+ * repeating them, so the document and the published data cannot drift apart.
+ *
+ * Neither Inter nor JetBrains Mono is vendored yet, and installing the typeface does not change
+ * that. A face only has to reach the `cmp-wasm-catalog` `fonts.json` in yschimke/compose-ai-tools
+ * once a *document* names it — that lane is manifest-only and never fetches, so an unlisted family
+ * a document asks for fails `RcComposeSupport.fontFamilyIssue`'s availability check rather than
+ * degrading to a substitute. The documents that lane replays are the **recorded** ones, and
+ * `composePreviewRenderAll` records with no provider, so they still name no family. Only the theme
+ * specimen stickers (`RemoteThemeSpecimens.kt`) take the themed branch, and they are rendered here
+ * rather than replayed there. Vendoring the two now would add to the Wasm player's size ratchet to
+ * buy nothing — Inter failed that ratchet once already. They land with the lane that replays a
+ * themed document. Google Sans Flex stays vendored: it was already there and the ratchet was
+ * already raised for it.
  *
  * ## What a theme deliberately does not reach
  *
@@ -107,7 +117,9 @@ import ee.schimke.composeai.preview.WearThemeCatalog
  * `@WearThemeCatalog` also makes the renderer synthesise a specimen sheet per theme, read
  * reflectively off `androidx.wear.compose.material3.MaterialTheme` — a *phone/watch* Compose theme
  * these providers never install. Those sheets are byte-identical to each other and are not evidence
- * of anything here; a sticker re-rendered under a seeded theme is.
+ * of anything here; a sticker re-rendered under a seeded theme is. `RemoteThemeSpecimens.kt` is
+ * that sticker, six times — the only place in this sheet where either half of a theme is a rendered
+ * pixel rather than a declaration.
  */
 
 /** The declared theme names, in display order — the sibling's order. */
@@ -300,7 +312,7 @@ fun remoteCatalogColorScheme(name: String, base: RemoteColorScheme): RemoteColor
 
 /** Publishes [name] to [RemoteSticker], which installs it once inside the remote document. */
 @Composable
-private fun RemoteThemeOverride(name: String, content: @Composable () -> Unit) {
+internal fun RemoteThemeOverride(name: String, content: @Composable () -> Unit) {
   CompositionLocalProvider(LocalRemoteCatalogTheme provides name, content = content)
 }
 
