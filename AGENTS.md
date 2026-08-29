@@ -216,9 +216,15 @@ sheets**: a gap with no reason, and a reason that has outlived its gap.
 **A cell whose API exists is drawn even when the library draws it wrong.** Publishing a blank, or a
 picture identical to its neighbour, puts the defect where a reader meets it and lets a design-led
 scan score it; withdrawing it leaves the set reading as unreproduced, which looks exactly like
-nobody having got to it. `StickerBakeCoverageTest.knownBlank` and `RemoteRenderTest.knownDuplicate`
-are how such a cell is published rather than hidden — each entry names the call that causes it, and
-each test fails in the other direction when the library is fixed. A cell is withdrawn only when
+nobody having got to it. `StickerBakeCoverageTest.knownBlank` and the two `knownDuplicate` maps —
+`RemoteRenderTest`'s, keyed by component, and `CatalogRenderTest`'s, keyed by the pair of cells that
+repeat — are how such a cell is published rather than hidden. Each entry names the call that causes
+it, and each test fails in the other direction when the library is fixed. **That rule holds on the
+Wear sheet too, and it did not used to**: 30 of its cells were withheld because the render would
+repeat a sibling — every disabled `Filled Variant` and `Tonal` cell of `Edge-Button`, `Text-Button`
+and `Button-Compact`, plus the child icon button's two extra-small cells — which put the library's
+collapse behind a gap that read as unfinished work
+([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)). A cell is withdrawn only when
 there is no API to call at all (`RemoteTitleCard` takes no painter argument), never because the
 result is ugly. `:remote-catalog` was carved
 out of the first while its gaps were mostly cells nobody had drawn — the honest answer to those is a

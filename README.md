@@ -83,9 +83,9 @@ button that renders a black pill with no image in it, a text button that draws n
 disabled, a disabled tonal button that is the disabled filled one to the byte. Withdrawing those
 would leave the set reading as unreproduced, which is indistinguishable from nobody having got to
 it: the sheet would look finished and the defect would be nowhere. `StickerBakeCoverageTest`'s
-`knownBlank` and `RemoteRenderTest`'s `knownDuplicate` record each one against the call that causes
-it, and both fail in the other direction too — the day the library starts drawing, the exemption is
-what announces it.
+`knownBlank`, `RemoteRenderTest`'s `knownDuplicate` and `CatalogRenderTest`'s record each one
+against the call that causes it, and all three fail in the other direction too — the day the
+library starts drawing, the exemption is what announces it.
 
 Sixteen components enter through the **library's** door instead — components carrying `noReference`
 with the reason there is nothing to compare against. A sheet whose reader is looking for the
