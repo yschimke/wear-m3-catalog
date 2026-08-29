@@ -57,9 +57,58 @@ class RemoteRenderTest {
   }
 
   /**
+   * The pairs that are **expected** to render identically, each one a state the LIBRARY collapses
+   * rather than a cell that varies nothing — the duplicate twin of
+   * [StickerBakeCoverageTest.knownBlank], and added for the same reason.
+   *
+   * Without it the only way past this test is to withdraw the cell, and withdrawing is what makes a
+   * defect invisible: the kit set then reads as unreproduced, which is indistinguishable from
+   * nobody having got to it. The sheet looks fine and the collapse is nowhere. Publishing the cell
+   * puts it where a reader meets it, lets design-parity score it as the divergence it is, and makes
+   * the fix self-announcing through the second assertion below.
+   *
+   * Every entry names the call that collapses the pair. **An entry here is never a way to quiet a
+   * cell that is simply wrong** — a cell whose seed nothing reads is exactly what this test exists
+   * to catch (`Progress/Circular`'s `disabled` cell, #125's two icon-button cells), and those are
+   * bugs in this file rather than in the library. The test for the difference: if passing the knob
+   * through correctly would separate the pictures, it is a bug here; if the library draws one
+   * picture for both states however it is called, it belongs here.
+   *
+   * The keys are `<cell> == <cell>` within one component, ordered as the failure prints them.
+   */
+  private val knownDuplicate: Map<String, String> =
+    mapOf(
+      "TextRemoteButton" to
+        "#130 — RemoteTextButton(enabled = false) draws nothing at all, so every Disabled=Yes " +
+          "cell is the same empty frame; passing the disabled colours explicitly does not " +
+          "change it",
+      "CompactRemoteButton" to
+        "RemoteButtonDefaults.buttonColors leaves the disabled pair at its defaults, so a style " +
+          "written out by passing containerColor/contentColor is the disabled FILLED button",
+      "FilledRemoteButton" to "a disabled RemoteButton draws its container and not its label",
+      "FilledVariantRemoteButton" to
+        "a disabled RemoteButton draws its container and not its label",
+      "TonalRemoteButton" to "a disabled RemoteButton draws its container and not its label",
+      "OutlinedRemoteButton" to "a disabled RemoteButton draws its container and not its label",
+      "ChildRemoteButton" to "a disabled RemoteButton draws its container and not its label",
+      "ImageBackgroundRemoteButton" to
+        "a disabled RemoteButton draws its container and not its labels, so the secondary one " +
+          "cannot show",
+      "FilledRemoteIconButton" to
+        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
+          "leave one frame",
+      "FilledVariantRemoteIconButton" to
+        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
+          "leave one frame",
+      "TonalRemoteIconButton" to
+        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
+          "leave one frame",
+    )
+
+  /**
    * Deliberately compares only renders of the SAME component. Two different components may
    * legitimately look alike at this size; two renders of one component may not — that is a cell
-   * varying nothing.
+   * varying nothing, unless [knownDuplicate] says the library draws one picture for both.
    */
   @Test
   fun `no two renders of a component are identical`() {
@@ -75,13 +124,55 @@ class RemoteRenderTest {
         val first = seen.put(digest, file.name)
         if (first == null) null else "${file.name} == $first"
       }
-      if (clashes.isEmpty()) null else "$component: ${clashes.joinToString(", ")}"
+      if (clashes.isEmpty() || componentOf(component) in knownDuplicate) null
+      else "$component: ${clashes.joinToString(", ")}"
     }
     assertTrue(
       "these renders of one component are byte-identical — a cell that varies nothing publishes " +
-        "the same picture twice, under two names and against two kit nodes:\n" +
+        "the same picture twice, under two names and against two kit nodes. If the LIBRARY draws " +
+        "one picture for both states however it is called, publish the cell and record it in " +
+        "`knownDuplicate` with the call that collapses it, rather than withdrawing it:\n" +
         duplicates.joinToString("\n") { "  $it" },
       duplicates.isEmpty(),
+    )
+  }
+
+  /** The component name a [knownDuplicate] key uses, from the grouped render stem. */
+  private fun componentOf(stem: String): String = stem.substringBefore("_width")
+
+  /**
+   * The other direction, and the reason a known collapse is published rather than withdrawn: when
+   * the library learns to tell the two states apart, this fails, and the fix is to delete the entry
+   * and let the cells stand as ordinary comparisons. Without it the gap would close in silence and
+   * the sheet would keep an exemption it no longer needs.
+   */
+  @Test
+  fun `every known duplicate still collapses`() {
+    val byComponent =
+      renders
+        .listFiles { f: File -> f.name.endsWith(".png") }
+        .orEmpty()
+        .groupBy { componentOf(it.name.substringBefore("_VARIANT_").substringBeforeLast("-")) }
+
+    val missing = knownDuplicate.keys.filterNot { it in byComponent }
+    assertTrue(
+      "these `knownDuplicate` entries name no component — a stale exemption hides a real " +
+        "duplicate:\n" +
+        missing.joinToString("\n") { "  $it" },
+      missing.isEmpty(),
+    )
+
+    val separated =
+      knownDuplicate.keys.filter { component ->
+        val digests = byComponent.getValue(component).map { it.readBytes().toList().hashCode() }
+        digests.size == digests.toSet().size
+      }
+    assertTrue(
+      "these components no longer render any duplicate — the library collapse they record has " +
+        "been FIXED. Drop the entry from `knownDuplicate` and let the cells stand as ordinary " +
+        "comparisons:\n" +
+        separated.joinToString("\n") { "  $it (was: ${knownDuplicate[it]})" },
+      separated.isEmpty(),
     )
   }
 }

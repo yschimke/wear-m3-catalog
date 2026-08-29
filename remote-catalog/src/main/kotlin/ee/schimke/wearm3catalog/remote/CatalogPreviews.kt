@@ -269,13 +269,17 @@ internal val addIcon: ImageVector =
   strings = ["alignment=left"],
   kitProps = ["Icon=No", "Icon size=n/a", "Alignment=Left"],
 )
-// NO `left-disabled` CELL, on any of the five styles, and the render is why. A disabled
-// `RemoteButton` draws its container and NOT its label on the alpha surface — the same loss
-// `RemoteTextButton(enabled = false)` shows whole — so aligning a label that is not in the picture
-// changes nothing, and the cell came back byte-identical to `disabled` on all five styles at once
-// (`RemoteRenderTest.no two renders of a component are identical`). The kit's five
-// `Icon=No, Alignment=Left, Disabled=Yes` cells are what that costs; they are a library gap rather
-// than a gap in this file, and the Wear column draws all five.
+// `left-disabled` IS DRAWN, and it is the same picture as `disabled` on every one of the five
+// styles. A disabled `RemoteButton` draws its container and NOT its label, so aligning a label that
+// is not in the picture changes nothing. The kit publishes the cell; the library collapses it; the
+// sheet says so, through `RemoteRenderTest.knownDuplicate` rather than by leaving the slot empty.
+@OverrideVariant(
+  name = "left-disabled",
+  booleans = ["enabled=false"],
+  strings = ["alignment=left"],
+  kitProps = ["Icon=No", "Icon size=n/a", "Alignment=Left", "Disabled=Yes"],
+  secondary = true,
+)
 annotation class RemoteButtonKitCells
 
 @CatalogComponent(
@@ -560,9 +564,12 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   kitProps = ["Style=Outline", "Size=Large", "Disabled=No"],
   secondary = true,
 )
-// NO `child-small` CELL. The size is a CONTAINER token and the child style draws no container, so
-// small and default leave the same glyph in the same place — byte-identical to `child`. The same
-// absence `IconButton/Standard` states on the Wear column, one set over.
+@OverrideVariant(
+  name = "child-small",
+  strings = ["style=child", "size=small"],
+  kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=No"],
+  secondary = true,
+)
 @OverrideVariant(
   name = "filled-variant",
   strings = ["style=filled-variant"],
@@ -624,6 +631,83 @@ fun NamedLabelRemoteButton() = RemoteSticker {
   booleans = ["enabled=false"],
   strings = ["style=outlined", "size=large"],
   kitProps = ["Style=Outline", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant"],
+  kitProps = ["Style=Filled-Variant", "Size=Default", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "size=small"],
+  kitProps = ["Style=Filled-Variant", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "size=large"],
+  kitProps = ["Style=Filled-Variant", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Size=Default", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "size=small"],
+  kitProps = ["Style=Tonal", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "size=large"],
+  kitProps = ["Style=Tonal", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child"],
+  kitProps = ["Style=Child (No background)", "Size=Default", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "size=small"],
+  kitProps = ["Style=Child (No background)", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "size=large"],
+  kitProps = ["Style=Child (No background)", "Size=Large", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=small"],
+  kitProps = ["Style=Filled", "Size=Small", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "large-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=large"],
+  kitProps = ["Style=Filled", "Size=Large", "Disabled=Yes"],
   secondary = true,
 )
 annotation class RemoteTextButtonKitCells
@@ -837,11 +921,18 @@ annotation class RemoteIconButtonKitCells
   kitProps = ["Size=Large", "Disabled=Yes"],
   secondary = true,
 )
-// NO `extra-small-disabled` HERE, because a disabled icon button loses its glyph and
-// `ExtraSmallButtonSize` and `SmallButtonSize` then leave nothing to tell the two apart — the cell
-// came back byte-identical to `small-disabled` on the filled, variant and tonal styles. It is NOT
-// undrawable everywhere: `Button/Icon-Outlined` draws its own border at the container's size, so
-// there the two differ and that one component carries the cell directly.
+// `extra-small-disabled` is drawn here for every style, and on three of the four it is the same
+// picture as `small-disabled`: a disabled icon button loses its glyph, and with only the container
+// left `ExtraSmallButtonSize` and `SmallButtonSize` resolve to one frame. `Button/Icon-Outlined` is
+// the exception — it draws its own border at the container's size — so there the two differ. The
+// three collapses are recorded in `RemoteRenderTest.knownDuplicate`.
+@OverrideVariant(
+  name = "extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=extra-small"],
+  kitProps = ["Size=Extra-Small", "Disabled=Yes"],
+  secondary = true,
+)
 annotation class RemoteContainedIconButtonKitCells
 
 /**
@@ -1086,11 +1177,75 @@ fun IconRemoteButton() = RemoteSticker {
     ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=No"],
   secondary = true,
 )
-// NO `Child (No background)` DISABLED CELLS, three of them, and it is the collapse the `Button`
-// row already states: `RemoteButtonDefaults.buttonColors` takes the disabled pair as its own
-// arguments, so a style written out by passing `containerColor` and `contentColor` leaves them at
-// their defaults — and a disabled child compact button is then the disabled FILLED one, to the
-// byte. `Outline` keeps its three, because the border it draws itself survives being disabled.
+@OverrideVariant(
+  name = "child-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "content=icon"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "child-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=child", "content=text"],
+  kitProps =
+    ["Style=Child (No background)", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "content=icon"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "filled-variant-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=filled-variant", "content=text"],
+  kitProps =
+    ["Style=Filled Variant", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal"],
+  kitProps = ["Style=Tonal", "Alignment=Icon left", "Icon=Yes", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-icon-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "content=icon"],
+  kitProps = ["Style=Tonal", "Alignment=Icon centre", "Icon=Yes", "Text=No", "Disabled=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "tonal-text-only-disabled",
+  booleans = ["enabled=false"],
+  strings = ["style=tonal", "content=text"],
+  kitProps = ["Style=Tonal", "Alignment=Text centre", "Icon=No", "Text=Yes", "Disabled=Yes"],
+  secondary = true,
+)
 annotation class RemoteCompactButtonKitCells
 
 // The compact, single-line button (`RemoteCompactButton`) — Wear M3 parallel:
