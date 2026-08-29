@@ -35,6 +35,7 @@ import com.google.android.horologist.media.ui.state.model.MediaUiModel
 import com.google.android.horologist.media.ui.state.model.TrackPositionUiModel
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
+import ee.schimke.composeai.preview.CaptureGutter
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -363,6 +364,7 @@ fun MediaFooterButtonsRow() =
       "middle button's container rather than around it; see the note in this file.",
 )
 @CatalogModes
+@CaptureGutter(top = 8, bottom = 8)
 @OverrideVariant(
   name = "paused",
   booleans = ["playing=false"],
@@ -408,6 +410,7 @@ fun MediaControlButtonsRow() = MediaRowSticker {
   motionPreview = "MediaTransportMotion",
 )
 @CatalogModes
+@CaptureGutter(top = 8, bottom = 8)
 @OverrideVariant(name = "paused", booleans = ["playing=false"])
 @Composable
 fun MediaPodcastControlButtons() = MediaRowSticker {
@@ -542,6 +545,12 @@ fun MediaShowPlaylistButton() = Sticker {
  * of the row on the kit's own `Media-Player` cell (`Middle` is 64dp, `Top` 68dp with the header
  * 38dp of it). It is [Sticker] underneath, so the capture is still transparent and still cropped —
  * cropped to the row rather than to the display.
+ *
+ * Horologist's two transport rows deliberately draw their 80dp middle control 8dp above and below
+ * that 64dp layout strip. Their component previews declare those painted overhangs with
+ * `@CaptureGutter(top = 8, bottom = 8)`: the capture grows without changing the 192×64 constraints
+ * the rows measure against. Do not make this frame 80dp high instead — that changes the component's
+ * layout rather than preserving what it draws outside its bounds.
  *
  * `internal` rather than file-private because `Motion.kt`'s media recordings render in it too: a
  * motion capture needs a **pinned** canvas and this is the pin, so a recording that framed itself
