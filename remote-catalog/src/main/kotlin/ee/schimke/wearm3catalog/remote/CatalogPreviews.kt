@@ -1403,6 +1403,21 @@ private fun cardImagery(): (@Composable () -> Unit)? =
   caption = "Card led by a title, with the kit's numbered layouts folded in as cells.",
 )
 @CatalogRemoteLarge
+// NO `Style=Background Image` CELL, and it is the library rather than this file. The kit crosses
+// its `Card` layouts with an image-backed style — five of the set's forty-five cells — and at
+// `remote-material3-1.0.0-alpha10` neither `RemoteCardKt` nor `RemoteCardDefaults` exposes a
+// painter or container-painter parameter: `RemoteCard`, `RemoteTitleCard` and `RemoteAppCard` take
+// colours and shapes only, checked against the published API jar. So there is no call site to draw
+// those cells from, and a cell mapped to a node this cannot draw would be worse than none
+// ([#157](https://github.com/yschimke/wear-m3-catalog/issues/157)).
+//
+// The painter is not the gap — `remoteContainerPainter(RemoteImageBitmap, …)` exists as a free
+// function and `RemoteButton` takes one. But it does not draw either: a `RemoteButton` handed
+// `RemoteButtonDefaults.containerPainter(CatalogRemoteImage.bitmap())` renders an opaque black
+// pill, with the image absent, under the default scrim, a transparent scrim,
+// `ContentScale.FillBounds`, and a bitmap 64x larger. `RemoteImage` draws that same bitmap in the
+// content slots above, so it is the container painter specifically. Recorded on #157; revisit when
+// either half moves.
 @Composable
 fun TitleCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
@@ -1496,6 +1511,21 @@ fun TitleCardRemote() = RemoteSticker {
   caption = "App card with app name, icon and content slots.",
 )
 @CatalogRemoteLarge
+// NO `Style=Background Image` CELL, and it is the library rather than this file. The kit crosses
+// its `Card` layouts with an image-backed style — five of the set's forty-five cells — and at
+// `remote-material3-1.0.0-alpha10` neither `RemoteCardKt` nor `RemoteCardDefaults` exposes a
+// painter or container-painter parameter: `RemoteCard`, `RemoteTitleCard` and `RemoteAppCard` take
+// colours and shapes only, checked against the published API jar. So there is no call site to draw
+// those cells from, and a cell mapped to a node this cannot draw would be worse than none
+// ([#157](https://github.com/yschimke/wear-m3-catalog/issues/157)).
+//
+// The painter is not the gap — `remoteContainerPainter(RemoteImageBitmap, …)` exists as a free
+// function and `RemoteButton` takes one. But it does not draw either: a `RemoteButton` handed
+// `RemoteButtonDefaults.containerPainter(CatalogRemoteImage.bitmap())` renders an opaque black
+// pill, with the image absent, under the default scrim, a transparent scrim,
+// `ContentScale.FillBounds`, and a bitmap 64x larger. `RemoteImage` draws that same bitmap in the
+// content slots above, so it is the container painter specifically. Recorded on #157; revisit when
+// either half moves.
 @Composable
 fun AppCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
