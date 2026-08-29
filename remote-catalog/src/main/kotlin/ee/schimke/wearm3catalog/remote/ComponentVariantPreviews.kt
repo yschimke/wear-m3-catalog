@@ -9,6 +9,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
+import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
@@ -35,6 +36,7 @@ import androidx.wear.compose.remote.material3.RemoteTextButton
 import androidx.wear.compose.remote.material3.RemoteTimeText
 import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
+import androidx.wear.compose.remote.material3.buttonSizeModifier
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogComponent
@@ -77,6 +79,7 @@ fun TonalRemoteButton() = RemoteSticker {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   RemoteButton(
     onClick = onClick,
+    modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
     // `surfaceContainer`, NOT `secondaryContainer`. `RemoteButtonDefaults` publishes no tonal
     // colours, so this style is written out here — and written out against the wrong token it drew
     // a blue button beside a kit cell (and a `wear-m3-catalog` parallel) that is neutral grey.

@@ -7,6 +7,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.profile.RcPlatformProfiles
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -71,6 +72,27 @@ fun RemoteSticker(content: @Composable @RemoteComposable () -> Unit) {
     }
   }
 }
+
+/**
+ * The width the kit draws a **row-shaped control** at: 172dp, the content column of the 192dp
+ * screen its cells are measured against. The Remote twin of `:catalog`'s `KitRowWidth`, and the
+ * same number, because both sheets reproduce the same kit.
+ *
+ * Two opposite faults meet here, and one modifier settles both
+ * ([#138](https://github.com/yschimke/wear-m3-catalog/issues/138)):
+ *
+ * - A **card** fills the frame's measuring bound, which is 227dp wide — so it published at 227
+ *   against a 172dp kit cell, 55dp too wide.
+ * - A **button** wraps to its label, because Remote's `RemoteButton` sizes to content just as
+ *   Wear's `Button` does — so it published at 122dp, 50dp too narrow.
+ *
+ * Neither is a comparator artifact: design-parity rasterises the reference to the CANDIDATE's
+ * width, so a wrong width rescales the whole comparison rather than differing at an edge.
+ *
+ * Reach for this on a control the kit draws across its content column. A component that is
+ * *supposed* to size to its content — an icon button, the compact button — must not take it.
+ */
+val KitRowWidth = 172.rdp
 
 /**
  * The catalog's Remote Compose **component** multipreview. A single 227×100 capture. Remote Compose
