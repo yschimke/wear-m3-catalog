@@ -130,10 +130,7 @@
         "IconButton/Outlined",
         "IconButton/Standard",
         "IconButton/Tonal"
-      ],
-      "cells": {
-        "remote-catalog": "Both are `Child (No background)` at `Size=Extra-Small`. The size is a container token and the child style draws no container, so extra-small and small clamp to the same glyph. The Wear sheet reached the same collapse by the same road and now DRAWS both cells anyway, under `CatalogRenderTest.knownDuplicate` (#178); this column still withholds them, and closing it the same way is the obvious follow-up. Every other `Disabled=Yes` cell of this set IS drawn, including the three where the library collapses extra-small onto small; those are published and recorded in `RemoteRenderTest.knownDuplicate` rather than withdrawn."
-      }
+      ]
     },
     {
       "page": "Buttons",
@@ -277,7 +274,7 @@
       ],
       "cells": {
         "catalog": "Two whole axes, and neither is a gap in the annotations. `Segments=6..14` is the SEGMENTED ring — `SegmentedCircularProgressIndicator`, a different function, whose own cells are counted against `Progress-Indicator-Small`. `Type=Top Gap | Bottom Gap` is the pair of angles the kit does not publish: `CircularProgressIndicator` takes `startAngle`/`endAngle`, so the API is there, but the kit binds no variable for the gap, carries no component property for it, and draws each cell as a flattened SVG — the numbers exist only inside that exported path data. Reading them off it is what the cells wait on, not a library limitation. The two `Progress=Zero, Disabled=Yes` cells are drawn now. They were withheld as empty frames — a disabled ring is drawn entirely in its disabled track colour, and at zero progress that used to leave nothing lit — and that is no longer true of the library: this Wear version draws the track, so both cells publish a visible ring and stand as ordinary comparisons (#178).",
-        "remote-catalog": "Fifty-four are `Segments=6..14`, the SEGMENTED ring: `remote-material3` publishes `RemoteCircularProgressIndicator` and `RemoteCurvedProgressIndicator` and no segmented function at all, so unlike the Wear column — where those cells belong to `SegmentedCircularProgressIndicator` and its own set — there is nothing here to call. Twenty-four are `Type=Top Gap | Bottom Gap`, angles the kit does not publish and which an invented number would misreport. Six are `Stroke Width=Small`: `RemoteProgressIndicatorDefaults` publishes no small or large stroke token, and the Wear pair it would borrow resolves by screen breakpoint. The last is `Progress=Zero, Disabled=Yes` — a disabled ring in its disabled track colour, which at zero progress on a transparent sticker is an empty frame that `StickerBakeCoverageTest` would have to exempt for no finding."
+        "remote-catalog": "Fifty-four are `Segments=6..14`, the SEGMENTED ring: `remote-material3` publishes `RemoteCircularProgressIndicator` and `RemoteCurvedProgressIndicator` and no segmented function at all, so unlike the Wear column — where those cells belong to `SegmentedCircularProgressIndicator` and its own set — there is nothing here to call. Twenty-four are `Type=Top Gap | Bottom Gap`: `RemoteCircularProgressIndicator` takes the `startAngle`/`endAngle` pair, so the API is not the blocker — the kit is, publishing those angles in no variable and no property, only inside the flattened SVG each gap cell exports (the same wall the Wear column hits). Six are `Stroke Width=Small`: the parameter is there, but `RemoteProgressIndicatorDefaults` publishes no small or large stroke token and the Wear pair it would borrow resolves by screen breakpoint, so the number would be invented. The `Progress=Zero, Disabled=Yes` cell this row used to be short of is drawn now: it was withheld as an empty frame, and this player draws the disabled track, so it is an ordinary comparison (#178)."
       }
     },
     {

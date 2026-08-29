@@ -94,6 +94,10 @@ class RemoteRenderTest {
       "ImageBackgroundRemoteButton" to
         "a disabled RemoteButton draws its container and not its labels, so the secondary one " +
           "cannot show",
+      "IconRemoteButton" to
+        "the CHILD style draws no container, so iconSizeFor resolves ExtraSmallButtonSize and " +
+          "SmallButtonSize to the same glyph and there is nothing else in the frame — enabled as " +
+          "well as disabled, unlike the four contained styles below",
       "FilledRemoteIconButton" to
         "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
           "leave one frame",
