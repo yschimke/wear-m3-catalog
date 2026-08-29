@@ -62,7 +62,7 @@ that earned it.
 
 **How much of each set is drawn is a second question, and it now has an answer too.**
 [`kit-cells.json`](kit-cells.json) counts it cell by cell, for both sheets: `:catalog` draws 550 of
-the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 47 of the 327 published by
+the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 111 of the 327 published by
 the 8 it names. Twelve of those 41 sheet-rows draw their set in full. The record is projected from
 each module's resolved design map and reconciled by CI, so a cell that stops being drawn moves a
 number in a reviewable diff — the check that was missing when the Remote sheet drew 15 of the `Card`

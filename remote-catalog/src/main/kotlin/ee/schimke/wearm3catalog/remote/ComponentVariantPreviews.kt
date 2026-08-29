@@ -9,7 +9,6 @@ import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
-import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
@@ -19,15 +18,12 @@ import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
-import androidx.compose.remote.creation.compose.state.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.remote.material3.RemoteAppCard
-import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteHorizontalPageIndicator
-import androidx.wear.compose.remote.material3.RemoteIcon
-import androidx.wear.compose.remote.material3.RemoteIconButton
 import androidx.wear.compose.remote.material3.RemoteIconButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemotePageIndicatorState
@@ -36,10 +32,10 @@ import androidx.wear.compose.remote.material3.RemoteTextButton
 import androidx.wear.compose.remote.material3.RemoteTimeText
 import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
-import androidx.wear.compose.remote.material3.buttonSizeModifier
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogComponent
+import ee.schimke.composeai.preview.OverrideVariant
 
 // What is LEFT of the variant matrix, after #116 folded most of it away.
 //
@@ -74,26 +70,92 @@ import ee.schimke.composeai.preview.CatalogComponent
   caption = "Tonal button on the theme's surface-container emphasis.",
 )
 @CatalogRemoteModes
+@RemoteButtonKitCells
+// THE THREE `Disabled=Yes` CELLS ARE DRAWN, and they are the disabled FILLED button to the byte.
+// `RemoteButtonDefaults.buttonColors` takes the disabled pair as its own arguments, so a style
+// written out by passing `containerColor` and `contentColor` leaves them at their defaults:
+//
+//   c58fbb6c…  FilledRemoteButton_VARIANT_disabled   == TonalRemoteButton_VARIANT_disabled
+//   e12368d1…  …_VARIANT_icon_disabled               == …_VARIANT_icon_disabled
+//   4676a294…  …_VARIANT_icon_large_disabled         == …_VARIANT_icon_large_disabled
+//
+// The Wear column withdraws the equivalent cells for that reason (`EdgeButtonKitCells`). This
+// column draws them, because the sheet's job here is to cover what the kit publishes: a reader
+// looking for the disabled tonal button finds it, and what they find is the truth about the alpha
+// surface — the emphasis does not survive being disabled. Recorded rather than hidden.
 @Composable
 fun TonalRemoteButton() = RemoteSticker {
-  val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
-  RemoteButton(
-    onClick = onClick,
-    modifier = RemoteModifier.buttonSizeModifier().width(KitRowWidth),
+  // The kit's `Icon` / `Icon size` / `Disabled` cells come from `RemoteKitButton`, which is the
+  // filled style's body with the emphasis lifted out — those axes are arguments to `RemoteButton`
+  // rather than a choice of function, so drawing them a second time here would be a copy that can
+  // drift.
+  RemoteKitButton(
     // `surfaceContainer`, NOT `secondaryContainer`. `RemoteButtonDefaults` publishes no tonal
     // colours, so this style is written out here — and written out against the wrong token it drew
     // a blue button beside a kit cell (and a `wear-m3-catalog` parallel) that is neutral grey.
     // Wear Material 3 is where the token comes from: `ButtonDefaults.filledTonalButtonColors()` is
     // `surfaceContainer` / `onSurface` on this platform, unlike phone M3's secondary-container
     // tonal, and `Button/Tonal` in the sibling catalog is that function.
-    colors =
-      RemoteButtonDefaults.buttonColors(
-        containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
-        contentColor = RemoteMaterialTheme.colorScheme.onSurface,
-        secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
-        iconColor = RemoteMaterialTheme.colorScheme.primary,
-      ),
-    content = { RemoteText(label) },
+    RemoteButtonDefaults.buttonColors(
+      containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
+      contentColor = RemoteMaterialTheme.colorScheme.onSurface,
+      secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
+      iconColor = RemoteMaterialTheme.colorScheme.primary,
+    )
+  )
+}
+
+@CatalogComponent(
+  id = "Button/FilledVariant",
+  group = "Buttons",
+  parallel = "Button/FilledVariant",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39577:895",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption = "The kit's highlighted style — a filled button in the variant palette.",
+)
+@CatalogRemoteModes
+@RemoteButtonKitCells
+// The kit's fifth `Button` style, and the last one this column did not reach: ten of its fifty
+// cells had no component at all here, against a Wear column that draws all five styles
+// ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
+//
+// Written out, like `Button/Tonal` beside it, because `RemoteButtonDefaults` publishes exactly one
+// `buttonColors()` and no emphasis variants. The tokens come from the Wear function this pairs
+// with: `ButtonDefaults.filledVariantButtonColors()` is `primaryContainer` / `onPrimaryContainer`.
+@Composable
+fun FilledVariantRemoteButton() = RemoteSticker {
+  RemoteKitButton(
+    RemoteButtonDefaults.buttonColors(
+      containerColor = RemoteMaterialTheme.colorScheme.primaryContainer,
+      contentColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
+      secondaryContentColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
+      iconColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
+    )
+  )
+}
+
+@CatalogComponent(
+  id = "Button/Child",
+  group = "Buttons",
+  parallel = "Button/Child",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/35239:93128",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/35239:93088",
+  caption = "Lowest emphasis; no container at all, for a button inside another surface.",
+)
+@CatalogRemoteModes
+@RemoteButtonKitCells
+// The kit's `Child (No background)` column — a label on whatever is behind it. Transparent
+// container plus `onSurface` content is how Wear's own `childButtonColors()` is built, and with no
+// container to draw the whole style IS those two colours.
+@Composable
+fun ChildRemoteButton() = RemoteSticker {
+  RemoteKitButton(
+    RemoteButtonDefaults.buttonColors(
+      containerColor = RemoteColor(Color.Transparent),
+      contentColor = RemoteMaterialTheme.colorScheme.onSurface,
+      secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
+      iconColor = RemoteMaterialTheme.colorScheme.primary,
+    )
   )
 }
 
@@ -106,27 +168,56 @@ fun TonalRemoteButton() = RemoteSticker {
   caption = "RemoteIconButton with a filled primary container.",
 )
 @CatalogRemoteModes
+@RemoteContainedIconButtonKitCells
 @Composable
 fun FilledRemoteIconButton() = RemoteSticker {
-  val (on, onClick) = toggledRemote()
-  RemoteIconButton(
-    onClick = onClick,
-    colors =
-      RemoteIconButtonDefaults.iconButtonColors(
-        containerColor =
-          tween(
-            RemoteMaterialTheme.colorScheme.primary,
-            RemoteMaterialTheme.colorScheme.tertiaryContainer,
-            on,
-          ),
-        contentColor =
-          tween(
-            RemoteMaterialTheme.colorScheme.onPrimary,
-            RemoteMaterialTheme.colorScheme.onTertiaryContainer,
-            on,
-          ),
-      ),
-    content = { RemoteIcon(addIcon, "Add".rs) },
+  RemoteKitIconButton(
+    RemoteIconButtonDefaults.iconButtonColors(
+      containerColor = RemoteMaterialTheme.colorScheme.primary,
+      contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
+    )
+  )
+}
+
+@CatalogComponent(
+  id = "Button/Icon-FilledVariant",
+  group = "Buttons",
+  parallel = "IconButton/FilledVariant",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/41409:52153",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+  caption = "RemoteIconButton in the kit's highlighted palette.",
+)
+@CatalogRemoteModes
+@RemoteContainedIconButtonKitCells
+@Composable
+fun FilledVariantRemoteIconButton() = RemoteSticker {
+  RemoteKitIconButton(
+    RemoteIconButtonDefaults.iconButtonColors(
+      containerColor = RemoteMaterialTheme.colorScheme.primaryContainer,
+      contentColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
+    )
+  )
+}
+
+@CatalogComponent(
+  id = "Button/Icon-Tonal",
+  group = "Buttons",
+  parallel = "IconButton/Tonal",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102989",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/34732:102972",
+  caption = "RemoteIconButton on the theme's surface-container emphasis.",
+)
+@CatalogRemoteModes
+@RemoteContainedIconButtonKitCells
+@Composable
+fun TonalRemoteIconButton() = RemoteSticker {
+  // `surfaceContainer` / `onSurface`, the tokens Wear's `filledTonalIconButtonColors()` resolves
+  // to on this platform — the same call `Button/Tonal` above makes for the same reason.
+  RemoteKitIconButton(
+    RemoteIconButtonDefaults.iconButtonColors(
+      containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
+      contentColor = RemoteMaterialTheme.colorScheme.onSurface,
+    )
   )
 }
 
@@ -139,23 +230,23 @@ fun FilledRemoteIconButton() = RemoteSticker {
   caption = "RemoteIconButton with an explicit outline treatment.",
 )
 @CatalogRemoteModes
+@RemoteContainedIconButtonKitCells
+// The cell the shared annotation cannot carry — see its note. This style draws its own border at
+// the container's size, so extra-small and small stay two pictures even with the glyph gone.
+@OverrideVariant(
+  name = "extra-small-disabled",
+  booleans = ["enabled=false"],
+  strings = ["size=extra-small"],
+  kitProps = ["Size=Extra-Small", "Disabled=Yes"],
+  secondary = true,
+)
 @Composable
 fun OutlinedRemoteIconButton() = RemoteSticker {
-  val (on, onClick) = toggledRemote()
-  RemoteIconButton(
-    onClick = onClick,
+  RemoteKitIconButton(
     colors =
-      RemoteIconButtonDefaults.iconButtonColors(
-        containerColor =
-          tween(
-            RemoteColor(androidx.compose.ui.graphics.Color.Transparent),
-            RemoteMaterialTheme.colorScheme.primaryContainer,
-            on,
-          )
-      ),
+      RemoteIconButtonDefaults.iconButtonColors(containerColor = RemoteColor(Color.Transparent)),
     border = 2.rdp,
     borderColor = RemoteMaterialTheme.colorScheme.outline,
-    content = { RemoteIcon(addIcon, "Add".rs) },
   )
 }
 
