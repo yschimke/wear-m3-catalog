@@ -39,6 +39,27 @@ import java.time.LocalTime
 // These fill the screen — a picker IS the screen it appears on — so they publish on the round
 // frame.
 
+/**
+ * What the 225dp capture means to the kit, for the one set that publishes screen size as an axis.
+ *
+ * `CatalogFullScreenModes` draws every full-screen sticker at the five sizes the kit recognises and
+ * folds the four non-base ones under their component as `<dp>dp` cells. A folded cell is seeded
+ * with the width it was drawn at — a fact about the render, not a value any kit vocabulary contains
+ * — so it resolves against nothing, which is the right answer for every other set here: they are
+ * drawn at 192 only, and the projector reports those captures as renders with no kit counterpart
+ * rather than pretending to have matched them.
+ *
+ * `Picker` is the exception. Its set publishes `Larger Screen (BP)` as a variant property and draws
+ * 21 cells behind `Yes`, at 225 — so the pictures existed all along and were compared against
+ * nothing (compose-ai-tools#4827). Declaring the mapping is what lets the 225dp capture pair with
+ * the node it was always the counterpart of.
+ *
+ * A `const` shared by the three components of that one set rather than the literal spelled out
+ * three times: it is one fact about one kit set, and three copies is three places for the kit's
+ * spelling to drift out of sync with the kit.
+ */
+private const val BP_225 = "225=Larger Screen (BP)=Yes"
+
 private val PINNED_DATE: LocalDate = LocalDate.of(2026, 1, 1)
 private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
 
@@ -47,6 +68,7 @@ private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8942",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "Three wheels for a date, with the kit's field orderings folded in.",
+  breakpointKit = [BP_225],
 )
 @CatalogFullScreenModes
 @OverrideVariant(
@@ -109,6 +131,7 @@ fun DateWheels() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8697",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "Wheels for a time, pinned to midnight; the kit's clock formats fold in as cells.",
+  breakpointKit = [BP_225],
 )
 @CatalogFullScreenModes
 @OverrideVariant(
@@ -140,6 +163,7 @@ fun TimeWheels() = FullScreenSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8581",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/43678:8580",
   caption = "One wheel of options — the primitive the date and time pickers are built from.",
+  breakpointKit = [BP_225],
 )
 @CatalogFullScreenModes
 @Composable
