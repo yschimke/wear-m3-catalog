@@ -1,34 +1,45 @@
 {
+  "$comment": "DOCUMENTS THE CMP/WASM PLAYER CANNOT DRAW YET, temporarily allowed past the gate design-artifacts.yml enforces. Every entry names the player gap and expires, because an allowlist that does not expire is a gate that has been switched off. An entry whose id no longer exists is WORSE than no entry: it protects nothing while making the list look maintained, which is how this file came to hold six dead ids from before the #116 taxonomy fold (old component names, 200dp/320dp frames) while eight live failures blocked every remote-m3 publish from 2026-08-29 15:50 onward. Take ids from the lane's own output — the `CMP/Wasm: n/m rendered` block prints them — rather than from previews.json, whose spelling of the frame differs.",
   "entries": [
     {
-      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.CompactTextOnlyRemoteButton_width_200dp_height_200dp_dpi_320",
-      "reason": "CMP/Wasm does not yet implement the intrinsic WidthModifier/HeightModifier dimension used by this component; observed in actions/runs/31898714419.",
-      "expires": "2026-09-15"
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.ImageBackgroundRemoteButton_width_227dp_height_100dp_dpi_320",
+      "reason": "CMP/Wasm has not implemented paint commands 22 and 24, which the image container painter emits: PaintData[42]: paint command 24, PaintData[45]: paint command 22. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
     },
     {
-      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.CompactIconOnlyRemoteButton_width_200dp_height_200dp_dpi_320",
-      "reason": "CMP/Wasm does not yet implement the intrinsic WidthModifier/HeightModifier dimension used by this component; observed in actions/runs/31898714419.",
-      "expires": "2026-09-15"
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.ImageBackgroundRemoteButton_width_227dp_height_100dp_dpi_320_VARIANT_disabled",
+      "reason": "The same two unimplemented paint commands, through RemoteButtonDefaults.disabledContainerPainter. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
     },
     {
-      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.DisabledRemoteButton_width_200dp_height_200dp_dpi_320",
-      "reason": "CMP/Wasm cannot resolve the disabled content dynamic color emitted by Remote Material 3; observed in actions/runs/31898714419.",
-      "expires": "2026-09-15"
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.ImageBackgroundRemoteButton_width_227dp_height_100dp_dpi_320_VARIANT_secondary-label",
+      "reason": "The same two unimplemented paint commands; the secondary label does not change what the container paints. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
     },
     {
-      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.IconLabelRemoteButton_width_320dp_height_240dp_dpi_320",
-      "reason": "CMP/Wasm does not yet implement the intrinsic WidthModifier/HeightModifier dimension used by this component; observed in actions/runs/31898714419.",
-      "expires": "2026-09-15"
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.ImageBackgroundRemoteButton_width_227dp_height_100dp_dpi_320_VARIANT_secondary-label-disabled",
+      "reason": "The same two unimplemented paint commands, disabled. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
     },
     {
-      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.IconLabelLargeRemoteButton_width_320dp_height_240dp_dpi_320",
-      "reason": "CMP/Wasm lacks the intrinsic dimension and dynamic color support required by this component; observed in actions/runs/31898714419.",
-      "expires": "2026-09-15"
+      "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenAndroidMakersRemote_width_227dp_height_200dp_dpi_320",
+      "reason": "CMP/Wasm resolves no DataFont for the downloadable google:Inter family this theme names, so the specimen's text cannot draw: CoreText[21] and CoreText[26] both report `custom font family google:Inter (47) has no DataFont`. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
     },
     {
-      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.IndeterminateCircularProgressRemote_width_200dp_height_200dp_dpi_320",
-      "reason": "CMP/Wasm currently draws no pixels for the Remote Material 3 indeterminate clock animation; observed in actions/runs/31898714419.",
-      "expires": "2026-09-15"
+      "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenConfettiDefaultRemote_width_227dp_height_200dp_dpi_320",
+      "reason": "The same missing google:Inter DataFont. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenDroidconRemote_width_227dp_height_200dp_dpi_320",
+      "reason": "The same missing google:Inter DataFont. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenKotlinConfRemote_width_227dp_height_200dp_dpi_320",
+      "reason": "The same missing google:Inter DataFont. Observed in actions/runs/33281595669.",
+      "expires": "2026-09-30"
     }
   ]
 }
