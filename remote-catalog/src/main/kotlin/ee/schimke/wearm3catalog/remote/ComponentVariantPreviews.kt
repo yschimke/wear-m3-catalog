@@ -397,27 +397,18 @@ fun NoAppImageRemoteAppCard() = RemoteSticker {
   )
 }
 
-@CatalogComponent(
-  id = "CircularProgressIndicator-Indeterminate",
-  group = "Communication",
-  parallel = "CircularProgressIndicator",
-  noReference =
-    "The kit's `Progress` axis is four determinate values — Zero, In progress, Complete, " +
-      "Overflow — and a still frame is all a kit cell can be, so nothing in the " +
-      "`Progress-Indicator` set is the indeterminate sweep. Any cell this named would be a " +
-      "picture of a fixed arc, and the arc here is never at rest; what stands in for a reference " +
-      "is the motion capture below.",
-  motionPreview = "IndeterminateCircularProgressMotionRemote",
-  caption =
-    "Indeterminate circular progress; its motion capture records the continuous remote-clock " +
-      "animation.",
-)
-@CatalogRemoteDisplay
-@Composable
-fun IndeterminateCircularProgressRemote() = RemoteSticker {
-  RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
-}
-
+// COLLAPSED INTO `CircularProgressIndicator`. This was `CircularProgressIndicator-Indeterminate`, a
+// second top-level component for what is one argument list on one function — and the Wear sibling
+// has always carried it as that component's `indeterminate` cell. Two sheets that spell one
+// component two ways cannot be read side by side, which is the whole job of this repo, so the
+// still moved to `@OverrideVariant(name = "indeterminate", …)` on `CircularProgressRemote` and
+// the recording below stayed put as that component's `motionPreview`.
+//
+// The reason it was never a kit reference still holds and is worth keeping written down: the kit's
+// `Progress` axis is four determinate values — Zero, In progress, Complete, Overflow — and a still
+// frame is all a kit cell can be, so nothing in `Progress-Indicator` is the indeterminate sweep.
+// Any cell named for it would be a picture of a fixed arc, and this arc is never at rest. What
+// stands in for a reference is the motion capture.
 @CatalogRemoteDisplay
 @AnimatedPreview(
   durationMs = 2000,
