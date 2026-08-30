@@ -51,7 +51,7 @@ this code.
 
 Where the two sheets meet, where only one of them goes, and which Figma node each component answers
 to is drawn out component by component, with renders, in
-[`docs/COMPONENT_MAP.md`](docs/COMPONENT_MAP.md) — 23 Wear components facing 31 Remote ones, 17
+[`docs/COMPONENT_MAP.md`](docs/COMPONENT_MAP.md) — 23 Wear components facing 28 Remote ones, 17
 Remote-only, 46 Wear-only. The Remote sheet's kit mapping is partial **by design**: seventeen of its
 components document what Remote Compose can do that the kit has no counterpart for at all — document
 shaders, colour and typography token specimens, downloadable-font axes, the Glance Wear widget host

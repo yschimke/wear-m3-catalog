@@ -141,6 +141,29 @@ L.push(
   "> `design-artifacts/*` delivery branches and follow them as those republish.\n",
 );
 
+// The two halves are read at DIFFERENT freshness, and a reader deserves to be told which rows that
+// costs. Annotations come from this checkout; renders come from whatever the delivery branch last
+// published. So a component renamed or added since that publish is correctly listed and has no
+// picture yet — a `—` that means "not published under this name yet", not "draws nothing". Naming
+// them beats leaving a bare dash to be misread as a missing sticker.
+const unpublished = [
+  ...[...paired.values()].flat().map((r) => [r.id, remoteImg, "remote-m3"]),
+  ...remoteOnly.map((r) => [r.id, remoteImg, "remote-m3"]),
+  ...[...paired.keys()].map((id) => [id, wearImg, "wear-m3-catalog"]),
+  ...wearOnly.map((w) => [w.id, wearImg, "wear-m3-catalog"]),
+].filter(([id, paths]) => !paths.has(id));
+if (unpublished.length) {
+  const one = unpublished.length === 1;
+  L.push(
+    `> **${one ? "One component has" : `${unpublished.length} components have`} no render yet.**`,
+    `> ${one ? "Its" : "Their"} sheet has not republished since`,
+    `> ${one ? "it was" : "they were"} named, so the image cell reads \`—\`, meaning "not published`,
+    "> under this name yet\" rather than \"draws nothing\". It fills in on the next publish:",
+    ...unpublished.map(([id, , branch]) => `> - \`${id}\` (${branch})`),
+    "",
+  );
+}
+
 L.push(`## Common — ${paired.size} Wear components facing ${pairedRemote} Remote ones\n`);
 L.push(
   "Paired through `parallel` on the Remote side. Where a Wear component faces **more than one**",
