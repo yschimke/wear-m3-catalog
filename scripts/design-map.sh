@@ -21,6 +21,16 @@
 # difference: float them and the next release upstream turns this repo red for a change nobody here
 # made. Bumping is a commit that regenerates the map in the same diff.
 #
+# Step 1 moved 1.25.0 -> 1.55.0 for ONE capability: `@CatalogComponent(breakpointKit = ...)`, which
+# 1.54.0 added (compose-ai-tools#4827) and which is what lets the `Picker` set's 225dp captures name
+# the kit axis their size means. 1.25.0 does not read the field at all, so the declaration in
+# `Pickers.kt` would be inert against it.
+#
+# The bump is otherwise a no-op here, and that was checked rather than hoped: projecting the same
+# `previews.json` through 1.25.0 and 1.55.0 produced byte-identical `design-map.json` and
+# `design-map-variants.json`. So the diff this commit carries is the three new pairings and nothing
+# smuggled in beside them.
+#
 # WHY IT STAGES. Step 1's map is an INTERMEDIATE — base references with the variants still
 # unresolved — so a run that wrote it directly and then failed in step 2 would leave the repo
 # holding a map that looks complete while comparing fewer nodes than it claims.
@@ -101,7 +111,7 @@ trap 'rm -rf "$WORK"' EXIT
 # `catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#AppCardRemote` — a
 # path no file has, for a component that does exist one directory over. Every handle in that map
 # dangles, which is how a sheet reports 0% mapped while its annotations are complete.
-npx --yes @yschimke/compose-design-map@1.25.0 \
+npx --yes @yschimke/compose-design-map@1.55.0 \
   --previews "$MODULE_DIR/build/compose-previews/previews.json" \
   --prefix "$MODULE_DIR" \
   --out "$WORK/design-map.json" \
