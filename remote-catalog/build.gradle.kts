@@ -77,6 +77,20 @@ dependencies {
   implementation(libs.compose.remote.creation.compose)
   implementation(libs.wear.compose.remote.material3)
 
+  // Wear M3 proper — NOT for its composables, which this module never calls. It is declared for
+  // `CircularProgressIndicatorDefaults.smallStrokeWidth` / `largeStrokeWidth`: the two dp values
+  // the kit's `Progress-Indicator` set spells `Stroke Width=Small | Medium`.
+  // `RemoteProgressIndicatorDefaults` publishes no determinate stroke token, so the Remote sheet
+  // owns no name for those widths — and a literal typed in here would be a number invented under
+  // the kit's name, which is the thing `:catalog` refuses to do for the same set's gap cells.
+  // Reading the Wear tokens instead makes both sheets draw one value resolved by one library.
+  //
+  // `remote-material3`'s POM already depends on this at COMPILE scope, so this line changes no
+  // resolution — it stops a source dependency of `CatalogPreviews.kt` resting on a transitive that
+  // an upstream POM could quietly demote to `runtime`, which is precisely how the `material3` and
+  // Remote-trio entries below earned their own declarations.
+  implementation(libs.wear.compose.material3)
+
   // Glance Wear — the Wear OS widget layer on Remote Compose. The widget-container stickers
   // (`WidgetContainerPreviews.kt`) render through its `wear-tooling-preview` `WearWidgetPreview`
   // wrapper, which recreates the host-drawn squircle container (background + rounded corners +

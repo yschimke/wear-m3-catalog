@@ -20,16 +20,15 @@ which reads as a shortfall it does not have.
 
 | | published cells | `wear-m3-catalog` | `remote-m3` |
 | --- | ---: | ---: | ---: |
-| **The 9 shared sets** | **331** | **222** (67.1%) | **222** (67.1%) |
-| All 34 sets | 897 | 597 (66.6%) | 222 (24.7%) |
+| **The 9 shared sets** | **331** | **222** (67.1%) | **228** (68.9%) |
+| All 34 sets | 897 | 597 (66.6%) | 228 (25.4%) |
 
-Inside the overlap the two sheets differ by **12 cells, in 2 set(s)**. The
-other 7 shared sets are drawn cell for cell the same on both.
+Inside the overlap the two sheets differ by **6 cells, in 1 set(s)**. The
+other 8 shared sets are drawn cell for cell the same on both.
 
 | set | published | wear | remote | difference |
 | --- | ---: | ---: | ---: | ---: |
 | `Card` | 45 | 34 | 40 | wear −6 |
-| `Progress-Indicator` | 90 | 12 | 6 | remote −6 |
 
 ### Every set
 
@@ -39,7 +38,7 @@ failing to close. The kit page each set sits on is linked, so a set can be opene
 | set | kit page | node | published | `wear-m3-catalog` | `remote-m3` |
 | --- | --- | --- | ---: | ---: | ---: |
 | `Progress-Indicator-Small` | Progress Indicators | [`52431:56915`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=52431-56915) | 174 | 90 (51.7%) | — |
-| `Progress-Indicator` | Progress Indicators | [`41424:58385`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=41424-58385) | 90 | 12 (13.3%) | 6 (6.7%) |
+| `Progress-Indicator` | Progress Indicators | [`41424:58385`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=41424-58385) | 90 | 12 (13.3%) | 12 (13.3%) |
 | `Edge-Button` | Edge-Hugging Buttons | [`36601:6586`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=36601-6586) | 64 | 64 (100.0%) | — |
 | `Slider` | Sliders | [`34828:79081`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34828-79081) | 54 | 36 (66.7%) | — |
 | `Button` | Buttons | [`35239:93088`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=35239-93088) | 50 | 50 (100.0%) | 50 (100.0%) |

@@ -62,19 +62,31 @@ sheets went on spelling the same component differently — `Button/Icon-Filled` 
 the name is a mapping table in disguise, and it read as divergence everywhere the name is the join:
 of 122 published Remote previews only 12 shared an id with their Wear twin. So **where the two
 sheets draw the same kit node, the component id is the same string**, and `parallel` is then a
-restatement rather than a translation. It still earns its place: it is what pairs the genuinely
-one-sided components (`AppCard/NoAppImage` → `AppCard`,
-`CircularProgressIndicator-Indeterminate` → `CircularProgressIndicator`), where the sheets draw a
-family against a single card and no rename could make the names agree.
+restatement rather than a translation. It still earns its place: it is what the pairing walks, and
+what states the intent for a reader, so keep authoring it even where the two ids are identical.
 
-What does NOT converge is the breakpoint segment a published id carries. Remote stickers must name
-their frame — a Remote Compose document rasterises the whole `@Preview`, so `CatalogRemoteModes`
-declares `spec:width=227dp,height=100dp,dpi=320` — while the Wear stickers are device-less and
-retargeted to the same 227dp canvas by the harness. A declared device gets a size class and a size
-class gets an id segment, so every Remote sticker ends `__compact` where its Wear twin ends bare.
-That is upstream's to fix
-([compose-ai-tools#4838](https://github.com/yschimke/compose-ai-tools/issues/4838)); do not chase
-it by renaming the breakpoint here, which buys a different segment rather than none.
+The two examples this paragraph used to give — `AppCard/NoAppImage` → `AppCard` and
+`CircularProgressIndicator-Indeterminate` → `CircularProgressIndicator` — no longer exist. Both were
+one-sided cards standing where the Wear sheet had a cell, and both have since folded into the
+component they paired with. That is the direction of travel, not an exception to it: a `parallel`
+that points a whole card at somebody else's cell is usually a fold waiting to happen, so treat one
+as a question rather than a settled answer.
+
+What does NOT converge is the breakpoint segment, and it is worth being exact about which segment,
+because there are two and only one of them has moved. Remote stickers must name their frame — a
+Remote Compose document rasterises the whole `@Preview` — while the Wear stickers are device-less
+and retargeted by the harness.
+
+* **Preview ids agree now.** Since the full-screen frames became the five kit screen sizes, both
+  sheets emit the same dp segment: `CircularProgressRemote_192dp` against `CircularProgress_192dp`,
+  and `previews.json` carries no `__compact` on either side. That is what the projector reads its
+  base breakpoint from, so do not reintroduce a size-class frame to buy a shorter name.
+* **Render names still diverge.** The delivery branch publishes `ideal__default__compact.png` for
+  Remote against `ideal__default.png` for Wear, which is why every Remote thumbnail in
+  [docs/COMPONENT_MAP.md](docs/COMPONENT_MAP.md) has the suffix. That one is upstream's, and it is
+  NOT [compose-ai-tools#4838](https://github.com/yschimke/compose-ai-tools/issues/4838) — that issue
+  is about how the two sheets' cells pair with each other, and says in as many words that the
+  suffix is not a prerequisite for it. Unfiled as its own thing.
 
 Where the two sheets legitimately differ is which axes have a function behind them, and the
 call-site test decides it exactly as it does on the Wear side. `Style=` on `Text-Button` folds on
@@ -84,11 +96,28 @@ and one `RemoteIconButton`, so it would fold by the letter of the rule, but thos
 `Button/Tonal`, `IconButton/Filled` and `IconButton/Outlined`, which are separate Wear Compose
 functions and therefore separate cards. Folding them would leave those facing nothing.
 
-**A cell must resolve to a kit node; a component may say why it does not.** That is what decides
-the shape of anything left over. A cell's kit vector is matched against the set, and a cell that
-resolves to nothing is compared against nothing with no diagnostic anywhere — so a render the kit
-publishes no cell for stays a top-level component carrying `noReference`, however variant-shaped it
-looks (`Button/CustomShape`, `CircularProgressIndicator-Indeterminate`, `TitleCard/Subtitle`). And where
+**A cell should resolve to a kit node, and the call site decides the shape before the node does.**
+A cell's kit vector is matched against the set, and a cell that resolves to nothing is compared
+against nothing — so an unresolved cell is nearly always a mis-authored vector, and worth chasing as
+one.
+
+Nearly always, not always. Where the library takes the axis as an argument to a call the kit
+publishes under one name, the render is a cell even if the kit drew no node for it, and it folds:
+`CircularProgressIndicator`'s `indeterminate` is the case to reason from. The kit publishes four
+determinate `Progress=` values and no indeterminate one, but both overloads are the same function
+name, so a separate card would spell one component two ways and leave the two sheets unreadable
+side by side. The Wear sheet has carried it as a nodeless cell all along; the Remote sheet's
+`CircularProgressIndicator-Indeterminate` card folded into the same cell to match, as
+`TitleCard/Subtitle` and `AppCard/NoAppImage` did.
+
+The cost is real and worth naming: `@OverrideVariant` has no `noReference`, so a folded cell cannot
+state its absence the way a component can, and in the record it is indistinguishable from a typo'd
+`kitValue`. Until that is fixed upstream
+([compose-ai-tools#4875](https://github.com/yschimke/compose-ai-tools/issues/4875)) **a nodeless
+cell must carry its reason in a source comment at the annotation**, and reviewing one means reading
+that comment rather than the map. What still stays a top-level component with `noReference` is a
+render with no kit call site to fold onto at all — `Button/CustomShape`, and the sixteen
+library-only components door 2 admits. And where
 the kit's axes are coupled — `Icon`, `Icon size` and `Alignment` on `Button` are one choice spelled
 three ways — a cell declares its WHOLE vector through `kitProps`, because naming one value asks for
 a node between the ones the kit drew.
