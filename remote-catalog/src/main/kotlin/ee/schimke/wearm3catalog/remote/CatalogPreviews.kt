@@ -1800,8 +1800,13 @@ fun AppCardRemote() = RemoteSticker {
 // round crop, so the second card would fall off the bottom of the screen.
 private val screenActivities = listOf("Morning run" to "5.2 km", "Heart rate" to "72 bpm")
 
+// `Scaffold`, as the Wear sibling names it. It shipped as `Template/WatchScreen` and had to be
+// paired across by `parallel`, which is the tell: two sheets naming one component two things is
+// exactly what stops the compare page's columns lining up on their own. NOT a fold — this stays a
+// top-level component carrying the `noReference` below, because it is a render the kit publishes no
+// cell for and only a component can say so.
 @CatalogComponent(
-  id = "Template/WatchScreen",
+  id = "Scaffold",
   group = "Scaffold templates",
   parallel = "Scaffold",
   noReference =
