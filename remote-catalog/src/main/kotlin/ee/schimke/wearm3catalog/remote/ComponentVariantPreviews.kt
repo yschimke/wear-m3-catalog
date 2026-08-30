@@ -22,7 +22,6 @@ import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.wear.compose.remote.material3.RemoteAppCard
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
@@ -348,39 +347,10 @@ fun OutlinedRemoteIconButton() = RemoteSticker {
 // render still will not match its node. Unchanged, and still the point: the divergence is what the
 // reference exists to surface.
 
-// Renamed from `AppCard/Time` when the base sticker took the kit's own timestamp: the time is no
-// longer what tells this cell from the base one — the missing app image is.
-//
-// Not a kit cell: see the `noReference` below. The `Title Card + Icon` layout it looks like belongs
-// to `AppCard`'s `icon` cells, which draw the vector icon the kit actually puts there.
-@CatalogComponent(
-  id = "AppCard/NoAppImage",
-  group = "Containment",
-  parallel = "AppCard",
-  noReference =
-    "The kit's leading slot is always FILLED — the app's square artwork on its `App Card` cells, " +
-      "a vector icon on its `Title Card + Icon` ones — and never empty, which is what this draws. " +
-      "Both of those layouts are already drawn, by `AppCard`'s base cells and by its `icon` cells " +
-      "respectively, so there is no unclaimed node left for an empty slot to name.\n\n" +
-      "Briefly carried `reference = 46048:69274` (#194) on the argument that the kit \"spells the " +
-      "alternative as a different LAYOUT\". It does — and `AppCard` was already naming it. Two " +
-      "renders claiming one node is the failure `PageIndicator/Interactive` states below: the " +
-      "second one wins or loses by manifest order, and the cell that loses is scored against " +
-      "nothing while looking mapped.",
-  caption = "App card with the app-image slot left empty — name, title, time and content only.",
-)
-@CatalogRemoteLarge
-@Composable
-fun NoAppImageRemoteAppCard() = RemoteSticker {
-  val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
-  RemoteAppCard(
-    onClick = onClick,
-    appName = { RemoteText(KitCopy.APP_LABEL.rs) },
-    title = { RemoteText(title) },
-    time = { RemoteText(KitCopy.TIMESTAMP.rs) },
-    content = { RemoteText(KitCopy.CARD_CONTENT.rs) },
-  )
-}
+// COLLAPSED INTO `AppCard`. This was `AppCard/NoAppImage`, a component of its own for an empty
+// leading slot — but the slot it varies is `appImage`, the same argument `AppCard`'s `image` and
+// `icon` cells turn, so it is a third value of that knob. It ships as that component's
+// `no-app-image` cell, and the reason it names no node moved with it.
 
 // COLLAPSED INTO `CircularProgressIndicator`. This was `CircularProgressIndicator-Indeterminate`, a
 // second top-level component for what is one argument list on one function — and the Wear sibling

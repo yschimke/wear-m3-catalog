@@ -61,12 +61,19 @@ class InteractiveActionCaptureTest {
       "CardRemote" to KitCopy.CARD_CONTENT,
       "OutlinedCardRemote" to KitCopy.CARD_CONTENT,
       "TitleCardRemote" to KitCopy.CARD_TITLE,
-      // `SubtitleRemoteTitleCard` used to sit alongside these as its own function. #202 folded it
-      // into `TitleCardRemote` as the `with-subtitle` cell on the line above — same sticker, filed
-      // under the cell name now — so there is no separate render left for it to name.
+      // `Title Card 2`, and it predates the folds below — do not read it as where
+      // `SubtitleRemoteTitleCard` went.
       "TitleCardRemote#with-subtitle" to KitCopy.CARD_TITLE,
       "AppCardRemote" to KitCopy.CARD_TITLE,
-      "NoAppImageRemoteAppCard" to KitCopy.CARD_TITLE,
+      // The two folded cards, in the `<stem>#<cell>` form this doc describes — the same move the
+      // buttons made in #116. Same captures, same assertions; only the filed name moved.
+      //
+      // `title-and-subtitle` is where `SubtitleRemoteTitleCard` actually went (#202): it draws the
+      // kit's `Title Card 3`, which is a different cell from `with-subtitle`'s `Title Card 2`
+      // above. #204 removed the old key and named `with-subtitle` as its destination, which left
+      // this render — a real capture, and one that carries `countedRemote` — asserted by nothing.
+      "TitleCardRemote#title-and-subtitle" to KitCopy.CARD_TITLE,
+      "AppCardRemote#no-app-image" to KitCopy.CARD_TITLE,
     )
 
   /**
