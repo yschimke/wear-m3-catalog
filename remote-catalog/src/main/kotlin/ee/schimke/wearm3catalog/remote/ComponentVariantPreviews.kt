@@ -59,11 +59,17 @@ import ee.schimke.composeai.preview.OverrideVariant
 //     `RemoteButton` and one `RemoteIconButton`, taking emphasis as `colors` — but each pairs with
 //     a separate function on the Wear column, and therefore a separate card. Folding them here
 //     would leave those cards facing nothing.
+//   * A LAYOUT of its own in the kit. `TitleCard/Subtitle` is `Title Card 3` and
+//     `AppCard/NoAppImage` is `Title Card + Icon` — nine cells each, and the kit spells them as
+//     separate `Layout type` values rather than as a slot toggled off, so each is a component here
+//     naming its own node. Both spent a while under `noReference` arguing that our arrangement
+//     does not match the kit's, which is backwards: that mismatch is the FINDING, and pointing at
+//     the node is what makes parity able to report it.
 //   * A render the kit publishes NO CELL FOR. A cell resolves against the kit set and a cell that
 //     resolves to nothing is compared against nothing, with no diagnostic anywhere; a component
-//     carries `noReference` and says why instead. That is `TitleCard/Subtitle`,
-//     `AppCard/NoAppImage`, `CircularProgressIndicator-Indeterminate`, and the two Remote-only
-//     capability rows in CatalogPreviews.kt (`Button/CustomShape`, `Button/NamedLabel`).
+//     carries `noReference` and says why instead. That is
+//     `CircularProgressIndicator-Indeterminate`, and the two Remote-only capability rows in
+//     CatalogPreviews.kt (`Button/CustomShape`, `Button/NamedLabel`).
 //   * A component of its own. The page indicators are two functions on both columns.
 
 @CatalogComponent(
@@ -329,20 +335,17 @@ fun OutlinedRemoteIconButton() = RemoteSticker {
   )
 }
 
-// The Wear sibling's `title-and-subtitle` cell, and for the same reason it is a cell of its own
-// there rather than a kit node: see the `noReference` below.
+// The kit's `Title Card 3` layout — nine cells no sheet claimed until now. `RemoteTitleCard` has no
+// argument that puts the timestamp beside the title, so this render will NOT match the node it
+// names; that divergence is exactly what the reference exists to surface, and withholding it left
+// nine cells reading as nobody's work.
 @CatalogComponent(
   id = "TitleCard/Subtitle",
   group = "Containment",
   parallel = "TitleCard",
-  noReference =
-    "The kit's nine `Title Card 3` cells are the `Card` set's remaining gap, in this rendition " +
-      "and in the Wear one (#101). That layout has NO body: its subtitle sits straight under the " +
-      "title with the timestamp beside it, and neither `RemoteTitleCard` nor Wear's `TitleCard` " +
-      "arranges a subtitle without a body. What Compose does have is a title over a subtitle, " +
-      "which is this — published under its own name rather than mapped onto a node it is not a " +
-      "picture of.",
-  caption = "Title card led by a title over a subtitle, with no body — a Compose-only arrangement.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/39569:49145",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "Title card led by a title over a subtitle — the kit's `Title Card 3` layout.",
 )
 @CatalogRemoteLarge
 @Composable
@@ -357,18 +360,18 @@ fun SubtitleRemoteTitleCard() = RemoteSticker {
 
 // Renamed from `AppCard/Time` when the base sticker took the kit's own timestamp: the time is no
 // longer what tells this cell from the base one — the missing app image is.
+//
+// It names `Title Card + Icon`, which is how the kit spells an app card whose leading slot is not
+// the app's artwork. Nine cells, unclaimed by either sheet until now. The slot here is EMPTY where
+// the kit's holds a vector icon, so the comparison will report that gap on every cell — which is
+// the point: an absence a reader can see beats one buried in a `noReference` string.
 @CatalogComponent(
   id = "AppCard/NoAppImage",
   group = "Containment",
   parallel = "AppCard",
-  noReference =
-    "The leading slot is not an axis of the kit's `Card` set: every one of its App-Card cells " +
-      "carries the app's square artwork, and the set spells the alternative as a different " +
-      "LAYOUT — `Title Card + Icon`, the same slot holding a vector icon — rather than as an " +
-      "empty slot. An app card with nothing in front of its name is a Compose arrangement the " +
-      "kit does not draw, so mapping it onto an App-Card cell would report the missing artwork " +
-      "as a divergence forever.",
-  caption = "App card with the app-image slot left empty — name, title, time and content only.",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/46048:69274",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
+  caption = "App card with the app-image slot left empty — the kit's `Title Card + Icon` layout.",
 )
 @CatalogRemoteLarge
 @Composable
