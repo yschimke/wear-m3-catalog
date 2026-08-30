@@ -22,7 +22,14 @@ compose-material3 = "1.5.0-alpha27"
 # compose-ai-tools: the `ee.schimke.composeai.preview` Gradle plugin and the annotation artifacts
 # are one release — keep them pinned together (Renovate groups them; see .github/renovate.json).
 composePreviewPlugin = "1.54.0"
-composePreviewAnnotations = "1.55.0"
+composePreviewAnnotations = "1.54.0"
+
+# rc-players — `ee.schimke.composeai:third-party-rc-embedded-player`. Same GROUP as the artifacts
+# above and nothing else: it is published from yschimke/rc-players on a release line of its own,
+# which moves separately and is already ahead. Sharing `composePreviewAnnotations` with it dragged
+# the four compose-ai-tools artifacts to a version that does not exist (#199); it gets its own ref,
+# and .github/renovate.json keeps it out of the compose-ai-tools group so the two cannot re-merge.
+rcEmbeddedPlayer = "1.55.0"
 
 # materialkolor — the dynamic-colour engine Confetti Wear builds its conference palettes with. The
 # declared themes in `CatalogThemes.kt` reproduce them by running the same seed through the same
@@ -140,7 +147,7 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 #                                   `remote-player-compose`.
 composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewAnnotations" }
 composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-runtime", version.ref = "composePreviewAnnotations" }
-composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "composePreviewAnnotations" }
+composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 junit = { module = "junit:junit", version.ref = "junit" }
