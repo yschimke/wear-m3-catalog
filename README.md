@@ -168,21 +168,31 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined_content_image-995224cf.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined_gallery_1-87403b60.png" width="150" /> |
 | `TitledCard` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/TitledCard_VARIANT_with_subtitle_outlined_gallery_2-065953fd.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp-fa9a764f.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp_VARIANT_edge_button-c0ff181d.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp_VARIANT_no_buttons-7dafd065.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_204dp-4a80946e.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_204dp_VARIANT_edge_button-52ecaa5e.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_204dp_VARIANT_no_buttons-222ee022.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_216dp-c97b0a76.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_216dp_VARIANT_edge_button-7824135e.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_216dp_VARIANT_no_buttons-9fb65711.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_225dp-735a4b0b.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_225dp_VARIANT_edge_button-f271854e.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_225dp_VARIANT_no_buttons-cf0794b1.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_240dp-97d0602b.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_240dp_VARIANT_edge_button-7f003cee.png" width="150" /> |
-| `AlertDialogSticker · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_240dp_VARIANT_no_buttons-266127c5.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp-fa9a764f.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp_VARIANT_edge_button-c0ff181d.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_192dp_VARIANT_no_buttons-7dafd065.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_204dp-4a80946e.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_204dp_VARIANT_edge_button-52ecaa5e.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_204dp_VARIANT_no_buttons-222ee022.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_216dp-c97b0a76.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_216dp_VARIANT_edge_button-7824135e.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_216dp_VARIANT_no_buttons-9fb65711.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_225dp-735a4b0b.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_225dp_VARIANT_edge_button-f271854e.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_225dp_VARIANT_no_buttons-cf0794b1.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_240dp-97d0602b.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_240dp_VARIANT_edge_button-7f003cee.png" width="150" /> |
+| `AlertDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/AlertDialogSticker_240dp_VARIANT_no_buttons-266127c5.png" width="150" /> |
+| `FailureConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FailureConfirmation_192dp-e071a2c0.png" width="150" /> |
+| `FailureConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FailureConfirmation_204dp-ad0102ac.png" width="150" /> |
+| `FailureConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FailureConfirmation_216dp-634b554f.png" width="150" /> |
+| `FailureConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FailureConfirmation_225dp-c24c1b76.png" width="150" /> |
+| `FailureConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/FailureConfirmation_240dp-61a6819e.png" width="150" /> |
+| `GenericConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/GenericConfirmation_192dp-0c85c42d.png" width="150" /> |
+| `GenericConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/GenericConfirmation_204dp-a827d7df.png" width="150" /> |
+| `GenericConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/GenericConfirmation_216dp-277d1b7e.png" width="150" /> |
+| `GenericConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/GenericConfirmation_225dp-81d1b210.png" width="150" /> |
+| `GenericConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/GenericConfirmation_240dp-6804e36f.png" width="150" /> |
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_192dp-8d1a94a9.png" width="150" /> |
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_192dp_VARIANT_no_text-28a9b2d6.png" width="150" /> |
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_204dp-e02348f9.png" width="150" /> |
@@ -193,6 +203,11 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_225dp_VARIANT_no_text-6fec4e26.png" width="150" /> |
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_240dp-0d2e7a73.png" width="150" /> |
 | `OpenOnPhoneDialogSticker` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/OpenOnPhoneDialogSticker_240dp_VARIANT_no_text-9df07ad6.png" width="150" /> |
+| `SuccessConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SuccessConfirmation_192dp-7231e2cf.png" width="150" /> |
+| `SuccessConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SuccessConfirmation_204dp-7c8830c3.png" width="150" /> |
+| `SuccessConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SuccessConfirmation_216dp-7479ca4c.png" width="150" /> |
+| `SuccessConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SuccessConfirmation_225dp-9e0a63a4.png" width="150" /> |
+| `SuccessConfirmation` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/SuccessConfirmation_240dp-4a3b7e95.png" width="150" /> |
 | `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton-3dbc6219.png" width="150" /> |
 | `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_disabled-b36def2e.png" width="150" /> |
 | `ScreenEdgeButton` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/ScreenEdgeButton_VARIANT_extra_small-6d776924.png" width="150" /> |
