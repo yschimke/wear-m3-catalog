@@ -33,7 +33,6 @@ import androidx.wear.compose.remote.material3.RemotePageIndicatorState
 import androidx.wear.compose.remote.material3.RemoteText
 import androidx.wear.compose.remote.material3.RemoteTextButton
 import androidx.wear.compose.remote.material3.RemoteTimeText
-import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
@@ -340,28 +339,14 @@ fun OutlinedRemoteIconButton() = RemoteSticker {
   )
 }
 
-// The kit's `Title Card 3` layout — nine cells no sheet claimed until now. `RemoteTitleCard` has no
-// argument that puts the timestamp beside the title, so this render will NOT match the node it
-// names; that divergence is exactly what the reference exists to surface, and withholding it left
-// nine cells reading as nobody's work.
-@CatalogComponent(
-  id = "TitleCard/Subtitle",
-  group = "Containment",
-  parallel = "TitleCard",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/39569:49145",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "Title card led by a title over a subtitle — the kit's `Title Card 3` layout.",
-)
-@CatalogRemoteLarge
-@Composable
-fun SubtitleRemoteTitleCard() = RemoteSticker {
-  val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
-  RemoteTitleCard(
-    onClick = onClick,
-    title = { RemoteText(title) },
-    subtitle = { RemoteText(KitCopy.SUBTITLE.rs) },
-  )
-}
+// COLLAPSED INTO `TitleCard`. This was `TitleCard/Subtitle`, a component of its own for the kit's
+// `Title Card 3` layout — and the Wear sibling has always carried it as `TitleCard`'s
+// `title-and-subtitle` cell. It now ships under that same name, with `39569:49145`'s four property
+// assignments transcribed onto the variant so the nine cells it unlocked stay claimed.
+//
+// `RemoteTitleCard` still has no argument that puts the timestamp beside the title, so that cell's
+// render still will not match its node. Unchanged, and still the point: the divergence is what the
+// reference exists to surface.
 
 // Renamed from `AppCard/Time` when the base sticker took the kit's own timestamp: the time is no
 // longer what tells this cell from the base one — the missing app image is.

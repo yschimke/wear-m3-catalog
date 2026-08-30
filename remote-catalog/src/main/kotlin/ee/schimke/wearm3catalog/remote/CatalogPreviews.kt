@@ -1575,6 +1575,25 @@ private fun cardImagery(): (@Composable () -> Unit)? =
     ["Layout type=Title Card 2", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
+// THE KIT'S THIRD LAYOUT ON THIS FUNCTION. `Title Card 3` is a title over a subtitle with no body,
+// and it used to ship as `TitleCard/Subtitle`, a component of its own. The Wear sibling has always
+// carried it here, under this exact name (`@OverrideVariant(name = "title-and-subtitle", …)`), and
+// two sheets that spell one component two ways cannot be read side by side.
+//
+// `kitProps` rather than the `reference` the component carried, because a cell resolves through the
+// index by its property assignment: `39569:49145` is named
+// `Layout type=Title Card 3, Style=Tonal, Content type=Text, Interactive=Yes`, and those four are
+// transcribed from the index rather than guessed — a variant whose props miss resolves to nothing,
+// which is worse than the component it replaced.
+//
+// The render still will NOT match the node, and that is deliberate and unchanged: `RemoteTitleCard`
+// has no argument that puts the timestamp beside the title. That divergence is what the reference
+// exists to surface; withholding it left nine cells reading as nobody's work.
+@OverrideVariant(
+  name = "title-and-subtitle",
+  strings = ["layout=title-subtitle"],
+  kitProps = ["Layout type=Title Card 3", "Style=Tonal", "Content type=Text", "Interactive=Yes"],
+)
 @CatalogComponent(
   id = "TitleCard",
   group = "Containment",
@@ -1609,29 +1628,32 @@ fun TitleCardRemote() = RemoteSticker {
   // publish under the set's base cell, and reported two empty slots as a divergence on every
   // render.
   //
-  // The three layouts, and where each lives: `Title Card 1` is this. `Title Card 2` adds the
-  // subtitle under the body — `TitleCard/WithSubtitle`. `Title Card 3` has no body at all, which
-  // `RemoteTitleCard` cannot arrange; the closest thing Compose does have is a title over a
-  // subtitle, and that ships under its own name rather than on a node it is not a picture of
-  // (`TitleCard/Subtitle`).
+  // All three of the kit's numbered layouts are cells on THIS function now. `Title Card 1` is the
+  // base: title, time and content. `Title Card 2` adds the subtitle under the body. `Title Card 3`
+  // has no body at all — `RemoteTitleCard` cannot arrange the timestamp beside the title, so the
+  // closest it draws is a title over a subtitle, which is what `title-subtitle` selects.
+  val layout =
+    previewOverrideChoice(
+      "layout",
+      "title-time",
+      listOf("title-time", "title-time-subtitle", "title-subtitle"),
+    )
+  val titleOverSubtitle = layout == "title-subtitle"
   RemoteTitleCard(
     onClick = onClick,
     modifier = RemoteModifier.width(KitRowWidth),
     title = { RemoteText(title) },
-    time = { RemoteText(KitCopy.TIMESTAMP.rs) },
+    // `Title Card 3` carries no timestamp slot the library can fill beside the title, and no body,
+    // so this cell drops both rather than drawing the base cell's furniture around a subtitle.
+    time = if (titleOverSubtitle) null else ({ RemoteText(KitCopy.TIMESTAMP.rs) }),
     // `Title Card 2`'s subtitle sits UNDER the body, which is where `RemoteTitleCard` draws its
-    // `subtitle` slot. The base cell leaves it empty.
+    // `subtitle` slot. The base cell leaves it empty; `Title Card 3` is the subtitle alone.
     subtitle =
-      if (
-        previewOverrideChoice(
-          "layout",
-          "title-time",
-          listOf("title-time", "title-time-subtitle"),
-        ) == "title-time-subtitle"
-      )
+      if (layout == "title-time-subtitle" || titleOverSubtitle)
         ({ RemoteText(KitCopy.SUBTITLE.rs) })
       else null,
-    content = cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
+    content =
+      if (titleOverSubtitle) null else cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
 }
 
