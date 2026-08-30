@@ -509,7 +509,7 @@ fun NamedLabelRemoteButton() = RemoteSticker {
  * blanks, which would have scored an empty frame against six drawn kit nodes. Withdrawn, and
  * recorded here as a library gap rather than carried: the kit's fifteen `Disabled=Yes` cells for
  * this set are absent from this rendition until the library draws a disabled text button.
- * (`RemoteIconButton` does honour `enabled` — see `Button/Icon`, which keeps the axis.)
+ * (`RemoteIconButton` does honour `enabled` — see `IconButton/Standard`, which keeps the axis.)
  *
  * **No `child-small` either**, and for the reason the icon button's withdrawn `extra-small` cell
  * gives: the child style draws no container, `SmallButtonSize` clamps to the same glyph metrics as
@@ -716,7 +716,7 @@ annotation class RemoteTextButtonKitCells
 // A low-emphasis round text button (`RemoteTextButton`), the Remote parallel of Wear
 // M3's `TextButton`, with the kit's `Style` and `Size` axes folded in as cells.
 @CatalogComponent(
-  id = "Button/Text",
+  id = "TextButton",
   group = "Buttons",
   parallel = "TextButton",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
@@ -821,10 +821,10 @@ fun TextRemoteButton() = RemoteSticker {
  * ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)).
  *
  * Size is an argument to the one `RemoteIconButton`, so it folds; `Style` is the axis that stays
- * split, because `Button/Icon-Filled` and `Button/Icon-Outlined` pair with `IconButton/Filled` and
- * `IconButton/Outlined` on the Wear column, where they are separate functions. This component IS
- * the kit's child style — no container at all — and its cells vary only the size, so they take the
- * stock colours the base sticker takes.
+ * split, because `IconButton/Filled` and `IconButton/Outlined` are separate functions on the Wear
+ * column, and this sheet names them identically. This component IS the kit's child style — no
+ * container at all — and its cells vary only the size, so they take the stock colours the base
+ * sticker takes.
  *
  * **The two `extra-small` cells are a COLLAPSE, and they are drawn.** `iconSizeFor` resolves
  * `ExtraSmallButtonSize` and `SmallButtonSize` to the same glyph, and with no container there is
@@ -895,9 +895,9 @@ annotation class RemoteIconButtonKitCells
  * container and can therefore tell that size apart. Eight cells — the kit's whole `Size` run
  * crossed with `Disabled` — and the same eight the Wear column's [IconButtonKitCells] carries.
  *
- * Until this existed, `Button/Icon-Filled` and `Button/Icon-Outlined` published their base render
- * and nothing else, and the kit's `Tonal` and `Variant (Highlighted)` columns had no component at
- * all: 32 of the set's 40 nodes were undrawn
+ * Until this existed, `IconButton/Filled` and `IconButton/Outlined` published their base render and
+ * nothing else, and the kit's `Tonal` and `Variant (Highlighted)` columns had no component at all:
+ * 32 of the set's 40 nodes were undrawn
  * ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)).
  */
 @OverrideVariant(
@@ -940,7 +940,7 @@ annotation class RemoteIconButtonKitCells
 )
 // `extra-small-disabled` is drawn here for every style, and on three of the four it is the same
 // picture as `small-disabled`: a disabled icon button loses its glyph, and with only the container
-// left `ExtraSmallButtonSize` and `SmallButtonSize` resolve to one frame. `Button/Icon-Outlined` is
+// left `ExtraSmallButtonSize` and `SmallButtonSize` resolve to one frame. `IconButton/Outlined` is
 // the exception — it draws its own border at the container's size — so there the two differ. The
 // three collapses are recorded in `RemoteRenderTest.knownDuplicate`.
 @OverrideVariant(
@@ -998,7 +998,7 @@ internal fun RemoteKitIconButton(
 // button the icon inherits the button's (contrasting) content colour, so no explicit
 // tint is needed. Wear M3 parallel: `IconButton/Standard`.
 @CatalogComponent(
-  id = "Button/Icon",
+  id = "IconButton/Standard",
   group = "Buttons",
   parallel = "IconButton/Standard",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103015",
@@ -1304,8 +1304,8 @@ fun CompactRemoteButton() = RemoteSticker {
     )
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   // The icon-only cell has no label to count into, so it reads as a toggle instead — the same
-  // bargain `Button/Icon` strikes. At rest `on` is 0f and `tween(a, b, 0f)` is `a`, so the baked
-  // capture is whichever style's own container.
+  // bargain `IconButton/Standard` strikes. At rest `on` is 0f and `tween(a, b, 0f)` is `a`, so the
+  // baked capture is whichever style's own container.
   val (on, toggle) = toggledRemote()
   val container =
     when (style) {
@@ -1363,7 +1363,7 @@ fun CompactRemoteButton() = RemoteSticker {
 // A pair of buttons laid out edge-to-edge by `RemoteButtonGroup`, each taking an equal
 // share of the row via `weight`. Wear M3 parallel: `ButtonGroup`.
 @CatalogComponent(
-  id = "Button/Group",
+  id = "ButtonGroup",
   group = "Buttons",
   parallel = "ButtonGroup",
   noReference =
@@ -1813,7 +1813,7 @@ fun WatchScreenRemote() = RemoteSticker {
 // ---------------------------------------------------------------------------
 // Communication — the determinate circular progress indicator at a fixed 66%, so the
 // static capture is deterministic (the indeterminate overload animates off the
-// document clock). Wear M3 parallel: `CircularProgressIndicator` (`Progress/Circular`).
+// document clock). Named `CircularProgressIndicator`, as the Wear sibling names it.
 // ---------------------------------------------------------------------------
 
 // The kit's `Disabled=Yes` cell, folded on
@@ -1873,7 +1873,7 @@ fun WatchScreenRemote() = RemoteSticker {
   secondary = true,
 )
 @CatalogComponent(
-  id = "Progress/Circular",
+  id = "CircularProgressIndicator",
   group = "Communication",
   parallel = "CircularProgressIndicator",
   reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
