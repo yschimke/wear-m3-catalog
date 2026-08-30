@@ -59,6 +59,13 @@ frame — so its component coverage cannot reach 100% by construction. Everythin
 kit node or records why it does not, and "the library draws it wrong" is never one of those reasons:
 a component whose API exists is drawn failing rather than withheld.
 
+One level down — the kit's published **sets**, their **cells**, and the imported **page grids** — is
+[`docs/KIT_COVERAGE.md`](docs/KIT_COVERAGE.md). Read the overlap figure there rather than the
+whole-kit one: the sheets share 9 of the kit's 34 sets, and within those 331 cells they sit at 222
+and 199 — 23 cells apart, in two sets. Against the whole kit the Remote sheet reads 22% to the Wear
+sheet's 67%, which measures how many sets it never claimed rather than how much of its own work is
+missing.
+
 ## Status
 
 **Every published set in the kit is accounted for.** 33 of the kit's 42 published component sets are

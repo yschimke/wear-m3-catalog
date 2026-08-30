@@ -74,6 +74,14 @@ jobs:
       - name: The imported page join is up to date
         run: node scripts/import-figma-pages.mjs --check
 
+      # `docs/KIT_COVERAGE.md` reads the two records gated directly above and nothing else, so it
+      # is a projection of files this job has already proved fresh — which is what makes gating it
+      # honest rather than flaky. Its sibling `docs/COMPONENT_MAP.md` deliberately has no gate: that
+      # one fetches the delivery branches for render paths, so a difference there can mean "a branch
+      # republished", not "the doc is stale", and a check would fail for something no PR did.
+      - name: docs/KIT_COVERAGE.md is up to date
+        run: node scripts/kit-coverage.mjs --check
+
       - uses: actions/upload-artifact@v7.0.1
         if: always()
         with:

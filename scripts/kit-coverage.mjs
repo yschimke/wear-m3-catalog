@@ -1,0 +1,222 @@
+#!/usr/bin/env node
+// Regenerate docs/KIT_COVERAGE.md — the kit below the component line: every published SET and its
+// CELLS, and every imported PAGE and how much of its grid either sheet claims.
+//
+//   node scripts/kit-coverage.mjs            # write the doc
+//   node scripts/kit-coverage.mjs --check    # fail if the committed doc has drifted
+//
+// WHY THIS IS SEPARATE FROM docs/COMPONENT_MAP.md, and why it can be CI-checked when that cannot.
+//
+// `component-map.mjs` fetches each delivery branch's `catalog.json` for render paths, so it needs
+// network and is documentation run by hand. This reads ONLY committed files — `kit-cells.json`,
+// `design/pages/pages.json`, both of which CI already regenerates and gates — so it is a pure
+// projection of records that cannot themselves drift. That is what makes `--check` honest here: a
+// difference means the doc is stale, never that a branch moved underneath it.
+//
+// THE NUMBER THIS DOC EXISTS TO STOP PEOPLE QUOTING. Cell coverage against the whole kit reads
+// `remote-m3 22%` against `wear-m3-catalog 67%`, which sounds like the Remote sheet is a third of
+// the way to the Wear one. It is not measuring that. The two sheets overlap on 9 of the kit's 34
+// sets, and outside that overlap the Remote sheet is not behind — there is nothing there for it to
+// be behind on. Inside the overlap the two are close. Both figures are published below, the
+// restricted one first, because the unrestricted one is the one that misleads.
+
+import fs from "node:fs";
+
+const KIT = "B24oss2tTeXAFykyeyusz0";
+const REPO = "yschimke/wear-m3-catalog";
+const SHEETS = [
+  { key: "catalog", title: "wear-m3-catalog" },
+  { key: "remote-catalog", title: "remote-m3" },
+];
+
+const check = process.argv.includes("--check");
+const cells = JSON.parse(fs.readFileSync("kit-cells.json", "utf8"));
+const pages = JSON.parse(fs.readFileSync("design/pages/pages.json", "utf8"));
+
+const node = (n) =>
+  `[\`${n}\`](https://www.figma.com/design/${KIT}/?node-id=${String(n).replace(":", "-")})`;
+const pct = (a, b) => (b === 0 ? "—" : `${((100 * a) / b).toFixed(1)}%`);
+
+// ---------------------------------------------------------------------------
+// Sets and cells
+// ---------------------------------------------------------------------------
+
+const sets = Object.values(cells.sets).map((e) => ({
+  name: e.set,
+  page: e.page,
+  node: e.node,
+  published: e.published,
+  drawn: Object.fromEntries(SHEETS.map((s) => [s.key, e.sheets?.[s.key]?.drawn ?? null])),
+}));
+
+const publishedCells = sets.reduce((n, s) => n + s.published, 0);
+const drawnAll = Object.fromEntries(
+  SHEETS.map((s) => [s.key, sets.reduce((n, e) => n + (e.drawn[s.key] ?? 0), 0)]),
+);
+
+const shared = sets.filter((s) => SHEETS.every((sh) => s.drawn[sh.key] !== null));
+const sharedPublished = shared.reduce((n, s) => n + s.published, 0);
+const sharedDrawn = Object.fromEntries(
+  SHEETS.map((s) => [s.key, shared.reduce((n, e) => n + e.drawn[s.key], 0)]),
+);
+// Where the two sheets disagree INSIDE the overlap — the only cells either sheet can be said to be
+// behind on, and the whole of the actionable list.
+const behind = shared
+  .filter((s) => s.drawn["catalog"] !== s.drawn["remote-catalog"])
+  .sort((a, b) => Math.abs(b.drawn.catalog - b.drawn["remote-catalog"]) - Math.abs(a.drawn.catalog - a.drawn["remote-catalog"]));
+
+// ---------------------------------------------------------------------------
+// Pages
+// ---------------------------------------------------------------------------
+//
+// A page node's `code` handle names the module that claims it, so the join is attributable per
+// sheet rather than only in total. The committed join is whichever sheet last regenerated it; the
+// split below says which, rather than letting a single "597 linked" read as both sheets' work.
+
+const pageRows = pages.pages.map((p) => {
+  const by = { catalog: 0, "remote-catalog": 0, other: 0 };
+  for (const n of p.nodes) {
+    if (n.link === "unlinked") continue;
+    if ((n.code ?? "").startsWith("catalog/")) by.catalog++;
+    else if ((n.code ?? "").startsWith("remote-catalog/")) by["remote-catalog"]++;
+    else by.other++;
+  }
+  return { ...p, total: p.nodes.length, by, linked: by.catalog + by["remote-catalog"] + by.other };
+});
+
+const pageNodes = pageRows.reduce((n, p) => n + p.total, 0);
+const pageLinked = pageRows.reduce((n, p) => n + p.linked, 0);
+const pageBy = SHEETS.map((s) => [s, pageRows.reduce((n, p) => n + p.by[s.key], 0)]);
+
+// ---------------------------------------------------------------------------
+
+const L = [];
+L.push("# Kit coverage: sets, cells and pages\n");
+L.push(
+  "`docs/COMPONENT_MAP.md` draws the two sheets at the level of **components**. This is the level",
+  "below: the kit's published **sets** and their **cells**, and the imported **page grids**. A",
+  "component is a card on the board; a cell is one node in a set's grid, and it is cells the parity",
+  "run actually compares.\n",
+);
+L.push(
+  "> Generated by [`scripts/kit-coverage.mjs`](../scripts/kit-coverage.mjs) from",
+  "> [`kit-cells.json`](../kit-cells.json) and [`design/pages/pages.json`](../design/pages/pages.json)",
+  "> — committed records CI already regenerates and gates, so this needs no network and",
+  "> `--check` can hold it fresh.\n",
+);
+
+L.push("## Cells\n");
+L.push(
+  "**Read the overlap figure, not the whole-kit one.** The sheets share",
+  `**${shared.length} of the kit's ${sets.length} sets**. Outside that overlap the Remote sheet is not`,
+  "behind — there is nothing there for it to be behind on, because it draws none of those sets at",
+  "all. The whole-kit percentage divides its cells by every set including the ones it never claimed,",
+  "which reads as a shortfall it does not have.\n",
+);
+L.push(
+  `| | published cells | ${SHEETS.map((s) => `\`${s.title}\``).join(" | ")} |`,
+  "| --- | ---: | ---: | ---: |",
+);
+L.push(
+  `| **The ${shared.length} shared sets** | **${sharedPublished}** | ` +
+    SHEETS.map((s) => `**${sharedDrawn[s.key]}** (${pct(sharedDrawn[s.key], sharedPublished)})`).join(
+      " | ",
+    ) +
+    " |",
+);
+L.push(
+  `| All ${sets.length} sets | ${publishedCells} | ` +
+    SHEETS.map((s) => `${drawnAll[s.key]} (${pct(drawnAll[s.key], publishedCells)})`).join(" | ") +
+    " |",
+);
+L.push("");
+
+if (behind.length) {
+  const total = behind.reduce((n, s) => n + Math.abs(s.drawn.catalog - s.drawn["remote-catalog"]), 0);
+  L.push(
+    `Inside the overlap the two sheets differ by **${total} cells, in ${behind.length} set(s)**. The`,
+    `other ${shared.length - behind.length} shared sets are drawn cell for cell the same on both.\n`,
+  );
+  L.push("| set | published | wear | remote | difference |", "| --- | ---: | ---: | ---: | ---: |");
+  for (const s of behind) {
+    const d = s.drawn.catalog - s.drawn["remote-catalog"];
+    L.push(
+      `| \`${s.name}\` | ${s.published} | ${s.drawn.catalog} | ${s.drawn["remote-catalog"]} | ` +
+        `${d > 0 ? `remote −${d}` : `wear −${-d}`} |`,
+    );
+  }
+  L.push("");
+}
+
+L.push("### Every set\n");
+L.push(
+  "`—` means the sheet draws no cell in that set — a stated absence at set level, not a gap it is",
+  "failing to close. The kit page each set sits on is linked, so a set can be opened beside its grid.\n",
+);
+L.push(
+  `| set | kit page | node | published | ${SHEETS.map((s) => `\`${s.title}\``).join(" | ")} |`,
+  "| --- | --- | --- | ---: | ---: | ---: |",
+);
+for (const s of [...sets].sort((a, b) => b.published - a.published || a.name.localeCompare(b.name))) {
+  L.push(
+    `| \`${s.name}\` | ${s.page} | ${node(s.node)} | ${s.published} | ` +
+      SHEETS.map((sh) => {
+        const d = s.drawn[sh.key];
+        return d === null ? "—" : `${d} (${pct(d, s.published)})`;
+      }).join(" | ") +
+      " |",
+  );
+}
+L.push("");
+
+L.push("## Page grids\n");
+L.push(
+  `The kit's own pages, imported whole: **${pages.pages.length} pages, ${pageNodes} nodes**, of which`,
+  `**${pageLinked} (${pct(pageLinked, pageNodes)})** carry a code handle naming a preview in this`,
+  "repository. A page node is a frame the kit draws — a grid cell, a spec callout, a documentation",
+  "sticker — so most of them are never anyone's component and the total is not a target.\n",
+);
+L.push("| | nodes linked |", "| --- | ---: |");
+for (const [s, n] of pageBy) L.push(`| \`${s.title}\` | **${n}** |`);
+L.push("");
+
+const oneSided = pageBy.filter(([, n]) => n === 0);
+if (oneSided.length === 1) {
+  const [s] = oneSided[0];
+  const [other] = pageBy.find(([, n]) => n > 0) ?? [];
+  L.push(
+    `**Every linked node names \`${other?.title}\`; \`${s.title}\` claims none of them.** That is not`,
+    "a rendering failure — the join is recomputed against whichever catalog is publishing, so this",
+    `committed copy is \`${other?.title}\`'s. When \`${s.title}\` publishes, the same nodes report as`,
+    "`unlinked` for it and its own pages come out nearly empty. Two sheets reproducing one kit",
+    "cannot both be described by one committed join, which is the shape of",
+    "[compose-ai-tools#4838](https://github.com/yschimke/compose-ai-tools/issues/4838).\n",
+  );
+}
+
+L.push("| page | nodes | linked | | |", "| --- | ---: | ---: | --- | --- |");
+for (const p of [...pageRows].sort((a, b) => b.total - a.total)) {
+  const svg = `https://github.com/${REPO}/blob/main/design/pages/${p.image?.uri ?? `${p.id}.svg`}`;
+  L.push(
+    `| \`${p.id}\` | ${p.total} | ${p.linked} (${pct(p.linked, p.total)}) | ` +
+      `${p.nodeId ? node(p.nodeId) : ""} | [grid](${svg}) |`,
+  );
+}
+L.push("");
+
+const out = L.join("\n") + "\n";
+const target = "docs/KIT_COVERAGE.md";
+if (check) {
+  const have = fs.existsSync(target) ? fs.readFileSync(target, "utf8") : "";
+  if (have !== out) {
+    console.error(`kit-coverage: ${target} is stale — run \`node scripts/kit-coverage.mjs\`.`);
+    process.exit(1);
+  }
+  console.log(`kit-coverage: ${target} is up to date.`);
+} else {
+  fs.writeFileSync(target, out);
+  console.log(
+    `kit-coverage: ${sets.length} sets (${shared.length} shared), ${publishedCells} cells; ` +
+      `${pages.pages.length} pages, ${pageLinked}/${pageNodes} nodes linked`,
+  );
+}
