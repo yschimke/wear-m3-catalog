@@ -1705,6 +1705,19 @@ fun TitleCardRemote() = RemoteSticker {
     ["Layout type=Title Card + Icon", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
+// THE EMPTY LEADING SLOT, folded on. It used to be `AppCard/NoAppImage`, a component of its own —
+// but the slot it varies is `appImage`, the same argument the two cells above turn, so it is a
+// third value of that knob rather than a second card for one function.
+//
+// It stays a STATED ABSENCE and does not name a node; the reason is unchanged from the component's
+// own `noReference`, and #197 is why it is worth restating rather than dropping. The kit's leading
+// slot is always FILLED — the app's square artwork on its `App Card` cells, a vector icon on its
+// `Title Card + Icon` ones — and never empty, which is what this draws. Both of those layouts are
+// already drawn, by the base cell and by `icon` respectively, so there is no unclaimed node left
+// for an empty slot to name. It briefly carried `46048:69274` (#194) and that was a double-claim
+// on `icon`'s node: two renders on one node means one is scored against nothing while reading as
+// mapped.
+@OverrideVariant(name = "no-app-image", strings = ["appImage=none"], secondary = true)
 @CatalogComponent(
   id = "AppCard",
   group = "Containment",
@@ -1746,13 +1759,15 @@ fun AppCardRemote() = RemoteSticker {
     // beside it. Drawing the icon under the App Card node claimed one layout and pictured the
     // other. The artwork is the same flat placeholder the content slots take: the kit publishes it
     // as an empty `IMAGE` fill there too.
-    appImage = {
-      if (previewOverrideChoice("appImage", "image", listOf("image", "icon")) == "icon") {
-        RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp))
-      } else {
-        imageFrame(16, 16, 4)
-      }
-    },
+    appImage =
+      when (previewOverrideChoice("appImage", "image", listOf("image", "icon", "none"))) {
+        "icon" -> ({ RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp)) })
+        // NOT a kit cell, and the `none` cell's note below says why: the kit's leading slot is
+        // always filled. This draws the empty one because `RemoteAppCard` allows it, which is the
+        // library's shape rather than the kit's.
+        "none" -> null
+        else -> ({ imageFrame(16, 16, 4) })
+      },
     content = cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
 }
