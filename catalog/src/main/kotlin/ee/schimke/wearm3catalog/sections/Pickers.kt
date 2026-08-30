@@ -17,6 +17,7 @@ import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 import java.time.LocalDate
@@ -69,6 +70,7 @@ private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
   kitProps = ["Type=Date Picker (Year first)", "Limit=Past only", "Focus=One"],
   secondary = true,
 )
+@SettledPreview
 @Composable
 fun DateWheels() = FullScreenSticker {
   val type =
@@ -121,6 +123,7 @@ fun DateWheels() = FullScreenSticker {
   kitAxis = "Type",
   kitValue = "Time Picker 24 + Seconds",
 )
+@SettledPreview
 @Composable
 fun TimeWheels() = FullScreenSticker {
   val type =

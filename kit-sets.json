@@ -188,7 +188,11 @@
       "page": "Confirmation Overlays",
       "set": "Confirmation-Overlay",
       "node": "47251:36765",
-      "excluded": "ConfirmationDialogContent reveals itself over ~528ms — children fade in from a LaunchedEffect, and SuccessIcon draws its check with a 267ms trimPathEnd tween. A still capture never reaches the resting frame: the plain sticker is an empty container ring, and @ScrollingPreview(END) lands mid-tween with the check drawn as a chevron. The renderer already settles long enough after a scroll, so the gap is only a way to ask for that without one: yschimke/compose-ai-tools#4202. Back in the day a preview can ask to be captured settled."
+      "components": [
+        "ConfirmationDialog/Success",
+        "ConfirmationDialog/Failure",
+        "ConfirmationDialog/Generic"
+      ]
     },
     {
       "page": "Confirmation Overlays",
@@ -262,7 +266,7 @@
         "ScrollIndicator"
       ],
       "cells": {
-        "catalog": "All four are the thumb-LENGTH half of the kit's `Position` axis (`40%` to `70% (Max)`; the `Middle` and `Bottom` cells, which are a scroll offset, are drawn). Length is derived from how much of the content fits on screen, and seeding a content height that lands on 40% or 50% renders byte-identical to the base: `ScrollIndicator` animates its thumb, so a still holds an unsettled frame — the 70% capture comes back flagged `still_changing`. Same blocker as `OpenOnPhone-Overlay` ([compose-ai-tools#4202](https://github.com/yschimke/compose-ai-tools/issues/4202))."
+        "catalog": "All four are the thumb-LENGTH half of the kit's `Position` axis (`40%` to `70% (Max)`; the `Middle` and `Bottom` cells, which are a scroll offset, are drawn). The capture blocker this row used to name is gone — `@SettledPreview` settles the thumb's travel now, and the sticker's seed was re-keyed on the measured `maxValue` so the offset cells land where they claim (#178). What remains is the length itself: seeded to 2.5, 2 and 1.67 screenfuls of content — the kit's 40%, 50% and 60% — the thumb renders byte-identical to the base's five, so `ScrollIndicator` does not draw the fraction those cells name and a cell for one would be a picture under a number it is not."
       }
     },
     {

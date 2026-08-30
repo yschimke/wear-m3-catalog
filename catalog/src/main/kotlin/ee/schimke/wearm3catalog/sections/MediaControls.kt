@@ -39,6 +39,7 @@ import ee.schimke.composeai.preview.CaptureGutter
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.HorologistSamples
@@ -194,6 +195,7 @@ import ee.schimke.wearm3catalog.kitCopy
 @OverrideVariant(name = "ambient", strings = ["mode=ambient"])
 @OverrideVariant(name = "loading", strings = ["state=loading"])
 @OverrideVariant(name = "nothing-playing", strings = ["state=nothing-playing"])
+@SettledPreview
 @Composable
 fun MediaPlayerScreen() = ScreenSticker {
   val ambient = previewOverrideChoice("mode", "interactive", listOf("interactive", "ambient"))
@@ -412,6 +414,7 @@ fun MediaControlButtonsRow() = MediaRowSticker {
 @CatalogModes
 @CaptureGutter(top = 8, bottom = 8)
 @OverrideVariant(name = "paused", booleans = ["playing=false"])
+@SettledPreview
 @Composable
 fun MediaPodcastControlButtons() = MediaRowSticker {
   PodcastControlButtons(
