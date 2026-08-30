@@ -61,9 +61,11 @@ class InteractiveActionCaptureTest {
       "CardRemote" to KitCopy.CARD_CONTENT,
       "OutlinedCardRemote" to KitCopy.CARD_CONTENT,
       "TitleCardRemote" to KitCopy.CARD_TITLE,
+      // `SubtitleRemoteTitleCard` used to sit alongside these as its own function. #202 folded it
+      // into `TitleCardRemote` as the `with-subtitle` cell on the line above — same sticker, filed
+      // under the cell name now — so there is no separate render left for it to name.
       "TitleCardRemote#with-subtitle" to KitCopy.CARD_TITLE,
       "AppCardRemote" to KitCopy.CARD_TITLE,
-      "SubtitleRemoteTitleCard" to KitCopy.CARD_TITLE,
       "NoAppImageRemoteAppCard" to KitCopy.CARD_TITLE,
     )
 
