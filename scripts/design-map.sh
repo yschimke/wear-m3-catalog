@@ -94,8 +94,16 @@ trap 'rm -rf "$WORK"' EXIT
 #
 # Gated BEFORE anything is written, so a failed run leaves the committed map intact rather than
 # replacing it with one CI would report as merely stale.
+# `--prefix` IS the module directory, and defaults to `catalog` — which is right for `:catalog` by
+# luck and silently wrong for anything else. `previews.json` records `sourceFile` module-relative
+# (`src/main/kotlin/…`), so the projector prepends this to reach a repo-relative code handle. Left
+# unset, `:remote-catalog`'s map came out naming
+# `catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#AppCardRemote` — a
+# path no file has, for a component that does exist one directory over. Every handle in that map
+# dangles, which is how a sheet reports 0% mapped while its annotations are complete.
 npx --yes @yschimke/compose-design-map@1.25.0 \
   --previews "$MODULE_DIR/build/compose-previews/previews.json" \
+  --prefix "$MODULE_DIR" \
   --out "$WORK/design-map.json" \
   --variants "$WORK/design-map-variants.json" \
   --strict \

@@ -116,6 +116,20 @@ jobs:
       system: wear-m3-catalog
       spec: catalog.spec.json
       module: ':catalog'
+
+      # Project THIS module's map before the lanes that read it, exactly as `design-parity.yml`
+      # already does for its own two jobs. The path is fixed at the repo root and one checkout
+      # publishes both sheets, so without this whichever system does not own the committed map is
+      # scored against the other one's: `remote-m3` published `coverage.percent: 0` with all 50
+      # gaps `dangling-mapping`, every one naming a `:catalog` preview
+      # ([compose-ai-tools#4841](https://github.com/yschimke/compose-ai-tools/issues/4841)).
+      #
+      # Redundant here in the sense that the committed map IS this module's — but stating it is
+      # what stops that being a coincidence the next module relies on, and the reusable workflow
+      # deletes the root map before running the command, so this job proves its own projection too.
+      design-map-command: >
+        ./gradlew :catalog:composePreviewDiscover --stacktrace &&
+        scripts/design-map.sh
       # Keep the render CLI lockstep with the applied Gradle plugin — the pin is
       # `composePreviewPlugin` in libs.versions.toml, and a CLI/plugin skew breaks preview
       # discovery outright.
@@ -212,6 +226,15 @@ jobs:
       system: remote-m3
       spec: remote-catalog/catalog.spec.json
       module: ':remote-catalog'
+
+      # The job this input exists for. Same command `design-parity.yml` passes for the Remote
+      # sheet, and the reason its hourly comparison has been right while these artifacts were
+      # wrong. `scripts/design-map.sh remote-catalog` projects into the root, which is the only
+      # path the lanes read; the committed map there belongs to `:catalog` and is regenerated in
+      # this job's own workspace, never committed back.
+      design-map-command: >
+        ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
+        scripts/design-map.sh remote-catalog
       # Same CLI/plugin lockstep as the job above: the pin is `composePreviewPlugin` in
       # libs.versions.toml, and this catalog is the one that would notice a skew first — its
       # connector and wear-preview-runtime dependencies ship from the same release.
