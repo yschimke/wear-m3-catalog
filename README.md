@@ -47,9 +47,17 @@ with no Compose BOM, and none of that may reach the catalog that reproduces the 
 
 **Both are design-led.** `.design-parity.json` is repo-wide and the parity workflow runs a job per
 module, so each sheet is compared against the kit under the same policy: a divergence is a defect in
-this code. The Remote sheet's kit mapping is partial by design — eleven components share an id with
-their `:catalog` counterpart and inherit its kit node; the rest record why they are not mapped yet
-rather than pointing at a cell they do not draw.
+this code.
+
+Where the two sheets meet, where only one of them goes, and which Figma node each component answers
+to is drawn out component by component, with renders, in
+[`docs/COMPONENT_MAP.md`](docs/COMPONENT_MAP.md) — 23 Wear components facing 31 Remote ones, 17
+Remote-only, 46 Wear-only. The Remote sheet's kit mapping is partial **by design**: seventeen of its
+components document what Remote Compose can do that the kit has no counterpart for at all — document
+shaders, colour and typography token specimens, downloadable-font axes, the Glance Wear widget host
+frame — so its component coverage cannot reach 100% by construction. Everything else either names a
+kit node or records why it does not, and "the library draws it wrong" is never one of those reasons:
+a component whose API exists is drawn failing rather than withheld.
 
 ## Status
 
