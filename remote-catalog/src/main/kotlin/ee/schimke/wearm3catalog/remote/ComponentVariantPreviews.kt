@@ -59,15 +59,20 @@ import ee.schimke.composeai.preview.OverrideVariant
 //     `RemoteButton` and one `RemoteIconButton`, taking emphasis as `colors` — but each pairs with
 //     a separate function on the Wear column, and therefore a separate card. Folding them here
 //     would leave those cards facing nothing.
-//   * A LAYOUT of its own in the kit. `TitleCard/Subtitle` is `Title Card 3` and
-//     `AppCard/NoAppImage` is `Title Card + Icon` — nine cells each, and the kit spells them as
-//     separate `Layout type` values rather than as a slot toggled off, so each is a component here
-//     naming its own node. Both spent a while under `noReference` arguing that our arrangement
-//     does not match the kit's, which is backwards: that mismatch is the FINDING, and pointing at
-//     the node is what makes parity able to report it.
+//   * A LAYOUT of its own in the kit, that nothing else names. `TitleCard/Subtitle` is
+//     `Title Card 3` — nine cells the kit spells as its own `Layout type` rather than as a slot
+//     toggled off, and which no render claimed until #194. It spent a long time under
+//     `noReference` arguing that our arrangement does not match the kit's, which is backwards:
+//     that mismatch is the FINDING, and pointing at the node is what lets parity report it.
+//
+//     "That nothing else names" is the other half of the rule, and #194 got it wrong for
+//     `AppCard/NoAppImage`: `Title Card + Icon` looks equally unclaimed until you notice
+//     `AppCard`'s `icon` cells already draw it. Two renders on one node is not coverage — one of
+//     them wins by manifest order and the other is scored against nothing while reading as mapped.
+//     Check that a node is FREE before naming it, not just that it exists.
 //   * A render the kit publishes NO CELL FOR. A cell resolves against the kit set and a cell that
 //     resolves to nothing is compared against nothing, with no diagnostic anywhere; a component
-//     carries `noReference` and says why instead. That is
+//     carries `noReference` and says why instead. That is `AppCard/NoAppImage`,
 //     `CircularProgressIndicator-Indeterminate`, and the two Remote-only capability rows in
 //     CatalogPreviews.kt (`Button/CustomShape`, `Button/NamedLabel`).
 //   * A component of its own. The page indicators are two functions on both columns.
@@ -361,17 +366,23 @@ fun SubtitleRemoteTitleCard() = RemoteSticker {
 // Renamed from `AppCard/Time` when the base sticker took the kit's own timestamp: the time is no
 // longer what tells this cell from the base one — the missing app image is.
 //
-// It names `Title Card + Icon`, which is how the kit spells an app card whose leading slot is not
-// the app's artwork. Nine cells, unclaimed by either sheet until now. The slot here is EMPTY where
-// the kit's holds a vector icon, so the comparison will report that gap on every cell — which is
-// the point: an absence a reader can see beats one buried in a `noReference` string.
+// Not a kit cell: see the `noReference` below. The `Title Card + Icon` layout it looks like belongs
+// to `AppCard`'s `icon` cells, which draw the vector icon the kit actually puts there.
 @CatalogComponent(
   id = "AppCard/NoAppImage",
   group = "Containment",
   parallel = "AppCard",
-  reference = "figma:B24oss2tTeXAFykyeyusz0/46048:69274",
-  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38437:5746",
-  caption = "App card with the app-image slot left empty — the kit's `Title Card + Icon` layout.",
+  noReference =
+    "The kit's leading slot is always FILLED — the app's square artwork on its `App Card` cells, " +
+      "a vector icon on its `Title Card + Icon` ones — and never empty, which is what this draws. " +
+      "Both of those layouts are already drawn, by `AppCard`'s base cells and by its `icon` cells " +
+      "respectively, so there is no unclaimed node left for an empty slot to name.\n\n" +
+      "Briefly carried `reference = 46048:69274` (#194) on the argument that the kit \"spells the " +
+      "alternative as a different LAYOUT\". It does — and `AppCard` was already naming it. Two " +
+      "renders claiming one node is the failure `PageIndicator/Interactive` states below: the " +
+      "second one wins or loses by manifest order, and the cell that loses is scored against " +
+      "nothing while looking mapped.",
+  caption = "App card with the app-image slot left empty — name, title, time and content only.",
 )
 @CatalogRemoteLarge
 @Composable
