@@ -4,10 +4,14 @@ name: Resolve Figma refs
 # can be pasted onto `@CatalogComponent(reference = …)` and design-parity has something to compare.
 # Also rebuilds the kit index the variant resolver reads.
 #
-# Manual and read-only, deliberately: the resolver *proposes* matches by name similarity against
-# the kit's own taxonomy, which doesn't always agree with the Compose API's names. A proposal wants
-# a human to confirm it before it becomes the reference a parity report is judged against. Nothing
-# here writes to Figma.
+# The REFS stay a proposal a human pastes: the resolver matches by name similarity against the kit's
+# own taxonomy, which doesn't always agree with the Compose API's names, so a proposal wants
+# confirming before it becomes the reference a parity report is judged against. They are printed and
+# uploaded, never written.
+#
+# The INDEX is not a proposal — it is what the kit currently publishes, a fact this run has just
+# read — so it is committed onto a branch and offered as a PR, together with the maps built from it.
+# Nothing here writes to Figma; the token is read-only in both directions.
 #
 # FIGMA_TOKEN is a read-only PAT with `file_content:read` — the scope that covers
 # /v1/files/:key/components, /v1/files/:key/nodes and /v1/images.
@@ -19,9 +23,24 @@ on:
         description: 'Figma file key to resolve against (defaults to the M3 Wear OS Apps Design Kit).'
         type: string
         default: B24oss2tTeXAFykyeyusz0
+      pr:
+        description: 'Open a PR when the kit index (and the maps built from it) change.'
+        type: boolean
+        default: true
+  # The index is an INPUT to design-map.json and going stale is SILENT: a set the kit gained reads
+  # as "no counterpart in the kit" rather than "nobody has looked since". Between the first run and
+  # 2026-08-30 nobody looked for twelve days, and in that window three `ConfirmationDialog`
+  # components shipped whose `Text=No` cells could not resolve — the set they name was not in the
+  # index, so the cells were held back rather than published broken. A schedule is what stops that
+  # being a thing somebody has to remember.
+  schedule:
+    - cron: '0 4 * * 1'
 
+# `contents: write` to push the refresh branch, `pull-requests: write` to open the PR for it.
+# Neither reaches Figma: FIGMA_TOKEN is read-only and nothing here writes to the kit.
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   resolve:
@@ -43,7 +62,7 @@ jobs:
       - name: Dump inventory
         env:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-          FIGMA_FILE: ${{ inputs.file }}
+          FIGMA_FILE: ${{ inputs.file || 'B24oss2tTeXAFykyeyusz0' }}
         run: |
           set -euo pipefail
           if [ -z "${FIGMA_TOKEN:-}" ]; then
@@ -60,13 +79,13 @@ jobs:
       - name: Build the kit index
         env:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-          FIGMA_FILE: ${{ inputs.file }}
+          FIGMA_FILE: ${{ inputs.file || 'B24oss2tTeXAFykyeyusz0' }}
         run: |
           set -euo pipefail
           npx --yes @design-parity/kit-index build --file "$FIGMA_FILE" \
             --inventory figma-inventory.json --out figma-kit-index.json
           if [ -f figma-kit-index.json ] && ! git diff --quiet -- figma-kit-index.json; then
-            echo "::warning title=Kit index has changed::Commit the uploaded figma-kit-index.json."
+            echo "::warning title=Kit index has changed::The PR step below carries it, with the maps rebuilt from it."
             git --no-pager diff --stat -- figma-kit-index.json
           fi
 
@@ -91,7 +110,7 @@ jobs:
           # Through env rather than interpolated into the script: `${{ inputs.file }}` expands
           # before bash sees the line, so a dispatch input containing shell metacharacters would
           # run as part of this step.
-          FIGMA_FILE: ${{ inputs.file }}
+          FIGMA_FILE: ${{ inputs.file || 'B24oss2tTeXAFykyeyusz0' }}
         run: |
           set -euo pipefail
           npx --yes -p @design-parity/baseline@0.1.51 design-parity-propose-refs \
@@ -105,3 +124,71 @@ jobs:
           name: figma-refs
           path: figma-refs.txt
           if-no-files-found: warn
+
+      # WHY THIS OPENS A PR RATHER THAN UPLOADING AND STOPPING. An artifact is a file somebody has
+      # to notice, download and commit, and for twelve days nobody did — the refreshed index sat in
+      # a completed green run while the cells that needed it waited on it. Worse, downloading it is
+      # not always possible: artifact URLs redirect to blob storage that a locked-down network can
+      # refuse outright.
+      #
+      # It regenerates the MAPS in the same commit because a lone index change fails CI by
+      # construction: `scripts/design-map.sh --check` and `scripts/kit-cells.sh --check` both
+      # resolve annotations THROUGH the index, so a PR carrying only the index is a PR that cannot
+      # go green. The three scripts here are the same ones a contributor runs by hand.
+      #
+      # It stays a PR rather than a push to main: the diff is a change of RECORD about what the kit
+      # publishes, the review is where somebody reads which sets moved, and CI on the branch is what
+      # proves the regenerated maps still reconcile.
+      - name: Refresh the maps the index feeds
+        if: github.event_name == 'schedule' || inputs.pr
+        run: |
+          set -euo pipefail
+          scripts/design-map.sh
+          scripts/kit-cells.sh
+
+      - name: Open a PR for the refresh
+        if: github.event_name == 'schedule' || inputs.pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- figma-kit-index.json design-map.json design-map-variants.json kit-cells.json; then
+            echo "kit index and maps unchanged — nothing to open"
+            exit 0
+          fi
+          # A bot identity, never an agent one — `.github/scripts/agent-attribution-scan.sh` rejects
+          # the latter on any branch, and this commit is machine-authored by definition. Same
+          # identity `figma-pages.yml` commits its cache under.
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          branch="chore/kit-index-$(date -u +%Y%m%d)"
+          git checkout -b "$branch"
+          git add figma-kit-index.json design-map.json design-map-variants.json kit-cells.json
+          git commit -q -m 'chore(kit): re-walk the kit and refresh the index'
+          git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            "HEAD:$branch"
+          # An existing open PR for this branch already carries the change; a second would be noise.
+          if [ -n "$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq '.[].number')" ]; then
+            echo "a PR for $branch is already open"
+            exit 0
+          fi
+          {
+            echo 'The scheduled re-walk of the kit found the committed index out of date.'
+            echo
+            echo 'The index is an INPUT to `design-map.json`, so this PR carries the maps'
+            echo 'regenerated from it in the same diff — a lone index change cannot go green.'
+            echo
+            echo '```'
+            git --no-pager diff --stat HEAD~1..HEAD
+            echo '```'
+            echo
+            echo 'Read the index diff for which SETS moved: a set added here is a set whose cells'
+            echo 'could not resolve before, and may unblock cells a component is holding back.'
+            echo
+            echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } > pr-body.md
+          gh pr create --repo "${{ github.repository }}" \
+            --head "$branch" \
+            --base "${{ github.event.repository.default_branch }}" \
+            --title 'chore(kit): re-walk the kit and refresh the index' \
+            --body-file pr-body.md

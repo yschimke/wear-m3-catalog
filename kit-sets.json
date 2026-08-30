@@ -192,7 +192,10 @@
         "ConfirmationDialog/Success",
         "ConfirmationDialog/Failure",
         "ConfirmationDialog/Generic"
-      ]
+      ],
+      "cells": {
+        "catalog": "Three of the nine, and both absences are the kit's `Type=` axis rather than its `Text=` one. `Latency, Text=Yes` and `Latency, Text=No` are the overlay shown while the outcome is still unknown — an indeterminate wait, and no `*ConfirmationDialogContent` in `androidx.wear.compose:compose-material3` draws one; the library's three typed entry points are success, failure and the generic icon slot, so there is no function to call and a sticker that hand-built a spinner into the icon slot would be a picture of this catalog rather than of the library. `Long text, Text=Yes` is the same generic overlay carrying more copy than one line fits, which is a property of the STRING passed to `curvedText` and not of the call — the cell would vary the sticker's own `KitCopy` constant, and every axis the component actually exposes is already drawn beside it."
+      }
     },
     {
       "page": "Confirmation Overlays",

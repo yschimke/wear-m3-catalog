@@ -270,7 +270,13 @@
           "id": "34732:103146",
           "name": "Style=Child (No background), Size=Small, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Text": {
+          "type": "TEXT",
+          "default": "MMM"
+        }
+      }
     },
     "39083:760": {
       "name": "Text-ToggleButton",
@@ -335,7 +341,13 @@
           "id": "39083:785",
           "name": "Selected=Off, Style=Tonal, Size=Extra-Large, Disabled=Yes, Radius=Circular, Fixed Width=True"
         }
-      ]
+      ],
+      "properties": {
+        "Text": {
+          "type": "TEXT",
+          "default": "MMM"
+        }
+      }
     },
     "38425:101028": {
       "name": "Button-ImageBackground",
@@ -356,7 +368,17 @@
           "id": "38425:101055",
           "name": "Secondary label=Yes, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Primary label (1-3 lines)": {
+          "type": "TEXT",
+          "default": "Primary label"
+        },
+        "Secondary label (1-2 lines)": {
+          "type": "TEXT",
+          "default": "Secondary label"
+        }
+      }
     },
     "68333:155055": {
       "name": "Button-Loading",
@@ -433,7 +455,21 @@
           "id": "68333:155296",
           "name": "Style=Child (No background), Icon size=xLg 36, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Secondary label (1-2 lines)": {
+          "type": "TEXT",
+          "default": "Secondary label"
+        },
+        "Secondary label": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Primary label (1-3 lines)": {
+          "type": "TEXT",
+          "default": "Primary label"
+        }
+      }
     },
     "71571:44772": {
       "name": "Button-Placeholder",
@@ -587,7 +623,37 @@
           "id": "46818:57559",
           "name": "Type=Custom - Task, Selected=No, Split (2 tap targets)=Yes, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Swap icon (26)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45279"
+        },
+        "Primary label (1-3 lines)": {
+          "type": "TEXT",
+          "default": "Primary"
+        },
+        "Secondary label (1-2 lines)": {
+          "type": "TEXT",
+          "default": "Secondary"
+        },
+        "Icon": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Secondary label": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Task Check": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Swap toggle icon (24)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44890"
+        }
+      }
     },
     "35276:87971": {
       "name": "Button-Compact",
@@ -752,7 +818,21 @@
           "id": "35276:88049",
           "name": "Style=Child (No background), Alignment=Icon centre, Icon=Yes, Text=No, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Primary label": {
+          "type": "TEXT",
+          "default": "Primary label"
+        },
+        "Swap icon (24)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44887"
+        },
+        "Swap icon (20)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44802"
+        }
+      }
     },
     "34732:102972": {
       "name": "Icon-Button",
@@ -917,7 +997,21 @@
           "id": "34732:103074",
           "name": "Style=Child (No background), Size=Extra-Small, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Swap icon (26)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45279"
+        },
+        "Swap icon (32)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45115"
+        },
+        "Swap icon (24)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44887"
+        }
+      }
     },
     "39083:679": {
       "name": "Icon-ToggleButton",
@@ -1018,7 +1112,25 @@
           "id": "39083:758",
           "name": "Selected=Off, Style=Tonal, Size=Small, Disabled=Yes, Corner radius=Circular"
         }
-      ]
+      ],
+      "properties": {
+        "Swap icon (36)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45068"
+        },
+        "Swap icon (32)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45115"
+        },
+        "Swap icon (26)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45279"
+        },
+        "swap icon (24)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44887"
+        }
+      }
     },
     "71571:44843": {
       "name": "Icon-Button-Placeholder",
@@ -1292,7 +1404,33 @@
           "id": "35239:93134",
           "name": "Style=Child (No background), Icon=No, Icon size=n/a, Alignment=Center, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Secondary label (1-2 lines)": {
+          "type": "TEXT",
+          "default": "Secondary label"
+        },
+        "Secondary label": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Primary label (1-3 lines)": {
+          "type": "TEXT",
+          "default": "Primary label"
+        },
+        "Swap icon (32)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45115"
+        },
+        "Swap icon (36)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45068"
+        },
+        "Swap icon (26)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45279"
+        }
+      }
     },
     "71571:45109": {
       "name": "Card-Placeholder",
@@ -1490,7 +1628,112 @@
           "id": "39880:105631",
           "name": "Layout type=Title Card 3, Style=Outline, Content type=Gallery 2, Interactive=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Time text": {
+          "type": "TEXT",
+          "default": "XXm"
+        },
+        "Title text (1-2 lines)": {
+          "type": "TEXT",
+          "default": "Title card title text lorem ipsum dolor sit amet"
+        },
+        "Body text (1-2 lines)": {
+          "type": "TEXT",
+          "default": "Content lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+        },
+        "Timestamp": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Subtitle text": {
+          "type": "TEXT",
+          "default": "Subtitle"
+        },
+        "Subtitle": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Content": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Additional image": {
+          "type": "BOOLEAN",
+          "default": false
+        },
+        "Label text": {
+          "type": "TEXT",
+          "default": "Label text"
+        },
+        "Swap app icon": {
+          "type": "INSTANCE_SWAP",
+          "default": "142979:17528"
+        },
+        "Icon": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Title": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Body": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Swap icon (18)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44615"
+        }
+      }
+    },
+    "47251:36765": {
+      "name": "Confirmation-Overlay",
+      "variants": [
+        {
+          "id": "47251:36766",
+          "name": "Type=Success, Text=Yes"
+        },
+        {
+          "id": "47251:36783",
+          "name": "Type=Success, Text=No"
+        },
+        {
+          "id": "47251:36863",
+          "name": "Type=Failed, Text=Yes"
+        },
+        {
+          "id": "47251:36881",
+          "name": "Type=Failed, Text=No"
+        },
+        {
+          "id": "47251:36801",
+          "name": "Type=Generic, Text=Yes"
+        },
+        {
+          "id": "47251:36825",
+          "name": "Type=Generic, Text=No"
+        },
+        {
+          "id": "47251:37238",
+          "name": "Type=Latency, Text=Yes"
+        },
+        {
+          "id": "47251:82821",
+          "name": "Type=Latency, Text=No"
+        },
+        {
+          "id": "47251:36843",
+          "name": "Type=Long text, Text=Yes"
+        }
+      ],
+      "properties": {
+        "Text": {
+          "type": "TEXT",
+          "default": "MMMMMMMMMMMMMMMMMMMMMMMMMMM"
+        }
+      }
     },
     "46964:90920": {
       "name": "OpenOnPhone-Overlay",
@@ -1576,7 +1819,17 @@
           "id": "58475:87087",
           "name": "Edge Option=None, Scrolling=No, Bottom=No"
         }
-      ]
+      ],
+      "properties": {
+        "Middle": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "Top": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      }
     },
     "36601:6586": {
       "name": "Edge-Button",
@@ -1837,7 +2090,25 @@
           "id": "48566:255883",
           "name": "Style=Outline, Type=Icon, Size=Extra-Large, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Text": {
+          "type": "TEXT",
+          "default": "MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"
+        },
+        "Swap icon (36)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45068"
+        },
+        "Swap icon (32)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45115"
+        },
+        "Swap icon (24)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44887"
+        }
+      }
     },
     "38684:137917": {
       "name": "Page-Indicator",
@@ -1962,7 +2233,13 @@
           "id": "47507:108581",
           "name": "Number=7+ - End, Position=Vertical-Left"
         }
-      ]
+      ],
+      "properties": {
+        "Container": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      }
     },
     "43678:8580": {
       "name": "Picker",
@@ -2135,7 +2412,13 @@
           "id": "44400:6589",
           "name": "Larger Screen (BP)=Yes, Type=Date Picker (Year first), Focus=Three, Limit=Future only"
         }
-      ]
+      ],
+      "properties": {
+        "Label": {
+          "type": "TEXT",
+          "default": "Label"
+        }
+      }
     },
     "46619:47146": {
       "name": "Level-Indicator-RSB",
@@ -3553,7 +3836,17 @@
           "id": "43718:38293",
           "name": "Increments=Percentage, Level=Full, Changed=No, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Swap trailing icon (26)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:45279"
+        },
+        "Swap leading icon (26)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:64148"
+        }
+      }
     },
     "44993:61162": {
       "name": "Stepper",
@@ -3590,7 +3883,13 @@
           "id": "44998:8712",
           "name": "Button Fill=No, Icon=No, Disabled=Yes"
         }
-      ]
+      ],
+      "properties": {
+        "Level Indicator": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      }
     },
     "56392:155752": {
       "name": "STR-card",
@@ -3611,7 +3910,13 @@
           "id": "56392:155763",
           "name": "State=Full swipe (icon + text)"
         }
-      ]
+      ],
+      "properties": {
+        "Swipe": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      }
     },
     "56392:155784": {
       "name": "STR-button",
@@ -3653,7 +3958,13 @@
           "id": "48563:243256",
           "name": "Type=Page-Mid, Alignment=Left"
         }
-      ]
+      ],
+      "properties": {
+        "Title": {
+          "type": "TEXT",
+          "default": "Title"
+        }
+      }
     },
     "38977:66982": {
       "name": "Text-ListHeader-Sub",
@@ -3670,7 +3981,17 @@
           "id": "38977:66985",
           "name": "Icon=Yes, Alignment=Left"
         }
-      ]
+      ],
+      "properties": {
+        "Title": {
+          "type": "TEXT",
+          "default": "Subtitle"
+        },
+        "Swap icon (16)": {
+          "type": "INSTANCE_SWAP",
+          "default": "71422:44519"
+        }
+      }
     },
     "38977:66990": {
       "name": "Text-Body",
@@ -3683,7 +4004,13 @@
           "id": "38977:66993",
           "name": "Alignment=Centre"
         }
-      ]
+      ],
+      "properties": {
+        "Text": {
+          "type": "TEXT",
+          "default": "Body text lorem ipsum dolor sit amet"
+        }
+      }
     },
     "38977:66995": {
       "name": "Text-Caption",
@@ -3696,7 +4023,13 @@
           "id": "38977:66998",
           "name": "Alignment=Centre"
         }
-      ]
+      ],
+      "properties": {
+        "Text": {
+          "type": "TEXT",
+          "default": "Caption text enim ad minim veniam, quis nostrud "
+        }
+      }
     },
     "38973:10025": {
       "name": "TimeText",
@@ -3717,7 +4050,13 @@
           "id": "64151:205537",
           "name": "Type=24hr, Size=User Config - Largest (124%)"
         }
-      ]
+      ],
+      "properties": {
+        "Arc": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      }
     }
   },
   "standalone": {},
