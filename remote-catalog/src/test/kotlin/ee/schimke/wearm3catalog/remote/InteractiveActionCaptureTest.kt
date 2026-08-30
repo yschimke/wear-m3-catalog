@@ -63,8 +63,12 @@ class InteractiveActionCaptureTest {
       "TitleCardRemote" to KitCopy.CARD_TITLE,
       "TitleCardRemote#with-subtitle" to KitCopy.CARD_TITLE,
       "AppCardRemote" to KitCopy.CARD_TITLE,
-      "SubtitleRemoteTitleCard" to KitCopy.CARD_TITLE,
-      "NoAppImageRemoteAppCard" to KitCopy.CARD_TITLE,
+      // Both of these were components of their own until they folded into the card above them, so
+      // they take the `<stem>#<cell>` form this doc describes — the same move `IconLabelRemoteButton`
+      // made in #116. Same captures, same assertions; what changed is the name the renderer files
+      // them under.
+      "TitleCardRemote#title-and-subtitle" to KitCopy.CARD_TITLE,
+      "AppCardRemote#no-app-image" to KitCopy.CARD_TITLE,
     )
 
   /**
