@@ -189,8 +189,10 @@ if (oneSided.length === 1) {
     "a rendering failure — the join is recomputed against whichever catalog is publishing, so this",
     `committed copy is \`${other?.title}\`'s. When \`${s.title}\` publishes, the same nodes report as`,
     "`unlinked` for it and its own pages come out nearly empty. Two sheets reproducing one kit",
-    "cannot both be described by one committed join, which is the shape of",
-    "[compose-ai-tools#4838](https://github.com/yschimke/compose-ai-tools/issues/4838).\n",
+    "cannot both be described by one committed join. That is unfixed and unfiled: it is NOT",
+    "compose-ai-tools#4838, which was about how the two sheets' previews PAIR (fixed since, in",
+    "yschimke/compose-preview-server, keyed on the kit cell) and says nothing about which module a",
+    "kit node's code handle names.\n",
   );
 }
 

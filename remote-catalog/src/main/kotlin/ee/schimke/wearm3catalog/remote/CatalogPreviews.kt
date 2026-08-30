@@ -57,6 +57,7 @@ import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteButtonGroup
 import androidx.wear.compose.remote.material3.RemoteCard
+import androidx.wear.compose.remote.material3.RemoteCardDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteCompactButton
 import androidx.wear.compose.remote.material3.RemoteIcon
@@ -1529,10 +1530,12 @@ private fun cardImagery(): (@Composable () -> Unit)? =
 // ([#116](https://github.com/yschimke/wear-m3-catalog/issues/116)). The Wear sibling's `TitleCard`
 // carries it under the same name.
 //
-// `Title Card 3` is the set's remaining gap in BOTH renditions and stays a stated absence rather
-// than a third cell: it draws the timestamp under the subtitle, and neither `RemoteTitleCard` nor
-// Wear's `TitleCard` has an argument that moves the time off the title's row. What Compose can
-// arrange instead ships under its own name, `TitleCard/Subtitle`.
+// `Title Card 3` is a cell on this function too, as of #202 — the note that used to sit here called
+// it a stated absence shipping under its own name, `TitleCard/Subtitle`, and both halves of that
+// stopped being true when it folded in. What has NOT changed is why its render will not match: the
+// kit draws the timestamp under the subtitle, and neither `RemoteTitleCard` nor Wear's `TitleCard`
+// has an argument that moves the time off the title's row. The cell is drawn failing rather than
+// withheld, which is this repo's rule when the call site exists.
 @OverrideVariant(
   name = "with-subtitle",
   strings = ["layout=title-time-subtitle"],
@@ -1594,6 +1597,112 @@ private fun cardImagery(): (@Composable () -> Unit)? =
   strings = ["layout=title-subtitle"],
   kitProps = ["Layout type=Title Card 3", "Style=Tonal", "Content type=Text", "Interactive=Yes"],
 )
+// `Title Card 3` crossed with the set's `Content type` axis — three more of its cells. The kit
+// varies content on this layout exactly as it does on `Title Card 1` and `2`, so these select the
+// same `cardImagery()` the cells below do, on the layout the cell above selects. #202 drew only the
+// `Text` crossing and left these, which is why the set stood at 17 of 45 rather than 20.
+@OverrideVariant(
+  name = "title-and-subtitle-content-image",
+  strings = ["layout=title-subtitle", "content=image"],
+  kitProps = ["Layout type=Title Card 3", "Style=Tonal", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "title-and-subtitle-gallery-1",
+  strings = ["layout=title-subtitle", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card 3", "Style=Tonal", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "title-and-subtitle-gallery-2",
+  strings = ["layout=title-subtitle", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card 3", "Style=Tonal", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
+// The `Style=Outline` column. One probe first, on the base layout: if the library's outlined
+// palette resolves to the same container the tonal one does, these renders are byte-identical to
+// the cells above and `RemoteRenderTest`'s duplicate guard says so — which would mean the axis has
+// no call site after all and these belong with the withheld ones.
+@OverrideVariant(
+  name = "outline",
+  strings = ["style=outline"],
+  kitProps = ["Layout type=Title Card 1", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-content-image",
+  strings = ["style=outline", "content=image"],
+  kitProps = ["Layout type=Title Card 1", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-gallery-1",
+  strings = ["style=outline", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card 1", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-gallery-2",
+  strings = ["style=outline", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card 1", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-with-subtitle",
+  strings = ["style=outline", "layout=title-time-subtitle"],
+  kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-with-subtitle-content-image",
+  strings = ["style=outline", "layout=title-time-subtitle", "content=image"],
+  kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-with-subtitle-gallery-1",
+  strings = ["style=outline", "layout=title-time-subtitle", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-with-subtitle-gallery-2",
+  strings = ["style=outline", "layout=title-time-subtitle", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-title-and-subtitle",
+  strings = ["style=outline", "layout=title-subtitle"],
+  kitProps = ["Layout type=Title Card 3", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-title-and-subtitle-content-image",
+  strings = ["style=outline", "layout=title-subtitle", "content=image"],
+  kitProps = ["Layout type=Title Card 3", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-title-and-subtitle-gallery-1",
+  strings = ["style=outline", "layout=title-subtitle", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card 3", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-title-and-subtitle-gallery-2",
+  strings = ["style=outline", "layout=title-subtitle", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card 3", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
 @CatalogComponent(
   id = "TitleCard",
   group = "Containment",
@@ -1639,9 +1748,23 @@ fun TitleCardRemote() = RemoteSticker {
       listOf("title-time", "title-time-subtitle", "title-subtitle"),
     )
   val titleOverSubtitle = layout == "title-subtitle"
+  // THE KIT'S `Style` AXIS, and the cell it produces will not match — deliberately. The kit crosses
+  // every layout with `Outline`, and `remote-material3` splits that across two functions it does
+  // not join: `RemoteOutlinedCard` has the border but one content slot and no title, while
+  // `RemoteTitleCard` has the slots and NO border parameter at all — `RemoteCardColors` carries
+  // container, content, appName, time, title and subtitle, and no stroke among them.
+  //
+  // So this passes the library's own `outlinedCardColors()`, which is the call site that exists,
+  // and the render comes out with the outlined palette and no outline. That is the finding, and
+  // drawing it is the rule this repo works to: a cell whose API exists is drawn failing rather than
+  // withheld. It is a different case from `Style=Background Image` below, which is withheld because
+  // no painter parameter exists anywhere to call.
+  val outlined = previewOverrideChoice("style", "tonal", listOf("tonal", "outline")) == "outline"
   RemoteTitleCard(
     onClick = onClick,
     modifier = RemoteModifier.width(KitRowWidth),
+    colors =
+      if (outlined) RemoteCardDefaults.outlinedCardColors() else RemoteCardDefaults.cardColors(),
     title = { RemoteText(title) },
     // `Title Card 3` carries no timestamp slot the library can fill beside the title, and no body,
     // so this cell drops both rather than drawing the base cell's furniture around a subtitle.
@@ -1652,8 +1775,13 @@ fun TitleCardRemote() = RemoteSticker {
       if (layout == "title-time-subtitle" || titleOverSubtitle)
         ({ RemoteText(KitCopy.SUBTITLE.rs) })
       else null,
+    // `Title Card 3` carries a `Content type` axis like the other layouts — the kit crosses it with
+    // Image, Gallery 1 and Gallery 2 — so the imagery goes in the content slot here too. What it
+    // does NOT get is the body TEXT: `Content type=Text` on this layout is the title-over-subtitle
+    // picture with nothing under it, which is why the fallback is null on this branch and the body
+    // string on the others.
     content =
-      if (titleOverSubtitle) null else cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
+      cardImagery() ?: if (titleOverSubtitle) null else ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
 }
 
@@ -1718,6 +1846,60 @@ fun TitleCardRemote() = RemoteSticker {
 // on `icon`'s node: two renders on one node means one is scored against nothing while reading as
 // mapped.
 @OverrideVariant(name = "no-app-image", strings = ["appImage=none"], secondary = true)
+// The `Style=Outline` column for this function's two layouts. Same call site and same
+// expected divergence as `TitleCardRemote`'s: the palette lands, the stroke does not.
+@OverrideVariant(
+  name = "outline",
+  strings = ["style=outline"],
+  kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-content-image",
+  strings = ["style=outline", "content=image"],
+  kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-gallery-1",
+  strings = ["style=outline", "content=gallery-1"],
+  kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-gallery-2",
+  strings = ["style=outline", "content=gallery-2"],
+  kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-icon",
+  strings = ["style=outline", "appImage=icon"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Text", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-icon-content-image",
+  strings = ["style=outline", "appImage=icon", "content=image"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Image", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-icon-gallery-1",
+  strings = ["style=outline", "appImage=icon", "content=gallery-1"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outline-icon-gallery-2",
+  strings = ["style=outline", "appImage=icon", "content=gallery-2"],
+  kitProps =
+    ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
+  secondary = true,
+)
 @CatalogComponent(
   id = "AppCard",
   group = "Containment",
@@ -1745,9 +1927,15 @@ fun TitleCardRemote() = RemoteSticker {
 @Composable
 fun AppCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
+  // The kit's `Style` axis, on the same terms as `TitleCardRemote` above: `RemoteAppCard` takes
+  // colours and no border, so the outlined cells draw the outlined palette with no stroke, and the
+  // missing stroke is the finding rather than a reason to withhold them.
+  val outlined = previewOverrideChoice("style", "tonal", listOf("tonal", "outline")) == "outline"
   RemoteAppCard(
     onClick = onClick,
     modifier = RemoteModifier.width(KitRowWidth),
+    colors =
+      if (outlined) RemoteCardDefaults.outlinedCardColors() else RemoteCardDefaults.cardColors(),
     appName = { RemoteText(KitCopy.APP_LABEL.rs) },
     title = { RemoteText(title) },
     // The kit's App Card cell fills its timestamp slot, and so does `wear-m3-catalog`'s `AppCard`.

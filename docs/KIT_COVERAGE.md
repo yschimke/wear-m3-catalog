@@ -20,15 +20,15 @@ which reads as a shortfall it does not have.
 
 | | published cells | `wear-m3-catalog` | `remote-m3` |
 | --- | ---: | ---: | ---: |
-| **The 9 shared sets** | **331** | **222** (67.1%) | **199** (60.1%) |
-| All 34 sets | 897 | 597 (66.6%) | 199 (22.2%) |
+| **The 9 shared sets** | **331** | **222** (67.1%) | **222** (67.1%) |
+| All 34 sets | 897 | 597 (66.6%) | 222 (24.7%) |
 
-Inside the overlap the two sheets differ by **23 cells, in 2 set(s)**. The
+Inside the overlap the two sheets differ by **12 cells, in 2 set(s)**. The
 other 7 shared sets are drawn cell for cell the same on both.
 
 | set | published | wear | remote | difference |
 | --- | ---: | ---: | ---: | ---: |
-| `Card` | 45 | 34 | 17 | remote −17 |
+| `Card` | 45 | 34 | 40 | wear −6 |
 | `Progress-Indicator` | 90 | 12 | 6 | remote −6 |
 
 ### Every set
@@ -43,7 +43,7 @@ failing to close. The kit page each set sits on is linked, so a set can be opene
 | `Edge-Button` | Edge-Hugging Buttons | [`36601:6586`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=36601-6586) | 64 | 64 (100.0%) | — |
 | `Slider` | Sliders | [`34828:79081`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34828-79081) | 54 | 36 (66.7%) | — |
 | `Button` | Buttons | [`35239:93088`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=35239-93088) | 50 | 50 (100.0%) | 50 (100.0%) |
-| `Card` | Cards | [`38437:5746`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38437-5746) | 45 | 34 (75.6%) | 17 (37.8%) |
+| `Card` | Cards | [`38437:5746`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38437-5746) | 45 | 34 (75.6%) | 40 (88.9%) |
 | `Picker` | Pickers | [`43678:8580`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=43678-8580) | 42 | 11 (26.2%) | — |
 | `Button-Compact` | Buttons | [`35276:87971`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=35276-87971) | 40 | 30 (75.0%) | 30 (75.0%) |
 | `Icon-Button` | Buttons | [`34732:102972`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34732-102972) | 40 | 40 (100.0%) | 40 (100.0%) |
@@ -89,8 +89,10 @@ sticker — so most of them are never anyone's component and the total is not a 
 a rendering failure — the join is recomputed against whichever catalog is publishing, so this
 committed copy is `wear-m3-catalog`'s. When `remote-m3` publishes, the same nodes report as
 `unlinked` for it and its own pages come out nearly empty. Two sheets reproducing one kit
-cannot both be described by one committed join, which is the shape of
-[compose-ai-tools#4838](https://github.com/yschimke/compose-ai-tools/issues/4838).
+cannot both be described by one committed join. That is unfixed and unfiled: it is NOT
+compose-ai-tools#4838, which was about how the two sheets' previews PAIR (fixed since, in
+yschimke/compose-preview-server, keyed on the kit cell) and says nothing about which module a
+kit node's code handle names.
 
 | page | nodes | linked | | |
 | --- | ---: | ---: | --- | --- |
