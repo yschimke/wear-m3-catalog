@@ -1872,6 +1872,15 @@ fun WatchScreenRemote() = RemoteSticker {
     ],
   secondary = true,
 )
+// The kit publishes four determinate `Progress=` values and no indeterminate one, but the library
+// ships both on the same name — so it folds in here as a cell rather than standing up a second
+// card for the same component. It used to be `CircularProgressIndicator-Indeterminate`, a
+// top-level component; the Wear sibling has carried it as this cell all along, and two sheets that
+// spell one component two ways cannot be read side by side.
+//
+// The cell is a still of something that only reads as itself in motion, which is what
+// `motionPreview` on the component below is for.
+@OverrideVariant(name = "indeterminate", strings = ["mode=indeterminate"])
 @CatalogComponent(
   id = "CircularProgressIndicator",
   group = "Communication",
@@ -1879,6 +1888,10 @@ fun WatchScreenRemote() = RemoteSticker {
   reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/41424:58385",
   caption = "Determinate circular progress rail against the display edge, at a fixed 60%.",
+  // The indeterminate sweep, recorded in ComponentVariantPreviews.kt. It cannot be annotated on
+  // the variant itself: a motion annotation rides every `@OverrideVariant` cell and would publish
+  // one recording under every progress name.
+  motionPreview = "IndeterminateCircularProgressMotionRemote",
 )
 @CatalogRemoteDisplay
 @Composable
@@ -1909,11 +1922,21 @@ fun CircularProgressRemote() = RemoteSticker {
   // render was byte-identical to this one and scored against the kit's `Disabled=Yes` node while
   // drawing the enabled picture — a comparison that could not fail. The knob is read at
   // composition, so an unseeded render is the base cell, unchanged.
-  RemoteCircularProgressIndicator(
-    progress = progress,
-    enabled = previewOverrideBoolean("enabled", true).rb,
-    modifier = RemoteModifier.fillMaxSize(),
-  )
+  if (
+    previewOverrideChoice("mode", "determinate", listOf("determinate", "indeterminate")) ==
+      "indeterminate"
+  ) {
+    // The indeterminate overload takes neither progress nor `enabled` — it is a different function
+    // on the same name, and the knobs above simply do not reach it. Same shape as the Wear
+    // sibling's branch.
+    RemoteCircularProgressIndicator(modifier = RemoteModifier.fillMaxSize())
+  } else {
+    RemoteCircularProgressIndicator(
+      progress = progress,
+      enabled = previewOverrideBoolean("enabled", true).rb,
+      modifier = RemoteModifier.fillMaxSize(),
+    )
+  }
 }
 
 // ---------------------------------------------------------------------------
