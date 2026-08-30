@@ -320,13 +320,14 @@ fun OpenOnPhoneDialogSticker() = FullScreenSticker {
 // `ConfirmationDialogContent` that takes the icon as a slot. Which one you call is the choice a
 // reader is making, which is the carve-out AGENTS.md states for `Style=` on `Button`.
 //
-// NO `Text=No` CELLS YET, and the reason is the kit INDEX rather than the library: `curvedText =
-// null` is right there as an argument, and the `text` knob below already turns it. But
-// `figma-kit-index.json` is built from the sets this catalog maps, and it was last walked while
-// this one was excluded — so it carries no `Confirmation-Overlay` entry, and a cell naming
-// `Text=No` has no set to vary that axis within. It resolves to nothing, which AGENTS.md rates
-// worse than an absence. Dispatch `figma-refs.yml` to re-walk the kit now that three components
-// name this set, and the three cells (and the coverage row that counts them) follow.
+// THE `Text=No` CELLS ARE DRAWN NOW, and what unblocked them was the kit INDEX rather than the
+// library. `curvedText = null` was always right there as an argument and the `text` knob below
+// always turned it, but `figma-kit-index.json` is built from the sets this catalog maps and had
+// last been walked while this one was excluded — so it carried no `Confirmation-Overlay` entry,
+// and a cell naming `Text=No` had no set to vary that axis within. It resolved to nothing, which
+// AGENTS.md rates worse than an absence, so the cells waited. Re-running `figma-refs.yml` with
+// three components naming the set added it: one set, nine cells, 888 kit cells to 897, and
+// nothing else in the index moved.
 //
 // The kit's other two types stay out and say why on the `kit-sets.json` row: `Latency` is the wait
 // before an outcome is known, which no `*ConfirmationDialogContent` draws, and `Long text` is the
@@ -339,6 +340,12 @@ fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   caption = "It worked: the check drawn on the theme's success container, over curved copy.",
 )
 @CatalogFullScreenModes
+@OverrideVariant(
+  name = "no-text",
+  booleans = ["text=false"],
+  kitAxis = "Text",
+  kitValue = "No",
+)
 @SettledPreview
 @Composable
 fun SuccessConfirmation() = FullScreenSticker {
@@ -352,6 +359,12 @@ fun SuccessConfirmation() = FullScreenSticker {
   caption = "It did not: the same overlay in the failure palette, with the library's own glyph.",
 )
 @CatalogFullScreenModes
+@OverrideVariant(
+  name = "no-text",
+  booleans = ["text=false"],
+  kitAxis = "Text",
+  kitValue = "No",
+)
 @SettledPreview
 @Composable
 fun FailureConfirmation() = FullScreenSticker {
@@ -365,6 +378,12 @@ fun FailureConfirmation() = FullScreenSticker {
   caption = "The overlay an app brings its own glyph to, which is the icon slot this one takes.",
 )
 @CatalogFullScreenModes
+@OverrideVariant(
+  name = "no-text",
+  booleans = ["text=false"],
+  kitAxis = "Text",
+  kitValue = "No",
+)
 @SettledPreview
 @Composable
 fun GenericConfirmation() = FullScreenSticker {
