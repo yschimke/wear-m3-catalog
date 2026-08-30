@@ -54,17 +54,16 @@ import ee.schimke.composeai.preview.OverrideVariant
 //
 // Three things stay here, and each is one of the reasons a cell is the wrong shape:
 //
-//   * A style whose Wear counterpart is a SEPARATE FUNCTION. `Button/Tonal`, `Button/Icon-Filled`
-//     and `Button/Icon-Outlined` fold by the call-site test — `remote-material3` publishes one
-//     `RemoteButton` and one `RemoteIconButton`, taking emphasis as `colors` — but they pair with
-//     `Button/Tonal`, `IconButton/Filled` and `IconButton/Outlined`, which are five separate
-//     functions on the Wear column and therefore five separate cards. Folding them here would
-//     leave those cards facing nothing.
+//   * A style whose Wear counterpart is a SEPARATE FUNCTION. `Button/Tonal`, `IconButton/Filled`
+//     and `IconButton/Outlined` fold by the call-site test — `remote-material3` publishes one
+//     `RemoteButton` and one `RemoteIconButton`, taking emphasis as `colors` — but each pairs with
+//     a separate function on the Wear column, and therefore a separate card. Folding them here
+//     would leave those cards facing nothing.
 //   * A render the kit publishes NO CELL FOR. A cell resolves against the kit set and a cell that
 //     resolves to nothing is compared against nothing, with no diagnostic anywhere; a component
 //     carries `noReference` and says why instead. That is `TitleCard/Subtitle`,
-//     `AppCard/NoAppImage`, `Progress/Circular-Indeterminate`, and the two Remote-only capability
-//     rows in CatalogPreviews.kt (`Button/CustomShape`, `Button/NamedLabel`).
+//     `AppCard/NoAppImage`, `CircularProgressIndicator-Indeterminate`, and the two Remote-only
+//     capability rows in CatalogPreviews.kt (`Button/CustomShape`, `Button/NamedLabel`).
 //   * A component of its own. The page indicators are two functions on both columns.
 
 @CatalogComponent(
@@ -240,7 +239,7 @@ fun ImageBackgroundRemoteButton() = RemoteSticker {
 }
 
 @CatalogComponent(
-  id = "Button/Icon-Filled",
+  id = "IconButton/Filled",
   group = "Buttons",
   parallel = "IconButton/Filled",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102976",
@@ -260,7 +259,7 @@ fun FilledRemoteIconButton() = RemoteSticker {
 }
 
 @CatalogComponent(
-  id = "Button/Icon-FilledVariant",
+  id = "IconButton/FilledVariant",
   group = "Buttons",
   parallel = "IconButton/FilledVariant",
   reference = "figma:B24oss2tTeXAFykyeyusz0/41409:52153",
@@ -280,7 +279,7 @@ fun FilledVariantRemoteIconButton() = RemoteSticker {
 }
 
 @CatalogComponent(
-  id = "Button/Icon-Tonal",
+  id = "IconButton/Tonal",
   group = "Buttons",
   parallel = "IconButton/Tonal",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:102989",
@@ -302,7 +301,7 @@ fun TonalRemoteIconButton() = RemoteSticker {
 }
 
 @CatalogComponent(
-  id = "Button/Icon-Outlined",
+  id = "IconButton/Outlined",
   group = "Buttons",
   parallel = "IconButton/Outlined",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103002",
@@ -385,7 +384,7 @@ fun NoAppImageRemoteAppCard() = RemoteSticker {
 }
 
 @CatalogComponent(
-  id = "Progress/Circular-Indeterminate",
+  id = "CircularProgressIndicator-Indeterminate",
   group = "Communication",
   parallel = "CircularProgressIndicator",
   noReference =

@@ -55,6 +55,27 @@ columns component by component through `parallel`, so that was two different ans
 question. It is folded now: an axis that is an **argument** to a function is a cell on both sheets,
 under the **same cell name**, because the columns pair cell by cell as well as card by card.
 
+**One vocabulary, and it is the Wear sheet's.** Folding the shapes was only half of it: the two
+sheets went on spelling the same component differently — `Button/Icon-Filled` against
+`IconButton/Filled`, `Progress/Circular` against `CircularProgressIndicator`, `Button/Text` against
+`TextButton` — while both `reference`d the identical kit node. A `parallel` that has to translate
+the name is a mapping table in disguise, and it read as divergence everywhere the name is the join:
+of 122 published Remote previews only 12 shared an id with their Wear twin. So **where the two
+sheets draw the same kit node, the component id is the same string**, and `parallel` is then a
+restatement rather than a translation. It still earns its place: it is what pairs the genuinely
+one-sided components (`AppCard/NoAppImage` → `AppCard`,
+`CircularProgressIndicator-Indeterminate` → `CircularProgressIndicator`), where the sheets draw a
+family against a single card and no rename could make the names agree.
+
+What does NOT converge is the breakpoint segment a published id carries. Remote stickers must name
+their frame — a Remote Compose document rasterises the whole `@Preview`, so `CatalogRemoteModes`
+declares `spec:width=227dp,height=100dp,dpi=320` — while the Wear stickers are device-less and
+retargeted to the same 227dp canvas by the harness. A declared device gets a size class and a size
+class gets an id segment, so every Remote sticker ends `__compact` where its Wear twin ends bare.
+That is upstream's to fix
+([compose-ai-tools#4838](https://github.com/yschimke/compose-ai-tools/issues/4838)); do not chase
+it by renaming the breakpoint here, which buys a different segment rather than none.
+
 Where the two sheets legitimately differ is which axes have a function behind them, and the
 call-site test decides it exactly as it does on the Wear side. `Style=` on `Text-Button` folds on
 both, because each library ships one text button taking its emphasis as colours. `Style=` on
@@ -67,7 +88,7 @@ functions and therefore separate cards. Folding them would leave those facing no
 the shape of anything left over. A cell's kit vector is matched against the set, and a cell that
 resolves to nothing is compared against nothing with no diagnostic anywhere — so a render the kit
 publishes no cell for stays a top-level component carrying `noReference`, however variant-shaped it
-looks (`Button/CustomShape`, `Progress/Circular-Indeterminate`, `TitleCard/Subtitle`). And where
+looks (`Button/CustomShape`, `CircularProgressIndicator-Indeterminate`, `TitleCard/Subtitle`). And where
 the kit's axes are coupled — `Icon`, `Icon size` and `Alignment` on `Button` are one choice spelled
 three ways — a cell declares its WHOLE vector through `kitProps`, because naming one value asks for
 a node between the ones the kit drew.

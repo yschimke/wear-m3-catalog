@@ -24,12 +24,12 @@ import org.junit.Test
  * * `Button/Icon-ExtraSmall` published the SMALL render under the extra-small name — the child
  *   style draws no container, so both sizes clamp to the same glyph. Byte-identical, and pointed at
  *   two different kit nodes (#125).
- * * `Button/Icon`'s base was left unpinned in the same PR, which renders the same 28dp glyph
- *   `SmallButtonSize` resolves to, so the `small` cell became a copy of the base.
+ * * `IconButton/Standard`'s base was left unpinned in the same PR, which renders the same 28dp
+ *   glyph `SmallButtonSize` resolves to, so the `small` cell became a copy of the base.
  *
- * A third, `Progress/Circular`'s `disabled` cell, declared a seed that nothing read: the disabled
- * render was the enabled picture, scored against the kit's `Disabled=Yes` node. That one is a
- * duplicate too, which is how this test catches it.
+ * A third, `CircularProgressIndicator`'s `disabled` cell, declared a seed that nothing read: the
+ * disabled render was the enabled picture, scored against the kit's `Disabled=Yes` node. That one
+ * is a duplicate too, which is how this test catches it.
  *
  * The renders come from `composePreviewRender`, which `renderBeforeUnitTests` runs first (see
  * `build.gradle.kts`), so this reads the same PNGs CI publishes rather than a fixture.
@@ -69,10 +69,10 @@ class RemoteRenderTest {
    *
    * Every entry names the call that collapses the pair. **An entry here is never a way to quiet a
    * cell that is simply wrong** — a cell whose seed nothing reads is exactly what this test exists
-   * to catch (`Progress/Circular`'s `disabled` cell, #125's two icon-button cells), and those are
-   * bugs in this file rather than in the library. The test for the difference: if passing the knob
-   * through correctly would separate the pictures, it is a bug here; if the library draws one
-   * picture for both states however it is called, it belongs here.
+   * to catch (`CircularProgressIndicator`'s `disabled` cell, #125's two icon-button cells), and
+   * those are bugs in this file rather than in the library. The test for the difference: if passing
+   * the knob through correctly would separate the pictures, it is a bug here; if the library draws
+   * one picture for both states however it is called, it belongs here.
    *
    * The keys are `<cell> == <cell>` within one component, ordered as the failure prints them.
    */
