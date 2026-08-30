@@ -4,25 +4,31 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.CurvedScope
 import androidx.wear.compose.material3.AlertDialogContent
 import androidx.wear.compose.material3.AlertDialogDefaults
+import androidx.wear.compose.material3.ConfirmationDialogContent
+import androidx.wear.compose.material3.ConfirmationDialogDefaults
+import androidx.wear.compose.material3.FailureConfirmationDialogContent
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OpenOnPhoneDialogContent
 import androidx.wear.compose.material3.OpenOnPhoneDialogDefaults
+import androidx.wear.compose.material3.SuccessConfirmationDialogContent
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.confirmationDialogCurvedText
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
-import ee.schimke.composeai.preview.ScrollMode
-import ee.schimke.composeai.preview.ScrollingPreview
+import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
 import ee.schimke.wearm3catalog.KitCopy
@@ -60,7 +66,7 @@ import ee.schimke.wearm3catalog.kitCopy
 // `... + Edge Button Stack`) are published only as `Scrolling=Yes` long-scroll cells, which
 // nothing here can be diffed against for the reason the note at the bottom of this comment gives.
 //
-// THE EDGE-BUTTON CELL CARRIES A SCROLL, EVEN THOUGH NOTHING SCROLLS
+// THE EDGE-BUTTON CELL NEEDS THE CLOCK ADVANCED, AND USED TO BUY IT WITH A SCROLL
 //
 // `AlertDialogContent(edgeButton = …)` is a `ScreenScaffold` with an `edgeButton` slot, and the
 // scaffold sizes that button from the list's `lastItemOffset`: it seeds an `Animatable` with the
@@ -68,14 +74,13 @@ import ee.schimke.wearm3catalog.kitCopy
 // from a `LaunchedEffect` afterwards. A static capture IS that first frame, so the cell published a
 // title over an empty bottom half (issue #15).
 //
-// `@ScrollingPreview(ScrollMode.END)` is the fix, the same one `EdgeButtonScreen` carries. It reads
-// oddly on a one-line dialog with nothing to scroll, and the scroll genuinely is a no-op here — but
-// the driver advances the renderer's `MainTestClock` to step the scroll, and that is what lets the
-// reveal settle before the capture. It sits on the component rather than the cell because a
-// `@Preview` annotation is per-function; the confirm/dismiss and no-buttons cells lay out at rest
-// and are unchanged by it.
+// `@ScrollingPreview(ScrollMode.END)` was the fix, and it read oddly for the reason it worked: the
+// scroll is a genuine no-op on a one-line dialog, and what the sticker actually wanted was the
+// clock advance the scroll driver happens to perform. `@SettledPreview` asks for that directly, so
+// it is what this carries now — the same picture, without a scroll standing in for a settle
+// ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 //
-// THE CONFIRMATION OVERLAY IS OUT, AND THIS IS WHY
+// THE CONFIRMATION OVERLAY WAS OUT, AND WHAT BROUGHT IT BACK
 //
 // `ConfirmationDialogContent` reveals itself over time: the children start at `alpha = 0` and
 // animate in from a `LaunchedEffect` after a delay, and `ConfirmationDialogDefaults.SuccessIcon()`
@@ -83,42 +88,32 @@ import ee.schimke.wearm3catalog.kitCopy
 // starts after its own 100ms delay. Recorded as a GIF the whole reveal takes **~528ms** to reach
 // its resting frame.
 //
-// The renderer never gets that far on a still. It does advance a little — enough that "the clock
-// is paused, so the capture is frame zero" is too simple an account — but not nearly enough, and
-// it fails in two different ways depending on where the capture lands:
+// A still never got that far, and it failed in two different ways depending on where the capture
+// landed. The plain sticker published the **empty ring**: the still path proves quiescence by
+// capturing twice and comparing, and the reveal's own start delay reads as "settled" before
+// anything has moved. `@ScrollingPreview(END)` bought enough virtual time for the container and
+// the curved text but landed mid-tween, publishing the check as a **chevron**. Neither is the
+// component, so the whole set was excluded rather than drawn wrong.
 //
-// - **Plain sticker: the empty ring.** The still path proves quiescence by capturing twice and
-//   comparing pixels, and returns as soon as two frames match. The first ~33ms of this component
-//   are the reveal's own start delay, where nothing moves — so the check reads "settled", reports
-//   no warning, and publishes the empty container: no icon, no curved text.
-// - **`@ScrollingPreview(END)`: the chevron.** Enough virtual time passes to bring the container
-//   and the curved text in, but the capture lands mid-tween and the checkmark reads as a chevron
-//   rather than a check. The renderer says so on stderr ("did not become visually quiescent after
-//   5 samples") and publishes it anyway. Note this is not scrolling: there is no scrollable in the
-//   sticker, the drive logs "no scrollable composable found", and `maxScrollPx` / `frameIntervalMs`
-//   change the output not at all — byte-identical PNGs. The advance is incidental, so tuning those
-//   knobs is not a route to a settled capture.
+// The measurement in that account also named the fix: the renderer already owned a 1000ms
+// frame-by-frame settle, and what was missing was a way to ask for it without a scroll. That is
+// `@SettledPreview`
+// ([compose-ai-tools#4202](https://github.com/yschimke/compose-ai-tools/issues/4202),
+// shipped), and it lands the reveal exactly where the note predicted: full check, container at
+// rest, curved text in. The three overlays at the bottom of this file are the set, and
+// `kit-sets.json` carries it as implemented rather than excluded
+// ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 //
-// The renderer already owns a settle long enough to finish the job — a 1000ms frame-by-frame
-// advance it runs after a scroll lands, for exactly this class of animation. Giving the probe a
-// dummy sibling scrollable so that settle fires renders the component **perfectly**: full check,
-// container at rest, curved text in. So nothing is missing from the renderer's capability, only a
-// way to ask for it without a scroll — and a sticker that ships a fake scroller to buy clock time
-// is the kind of workaround AGENTS.md sends upstream instead. Tracked as
-// [yschimke/compose-ai-tools#4202](https://github.com/yschimke/compose-ai-tools/issues/4202); the
-// set is recorded as excluded in kit-sets.json rather than dropped silently, so it comes back the
-// day a preview can ask to be captured settled.
+// `@AnimatedPreview` was never the answer: it yields a motion artifact BESIDE the still, so the
+// component's own card would still have shown the empty frame.
 //
-// `@AnimatedPreview` is not the answer either: it yields a motion artifact beside the same
-// unsettled still, so the component's own card still shows the empty frame.
-//
-// `OpenOnPhoneDialog` is touched by the same gap but stays, and the distinction is worth writing
-// down. Its icon is an animated vector too, so the published sticker catches the arrow mid-draw as
-// a stub rather than a full arrow into the phone — the same 5-sample warning is logged for it. It
-// stays because what it publishes is still recognisably the component, and because "settled" is
-// not obviously the right frame for it anyway: the progress ring IS the wait, and a capture taken
-// after the ring completes is a picture of the wait being over. The confirmation overlay has no
-// such defence — unsettled, it publishes nothing at all.
+// `OpenOnPhoneDialog` carries the same annotation for the same reason, and it is the one place
+// where settling changed a published picture rather than rescuing it. Its icon is an animated
+// vector too, so the sticker used to catch the arrow mid-draw as a stub; more to the point its
+// `Text=No` cell was byte-identical to the base, because the curved text was missing from both
+// frames whether or not it was passed. That collapse was recorded in
+// `CatalogRenderTest.knownDuplicate` and is gone: the two cells are a real comparison now, which
+// is what the entry said would happen the day a preview could ask to be captured settled.
 //
 // THE ICON IS PART OF THE LAYOUT, NOT DECORATION ON TOP OF IT
 //
@@ -224,7 +219,7 @@ import ee.schimke.wearm3catalog.kitCopy
   caption = "Interrupts to ask for a decision; the kit's button arrangements fold in as cells.",
 )
 @CatalogFullScreenModes
-@ScrollingPreview(modes = [ScrollMode.END])
+@SettledPreview
 // Both cells declare `Scrolling=No` with the arrangement, because the axes are coupled: the
 // comparable half of this set is its 192x192 column (see the note above), and `Edge Option=None`
 // is drawn there with `Bottom=No` — the only value of that axis it is published under. Naming the
@@ -285,20 +280,16 @@ private val AlertIconSize = 32.dp
   caption = "Hands the task to the paired phone, with the progress the wait needs.",
 )
 @CatalogFullScreenModes
-// The `Text=No` cell is `curvedText = null`, which the `text` knob below turns — and under this
-// renderer it is a COLLAPSE rather than a difference: the still is taken before the reveal has run,
-// so the curved text is missing from the baked frame either way and the two captures come out
-// byte-identical at all five screen sizes. That is the tooling's gap (compose-ai-tools#4202,
-// above), not the library's, and it is recorded as one in `CatalogRenderTest.knownDuplicate` —
-// which fails from the other side the day a preview can ask to be captured settled, because the
-// cells will then differ ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)). The set
-// used to stop at one of its two cells for this, which read as a cell nobody had drawn.
+// The `Text=No` cell is `curvedText = null`, which the `text` knob below turns. It used to be a
+// COLLAPSE rather than a difference — the still was taken before the reveal ran, so the curved
+// text was missing either way — and `@SettledPreview` is what separated the two pictures.
 @OverrideVariant(
   name = "no-text",
   booleans = ["text=false"],
   kitAxis = "Text",
   kitValue = "No",
 )
+@SettledPreview
 @Composable
 fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   val style = OpenOnPhoneDialogDefaults.curvedTextStyle
@@ -312,4 +303,94 @@ fun OpenOnPhoneDialogSticker() = FullScreenSticker {
   ) {
     OpenOnPhoneDialogDefaults.Icon()
   }
+}
+
+// The kit's `Confirmation-Overlay` set, back after being excluded outright.
+//
+// The exclusion was never about the components: `ConfirmationDialogContent` and its two typed
+// siblings reveal themselves over ~528ms, and nothing could ask a still to wait that long, so the
+// sticker published an empty container ring. The note at the top of this file has the whole
+// account. `@SettledPreview` is the thing it was waiting for — it advances the paused clock until
+// the composition stops changing, which is exactly the 1000ms settle the note measured the reveal
+// against.
+//
+// THREE COMPONENTS, NOT ONE, and the kit's own axis is why the split is the taxonomy's rather than
+// this file's: `Type=` here is three separate Wear Compose functions —
+// `SuccessConfirmationDialogContent`, `FailureConfirmationDialogContent` and the generic
+// `ConfirmationDialogContent` that takes the icon as a slot. Which one you call is the choice a
+// reader is making, which is the carve-out AGENTS.md states for `Style=` on `Button`.
+//
+// NO `Text=No` CELLS YET, and the reason is the kit INDEX rather than the library: `curvedText =
+// null` is right there as an argument, and the `text` knob below already turns it. But
+// `figma-kit-index.json` is built from the sets this catalog maps, and it was last walked while
+// this one was excluded — so it carries no `Confirmation-Overlay` entry, and a cell naming
+// `Text=No` has no set to vary that axis within. It resolves to nothing, which AGENTS.md rates
+// worse than an absence. Dispatch `figma-refs.yml` to re-walk the kit now that three components
+// name this set, and the three cells (and the coverage row that counts them) follow.
+//
+// The kit's other two types stay out and say why on the `kit-sets.json` row: `Latency` is the wait
+// before an outcome is known, which no `*ConfirmationDialogContent` draws, and `Long text` is the
+// same overlay carrying more copy than fits — a property of the string rather than of the call.
+
+@CatalogComponent(
+  id = "ConfirmationDialog/Success",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/47251:36766",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/47251:36765",
+  caption = "It worked: the check drawn on the theme's success container, over curved copy.",
+)
+@CatalogFullScreenModes
+@SettledPreview
+@Composable
+fun SuccessConfirmation() = FullScreenSticker {
+  SuccessConfirmationDialogContent(curvedText = confirmationText(KitCopy.CONFIRMATION_SUCCESS))
+}
+
+@CatalogComponent(
+  id = "ConfirmationDialog/Failure",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/47251:36863",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/47251:36765",
+  caption = "It did not: the same overlay in the failure palette, with the library's own glyph.",
+)
+@CatalogFullScreenModes
+@SettledPreview
+@Composable
+fun FailureConfirmation() = FullScreenSticker {
+  FailureConfirmationDialogContent(curvedText = confirmationText(KitCopy.CONFIRMATION_FAILED))
+}
+
+@CatalogComponent(
+  id = "ConfirmationDialog/Generic",
+  reference = "figma:B24oss2tTeXAFykyeyusz0/47251:36801",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/47251:36765",
+  caption = "The overlay an app brings its own glyph to, which is the icon slot this one takes.",
+)
+@CatalogFullScreenModes
+@SettledPreview
+@Composable
+fun GenericConfirmation() = FullScreenSticker {
+  ConfirmationDialogContent(curvedText = confirmationText(KitCopy.CONFIRMATION_GENERIC)) {
+    // The kit draws a plus here — the same stand-in glyph its `Generic` cell carries, and the one
+    // this catalog uses wherever the content is the caller's rather than the component's.
+    Icon(
+      Icons.Filled.Add,
+      contentDescription = null,
+      modifier = Modifier.size(ConfirmationDialogDefaults.IconSize),
+    )
+  }
+}
+
+/**
+ * The curved text slot the three overlays share, or `null` when the `text` knob turns it off.
+ *
+ * Read outside the slot for the reason `OpenOnPhoneDialogSticker` states: `curvedText` is a
+ * `CurvedScope` lambda rather than a `@Composable` one, so a composable call inside it does not
+ * compile.
+ */
+@Composable
+private fun confirmationText(kit: String): (CurvedScope.() -> Unit)? {
+  val style = ConfirmationDialogDefaults.curvedTextStyle
+  val text = kitCopy("curvedText", kit)
+  return if (previewOverrideBoolean("text", true)) {
+    { confirmationDialogCurvedText(text, style) }
+  } else null
 }

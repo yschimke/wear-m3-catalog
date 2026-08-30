@@ -172,16 +172,6 @@ class CatalogRenderTest {
       "the label is as wide as TextToggleButtonDefaults.Size, so hugging lands on the same box — " +
         "the kit's own Fixed Width cells export identically at this size for the same reason",
     )
-    // The one entry here that is the RENDERER's doing rather than the library's, and it is labelled
-    // as such: the still is captured before the dialog's reveal has run, so the curved text is
-    // absent from both cells' frames. The pair separates the day #4202 lands, and this fails then.
-    for (screen in screenSizes) {
-      put(
-        "OpenOnPhoneDialogSticker_${screen}dp: no_text == base",
-        "compose-ai-tools#4202 — the capture is taken before the reveal settles, so curvedText is " +
-          "missing from the baked frame whether or not it was passed",
-      )
-    }
   }
 
   /**

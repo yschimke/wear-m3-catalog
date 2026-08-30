@@ -27,6 +27,7 @@ import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
+import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 
 // The screen-shaped half of Wear Material 3, which the kit does not publish and a reader of the
@@ -101,6 +102,7 @@ fun WearList() = WearScreen {
 // byte-identically to the default. The edge button is published as its own component, which
 // carries the scroll-to-end capture that actually shows it.
 @OverrideVariant(name = "no-scroll-indicator", strings = ["chrome=bare"])
+@SettledPreview
 @Composable
 fun WearScaffold() = WearScreen {
   val state = rememberTransformingLazyColumnState()

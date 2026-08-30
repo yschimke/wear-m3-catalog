@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,7 +14,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.LevelIndicator
@@ -27,6 +27,7 @@ import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
 import ee.schimke.wearm3catalog.TransparentScreenSticker
 
@@ -75,6 +76,7 @@ import ee.schimke.wearm3catalog.TransparentScreenSticker
   kitAxis = "Position",
   kitValue = "Bottom",
 )
+@SettledPreview
 @Composable
 fun ScrollRail() = TransparentScreenSticker {
   // SCROLLABLE, BUT EMPTY — and it has to be both.
@@ -91,10 +93,27 @@ fun ScrollRail() = TransparentScreenSticker {
   // scroll exactly as well as labels do and leave the component alone in the frame.
   val state = rememberScrollState()
   val position = previewOverrideFloat("position", 0f)
-  Column(Modifier.fillMaxSize().verticalScroll(state)) {
-    repeat(20) { Spacer(Modifier.height(40.dp)) }
+  // How many screenfuls the column is. It is a knob rather than a constant because it is the only
+  // thing that could reach the kit's `40%`…`70% (Max)` cells — those are the thumb's LENGTH, which
+  // the component sizes from the fraction of the content that fits on screen. It does not reach
+  // them: seeded to 2.5, 2 and 1.67 screens (40%, 50%, 60%) the thumb renders byte-identical to the
+  // base's five screenfuls, so the length the component draws is not the fraction the kit's cells
+  // name. The knob stays because a reader can still turn it; the four cells stay out, and the
+  // `kit-sets.json` row says so with this measurement rather than with the old capture blocker,
+  // which `@SettledPreview` has since removed.
+  val screens = previewOverrideFloat("contentScreens", 5f)
+  BoxWithConstraints(Modifier.fillMaxSize()) {
+    val content = maxHeight * screens
+    Column(Modifier.fillMaxSize().verticalScroll(state)) { Spacer(Modifier.height(content)) }
   }
-  LaunchedEffect(position) { state.scrollTo((state.maxValue * position).toInt()) }
+  // Keyed on `maxValue` as well as the knob, because the FIRST run of this effect happens before
+  // the column has been measured: `maxValue` is 0 there, every cell scrolls to 0, and the picture
+  // is only saved by the frames that follow. Unsettled that was invisible — the capture caught the
+  // thumb mid-travel and the cells differed anyway, for a reason that was the animation rather than
+  // the position. Settled, `middle` and `bottom` both landed at the end and the two cells became
+  // one picture. Re-running once the measurement lands is what makes the seed the thing the render
+  // shows.
+  LaunchedEffect(position, state.maxValue) { state.scrollTo((state.maxValue * position).toInt()) }
   ScrollIndicator(
     state = state,
     reverseDirection = previewOverrideBoolean("reverseDirection", false),

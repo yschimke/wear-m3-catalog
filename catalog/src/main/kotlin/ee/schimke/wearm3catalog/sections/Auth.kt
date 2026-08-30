@@ -12,6 +12,7 @@ import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
+import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.FullScreenSticker
@@ -117,6 +118,7 @@ fun AuthSignInPlaceholderScreen() = FullScreenSticker { SignInPlaceholderScreen(
   caption = "The end of the flow: who you signed in as, shown briefly and then dismissed.",
 )
 @CatalogFullScreenModes
+@SettledPreview
 @Composable
 fun AuthSignedInConfirmationDialog() = FullScreenSticker {
   SignedInConfirmationDialog(

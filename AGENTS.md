@@ -480,6 +480,20 @@ Three rules, each learned the hard way:
   `ButtonGroupScope.animateWidth` and gives 111 pixel-distinct frames of 178, while
   `MediaControlButtons` never calls it and gives **1 of 178** — a literal still. A capture that
   dispatched cleanly and wrote a file is not evidence the component moved.
+- **A STILL of a time-driven reveal takes `@SettledPreview`, and nothing else does.** A component
+  whose content arrives on a `LaunchedEffect` or a tween — a confirmation overlay, a picker's own
+  settle, a dialog's edge button — captures as its FIRST frame without one: an empty container, a
+  label painted over the value it should have floated above. The annotation advances the paused
+  clock until the composition stops changing and then captures, so the sticker publishes the
+  component at rest ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
+
+  Two things it is NOT for. It is not for a **spinner**: an indeterminate ring or an
+  `InfiniteTransition` never quiesces, so it burns the whole budget and captures an arbitrary phase
+  — those keep their `still_changing` warning, and the missing capability is
+  [compose-ai-tools#4829](https://github.com/yschimke/compose-ai-tools/issues/4829). And it is not
+  a **scroll**: `@ScrollingPreview(END)` is for a component a scroll actually moves. The alert
+  dialog used to carry one purely for the clock advance a scroll driver performs, which is the
+  workaround this replaced.
 - **A placeholder only animates under an `AppScaffold`.** `PlaceholderState` reads its frame clock
   from the library's internal `AnimationCoordinator`, and `AppScaffold` is the one thing in Wear
   Compose that composes that coordinator's looper — so a shimmer drawn in a bare `Sticker` stands

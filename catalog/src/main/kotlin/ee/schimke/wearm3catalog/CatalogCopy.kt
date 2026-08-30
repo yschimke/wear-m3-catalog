@@ -78,6 +78,20 @@ object KitCopy {
   /** `OpenOnPhone-Overlay`'s curved text. Wear's default reads "Open on phone". */
   const val OPEN_ON_PHONE = "Check your phone"
 
+  /** `Confirmation-Overlay`, `Type=Success`. */
+  const val CONFIRMATION_SUCCESS = "Success"
+
+  /** `Confirmation-Overlay`, `Type=Failed`. */
+  const val CONFIRMATION_FAILED = "Failed"
+
+  /**
+   * `Confirmation-Overlay`, `Type=Generic`.
+   *
+   * The kit draws this one with the widest glyph rather than a word, for the reason [GLYPHS] gives:
+   * the generic overlay carries whatever an app puts there, so the cell is sized at its worst case.
+   */
+  const val CONFIRMATION_GENERIC = "MMMMMM"
+
   /**
    * `Text-Button` and `Text-Toggle-Button`.
    *
