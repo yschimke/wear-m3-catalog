@@ -2352,7 +2352,7 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.CompactRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -2385,6 +2385,130 @@
                   "height": 32
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingStart: 0 vs spec 12 (Δ12)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "12",
+              "actual": "0",
+              "delta": "12"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 14 (Δ14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "actual": "0",
+              "delta": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -3381,7 +3505,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#CompactRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -3414,6 +3538,130 @@
                   "height": 32
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingStart: 0 vs spec 12 (Δ12)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "12",
+              "actual": "0",
+              "delta": "12"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 14 (Δ14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "actual": "0",
+              "delta": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -4410,7 +4658,7 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.FilledRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -4443,6 +4691,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -4889,7 +5199,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#FilledRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -4922,6 +5232,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -5876,7 +6248,7 @@
     "ee.schimke.wearm3catalog.remote.CatalogPreviewsKt.OutlinedRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -5909,6 +6281,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -6325,7 +6759,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#OutlinedRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -6358,6 +6792,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -6813,11 +7309,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -7062,11 +7558,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -9262,7 +9758,7 @@
     "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.ChildRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -9295,6 +9791,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -9711,7 +10269,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/ComponentVariantPreviews.kt#ChildRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -9744,6 +10302,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -10816,7 +11436,7 @@
     "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.FilledVariantRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -10849,6 +11469,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -11295,7 +11977,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/ComponentVariantPreviews.kt#FilledVariantRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -11328,6 +12010,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -12758,7 +13502,7 @@
     "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.ImageBackgroundRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -12791,6 +13535,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -13042,7 +13848,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/ComponentVariantPreviews.kt#ImageBackgroundRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -13075,6 +13881,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -13922,7 +14790,7 @@
     "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.TonalRemoteButton_width=227dp,height=100dp,dpi=320": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -13955,6 +14823,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
@@ -14401,7 +15331,7 @@
     "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/ComponentVariantPreviews.kt#TonalRemoteButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -14434,6 +15364,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 200
+                }
               }
             ]
           },
