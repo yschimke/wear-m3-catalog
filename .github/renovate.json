@@ -49,7 +49,7 @@
       ]
     },
     {
-      "description": "LAST ON PURPOSE. Renovate applies packageRules in order and the LAST match wins, so while this rule sat above the CI-toolchain rule the pinned `compose-ai-tools` action ref \u2014 a github-actions dependency \u2014 was pulled back out of this group into the weekly batch, and the two halves of one release drifted apart exactly as the rule below says they must not (compose-ai-tools#4220 found the pin three releases behind the Gradle coords). Keep this rule below the CI-toolchain one; the only rule allowed after it is the rc-players rule that follows, which exists to take one package back out of this group. compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle artifacts (the preview-annotations dependency and the ee.schimke.composeai.preview plugin marker) and the reusable CI actions/workflows as a single release. Group the pinned action refs and the Gradle coords into ONE PR so the CLI, plugin and annotation pins can never skew apart \u2014 a skew breaks preview discovery outright. Track it aggressively and automerge once CI is green: the release moves several times a day and the pin is only useful if it keeps up. Republishing the catalog against the new renderer needs no extra step, because design-artifacts.yml has a push trigger on main covering the manifest paths this PR touches.",
+      "description": "LAST ON PURPOSE. Renovate applies packageRules in order and the LAST match wins, so while this rule sat above the CI-toolchain rule the pinned `compose-ai-tools` action ref \u2014 a github-actions dependency \u2014 was pulled back out of this group into the weekly batch, and the two halves of one release drifted apart exactly as the rule below says they must not (compose-ai-tools#4220 found the pin three releases behind the Gradle coords). Keep this rule below the CI-toolchain one. It is the BROAD rule for the ee.schimke.composeai group, and the only rules allowed after it are the three that carve their own trains back out of it — contracts, server and rc-players — because the last matching rule wins. compose-ai-tools ships the preview CLI, the ee.schimke.composeai Gradle artifacts (the preview-annotations dependency and the ee.schimke.composeai.preview plugin marker) and the reusable CI actions/workflows as a single release. Group the pinned action refs and the Gradle coords into ONE PR so the CLI, plugin and annotation pins can never skew apart \u2014 a skew breaks preview discovery outright. Track it aggressively and automerge once CI is green: the release moves several times a day and the pin is only useful if it keeps up. Republishing the catalog against the new renderer needs no extra step, because design-artifacts.yml has a push trigger on main covering the manifest paths this PR touches.",
       "matchPackageNames": [
         "yschimke/compose-ai-tools",
         "/^ee\\.schimke\\.composeai($|[.:])/"
@@ -65,9 +65,50 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "AFTER the compose-ai-tools rule, and the only thing allowed to sit there: the last match wins, so this rule takes `third-party-rc-embedded-player` back out of that group. It carries the ee.schimke.composeai GROUP, but it is not part of that release — it is published from yschimke/rc-players on a version line of its own that is already ahead. Grouped, Renovate raised the shared `composePreviewAnnotations` ref to a player-only version and dragged four compose-ai-tools artifacts to a version nobody published, which is what broke #199. Ungrouped it moves on its own ref (`rcEmbeddedPlayer` in gradle/libs.versions.toml) in a PR of its own. Automerged like its neighbour and for the same reason: the connector resolves the player's entry point reflectively, so a skew shows up as the embedded lane going quiet, and the render CI is what catches that.",
+      "description": "The wire contracts are published from yschimke/compose-preview-contracts on their OWN version line (2.x, against compose-ai-tools' 1.5x.x), so they are not part of the release above and must not share its group. This is the rc-players failure below in a second guise: one group means one shared version ref in gradle/libs.versions.toml, and Renovate raises that ref to whichever train released last, proposing a version the other never published. The shared preset already splits these trains; this rule exists to give the contracts the same aggressive posture as its neighbour, which a repo-local rule appended after the preset would otherwise drop back to the weekly default. Listed by exact artifactId because the two repos' names interleave: `daemon-protocol` is a contract, `daemon-core` is not.",
       "matchPackageNames": [
-        "ee.schimke.composeai:third-party-rc-embedded-player"
+        "ee.schimke.composeai:daemon-protocol",
+        "ee.schimke.composeai:daemon-devices",
+        "ee.schimke.composeai:daemon-bta",
+        "ee.schimke.composeai:agent-grant-protocol",
+        "ee.schimke.composeai:data-render-core",
+        "ee.schimke.composeai:data-layoutinspector-core",
+        "ee.schimke.composeai:data-theme-core",
+        "ee.schimke.composeai:data-preview-overrides-core",
+        "ee.schimke.composeai:common-io"
+      ],
+      "groupName": "compose-preview-contracts",
+      "schedule": [
+        "at any time"
+      ],
+      "automerge": true,
+      "automergeSchedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "`compose-preview serve` and its render host, published from yschimke/compose-preview-server on a third version line independent of both the tools and the contracts. Same reasoning as the contracts rule above. The catalog does not resolve these coordinates today; the rule is here so that the day it does, the coordinate lands in its own PR rather than being swallowed by the compose-ai-tools group above it.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:compose-preview-serve",
+        "ee.schimke.composeai:compose-preview-render-host"
+      ],
+      "groupName": "compose-preview-server",
+      "schedule": [
+        "at any time"
+      ],
+      "automerge": true,
+      "automergeSchedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "LAST, after the compose-ai-tools rule and the two train rules that follow it: the last match wins, so this rule takes the RemoteCompose players back out of that group. The patterns cover the whole rc-players train rather than only the `third-party-rc-embedded-player` coordinate this catalog resolves today: naming one coordinate left the rest falling back into the broad rule above, so the first player artifact added here would have inherited the very bug this rule exists to fix. They carry the ee.schimke.composeai GROUP, but are not part of that release — it is published from yschimke/rc-players on a version line of its own that is already ahead. Grouped, Renovate raised the shared `composePreviewAnnotations` ref to a player-only version and dragged four compose-ai-tools artifacts to a version nobody published, which is what broke #199. Ungrouped it moves on its own ref (`rcEmbeddedPlayer` in gradle/libs.versions.toml) in a PR of its own. Automerged like its neighbour and for the same reason: the connector resolves the player's entry point reflectively, so a skew shows up as the embedded lane going quiet, and the render CI is what catches that.",
+      "matchPackageNames": [
+        "/^ee\\.schimke\\.composeai:rc-player-/",
+        "/^ee\\.schimke\\.composeai:third-party-rc-embedded-player($|-)/",
+        "ee.schimke.composeai:remote-compose-player-js-dist"
       ],
       "groupName": "rc-players",
       "schedule": [
