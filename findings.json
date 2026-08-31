@@ -16277,6 +16277,2718 @@
         ]
       }
     ],
+    "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_192dp": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"31\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "31",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 42,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "31"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "31"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"02\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "02",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 104,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Dec\" risks truncation when localized: ≈99dp expanded vs 77dp available.",
+            "detail": {
+              "label": "Dec",
+              "availableWidth": "77",
+              "estimatedWidth": "50",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "99"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 275,
+                  "y": 86,
+                  "width": 77,
+                  "height": 37
+                },
+                "label": "Dec"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Jan\" risks truncation when localized: ≈99dp expanded vs 98dp available.",
+            "detail": {
+              "label": "Jan",
+              "availableWidth": "98",
+              "estimatedWidth": "50",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "99"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 148,
+                  "y": 68,
+                  "width": 67,
+                  "height": 36
+                },
+                "label": "Jan"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 265,
+                  "y": 132,
+                  "width": 98,
+                  "height": 72
+                },
+                "label": "Jan"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Feb\" risks truncation when localized: ≈99dp expanded vs 72dp available.",
+            "detail": {
+              "label": "Feb",
+              "availableWidth": "72",
+              "estimatedWidth": "50",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "99"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 277,
+                  "y": 211,
+                  "width": 72,
+                  "height": 39
+                },
+                "label": "Feb"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"2025\" risks truncation when localized: ≈132dp expanded vs 100dp available.",
+            "detail": {
+              "label": "2025",
+              "availableWidth": "100",
+              "estimatedWidth": "66",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "132"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 405,
+                  "y": 86,
+                  "width": 100,
+                  "height": 37
+                },
+                "label": "2025"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"2027\" risks truncation when localized: ≈132dp expanded vs 100dp available.",
+            "detail": {
+              "label": "2027",
+              "availableWidth": "100",
+              "estimatedWidth": "66",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "132"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 405,
+                  "y": 211,
+                  "width": 100,
+                  "height": 39
+                },
+                "label": "2027"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Label=Label — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Label\",\"type\":\"text\",\"value\":\"Label\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"31\": offset (-26, -1), size Δ(53, 8) vs candidate",
+            "detail": {
+              "label": "31",
+              "dx": "-26",
+              "dy": "-1",
+              "dw": "53",
+              "dh": "8"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 42,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "31"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "31"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"02\": offset (-26, -1), size Δ(53, 7) vs candidate",
+            "detail": {
+              "label": "02",
+              "dx": "-26",
+              "dy": "-1",
+              "dw": "53",
+              "dh": "7"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 104,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 2.2% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.021505",
+              "diffPixels": "3171"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "month-first: 3.3% of pixels differ from reference",
+            "detail": {
+              "key": "month-first",
+              "score": "0.033115",
+              "diffPixels": "4883"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "year-first: 3.7% of pixels differ from reference",
+            "detail": {
+              "key": "year-first",
+              "score": "0.036709",
+              "diffPixels": "5413"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "year-first-past-only: 3.7% of pixels differ from reference",
+            "detail": {
+              "key": "year-first-past-only",
+              "score": "0.03713",
+              "diffPixels": "5475"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "225dp: 3.5% of pixels differ from reference",
+            "detail": {
+              "key": "225dp",
+              "score": "0.034652",
+              "diffPixels": "7017"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#DateWheels": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"31\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "31",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 42,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "31"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "31"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"02\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "02",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 104,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Dec\" risks truncation when localized: ≈99dp expanded vs 77dp available.",
+            "detail": {
+              "label": "Dec",
+              "availableWidth": "77",
+              "estimatedWidth": "50",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "99"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 275,
+                  "y": 86,
+                  "width": 77,
+                  "height": 37
+                },
+                "label": "Dec"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Jan\" risks truncation when localized: ≈99dp expanded vs 98dp available.",
+            "detail": {
+              "label": "Jan",
+              "availableWidth": "98",
+              "estimatedWidth": "50",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "99"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 148,
+                  "y": 68,
+                  "width": 67,
+                  "height": 36
+                },
+                "label": "Jan"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 265,
+                  "y": 132,
+                  "width": 98,
+                  "height": 72
+                },
+                "label": "Jan"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"Feb\" risks truncation when localized: ≈99dp expanded vs 72dp available.",
+            "detail": {
+              "label": "Feb",
+              "availableWidth": "72",
+              "estimatedWidth": "50",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "99"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 277,
+                  "y": 211,
+                  "width": 72,
+                  "height": 39
+                },
+                "label": "Feb"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"2025\" risks truncation when localized: ≈132dp expanded vs 100dp available.",
+            "detail": {
+              "label": "2025",
+              "availableWidth": "100",
+              "estimatedWidth": "66",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "132"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 405,
+                  "y": 86,
+                  "width": 100,
+                  "height": 37
+                },
+                "label": "2025"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"2027\" risks truncation when localized: ≈132dp expanded vs 100dp available.",
+            "detail": {
+              "label": "2027",
+              "availableWidth": "100",
+              "estimatedWidth": "66",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "132"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 405,
+                  "y": 211,
+                  "width": 100,
+                  "height": 39
+                },
+                "label": "2027"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Label=Label — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Label\",\"type\":\"text\",\"value\":\"Label\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"31\": offset (-26, -1), size Δ(53, 8) vs candidate",
+            "detail": {
+              "label": "31",
+              "dx": "-26",
+              "dy": "-1",
+              "dw": "53",
+              "dh": "8"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 42,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "31"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "31"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"02\": offset (-26, -1), size Δ(53, 7) vs candidate",
+            "detail": {
+              "label": "02",
+              "dx": "-26",
+              "dy": "-1",
+              "dw": "53",
+              "dh": "7"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 57,
+                  "y": 104,
+                  "width": 78,
+                  "height": 26
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 2.2% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.021505",
+              "diffPixels": "3171"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "month-first: 3.3% of pixels differ from reference",
+            "detail": {
+              "key": "month-first",
+              "score": "0.033115",
+              "diffPixels": "4883"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "year-first: 3.7% of pixels differ from reference",
+            "detail": {
+              "key": "year-first",
+              "score": "0.036709",
+              "diffPixels": "5413"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "year-first-past-only: 3.7% of pixels differ from reference",
+            "detail": {
+              "key": "year-first-past-only",
+              "score": "0.03713",
+              "diffPixels": "5475"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "225dp: 3.5% of pixels differ from reference",
+            "detail": {
+              "key": "225dp",
+              "score": "0.034652",
+              "diffPixels": "7017"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_192dp": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"22\" risks truncation when localized: ≈88dp expanded vs 0dp available.",
+            "detail": {
+              "label": "22",
+              "availableWidth": "0",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            }
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"23\" risks truncation when localized: ≈88dp expanded vs 47dp available.",
+            "detail": {
+              "label": "23",
+              "availableWidth": "47",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 0,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "23"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 169,
+                  "y": 2,
+                  "width": 47,
+                  "height": 53
+                },
+                "label": "23"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"24\" risks truncation when localized: ≈88dp expanded vs 74dp available.",
+            "detail": {
+              "label": "24",
+              "availableWidth": "74",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 79,
+                  "y": 29,
+                  "width": 35,
+                  "height": 34
+                },
+                "label": "24"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 155,
+                  "y": 55,
+                  "width": 74,
+                  "height": 89
+                },
+                "label": "24"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"01\" risks truncation when localized: ≈88dp expanded vs 71dp available.",
+            "detail": {
+              "label": "01",
+              "availableWidth": "71",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 109,
+                  "width": 38,
+                  "height": 34
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 157,
+                  "y": 238,
+                  "width": 71,
+                  "height": 89
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"02\" risks truncation when localized: ≈88dp expanded vs 49dp available.",
+            "detail": {
+              "label": "02",
+              "availableWidth": "49",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 143,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 168,
+                  "y": 328,
+                  "width": 49,
+                  "height": 54
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"03\" risks truncation when localized: ≈88dp expanded vs 0dp available.",
+            "detail": {
+              "label": "03",
+              "availableWidth": "0",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            }
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Label=Label — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Label\",\"type\":\"text\",\"value\":\"Label\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"23\": offset (-7, -7), size Δ(15, 9) vs candidate",
+            "detail": {
+              "label": "23",
+              "dx": "-7",
+              "dy": "-7",
+              "dw": "15",
+              "dh": "9"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 0,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "23"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 169,
+                  "y": 2,
+                  "width": 47,
+                  "height": 53
+                },
+                "label": "23"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"24\": offset (2, 2), size Δ(-2, -10) vs candidate",
+            "detail": {
+              "label": "24",
+              "dx": "2",
+              "dy": "2",
+              "dw": "-2",
+              "dh": "-10"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 79,
+                  "y": 29,
+                  "width": 35,
+                  "height": 34
+                },
+                "label": "24"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 155,
+                  "y": 55,
+                  "width": 74,
+                  "height": 89
+                },
+                "label": "24"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"00\": offset (-3, -9), size Δ(8, -1) vs candidate",
+            "detail": {
+              "label": "00",
+              "dx": "-3",
+              "dy": "-9",
+              "dw": "8",
+              "dh": "-1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 70,
+                  "y": 63,
+                  "width": 53,
+                  "height": 46
+                },
+                "label": "00"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 147,
+                  "y": 145,
+                  "width": 91,
+                  "height": 94
+                },
+                "label": "00"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"01\": offset (-1, -10), size Δ(3, -10) vs candidate",
+            "detail": {
+              "label": "01",
+              "dx": "-1",
+              "dy": "-10",
+              "dw": "3",
+              "dh": "-10"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 109,
+                  "width": 38,
+                  "height": 34
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 157,
+                  "y": 238,
+                  "width": 71,
+                  "height": 89
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"02\": offset (-7, -21), size Δ(14, 8) vs candidate",
+            "detail": {
+              "label": "02",
+              "dx": "-7",
+              "dy": "-21",
+              "dw": "14",
+              "dh": "8"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 143,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 168,
+                  "y": 328,
+                  "width": 49,
+                  "height": 54
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 17.5% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.174527",
+              "diffPixels": "25735"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "225dp: 15.4% of pixels differ from reference",
+            "detail": {
+              "key": "225dp",
+              "score": "0.153773",
+              "diffPixels": "31139"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#SingleColumnPicker": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"22\" risks truncation when localized: ≈88dp expanded vs 0dp available.",
+            "detail": {
+              "label": "22",
+              "availableWidth": "0",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            }
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"23\" risks truncation when localized: ≈88dp expanded vs 47dp available.",
+            "detail": {
+              "label": "23",
+              "availableWidth": "47",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 0,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "23"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 169,
+                  "y": 2,
+                  "width": 47,
+                  "height": 53
+                },
+                "label": "23"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"24\" risks truncation when localized: ≈88dp expanded vs 74dp available.",
+            "detail": {
+              "label": "24",
+              "availableWidth": "74",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 79,
+                  "y": 29,
+                  "width": 35,
+                  "height": 34
+                },
+                "label": "24"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 155,
+                  "y": 55,
+                  "width": 74,
+                  "height": 89
+                },
+                "label": "24"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"01\" risks truncation when localized: ≈88dp expanded vs 71dp available.",
+            "detail": {
+              "label": "01",
+              "availableWidth": "71",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 109,
+                  "width": 38,
+                  "height": 34
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 157,
+                  "y": 238,
+                  "width": 71,
+                  "height": 89
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"02\" risks truncation when localized: ≈88dp expanded vs 49dp available.",
+            "detail": {
+              "label": "02",
+              "availableWidth": "49",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 143,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 168,
+                  "y": 328,
+                  "width": 49,
+                  "height": 54
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"03\" risks truncation when localized: ≈88dp expanded vs 0dp available.",
+            "detail": {
+              "label": "03",
+              "availableWidth": "0",
+              "estimatedWidth": "44",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "88"
+            }
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Label=Label — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Label\",\"type\":\"text\",\"value\":\"Label\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"23\": offset (-7, -7), size Δ(15, 9) vs candidate",
+            "detail": {
+              "label": "23",
+              "dx": "-7",
+              "dy": "-7",
+              "dw": "15",
+              "dh": "9"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 0,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "23"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 169,
+                  "y": 2,
+                  "width": 47,
+                  "height": 53
+                },
+                "label": "23"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"24\": offset (2, 2), size Δ(-2, -10) vs candidate",
+            "detail": {
+              "label": "24",
+              "dx": "2",
+              "dy": "2",
+              "dw": "-2",
+              "dh": "-10"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 79,
+                  "y": 29,
+                  "width": 35,
+                  "height": 34
+                },
+                "label": "24"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 155,
+                  "y": 55,
+                  "width": 74,
+                  "height": 89
+                },
+                "label": "24"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"00\": offset (-3, -9), size Δ(8, -1) vs candidate",
+            "detail": {
+              "label": "00",
+              "dx": "-3",
+              "dy": "-9",
+              "dw": "8",
+              "dh": "-1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 70,
+                  "y": 63,
+                  "width": 53,
+                  "height": 46
+                },
+                "label": "00"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 147,
+                  "y": 145,
+                  "width": 91,
+                  "height": 94
+                },
+                "label": "00"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"01\": offset (-1, -10), size Δ(3, -10) vs candidate",
+            "detail": {
+              "label": "01",
+              "dx": "-1",
+              "dy": "-10",
+              "dw": "3",
+              "dh": "-10"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 109,
+                  "width": 38,
+                  "height": 34
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 157,
+                  "y": 238,
+                  "width": 71,
+                  "height": 89
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"02\": offset (-7, -21), size Δ(14, 8) vs candidate",
+            "detail": {
+              "label": "02",
+              "dx": "-7",
+              "dy": "-21",
+              "dw": "14",
+              "dh": "8"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 77,
+                  "y": 143,
+                  "width": 38,
+                  "height": 35
+                },
+                "label": "02"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 168,
+                  "y": 328,
+                  "width": 49,
+                  "height": 54
+                },
+                "label": "02"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 17.5% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.174527",
+              "diffPixels": "25735"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "225dp: 15.4% of pixels differ from reference",
+            "detail": {
+              "key": "225dp",
+              "score": "0.153773",
+              "diffPixels": "31139"
+            }
+          }
+        ]
+      }
+    ],
+    "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_192dp": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"11\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "11",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "11"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"01\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "01",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 104,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"59\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "59",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "59"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"01\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "01",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 104,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"PM\" risks truncation when localized: ≈66dp expanded vs 65dp available.",
+            "detail": {
+              "label": "PM",
+              "availableWidth": "65",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 287,
+                  "y": 211,
+                  "width": 65,
+                  "height": 39
+                },
+                "label": "PM"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Label=Label — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Label\",\"type\":\"text\",\"value\":\"Label\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"12\": offset (-8, -50), size Δ(15, -10) vs candidate",
+            "detail": {
+              "label": "12",
+              "dx": "-8",
+              "dy": "-50",
+              "dw": "15",
+              "dh": "-10"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 16,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "12"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 30,
+                  "y": 132,
+                  "width": 68,
+                  "height": 72
+                },
+                "label": "12"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"01\": offset (-12, -1), size Δ(24, 7) vs candidate",
+            "detail": {
+              "label": "01",
+              "dx": "-12",
+              "dy": "-1",
+              "dw": "24",
+              "dh": "7"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 104,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"AM\": offset (1, 26), size Δ(1, -48) vs candidate",
+            "detail": {
+              "label": "AM",
+              "dx": "1",
+              "dy": "26",
+              "dw": "1",
+              "dh": "-48"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 137,
+                  "y": 68,
+                  "width": 49,
+                  "height": 36
+                },
+                "label": "AM"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 272,
+                  "y": 84,
+                  "width": 96,
+                  "height": 168
+                },
+                "label": "AM"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 16.5% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.165297",
+              "diffPixels": "24374"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "24-hour: 18.0% of pixels differ from reference",
+            "detail": {
+              "key": "24-hour",
+              "score": "0.180169",
+              "diffPixels": "26567"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "24-hour-with-seconds: 16.0% of pixels differ from reference",
+            "detail": {
+              "key": "24-hour-with-seconds",
+              "score": "0.16019",
+              "diffPixels": "23621"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "225dp: 18.7% of pixels differ from reference",
+            "detail": {
+              "key": "225dp",
+              "score": "0.186667",
+              "diffPixels": "37800"
+            }
+          }
+        ]
+      }
+    ],
+    "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#TimeWheels": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"11\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "11",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "11"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"01\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "01",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 104,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"59\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "59",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 166,
+                  "y": 86,
+                  "width": 51,
+                  "height": 37
+                },
+                "label": "59"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"01\" risks truncation when localized: ≈66dp expanded vs 51dp available.",
+            "detail": {
+              "label": "01",
+              "availableWidth": "51",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 104,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "i18n",
+            "severity": "warn",
+            "message": "\"PM\" risks truncation when localized: ≈66dp expanded vs 65dp available.",
+            "detail": {
+              "label": "PM",
+              "availableWidth": "65",
+              "estimatedWidth": "33",
+              "expansionFactor": "2",
+              "estimatedExpandedWidth": "66"
+            },
+            "anchors": [
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 287,
+                  "y": 211,
+                  "width": 65,
+                  "height": 39
+                },
+                "label": "PM"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.padding",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #E9DDFF)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#E9DDFF",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":16,\"fontWeight\":550,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 384
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Label=Label — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Label\",\"type\":\"text\",\"value\":\"Label\"}]"
+            }
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"12\": offset (-8, -50), size Δ(15, -10) vs candidate",
+            "detail": {
+              "label": "12",
+              "dx": "-8",
+              "dy": "-50",
+              "dw": "15",
+              "dh": "-10"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 16,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "12"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 30,
+                  "y": 132,
+                  "width": 68,
+                  "height": 72
+                },
+                "label": "12"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"01\": offset (-12, -1), size Δ(24, 7) vs candidate",
+            "detail": {
+              "label": "01",
+              "dx": "-12",
+              "dy": "-1",
+              "dw": "24",
+              "dh": "7"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 7,
+                  "y": 104,
+                  "width": 49,
+                  "height": 26
+                },
+                "label": "01"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 38,
+                  "y": 211,
+                  "width": 51,
+                  "height": 39
+                },
+                "label": "01"
+              }
+            ]
+          },
+          {
+            "kind": "layout",
+            "severity": "warn",
+            "message": "layout \"AM\": offset (1, 26), size Δ(1, -48) vs candidate",
+            "detail": {
+              "label": "AM",
+              "dx": "1",
+              "dy": "26",
+              "dw": "1",
+              "dh": "-48"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 137,
+                  "y": 68,
+                  "width": 49,
+                  "height": 36
+                },
+                "label": "AM"
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 272,
+                  "y": 84,
+                  "width": 96,
+                  "height": 168
+                },
+                "label": "AM"
+              }
+            ]
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 16.5% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.165297",
+              "diffPixels": "24374"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "24-hour: 18.0% of pixels differ from reference",
+            "detail": {
+              "key": "24-hour",
+              "score": "0.180169",
+              "diffPixels": "26567"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "24-hour-with-seconds: 16.0% of pixels differ from reference",
+            "detail": {
+              "key": "24-hour-with-seconds",
+              "score": "0.16019",
+              "diffPixels": "23621"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "225dp: 18.7% of pixels differ from reference",
+            "detail": {
+              "key": "225dp",
+              "score": "0.186667",
+              "diffPixels": "37800"
+            }
+          }
+        ]
+      }
+    ],
     "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder": [
       {
         "source": "figma",
