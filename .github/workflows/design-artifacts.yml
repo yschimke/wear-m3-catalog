@@ -262,9 +262,33 @@ jobs:
       timeout-minutes: 60
       render-timeout: 1800
       render-shards: 1
-      # NO `reference-backdrop` here, deliberately. That input exists because the kit's cells for
-      # specimen-board components arrive on transparency and had to be scored against a watch face;
-      # this sheet maps to no kit nodes at all (`referenceKits: []`), so it has no reference column
-      # to back. Its third column is the SIBLING's kit artwork, joined by `componentId` off the
-      # `design-artifacts/wear-m3-catalog` branch the job above publishes.
+      # The reference cache the job above builds, reused here rather than refetched. It is keyed by
+      # KIT NODE (`<fileKey>/<nodeId>`), not by system, and both sheets reproduce the same kit — so
+      # every node this one references was already extracted for the Wear sheet. Measured, not
+      # assumed: all 28 distinct nodes `remote-catalog`'s components name are present on the
+      # branch, a 100% hit rate, so this run costs zero structure calls.
+      #
+      # A miss would not be an error — it falls through to the API, costing requests rather than
+      # coverage — which is why this is worth setting even as the two sheets' reference sets drift.
+      reference-cache-branch: design-parity/reference
+
+      # STILL NO `reference-backdrop`, but the reason this carried was wrong, so it is worth
+      # restating. It claimed "this sheet maps to no kit nodes at all (`referenceKits: []`)", and
+      # that has never been true in this repo: the spec has named the same kit as the Wear sheet
+      # since #117, the commit that wrote the comment. The module moved here from
+      # compose-ai-tools' `:samples:design-catalog-remote-m3` and the note came with it.
+      #
+      # It is still omitted, now for a reason that holds: the backdrop exists to score
+      # specimen-board cells that arrive on transparency, and whether any of the 19 components this
+      # sheet references are those cells has not been established. Adding it blind would change
+      # every published reference to chase a problem this sheet may not have. Left for evidence.
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
+    secrets:
+      # The reference rasteriser. Without it the `figma:` entries in the projected design map are
+      # "skipped with a warning and the rest of the manifest still publishes" — which is exactly
+      # the state this sheet has been in: `catalog.json` declares a `reference` on 19 of its 45
+      # components, the delivery branch carries no `references/` directory, and the preview
+      # server's board reads 0 of 45 mapped while the Wear sheet reads 50 of 69. The cache above
+      # does not substitute for this: it supplies node STRUCTURE, and the reusable workflow says in
+      # as many words that "references published are unchanged" with or without it.
+      figma_token: ${{ secrets.FIGMA_TOKEN }}
