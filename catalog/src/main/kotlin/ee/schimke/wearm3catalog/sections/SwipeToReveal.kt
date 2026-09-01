@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.wear.compose.material3.Button
@@ -33,7 +34,10 @@ import ee.schimke.wearm3catalog.kitCopy
 // REVEALED, NOT AT REST. A swipe-to-reveal at rest is indistinguishable from the card or button
 // underneath it, and the kit's cells all draw the revealed state — so the sticker seeds
 // `rememberRevealState(RevealValue.RightRevealing)` and publishes what the gesture uncovers. In a
-// live session the swipe still works from there; what is pinned is where the capture starts.
+// live session the swipe still works from there; what is pinned is where the capture starts. The
+// state is keyed on the action count because `SwipeToReveal` derives its reveal geometry from that
+// count: a held Live session can otherwise retain the one-action geometry when the two-action cell
+// is selected, leaving the second action behind the card (issue #66).
 //
 // ON THE ROUND SCREEN, NOT CROPPED. Both sets draw `192×192` display cells: the item has slid far
 // enough left that the display's own edge clips it, and that clip is half of what the cell shows.
@@ -59,7 +63,7 @@ import ee.schimke.wearm3catalog.kitCopy
  * a gesture's own frames belong.
  */
 @Composable
-private fun revealState(): RevealState {
+private fun revealState(secondary: Boolean): RevealState {
   val value =
     when (
       previewOverrideChoice(
@@ -72,7 +76,11 @@ private fun revealState(): RevealState {
       "right-revealed" -> RevealValue.RightRevealed
       else -> RevealValue.RightRevealing
     }
-  return rememberRevealState(initialValue = value)
+  // Both values are initial conditions read once by the remembered state. The reveal value chooses
+  // the anchor, while the action count changes the distance needed to expose that anchor. A baked
+  // render always gets a fresh composition; keying is what makes the same promise when Live applies
+  // a variant to its held composition.
+  return key(value, secondary) { rememberRevealState(initialValue = value) }
 }
 
 @CatalogComponent(
@@ -93,7 +101,8 @@ private fun revealState(): RevealState {
 )
 @Composable
 fun SwipeToRevealCard() = FullScreenSticker {
-  val state = revealState()
+  val secondary = previewOverrideBoolean("secondary", false)
+  val state = revealState(secondary)
   SwipeToReveal(
     primaryAction = {
       PrimaryActionButton(
@@ -104,7 +113,7 @@ fun SwipeToRevealCard() = FullScreenSticker {
     },
     onSwipePrimaryAction = {},
     secondaryAction =
-      if (previewOverrideBoolean("secondary", false)) {
+      if (secondary) {
         {
           SecondaryActionButton(
             onClick = {},
@@ -134,7 +143,8 @@ fun SwipeToRevealCard() = FullScreenSticker {
 )
 @Composable
 fun SwipeToRevealButton() = FullScreenSticker {
-  val state = revealState()
+  val secondary = previewOverrideBoolean("secondary", false)
+  val state = revealState(secondary)
   SwipeToReveal(
     primaryAction = {
       PrimaryActionButton(
@@ -145,7 +155,7 @@ fun SwipeToRevealButton() = FullScreenSticker {
     },
     onSwipePrimaryAction = {},
     secondaryAction =
-      if (previewOverrideBoolean("secondary", false)) {
+      if (secondary) {
         {
           SecondaryActionButton(
             onClick = {},
