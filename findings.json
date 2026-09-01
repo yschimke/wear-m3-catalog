@@ -4,7 +4,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -37,6 +37,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
               }
             ]
           },
@@ -423,7 +485,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#ChildLabelButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -456,6 +518,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
               }
             ]
           },
@@ -842,7 +966,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -880,12 +1004,106 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 12)",
+            "severity": "error",
+            "message": "spacing.paddingStart: 0 vs spec 12 (Δ12)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingStart",
               "expected": "12",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "12"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 269,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 269,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 14 (Δ14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "actual": "0",
+              "delta": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 269,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
             },
             "anchors": [
               {
@@ -1841,7 +2059,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#CompactActionButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -1879,12 +2097,106 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 12)",
+            "severity": "error",
+            "message": "spacing.paddingStart: 0 vs spec 12 (Δ12)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingStart",
               "expected": "12",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "12"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 269,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 269,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 14 (Δ14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "actual": "0",
+              "delta": "14"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 137,
+                  "height": 32
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 269,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 8 vs spec 6 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "6",
+              "actual": "8",
+              "delta": "2"
             },
             "anchors": [
               {
@@ -2840,7 +3152,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -2873,6 +3185,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -3050,7 +3424,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#FilledButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -3083,6 +3457,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -3260,7 +3696,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -3293,6 +3729,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -3470,7 +3968,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#FilledVariantButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -3503,6 +4001,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -3680,7 +4240,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -3713,6 +4273,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -3830,7 +4452,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#ImageBackgroundButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -3863,6 +4485,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -3980,7 +4664,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -4013,6 +4697,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -4336,7 +5082,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#LoadingButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -4369,6 +5115,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -4692,7 +5500,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -4725,6 +5533,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -4957,7 +5827,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#OutlineButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -4990,6 +5860,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -5222,7 +6154,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -5255,6 +6187,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -5432,7 +6426,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#TonalButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -5465,6 +6459,68 @@
                   "height": 36
                 },
                 "label": "Primary label"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -8863,11 +9919,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (4 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "4"
             },
             "anchors": [
               {
@@ -8968,11 +10024,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (4 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "4"
             },
             "anchors": [
               {
@@ -9073,11 +10129,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (4 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "4"
             },
             "anchors": [
               {
@@ -9178,11 +10234,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (4 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "4"
             },
             "anchors": [
               {
@@ -9357,11 +10413,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (4 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "4"
             },
             "anchors": [
               {
@@ -9463,11 +10519,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (4 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "4"
             },
             "anchors": [
               {
@@ -9564,7 +10620,7 @@
     "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -9592,12 +10648,44 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 39)",
+            "severity": "error",
+            "message": "spacing.paddingStart: 0 vs spec 39 (Δ39)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingStart",
               "expected": "39",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "39"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 59
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 124
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 39 (Δ39)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "39",
+              "actual": "0",
+              "delta": "39"
             },
             "anchors": [
               {
@@ -11454,7 +12542,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt#ScreenEdgeButton": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -11482,12 +12570,44 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 39)",
+            "severity": "error",
+            "message": "spacing.paddingStart: 0 vs spec 39 (Δ39)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingStart",
               "expected": "39",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "39"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 59
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 124
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 39 (Δ39)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "39",
+              "actual": "0",
+              "delta": "39"
             },
             "anchors": [
               {
@@ -16280,7 +17400,7 @@
     "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_192dp": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -16482,12 +17602,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "severity": "error",
+            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingTop",
               "expected": "14",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "14"
             },
             "anchors": [
               {
@@ -16732,7 +17853,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#DateWheels": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -16934,12 +18055,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "severity": "error",
+            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingTop",
               "expected": "14",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "14"
             },
             "anchors": [
               {
@@ -17184,7 +18306,7 @@
     "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_192dp": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -17348,12 +18470,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "severity": "error",
+            "message": "spacing.paddingTop: 1 vs spec 14 (Δ13)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingTop",
               "expected": "14",
-              "unverified": "true"
+              "actual": "1",
+              "delta": "13"
             },
             "anchors": [
               {
@@ -17670,7 +18793,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#SingleColumnPicker": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -17834,12 +18957,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "severity": "error",
+            "message": "spacing.paddingTop: 1 vs spec 14 (Δ13)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingTop",
               "expected": "14",
-              "unverified": "true"
+              "actual": "1",
+              "delta": "13"
             },
             "anchors": [
               {
@@ -18156,7 +19280,7 @@
     "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_192dp": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -18300,12 +19424,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "severity": "error",
+            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingTop",
               "expected": "14",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "14"
             },
             "anchors": [
               {
@@ -18574,7 +19699,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#TimeWheels": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -18718,12 +19843,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: candidate resolved no value; unverified (spec 14)",
+            "severity": "error",
+            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingTop",
               "expected": "14",
-              "unverified": "true"
+              "actual": "0",
+              "delta": "14"
             },
             "anchors": [
               {
@@ -18992,8 +20118,70 @@
     "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
           {
             "kind": "semantic",
             "severity": "warn",
@@ -19049,8 +20237,70 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt#ButtonPlaceholder": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "6",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
           {
             "kind": "semantic",
             "severity": "warn",
@@ -19111,12 +20361,105 @@
           {
             "kind": "token",
             "severity": "error",
-            "message": "spacing.padding: 12 vs spec 14 (Δ2)",
+            "message": "spacing.paddingStart: 12 vs spec 14 (Δ2)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingStart",
               "expected": "14",
               "actual": "12",
               "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 68
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 148
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 12 vs spec 8 (Δ4)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "12",
+              "delta": "4"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 68
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 148
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 12 vs spec 14 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "actual": "12",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 68
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 148
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 12 vs spec 8 (Δ4)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "12",
+              "delta": "4"
             },
             "anchors": [
               {
@@ -19212,12 +20555,105 @@
           {
             "kind": "token",
             "severity": "error",
-            "message": "spacing.padding: 12 vs spec 14 (Δ2)",
+            "message": "spacing.paddingStart: 12 vs spec 14 (Δ2)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingStart",
               "expected": "14",
               "actual": "12",
               "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 68
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 148
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingTop: 12 vs spec 8 (Δ4)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "actual": "12",
+              "delta": "4"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 68
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 148
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 12 vs spec 14 (Δ2)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "actual": "12",
+              "delta": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 68
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 148
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "error",
+            "message": "spacing.paddingBottom: 12 vs spec 8 (Δ4)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "8",
+              "actual": "12",
+              "delta": "4"
             },
             "anchors": [
               {
@@ -26621,11 +28057,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -26837,11 +28273,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -27077,9 +28513,9 @@
           {
             "kind": "token",
             "severity": "error",
-            "message": "spacing.padding: 0 vs spec 12 (Δ12)",
+            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingEnd",
               "expected": "12",
               "actual": "0",
               "delta": "12"
@@ -27220,9 +28656,9 @@
           {
             "kind": "token",
             "severity": "error",
-            "message": "spacing.padding: 0 vs spec 12 (Δ12)",
+            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingEnd",
               "expected": "12",
               "actual": "0",
               "delta": "12"
@@ -27334,7 +28770,7 @@
     "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -27362,13 +28798,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: not declared, but the render insets 12 (spec 12)",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingEnd",
               "expected": "12",
-              "actual": "12",
-              "via": "measured-geometry"
+              "actual": "0",
+              "delta": "12"
             },
             "anchors": [
               {
@@ -27485,7 +28921,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard": [
       {
         "source": "figma",
-        "status": "warn",
+        "status": "fail",
         "findings": [
           {
             "kind": "i18n",
@@ -27513,13 +28949,13 @@
           },
           {
             "kind": "token",
-            "severity": "info",
-            "message": "spacing.padding: not declared, but the render insets 12 (spec 12)",
+            "severity": "error",
+            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
             "detail": {
-              "token": "spacing.padding",
+              "token": "spacing.paddingEnd",
               "expected": "12",
-              "actual": "12",
-              "via": "measured-geometry"
+              "actual": "0",
+              "delta": "12"
             },
             "anchors": [
               {
@@ -27675,11 +29111,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -27890,11 +29326,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -28105,11 +29541,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
@@ -28354,11 +29790,11 @@
           {
             "kind": "token",
             "severity": "info",
-            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (1 spec token)",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
             "detail": {
               "token": "spacing.*",
               "unverified": "true",
-              "specCount": "1"
+              "specCount": "2"
             },
             "anchors": [
               {
