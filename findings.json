@@ -4,7 +4,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -42,13 +42,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -73,13 +72,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -485,7 +543,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#ChildLabelButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -523,13 +581,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -554,13 +611,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 240,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -966,7 +1082,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -1004,13 +1120,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingStart: 0 vs spec 12 (Δ12)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 12)",
             "detail": {
               "token": "spacing.paddingStart",
               "expected": "12",
-              "actual": "0",
-              "delta": "12"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -1035,13 +1150,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 8 vs spec 6 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 6)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "6",
-              "actual": "8",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -1066,13 +1180,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 14 (Δ14)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "14",
-              "actual": "0",
-              "delta": "14"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -1097,13 +1210,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 8 vs spec 6 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 6)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "6",
-              "actual": "8",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -2059,7 +2171,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#CompactActionButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -2097,13 +2209,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingStart: 0 vs spec 12 (Δ12)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 12)",
             "detail": {
               "token": "spacing.paddingStart",
               "expected": "12",
-              "actual": "0",
-              "delta": "12"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -2128,13 +2239,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 8 vs spec 6 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 6)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "6",
-              "actual": "8",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -2159,13 +2269,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 14 (Δ14)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "14",
-              "actual": "0",
-              "delta": "14"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -2190,13 +2299,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 8 vs spec 6 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 6)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "6",
-              "actual": "8",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3152,7 +3260,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -3190,13 +3298,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3221,13 +3328,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3424,7 +3590,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#FilledButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -3462,13 +3628,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3493,13 +3658,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3696,7 +3920,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -3734,13 +3958,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3765,13 +3988,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -3968,7 +4250,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#FilledVariantButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -4006,13 +4288,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4037,13 +4318,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4240,7 +4580,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -4278,13 +4618,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4309,13 +4648,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4452,7 +4850,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#ImageBackgroundButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -4490,13 +4888,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4521,13 +4918,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4664,7 +5120,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -4702,13 +5158,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -4733,13 +5188,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -5082,7 +5596,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#LoadingButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -5120,13 +5634,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -5151,13 +5664,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -5500,7 +6072,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -5538,13 +6110,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -5569,13 +6140,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -5827,7 +6457,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#OutlineButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -5865,13 +6495,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -5896,13 +6525,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -6154,7 +6842,7 @@
     "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -6192,13 +6880,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -6223,13 +6910,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -6426,7 +7172,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Buttons.kt#TonalButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -6464,13 +7210,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -6495,13 +7240,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -10620,7 +11424,7 @@
     "ee.schimke.wearm3catalog.sections.EdgeButtonsKt.ScreenEdgeButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -10648,13 +11452,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingStart: 0 vs spec 39 (Δ39)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 39)",
             "detail": {
               "token": "spacing.paddingStart",
               "expected": "39",
-              "actual": "0",
-              "delta": "39"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -10679,13 +11482,42 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 39 (Δ39)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 39)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "39",
-              "actual": "0",
-              "delta": "39"
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 59
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 124
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 3)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "3",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -12542,7 +13374,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/EdgeButtons.kt#ScreenEdgeButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -12570,13 +13402,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingStart: 0 vs spec 39 (Δ39)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 39)",
             "detail": {
               "token": "spacing.paddingStart",
               "expected": "39",
-              "actual": "0",
-              "delta": "39"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -12601,13 +13432,42 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 39 (Δ39)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 39)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "39",
-              "actual": "0",
-              "delta": "39"
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 59
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 384,
+                  "height": 124
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 3)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "3",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -17400,7 +18260,7 @@
     "ee.schimke.wearm3catalog.sections.PickersKt.DateWheels_192dp": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -17602,13 +18462,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "14",
-              "actual": "0",
-              "delta": "14"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -17853,7 +18712,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#DateWheels": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -18055,13 +18914,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "14",
-              "actual": "0",
-              "delta": "14"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -18306,7 +19164,7 @@
     "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_192dp": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -18470,13 +19328,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 1 vs spec 14 (Δ13)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "14",
-              "actual": "1",
-              "delta": "13"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -18793,7 +19650,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#SingleColumnPicker": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -18957,13 +19814,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 1 vs spec 14 (Δ13)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "14",
-              "actual": "1",
-              "delta": "13"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -19280,7 +20136,7 @@
     "ee.schimke.wearm3catalog.sections.PickersKt.TimeWheels_192dp": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -19424,13 +20280,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "14",
-              "actual": "0",
-              "delta": "14"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -19699,7 +20554,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Pickers.kt#TimeWheels": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -19843,13 +20698,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 0 vs spec 14 (Δ14)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "14",
-              "actual": "0",
-              "delta": "14"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20118,17 +20972,16 @@
     "ee.schimke.wearm3catalog.sections.PlaceholdersKt.ButtonPlaceholder": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20153,13 +21006,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20237,17 +21149,16 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt#ButtonPlaceholder": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
-              "token": "spacing.paddingTop",
-              "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20272,13 +21183,72 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 6 vs spec 8 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "8",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "6",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20356,17 +21326,16 @@
     "ee.schimke.wearm3catalog.sections.PlaceholdersKt.CardPlaceholder": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingStart: 12 vs spec 14 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingStart",
               "expected": "14",
-              "actual": "12",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20391,13 +21360,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 12 vs spec 8 (Δ4)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "8",
-              "actual": "12",
-              "delta": "4"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20422,13 +21390,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 12 vs spec 14 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "14",
-              "actual": "12",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20453,13 +21420,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 12 vs spec 8 (Δ4)",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "12",
-              "delta": "4"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20550,17 +21516,16 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Placeholders.kt#CardPlaceholder": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingStart: 12 vs spec 14 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingStart",
               "expected": "14",
-              "actual": "12",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20585,13 +21550,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingTop: 12 vs spec 8 (Δ4)",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingTop",
               "expected": "8",
-              "actual": "12",
-              "delta": "4"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20616,13 +21580,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 12 vs spec 14 (Δ2)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "14",
-              "actual": "12",
-              "delta": "2"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -20647,13 +21610,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingBottom: 12 vs spec 8 (Δ4)",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 8)",
             "detail": {
               "token": "spacing.paddingBottom",
               "expected": "8",
-              "actual": "12",
-              "delta": "4"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -24215,6 +25177,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.label has no Material-role mapping; unverified (spec #F6EDFF)",
             "detail": {
               "token": "colors.label",
@@ -24405,6 +25427,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.label has no Material-role mapping; unverified (spec #F6EDFF)",
             "detail": {
               "token": "colors.label",
@@ -24589,6 +25671,66 @@
                   "height": 36
                 },
                 "label": "Primary"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -24815,6 +25957,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.container has no Material-role mapping; unverified (spec #4D3D76)",
             "detail": {
               "token": "colors.container",
@@ -25035,6 +26237,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.container has no Material-role mapping; unverified (spec #4D3D76)",
             "detail": {
               "token": "colors.container",
@@ -25249,6 +26511,66 @@
                   "height": 36
                 },
                 "label": "Primary"
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 344,
+                  "height": 104
+                }
               }
             ]
           },
@@ -28484,7 +29806,7 @@
     "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -28512,13 +29834,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 12)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "12",
-              "actual": "0",
-              "delta": "12"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -28627,7 +29948,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealButton": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -28655,13 +29976,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 12)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "12",
-              "actual": "0",
-              "delta": "12"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -28770,7 +30090,7 @@
     "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -28798,13 +30118,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 12)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "12",
-              "actual": "0",
-              "delta": "12"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -28921,7 +30240,7 @@
     "catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/SwipeToReveal.kt#SwipeToRevealCard": [
       {
         "source": "figma",
-        "status": "fail",
+        "status": "warn",
         "findings": [
           {
             "kind": "i18n",
@@ -28949,13 +30268,12 @@
           },
           {
             "kind": "token",
-            "severity": "error",
-            "message": "spacing.paddingEnd: 0 vs spec 12 (Δ12)",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 12)",
             "detail": {
               "token": "spacing.paddingEnd",
               "expected": "12",
-              "actual": "0",
-              "delta": "12"
+              "unverified": "true"
             },
             "anchors": [
               {
@@ -30247,6 +31565,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 18
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 18
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.label has no Material-role mapping; unverified (spec #FFFFFF)",
             "detail": {
               "token": "colors.label",
@@ -30466,6 +31844,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 18
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 18
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.label has no Material-role mapping; unverified (spec #FFFFFF)",
             "detail": {
               "token": "colors.label",
@@ -30648,6 +32086,66 @@
         "source": "figma",
         "status": "warn",
         "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 16
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 16
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
           {
             "kind": "token",
             "severity": "info",
@@ -30866,6 +32364,66 @@
         "source": "figma",
         "status": "warn",
         "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingStart: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingStart",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 16
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingEnd: candidate resolved no value; unverified (spec 14)",
+            "detail": {
+              "token": "spacing.paddingEnd",
+              "expected": "14",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 172,
+                  "height": 16
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 360,
+                  "height": 96
+                }
+              }
+            ]
+          },
           {
             "kind": "token",
             "severity": "info",
@@ -31411,6 +32969,66 @@
           {
             "kind": "token",
             "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 1)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "1",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 104,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 1)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "1",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 104,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
             "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
             "detail": {
               "token": "colors.label",
@@ -31694,6 +33312,66 @@
         "source": "figma",
         "status": "warn",
         "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingTop: candidate resolved no value; unverified (spec 1)",
+            "detail": {
+              "token": "spacing.paddingTop",
+              "expected": "1",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 104,
+                  "height": 104
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing.paddingBottom: candidate resolved no value; unverified (spec 1)",
+            "detail": {
+              "token": "spacing.paddingBottom",
+              "expected": "1",
+              "unverified": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 52,
+                  "height": 52
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 104,
+                  "height": 104
+                }
+              }
+            ]
+          },
           {
             "kind": "token",
             "severity": "info",
