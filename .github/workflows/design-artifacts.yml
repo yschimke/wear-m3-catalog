@@ -275,13 +275,33 @@ jobs:
       # The CMP/Wasm player lane: the same browser environment visitors use, scoring every document
       # this sheet publishes. It is a GATE, not enrichment — a document it cannot draw fails the
       # render rather than dropping a column — which is why it carries an expiring allowlist rather
-      # than being silently tolerant. The embedded (Robolectric) and cmp-jvm lanes are on by default
-      # in the reusable workflow and need no input here.
+      # than being silently tolerant.
       rc-cmp-wasm-lane: true
       rc-cmp-wasm-allowlist: .github/ci/remote-m3-cmp-wasm-allowlist.json
+
+      # The other three players. These were NOT on: the line above used to claim the embedded
+      # (Robolectric) and cmp-jvm lanes were "on by default in the reusable workflow and need no
+      # input here", and neither half was true — both inputs default to false, and the harnesses
+      # they run had moved to yschimke/rc-players, where the workflow was not looking. So this sheet
+      # published a three-column wall (baked, JS, cmp-wasm) against a page promising every Remote
+      # Compose player, which is what compose-ai-tools#4998 asked about.
+      #
+      # `rc-embedded-lane` is BOTH Android columns — the vendored/local-patch RcPlayer and the one
+      # AndroidX publishes — and `rc-embedded-jvm-lane` is the Compose Desktop / Skiko player. Three
+      # columns from two inputs. Unlike the Wasm lane above these are enrichment, not a gate: a
+      # harness that cannot run drops its column and the sheet still publishes, so switching them on
+      # cannot cost this catalog a delivery.
+      rc-embedded-lane: true
+      rc-embedded-jvm-lane: true
       commit-user-name: Yuri Schimke
       commit-user-email: yuri@schimke.ee
-      timeout-minutes: 60
+      # 90 rather than 60 since the three player lanes above went on. Measured on run 164, the last
+      # publish before them: the generate job took 20m13s of the 60, of which the rc-compare step
+      # was 10m59s with only the Wasm lane running. The three added lanes each build and run a
+      # Gradle test in a cold rc-players checkout, so the headroom was real but not obviously
+      # enough — and the failure mode is the one thing the lanes' own fail-soft cannot cover: a JOB
+      # timeout kills the publish, where a harness that dies only drops its column.
+      timeout-minutes: 90
       render-timeout: 1800
       render-shards: 1
       # The reference cache the job above builds, reused here rather than refetched. It is keyed by
