@@ -33,10 +33,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import io
 import json
 import re
 import sys
 import urllib.request
+import zipfile
 from pathlib import Path
 
 # The artifact whose `latest` redirect names the build, and the groups the
@@ -90,6 +92,51 @@ FINGERPRINT_ARTIFACTS = {
     "compose-remote": "androidx/compose/remote/remote-creation-compose",
     "glance-wear": "androidx/glance/wear/wear",
 }
+
+# ── THE API WATCHLIST ──────────────────────────────────────────────────────────
+#
+# Components this catalog is WAITING FOR, named by the class the library would have to publish.
+#
+# WHY A SYMBOL AND NOT A CHANGE. The obvious way to track an upstream component is to watch its
+# Gerrit change, and that is the wrong signal twice over: a merged change is not a published
+# artifact (`RemoteSplitCheckboxButton` merged at 15:58 and reached build 16245930 at 17:18, and a
+# build cut in between has the change and not the class), and android-review is a host this repo
+# does not otherwise talk to. The class either is in the AAR the sheet would compile against or it
+# is not — and that is the question a sticker actually waits on. The change URL rides along as a
+# LINK for the human, never as the thing being polled.
+#
+# WHAT IT COSTS. Nothing extra: `fingerprint_of` already downloads `remote-material3`'s AAR to hash
+# it, so the class list is read out of bytes the gate was fetching anyway.
+#
+# THE PRECEDENT THIS EXISTS FOR. `Toggle+Selection-Buttons` sat at `—` on the Remote sheet for as
+# long as the sheet has existed, and the day `RemoteCheckboxButton` appeared nothing said so — it
+# was found by hand, by diffing two AARs, weeks later than it could have been. An entry here is the
+# fix for that: it is a claim that a component is missing, and the probe retires the claim out loud.
+#
+# Retire an entry the week it flips. A watch that has arrived reports "present" every week
+# thereafter and means nothing by it — the same silence-by-noise `PROBES` above is careful about.
+AWAITED_API = [
+    {
+        "symbol": "androidx/wear/compose/remote/material3/RemoteSwitchButtonKt",
+        "unlocks": (
+            "`Toggle+Selection-Buttons` `Type=Switch`. Its SPLIT form (`RemoteSplitSwitchButton`) "
+            "already ships; the plain row does not, and a component published as split-only would "
+            "map its base render onto the kit's `Split=No` node"
+        ),
+        "change": "https://android-review.googlesource.com/c/platform/frameworks/support/+/4260122",
+    },
+    {
+        "symbol": "androidx/wear/compose/remote/material3/RemoteRadioButtonKt",
+        "unlocks": (
+            "`Toggle+Selection-Buttons` `Type=Radio`, on the same terms as `Switch` above — "
+            "`RemoteSplitRadioButton` ships, the plain row does not"
+        ),
+        "change": "https://android-review.googlesource.com/c/platform/frameworks/support/+/4260142",
+    },
+]
+# The artifact the watchlist's symbols are looked for in. One AAR, because every awaited symbol so
+# far is a `remote-material3` component; widen this to a per-entry field the first time one is not.
+AWAITED_API_ARTIFACT = FINGERPRINT_ARTIFACTS["wear-compose-remote"]
 
 # Renders are captured at `dpi=320`, i.e. density 2.0 — see CatalogTheme.kt. The
 # filename carries it, so the conversion is read rather than assumed.
@@ -184,6 +231,24 @@ def _read(url: str) -> bytes:
         return response.read()
 
 
+def classes_in(aar: bytes) -> set[str]:
+    """Every top-level class in an AAR's `classes.jar`, as `a/b/C` (no `.class`, no `$` nested)."""
+    with zipfile.ZipFile(io.BytesIO(aar)) as bundle:
+        jar = bundle.read("classes.jar")
+    with zipfile.ZipFile(io.BytesIO(jar)) as classes:
+        return {
+            name[: -len(".class")]
+            for name in classes.namelist()
+            if name.endswith(".class") and "$" not in name
+        }
+
+
+def awaited_api_in(aar: bytes) -> dict:
+    """`{symbol: present}` for [AWAITED_API] against one artifact's classes."""
+    present = classes_in(aar)
+    return {entry["symbol"]: entry["symbol"] in present for entry in AWAITED_API}
+
+
 def fingerprint_of(build_id: str) -> dict:
     """`{version ref: sha256}` for one artifact per group in ``build_id``."""
     base = f"https://androidx.dev/snapshots/builds/{build_id}/artifacts/repository"
@@ -195,11 +260,24 @@ def fingerprint_of(build_id: str) -> dict:
             raise SystemExit(f"no timestamped snapshot version for {path} in build {build_id}")
         version = match.group(0)
         artifact = f"{base}/{path}/1.0.0-SNAPSHOT/{path.rsplit('/', 1)[1]}-{version}.aar"
+        body = _read(artifact)
         prints[ref] = {
             "version": version,
-            "sha256": hashlib.sha256(_read(artifact)).hexdigest(),
+            "sha256": hashlib.sha256(body).hexdigest(),
         }
+        # Read the watchlist out of the SAME bytes rather than fetching the AAR twice. It is
+        # deliberately not folded into the entry above: `unchanged_artifacts` compares fingerprint
+        # dicts to decide whether a run is worth doing, and an extra key in there would make every
+        # build with a new symbol look like a byte change (it is one — but the gate should stay a
+        # statement about bytes, not about this file's opinions).
+        if path == AWAITED_API_ARTIFACT:
+            prints["_awaitedApi"] = awaited_api_in(body)
     return prints
+
+
+def awaited_api_of(fingerprint: dict) -> dict:
+    """The watchlist map a `fingerprint_of` result carries, or `{}`."""
+    return fingerprint.get("_awaitedApi") or {}
 
 
 def build_id_from_url(url: str) -> str:
@@ -469,10 +547,19 @@ def unchanged_artifacts(previous: dict | None, current_fingerprint: dict) -> boo
     """Whether this build ships the same Remote bytes the last probe already tested."""
     if not previous or not current_fingerprint:
         return False
-    before = (previous.get("build") or {}).get("fingerprint") or {}
-    if set(before) != set(current_fingerprint):
+    # `_`-prefixed keys are not artifacts. `fingerprint_of` stows the API watchlist under
+    # `_awaitedApi` because it reads it out of an AAR it was already downloading, and this gate must
+    # stay a statement about BYTES: a watchlist that gained an entry is a change to this repo's
+    # source, not to the build being probed, and letting it force a render would spend a runner to
+    # learn nothing. A build whose classes really did move has different bytes and is caught below.
+    def artifacts(d):
+        return {k: v for k, v in d.items() if not k.startswith("_")}
+
+    before = artifacts((previous.get("build") or {}).get("fingerprint") or {})
+    current = artifacts(current_fingerprint)
+    if set(before) != set(current):
         return False
-    return all(before[ref]["sha256"] == current_fingerprint[ref]["sha256"] for ref in before)
+    return all(before[ref]["sha256"] == current[ref]["sha256"] for ref in before)
 
 
 def compare(previous: dict | None, current: dict) -> dict:
@@ -540,6 +627,26 @@ def compare(previous: dict | None, current: dict) -> dict:
             + ", ".join(f"#{p['issue']} (`{p['preview']}`)" for p in blind)
         )
 
+    # A WATCHED SYMBOL THAT ARRIVED. Reported whether or not the build compiled and whether or not
+    # anything rendered: it is a fact about the ARTIFACT, read out of the AAR before a single
+    # sticker is drawn, and it is the one thing this job can say that is unambiguously good news.
+    # Absent -> present only; a symbol that goes away again is a reason too, because a watch whose
+    # answer reversed is exactly as interesting.
+    prev_api = (previous or {}).get("build", {}).get("awaitedApi") or {}
+    cur_api = current.get("build", {}).get("awaitedApi") or {}
+    arrived = sorted(s for s, here in cur_api.items() if here and not prev_api.get(s))
+    withdrawn = sorted(s for s, here in cur_api.items() if not here and prev_api.get(s))
+    if arrived:
+        reasons.append(
+            "a component this catalog is waiting for is now PUBLISHED: "
+            + ", ".join(f"`{s.rsplit('/', 1)[1]}`" for s in arrived)
+        )
+    if withdrawn:
+        reasons.append(
+            "a component that had appeared is gone again: "
+            + ", ".join(f"`{s.rsplit('/', 1)[1]}`" for s in withdrawn)
+        )
+
     # A failed build measures nothing, so its empty capture set is not "every render was
     # removed" — the compile reason above already says what happened, and adding a phantom
     # removal list to it would bury the one line that matters.
@@ -556,6 +663,8 @@ def compare(previous: dict | None, current: dict) -> dict:
         "report": bool(reasons),
         "reasons": reasons,
         "flipped": flipped,
+        "arrivedApi": arrived,
+        "withdrawnApi": withdrawn,
         "movedCaptures": moved,
         "addedCaptures": added,
         "removedCaptures": removed,
@@ -625,6 +734,23 @@ def summary_markdown(current: dict, verdict: dict) -> str:
         "and it is why this table sweeps rather than reporting the one density the sheet declares.",
         "",
     ]
+
+    awaited = current.get("build", {}).get("awaitedApi") or {}
+    if awaited:
+        lines += ["**Components this catalog is waiting for**", "",
+                  "| symbol | published in this build | what it unlocks |",
+                  "| --- | --- | --- |"]
+        by_symbol = {e["symbol"]: e for e in AWAITED_API}
+        for symbol, here in sorted(awaited.items()):
+            entry = by_symbol.get(symbol, {})
+            name = symbol.rsplit("/", 1)[1]
+            link = entry.get("change")
+            cell = f"[`{name}`]({link})" if link else f"`{name}`"
+            lines.append(
+                f"| {cell} | {'**YES — draw it**' if here else 'not yet'} | {entry.get('unlocks', '—')} |"
+            )
+        lines += ["", "_The symbol is the signal; the link is for reading, not polling — a merged "
+                  "change is not a published artifact._", ""]
 
     if verdict["movedCaptures"]:
         lines += ["<details><summary>Renders that changed since the previous probe</summary>", ""]
@@ -702,6 +828,7 @@ def main(argv: list[str] | None = None) -> int:
             "lastUpdated": resolved.get("lastUpdated"),
             "compiled": compiled,
             "fingerprint": resolved.get("fingerprint") or {},
+            "awaitedApi": awaited_api_of(resolved.get("fingerprint") or {}),
         }
         report["probes"] = probe_states(report, args.root, args.renders) if compiled else []
         args.out.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")

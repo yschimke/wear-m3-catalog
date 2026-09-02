@@ -35,9 +35,11 @@ transparency and half of these are near-white on it. No pixel of any render is o
 
 `remote-m3-snapshot-lane.png` is a two-lane contact sheet rather than a before/after of a change to
 this repo's code: the same stickers rendered against the released alphas and against an androidx.dev
-snapshot (`-PremoteSnapshot=<build id>`, see AGENTS.md → Dependencies), plus the cells of a component
-that only exists on the snapshot lane. What it evidences is what the LIBRARY moved, which is the only
-question that lane is asked. Frames are composited onto the sheet's `#141418` for the reason the
+snapshot (`-PremoteSnapshot=<build id>`, see AGENTS.md → Dependencies), plus all eight cells of a
+component that only exists on the snapshot lane. What it evidences is what the LIBRARY moved, which
+is the only question that lane is asked — and its bottom two bands are the clearest form of this
+repo's favourite kind of finding: `RemoteCheckboxButton` and `RemoteSplitCheckboxButton` given the
+same two knobs, one drawing its disabled states and one not. Frames are composited onto the sheet's `#141418` for the reason the
 paragraph above gives; no pixel of any render is otherwise touched.
 
 `remote-m3-*-break.png` are the **known-broken baselines** `remote-snapshot-probe.py` compares each

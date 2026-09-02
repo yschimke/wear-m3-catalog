@@ -21,9 +21,10 @@ probe = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(probe)
 
 
-def report(*, compiled=True, captures=None, probes=None, build_id="1"):
+def report(*, compiled=True, captures=None, probes=None, build_id="1", awaited_api=None):
     return {
-        "build": {"buildId": build_id, "lastUpdated": "20260101010101", "compiled": compiled},
+        "build": {"buildId": build_id, "lastUpdated": "20260101010101", "compiled": compiled,
+                  "awaitedApi": awaited_api or {}},
         "captures": captures if captures is not None else {"A": "sha-a", "B": "sha-b"},
         "probes": probes
         if probes is not None
@@ -389,6 +390,85 @@ class SweepComparisonTest(unittest.TestCase):
     def test_an_unchanged_sweep_is_silent(self):
         same = report(probes=[self._probe({"2": {"box": [52, 32], "ink": 1451.0}}, True)])
         self.assertFalse(probe.compare(same, same)["report"])
+
+
+class AwaitedApiTest(unittest.TestCase):
+    """The watchlist: a component this catalog is waiting for, watched by SYMBOL.
+
+    The whole value of this is being loud the week a class appears — `RemoteCheckboxButton` landed
+    and nothing said so, which is the miss the watchlist exists to stop repeating. So the assertions
+    are about noise in both directions: arrival reports, steady state does not.
+    """
+
+    SWITCH = "androidx/wear/compose/remote/material3/RemoteSwitchButtonKt"
+    RADIO = "androidx/wear/compose/remote/material3/RemoteRadioButtonKt"
+
+    def test_a_symbol_that_arrived_is_reported(self):
+        before = report(awaited_api={self.SWITCH: False, self.RADIO: False})
+        after = report(awaited_api={self.SWITCH: True, self.RADIO: False})
+        verdict = probe.compare(before, after)
+        self.assertTrue(verdict["report"])
+        self.assertEqual(verdict["arrivedApi"], [self.SWITCH])
+        self.assertTrue(any("now PUBLISHED" in r for r in verdict["reasons"]))
+
+    def test_a_symbol_still_missing_is_silent(self):
+        same = report(awaited_api={self.SWITCH: False, self.RADIO: False})
+        self.assertFalse(probe.compare(same, same)["report"])
+
+    def test_a_symbol_still_present_is_silent(self):
+        # The reason entries get RETIRED once they land: a watch that reports every week means
+        # nothing by it. Until someone deletes the entry, at least it must not shout.
+        same = report(awaited_api={self.SWITCH: True})
+        self.assertFalse(probe.compare(same, same)["report"])
+
+    def test_a_symbol_that_vanished_is_reported(self):
+        before = report(awaited_api={self.SWITCH: True})
+        after = report(awaited_api={self.SWITCH: False})
+        verdict = probe.compare(before, after)
+        self.assertEqual(verdict["withdrawnApi"], [self.SWITCH])
+        self.assertTrue(any("gone again" in r for r in verdict["reasons"]))
+
+    def test_the_watchlist_is_read_out_of_an_aar(self):
+        # `classes_in` is the only part of the lookup with a format to get wrong: an AAR is a zip
+        # wrapping `classes.jar`, which is another zip. Nested classes are dropped so a `$1` never
+        # answers for its outer class.
+        import io, zipfile
+
+        jar = io.BytesIO()
+        with zipfile.ZipFile(jar, "w") as z:
+            z.writestr("a/b/CKt.class", b"")
+            z.writestr("a/b/CKt$inner.class", b"")
+            z.writestr("a/b/D.class", b"")
+        aar = io.BytesIO()
+        with zipfile.ZipFile(aar, "w") as z:
+            z.writestr("classes.jar", jar.getvalue())
+            z.writestr("AndroidManifest.xml", b"<manifest/>")
+        self.assertEqual(probe.classes_in(aar.getvalue()), {"a/b/CKt", "a/b/D"})
+
+    def test_the_watchlist_never_forces_a_render_on_its_own(self):
+        # `_awaitedApi` rides inside the fingerprint dict because it is read from an AAR the gate
+        # was already downloading. The gate must stay a statement about BYTES: adding an entry to
+        # this repo's watchlist is a source change, and spending a runner on it would be spending
+        # it to learn nothing.
+        artifacts = {"wear-compose-remote": {"version": "v", "sha256": "same"}}
+        previous = report()
+        previous["build"]["fingerprint"] = dict(artifacts, _awaitedApi={"x": False})
+        self.assertTrue(
+            probe.unchanged_artifacts(previous, dict(artifacts, _awaitedApi={"x": True, "y": False}))
+        )
+
+    def test_a_real_byte_change_still_opens_the_gate(self):
+        previous = report()
+        previous["build"]["fingerprint"] = {"wear-compose-remote": {"version": "v", "sha256": "a"}}
+        self.assertFalse(
+            probe.unchanged_artifacts(previous, {"wear-compose-remote": {"version": "v", "sha256": "b"}})
+        )
+
+    def test_every_entry_names_a_class_and_a_change(self):
+        for entry in probe.AWAITED_API:
+            self.assertRegex(entry["symbol"], r"^[a-z0-9/]+/[A-Z][A-Za-z0-9]*$")
+            self.assertTrue(entry["unlocks"])
+            self.assertTrue(entry["change"].startswith("https://"))
 
 
 if __name__ == "__main__":

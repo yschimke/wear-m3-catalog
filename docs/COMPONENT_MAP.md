@@ -15,12 +15,6 @@ only one of them goes, and which Figma node each component answers to.
 > `design-map.json` are projected from, so it cannot drift from what ships. Renders come from the
 > `design-artifacts/*` delivery branches and follow them as those republish.
 
-> **One component has no render yet.**
-> Its sheet has not republished since
-> it was named, so the image cell reads `—`, meaning "not published
-> under this name yet" rather than "draws nothing". It fills in on the next publish:
-> - `Scaffold` (remote-m3)
-
 ## Common — 23 Wear components facing 28 Remote ones
 
 Paired through `parallel` on the Remote side. Where a Wear component faces **more than one**
@@ -52,7 +46,7 @@ equivalent.
 | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/wear-m3-catalog/images/pageindicator-horizontal/ideal__default__192dp.png" width="150" alt="PageIndicator/Horizontal on Wear"> | ⑂ `PageIndicator/Horizontal` | [`38684:138301`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38684-138301) | `PageIndicator/Horizontal`<br>[`38684:138301`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38684-138301) | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/pageindicator-horizontal/ideal__default__192dp.png" width="150" alt="PageIndicator/Horizontal on Remote"> |
 |  | ↳ |  | `PageIndicator/Interactive`<br>_stated absence_ | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/pageindicator-interactive/ideal__default__192dp.png" width="150" alt="PageIndicator/Interactive on Remote"> |
 | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/wear-m3-catalog/images/pageindicator-vertical/ideal__default__192dp.png" width="150" alt="PageIndicator/Vertical on Wear"> | `PageIndicator/Vertical` | [`38966:402`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38966-402) | `PageIndicator/Vertical`<br>[`38966:402`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38966-402) | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/pageindicator-vertical/ideal__default__192dp.png" width="150" alt="PageIndicator/Vertical on Remote"> |
-| <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/wear-m3-catalog/images/scaffold/ideal__default__192dp.png" width="150" alt="Scaffold on Wear"> | `Scaffold` | _stated absence_ | `Scaffold`<br>_stated absence_ | — |
+| <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/wear-m3-catalog/images/scaffold/ideal__default__192dp.png" width="150" alt="Scaffold on Wear"> | `Scaffold` | _stated absence_ | `Scaffold`<br>_stated absence_ | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/scaffold/ideal__default__compact.png" width="150" alt="Scaffold on Remote"> |
 | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/wear-m3-catalog/images/text-body/ideal__default.png" width="150" alt="Text/Body on Wear"> | ⑂ `Text/Body` | [`38977:66993`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66993) | `Text/Body`<br>[`38977:66993`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66993) | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/text-body/ideal__default__compact.png" width="150" alt="Text/Body on Remote"> |
 |  | ↳ |  | `Text/Branded`<br>_stated absence_ | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/text-branded/ideal__default__compact.png" width="150" alt="Text/Branded on Remote"> |
 |  | ↳ |  | `Text/MaxLines-Truncated`<br>_stated absence_ | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/design-artifacts/remote-m3/images/text-maxlines-truncated/ideal__default__compact.png" width="150" alt="Text/MaxLines-Truncated on Remote"> |
