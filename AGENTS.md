@@ -610,16 +610,24 @@ placeholder's "3 distinct frames in 46" turned out to be.
   `snapshot-probe/remote-m3`. **What a snapshot pin must never do is change what the BUILD
   resolves** — `gradle/libs.versions.toml` stays on released alphas, and `:catalog` stays outside
   the lane entirely. That is the skew the top of this file forbids, and it is narrower than "no
-  committed pin anywhere": see the `remote-m3` parity board below, which carries one on purpose.
-- **The snapshot LANE is how you look at unreleased Remote code by hand.** `-PremoteSnapshot=<androidx.dev
-  build id>` (or `latest`) repoints `:remote-catalog` — and only it — at an androidx.dev snapshot:
-  `settings.gradle.kts` adds the repository behind a `content` filter that admits the Remote groups
-  and nothing else, and `remote-catalog/build.gradle.kts` applies the `1.0.0-SNAPSHOT` substitution
-  to that module's own configurations. Two independent fences, and `:catalog` is outside both — its
-  `debugCompileClasspath` is byte-identical with and without the flag, because it depends on none of
-  those groups. The flag is off by default and no DEPENDENCY is committed at a snapshot version —
-  `libs.versions.toml` stays on the released alphas. A build ID is committed, once, in
-  `design-parity.yml`'s `remote` job, which turns the lane on for that board alone (below).
+  committed pin anywhere": `.github/ci/remote-snapshot-pin` is committed on purpose, and moves
+  `:remote-catalog` alone.
+- **The snapshot LANE is selected by a FILE, not a flag.** `.github/ci/remote-snapshot-pin` — one
+  line, an androidx.dev build id or `latest` — repoints `:remote-catalog`, and only it, at an
+  androidx.dev snapshot: `settings.gradle.kts` adds the repository behind a `content` filter that
+  admits the Remote groups and nothing else, and `remote-catalog/build.gradle.kts` applies the
+  `1.0.0-SNAPSHOT` substitution to that module's own configurations. Both read the pin file, with
+  `-PremoteSnapshot=<id>` as a per-invocation override; an empty or absent pin is the released line.
+  Two independent fences, and `:catalog` is outside both — its `debugCompileClasspath` is
+  byte-identical with the pin present and empty, because it depends on none of those groups. No
+  DEPENDENCY is committed at a snapshot version: `libs.versions.toml` stays on the released alphas.
+  **It reads the file rather than requiring the property because a property could not reach the
+  render.** The publishing workflows render through reusable workflows this repo cannot pass
+  arguments to, and their one hook — `design-map-command` — runs before every step that READS the
+  map, which is after the render. Appending `remoteSnapshot=` there reached the map and not the
+  stickers: design-artifacts run #164 rendered 392 previews on the released lane and then projected
+  a 419-preview map, so eleven snapshot-only cells were declared with no sticker behind them and
+  every job stayed green. A file the checkout already carries is reachable from every invocation.
   `src/released/kotlin` and `src/snapshot/kotlin` are the lanes' source sets, exactly one on the
   path at a time, and the tests that record library behaviour (`knownDuplicate`, `knownBlank`) branch
   on `wearm3.remoteLane` because those lists are claims about a library that the lane changes.
@@ -631,7 +639,8 @@ placeholder's "3 distinct frames in 46" turned out to be.
   have. `scripts/kit-cells.sh --check` then reports stale against a sheet nobody committed — and
   regenerating at that point would commit a snapshot-only component into a record CI validates on
   the released lane. `./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover`
-  with no `-PremoteSnapshot` puts it back.
+  with `-PremoteSnapshot=` — an EMPTY property — puts it back. It has to be passed explicitly now:
+  the pin file is on by default, so OMITTING the flag no longer means the released lane.
 - **The published `remote-m3` SHEET and BOARD are both drawn on the SNAPSHOT lane**, at one pinned
   build id in [`.github/ci/remote-snapshot-pin`](.github/ci/remote-snapshot-pin) — read by
   `design-artifacts.yml` (the sheet) and `design-parity.yml` (the board), whose own README explains
@@ -642,11 +651,11 @@ placeholder's "3 distinct frames in 46" turned out to be.
   every difference between them unattributable, which is why the pin is one file rather than a
   literal in each. The `wear-m3-catalog` sheet and board are NOT on the lane and must not be:
   `:catalog` is on the stable line and that is the point of it.
-  The switch is a project property appended to `gradle.properties` in each job's
-  `design-map-command`, because the reusable workflows run render steps this repo cannot pass
-  arguments to and a project property reaches every Gradle invocation in the job. Each begins
-  `test -s` on the pin, so an empty or missing pin fails the step rather than quietly publishing the
-  released line with components missing. **Pinned, never `latest`** — a floating pin would move the
+  Neither workflow selects the lane: the build reads the pin itself (above), so every Gradle
+  invocation in either job is already on it, render steps included. Each job's `design-map-command`
+  still begins `test -s` on the pin, and that guard is now the whole reason the step touches it: an
+  empty pin is the released lane everywhere rather than an error, so without it a job would publish
+  one lane's sheet under a board built for the other. **Pinned, never `latest`** — a floating pin would move the
   verdict with no commit to explain it. Bump deliberately and read the visual diff, like Compose and
   Horologist above; the pin is in the parity job's `cache-paths` so a bump forces a re-render.
   The cost, stated where someone will meet it: neither is reproducible from released artifacts

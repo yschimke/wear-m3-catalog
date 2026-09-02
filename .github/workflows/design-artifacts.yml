@@ -245,15 +245,23 @@ jobs:
       # THE PIN IS SHARED, in `.github/ci/remote-snapshot-pin`, and that is the point: the sheet and
       # the board must name the SAME androidx.dev build or every difference between them is
       # unattributable. Two literals would be two things to remember and one commit to get wrong,
-      # and nothing would catch the drift. `test -s` first, so an empty or missing pin fails this
-      # step rather than quietly publishing the released line with components missing.
+      # and nothing would catch the drift.
       #
-      # Same mechanism and the same reason as there: a project property in `gradle.properties`
-      # reaches every Gradle invocation in the job, including the reusable workflow's own render
-      # step, which this file cannot pass arguments to.
+      # NOTHING HERE SELECTS THE LANE — `settings.gradle.kts` and `remote-catalog/build.gradle.kts`
+      # read that file themselves, so every Gradle invocation in the job is already on it, the
+      # reusable workflow's own render step included. This step used to append `remoteSnapshot=` to
+      # `gradle.properties` on the belief that it ran first. It does not: `design-map-command` is
+      # documented as running before every step that READS the map, which is after the render. So
+      # the append reached the map and not the stickers — run #164 rendered 392 previews on the
+      # released lane and then projected a 419-preview map, leaving eleven cells declared with no
+      # sticker behind them while every job stayed green.
+      #
+      # `test -s` stays: it is the fail-closed guard. An empty or missing pin is now the released
+      # lane everywhere rather than an error, so without this the job would publish that lane's
+      # sheet under a board built for the other one, which is the drift the shared pin exists to
+      # prevent.
       design-map-command: >
         test -s .github/ci/remote-snapshot-pin &&
-        echo "remoteSnapshot=$(cat .github/ci/remote-snapshot-pin)" >> gradle.properties &&
         ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
         scripts/design-map.sh remote-catalog
       # Same CLI/plugin lockstep as the job above: the pin is `composePreviewPlugin` in
