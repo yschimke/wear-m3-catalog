@@ -1714,21 +1714,17 @@ private fun cardImagery(): (@Composable () -> Unit)? =
   caption = "Card led by a title, with the kit's numbered layouts folded in as cells.",
 )
 @CatalogRemoteLarge
-// NO `Style=Background Image` CELL, and it is the library rather than this file. The kit crosses
-// its `Card` layouts with an image-backed style — five of the set's forty-five cells — and at
-// `remote-material3-1.0.0-alpha10` neither `RemoteCardKt` nor `RemoteCardDefaults` exposes a
-// painter or container-painter parameter: `RemoteCard`, `RemoteTitleCard` and `RemoteAppCard` take
-// colours and shapes only, checked against the published API jar. So there is no call site to draw
-// those cells from, and a cell mapped to a node this cannot draw would be worse than none
-// ([#157](https://github.com/yschimke/wear-m3-catalog/issues/157)).
+// `Style=Background Image` IS A LANE QUESTION, and the answer lives in
+// `RemoteCardBackgroundImage.kt` — one file per lane, same declarations, different bodies.
 //
-// The painter is not the gap — `remoteContainerPainter(RemoteImageBitmap, …)` exists as a free
-// function and `RemoteButton` takes one. But it does not draw either: a `RemoteButton` handed
-// `RemoteButtonDefaults.containerPainter(CatalogRemoteImage.bitmap())` renders an opaque black
-// pill, with the image absent, under the default scrim, a transparent scrim,
-// `ContentScale.FillBounds`, and a bitmap 64x larger. `RemoteImage` draws that same bitmap in the
-// content slots above, so it is the container painter specifically. Recorded on #157; revisit when
-// either half moves.
+// alpha10 publishes no painter parameter on any card, so on the released lane the style has no call
+// site and the annotation below contributes no cells; a cell mapped to a node that lane cannot draw
+// would be worse than none ([#157](https://github.com/yschimke/wear-m3-catalog/issues/157)). Since
+// that release `RemoteTitleCard` has gained a `containerPainter` overload, so the snapshot lane
+// draws three of the kit's five image-backed cells — the three that are this component's layouts.
+// The other two are `RemoteAppCard`'s and it gained nothing; the Wear sibling is missing the same
+// two for the same reason.
+@RemoteCardBackgroundImageCells
 @Composable
 fun TitleCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
@@ -1761,12 +1757,15 @@ fun TitleCardRemote() = RemoteSticker {
   // drawing it is the rule this repo works to: a cell whose API exists is drawn failing rather than
   // withheld. It is a different case from `Style=Background Image` below, which is withheld because
   // no painter parameter exists anywhere to call.
-  val outlined = previewOverrideChoice("style", "tonal", listOf("tonal", "outline")) == "outline"
-  RemoteTitleCard(
+  //
+  // The list of values is the LANE's (`KitCardStyles`), because `image` is only drawable on one of
+  // them, and the call goes through `KitTitleCard` for the same reason: on the snapshot lane that
+  // style is a different `RemoteTitleCard` overload rather than a different argument.
+  val style = previewOverrideChoice("style", "tonal", KitCardStyles)
+  KitTitleCard(
     onClick = onClick,
+    style = style,
     modifier = RemoteModifier.width(KitRowWidth),
-    colors =
-      if (outlined) RemoteCardDefaults.outlinedCardColors() else RemoteCardDefaults.cardColors(),
     title = { RemoteText(title) },
     // `Title Card 3` carries no timestamp slot the library can fill beside the title, and no body,
     // so this cell drops both rather than drawing the base cell's furniture around a subtitle.
