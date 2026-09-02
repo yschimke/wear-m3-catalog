@@ -170,12 +170,12 @@ jobs:
       # rendition too. That is the honest setting while the two sheets reproduce the same kit: a
       # Remote component that cannot draw what the kit specifies says so in its caption or KDoc,
       # which is the same rule `:catalog` follows for a Wear Compose gap.
-      # `.github/workflows/design-parity.yml` is in the list for THIS job only, and it is the
-      # snapshot pin below that puts it there. The gate asks "did any input move"; the pin lives in
-      # this file and nowhere else, so without it a bump would change what the board is built from
-      # and the gate would still re-apply the cached verdict. The other job has no pin and does not
-      # need the entry.
-      cache-paths: remote-catalog gradle build.gradle.kts settings.gradle.kts .github/workflows/design-parity.yml
+      # `.github/ci/remote-snapshot-pin` is in the list for THIS job only, and it is the snapshot
+      # switch below that puts it there. The gate asks "did any input move"; the pin decides what
+      # this board is built from, so without it a bump would change the artifacts and the gate would
+      # still re-apply the cached verdict. The `:catalog` job is not on the lane and does not need
+      # the entry.
+      cache-paths: remote-catalog gradle build.gradle.kts settings.gradle.kts .github/ci/remote-snapshot-pin
 
       force-refresh: ${{ github.event.schedule == '0 5 * * 1' }}
       design-parity-ref: ${{ inputs.design_parity_ref || '' }}
@@ -225,7 +225,8 @@ jobs:
       # `WearWidgetPreview` is binary-incompatible with the pre-compiled wrapper the widget
       # stickers render through, and holding it back is what keeps all three of them drawing.
       design-map-command: >
-        echo "remoteSnapshot=16245930" >> gradle.properties &&
+        test -s .github/ci/remote-snapshot-pin &&
+        echo "remoteSnapshot=$(cat .github/ci/remote-snapshot-pin)" >> gradle.properties &&
         ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
         scripts/design-map.sh remote-catalog
 

@@ -235,7 +235,25 @@ jobs:
       # wrong. `scripts/design-map.sh remote-catalog` projects into the root, which is the only
       # path the lanes read; the committed map there belongs to `:catalog` and is regenerated in
       # this job's own workspace, never committed back.
+      #
+      # AND THE SNAPSHOT LANE, matching `design-parity.yml`'s `remote` job. That board moved first
+      # (#232); this is the sheet it compares. Leaving the two apart would publish a comparison
+      # scoring components the sheet beside it does not contain — `CheckboxButton` on the board,
+      # absent from the catalog and from `docs/COMPONENT_MAP.md` — which is a worse state than
+      # either lane on its own.
+      #
+      # THE PIN IS SHARED, in `.github/ci/remote-snapshot-pin`, and that is the point: the sheet and
+      # the board must name the SAME androidx.dev build or every difference between them is
+      # unattributable. Two literals would be two things to remember and one commit to get wrong,
+      # and nothing would catch the drift. `test -s` first, so an empty or missing pin fails this
+      # step rather than quietly publishing the released line with components missing.
+      #
+      # Same mechanism and the same reason as there: a project property in `gradle.properties`
+      # reaches every Gradle invocation in the job, including the reusable workflow's own render
+      # step, which this file cannot pass arguments to.
       design-map-command: >
+        test -s .github/ci/remote-snapshot-pin &&
+        echo "remoteSnapshot=$(cat .github/ci/remote-snapshot-pin)" >> gradle.properties &&
         ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
         scripts/design-map.sh remote-catalog
       # Same CLI/plugin lockstep as the job above: the pin is `composePreviewPlugin` in
