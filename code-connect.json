@@ -1,0 +1,967 @@
+{
+  "system": "remote-m3",
+  "title": "Remote Compose Material 3",
+  "label": "Compose",
+  "source": {
+    "repo": "yschimke/wear-m3-catalog",
+    "ref": "main",
+    "module": ":remote-catalog"
+  },
+  "generatedAt": "2026-09-01T22:12:33.965Z",
+  "mappings": [
+    {
+      "componentId": "Button/Filled",
+      "figmaLayerName": "Button/Filled",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-filled.svg"
+    },
+    {
+      "componentId": "Button/Outlined",
+      "figmaLayerName": "Button/Outlined",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OutlinedRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-outlined.svg"
+    },
+    {
+      "componentId": "Button/CustomShape",
+      "figmaLayerName": "Button/CustomShape",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CustomShapeRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-customshape.svg"
+    },
+    {
+      "componentId": "Button/NamedLabel",
+      "figmaLayerName": "Button/NamedLabel",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "NamedLabelRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-namedlabel.svg"
+    },
+    {
+      "componentId": "TextButton",
+      "figmaLayerName": "TextButton",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TextRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/textbutton.svg"
+    },
+    {
+      "componentId": "IconButton/Standard",
+      "figmaLayerName": "IconButton/Standard",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "IconRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-standard.svg"
+    },
+    {
+      "componentId": "Button/Compact",
+      "figmaLayerName": "Button/Compact",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CompactRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-compact.svg"
+    },
+    {
+      "componentId": "ButtonGroup",
+      "figmaLayerName": "ButtonGroup",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ButtonGroupRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/buttongroup.svg"
+    },
+    {
+      "componentId": "Button/Tonal",
+      "figmaLayerName": "Button/Tonal",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TonalRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-tonal.svg"
+    },
+    {
+      "componentId": "Button/FilledVariant",
+      "figmaLayerName": "Button/FilledVariant",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledVariantRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-filledvariant.svg"
+    },
+    {
+      "componentId": "Button/Child",
+      "figmaLayerName": "Button/Child",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ChildRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-child.svg"
+    },
+    {
+      "componentId": "Button/ImageBackground",
+      "figmaLayerName": "Button/ImageBackground",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ImageBackgroundRemoteButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/button-imagebackground.svg"
+    },
+    {
+      "componentId": "IconButton/Filled",
+      "figmaLayerName": "IconButton/Filled",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledRemoteIconButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-filled.svg"
+    },
+    {
+      "componentId": "IconButton/FilledVariant",
+      "figmaLayerName": "IconButton/FilledVariant",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FilledVariantRemoteIconButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-filledvariant.svg"
+    },
+    {
+      "componentId": "IconButton/Tonal",
+      "figmaLayerName": "IconButton/Tonal",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TonalRemoteIconButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-tonal.svg"
+    },
+    {
+      "componentId": "IconButton/Outlined",
+      "figmaLayerName": "IconButton/Outlined",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OutlinedRemoteIconButton",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/iconbutton-outlined.svg"
+    },
+    {
+      "componentId": "Card",
+      "figmaLayerName": "Card",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CardRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/card.svg"
+    },
+    {
+      "componentId": "Card/Outlined",
+      "figmaLayerName": "Card/Outlined",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "OutlinedCardRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/card-outlined.svg"
+    },
+    {
+      "componentId": "TitleCard",
+      "figmaLayerName": "TitleCard",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TitleCardRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/titlecard.svg"
+    },
+    {
+      "componentId": "AppCard",
+      "figmaLayerName": "AppCard",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AppCardRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/appcard.svg"
+    },
+    {
+      "componentId": "Scaffold",
+      "figmaLayerName": "Scaffold",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "WatchScreenRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/scaffold.svg"
+    },
+    {
+      "componentId": "CircularProgressIndicator",
+      "figmaLayerName": "CircularProgressIndicator",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "CircularProgressRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/circularprogressindicator.svg"
+    },
+    {
+      "componentId": "PageIndicator/Horizontal",
+      "figmaLayerName": "PageIndicator/Horizontal",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "HorizontalPageIndicatorRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/pageindicator-horizontal.svg"
+    },
+    {
+      "componentId": "PageIndicator/Vertical",
+      "figmaLayerName": "PageIndicator/Vertical",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "VerticalPageIndicatorRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/pageindicator-vertical.svg"
+    },
+    {
+      "componentId": "PageIndicator/Interactive",
+      "figmaLayerName": "PageIndicator/Interactive",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "InteractivePageIndicatorRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/pageindicator-interactive.svg"
+    },
+    {
+      "componentId": "Icon",
+      "figmaLayerName": "Icon",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "IconRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/icon.svg"
+    },
+    {
+      "componentId": "Text/Body",
+      "figmaLayerName": "Text/Body",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "RemoteTextSticker",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/text-body.svg"
+    },
+    {
+      "componentId": "Text/MaxLines-Truncated",
+      "figmaLayerName": "Text/MaxLines-Truncated",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TruncatedTextRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/text-maxlines-truncated.svg"
+    },
+    {
+      "componentId": "Text/Branded",
+      "figmaLayerName": "Text/Branded",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "BrandedTextRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/text-branded.svg"
+    },
+    {
+      "componentId": "Typeface/Specimen",
+      "figmaLayerName": "Typeface/Specimen",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TypefaceSpecimenRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/typeface-specimen.svg"
+    },
+    {
+      "componentId": "Typeface/VariableWeight",
+      "figmaLayerName": "Typeface/VariableWeight",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "VariableWeightRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/typeface-variableweight.svg"
+    },
+    {
+      "componentId": "Typeface/VariableWidth",
+      "figmaLayerName": "Typeface/VariableWidth",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "VariableWidthRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/typeface-variablewidth.svg"
+    },
+    {
+      "componentId": "Theme/Typography",
+      "figmaLayerName": "Theme/Typography",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "TypographyRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/theme-typography.svg"
+    },
+    {
+      "componentId": "Theme/ColorScheme",
+      "figmaLayerName": "Theme/ColorScheme",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ColorSchemeRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/theme-colorscheme.svg"
+    },
+    {
+      "componentId": "Theme/Specimen-ConfettiDefault",
+      "figmaLayerName": "Theme/Specimen-ConfettiDefault",
+      "componentName": "ThemeSpecimen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/RemoteThemeSpecimens.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ThemeSpecimenConfettiDefaultRemote",
+      "codeSnippet": "ThemeSpecimen(\n    name = TODO(\"String\"),\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.ThemeSpecimen"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String",
+          "hasDefault": false,
+          "composableSlot": false
+        }
+      ],
+      "figmaSvg": "figma/theme-specimen-confettidefault.svg"
+    },
+    {
+      "componentId": "Theme/Specimen-KotlinConf",
+      "figmaLayerName": "Theme/Specimen-KotlinConf",
+      "componentName": "ThemeSpecimen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/RemoteThemeSpecimens.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ThemeSpecimenKotlinConfRemote",
+      "codeSnippet": "ThemeSpecimen(\n    name = TODO(\"String\"),\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.ThemeSpecimen"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String",
+          "hasDefault": false,
+          "composableSlot": false
+        }
+      ],
+      "figmaSvg": "figma/theme-specimen-kotlinconf.svg"
+    },
+    {
+      "componentId": "Theme/Specimen-AndroidMakers",
+      "figmaLayerName": "Theme/Specimen-AndroidMakers",
+      "componentName": "ThemeSpecimen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/RemoteThemeSpecimens.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ThemeSpecimenAndroidMakersRemote",
+      "codeSnippet": "ThemeSpecimen(\n    name = TODO(\"String\"),\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.ThemeSpecimen"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String",
+          "hasDefault": false,
+          "composableSlot": false
+        }
+      ],
+      "figmaSvg": "figma/theme-specimen-androidmakers.svg"
+    },
+    {
+      "componentId": "Theme/Specimen-Droidcon",
+      "figmaLayerName": "Theme/Specimen-Droidcon",
+      "componentName": "ThemeSpecimen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/RemoteThemeSpecimens.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ThemeSpecimenDroidconRemote",
+      "codeSnippet": "ThemeSpecimen(\n    name = TODO(\"String\"),\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.ThemeSpecimen"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String",
+          "hasDefault": false,
+          "composableSlot": false
+        }
+      ],
+      "figmaSvg": "figma/theme-specimen-droidcon.svg"
+    },
+    {
+      "componentId": "Theme/Specimen-DevFest",
+      "figmaLayerName": "Theme/Specimen-DevFest",
+      "componentName": "ThemeSpecimen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/RemoteThemeSpecimens.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ThemeSpecimenDevFestRemote",
+      "codeSnippet": "ThemeSpecimen(\n    name = TODO(\"String\"),\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.ThemeSpecimen"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String",
+          "hasDefault": false,
+          "composableSlot": false
+        }
+      ],
+      "figmaSvg": "figma/theme-specimen-devfest.svg"
+    },
+    {
+      "componentId": "Theme/Specimen-GoogleSansFlex",
+      "figmaLayerName": "Theme/Specimen-GoogleSansFlex",
+      "componentName": "ThemeSpecimen",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/RemoteThemeSpecimens.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ThemeSpecimenGoogleSansFlexRemote",
+      "codeSnippet": "ThemeSpecimen(\n    name = TODO(\"String\"),\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.ThemeSpecimen"
+      ],
+      "parameters": [
+        {
+          "name": "name",
+          "type": "String",
+          "hasDefault": false,
+          "composableSlot": false
+        }
+      ],
+      "figmaSvg": "figma/theme-specimen-googlesansflex.svg"
+    },
+    {
+      "componentId": "Theme/SystemThemeSwatches",
+      "figmaLayerName": "Theme/SystemThemeSwatches",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "SystemThemeSwatchesRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/theme-systemthemeswatches.svg"
+    },
+    {
+      "componentId": "Shader/LinearGradient",
+      "figmaLayerName": "Shader/LinearGradient",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "ShaderGradientSticker",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true
+        }
+      ],
+      "figmaSvg": "figma/shader-lineargradient.svg"
+    },
+    {
+      "componentId": "WidgetContainer/Small",
+      "figmaLayerName": "WidgetContainer/Small",
+      "componentName": "WidgetContainerSmallRemote",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "WidgetContainerSmallRemote",
+      "figmaSvg": "figma/widgetcontainer-small.svg"
+    },
+    {
+      "componentId": "WidgetContainer/Large",
+      "figmaLayerName": "WidgetContainer/Large",
+      "componentName": "WidgetContainerLargeRemote",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "WidgetContainerLargeRemote",
+      "figmaSvg": "figma/widgetcontainer-large.svg"
+    },
+    {
+      "componentId": "WidgetContainer/GradientBackground",
+      "figmaLayerName": "WidgetContainer/GradientBackground",
+      "componentName": "WidgetContainerGradientRemote",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
+      "label": "Compose",
+      "confidence": "preview-fallback",
+      "previewName": "WidgetContainerGradientRemote",
+      "figmaSvg": "figma/widgetcontainer-gradientbackground.svg"
+    }
+  ]
+}

@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Remote Compose Material 3 — design catalog</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0f0f10; --panel:#1b1b1d; --fg:#e8e8ea; --muted:#9b9ba1; --line:#2a2a2d; --accent:#7dd87d; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+  header.top { padding:24px clamp(16px,4vw,40px); border-bottom:1px solid var(--line); }
+  header.top h1 { margin:0 0 6px; font-size:22px; }
+  header.top .subtitle { color:var(--muted); font-size:13px; }
+  header.top code { background:var(--panel); padding:1px 6px; border-radius:5px; }
+  header.top .pagelink { color:var(--accent); text-decoration:none; font-size:13px; }
+  header.top .pagelink:hover { text-decoration:underline; }
+  .layout { display:grid; grid-template-columns:240px 1fr; align-items:start; }
+  nav.index { position:sticky; top:0; align-self:start; max-height:100vh; overflow:auto; padding:20px 12px; border-right:1px solid var(--line); }
+  nav.index .nav-head { display:flex; justify-content:space-between; font-weight:600; text-decoration:none; color:var(--fg); padding:6px 8px; border-radius:6px; }
+  nav.index .nav-head span { color:var(--muted); font-weight:400; }
+  nav.index .nav-head:hover { background:var(--panel); }
+  nav.index ul { list-style:none; margin:2px 0 14px; padding:0 0 0 8px; }
+  nav.index li a { display:block; color:var(--muted); text-decoration:none; padding:3px 8px; border-radius:5px; font-size:13px; }
+  nav.index li a:hover { color:var(--fg); background:var(--panel); }
+  main { padding:8px clamp(16px,4vw,40px) 64px; min-width:0; }
+  .group { padding-top:24px; }
+  .group h2 { font-size:16px; border-bottom:1px solid var(--line); padding-bottom:8px; position:sticky; top:0; background:var(--bg); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:16px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  /* Theme-aware checkerboard so a transparent component sticker reads on the backing that matches
+     its baked theme — a light-theme component (dark strokes/text) on a LIGHT check, a dark-theme (or
+     theme-less) one on the default dark check — instead of light-mode content washing out on a fixed
+     dark backing. --ck-a / --ck-b are the two check colours; [data-bg=light] swaps them. Full-screen
+     stickers carry their own round and just sit on top. Shared by the grid hero and zoom variants. */
+  .shot, .state-shot { --ck-a:#161617; --ck-b:#202022;
+    background-color:var(--ck-a);
+    background-image:
+      linear-gradient(45deg,var(--ck-b) 25%,transparent 25%),
+      linear-gradient(-45deg,var(--ck-b) 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,var(--ck-b) 75%),
+      linear-gradient(-45deg,transparent 75%,var(--ck-b) 75%);
+    background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0; }
+  .shot[data-bg="light"], .state-shot[data-bg="light"] { --ck-a:#e9e9ef; --ck-b:#ffffff; }
+  .shot { margin:0; display:grid; place-items:center; min-height:120px; padding:12px; }
+  .shot img { max-width:100%; max-height:240px; height:auto; display:block; }
+  a.shot { cursor:zoom-in; text-decoration:none; }
+  /* Framed mode (set by the crop script below): the hero is sized to the component's content bbox
+     — read from the figma-svg's translate + viewBox — and the PNG is absolutely-positioned so only
+     the component shows. A wear sticker rendered on a 454² device canvas is displayed cropped to
+     the component instead of floating in an empty frame; a no-op for close-cropped (phone) renders
+     where the bbox already fills the frame. */
+  .shot--framed { overflow:hidden; padding:0; min-height:0; position:relative; place-items:stretch;
+    margin:16px auto; border-radius:8px; max-width:100%; }
+  .shot--framed img { position:absolute; max-width:none; max-height:none; }
+  /* A gutter window shows the component at its siblings' size and lets the shadow it holds spill
+     past the box — so it must not clip, and the card must not either, or the spill dies at the card
+     edge. AFTER the .shot--framed rule on purpose: same specificity, so the later one is what
+     wins, and a bleeding shot always carries both classes. */
+  .shot--bleed { overflow:visible; }
+  .card:has(.shot--bleed) { overflow:visible; }
+  .shot--missing { color:var(--muted); font-style:italic; }
+  .card--failed { border-color:#7d4148; }
+  .shot--failed { color:#f1b5b9; background:#26191b; text-align:center; display:flex; flex-direction:column; gap:6px; }
+  .shot--failed .failure-mark { display:grid; place-items:center; width:30px; height:30px; border:1px solid #d66c75; border-radius:50%; font-size:18px; }
+  .shot--failed span:last-child { color:#c9a3a6; font-size:11px; max-width:32ch; }
+  .failure-chip { color:#ef9299; border:1px solid #7d4148; border-radius:999px; padding:1px 7px; white-space:nowrap; }
+  .failure-detail { min-width:min(680px,80vw); color:var(--fg); }
+  .failure-detail + .failure-detail { border-top:1px solid var(--line); margin-top:14px; padding-top:14px; }
+  .failure-meta,.failure-frame { color:var(--muted); font-size:12px; margin-top:4px; }
+  .failure-detail details { margin-top:10px; }
+  .failure-detail pre { white-space:pre-wrap; overflow-wrap:anywhere; background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px; font-size:11px; }
+  .failure-summary { margin:18px clamp(16px,4vw,40px) 0; padding:12px 14px; border:1px solid #7d4148; border-radius:10px; background:#26191b; color:#c9a3a6; }
+  .failure-summary > strong { color:#ef9299; }
+  .failure-summary ul { display:grid; gap:4px; margin:8px 0 0; padding:0; list-style:none; }
+  .failure-summary li { display:flex; justify-content:space-between; gap:16px; font-size:12px; }
+  .meta { padding:10px 12px 12px; border-top:1px solid var(--line); }
+  .meta h3 { margin:0; font-size:13px; font-weight:600; word-break:break-word; }
+  .meta h3 a.ctitle { color:inherit; text-decoration:none; }
+  .meta h3 a.ctitle:hover { text-decoration:underline; }
+  .meta .sub { color:var(--muted); font-size:12px; margin-top:2px; display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px; }
+  .meta .sub .wf { color:#7dd87d; text-decoration:none; white-space:nowrap; }
+  .meta .sub .wf:hover { text-decoration:underline; }
+  .statechip { font-size:11px; padding:1px 7px; border-radius:999px; border:1px solid var(--line); color:var(--muted); text-decoration:none; white-space:nowrap; }
+  .statechip:hover { color:var(--fg); border-color:var(--muted); }
+  .greenlines { margin-top:8px; display:flex; flex-wrap:wrap; gap:4px; }
+  .chip { font-size:11px; padding:1px 7px; border-radius:999px; border:1px solid var(--accent); color:var(--accent); }
+  .chip--warn { border-color:#e0c060; color:#e0c060; }
+  .chip--error { border-color:#e08080; color:#e08080; }
+  /* Single-component zoom view — a pure-CSS :target overlay, one per component. */
+  .detail { display:none; }
+  .detail:target { display:flex; position:fixed; inset:0; z-index:50; align-items:center; justify-content:center; padding:clamp(12px,4vw,40px); }
+  .detail-scrim { position:absolute; inset:0; background:rgba(0,0,0,0.72); }
+  .detail-panel { position:relative; z-index:1; background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    max-width:min(960px,94vw); max-height:88vh; overflow:auto; padding:20px 24px; }
+  .detail-panel h3 { margin:0 0 4px; font-size:15px; word-break:break-word; }
+  .detail-caption { color:var(--muted); font-size:13px; margin-bottom:14px; }
+  .detail-x { position:absolute; top:8px; right:14px; color:var(--muted); text-decoration:none; font-size:24px; line-height:1; }
+  .detail-x:hover { color:var(--fg); }
+  .detail-states { display:flex; flex-wrap:wrap; gap:18px; }
+  figure.state { margin:0; }
+  figure.state figcaption { font-size:12px; color:var(--muted); margin-bottom:6px; text-transform:capitalize; }
+  .state-shots { display:flex; flex-wrap:wrap; gap:10px; }
+  .state-shot { display:flex; flex-direction:column; align-items:center; gap:5px;
+    border:1px solid var(--line); border-radius:10px; padding:12px; }
+  .state-shot img { max-width:220px; max-height:220px; height:auto; display:block; }
+  .state-shot span { font-size:11px; color:var(--muted); text-transform:capitalize; }
+  @media (max-width:720px){ .layout{ grid-template-columns:1fr; } nav.index{ position:static; max-height:none; border-right:0; border-bottom:1px solid var(--line);} }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Remote Compose Material 3</h1>
+  <div class="subtitle">system <code>remote-m3</code> · androidx.wear.compose.remote:remote-material3, androidx.compose.remote:remote-creation-compose, androidx.glance.wear:wear · rendered by compose-preview 1.62.0 · 2026-09-01T22:12:32.402Z · 45 components</div>
+  <div class="subtitle"><a class="pagelink" href="compare.html">SVG vs PNG compare ↗</a> <a class="pagelink" href="rc-compare.html">PNG vs Remote Compose ↗</a> <a class="pagelink" href="matches.html">↔ M3 Wear OS Apps Design Kit matches ↗</a></div>
+</header>
+
+<div class="layout">
+  <nav class="index"><section class="nav-group">
+      <a class="nav-head" href="#g-buttons">Buttons <span>16</span></a>
+      <ul><li><a href="#c-button-filled">Button/Filled</a></li><li><a href="#c-button-outlined">Button/Outlined</a></li><li><a href="#c-button-customshape">Button/CustomShape</a></li><li><a href="#c-button-namedlabel">Button/NamedLabel</a></li><li><a href="#c-textbutton">TextButton</a></li><li><a href="#c-iconbutton-standard">IconButton/Standard</a></li><li><a href="#c-button-compact">Button/Compact</a></li><li><a href="#c-buttongroup">ButtonGroup</a></li><li><a href="#c-button-tonal">Button/Tonal</a></li><li><a href="#c-button-filledvariant">Button/FilledVariant</a></li><li><a href="#c-button-child">Button/Child</a></li><li><a href="#c-button-imagebackground">Button/ImageBackground</a></li><li><a href="#c-iconbutton-filled">IconButton/Filled</a></li><li><a href="#c-iconbutton-filledvariant">IconButton/FilledVariant</a></li><li><a href="#c-iconbutton-tonal">IconButton/Tonal</a></li><li><a href="#c-iconbutton-outlined">IconButton/Outlined</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-containment">Containment <span>4</span></a>
+      <ul><li><a href="#c-card">Card</a></li><li><a href="#c-card-outlined">Card/Outlined</a></li><li><a href="#c-titlecard">TitleCard</a></li><li><a href="#c-appcard">AppCard</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-scaffold-templates">Scaffold templates <span>1</span></a>
+      <ul><li><a href="#c-scaffold">Scaffold</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-communication">Communication <span>4</span></a>
+      <ul><li><a href="#c-circularprogressindicator">CircularProgressIndicator</a></li><li><a href="#c-pageindicator-horizontal">PageIndicator/Horizontal</a></li><li><a href="#c-pageindicator-vertical">PageIndicator/Vertical</a></li><li><a href="#c-pageindicator-interactive">PageIndicator/Interactive</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-iconography">Iconography <span>1</span></a>
+      <ul><li><a href="#c-icon">Icon</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-text">Text <span>3</span></a>
+      <ul><li><a href="#c-text-body">Text/Body</a></li><li><a href="#c-text-maxlines-truncated">Text/MaxLines-Truncated</a></li><li><a href="#c-text-branded">Text/Branded</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-typeface">Typeface <span>3</span></a>
+      <ul><li><a href="#c-typeface-specimen">Typeface/Specimen</a></li><li><a href="#c-typeface-variableweight">Typeface/VariableWeight</a></li><li><a href="#c-typeface-variablewidth">Typeface/VariableWidth</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-theme">Theme <span>9</span></a>
+      <ul><li><a href="#c-theme-typography">Theme/Typography</a></li><li><a href="#c-theme-colorscheme">Theme/ColorScheme</a></li><li><a href="#c-theme-specimen-confettidefault">Theme/Specimen-ConfettiDefault</a></li><li><a href="#c-theme-specimen-kotlinconf">Theme/Specimen-KotlinConf</a></li><li><a href="#c-theme-specimen-androidmakers">Theme/Specimen-AndroidMakers</a></li><li><a href="#c-theme-specimen-droidcon">Theme/Specimen-Droidcon</a></li><li><a href="#c-theme-specimen-devfest">Theme/Specimen-DevFest</a></li><li><a href="#c-theme-specimen-googlesansflex">Theme/Specimen-GoogleSansFlex</a></li><li><a href="#c-theme-systemthemeswatches">Theme/SystemThemeSwatches</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-shaders">Shaders <span>1</span></a>
+      <ul><li><a href="#c-shader-lineargradient">Shader/LinearGradient</a></li></ul>
+    </section><section class="nav-group">
+      <a class="nav-head" href="#g-widget-container">Widget Container <span>3</span></a>
+      <ul><li><a href="#c-widgetcontainer-small">WidgetContainer/Small</a></li><li><a href="#c-widgetcontainer-large">WidgetContainer/Large</a></li><li><a href="#c-widgetcontainer-gradientbackground">WidgetContainer/GradientBackground</a></li></ul>
+    </section></nav>
+  <main><section class="group" id="g-buttons">
+      <h2>Buttons</h2>
+      <div class="grid"><article class="card" id="c-button-filled">
+  <a class="shot" href="#d-button-filled" aria-label="Zoom Button/Filled"><img loading="lazy" src="images/button-filled/ideal__default__compact.png" alt="Button/Filled" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-filled">Button/Filled</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-filled">+9 states</a><a class="wf" href="wireframes/button-filled.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-filled.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-outlined">
+  <a class="shot" href="#d-button-outlined" aria-label="Zoom Button/Outlined"><img loading="lazy" src="images/button-outlined/ideal__default__compact.png" alt="Button/Outlined" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-outlined">Button/Outlined</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-outlined">+9 states</a><a class="wf" href="wireframes/button-outlined.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-outlined.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-customshape">
+  <a class="shot" href="#d-button-customshape" aria-label="Zoom Button/CustomShape"><img loading="lazy" src="images/button-customshape/ideal__default__compact.png" alt="Button/CustomShape" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-customshape">Button/CustomShape</a></h3>
+    <div class="sub">454×200<a class="wf" href="wireframes/button-customshape.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-customshape.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-namedlabel">
+  <a class="shot" href="#d-button-namedlabel" aria-label="Zoom Button/NamedLabel"><img loading="lazy" src="images/button-namedlabel/ideal__default__compact.png" alt="Button/NamedLabel" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-namedlabel">Button/NamedLabel</a></h3>
+    <div class="sub">454×200<a class="wf" href="wireframes/button-namedlabel.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-namedlabel.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-textbutton">
+  <a class="shot" href="#d-textbutton" aria-label="Zoom TextButton"><img loading="lazy" src="images/textbutton/ideal__default__compact.png" alt="TextButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-textbutton">TextButton</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-textbutton">+29 states</a><a class="wf" href="wireframes/textbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/textbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-iconbutton-standard">
+  <a class="shot" href="#d-iconbutton-standard" aria-label="Zoom IconButton/Standard"><img loading="lazy" src="images/iconbutton-standard/ideal__default__compact.png" alt="IconButton/Standard" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-iconbutton-standard">IconButton/Standard</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-iconbutton-standard">+7 states</a><a class="wf" href="wireframes/iconbutton-standard.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/iconbutton-standard.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-compact">
+  <a class="shot" href="#d-button-compact" aria-label="Zoom Button/Compact"><img loading="lazy" src="images/button-compact/ideal__default__compact.png" alt="Button/Compact" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-compact">Button/Compact</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-compact">+29 states</a><a class="wf" href="wireframes/button-compact.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-compact.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-buttongroup">
+  <a class="shot" href="#d-buttongroup" aria-label="Zoom ButtonGroup"><img loading="lazy" src="images/buttongroup/ideal__default__compact.png" alt="ButtonGroup" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-buttongroup">ButtonGroup</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/buttongroup.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/buttongroup.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-tonal">
+  <a class="shot" href="#d-button-tonal" aria-label="Zoom Button/Tonal"><img loading="lazy" src="images/button-tonal/ideal__default__compact.png" alt="Button/Tonal" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-tonal">Button/Tonal</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-tonal">+9 states</a><a class="wf" href="wireframes/button-tonal.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-tonal.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-filledvariant">
+  <a class="shot" href="#d-button-filledvariant" aria-label="Zoom Button/FilledVariant"><img loading="lazy" src="images/button-filledvariant/ideal__default__compact.png" alt="Button/FilledVariant" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-filledvariant">Button/FilledVariant</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-filledvariant">+9 states</a><a class="wf" href="wireframes/button-filledvariant.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-filledvariant.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-child">
+  <a class="shot" href="#d-button-child" aria-label="Zoom Button/Child"><img loading="lazy" src="images/button-child/ideal__default__compact.png" alt="Button/Child" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-child">Button/Child</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-child">+9 states</a><a class="wf" href="wireframes/button-child.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-child.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-button-imagebackground">
+  <a class="shot" href="#d-button-imagebackground" aria-label="Zoom Button/ImageBackground"><img loading="lazy" src="images/button-imagebackground/ideal__default__compact.png" alt="Button/ImageBackground" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-button-imagebackground">Button/ImageBackground</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-button-imagebackground">+3 states</a><a class="wf" href="wireframes/button-imagebackground.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/button-imagebackground.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-iconbutton-filled">
+  <a class="shot" href="#d-iconbutton-filled" aria-label="Zoom IconButton/Filled"><img loading="lazy" src="images/iconbutton-filled/ideal__default__compact.png" alt="IconButton/Filled" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-iconbutton-filled">IconButton/Filled</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-iconbutton-filled">+7 states</a><a class="wf" href="wireframes/iconbutton-filled.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/iconbutton-filled.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-iconbutton-filledvariant">
+  <a class="shot" href="#d-iconbutton-filledvariant" aria-label="Zoom IconButton/FilledVariant"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__default__compact.png" alt="IconButton/FilledVariant" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-iconbutton-filledvariant">IconButton/FilledVariant</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-iconbutton-filledvariant">+7 states</a><a class="wf" href="wireframes/iconbutton-filledvariant.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/iconbutton-filledvariant.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-iconbutton-tonal">
+  <a class="shot" href="#d-iconbutton-tonal" aria-label="Zoom IconButton/Tonal"><img loading="lazy" src="images/iconbutton-tonal/ideal__default__compact.png" alt="IconButton/Tonal" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-iconbutton-tonal">IconButton/Tonal</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-iconbutton-tonal">+7 states</a><a class="wf" href="wireframes/iconbutton-tonal.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/iconbutton-tonal.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-iconbutton-outlined">
+  <a class="shot" href="#d-iconbutton-outlined" aria-label="Zoom IconButton/Outlined"><img loading="lazy" src="images/iconbutton-outlined/ideal__default__compact.png" alt="IconButton/Outlined" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-iconbutton-outlined">IconButton/Outlined</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-iconbutton-outlined">+7 states</a><a class="wf" href="wireframes/iconbutton-outlined.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/iconbutton-outlined.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-containment">
+      <h2>Containment</h2>
+      <div class="grid"><article class="card" id="c-card">
+  <a class="shot" href="#d-card" aria-label="Zoom Card"><img loading="lazy" src="images/card/ideal__default__compact.png" alt="Card" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-card">Card</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/card.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/card.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-card-outlined">
+  <a class="shot" href="#d-card-outlined" aria-label="Zoom Card/Outlined"><img loading="lazy" src="images/card-outlined/ideal__default__compact.png" alt="Card/Outlined" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-card-outlined">Card/Outlined</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/card-outlined.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/card-outlined.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-titlecard">
+  <a class="shot" href="#d-titlecard" aria-label="Zoom TitleCard"><img loading="lazy" src="images/titlecard/ideal__default__compact.png" alt="TitleCard" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-titlecard">TitleCard</a></h3>
+    <div class="sub">454×400<a class="statechip" href="#d-titlecard">+23 states</a><a class="wf" href="wireframes/titlecard.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/titlecard.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-appcard">
+  <a class="shot" href="#d-appcard" aria-label="Zoom AppCard"><img loading="lazy" src="images/appcard/ideal__default__compact.png" alt="AppCard" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-appcard">AppCard</a></h3>
+    <div class="sub">454×400<a class="statechip" href="#d-appcard">+16 states</a><a class="wf" href="wireframes/appcard.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/appcard.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-scaffold-templates">
+      <h2>Scaffold templates</h2>
+      <div class="grid"><article class="card" id="c-scaffold">
+  <a class="shot" href="#d-scaffold" aria-label="Zoom Scaffold"><img loading="lazy" src="images/scaffold/ideal__default__compact.png" alt="Scaffold" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-scaffold">Scaffold</a></h3>
+    <div class="sub">454×454<a class="wf" href="wireframes/scaffold.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/scaffold.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-communication">
+      <h2>Communication</h2>
+      <div class="grid"><article class="card" id="c-circularprogressindicator">
+  <a class="shot" href="#d-circularprogressindicator" aria-label="Zoom CircularProgressIndicator"><img loading="lazy" src="images/circularprogressindicator/ideal__default__240dp.png" alt="CircularProgressIndicator" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-circularprogressindicator">CircularProgressIndicator</a></h3>
+    <div class="sub">480×480<a class="statechip" href="#d-circularprogressindicator">+12 states</a><a class="wf" href="wireframes/circularprogressindicator.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/circularprogressindicator.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-pageindicator-horizontal">
+  <a class="shot" href="#d-pageindicator-horizontal" aria-label="Zoom PageIndicator/Horizontal"><img loading="lazy" src="images/pageindicator-horizontal/ideal__default__240dp.png" alt="PageIndicator/Horizontal" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-pageindicator-horizontal">PageIndicator/Horizontal</a></h3>
+    <div class="sub">480×480<a class="statechip" href="#d-pageindicator-horizontal">+9 states</a><a class="wf figma-svg-link" href="figma/pageindicator-horizontal.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-pageindicator-vertical">
+  <a class="shot" href="#d-pageindicator-vertical" aria-label="Zoom PageIndicator/Vertical"><img loading="lazy" src="images/pageindicator-vertical/ideal__default__240dp.png" alt="PageIndicator/Vertical" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-pageindicator-vertical">PageIndicator/Vertical</a></h3>
+    <div class="sub">480×480<a class="statechip" href="#d-pageindicator-vertical">+9 states</a><a class="wf figma-svg-link" href="figma/pageindicator-vertical.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-pageindicator-interactive">
+  <a class="shot" href="#d-pageindicator-interactive" aria-label="Zoom PageIndicator/Interactive"><img loading="lazy" src="images/pageindicator-interactive/ideal__default__240dp.png" alt="PageIndicator/Interactive" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-pageindicator-interactive">PageIndicator/Interactive</a></h3>
+    <div class="sub">480×480<a class="wf" href="wireframes/pageindicator-interactive.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/pageindicator-interactive.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-iconography">
+      <h2>Iconography</h2>
+      <div class="grid"><article class="card" id="c-icon">
+  <a class="shot" href="#d-icon" aria-label="Zoom Icon"><img loading="lazy" src="images/icon/ideal__default__compact.png" alt="Icon" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-icon">Icon</a></h3>
+    <div class="sub">454×200<a class="wf" href="wireframes/icon.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/icon.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-text">
+      <h2>Text</h2>
+      <div class="grid"><article class="card" id="c-text-body">
+  <a class="shot" href="#d-text-body" aria-label="Zoom Text/Body"><img loading="lazy" src="images/text-body/ideal__default__compact.png" alt="Text/Body" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-text-body">Text/Body</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-text-body">+1 state</a><a class="wf" href="wireframes/text-body.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/text-body.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-text-maxlines-truncated">
+  <a class="shot" href="#d-text-maxlines-truncated" aria-label="Zoom Text/MaxLines-Truncated"><img loading="lazy" src="images/text-maxlines-truncated/ideal__default__compact.png" alt="Text/MaxLines-Truncated" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-text-maxlines-truncated">Text/MaxLines-Truncated</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/text-maxlines-truncated.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/text-maxlines-truncated.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-text-branded">
+  <a class="shot" href="#d-text-branded" aria-label="Zoom Text/Branded"><img loading="lazy" src="images/text-branded/ideal__default__compact.png" alt="Text/Branded" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-text-branded">Text/Branded</a></h3>
+    <div class="sub">454×200<a class="wf" href="wireframes/text-branded.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/text-branded.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-typeface">
+      <h2>Typeface</h2>
+      <div class="grid"><article class="card" id="c-typeface-specimen">
+  <a class="shot" href="#d-typeface-specimen" aria-label="Zoom Typeface/Specimen"><img loading="lazy" src="images/typeface-specimen/ideal__default__compact.png" alt="Typeface/Specimen" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-typeface-specimen">Typeface/Specimen</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/typeface-specimen.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/typeface-specimen.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-typeface-variableweight">
+  <a class="shot" href="#d-typeface-variableweight" aria-label="Zoom Typeface/VariableWeight"><img loading="lazy" src="images/typeface-variableweight/ideal__default__compact.png" alt="Typeface/VariableWeight" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-typeface-variableweight">Typeface/VariableWeight</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/typeface-variableweight.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/typeface-variableweight.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-typeface-variablewidth">
+  <a class="shot" href="#d-typeface-variablewidth" aria-label="Zoom Typeface/VariableWidth"><img loading="lazy" src="images/typeface-variablewidth/ideal__default__compact.png" alt="Typeface/VariableWidth" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-typeface-variablewidth">Typeface/VariableWidth</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/typeface-variablewidth.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/typeface-variablewidth.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-theme">
+      <h2>Theme</h2>
+      <div class="grid"><article class="card" id="c-theme-typography">
+  <a class="shot" href="#d-theme-typography" aria-label="Zoom Theme/Typography"><img loading="lazy" src="images/theme-typography/ideal__default__compact.png" alt="Theme/Typography" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-typography">Theme/Typography</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-typography.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-typography.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-colorscheme">
+  <a class="shot" href="#d-theme-colorscheme" aria-label="Zoom Theme/ColorScheme"><img loading="lazy" src="images/theme-colorscheme/ideal__default__compact.png" alt="Theme/ColorScheme" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-colorscheme">Theme/ColorScheme</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-colorscheme.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-colorscheme.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-specimen-confettidefault">
+  <a class="shot" href="#d-theme-specimen-confettidefault" aria-label="Zoom Theme/Specimen-ConfettiDefault"><img loading="lazy" src="images/theme-specimen-confettidefault/ideal__default__compact.png" alt="Theme/Specimen-ConfettiDefault" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-specimen-confettidefault">Theme/Specimen-ConfettiDefault</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-specimen-confettidefault.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-specimen-confettidefault.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-specimen-kotlinconf">
+  <a class="shot" href="#d-theme-specimen-kotlinconf" aria-label="Zoom Theme/Specimen-KotlinConf"><img loading="lazy" src="images/theme-specimen-kotlinconf/ideal__default__compact.png" alt="Theme/Specimen-KotlinConf" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-specimen-kotlinconf">Theme/Specimen-KotlinConf</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-specimen-kotlinconf.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-specimen-kotlinconf.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-specimen-androidmakers">
+  <a class="shot" href="#d-theme-specimen-androidmakers" aria-label="Zoom Theme/Specimen-AndroidMakers"><img loading="lazy" src="images/theme-specimen-androidmakers/ideal__default__compact.png" alt="Theme/Specimen-AndroidMakers" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-specimen-androidmakers">Theme/Specimen-AndroidMakers</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-specimen-androidmakers.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-specimen-androidmakers.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-specimen-droidcon">
+  <a class="shot" href="#d-theme-specimen-droidcon" aria-label="Zoom Theme/Specimen-Droidcon"><img loading="lazy" src="images/theme-specimen-droidcon/ideal__default__compact.png" alt="Theme/Specimen-Droidcon" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-specimen-droidcon">Theme/Specimen-Droidcon</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-specimen-droidcon.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-specimen-droidcon.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-specimen-devfest">
+  <a class="shot" href="#d-theme-specimen-devfest" aria-label="Zoom Theme/Specimen-DevFest"><img loading="lazy" src="images/theme-specimen-devfest/ideal__default__compact.png" alt="Theme/Specimen-DevFest" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-specimen-devfest">Theme/Specimen-DevFest</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-specimen-devfest.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-specimen-devfest.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-specimen-googlesansflex">
+  <a class="shot" href="#d-theme-specimen-googlesansflex" aria-label="Zoom Theme/Specimen-GoogleSansFlex"><img loading="lazy" src="images/theme-specimen-googlesansflex/ideal__default__compact.png" alt="Theme/Specimen-GoogleSansFlex" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-specimen-googlesansflex">Theme/Specimen-GoogleSansFlex</a></h3>
+    <div class="sub">454×400<a class="wf" href="wireframes/theme-specimen-googlesansflex.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-specimen-googlesansflex.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-theme-systemthemeswatches">
+  <a class="shot" href="#d-theme-systemthemeswatches" aria-label="Zoom Theme/SystemThemeSwatches"><img loading="lazy" src="images/theme-systemthemeswatches/ideal__default__compact.png" alt="Theme/SystemThemeSwatches" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-theme-systemthemeswatches">Theme/SystemThemeSwatches</a></h3>
+    <div class="sub">454×200<a class="wf" href="wireframes/theme-systemthemeswatches.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/theme-systemthemeswatches.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-shaders">
+      <h2>Shaders</h2>
+      <div class="grid"><article class="card" id="c-shader-lineargradient">
+  <a class="shot" href="#d-shader-lineargradient" aria-label="Zoom Shader/LinearGradient"><img loading="lazy" src="images/shader-lineargradient/ideal__default__compact.png" alt="Shader/LinearGradient" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-shader-lineargradient">Shader/LinearGradient</a></h3>
+    <div class="sub">400×400<a class="wf" href="wireframes/shader-lineargradient.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/shader-lineargradient.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section>
+<section class="group" id="g-widget-container">
+      <h2>Widget Container</h2>
+      <div class="grid"><article class="card" id="c-widgetcontainer-small">
+  <a class="shot" href="#d-widgetcontainer-small" aria-label="Zoom WidgetContainer/Small"><img loading="lazy" src="images/widgetcontainer-small/ideal__default__216dp.png" alt="WidgetContainer/Small" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-widgetcontainer-small">WidgetContainer/Small</a></h3>
+    <div class="sub">567×200<a class="wf" href="wireframes/widgetcontainer-small.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/widgetcontainer-small.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-widgetcontainer-large">
+  <a class="shot" href="#d-widgetcontainer-large" aria-label="Zoom WidgetContainer/Large"><img loading="lazy" src="images/widgetcontainer-large/ideal__default__216dp.png" alt="WidgetContainer/Large" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-widgetcontainer-large">WidgetContainer/Large</a></h3>
+    <div class="sub">567×326<a class="wf" href="wireframes/widgetcontainer-large.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/widgetcontainer-large.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article>
+<article class="card" id="c-widgetcontainer-gradientbackground">
+  <a class="shot" href="#d-widgetcontainer-gradientbackground" aria-label="Zoom WidgetContainer/GradientBackground"><img loading="lazy" src="images/widgetcontainer-gradientbackground/ideal__default__216dp.png" alt="WidgetContainer/GradientBackground" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-widgetcontainer-gradientbackground">WidgetContainer/GradientBackground</a></h3>
+    <div class="sub">567×200<a class="wf" href="wireframes/widgetcontainer-gradientbackground.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/widgetcontainer-gradientbackground.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    
+  </div>
+</article></div>
+    </section></main>
+</div>
+<div class="detail" id="d-button-filled" role="dialog" aria-label="Button/Filled">
+  <a class="detail-scrim" href="#c-button-filled" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-filled" aria-label="Close">×</a>
+    <h3>Button/Filled</h3>
+    <div class="detail-caption">Remote Material 3 filled button — the primary action.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__default__compact.png" alt="Button/Filled default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__disabled__compact.png" alt="Button/Filled disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__icon__compact.png" alt="Button/Filled icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__icon-disabled__compact.png" alt="Button/Filled icon-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__icon-extra-large__compact.png" alt="Button/Filled icon-extra-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__icon-extra-large-disabled__compact.png" alt="Button/Filled icon-extra-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__icon-large__compact.png" alt="Button/Filled icon-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__icon-large-disabled__compact.png" alt="Button/Filled icon-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__left__compact.png" alt="Button/Filled left" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filled/ideal__left-disabled__compact.png" alt="Button/Filled left-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-outlined" role="dialog" aria-label="Button/Outlined">
+  <a class="detail-scrim" href="#c-button-outlined" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-outlined" aria-label="Close">×</a>
+    <h3>Button/Outlined</h3>
+    <div class="detail-caption">Remote Material 3 outlined-emphasis button (RemoteButton with an explicit border + border colour).</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__default__compact.png" alt="Button/Outlined default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__disabled__compact.png" alt="Button/Outlined disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__icon__compact.png" alt="Button/Outlined icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__icon-disabled__compact.png" alt="Button/Outlined icon-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__icon-extra-large__compact.png" alt="Button/Outlined icon-extra-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__icon-extra-large-disabled__compact.png" alt="Button/Outlined icon-extra-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__icon-large__compact.png" alt="Button/Outlined icon-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__icon-large-disabled__compact.png" alt="Button/Outlined icon-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__left__compact.png" alt="Button/Outlined left" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-outlined/ideal__left-disabled__compact.png" alt="Button/Outlined left-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-customshape" role="dialog" aria-label="Button/CustomShape">
+  <a class="detail-scrim" href="#c-button-customshape" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-customshape" aria-label="Close">×</a>
+    <h3>Button/CustomShape</h3>
+    <div class="detail-caption">Filled button with a RemoteRoundedCornerShape override.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-customshape/ideal__default__compact.png" alt="Button/CustomShape default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-namedlabel" role="dialog" aria-label="Button/NamedLabel">
+  <a class="detail-scrim" href="#c-button-namedlabel" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-namedlabel" aria-label="Close">×</a>
+    <h3>Button/NamedLabel</h3>
+    <div class="detail-caption">Filled button whose label is bound to a Remote Compose named value — the connector flips it live (the default render shows the kit&#39;s own label).</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-namedlabel/ideal__default__compact.png" alt="Button/NamedLabel default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-textbutton" role="dialog" aria-label="TextButton">
+  <a class="detail-scrim" href="#c-textbutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-textbutton" aria-label="Close">×</a>
+    <h3>TextButton</h3>
+    <div class="detail-caption">Low-emphasis round text button (RemoteTextButton), with the kit&#39;s style and size axes folded in.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__default__compact.png" alt="TextButton default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__child__compact.png" alt="TextButton child" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__child-disabled__compact.png" alt="TextButton child-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__child-large__compact.png" alt="TextButton child-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__child-large-disabled__compact.png" alt="TextButton child-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__child-small__compact.png" alt="TextButton child-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__child-small-disabled__compact.png" alt="TextButton child-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__disabled__compact.png" alt="TextButton disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__filled-variant__compact.png" alt="TextButton filled-variant" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__filled-variant-disabled__compact.png" alt="TextButton filled-variant-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__filled-variant-large__compact.png" alt="TextButton filled-variant-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__filled-variant-large-disabled__compact.png" alt="TextButton filled-variant-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__filled-variant-small__compact.png" alt="TextButton filled-variant-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__filled-variant-small-disabled__compact.png" alt="TextButton filled-variant-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__large__compact.png" alt="TextButton large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__large-disabled__compact.png" alt="TextButton large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__outlined__compact.png" alt="TextButton outlined" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__outlined-disabled__compact.png" alt="TextButton outlined-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__outlined-large__compact.png" alt="TextButton outlined-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__outlined-large-disabled__compact.png" alt="TextButton outlined-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__outlined-small__compact.png" alt="TextButton outlined-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__outlined-small-disabled__compact.png" alt="TextButton outlined-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__small__compact.png" alt="TextButton small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__small-disabled__compact.png" alt="TextButton small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__tonal__compact.png" alt="TextButton tonal" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__tonal-disabled__compact.png" alt="TextButton tonal-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__tonal-large__compact.png" alt="TextButton tonal-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__tonal-large-disabled__compact.png" alt="TextButton tonal-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__tonal-small__compact.png" alt="TextButton tonal-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/textbutton/ideal__tonal-small-disabled__compact.png" alt="TextButton tonal-small-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-iconbutton-standard" role="dialog" aria-label="IconButton/Standard">
+  <a class="detail-scrim" href="#c-iconbutton-standard" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-iconbutton-standard" aria-label="Close">×</a>
+    <h3>IconButton/Standard</h3>
+    <div class="detail-caption">Round icon button (RemoteIconButton), with the kit&#39;s size axis folded in.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__default__compact.png" alt="IconButton/Standard default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__disabled__compact.png" alt="IconButton/Standard disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__extra-small__compact.png" alt="IconButton/Standard extra-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__extra-small-disabled__compact.png" alt="IconButton/Standard extra-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__large__compact.png" alt="IconButton/Standard large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__large-disabled__compact.png" alt="IconButton/Standard large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__small__compact.png" alt="IconButton/Standard small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-standard/ideal__small-disabled__compact.png" alt="IconButton/Standard small-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-compact" role="dialog" aria-label="Button/Compact">
+  <a class="detail-scrim" href="#c-button-compact" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-compact" aria-label="Close">×</a>
+    <h3>Button/Compact</h3>
+    <div class="detail-caption">Compact single-line button (RemoteCompactButton) with the kit&#39;s leading icon, and its icon-only and text-only cells.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__default__compact.png" alt="Button/Compact default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__child__compact.png" alt="Button/Compact child" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__child-disabled__compact.png" alt="Button/Compact child-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-icon-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__child-icon-only__compact.png" alt="Button/Compact child-icon-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-icon-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__child-icon-only-disabled__compact.png" alt="Button/Compact child-icon-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-text-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__child-text-only__compact.png" alt="Button/Compact child-text-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>child-text-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__child-text-only-disabled__compact.png" alt="Button/Compact child-text-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__disabled__compact.png" alt="Button/Compact disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__filled-variant__compact.png" alt="Button/Compact filled-variant" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__filled-variant-disabled__compact.png" alt="Button/Compact filled-variant-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-icon-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__filled-variant-icon-only__compact.png" alt="Button/Compact filled-variant-icon-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-icon-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__filled-variant-icon-only-disabled__compact.png" alt="Button/Compact filled-variant-icon-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-text-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__filled-variant-text-only__compact.png" alt="Button/Compact filled-variant-text-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>filled-variant-text-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__filled-variant-text-only-disabled__compact.png" alt="Button/Compact filled-variant-text-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__icon-only__compact.png" alt="Button/Compact icon-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__icon-only-disabled__compact.png" alt="Button/Compact icon-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__outlined__compact.png" alt="Button/Compact outlined" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__outlined-disabled__compact.png" alt="Button/Compact outlined-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-icon-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__outlined-icon-only__compact.png" alt="Button/Compact outlined-icon-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-icon-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__outlined-icon-only-disabled__compact.png" alt="Button/Compact outlined-icon-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-text-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__outlined-text-only__compact.png" alt="Button/Compact outlined-text-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outlined-text-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__outlined-text-only-disabled__compact.png" alt="Button/Compact outlined-text-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>text-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__text-only__compact.png" alt="Button/Compact text-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>text-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__text-only-disabled__compact.png" alt="Button/Compact text-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__tonal__compact.png" alt="Button/Compact tonal" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__tonal-disabled__compact.png" alt="Button/Compact tonal-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-icon-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__tonal-icon-only__compact.png" alt="Button/Compact tonal-icon-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-icon-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__tonal-icon-only-disabled__compact.png" alt="Button/Compact tonal-icon-only-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-text-only</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__tonal-text-only__compact.png" alt="Button/Compact tonal-text-only" /><span>compact</span></div></div></figure><figure class="state"><figcaption>tonal-text-only-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-compact/ideal__tonal-text-only-disabled__compact.png" alt="Button/Compact tonal-text-only-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-buttongroup" role="dialog" aria-label="ButtonGroup">
+  <a class="detail-scrim" href="#c-buttongroup" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-buttongroup" aria-label="Close">×</a>
+    <h3>ButtonGroup</h3>
+    <div class="detail-caption">Two buttons laid out edge-to-edge by RemoteButtonGroup.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/buttongroup/ideal__default__compact.png" alt="ButtonGroup default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-tonal" role="dialog" aria-label="Button/Tonal">
+  <a class="detail-scrim" href="#c-button-tonal" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-tonal" aria-label="Close">×</a>
+    <h3>Button/Tonal</h3>
+    <div class="detail-caption">Tonal button on the theme&#39;s surface-container emphasis.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__default__compact.png" alt="Button/Tonal default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__disabled__compact.png" alt="Button/Tonal disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__icon__compact.png" alt="Button/Tonal icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__icon-disabled__compact.png" alt="Button/Tonal icon-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__icon-extra-large__compact.png" alt="Button/Tonal icon-extra-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__icon-extra-large-disabled__compact.png" alt="Button/Tonal icon-extra-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__icon-large__compact.png" alt="Button/Tonal icon-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__icon-large-disabled__compact.png" alt="Button/Tonal icon-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__left__compact.png" alt="Button/Tonal left" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-tonal/ideal__left-disabled__compact.png" alt="Button/Tonal left-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-filledvariant" role="dialog" aria-label="Button/FilledVariant">
+  <a class="detail-scrim" href="#c-button-filledvariant" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-filledvariant" aria-label="Close">×</a>
+    <h3>Button/FilledVariant</h3>
+    <div class="detail-caption">The kit&#39;s highlighted style — a filled button in the variant palette.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__default__compact.png" alt="Button/FilledVariant default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__disabled__compact.png" alt="Button/FilledVariant disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__icon__compact.png" alt="Button/FilledVariant icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__icon-disabled__compact.png" alt="Button/FilledVariant icon-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__icon-extra-large__compact.png" alt="Button/FilledVariant icon-extra-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__icon-extra-large-disabled__compact.png" alt="Button/FilledVariant icon-extra-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__icon-large__compact.png" alt="Button/FilledVariant icon-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__icon-large-disabled__compact.png" alt="Button/FilledVariant icon-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__left__compact.png" alt="Button/FilledVariant left" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-filledvariant/ideal__left-disabled__compact.png" alt="Button/FilledVariant left-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-child" role="dialog" aria-label="Button/Child">
+  <a class="detail-scrim" href="#c-button-child" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-child" aria-label="Close">×</a>
+    <h3>Button/Child</h3>
+    <div class="detail-caption">Lowest emphasis; no container at all, for a button inside another surface.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__default__compact.png" alt="Button/Child default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__disabled__compact.png" alt="Button/Child disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__icon__compact.png" alt="Button/Child icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__icon-disabled__compact.png" alt="Button/Child icon-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__icon-extra-large__compact.png" alt="Button/Child icon-extra-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-extra-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__icon-extra-large-disabled__compact.png" alt="Button/Child icon-extra-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__icon-large__compact.png" alt="Button/Child icon-large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__icon-large-disabled__compact.png" alt="Button/Child icon-large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__left__compact.png" alt="Button/Child left" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-child/ideal__left-disabled__compact.png" alt="Button/Child left-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-button-imagebackground" role="dialog" aria-label="Button/ImageBackground">
+  <a class="detail-scrim" href="#c-button-imagebackground" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-button-imagebackground" aria-label="Close">×</a>
+    <h3>Button/ImageBackground</h3>
+    <div class="detail-caption">A button over an image, with the scrim that keeps its label legible.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-imagebackground/ideal__default__compact.png" alt="Button/ImageBackground default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-imagebackground/ideal__disabled__compact.png" alt="Button/ImageBackground disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>secondary-label</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-imagebackground/ideal__secondary-label__compact.png" alt="Button/ImageBackground secondary-label" /><span>compact</span></div></div></figure><figure class="state"><figcaption>secondary-label-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/button-imagebackground/ideal__secondary-label-disabled__compact.png" alt="Button/ImageBackground secondary-label-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-iconbutton-filled" role="dialog" aria-label="IconButton/Filled">
+  <a class="detail-scrim" href="#c-iconbutton-filled" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-iconbutton-filled" aria-label="Close">×</a>
+    <h3>IconButton/Filled</h3>
+    <div class="detail-caption">RemoteIconButton with a filled primary container.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__default__compact.png" alt="IconButton/Filled default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__disabled__compact.png" alt="IconButton/Filled disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__extra-small__compact.png" alt="IconButton/Filled extra-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__extra-small-disabled__compact.png" alt="IconButton/Filled extra-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__large__compact.png" alt="IconButton/Filled large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__large-disabled__compact.png" alt="IconButton/Filled large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__small__compact.png" alt="IconButton/Filled small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filled/ideal__small-disabled__compact.png" alt="IconButton/Filled small-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-iconbutton-filledvariant" role="dialog" aria-label="IconButton/FilledVariant">
+  <a class="detail-scrim" href="#c-iconbutton-filledvariant" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-iconbutton-filledvariant" aria-label="Close">×</a>
+    <h3>IconButton/FilledVariant</h3>
+    <div class="detail-caption">RemoteIconButton in the kit&#39;s highlighted palette.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__default__compact.png" alt="IconButton/FilledVariant default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__disabled__compact.png" alt="IconButton/FilledVariant disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__extra-small__compact.png" alt="IconButton/FilledVariant extra-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__extra-small-disabled__compact.png" alt="IconButton/FilledVariant extra-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__large__compact.png" alt="IconButton/FilledVariant large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__large-disabled__compact.png" alt="IconButton/FilledVariant large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__small__compact.png" alt="IconButton/FilledVariant small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-filledvariant/ideal__small-disabled__compact.png" alt="IconButton/FilledVariant small-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-iconbutton-tonal" role="dialog" aria-label="IconButton/Tonal">
+  <a class="detail-scrim" href="#c-iconbutton-tonal" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-iconbutton-tonal" aria-label="Close">×</a>
+    <h3>IconButton/Tonal</h3>
+    <div class="detail-caption">RemoteIconButton on the theme&#39;s surface-container emphasis.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__default__compact.png" alt="IconButton/Tonal default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__disabled__compact.png" alt="IconButton/Tonal disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__extra-small__compact.png" alt="IconButton/Tonal extra-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__extra-small-disabled__compact.png" alt="IconButton/Tonal extra-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__large__compact.png" alt="IconButton/Tonal large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__large-disabled__compact.png" alt="IconButton/Tonal large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__small__compact.png" alt="IconButton/Tonal small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-tonal/ideal__small-disabled__compact.png" alt="IconButton/Tonal small-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-iconbutton-outlined" role="dialog" aria-label="IconButton/Outlined">
+  <a class="detail-scrim" href="#c-iconbutton-outlined" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-iconbutton-outlined" aria-label="Close">×</a>
+    <h3>IconButton/Outlined</h3>
+    <div class="detail-caption">RemoteIconButton with an explicit outline treatment.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__default__compact.png" alt="IconButton/Outlined default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__disabled__compact.png" alt="IconButton/Outlined disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__extra-small__compact.png" alt="IconButton/Outlined extra-small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>extra-small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__extra-small-disabled__compact.png" alt="IconButton/Outlined extra-small-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__large__compact.png" alt="IconButton/Outlined large" /><span>compact</span></div></div></figure><figure class="state"><figcaption>large-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__large-disabled__compact.png" alt="IconButton/Outlined large-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__small__compact.png" alt="IconButton/Outlined small" /><span>compact</span></div></div></figure><figure class="state"><figcaption>small-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/iconbutton-outlined/ideal__small-disabled__compact.png" alt="IconButton/Outlined small-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-card" role="dialog" aria-label="Card">
+  <a class="detail-scrim" href="#c-card" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-card" aria-label="Close">×</a>
+    <h3>Card</h3>
+    <div class="detail-caption">Remote Material 3&#39;s plain one-slot card.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/card/ideal__default__compact.png" alt="Card default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-card-outlined" role="dialog" aria-label="Card/Outlined">
+  <a class="detail-scrim" href="#c-card-outlined" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-card-outlined" aria-label="Close">×</a>
+    <h3>Card/Outlined</h3>
+    <div class="detail-caption">Remote Material 3&#39;s plain outlined one-slot card.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/card-outlined/ideal__default__compact.png" alt="Card/Outlined default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-titlecard" role="dialog" aria-label="TitleCard">
+  <a class="detail-scrim" href="#c-titlecard" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-titlecard" aria-label="Close">×</a>
+    <h3>TitleCard</h3>
+    <div class="detail-caption">Card led by a title, with the kit&#39;s numbered layouts folded in as cells.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__default__compact.png" alt="TitleCard default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__content-image__compact.png" alt="TitleCard content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__gallery-1__compact.png" alt="TitleCard gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__gallery-2__compact.png" alt="TitleCard gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline__compact.png" alt="TitleCard outline" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-content-image__compact.png" alt="TitleCard outline-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-gallery-1__compact.png" alt="TitleCard outline-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-gallery-2__compact.png" alt="TitleCard outline-gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-title-and-subtitle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-title-and-subtitle__compact.png" alt="TitleCard outline-title-and-subtitle" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-title-and-subtitle-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-title-and-subtitle-content-image__compact.png" alt="TitleCard outline-title-and-subtitle-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-title-and-subtitle-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-title-and-subtitle-gallery-1__compact.png" alt="TitleCard outline-title-and-subtitle-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-title-and-subtitle-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-title-and-subtitle-gallery-2__compact.png" alt="TitleCard outline-title-and-subtitle-gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-with-subtitle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-with-subtitle__compact.png" alt="TitleCard outline-with-subtitle" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-with-subtitle-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-with-subtitle-content-image__compact.png" alt="TitleCard outline-with-subtitle-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-with-subtitle-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-with-subtitle-gallery-1__compact.png" alt="TitleCard outline-with-subtitle-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-with-subtitle-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__outline-with-subtitle-gallery-2__compact.png" alt="TitleCard outline-with-subtitle-gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>title-and-subtitle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__title-and-subtitle__compact.png" alt="TitleCard title-and-subtitle" /><span>compact</span></div></div></figure><figure class="state"><figcaption>title-and-subtitle-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__title-and-subtitle-content-image__compact.png" alt="TitleCard title-and-subtitle-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>title-and-subtitle-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__title-and-subtitle-gallery-1__compact.png" alt="TitleCard title-and-subtitle-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>title-and-subtitle-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__title-and-subtitle-gallery-2__compact.png" alt="TitleCard title-and-subtitle-gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>with-subtitle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__with-subtitle__compact.png" alt="TitleCard with-subtitle" /><span>compact</span></div></div></figure><figure class="state"><figcaption>with-subtitle-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__with-subtitle-content-image__compact.png" alt="TitleCard with-subtitle-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>with-subtitle-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__with-subtitle-gallery-1__compact.png" alt="TitleCard with-subtitle-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>with-subtitle-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/titlecard/ideal__with-subtitle-gallery-2__compact.png" alt="TitleCard with-subtitle-gallery-2" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-appcard" role="dialog" aria-label="AppCard">
+  <a class="detail-scrim" href="#c-appcard" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-appcard" aria-label="Close">×</a>
+    <h3>AppCard</h3>
+    <div class="detail-caption">App card with app name, icon and content slots.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__default__compact.png" alt="AppCard default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__content-image__compact.png" alt="AppCard content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__gallery-1__compact.png" alt="AppCard gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__gallery-2__compact.png" alt="AppCard gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__icon__compact.png" alt="AppCard icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__icon-content-image__compact.png" alt="AppCard icon-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__icon-gallery-1__compact.png" alt="AppCard icon-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>icon-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__icon-gallery-2__compact.png" alt="AppCard icon-gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>no-app-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__no-app-image__compact.png" alt="AppCard no-app-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline__compact.png" alt="AppCard outline" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-content-image__compact.png" alt="AppCard outline-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-gallery-1__compact.png" alt="AppCard outline-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-gallery-2__compact.png" alt="AppCard outline-gallery-2" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-icon</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-icon__compact.png" alt="AppCard outline-icon" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-icon-content-image</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-icon-content-image__compact.png" alt="AppCard outline-icon-content-image" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-icon-gallery-1</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-icon-gallery-1__compact.png" alt="AppCard outline-icon-gallery-1" /><span>compact</span></div></div></figure><figure class="state"><figcaption>outline-icon-gallery-2</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/appcard/ideal__outline-icon-gallery-2__compact.png" alt="AppCard outline-icon-gallery-2" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-scaffold" role="dialog" aria-label="Scaffold">
+  <a class="detail-scrim" href="#c-scaffold" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-scaffold" aria-label="Close">×</a>
+    <h3>Scaffold</h3>
+    <div class="detail-caption">Full-screen Remote Compose watch screen — a status clock, a list header and a stack of RemoteTitleCards on the theme&#39;s own background fill. The catalog&#39;s hero: a RemoteDocument driving a whole surface, not a single sticker.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/scaffold/ideal__default__compact.png" alt="Scaffold default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-circularprogressindicator" role="dialog" aria-label="CircularProgressIndicator">
+  <a class="detail-scrim" href="#c-circularprogressindicator" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-circularprogressindicator" aria-label="Close">×</a>
+    <h3>CircularProgressIndicator</h3>
+    <div class="detail-caption">Determinate circular progress rail against the display edge, at a fixed 60%.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__default__192dp.png" alt="CircularProgressIndicator default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__default__204dp.png" alt="CircularProgressIndicator default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__default__216dp.png" alt="CircularProgressIndicator default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__default__225dp.png" alt="CircularProgressIndicator default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__default__240dp.png" alt="CircularProgressIndicator default" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>complete</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__complete__192dp.png" alt="CircularProgressIndicator complete" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__complete__204dp.png" alt="CircularProgressIndicator complete" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__complete__216dp.png" alt="CircularProgressIndicator complete" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__complete__225dp.png" alt="CircularProgressIndicator complete" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__complete__240dp.png" alt="CircularProgressIndicator complete" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__disabled__192dp.png" alt="CircularProgressIndicator disabled" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__disabled__204dp.png" alt="CircularProgressIndicator disabled" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__disabled__216dp.png" alt="CircularProgressIndicator disabled" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__disabled__225dp.png" alt="CircularProgressIndicator disabled" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__disabled__240dp.png" alt="CircularProgressIndicator disabled" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>indeterminate</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__indeterminate__192dp.png" alt="CircularProgressIndicator indeterminate" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__indeterminate__204dp.png" alt="CircularProgressIndicator indeterminate" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__indeterminate__216dp.png" alt="CircularProgressIndicator indeterminate" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__indeterminate__225dp.png" alt="CircularProgressIndicator indeterminate" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__indeterminate__240dp.png" alt="CircularProgressIndicator indeterminate" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>overflow</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__overflow__192dp.png" alt="CircularProgressIndicator overflow" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__overflow__204dp.png" alt="CircularProgressIndicator overflow" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__overflow__216dp.png" alt="CircularProgressIndicator overflow" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__overflow__225dp.png" alt="CircularProgressIndicator overflow" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__overflow__240dp.png" alt="CircularProgressIndicator overflow" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>small-stroke</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke__192dp.png" alt="CircularProgressIndicator small-stroke" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke__204dp.png" alt="CircularProgressIndicator small-stroke" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke__216dp.png" alt="CircularProgressIndicator small-stroke" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke__225dp.png" alt="CircularProgressIndicator small-stroke" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke__240dp.png" alt="CircularProgressIndicator small-stroke" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>small-stroke-complete</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-complete__192dp.png" alt="CircularProgressIndicator small-stroke-complete" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-complete__204dp.png" alt="CircularProgressIndicator small-stroke-complete" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-complete__216dp.png" alt="CircularProgressIndicator small-stroke-complete" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-complete__225dp.png" alt="CircularProgressIndicator small-stroke-complete" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-complete__240dp.png" alt="CircularProgressIndicator small-stroke-complete" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>small-stroke-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-disabled__192dp.png" alt="CircularProgressIndicator small-stroke-disabled" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-disabled__204dp.png" alt="CircularProgressIndicator small-stroke-disabled" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-disabled__216dp.png" alt="CircularProgressIndicator small-stroke-disabled" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-disabled__225dp.png" alt="CircularProgressIndicator small-stroke-disabled" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-disabled__240dp.png" alt="CircularProgressIndicator small-stroke-disabled" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>small-stroke-overflow</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-overflow__192dp.png" alt="CircularProgressIndicator small-stroke-overflow" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-overflow__204dp.png" alt="CircularProgressIndicator small-stroke-overflow" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-overflow__216dp.png" alt="CircularProgressIndicator small-stroke-overflow" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-overflow__225dp.png" alt="CircularProgressIndicator small-stroke-overflow" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-overflow__240dp.png" alt="CircularProgressIndicator small-stroke-overflow" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>small-stroke-zero</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero__192dp.png" alt="CircularProgressIndicator small-stroke-zero" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero__204dp.png" alt="CircularProgressIndicator small-stroke-zero" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero__216dp.png" alt="CircularProgressIndicator small-stroke-zero" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero__225dp.png" alt="CircularProgressIndicator small-stroke-zero" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero__240dp.png" alt="CircularProgressIndicator small-stroke-zero" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>small-stroke-zero-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero-disabled__192dp.png" alt="CircularProgressIndicator small-stroke-zero-disabled" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero-disabled__204dp.png" alt="CircularProgressIndicator small-stroke-zero-disabled" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero-disabled__216dp.png" alt="CircularProgressIndicator small-stroke-zero-disabled" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero-disabled__225dp.png" alt="CircularProgressIndicator small-stroke-zero-disabled" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__small-stroke-zero-disabled__240dp.png" alt="CircularProgressIndicator small-stroke-zero-disabled" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>zero</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero__192dp.png" alt="CircularProgressIndicator zero" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero__204dp.png" alt="CircularProgressIndicator zero" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero__216dp.png" alt="CircularProgressIndicator zero" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero__225dp.png" alt="CircularProgressIndicator zero" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero__240dp.png" alt="CircularProgressIndicator zero" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>zero-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero-disabled__192dp.png" alt="CircularProgressIndicator zero-disabled" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero-disabled__204dp.png" alt="CircularProgressIndicator zero-disabled" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero-disabled__216dp.png" alt="CircularProgressIndicator zero-disabled" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero-disabled__225dp.png" alt="CircularProgressIndicator zero-disabled" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/circularprogressindicator/ideal__zero-disabled__240dp.png" alt="CircularProgressIndicator zero-disabled" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-pageindicator-horizontal" role="dialog" aria-label="PageIndicator/Horizontal">
+  <a class="detail-scrim" href="#c-pageindicator-horizontal" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-pageindicator-horizontal" aria-label="Close">×</a>
+    <h3>PageIndicator/Horizontal</h3>
+    <div class="detail-caption">Four-page horizontal indicator curved along the bottom edge, on the first page.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__default__192dp.png" alt="PageIndicator/Horizontal default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__default__204dp.png" alt="PageIndicator/Horizontal default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__default__216dp.png" alt="PageIndicator/Horizontal default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__default__225dp.png" alt="PageIndicator/Horizontal default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__default__240dp.png" alt="PageIndicator/Horizontal default" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>five-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__five-pages__192dp.png" alt="PageIndicator/Horizontal five-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__five-pages__204dp.png" alt="PageIndicator/Horizontal five-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__five-pages__216dp.png" alt="PageIndicator/Horizontal five-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__five-pages__225dp.png" alt="PageIndicator/Horizontal five-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__five-pages__240dp.png" alt="PageIndicator/Horizontal five-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>many-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages__192dp.png" alt="PageIndicator/Horizontal many-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages__204dp.png" alt="PageIndicator/Horizontal many-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages__216dp.png" alt="PageIndicator/Horizontal many-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages__225dp.png" alt="PageIndicator/Horizontal many-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages__240dp.png" alt="PageIndicator/Horizontal many-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>many-pages-end</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-end__192dp.png" alt="PageIndicator/Horizontal many-pages-end" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-end__204dp.png" alt="PageIndicator/Horizontal many-pages-end" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-end__216dp.png" alt="PageIndicator/Horizontal many-pages-end" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-end__225dp.png" alt="PageIndicator/Horizontal many-pages-end" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-end__240dp.png" alt="PageIndicator/Horizontal many-pages-end" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>many-pages-middle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-middle__192dp.png" alt="PageIndicator/Horizontal many-pages-middle" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-middle__204dp.png" alt="PageIndicator/Horizontal many-pages-middle" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-middle__216dp.png" alt="PageIndicator/Horizontal many-pages-middle" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-middle__225dp.png" alt="PageIndicator/Horizontal many-pages-middle" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__many-pages-middle__240dp.png" alt="PageIndicator/Horizontal many-pages-middle" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>six-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages__192dp.png" alt="PageIndicator/Horizontal six-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages__204dp.png" alt="PageIndicator/Horizontal six-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages__216dp.png" alt="PageIndicator/Horizontal six-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages__225dp.png" alt="PageIndicator/Horizontal six-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages__240dp.png" alt="PageIndicator/Horizontal six-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>six-pages-end</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-end__192dp.png" alt="PageIndicator/Horizontal six-pages-end" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-end__204dp.png" alt="PageIndicator/Horizontal six-pages-end" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-end__216dp.png" alt="PageIndicator/Horizontal six-pages-end" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-end__225dp.png" alt="PageIndicator/Horizontal six-pages-end" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-end__240dp.png" alt="PageIndicator/Horizontal six-pages-end" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>six-pages-middle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-middle__192dp.png" alt="PageIndicator/Horizontal six-pages-middle" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-middle__204dp.png" alt="PageIndicator/Horizontal six-pages-middle" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-middle__216dp.png" alt="PageIndicator/Horizontal six-pages-middle" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-middle__225dp.png" alt="PageIndicator/Horizontal six-pages-middle" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__six-pages-middle__240dp.png" alt="PageIndicator/Horizontal six-pages-middle" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>three-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__three-pages__192dp.png" alt="PageIndicator/Horizontal three-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__three-pages__204dp.png" alt="PageIndicator/Horizontal three-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__three-pages__216dp.png" alt="PageIndicator/Horizontal three-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__three-pages__225dp.png" alt="PageIndicator/Horizontal three-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__three-pages__240dp.png" alt="PageIndicator/Horizontal three-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>two-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__two-pages__192dp.png" alt="PageIndicator/Horizontal two-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__two-pages__204dp.png" alt="PageIndicator/Horizontal two-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__two-pages__216dp.png" alt="PageIndicator/Horizontal two-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__two-pages__225dp.png" alt="PageIndicator/Horizontal two-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-horizontal/ideal__two-pages__240dp.png" alt="PageIndicator/Horizontal two-pages" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-pageindicator-vertical" role="dialog" aria-label="PageIndicator/Vertical">
+  <a class="detail-scrim" href="#c-pageindicator-vertical" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-pageindicator-vertical" aria-label="Close">×</a>
+    <h3>PageIndicator/Vertical</h3>
+    <div class="detail-caption">Four-page vertical indicator against the right bezel, on the first page.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__default__192dp.png" alt="PageIndicator/Vertical default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__default__204dp.png" alt="PageIndicator/Vertical default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__default__216dp.png" alt="PageIndicator/Vertical default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__default__225dp.png" alt="PageIndicator/Vertical default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__default__240dp.png" alt="PageIndicator/Vertical default" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>five-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__five-pages__192dp.png" alt="PageIndicator/Vertical five-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__five-pages__204dp.png" alt="PageIndicator/Vertical five-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__five-pages__216dp.png" alt="PageIndicator/Vertical five-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__five-pages__225dp.png" alt="PageIndicator/Vertical five-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__five-pages__240dp.png" alt="PageIndicator/Vertical five-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>many-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages__192dp.png" alt="PageIndicator/Vertical many-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages__204dp.png" alt="PageIndicator/Vertical many-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages__216dp.png" alt="PageIndicator/Vertical many-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages__225dp.png" alt="PageIndicator/Vertical many-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages__240dp.png" alt="PageIndicator/Vertical many-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>many-pages-end</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-end__192dp.png" alt="PageIndicator/Vertical many-pages-end" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-end__204dp.png" alt="PageIndicator/Vertical many-pages-end" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-end__216dp.png" alt="PageIndicator/Vertical many-pages-end" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-end__225dp.png" alt="PageIndicator/Vertical many-pages-end" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-end__240dp.png" alt="PageIndicator/Vertical many-pages-end" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>many-pages-middle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-middle__192dp.png" alt="PageIndicator/Vertical many-pages-middle" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-middle__204dp.png" alt="PageIndicator/Vertical many-pages-middle" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-middle__216dp.png" alt="PageIndicator/Vertical many-pages-middle" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-middle__225dp.png" alt="PageIndicator/Vertical many-pages-middle" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__many-pages-middle__240dp.png" alt="PageIndicator/Vertical many-pages-middle" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>six-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages__192dp.png" alt="PageIndicator/Vertical six-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages__204dp.png" alt="PageIndicator/Vertical six-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages__216dp.png" alt="PageIndicator/Vertical six-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages__225dp.png" alt="PageIndicator/Vertical six-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages__240dp.png" alt="PageIndicator/Vertical six-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>six-pages-end</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-end__192dp.png" alt="PageIndicator/Vertical six-pages-end" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-end__204dp.png" alt="PageIndicator/Vertical six-pages-end" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-end__216dp.png" alt="PageIndicator/Vertical six-pages-end" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-end__225dp.png" alt="PageIndicator/Vertical six-pages-end" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-end__240dp.png" alt="PageIndicator/Vertical six-pages-end" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>six-pages-middle</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-middle__192dp.png" alt="PageIndicator/Vertical six-pages-middle" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-middle__204dp.png" alt="PageIndicator/Vertical six-pages-middle" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-middle__216dp.png" alt="PageIndicator/Vertical six-pages-middle" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-middle__225dp.png" alt="PageIndicator/Vertical six-pages-middle" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__six-pages-middle__240dp.png" alt="PageIndicator/Vertical six-pages-middle" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>three-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__three-pages__192dp.png" alt="PageIndicator/Vertical three-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__three-pages__204dp.png" alt="PageIndicator/Vertical three-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__three-pages__216dp.png" alt="PageIndicator/Vertical three-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__three-pages__225dp.png" alt="PageIndicator/Vertical three-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__three-pages__240dp.png" alt="PageIndicator/Vertical three-pages" /><span>240dp</span></div></div></figure><figure class="state"><figcaption>two-pages</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__two-pages__192dp.png" alt="PageIndicator/Vertical two-pages" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__two-pages__204dp.png" alt="PageIndicator/Vertical two-pages" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__two-pages__216dp.png" alt="PageIndicator/Vertical two-pages" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__two-pages__225dp.png" alt="PageIndicator/Vertical two-pages" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-vertical/ideal__two-pages__240dp.png" alt="PageIndicator/Vertical two-pages" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-pageindicator-interactive" role="dialog" aria-label="PageIndicator/Interactive">
+  <a class="detail-scrim" href="#c-pageindicator-interactive" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-pageindicator-interactive" aria-label="Close">×</a>
+    <h3>PageIndicator/Interactive</h3>
+    <div class="detail-caption">Interactive page indicator: tapping Next animates the worm between adjacent pages inside the RemoteDocument.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/pageindicator-interactive/ideal__default__192dp.png" alt="PageIndicator/Interactive default" /><span>192dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-interactive/ideal__default__204dp.png" alt="PageIndicator/Interactive default" /><span>204dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-interactive/ideal__default__216dp.png" alt="PageIndicator/Interactive default" /><span>216dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-interactive/ideal__default__225dp.png" alt="PageIndicator/Interactive default" /><span>225dp</span></div><div class="state-shot"><img loading="lazy" src="images/pageindicator-interactive/ideal__default__240dp.png" alt="PageIndicator/Interactive default" /><span>240dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-icon" role="dialog" aria-label="Icon">
+  <a class="detail-scrim" href="#c-icon" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-icon" aria-label="Close">×</a>
+    <h3>Icon</h3>
+    <div class="detail-caption">The standalone RemoteIcon primitive.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/icon/ideal__default__compact.png" alt="Icon default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-text-body" role="dialog" aria-label="Text/Body">
+  <a class="detail-scrim" href="#c-text-body" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-text-body" aria-label="Close">×</a>
+    <h3>Text/Body</h3>
+    <div class="detail-caption">The Remote Material 3 text primitive, with the kit&#39;s alignment axis folded in.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/text-body/ideal__default__compact.png" alt="Text/Body default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>left-aligned</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/text-body/ideal__left-aligned__compact.png" alt="Text/Body left-aligned" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-text-maxlines-truncated" role="dialog" aria-label="Text/MaxLines-Truncated">
+  <a class="detail-scrim" href="#c-text-maxlines-truncated" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-text-maxlines-truncated" aria-label="Close">×</a>
+    <h3>Text/MaxLines-Truncated</h3>
+    <div class="detail-caption">maxLines=2 + ellipsis on a narrow column.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/text-maxlines-truncated/ideal__default__compact.png" alt="Text/MaxLines-Truncated default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-text-branded" role="dialog" aria-label="Text/Branded">
+  <a class="detail-scrim" href="#c-text-branded" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-text-branded" aria-label="Close">×</a>
+    <h3>Text/Branded</h3>
+    <div class="detail-caption">Text in a named font family (RemoteFontFamily.Named(&quot;google:Orbitron&quot;)) rather than a generic typeface — the google: namespace marks it a Google Fonts family, which the browser lane fetches and the snapshot renderer resolves from its vendored copy.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/text-branded/ideal__default__compact.png" alt="Text/Branded default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-typeface-specimen" role="dialog" aria-label="Typeface/Specimen">
+  <a class="detail-scrim" href="#c-typeface-specimen" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-typeface-specimen" aria-label="Close">×</a>
+    <h3>Typeface/Specimen</h3>
+    <div class="detail-caption">Four branded Google Fonts families, each drawing its own name — geometric, script, grotesk, monospace. A lane that cannot resolve a named family renders four identical-looking lines.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/typeface-specimen/ideal__default__compact.png" alt="Typeface/Specimen default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-typeface-variableweight" role="dialog" aria-label="Typeface/VariableWeight">
+  <a class="detail-scrim" href="#c-typeface-variableweight" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-typeface-variableweight" aria-label="Close">×</a>
+    <h3>Typeface/VariableWeight</h3>
+    <div class="detail-caption">One variable font (Roboto Flex) at wght 100/400/700/1000, written into the document as font-variation settings. A lane that resolves the family but drops the axes renders four lines in one weight.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/typeface-variableweight/ideal__default__compact.png" alt="Typeface/VariableWeight default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-typeface-variablewidth" role="dialog" aria-label="Typeface/VariableWidth">
+  <a class="detail-scrim" href="#c-typeface-variablewidth" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-typeface-variablewidth" aria-label="Close">×</a>
+    <h3>Typeface/VariableWidth</h3>
+    <div class="detail-caption">The same variable font at wdth 25/100/151 — the axis nothing can fake, since no text API asks for a narrower face. Either the set widths differ or the axes were dropped.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/typeface-variablewidth/ideal__default__compact.png" alt="Typeface/VariableWidth default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-typography" role="dialog" aria-label="Theme/Typography">
+  <a class="detail-scrim" href="#c-theme-typography" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-typography" aria-label="Close">×</a>
+    <h3>Theme/Typography</h3>
+    <div class="detail-caption">A type ramp read from RemoteMaterialTheme.typography.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-typography/ideal__default__compact.png" alt="Theme/Typography default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-colorscheme" role="dialog" aria-label="Theme/ColorScheme">
+  <a class="detail-scrim" href="#c-theme-colorscheme" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-colorscheme" aria-label="Close">×</a>
+    <h3>Theme/ColorScheme</h3>
+    <div class="detail-caption">Colour-scheme swatches read from RemoteMaterialTheme.colorScheme.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-colorscheme/ideal__default__compact.png" alt="Theme/ColorScheme default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-specimen-confettidefault" role="dialog" aria-label="Theme/Specimen-ConfettiDefault">
+  <a class="detail-scrim" href="#c-theme-specimen-confettidefault" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-specimen-confettidefault" aria-label="Close">×</a>
+    <h3>Theme/Specimen-ConfettiDefault</h3>
+    <div class="detail-caption">Confetti&#39;s stock theme: the unseeded Wear M3 palette over its ship pairing — Roboto Flex on title and numerals, Inter on body and label.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-specimen-confettidefault/ideal__default__compact.png" alt="Theme/Specimen-ConfettiDefault default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-specimen-kotlinconf" role="dialog" aria-label="Theme/Specimen-KotlinConf">
+  <a class="detail-scrim" href="#c-theme-specimen-kotlinconf" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-specimen-kotlinconf" aria-label="Close">×</a>
+    <h3>Theme/Specimen-KotlinConf</h3>
+    <div class="detail-caption">KotlinConf: JetBrains purple, with JetBrains Mono on title and numerals over an Inter body.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-specimen-kotlinconf/ideal__default__compact.png" alt="Theme/Specimen-KotlinConf default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-specimen-androidmakers" role="dialog" aria-label="Theme/Specimen-AndroidMakers">
+  <a class="detail-scrim" href="#c-theme-specimen-androidmakers" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-specimen-androidmakers" aria-label="Close">×</a>
+    <h3>Theme/Specimen-AndroidMakers</h3>
+    <div class="detail-caption">AndroidMakers: Parisian ochre over Confetti&#39;s ship pairing.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-specimen-androidmakers/ideal__default__compact.png" alt="Theme/Specimen-AndroidMakers default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-specimen-droidcon" role="dialog" aria-label="Theme/Specimen-Droidcon">
+  <a class="detail-scrim" href="#c-theme-specimen-droidcon" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-specimen-droidcon" aria-label="Close">×</a>
+    <h3>Theme/Specimen-Droidcon</h3>
+    <div class="detail-caption">Droidcon: the green at full saturation, over Confetti&#39;s ship pairing.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-specimen-droidcon/ideal__default__compact.png" alt="Theme/Specimen-Droidcon default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-specimen-devfest" role="dialog" aria-label="Theme/Specimen-DevFest">
+  <a class="detail-scrim" href="#c-theme-specimen-devfest" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-specimen-devfest" aria-label="Close">×</a>
+    <h3>Theme/Specimen-DevFest</h3>
+    <div class="detail-caption">DevFest: Google Blue with Google Sans Flex on every role — the one conference identity that swaps typography as well as colour.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-specimen-devfest/ideal__default__compact.png" alt="Theme/Specimen-DevFest default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-specimen-googlesansflex" role="dialog" aria-label="Theme/Specimen-GoogleSansFlex">
+  <a class="detail-scrim" href="#c-theme-specimen-googlesansflex" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-specimen-googlesansflex" aria-label="Close">×</a>
+    <h3>Theme/Specimen-GoogleSansFlex</h3>
+    <div class="detail-caption">The stock Wear M3 palette with its ramp re-pointed at Google Sans Flex. Palette-identical to the Confetti baseline on purpose: this pair differs in typeface alone.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-specimen-googlesansflex/ideal__default__compact.png" alt="Theme/Specimen-GoogleSansFlex default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-theme-systemthemeswatches" role="dialog" aria-label="Theme/SystemThemeSwatches">
+  <a class="detail-scrim" href="#c-theme-systemthemeswatches" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-theme-systemthemeswatches" aria-label="Close">×</a>
+    <h3>Theme/SystemThemeSwatches</h3>
+    <div class="detail-caption">System-theme swatches — the catalog&#39;s only document carrying ColorTheme operations, where a light and a dark colour live in the document and the player selects between them.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/theme-systemthemeswatches/ideal__default__compact.png" alt="Theme/SystemThemeSwatches default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-shader-lineargradient" role="dialog" aria-label="Shader/LinearGradient">
+  <a class="detail-scrim" href="#c-shader-lineargradient" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-shader-lineargradient" aria-label="Close">×</a>
+    <h3>Shader/LinearGradient</h3>
+    <div class="detail-caption">Document-level gradient shader fill; the middle stop is a named value the connector can recolour live. A remote-creation-compose primitive with no Wear Material 3 component peer.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/shader-lineargradient/ideal__default__compact.png" alt="Shader/LinearGradient default" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-widgetcontainer-small" role="dialog" aria-label="WidgetContainer/Small">
+  <a class="detail-scrim" href="#c-widgetcontainer-small" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-widgetcontainer-small" aria-label="Close">×</a>
+    <h3>WidgetContainer/Small</h3>
+    <div class="detail-caption">The Small (200×60dp) squircle widget container the Wear widget host draws around widget content — default surfaceContainerLow fill, 8dp padding, 26dp corners — rendered through the glance-wear WearWidgetPreview tooling wrapper.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/widgetcontainer-small/ideal__default__216dp.png" alt="WidgetContainer/Small default" /><span>216dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-widgetcontainer-large" role="dialog" aria-label="WidgetContainer/Large">
+  <a class="detail-scrim" href="#c-widgetcontainer-large" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-widgetcontainer-large" aria-label="Close">×</a>
+    <h3>WidgetContainer/Large</h3>
+    <div class="detail-caption">The Large (200×108dp) squircle widget container with the host&#39;s default background, carrying a title + supporting line.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/widgetcontainer-large/ideal__default__216dp.png" alt="WidgetContainer/Large default" /><span>216dp</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-widgetcontainer-gradientbackground" role="dialog" aria-label="WidgetContainer/GradientBackground">
+  <a class="detail-scrim" href="#c-widgetcontainer-gradientbackground" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-widgetcontainer-gradientbackground" aria-label="Close">×</a>
+    <h3>WidgetContainer/GradientBackground</h3>
+    <div class="detail-caption">A Small container whose widget declares its own WearWidgetBrush background (vertical gradient) — the corner clipping over the brush is the point.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/widgetcontainer-gradientbackground/ideal__default__216dp.png" alt="WidgetContainer/GradientBackground default" /><span>216dp</span></div></div></figure></div>
+  </div>
+</div>
+<script>
+// Crop each component's hero (and its zoom-view default capture) to the component's content bbox,
+// read from its figma-svg's root translate + viewBox. A wear sticker rendered on a 454² device
+// canvas then displays cropped to the component instead of floating in an empty frame. A no-op for
+// close-cropped renders (the bbox already fills the frame) and for components with no figma-svg.
+(function () {
+  function parseBox(svgText) {
+    var t = /translate\(\s*(-?\d+)\s*,\s*(-?\d+)\s*\)/.exec(svgText);
+    var v = /viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/.exec(svgText);
+    if (!v) return null;
+    return { tx: t ? +t[1] : 0, ty: t ? +t[2] : 0, vw: +v[1], vh: +v[2] };
+  }
+  function frame(shot, box, gutterEdges) {
+    var img = shot.querySelector("img");
+    if (!img) return;
+    function apply() {
+      var rw = img.naturalWidth || img.width, rh = img.naturalHeight || img.height;
+      if (!(rw > 0 && rh > 0)) return;
+      if (box.vw >= rw * 0.9 && box.vh >= rh * 0.9) {
+        // Already close-cropped as far as the vector can tell — but a declared gutter is margin the
+        // capture added, which no bbox of the drawn pixels can distinguish from the component.
+        if (gutterEdges) frameGutter(shot, gutterEdges);
+        return;
+      }
+      var cap = 240, scale = Math.min(1, cap / Math.max(box.vw, box.vh));
+      var dw = Math.max(1, Math.round(box.vw * scale));
+      shot.classList.add("shot--framed");
+      // A vector-framed shot on a GUTTERED render must not hide its overflow either: the box the
+      // vector describes is the component, and the pixels beyond it are that component's shadow.
+      if (gutterEdges) shot.classList.add("shot--bleed");
+      // Size the window by aspect-ratio at its natural (capped) width, with max-width:100% so it
+      // shrinks to a narrow grid card instead of overflowing it; frame the render in PERCENTAGES of
+      // the box so the whole thing scales as one. (A fixed-px window overflowed the card and clipped
+      // wide components.) Height stays auto — the img keeps the render's aspect.
+      var pct = function (n, d) { return +(n / d * 100).toFixed(4); };
+      shot.style.width = dw + "px";
+      shot.style.aspectRatio = box.vw + " / " + box.vh;
+      img.style.width = pct(rw, box.vw) + "%";
+      // (tx,ty) is negative for a centred component, so it shifts the render to bring the component's
+      // top-left to the clip origin; as a % of the box axis it scales with the shrunk window.
+      img.style.left = pct(box.tx, box.vw) + "%";
+      img.style.top = pct(box.ty, box.vh) + "%";
+    }
+    if (img.complete) apply();
+    else img.addEventListener("load", apply);
+  }
+  // A declared capture gutter needs no vector and no guard: the renderer recorded exactly how much
+  // transparent margin it added, so the box is a fact rather than an inference. Native pixels — the
+  // stylesheet caps how large a card draws, and scaling here would hand a guttered card a different
+  // display size from the plain one beside it, which is the difference being removed.
+  function frameGutter(shot, edges) {
+    var img = shot.querySelector("img");
+    if (!img) return;
+    function apply() {
+      var rw = img.naturalWidth || img.width, rh = img.naturalHeight || img.height;
+      if (!(rw > 0 && rh > 0)) return;
+      var boxW = rw - edges[0] - edges[2], boxH = rh - edges[1] - edges[3];
+      if (!(boxW > 0 && boxH > 0)) return;
+      // Capped on HEIGHT, which is the rule the stylesheet applies to a plain card image
+      // (max-height:240px, width follows) — a framed window carries an aspect-ratio, so the cap
+      // cannot come from CSS without squashing it. Capping the largest edge instead would shrink a
+      // wide-but-short component no plain sibling shrinks.
+      var scale = Math.min(1, 240 / boxH);
+      var bw = Math.max(1, Math.round(boxW * scale));
+      var bh = Math.max(1, Math.round(boxH * scale));
+      var iw = Math.round(rw * scale);
+      var offX = Math.round(edges[0] * scale), offY = Math.round(edges[1] * scale);
+      var pct = function (n, d) { return +(n / d * 100).toFixed(4); };
+      // "shot--bleed" keeps the overflow visible: what falls outside this box is the component's
+      // own shadow, which the gutter was captured to preserve. Hiding it would crop the shadow a
+      // second time, which is the bug the gutter fixed.
+      shot.classList.add("shot--framed");
+      shot.classList.add("shot--bleed");
+      shot.style.width = bw + "px";
+      shot.style.aspectRatio = bw + " / " + bh;
+      img.style.width = pct(iw, bw) + "%";
+      img.style.left = pct(-offX, bw) + "%";
+      img.style.top = pct(-offY, bh) + "%";
+    }
+    if (img.complete) apply();
+    else img.addEventListener("load", apply);
+  }
+  document.querySelectorAll(".card").forEach(function (card) {
+    var hero = card.querySelector("a.shot");
+    if (!hero) return;
+    var declared = hero.getAttribute("data-gutter");
+    var edges = declared
+      ? declared.split(",").map(function (v) { return Math.max(0, parseInt(v, 10) || 0); })
+      : null;
+    var link = card.querySelector('a.figma-svg-link');
+    if (!link) {
+      if (edges) frameGutter(hero, edges);
+      return;
+    }
+    // Fetch the vector only once the card is actually near the viewport.
+    //
+    // A deferred catalog publishes no static vector: the href is an absolute live-render URL and
+    // the daemon generates the SVG per request, from a small pool of live seats. Fetching every
+    // card's on load would start a render for the whole catalog the instant the gallery opens —
+    // thousands, on the large catalogs deferral exists for — spending the seats on bounding boxes
+    // and answering the visitors who actually asked for a vector with 503s.
+    //
+    // Deferring the same fetch to visibility fixes that without giving up the crop: the vector is
+    // the only source of the content box for a card with no declared gutter (an ordinary 454x454
+    // Wear canvas, say), so skipping it outright would leave those heroes uncropped in the full
+    // device canvas. Only what someone looks at is rendered, at the pace they scroll.
+    var pending = function () {
+      fetch(link.getAttribute("href"))
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (txt) {
+          // The vector wins where it applies — it answers the tighter question of where the
+          // component sits on a canvas it was drawn on — and the gutter answers when it does not.
+          var box = txt ? parseBox(txt) : null;
+          if (box) frame(hero, box, edges);
+          else if (edges) frameGutter(hero, edges);
+        })
+        .catch(function () { if (edges) frameGutter(hero, edges); });
+    };
+    if (typeof IntersectionObserver !== "function") {
+      pending();
+      return;
+    }
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        observer.unobserve(entry.target);
+        pending();
+      });
+    }, { rootMargin: "400px" });
+    observer.observe(card);
+  });
+})();
+</script>
+</body>
+</html>
