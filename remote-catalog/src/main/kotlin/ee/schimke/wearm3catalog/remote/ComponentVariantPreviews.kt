@@ -26,7 +26,6 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteHorizontalPageIndicator
-import androidx.wear.compose.remote.material3.RemoteIconButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemotePageIndicatorState
 import androidx.wear.compose.remote.material3.RemoteText
@@ -258,14 +257,7 @@ fun ImageBackgroundRemoteButton() = RemoteSticker {
 @CatalogRemoteModes
 @RemoteContainedIconButtonKitCells
 @Composable
-fun FilledRemoteIconButton() = RemoteSticker {
-  RemoteKitIconButton(
-    RemoteIconButtonDefaults.iconButtonColors(
-      containerColor = RemoteMaterialTheme.colorScheme.primary,
-      contentColor = RemoteMaterialTheme.colorScheme.onPrimary,
-    )
-  )
-}
+fun FilledRemoteIconButton() = RemoteSticker { RemoteKitIconButton(remoteFilledIconButtonColors()) }
 
 @CatalogComponent(
   id = "IconButton/FilledVariant",
@@ -279,12 +271,7 @@ fun FilledRemoteIconButton() = RemoteSticker {
 @RemoteContainedIconButtonKitCells
 @Composable
 fun FilledVariantRemoteIconButton() = RemoteSticker {
-  RemoteKitIconButton(
-    RemoteIconButtonDefaults.iconButtonColors(
-      containerColor = RemoteMaterialTheme.colorScheme.primaryContainer,
-      contentColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
-    )
-  )
+  RemoteKitIconButton(remoteFilledVariantIconButtonColors())
 }
 
 @CatalogComponent(
@@ -299,14 +286,7 @@ fun FilledVariantRemoteIconButton() = RemoteSticker {
 @RemoteContainedIconButtonKitCells
 @Composable
 fun TonalRemoteIconButton() = RemoteSticker {
-  // `surfaceContainer` / `onSurface`, the tokens Wear's `filledTonalIconButtonColors()` resolves
-  // to on this platform — the same call `Button/Tonal` above makes for the same reason.
-  RemoteKitIconButton(
-    RemoteIconButtonDefaults.iconButtonColors(
-      containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
-      contentColor = RemoteMaterialTheme.colorScheme.onSurface,
-    )
-  )
+  RemoteKitIconButton(remoteFilledTonalIconButtonColors())
 }
 
 @CatalogComponent(
@@ -331,8 +311,7 @@ fun TonalRemoteIconButton() = RemoteSticker {
 @Composable
 fun OutlinedRemoteIconButton() = RemoteSticker {
   RemoteKitIconButton(
-    colors =
-      RemoteIconButtonDefaults.iconButtonColors(containerColor = RemoteColor(Color.Transparent)),
+    colors = remoteOutlinedIconButtonColors(),
     border = 2.rdp,
     borderColor = RemoteMaterialTheme.colorScheme.outline,
   )

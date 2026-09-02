@@ -33,6 +33,36 @@ import org.junit.Test
 class StickerBakeCoverageTest {
 
   /**
+   * Blanks that only exist on the SNAPSHOT lane, because the component that bakes them only exists
+   * there — see `src/snapshot/kotlin/…/SelectionPreviews.kt`.
+   *
+   * `RemoteCheckboxButton` arrived after 1.0.0-alpha10, so `CheckboxRowRemote` is the first
+   * selection row this sheet has ever drawn. Three of its four cells bake something; the fourth,
+   * unchecked AND disabled, bakes fully transparent. Both halves are needed to reach it —
+   * `unselected` (unchecked, enabled) is a whole row, and `disabled` (checked, disabled) still
+   * draws its checkmark — so it is the crossing rather than either knob.
+   *
+   * `disabled` is worth looking at beside it: it keeps the checkmark and loses the container and
+   * both labels, which is the same shape of gap one component over
+   * ([#91](https://github.com/yschimke/wear-m3-catalog/issues/91)) and not something this sheet can
+   * reach from the call site. It is not listed here because it is not blank, and this test only
+   * owns the blanks.
+   *
+   * Published rather than withdrawn, for the reason the KDoc above gives: the kit publishes this
+   * cell, and a sheet that quietly skips it reads as a sheet nobody got to. The entry is scoped to
+   * the lane because on the released alphas there is no render here at all, and `every known-blank
+   * sticker is still blank` fails a `knownBlank` key that names no render — correctly, since a
+   * stale exemption hides a blank.
+   */
+  private val SNAPSHOT_LANE_BLANKS =
+    mapOf(
+      "CheckboxRowRemote_VARIANT_unselected-disabled" to
+        "RemoteCheckboxButton(checked = false, enabled = false) draws nothing at all — not the " +
+          "container, not either label, not the checkbox. Either knob alone renders; only the " +
+          "crossing is blank"
+    )
+
+  /**
    * One reason, twelve cells: the whole `Disabled=Yes` column of the kit's `Text-Button` set, none
    * of which `remote-material3` draws anything for.
    */
@@ -109,7 +139,7 @@ class StickerBakeCoverageTest {
       "TextRemoteButton_VARIANT_child-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
       "TextRemoteButton_VARIANT_child-small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
       "TextRemoteButton_VARIANT_child-large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-    )
+    ) + if (onSnapshotLane) SNAPSHOT_LANE_BLANKS else emptyMap()
 
   /**
    * `<stem>_VARIANT_<cell>`, the identity a [knownBlank] entry names, or null for a base render.
