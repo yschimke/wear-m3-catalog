@@ -42,6 +42,13 @@ repo's favourite kind of finding: `RemoteCheckboxButton` and `RemoteSplitCheckbo
 same two knobs, one drawing its disabled states and one not. Frames are composited onto the sheet's `#141418` for the reason the
 paragraph above gives; no pixel of any render is otherwise touched.
 
+`remote-m3-card-background-image.png` is the `Title Card` set's `Style=Background Image` column as
+the snapshot lane draws it: the tonal base beside the three image-backed cells. It documents a
+BREAK — the container renders near-black with no image in it, where the placeholder is `#ECECEC` —
+and the `Title Card 2` cell additionally clips its subtitle, because the painter overload defaults
+to a larger content padding than the plain card's. Both are the library's, both are published rather
+than withheld, and the picture is what makes that legible without running the sheet.
+
 `remote-m3-*-break.png` are the **known-broken baselines** `remote-snapshot-probe.py` compares each
 tracked issue's weekly capture against; byte-identical means "still broken" with certainty. Refresh
 one only when THIS repo moved the sticker and the symptom is verified unchanged — never to quiet a
