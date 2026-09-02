@@ -35,8 +35,18 @@ jobs:
       # spec-driven rather than annotation-driven, so discovery is not yet the whole contract there
       # — but it is what proves every `@Preview` the spec names still exists and still compiles
       # against the alpha Remote Compose line, which is the half that moves under this repo.
+      #
+      # `-PremoteSnapshot=` — an EMPTY property — forces the RELEASED lane. It is load-bearing:
+      # `.github/ci/remote-snapshot-pin` turns the snapshot lane on by default for every Gradle
+      # invocation (see AGENTS.md -> Dependencies), and the records checked below (`design-map.json`,
+      # `kit-cells.json`, `docs/KIT_COVERAGE.md`) are committed and describe the released line. Let
+      # the default through and this manifest holds snapshot-only components, both `--check`s report
+      # stale against a sheet nobody committed, and regenerating at that point would commit those
+      # components into a record CI validates on the released lane.
       - name: Discover previews
-        run: ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover --stacktrace
+        run: >-
+          ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
+          -PremoteSnapshot= --stacktrace
 
       # design-map.json is an OUTPUT — projected from the annotations that were just discovered —
       # and it is committed, so it can go stale the moment a component is added or a reference is

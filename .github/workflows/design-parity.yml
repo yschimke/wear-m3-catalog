@@ -215,18 +215,19 @@ jobs:
       # HOW, and why not `scripts/remote-snapshot-probe.py apply`. The probe's overlay rewrites the
       # checkout's `libs.versions.toml` and adds its own repository block, and it also injects a
       # four-density sweep that would quadruple every render on this board. None of that is needed
-      # now: `settings.gradle.kts` and `remote-catalog/build.gradle.kts` carry the opt-in lane
-      # (AGENTS.md -> Dependencies), so the whole switch is the property that lane reads. It goes
-      # into `gradle.properties` rather than onto a command line because the reusable workflow runs
-      # its own render step that this file cannot pass arguments to, and a project property in
-      # `gradle.properties` reaches every Gradle invocation in the job — including that one.
+      # now: `settings.gradle.kts` and `remote-catalog/build.gradle.kts` read
+      # `.github/ci/remote-snapshot-pin` themselves (AGENTS.md -> Dependencies), so the whole switch
+      # is that one file and every Gradle invocation in the job is on the lane it names — including
+      # the reusable workflow's own render step, which this file cannot pass arguments to and which
+      # runs BEFORE `design-map-command`. `test -s` is the fail-closed guard: an empty pin is the
+      # released lane everywhere, so without it this board could be built from a different lane than
+      # the sheet beside it.
       #
       # Glance Wear is NOT snapshotted (see remote-catalog/build.gradle.kts): its
       # `WearWidgetPreview` is binary-incompatible with the pre-compiled wrapper the widget
       # stickers render through, and holding it back is what keeps all three of them drawing.
       design-map-command: >
         test -s .github/ci/remote-snapshot-pin &&
-        echo "remoteSnapshot=$(cat .github/ci/remote-snapshot-pin)" >> gradle.properties &&
         ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
         scripts/design-map.sh remote-catalog
 

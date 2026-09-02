@@ -36,8 +36,23 @@ composePreview {
 }
 
 // Read once, above the two places that consume it, so the lane cannot half-apply.
+//
+// Same resolution order as `settings.gradle.kts`, and it has to stay the same: the repository is
+// added there and the version substituted here, so a lane that resolved differently in the two
+// files would add the repository without selecting from it, or the reverse. See the comment there
+// for why the pin FILE and not just the property.
 val remoteSnapshotBuild: String?
-  get() = providers.gradleProperty("remoteSnapshot").orNull?.takeIf { it.isNotBlank() }
+  get() {
+    // A PRESENT property wins outright, blank included — see the note in `settings.gradle.kts`.
+    val property = providers.gradleProperty("remoteSnapshot").orNull
+    if (property != null) return property.takeIf { it.isNotBlank() }
+    return rootProject
+      .file(".github/ci/remote-snapshot-pin")
+      .takeIf { it.isFile }
+      ?.readText()
+      ?.trim()
+      ?.takeIf { it.isNotBlank() }
+  }
 
 android {
   namespace = "ee.schimke.wearm3catalog.remote"

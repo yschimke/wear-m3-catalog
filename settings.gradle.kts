@@ -11,10 +11,20 @@ dependencyResolutionManagement {
     mavenCentral()
     google()
 
-    // ── The androidx.dev snapshot lane, OPT-IN and GROUP-FENCED ───────────────────────────────
-    // Off unless `-PremoteSnapshot=<androidx.dev build id>` (or `latest`) is passed, so the
-    // committed build still resolves the released alphas `gradle/libs.versions.toml` pins and no
-    // unreleased artifact reaches `main` — the skew AGENTS.md forbids.
+    // ── The androidx.dev snapshot lane, PINNED IN-TREE and GROUP-FENCED ───────────────────────
+    // Selected by `.github/ci/remote-snapshot-pin` — one line, an androidx.dev build id or
+    // `latest` — with `-PremoteSnapshot=<id>` as a per-invocation override and an empty or absent
+    // pin file meaning the released line.
+    //
+    // IT READS THE FILE rather than requiring the property because a Gradle property is not
+    // reachable from where it has to be. `design-artifacts.yml` renders this catalog through a
+    // reusable workflow it cannot pass arguments to, and the one hook it does have —
+    // `design-map-command` — is documented as running "before every step that READS the map",
+    // which is after the render, not before it. Appending `remoteSnapshot=` to `gradle.properties`
+    // there therefore reached the design map and not the stickers: run #164 rendered 392 previews
+    // on the released lane at 20:00:40 and projected a 419-preview map at 20:07:49, so the eleven
+    // snapshot-only cells were declared with no sticker behind them and every job stayed green.
+    // A file the checkout already carries is reachable from every invocation, including that one.
     //
     // The `content` filter is what makes the lane SAFE rather than merely off by default. A
     // settings-level repository is visible to every project, so scoping matters twice over: this
@@ -28,8 +38,21 @@ dependencyResolutionManagement {
     // it lives in `remote-catalog/build.gradle.kts` as a resolution strategy on that module's own
     // configurations, which is a second, independent fence: even if a coordinate did become
     // shared, `:catalog` would keep resolving the pinned alpha.
+    // A PRESENT property wins outright, blank included — `-PremoteSnapshot=` is how you force the
+    // released lane for one invocation now that the pin file is on by default, and it can only mean
+    // that if a blank property is distinguished from an absent one before the file is consulted.
+    val remoteSnapshotProperty = providers.gradleProperty("remoteSnapshot").orNull
     val remoteSnapshot =
-      providers.gradleProperty("remoteSnapshot").orNull?.takeIf { it.isNotBlank() }
+      if (remoteSnapshotProperty != null) {
+        remoteSnapshotProperty.takeIf { it.isNotBlank() }
+      } else {
+        rootDir
+          .resolve(".github/ci/remote-snapshot-pin")
+          .takeIf { it.isFile }
+          ?.readText()
+          ?.trim()
+          ?.takeIf { it.isNotBlank() }
+      }
     if (remoteSnapshot != null) {
       val path = if (remoteSnapshot == "latest") "latest" else "builds/$remoteSnapshot"
       maven("https://androidx.dev/snapshots/$path/artifacts/repository") {
