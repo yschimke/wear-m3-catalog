@@ -616,6 +616,21 @@ placeholder's "3 distinct frames in 46" turned out to be.
   on `wearm3.remoteLane` because those lists are claims about a library that the lane changes.
   This is the by-hand tool; `remote-snapshot-probe.yml` is still the weekly watch, and the two are
   independent — the probe's overlay rewrites the checkout, this does not.
+- **Re-discover on the released lane before regenerating any committed record.** `design-map.json`,
+  `kit-cells.json` and `docs/KIT_COVERAGE.md` are projected from `build/compose-previews/
+  previews.json`, and a snapshot-lane run leaves that manifest holding components `main` does not
+  have. `scripts/kit-cells.sh --check` then reports stale against a sheet nobody committed — and
+  regenerating at that point would commit a snapshot-only component into a record CI validates on
+  the released lane. `./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover`
+  with no `-PremoteSnapshot` puts it back.
+- **A component this catalog is WAITING FOR is tracked by SYMBOL, in `AWAITED_API`** (`scripts/
+  remote-snapshot-probe.py`). Each entry names the class the library would have to publish, what
+  drawing it would unlock, and a link to the upstream change for a human to read. The probe reads
+  the class list out of the `remote-material3` AAR it was already downloading to fingerprint, and
+  reports the week a watched symbol appears. Watch the SYMBOL, never the change: a merged change is
+  not a published artifact (`RemoteSplitCheckboxButton` merged at 15:58 and reached a snapshot build
+  at 17:18), and android-review is not a host this repo otherwise talks to. Retire an entry the week
+  it lands — a watch that reports "present" every week is the same silence-by-noise `PROBES` avoids.
 - **Glance Wear is held at its release even on the snapshot lane**, behind a second opt-in
   (`-PremoteSnapshotGlance=true`). `glance-wear:wear-tooling-preview`'s `WearWidgetPreview` gained a
   `boolean` parameter after alpha17 — binary-incompatible, and this module's sources recompile

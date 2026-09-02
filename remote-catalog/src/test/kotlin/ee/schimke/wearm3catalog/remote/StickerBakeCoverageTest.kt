@@ -37,10 +37,16 @@ class StickerBakeCoverageTest {
    * there — see `src/snapshot/kotlin/…/SelectionPreviews.kt`.
    *
    * `RemoteCheckboxButton` arrived after 1.0.0-alpha10, so `CheckboxRowRemote` is the first
-   * selection row this sheet has ever drawn. Three of its four cells bake something; the fourth,
-   * unchecked AND disabled, bakes fully transparent. Both halves are needed to reach it —
-   * `unselected` (unchecked, enabled) is a whole row, and `disabled` (checked, disabled) still
-   * draws its checkmark — so it is the crossing rather than either knob.
+   * selection row this sheet has ever drawn. Seven of its eight cells bake something; the eighth —
+   * unchecked AND disabled AND not split — bakes fully transparent. Both state halves are needed to
+   * reach it: `unselected` (unchecked, enabled) is a whole row, and `disabled` (checked, disabled)
+   * still draws its checkmark, so it is the crossing rather than either knob.
+   *
+   * THE SPLIT CELLS ARE WHAT MAKE THIS A LIBRARY BUG RATHER THAN A SUSPICION.
+   * `RemoteSplitCheckboxButton(checked = false, enabled = false)` — the same two knobs, the same
+   * kit set, one function over — draws its containers and its checkbox perfectly well. So the blank
+   * is specific to the plain row's disabled path rather than to anything this sticker asks for, and
+   * there is no argument from this call site that would change it.
    *
    * `disabled` is worth looking at beside it: it keeps the checkmark and loses the container and
    * both labels, which is the same shape of gap one component over
