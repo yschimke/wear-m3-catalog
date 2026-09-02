@@ -139,19 +139,22 @@ jobs:
       # for Android, so this renders through Robolectric (the SDK is preinstalled on
       # ubuntu-latest) rather than Skiko under xvfb.
       desktop-render: false
-      # Carry the executable bundle and split it per preview, so a serve host running the Android
-      # daemon can re-render any sticker on demand instead of only replaying baked PNGs. `full`
-      # keeps each per-preview bundle's own re-render classpath — the same shape the `wear-m3`
-      # catalog in compose-ai-tools publishes.
+      # Carry one executable bundle for the module, so a serve host running the Android daemon can
+      # re-render any sticker on demand instead of only replaying baked PNGs.
       publish-live-bundle: true
-      split-per-preview: true
-      # Shared classpath rather than a self-contained bundle per preview:
-      # `classes/app.jar` is published once into `bundle/res` and each split manifest
-      # carries a hash-verified `externalClasspath`, so the live re-render lane is
-      # intact while the delivery branch stops carrying the same jar N times (a
-      # `full` split grows with the preview count on every publish — see
-      # yschimke/compose-ai-tools#4211).
-      split-mode: full-shared-classpath
+      # Pure editable SVGs are a daemon data product too: keep them transient through catalog
+      # generation and cover cropping, then produce and cache them on request. Raster-backed hybrid
+      # SVGs stay static so their crop references remain self-contained.
+      defer-figma-svg: true
+      # No per-preview split. Pooling the classpath (`full-shared-classpath`) stopped the delivery
+      # branch carrying `app.jar` once per preview (yschimke/compose-ai-tools#4211), but the split
+      # itself still writes an addressable copy of every preview under bundle/previews on each
+      # publish, and any catalog change rewrites all of them onto an append-only branch — which is
+      # how this repository reached a ~3.9 GiB checkout. The module bundle above is what the trusted
+      # serve host hydrates, so the live re-render lane survives without it; `split-mode` is dropped
+      # with the split, which is the only thing it modifies.
+      # Same treatment as the sibling callers (yschimke/meshcore-mobile#461).
+      split-per-preview: false
       commit-user-name: Yuri Schimke
       commit-user-email: yuri@schimke.ee
       timeout-minutes: 60
@@ -243,13 +246,14 @@ jobs:
       # An ANDROID module: every sticker is a RemoteDocument rasterised by the player under
       # Robolectric, so this renders on the same lane the Wear catalog does rather than Skiko.
       desktop-render: false
-      # A live bundle with a SHARED classpath, so a serve host carrying the Android sidecar can
-      # re-render any sticker on demand — which is what makes the viewer's Remote Compose knobs
-      # (`rc.<name>=`) do something — without the delivery branch carrying `app.jar` once per
-      # preview.
+      # A module-level live bundle, so a serve host carrying the Android sidecar can re-render any
+      # sticker on demand — which is what makes the viewer's Remote Compose knobs (`rc.<name>=`) do
+      # something. No per-preview split: it multiplied the delivery branch by the preview count on
+      # every publish without adding a lane the serve host actually uses, and `split-mode` only
+      # modifies the split. See the note on the caller above.
       publish-live-bundle: true
-      split-per-preview: true
-      split-mode: full-shared-classpath
+      defer-figma-svg: true
+      split-per-preview: false
       # The CMP/Wasm player lane: the same browser environment visitors use, scoring every document
       # this sheet publishes. It is a GATE, not enrichment — a document it cannot draw fails the
       # render rather than dropping a column — which is why it carries an expiring allowlist rather
