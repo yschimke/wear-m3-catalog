@@ -57,6 +57,37 @@ class RemoteRenderTest {
   }
 
   /**
+   * The three contained icon-button styles, and the one entry the SNAPSHOT lane does not need.
+   *
+   * On the released alphas a disabled contained icon button draws no container: `iconButtonColors`
+   * hard-defaults `disabledContainerColor` to transparent rather than deriving it, so the whole
+   * disabled cell is a 38%-alpha glyph and nothing else — and `iconSizeFor` resolves
+   * `ExtraSmallButtonSize` and `SmallButtonSize` to the same glyph size, leaving one picture where
+   * the kit publishes two.
+   *
+   * The snapshot line publishes `filledIconButtonColors()`, `filledVariantIconButtonColors()` and
+   * `filledTonalIconButtonColors()`, which derive that container as `onSurface` at 12% — see
+   * `src/snapshot/kotlin/…/RemoteIconButtonPalette.kt`. The container is then drawn at the button's
+   * real size, so the two cells are two pictures again and the collapse is gone. Hence the branch:
+   * this is not an exemption being quieted, it is a library gap that one of the two lanes has.
+   *
+   * `outlined` is absent from both lanes and always was — that sticker draws its own border through
+   * `border`, so its disabled cells never collapsed.
+   */
+  private val CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED: Map<String, String> =
+    mapOf(
+      "FilledRemoteIconButton" to
+        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
+          "leave one frame",
+      "FilledVariantRemoteIconButton" to
+        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
+          "leave one frame",
+      "TonalRemoteIconButton" to
+        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
+          "leave one frame",
+    )
+
+  /**
    * The pairs that are **expected** to render identically, each one a state the LIBRARY collapses
    * rather than a cell that varies nothing — the duplicate twin of
    * [StickerBakeCoverageTest.knownBlank], and added for the same reason.
@@ -98,16 +129,7 @@ class RemoteRenderTest {
         "the CHILD style draws no container, so iconSizeFor resolves ExtraSmallButtonSize and " +
           "SmallButtonSize to the same glyph and there is nothing else in the frame — enabled as " +
           "well as disabled, unlike the four contained styles below",
-      "FilledRemoteIconButton" to
-        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
-          "leave one frame",
-      "FilledVariantRemoteIconButton" to
-        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
-          "leave one frame",
-      "TonalRemoteIconButton" to
-        "a disabled RemoteIconButton loses its glyph, so ExtraSmallButtonSize and SmallButtonSize " +
-          "leave one frame",
-    )
+    ) + if (onSnapshotLane) emptyMap() else CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED
 
   /**
    * Deliberately compares only renders of the SAME component. Two different components may

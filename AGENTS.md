@@ -604,6 +604,25 @@ placeholder's "3 distinct frames in 46" turned out to be.
   changes. It never touches `main`: the overlay that repoints the Remote trio at a snapshot is
   applied to the runner's checkout and thrown away, because a committed snapshot pin is exactly the
   skew the top of this file forbids. State lives on `snapshot-probe/remote-m3`.
+- **The snapshot LANE is how you look at unreleased Remote code by hand.** `-PremoteSnapshot=<androidx.dev
+  build id>` (or `latest`) repoints `:remote-catalog` — and only it — at an androidx.dev snapshot:
+  `settings.gradle.kts` adds the repository behind a `content` filter that admits the Remote groups
+  and nothing else, and `remote-catalog/build.gradle.kts` applies the `1.0.0-SNAPSHOT` substitution
+  to that module's own configurations. Two independent fences, and `:catalog` is outside both — its
+  `debugCompileClasspath` is byte-identical with and without the flag, because it depends on none of
+  those groups. Nothing is committed at a snapshot version; the flag is off by default.
+  `src/released/kotlin` and `src/snapshot/kotlin` are the lanes' source sets, exactly one on the
+  path at a time, and the tests that record library behaviour (`knownDuplicate`, `knownBlank`) branch
+  on `wearm3.remoteLane` because those lists are claims about a library that the lane changes.
+  This is the by-hand tool; `remote-snapshot-probe.yml` is still the weekly watch, and the two are
+  independent — the probe's overlay rewrites the checkout, this does not.
+- **Glance Wear is held at its release even on the snapshot lane**, behind a second opt-in
+  (`-PremoteSnapshotGlance=true`). `glance-wear:wear-tooling-preview`'s `WearWidgetPreview` gained a
+  `boolean` parameter after alpha17 — binary-incompatible, and this module's sources recompile
+  against it fine. What does not is `ee.schimke.composeai:wear-preview-runtime`, whose
+  `CapturingWearWidgetPreview` is a pre-compiled call to the old signature, so the three widget-container
+  stickers die at RENDER time with `NoSuchMethodError` while the build stays green. Compiling is not
+  the check; rendering is.
 - Repository settings — squash-only merges, auto-merge, and the `Protect Main` ruleset — are applied
   by `scripts/setup-repo-protection.sh`. They need an admin token, so no workflow (and no agent
   session) can set them; the script is the record of what they are meant to be, and re-running it

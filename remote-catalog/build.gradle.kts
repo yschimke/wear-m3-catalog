@@ -35,6 +35,10 @@ composePreview {
   renderBeforeUnitTests.set(true)
 }
 
+// Read once, above the two places that consume it, so the lane cannot half-apply.
+val remoteSnapshotBuild: String?
+  get() = providers.gradleProperty("remoteSnapshot").orNull?.takeIf { it.isNotBlank() }
+
 android {
   namespace = "ee.schimke.wearm3catalog.remote"
   // compose-remote alpha08+ / wear-compose-remote alpha02+ raise the AAR minCompileSdk to 37.
@@ -63,7 +67,85 @@ android {
   // `RestrictedApi` separately. Mirror what AndroidX's own samples do and disable it here.
   lint { disable += "RestrictedApi" }
 
-  testOptions { unitTests { isIncludeAndroidResources = true } }
+  testOptions {
+    unitTests {
+      isIncludeAndroidResources = true
+
+      // WHICH LANE THE FIXTURES ARE READING. `RemoteRenderTest.knownDuplicate` and
+      // `StickerBakeCoverageTest.knownBlank` record what the LIBRARY collapses or refuses to draw,
+      // and both assert in the other direction too — an entry that no longer holds is a failure,
+      // because a gap closing in silence is the thing they exist to prevent. That is exactly
+      // right, and it means the lists are lane-dependent the moment a lane changes the library.
+      // Handing the tests the lane lets one list say "on the released alphas" and another "on the
+      // snapshot", instead of one list that is wrong on whichever lane is not running.
+      all {
+        it.systemProperty(
+          "wearm3.remoteLane",
+          if (remoteSnapshotBuild != null) "snapshot" else "released",
+        )
+      }
+    }
+  }
+
+  // ── The snapshot lane's second fence, and the source set it unlocks ─────────────────────────
+  // `settings.gradle.kts` adds the androidx.dev repository under `-PremoteSnapshot=<build id>`;
+  // this is what makes the module ASK it for anything. Both halves are needed and neither is
+  // sufficient alone, which is the point: the repository can only answer for the Remote groups, and
+  // the substitution below can only be applied to THIS module's configurations. `:catalog` is
+  // outside both, so no ordering of the two can move it off the pinned alphas.
+  //
+  // Every snapshot build publishes the same version string, `1.0.0-SNAPSHOT`, so the build id
+  // only picks the repository URL — see the `--refresh-dependencies` note in
+  // `.github/workflows/remote-snapshot-probe.yml` for why that matters when re-pointing.
+  //
+  // `src/released` and `src/snapshot` are the two LANES, and exactly one is ever on the source
+  // path. They are not "main plus extras": each holds the code that only compiles against its own
+  // artifact line, and where both lanes need a declaration they carry it under the SAME name with
+  // different bodies (`RemoteIconButtonPalette.kt`), so the pair reads as a diff rather than as a
+  // fork. A sticker that exists in only one lane — the selection rows, whose composable the
+  // released alphas do not publish — simply has no counterpart file.
+  sourceSets
+    .getByName("main")
+    .kotlin
+    .directories
+    .add(if (remoteSnapshotBuild != null) "src/snapshot/kotlin" else "src/released/kotlin")
+}
+
+// GLANCE WEAR IS HELD BACK BY DEFAULT, and this is the one thing the lane learned the hard way.
+//
+// AGENTS.md says the Remote trio moves together, and for `androidx.compose.remote` and
+// `androidx.wear.compose.remote` that still holds — they are one build and a skewed pair fails
+// inside the player. Glance Wear turned out to be separable, and has to be:
+// `glance-wear:wear-tooling-preview`'s `WearWidgetPreview` gained a `boolean` parameter after
+// alpha17, which is BINARY-incompatible. This module's own sources recompile against it happily;
+// what does not is `ee.schimke.composeai:wear-preview-runtime`, whose `CapturingWearWidgetPreview`
+// is a PRE-COMPILED call to the old signature. The three `WidgetContainerPreviews.kt` stickers
+// therefore compile clean and then die at RENDER time with
+// `NoSuchMethodError: WearWidgetPreviewKt.WearWidgetPreview(…)` — the failure mode a compile check
+// cannot catch, and the reason this lane is measured by rendering rather than by building.
+//
+// Holding Glance at its release while the two Remote groups move is not a skew in practice: all
+// 412 previews render that way, including the widget containers. `-PremoteSnapshotGlance=true`
+// moves it too, for when the wrapper catches up or the question is Glance itself; expect those
+// three stickers to fail until it does.
+val remoteSnapshotGlance: Boolean
+  get() = providers.gradleProperty("remoteSnapshotGlance").orNull == "true"
+
+if (remoteSnapshotBuild != null) {
+  configurations.configureEach {
+    resolutionStrategy.eachDependency {
+      // Written against the GROUPS, not the handful of coordinates this module names: a transitive
+      // arriving from an upstream POM at the released version would be exactly the skew above.
+      val group = requested.group
+      if (
+        group.startsWith("androidx.compose.remote") ||
+          group.startsWith("androidx.wear.compose.remote") ||
+          (remoteSnapshotGlance && group.startsWith("androidx.glance.wear"))
+      ) {
+        useVersion("1.0.0-SNAPSHOT")
+      }
+    }
+  }
 }
 
 dependencies {
