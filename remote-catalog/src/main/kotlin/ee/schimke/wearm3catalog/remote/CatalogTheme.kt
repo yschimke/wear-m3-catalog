@@ -108,6 +108,18 @@ internal val RemoteCatalogTypography =
 val KitRowWidth = 172.rdp
 
 /**
+ * The width the kit measures a **display-edge** component against: 192dp, the base round display
+ * its cells are drawn on. [KitRowWidth] one step out — the display rather than the content column.
+ *
+ * Reach for this where the component's shape is a function of the width it is given rather than of
+ * its content. The edge button is the case that earned it: it is an arc struck across the display,
+ * so on the 227dp component frame the curve flattens and the row compares a shallower button
+ * against the kit's 192dp cell. A button that merely sits in too much space would not need this —
+ * `RemoteModifier.width` here is about the SHAPE, not the framing.
+ */
+val KitDisplayWidth = 192.rdp
+
+/**
  * The catalog's Remote Compose **component** multipreview. A single 227×100 capture. Remote Compose
  * has no light/dark theme split of its own — the document carries explicit colours — so this is the
  * one primary mode. Those colours come from `RemoteMaterialTheme`, the dark-first Wear Compose

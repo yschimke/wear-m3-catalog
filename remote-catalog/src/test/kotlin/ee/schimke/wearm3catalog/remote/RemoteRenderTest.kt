@@ -74,6 +74,31 @@ class RemoteRenderTest {
    * `outlined` is absent from both lanes and always was — that sticker draws its own border through
    * `border`, so its disabled cells never collapsed.
    */
+  /**
+   * The SNAPSHOT lane's own collapse, and the only component that has one: `EdgeButton`, which is
+   * published on that lane alone (`src/snapshot/kotlin/…/EdgeButtonPreviews.kt`) and so cannot be
+   * named unconditionally — a `knownDuplicate` key that matches no component fails the staleness
+   * assertion below, correctly.
+   *
+   * `RemoteEdgeButtonDefaults` resolves all THREE filled styles' disabled colours to the same pair,
+   * so `filled`, `filled-variant` and `tonal` are one picture once `enabled = false` however they
+   * are called: 24 renders across the eight `Size`×`Type` crossings collapse to eight. The style
+   * knob is demonstrably wired — the four ENABLED styles are four distinct pictures, and
+   * `outlined-disabled` is a fifth because that sticker draws its own border through `border`
+   * rather than through the colours. It is the disabled pair alone that the library collapses.
+   *
+   * This is the same finding the Wear sibling records for the same set (`CatalogRenderTest`, whose
+   * note explains that Wear resolves all three to `onSurface` at 12%/38%), which is what makes it a
+   * property of the design system rather than of either rendition.
+   */
+  private val EDGE_BUTTON_FILLED_STYLES_COLLAPSE_WHEN_DISABLED: Map<String, String> =
+    mapOf(
+      "EdgeButtonRemote" to
+        "RemoteEdgeButtonDefaults resolves the filled, filled-variant and tonal disabled colours " +
+          "to one pair, so all three styles draw one picture per Size x Type crossing once " +
+          "enabled = false"
+    )
+
   private val CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED: Map<String, String> =
     mapOf(
       "FilledRemoteIconButton" to
@@ -129,7 +154,9 @@ class RemoteRenderTest {
         "the CHILD style draws no container, so iconSizeFor resolves ExtraSmallButtonSize and " +
           "SmallButtonSize to the same glyph and there is nothing else in the frame — enabled as " +
           "well as disabled, unlike the four contained styles below",
-    ) + if (onSnapshotLane) emptyMap() else CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED
+    ) +
+      if (onSnapshotLane) EDGE_BUTTON_FILLED_STYLES_COLLAPSE_WHEN_DISABLED
+      else CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED
 
   /**
    * Deliberately compares only renders of the SAME component. Two different components may
