@@ -170,7 +170,12 @@ jobs:
       # rendition too. That is the honest setting while the two sheets reproduce the same kit: a
       # Remote component that cannot draw what the kit specifies says so in its caption or KDoc,
       # which is the same rule `:catalog` follows for a Wear Compose gap.
-      cache-paths: remote-catalog gradle build.gradle.kts settings.gradle.kts
+      # `.github/workflows/design-parity.yml` is in the list for THIS job only, and it is the
+      # snapshot pin below that puts it there. The gate asks "did any input move"; the pin lives in
+      # this file and nowhere else, so without it a bump would change what the board is built from
+      # and the gate would still re-apply the cached verdict. The other job has no pin and does not
+      # need the entry.
+      cache-paths: remote-catalog gradle build.gradle.kts settings.gradle.kts .github/workflows/design-parity.yml
 
       force-refresh: ${{ github.event.schedule == '0 5 * * 1' }}
       design-parity-ref: ${{ inputs.design_parity_ref || '' }}
@@ -190,7 +195,37 @@ jobs:
       # Projects the map for THIS module into ./design-map.json, which is the only path the action
       # reads (see scripts/design-map.sh). Safe because this job has its own workspace: the root map
       # committed for `:catalog` is regenerated here and never committed back.
+      # ── THIS BOARD IS BUILT ON THE SNAPSHOT LANE ───────────────────────────────────────────
+      # Deliberate, and the one place in this repo where a published artifact is drawn with
+      # unreleased code. The Remote sheet reproduces a kit whose components `remote-material3` has
+      # only just started publishing — the selection rows arrived after 1.0.0-alpha10 — and a board
+      # that can only ever show the released line reports those kit sets as undrawn for as long as
+      # the release takes. Comparing what we CAN draw against the kit is the whole job of this
+      # board, so it is drawn against the line that can draw it.
+      #
+      # WHAT IT COSTS, stated plainly: this board is no longer reproducible from the released
+      # artifacts alone. Rebuilding it needs the pinned snapshot below to still be downloadable
+      # from androidx.dev, and those builds are not kept forever.
+      #
+      # PINNED, never `latest`. A floating pin would redraw the board from different bytes several
+      # times a day with no commit to explain the change, and the parity verdict would move on its
+      # own — which is the property that makes a board worth reading. Bump the pin deliberately, in
+      # a commit, and read the visual diff: the same rule Compose and Horologist follow above.
+      #
+      # HOW, and why not `scripts/remote-snapshot-probe.py apply`. The probe's overlay rewrites the
+      # checkout's `libs.versions.toml` and adds its own repository block, and it also injects a
+      # four-density sweep that would quadruple every render on this board. None of that is needed
+      # now: `settings.gradle.kts` and `remote-catalog/build.gradle.kts` carry the opt-in lane
+      # (AGENTS.md -> Dependencies), so the whole switch is the property that lane reads. It goes
+      # into `gradle.properties` rather than onto a command line because the reusable workflow runs
+      # its own render step that this file cannot pass arguments to, and a project property in
+      # `gradle.properties` reaches every Gradle invocation in the job — including that one.
+      #
+      # Glance Wear is NOT snapshotted (see remote-catalog/build.gradle.kts): its
+      # `WearWidgetPreview` is binary-incompatible with the pre-compiled wrapper the widget
+      # stickers render through, and holding it back is what keeps all three of them drawing.
       design-map-command: >
+        echo "remoteSnapshot=16245930" >> gradle.properties &&
         ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
         scripts/design-map.sh remote-catalog
 

@@ -22,6 +22,11 @@ Three rules follow, and they are the ones easiest to break by accident:
 - **The Remote trio moves together.** `compose-remote`, `wear-compose-remote` and `glance-wear` are
   built on the same `remote-creation*`, and a skewed pair fails inside the player at render time,
   not at compile time. Bump all three in one PR and read the visual diff.
+  The **snapshot lane is the one exception, and it is deliberate**: it moves the two Remote groups
+  and holds Glance Wear at its release, because `glance-wear`'s `WearWidgetPreview` is
+  binary-incompatible with the pre-compiled wrapper the widget stickers render through. All 416
+  previews render that way. See `remote-catalog/build.gradle.kts` and Dependencies below; this rule
+  still governs the RELEASED versions in `libs.versions.toml`, which is what it was written for.
 - **Both catalogs are design-led, and both are in the parity scan.** `.design-parity.json` is
   repo-wide, and `design-parity.yml` now runs a job per module — `:catalog` publishing
   `design-parity/main`, `:remote-catalog` publishing `design-parity/remote-m3`. Same policy for
@@ -601,16 +606,20 @@ placeholder's "3 distinct frames in 46" turned out to be.
   `:remote-catalog` against the newest androidx.dev snapshot every Monday and comments on
   [#95](https://github.com/yschimke/wear-m3-catalog/issues/95) only when the picture moves — it
   stops compiling, a tracked upstream bug's capture stops matching its known-broken one, or a render
-  changes. It never touches `main`: the overlay that repoints the Remote trio at a snapshot is
-  applied to the runner's checkout and thrown away, because a committed snapshot pin is exactly the
-  skew the top of this file forbids. State lives on `snapshot-probe/remote-m3`.
+  changes. Its overlay is applied to the runner's checkout and thrown away; state lives on
+  `snapshot-probe/remote-m3`. **What a snapshot pin must never do is change what the BUILD
+  resolves** — `gradle/libs.versions.toml` stays on released alphas, and `:catalog` stays outside
+  the lane entirely. That is the skew the top of this file forbids, and it is narrower than "no
+  committed pin anywhere": see the `remote-m3` parity board below, which carries one on purpose.
 - **The snapshot LANE is how you look at unreleased Remote code by hand.** `-PremoteSnapshot=<androidx.dev
   build id>` (or `latest`) repoints `:remote-catalog` — and only it — at an androidx.dev snapshot:
   `settings.gradle.kts` adds the repository behind a `content` filter that admits the Remote groups
   and nothing else, and `remote-catalog/build.gradle.kts` applies the `1.0.0-SNAPSHOT` substitution
   to that module's own configurations. Two independent fences, and `:catalog` is outside both — its
   `debugCompileClasspath` is byte-identical with and without the flag, because it depends on none of
-  those groups. Nothing is committed at a snapshot version; the flag is off by default.
+  those groups. The flag is off by default and no DEPENDENCY is committed at a snapshot version —
+  `libs.versions.toml` stays on the released alphas. A build ID is committed, once, in
+  `design-parity.yml`'s `remote` job, which turns the lane on for that board alone (below).
   `src/released/kotlin` and `src/snapshot/kotlin` are the lanes' source sets, exactly one on the
   path at a time, and the tests that record library behaviour (`knownDuplicate`, `knownBlank`) branch
   on `wearm3.remoteLane` because those lists are claims about a library that the lane changes.
@@ -623,6 +632,19 @@ placeholder's "3 distinct frames in 46" turned out to be.
   regenerating at that point would commit a snapshot-only component into a record CI validates on
   the released lane. `./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover`
   with no `-PremoteSnapshot` puts it back.
+- **The published `remote-m3` parity board is drawn on the SNAPSHOT lane, at a pinned build id**
+  (`design-parity.yml`, the `remote` job). The Remote sheet reproduces a kit whose components
+  `remote-material3` has only just begun publishing, so a board restricted to the released line
+  reports those kit sets as undrawn for as long as the release takes — and comparing what this sheet
+  CAN draw against the kit is the board's whole job. The `wear-m3-catalog` board is NOT on the lane
+  and must not be: `:catalog` is on the stable line and that is the point of it.
+  The switch is `echo "remoteSnapshot=<id>" >> gradle.properties` in that job's `design-map-command`,
+  because the reusable workflow runs a render step this repo cannot pass arguments to and a project
+  property reaches every Gradle invocation in the job. **Pinned, never `latest`** — a floating pin
+  would move the verdict with no commit to explain it. Bump it deliberately and read the visual diff,
+  like Compose and Horologist above; the workflow file is in that job's `cache-paths` so a bump
+  actually forces a re-render. The cost, stated where someone will meet it: that board is not
+  reproducible from released artifacts alone, and androidx.dev does not keep builds forever.
 - **A component this catalog is WAITING FOR is tracked by SYMBOL, in `AWAITED_API`** (`scripts/
   remote-snapshot-probe.py`). Each entry names the class the library would have to publish, what
   drawing it would unlock, and a link to the upstream change for a human to read. The probe reads
