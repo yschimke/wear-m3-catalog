@@ -632,19 +632,25 @@ placeholder's "3 distinct frames in 46" turned out to be.
   regenerating at that point would commit a snapshot-only component into a record CI validates on
   the released lane. `./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover`
   with no `-PremoteSnapshot` puts it back.
-- **The published `remote-m3` parity board is drawn on the SNAPSHOT lane, at a pinned build id**
-  (`design-parity.yml`, the `remote` job). The Remote sheet reproduces a kit whose components
-  `remote-material3` has only just begun publishing, so a board restricted to the released line
-  reports those kit sets as undrawn for as long as the release takes — and comparing what this sheet
-  CAN draw against the kit is the board's whole job. The `wear-m3-catalog` board is NOT on the lane
-  and must not be: `:catalog` is on the stable line and that is the point of it.
-  The switch is `echo "remoteSnapshot=<id>" >> gradle.properties` in that job's `design-map-command`,
-  because the reusable workflow runs a render step this repo cannot pass arguments to and a project
-  property reaches every Gradle invocation in the job. **Pinned, never `latest`** — a floating pin
-  would move the verdict with no commit to explain it. Bump it deliberately and read the visual diff,
-  like Compose and Horologist above; the workflow file is in that job's `cache-paths` so a bump
-  actually forces a re-render. The cost, stated where someone will meet it: that board is not
-  reproducible from released artifacts alone, and androidx.dev does not keep builds forever.
+- **The published `remote-m3` SHEET and BOARD are both drawn on the SNAPSHOT lane**, at one pinned
+  build id in [`.github/ci/remote-snapshot-pin`](.github/ci/remote-snapshot-pin) — read by
+  `design-artifacts.yml` (the sheet) and `design-parity.yml` (the board), whose own README explains
+  the bump. The Remote sheet reproduces a kit whose components `remote-material3` has only just begun
+  publishing, so a sheet restricted to the released line reports those kit sets as undrawn for as
+  long as the release takes — and drawing what this rendition CAN draw is the point of it.
+  **The two move together or not at all**: a board scoring a sheet built from different bytes makes
+  every difference between them unattributable, which is why the pin is one file rather than a
+  literal in each. The `wear-m3-catalog` sheet and board are NOT on the lane and must not be:
+  `:catalog` is on the stable line and that is the point of it.
+  The switch is a project property appended to `gradle.properties` in each job's
+  `design-map-command`, because the reusable workflows run render steps this repo cannot pass
+  arguments to and a project property reaches every Gradle invocation in the job. Each begins
+  `test -s` on the pin, so an empty or missing pin fails the step rather than quietly publishing the
+  released line with components missing. **Pinned, never `latest`** — a floating pin would move the
+  verdict with no commit to explain it. Bump deliberately and read the visual diff, like Compose and
+  Horologist above; the pin is in the parity job's `cache-paths` so a bump forces a re-render.
+  The cost, stated where someone will meet it: neither is reproducible from released artifacts
+  alone, and androidx.dev does not keep builds forever.
 - **A component this catalog is WAITING FOR is tracked by SYMBOL, in `AWAITED_API`** (`scripts/
   remote-snapshot-probe.py`). Each entry names the class the library would have to publish, what
   drawing it would unlock, and a link to the upstream change for a human to read. The probe reads
