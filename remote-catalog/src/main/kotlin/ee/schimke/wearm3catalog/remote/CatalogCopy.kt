@@ -63,6 +63,17 @@ object KitCopy {
   /** `Text-Body`. */
   const val BODY = "Body text lorem ipsum dolor sit amet"
 
+  /**
+   * `Edge-Button`, for the same reason [GLYPHS] is an M-run — long enough that it truncates.
+   *
+   * Transcribed from the Wear sibling's `EDGE_BUTTON_LABEL`, like every other constant here, so
+   * both columns' `Edge-Button` cells are drawn from the same words. Only the Wear one truncates
+   * them: `RemoteEdgeButton` does not clip its content to its arc, which is the divergence
+   * `EdgeButtonPreviews.kt` states. The M-run stays anyway — shortening it here to flatter the
+   * Remote render would hide the difference rather than fix it, and would unpair the two columns.
+   */
+  const val EDGE_BUTTON_LABEL = "MMMMM MMMMM MMMMM"
+
   /** `TimeText`, `Type=12hr`. Pinned, never the system clock. */
   const val TIME_12H = "9:30"
 }
