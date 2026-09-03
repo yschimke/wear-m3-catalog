@@ -331,6 +331,89 @@ class FindRenderTest(unittest.TestCase):
     def test_a_missing_render_is_none_rather_than_a_crash(self):
         self.assertIsNone(probe.find_render(self._renders(), "Nope"))
 
+    def test_the_baseline_density_is_preferred_over_sort_order(self):
+        # THE BUG THIS PINS. This job's own overlay renders every probe at four densities, and
+        # `dpi_160` sorts before `dpi_320` — so taking the first match compared a 160dpi capture
+        # against the 320dpi baseline in `docs/evidence`. Never equal, so `identicalToKnownBroken`
+        # was stuck False and the probe could state neither of its two verdicts.
+        directory = self._renders(
+            *(f"EdgeButtonRemote_width_227dp_height_100dp_dpi_{dpi}-{dpi:08d}.png"
+              for dpi in (160, 240, 320, 480))
+        )
+        found = probe.find_render(directory, "EdgeButtonRemote")
+        self.assertIn("dpi_320", found.name)
+
+    def test_a_render_at_no_baseline_density_is_still_found(self):
+        # The fallback matters: a render captured at some other density must be returned rather
+        # than reported missing, or a frame change would read as "not rendered".
+        directory = self._renders("EdgeButtonRemote_width_227dp_height_100dp_dpi_480-aaaaaaaa.png")
+        self.assertIsNotNone(probe.find_render(directory, "EdgeButtonRemote"))
+
+
+class LabelSpillTest(unittest.TestCase):
+    """#249's measure: how far content is drawn outside its own container.
+
+    The fixtures draw a container and then a GLYPH RUN over it — a row of small blocks with gaps,
+    not a solid bar. That is not decoration: the measure identifies the container as the dominant
+    opaque colour and then checks it is actually solid, so a fixture whose "label" is one filled
+    rectangle would outweigh the container and cover its own bounding box completely, testing
+    neither behaviour. Glyphs are sparse, and that is what the real renders look like.
+    """
+
+    CONTAINER = (40, 10, 159, 49)  # 120 x 40
+
+    def _image(self, left, right, fill=(233, 221, 255), solid=True):
+        """A container plus a glyph run spanning exactly ``left``..``right`` inclusive."""
+        from PIL import Image, ImageDraw
+
+        image = Image.new("RGBA", (200, 60), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        if solid:
+            draw.rectangle(self.CONTAINER, fill=fill + (255,))
+        else:
+            draw.rectangle(self.CONTAINER, outline=fill + (255,), width=2)
+        x = left
+        while x + 3 < right - 3:
+            draw.rectangle((x, 20, x + 3, 39), fill=(20, 20, 30, 255))
+            x += 14
+        # Pinned flush to the right edge, so the run's extent is the two arguments and not
+        # wherever the stride happened to stop — which is what made the first draft of this
+        # fixture assert a symmetric overhang it had not actually drawn.
+        draw.rectangle((right - 3, 20, right, 39), fill=(20, 20, 30, 255))
+        return image
+
+    def test_content_inside_the_container_is_no_spill(self):
+        self.assertEqual(probe.label_spill_dp(self._image(60, 139), 2.0), 0.0)
+
+    def test_content_past_both_edges_is_measured_in_dp(self):
+        # The container spans x=40..159; the glyph run spans x=30..169, so it overhangs by 10px on
+        # each side. 20px at density 2.0 is 10dp.
+        image = self._image(30, 169)
+        self.assertEqual(probe.label_spill_dp(image, 2.0), 10.0)
+
+    def test_the_measure_is_in_dp_so_density_cancels(self):
+        # The same overhang at density 1.0 is twice the dp, which is what makes the number
+        # comparable across the sweep rather than a pixel count.
+        self.assertEqual(probe.label_spill_dp(self._image(30, 169), 1.0), 20.0)
+
+    def test_a_dark_container_measures_the_same_as_a_light_one(self):
+        # tonal and filled-variant. The luminance heuristic this replaced read these backwards,
+        # reporting 0.5dp against a real 20.5dp.
+        light = probe.label_spill_dp(self._image(30, 169), 2.0)
+        dark = probe.label_spill_dp(self._image(30, 169, fill=(51, 46, 60)), 2.0)
+        self.assertEqual(dark, light)
+
+    def test_no_solid_fill_is_none_rather_than_a_wrong_number(self):
+        # The outlined style: a ring and a label, no fill anywhere. The dominant opaque colour is
+        # then the label, and measuring the label against itself reported ~0 on a cell that really
+        # spills 22.5dp.
+        self.assertIsNone(probe.label_spill_dp(self._image(30, 169, solid=False), 2.0))
+
+    def test_nothing_drawn_is_none(self):
+        from PIL import Image
+
+        self.assertIsNone(probe.label_spill_dp(Image.new("RGBA", (10, 10), (0, 0, 0, 0)), 2.0))
+
 
 class ProbeTableTest(unittest.TestCase):
     def test_every_probe_names_a_baseline_that_exists(self):

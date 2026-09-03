@@ -142,6 +142,16 @@ AWAITED_API_ARTIFACT = FINGERPRINT_ARTIFACTS["wear-compose-remote"]
 # filename carries it, so the conversion is read rather than assumed.
 _DPI_IN_NAME = re.compile(r"_dpi_(\d+)")
 
+# The density the COMMITTED sheet declares, and therefore the one every `docs/evidence` baseline
+# was captured at. [find_render] prefers it, and that preference is load-bearing rather than
+# cosmetic: this job's own overlay adds [SWEEP_DPI] to the same previews, so a probe run has four
+# captures per render where an ordinary checkout has one — and `dpi_160` sorts before `dpi_320`.
+# Taking the first match therefore compared a 160dpi capture against a 320dpi baseline, which can
+# never be equal, so `identicalToKnownBroken` was pinned False for every probe and neither of its
+# two verdicts could ever be reached: not "still broken" with certainty, and not the flip to
+# "somebody look" either. Silent, and the same shape as the stem drift #90 and #91 suffered.
+BASELINE_DPI = 320
+
 # One entry per tracked issue. `baseline` is the KNOWN-BROKEN capture committed
 # under docs/evidence — identical to it is the only verdict this script states
 # with confidence.
@@ -180,6 +190,23 @@ PROBES = [
         "summary": "a disabled RemoteTextButton draws nothing at all — neither colour resolves",
         "metrics": ("text_disabled_max_alpha",),
     },
+    # The BASE cell, not a variant, and not the worst one. `extra-small` spills furthest (49.5dp
+    # against the base's 20.5dp) and was the tempting choice; the base is the render the component
+    # publishes and the one the compare page puts beside the kit, so a flip there is the flip a
+    # reader meets. The size axis rides along in `densitySweep` either way.
+    #
+    # SNAPSHOT-LANE ONLY, which no other entry is: `RemoteEdgeButton` is absent from released
+    # alpha10, so on a released-lane checkout this probe finds no render and reports `rendered:
+    # false`. That is correct rather than broken — the workflow always applies its snapshot overlay,
+    # so the lane this runs on always has it — but it is why the baseline below is a snapshot-lane
+    # capture and cannot be reproduced with an empty `-PremoteSnapshot=`.
+    {
+        "issue": 249,
+        "preview": "EdgeButtonRemote",
+        "baseline": "docs/evidence/remote-m3-edge-button-label-spill-break.png",
+        "summary": "a RemoteEdgeButton draws its label outside its own arc — the arc does not clip",
+        "metrics": ("edge_button_label_spill_dp",),
+    },
 ]
 
 
@@ -196,7 +223,12 @@ def find_render(renders: Path, preview: str, variant: str | None = None):
         matches = [p for p in candidates if "_VARIANT_" not in p.name]
     else:
         matches = [p for p in candidates if f"_VARIANT_{variant}-" in p.name]
-    return matches[0] if matches else None
+    if not matches:
+        return None
+    # Prefer the density the baselines were captured at — see [BASELINE_DPI]. Sorted order alone
+    # would hand back `dpi_160` under this job's own sweep. Falls back to the first match so a
+    # render captured at some other density is still found rather than reported missing.
+    return min(matches, key=lambda p: (density_of(p.name) != BASELINE_DPI / 160.0, p.name))
 
 
 def sha256(path: Path) -> str:
@@ -397,6 +429,62 @@ def _drawn_bbox(image, predicate):
     return min(xs), min(ys), max(xs) - min(xs) + 1, max(ys) - min(ys) + 1
 
 
+# How much of its own bounding box the dominant opaque colour must cover to count as a container
+# rather than a run of glyphs. See [label_spill_dp]: fills measure 68-82%, labels 7-14%.
+_FILL_SOLIDITY = 0.4
+
+
+def label_spill_dp(image, density: float) -> float | None:
+    """How far a button's content is drawn OUTSIDE its own container, in dp. #249's number.
+
+    The container is identified as the DOMINANT opaque colour, and the two cuts this replaced are
+    both worth naming, because each was wrong on a different cell and each looked right on the base.
+
+    Classifying "container" as any bright opaque pixel assumes a light pill under dark text. True of
+    the filled style, false of tonal and filled-variant, whose containers are dark: on those it
+    measured the LABEL and reported 0.5dp against a real 20.5dp.
+
+    Sampling the colour at the middle of the drawn shape fixes that and breaks the icon cells, where
+    the glyph sits dead centre — it then measured the GLYPH against the pill and called a correct
+    render a 99.5dp spill.
+
+    The mode has neither assumption. A container is a flat fill and is the largest opaque area in
+    any of these cells by a wide margin, whatever its colour and whatever sits on top of it.
+
+    It still needs the SOLIDITY guard below, because the outlined style has no fill at all: the mode
+    there is the label, and measuring the label against itself reported 0.5dp on a cell that really
+    spills 22.5dp — a wrong number where None was wanted. A fill covers 68-82% of its own bounding
+    box in these renders (an arc does not fill its rectangle, and the label sits on top of it);
+    glyph runs cover 7-14%. [_FILL_SOLIDITY] sits an order of magnitude clear of both.
+
+    Returns None where no solid fill is drawn: the outlined style, and any disabled cell, whose
+    container resolves at 12% alpha and so has no opaque pixel to find at all.
+    """
+    ink = _drawn_bbox(image, lambda p: p[3] > INK_ALPHA)
+    if ink is None:
+        return None
+    counts: dict[tuple, int] = {}
+    pixels = image.load()
+    for y in range(image.size[1]):
+        for x in range(image.size[0]):
+            pixel = pixels[x, y]
+            if pixel[3] > 200:
+                counts[pixel[:3]] = counts.get(pixel[:3], 0) + 1
+    if not counts:
+        return None
+    fill = max(counts, key=counts.get)
+
+    def is_container(p):
+        return p[3] > 200 and all(abs(p[i] - fill[i]) < 18 for i in range(3))
+
+    container = _drawn_bbox(image, is_container)
+    if container is None or counts[fill] < _FILL_SOLIDITY * container[2] * container[3]:
+        return None
+    left = container[0] - ink[0]
+    right = (ink[0] + ink[2]) - (container[0] + container[2])
+    return round((left + right) / density, 1)
+
+
 def measure(renders: Path) -> dict:
     """Per-render hashes, plus the numeric probes the issues are written around."""
     from PIL import Image
@@ -426,6 +514,16 @@ def measure(renders: Path) -> dict:
     alpha = max_alpha("TextRemoteButton", "disabled")
     if alpha is not None:
         metrics["text_disabled_max_alpha"] = alpha
+
+    # #249 — RemoteEdgeButton draws its label outside its own arc. The number is the overhang, so 0
+    # is "fixed" here where 0 means "still broken" for the two alpha probes above: this is the one
+    # metric on the list whose healthy value is its floor, which is why it is worth a number at all
+    # rather than a byte comparison. 20.5dp on the base cell at the time of writing.
+    image, name = one("EdgeButtonRemote")
+    if image is not None:
+        spill = label_spill_dp(image, density_of(name))
+        if spill is not None:
+            metrics["edge_button_label_spill_dp"] = spill
 
     return {"captures": captures, "metrics": metrics}
 
