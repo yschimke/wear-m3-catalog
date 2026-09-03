@@ -52049,7 +52049,19 @@
       "sourceModule": ":catalog",
       "bodyLine": 353,
       "sourceDirectory": "catalog",
-      "sourceFunction": "MediaFooterButtonsRow"
+      "sourceFunction": "MediaFooterButtonsRow",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     },
     {
       "componentId": "Media/ControlButtons",
@@ -52536,7 +52548,19 @@
       "sourceModule": ":catalog",
       "bodyLine": 389,
       "sourceDirectory": "catalog",
-      "sourceFunction": "MediaControlButtonsRow"
+      "sourceFunction": "MediaControlButtonsRow",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     },
     {
       "componentId": "Media/PodcastControlButtons",
@@ -52767,7 +52791,19 @@
       "sourceModule": ":catalog",
       "bodyLine": 419,
       "sourceDirectory": "catalog",
-      "sourceFunction": "MediaPodcastControlButtons"
+      "sourceFunction": "MediaPodcastControlButtons",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     },
     {
       "componentId": "Media/PlayPauseProgressButton",
@@ -53312,7 +53348,19 @@
       "sourceModule": ":catalog",
       "bodyLine": 496,
       "sourceDirectory": "catalog",
-      "sourceFunction": "MediaInfoDisplayHeader"
+      "sourceFunction": "MediaInfoDisplayHeader",
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     },
     {
       "componentId": "Media/ShowPlaylistButton",
@@ -111614,8 +111662,8 @@
   "library": [
     "androidx.wear.compose:compose-material3"
   ],
-  "renderer": "compose-preview 1.69.0",
-  "generatedAt": "2026-09-03T08:03:17.154Z",
+  "renderer": "compose-preview 1.70.0",
+  "generatedAt": "2026-09-03T11:48:11.912Z",
   "display": {
     "surface": "dark",
     "hero": "Media/PlayerScreen"

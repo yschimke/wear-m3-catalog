@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-09-03T08:03:22.632Z",
+  "generatedAt": "2026-09-03T11:48:17.592Z",
   "mappings": [
     {
       "componentId": "Auth/SignInButton",
@@ -924,31 +924,97 @@
     {
       "componentId": "Media/FooterButtons",
       "figmaLayerName": "Media/FooterButtons",
-      "componentName": "MediaFooterButtonsRow",
+      "componentName": "MediaRowSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "MediaFooterButtonsRow",
+      "codeSnippet": "MediaRowSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.sections.MediaRowSticker"
+      ],
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false
+        }
+      ],
       "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/media-footerbuttons__ideal__default.svg"
     },
     {
       "componentId": "Media/ControlButtons",
       "figmaLayerName": "Media/ControlButtons",
-      "componentName": "MediaControlButtonsRow",
+      "componentName": "MediaRowSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "MediaControlButtonsRow",
+      "codeSnippet": "MediaRowSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.sections.MediaRowSticker"
+      ],
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false
+        }
+      ],
       "figmaSvg": "figma/media-controlbuttons.svg"
     },
     {
       "componentId": "Media/PodcastControlButtons",
       "figmaLayerName": "Media/PodcastControlButtons",
-      "componentName": "MediaPodcastControlButtons",
+      "componentName": "MediaRowSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "MediaPodcastControlButtons",
+      "codeSnippet": "MediaRowSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.sections.MediaRowSticker"
+      ],
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false
+        }
+      ],
       "figmaSvg": "figma/media-podcastcontrolbuttons.svg"
     },
     {
@@ -978,11 +1044,33 @@
     {
       "componentId": "Media/InfoDisplay",
       "figmaLayerName": "Media/InfoDisplay",
-      "componentName": "MediaInfoDisplayHeader",
+      "componentName": "MediaRowSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "MediaInfoDisplayHeader",
+      "codeSnippet": "MediaRowSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.sections.MediaRowSticker"
+      ],
+      "parameters": [
+        {
+          "name": "height",
+          "type": "Dp",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false
+        }
+      ],
       "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/media-infodisplay__ideal__default.svg"
     },
     {
