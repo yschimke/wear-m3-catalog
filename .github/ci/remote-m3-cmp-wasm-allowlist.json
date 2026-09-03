@@ -1,5 +1,5 @@
 {
-  "$comment": "DOCUMENTS THE CMP/WASM PLAYER CANNOT DRAW YET, temporarily allowed past the gate design-artifacts.yml enforces. Every entry names the player gap and expires, because an allowlist that does not expire is a gate that has been switched off. An entry whose id no longer exists is WORSE than no entry: it protects nothing while making the list look maintained, which is how this file came to hold six dead ids from before the #116 taxonomy fold (old component names, 200dp/320dp frames) while eight live failures blocked every remote-m3 publish from 2026-08-29 15:50 onward. Take ids from the lane's own output \u2014 the `CMP/Wasm: n/m rendered` block prints them \u2014 rather than from previews.json, whose spelling of the frame differs. REMOVED 2026-09-02: the four `ImageBackgroundRemoteButton` entries. The lane now renders them \u2014 actions/runs/33668348892 reported `388/392 rendered, 4 temporarily allowed, 1 failed` with the four allowed being the THEME SPECIMENS, and the button scoring `34.89% (Android) vs cmp-wasm 34.62%`, the two players agreeing to within 0.3%. So paint commands 22 (SHADER_MATRIX) and 24 (TEXTURE) are implemented in CMP/Wasm now and the entries protected nothing. Note this does NOT mean the button draws its image: both players render the same opaque container, which is a separate defect tracked on https://github.com/yschimke/wear-m3-catalog/issues/157 \u2014 an allowlist entry is about whether the lane can render a document at all, not about whether the picture is right.",
+  "$comment": "DOCUMENTS THE CMP/WASM PLAYER CANNOT DRAW YET, temporarily allowed past the gate design-artifacts.yml enforces. Every entry names the player gap and expires, because an allowlist that does not expire is a gate that has been switched off. An entry whose id no longer exists is WORSE than no entry: it protects nothing while making the list look maintained, which is how this file came to hold six dead ids from before the #116 taxonomy fold (old component names, 200dp/320dp frames) while eight live failures blocked every remote-m3 publish from 2026-08-29 15:50 onward. Take ids from the lane's own output — the `CMP/Wasm: n/m rendered` block prints them — rather than from previews.json, whose spelling of the frame differs. REMOVED 2026-09-02: the four `ImageBackgroundRemoteButton` entries. The lane now renders them — actions/runs/33668348892 reported `388/392 rendered, 4 temporarily allowed, 1 failed` with the four allowed being the THEME SPECIMENS, and the button scoring `34.89% (Android) vs cmp-wasm 34.62%`, the two players agreeing to within 0.3%. So paint commands 22 (SHADER_MATRIX) and 24 (TEXTURE) are implemented in CMP/Wasm now and the entries protected nothing. Note this does NOT mean the button draws its image: both players render the same opaque container, which is a separate defect tracked on https://github.com/yschimke/wear-m3-catalog/issues/157 — an allowlist entry is about whether the lane can render a document at all, not about whether the picture is right. ADDED 2026-09-03: the eight `LinearProgressRemote` entries, which are a different KIND of entry from everything above — not a player gap we intend to close, but an upstream Compose Wasm backend bug rc-players deliberately routes around. They carry a longer expiry for that reason. Everything else in this file was cleared by rc-players 1.56.1 (FILTER_BITMAP, yschimke/rc-players#26): the ~40 EdgeButton/CheckboxRow/WidgetContainer/ThemeSpecimen rows that failed `paint command 17 is not implemented` on 1.56.0 all render now and never needed entries.",
   "entries": [
     {
       "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenAndroidMakersRemote_width_227dp_height_200dp_dpi_320",
@@ -20,6 +20,46 @@
       "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenKotlinConfRemote_width_227dp_height_200dp_dpi_320",
       "reason": "The same missing google:Inter DataFont. Observed in actions/runs/33281595669.",
       "expires": "2026-09-30"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320",
+      "reason": "The Progress-Indicator-Linear set draws through a graphics layer, and CMP/Wasm is not offered that operation: rc-players excludes MODIFIER_GRAPHICS_LAYER from its `CMP_WASM_ALPHA16` profile (RcOperationProfiles) because \"Compose's current Wasm graphics-layer surface disappears when this modifier is present\" — the operation IS implemented, and the shared/iOS renderer gets it; only browser producers are held back, until that Compose Multiplatform backend behaviour is fixed. So this is not a gap in our player and there is nothing to implement: the whole document reports `ModifierGraphicsLayer[9]: operation is excluded from the cmp-wasm-alpha16 profile`. Observed in actions/runs/33721955693, the first run on rc-players 1.56.1 (`463/475 rendered, 4 allowlisted, 8 failing` — these eight).",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_20",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_20-small",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_complete",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_complete-small",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_min",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_min-small",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_small",
+      "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
     }
   ]
 }
