@@ -331,6 +331,124 @@ class FindRenderTest(unittest.TestCase):
     def test_a_missing_render_is_none_rather_than_a_crash(self):
         self.assertIsNone(probe.find_render(self._renders(), "Nope"))
 
+    def test_the_baseline_density_is_preferred_over_sort_order(self):
+        # THE BUG THIS PINS. This job's own overlay renders every probe at four densities, and
+        # `dpi_160` sorts before `dpi_320` — so taking the first match compared a 160dpi capture
+        # against the 320dpi baseline in `docs/evidence`. Never equal, so `identicalToKnownBroken`
+        # was stuck False and the probe could state neither of its two verdicts.
+        directory = self._renders(
+            *(f"EdgeButtonRemote_width_227dp_height_100dp_dpi_{dpi}-{dpi:08d}.png"
+              for dpi in (160, 240, 320, 480))
+        )
+        found = probe.find_render(directory, "EdgeButtonRemote")
+        self.assertIn("dpi_320", found.name)
+
+    def test_a_render_at_no_baseline_density_is_still_found(self):
+        # The fallback matters: a render captured at some other density must be returned rather
+        # than reported missing, or a frame change would read as "not rendered".
+        directory = self._renders("EdgeButtonRemote_width_227dp_height_100dp_dpi_480-aaaaaaaa.png")
+        self.assertIsNotNone(probe.find_render(directory, "EdgeButtonRemote"))
+
+
+class _FakePixels:
+    def __init__(self, grid):
+        self._grid = grid
+
+    def __getitem__(self, xy):
+        x, y = xy
+        return self._grid[y][x]
+
+
+class FakeImage:
+    """The slice of PIL's `Image` that [label_spill_dp] actually touches: `.size` and `.load()`.
+
+    STDLIB-ONLY ON PURPOSE. `ci.yml` runs this suite beside the Figma resolver test precisely so it
+    does not need "the probe's own Pillow/Android environment", and a first draft of these tests
+    drew their fixtures with `PIL.ImageDraw` — which passed locally and failed that job with
+    `ModuleNotFoundError: No module named 'PIL'`. The measure reads an image through two members;
+    supplying those is a truer test of the contract than a real PNG anyway, and it keeps the
+    watchdog's own tests runnable anywhere.
+    """
+
+    def __init__(self, width, height):
+        self.size = (width, height)
+        self._grid = [[(0, 0, 0, 0)] * width for _ in range(height)]
+
+    def load(self):
+        return _FakePixels(self._grid)
+
+    def fill(self, x0, y0, x1, y1, colour):
+        for y in range(y0, y1 + 1):
+            for x in range(x0, x1 + 1):
+                self._grid[y][x] = colour
+
+    def outline(self, x0, y0, x1, y1, colour, width=2):
+        self.fill(x0, y0, x1, y0 + width - 1, colour)
+        self.fill(x0, y1 - width + 1, x1, y1, colour)
+        self.fill(x0, y0, x0 + width - 1, y1, colour)
+        self.fill(x1 - width + 1, y0, x1, y1, colour)
+
+
+class LabelSpillTest(unittest.TestCase):
+    """#249's measure: how far content is drawn outside its own container.
+
+    The fixtures draw a container and then a GLYPH RUN over it — a row of small blocks with gaps,
+    not a solid bar. That is not decoration: the measure identifies the container as the dominant
+    opaque colour and then checks it is actually solid, so a fixture whose "label" is one filled
+    rectangle would outweigh the container and cover its own bounding box completely, testing
+    neither behaviour. Glyphs are sparse, and that is what the real renders look like.
+    """
+
+    CONTAINER = (40, 10, 159, 49)  # 120 x 40
+    INK = (20, 20, 30, 255)
+
+    def _image(self, left, right, fill=(233, 221, 255), solid=True):
+        """A container plus a glyph run spanning exactly ``left``..``right`` inclusive."""
+        image = FakeImage(200, 60)
+        x0, y0, x1, y1 = self.CONTAINER
+        if solid:
+            image.fill(x0, y0, x1, y1, fill + (255,))
+        else:
+            image.outline(x0, y0, x1, y1, fill + (255,))
+        x = left
+        while x + 3 < right - 3:
+            image.fill(x, 20, x + 3, 39, self.INK)
+            x += 14
+        # Pinned flush to the right edge, so the run's extent is the two arguments and not wherever
+        # the stride happened to stop — which is what made the first draft of this fixture assert a
+        # symmetric overhang it had not actually drawn.
+        image.fill(right - 3, 20, right, 39, self.INK)
+        return image
+
+    def test_content_inside_the_container_is_no_spill(self):
+        self.assertEqual(probe.label_spill_dp(self._image(60, 139), 2.0), 0.0)
+
+    def test_content_past_both_edges_is_measured_in_dp(self):
+        # The container spans x=40..159; the glyph run spans x=30..169, so it overhangs by 10px on
+        # each side. 20px at density 2.0 is 10dp.
+        self.assertEqual(probe.label_spill_dp(self._image(30, 169), 2.0), 10.0)
+
+    def test_the_measure_is_in_dp_so_density_cancels(self):
+        # The same overhang at density 1.0 is twice the dp, which is what makes the number
+        # comparable across the sweep rather than a pixel count.
+        self.assertEqual(probe.label_spill_dp(self._image(30, 169), 1.0), 20.0)
+
+    def test_a_dark_container_measures_the_same_as_a_light_one(self):
+        # tonal and filled-variant. The luminance heuristic this replaced read these backwards,
+        # reporting 0.5dp against a real 20.5dp.
+        light = probe.label_spill_dp(self._image(30, 169), 2.0)
+        dark = probe.label_spill_dp(self._image(30, 169, fill=(51, 46, 60)), 2.0)
+        self.assertEqual(dark, light)
+
+    def test_no_solid_fill_is_none_rather_than_a_wrong_number(self):
+        # The outlined style: a ring and a label, no fill anywhere. The dominant opaque colour is
+        # then the label, and measuring the label against itself reported ~0 on a cell that really
+        # spills 22.5dp.
+        self.assertIsNone(probe.label_spill_dp(self._image(30, 169, solid=False), 2.0))
+
+    def test_nothing_drawn_is_none(self):
+        self.assertIsNone(probe.label_spill_dp(FakeImage(10, 10), 2.0))
+
 
 class ProbeTableTest(unittest.TestCase):
     def test_every_probe_names_a_baseline_that_exists(self):

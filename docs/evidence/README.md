@@ -58,6 +58,16 @@ folded `Button/Disabled` into `Button/Filled`'s `disabled` cell, which put the b
 `buttonSizeModifier()` under it and changed the pill: the symptom is unchanged (max alpha 31, the
 container, and no label anywhere), only this catalog's framing of it.
 
+`remote-m3-edge-button-label-spill-break.png` is #249's baseline: `EdgeButtonRemote`'s base cell,
+where the label is drawn 20.5dp outside the arc that is supposed to contain it. It is a SNAPSHOT
+LANE capture and cannot be reproduced with an empty `-PremoteSnapshot=` — `RemoteEdgeButton` is
+absent from released alpha10 — which is a first for this directory and is fine, because the probe
+workflow always renders on its own snapshot overlay.
+
+It is also the first baseline whose probe carries a metric that reads the other way round. `max
+alpha 0` means "still broken" for #130; `edge_button_label_spill_dp` is an overhang, so **0 there
+means fixed**. Read it accordingly before concluding anything from the number alone.
+
 `remote-m3-disabled-resolve-triptych.png` is the evidence for the disabled-text-button report: the
 same `enabled = false` state across the three button families that publish it, on one build and at
 one density, with the measured max alpha under each. `RemoteIconButton` resolves it exactly as
