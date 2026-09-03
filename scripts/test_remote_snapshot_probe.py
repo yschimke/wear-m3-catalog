@@ -350,6 +350,45 @@ class FindRenderTest(unittest.TestCase):
         self.assertIsNotNone(probe.find_render(directory, "EdgeButtonRemote"))
 
 
+class _FakePixels:
+    def __init__(self, grid):
+        self._grid = grid
+
+    def __getitem__(self, xy):
+        x, y = xy
+        return self._grid[y][x]
+
+
+class FakeImage:
+    """The slice of PIL's `Image` that [label_spill_dp] actually touches: `.size` and `.load()`.
+
+    STDLIB-ONLY ON PURPOSE. `ci.yml` runs this suite beside the Figma resolver test precisely so it
+    does not need "the probe's own Pillow/Android environment", and a first draft of these tests
+    drew their fixtures with `PIL.ImageDraw` — which passed locally and failed that job with
+    `ModuleNotFoundError: No module named 'PIL'`. The measure reads an image through two members;
+    supplying those is a truer test of the contract than a real PNG anyway, and it keeps the
+    watchdog's own tests runnable anywhere.
+    """
+
+    def __init__(self, width, height):
+        self.size = (width, height)
+        self._grid = [[(0, 0, 0, 0)] * width for _ in range(height)]
+
+    def load(self):
+        return _FakePixels(self._grid)
+
+    def fill(self, x0, y0, x1, y1, colour):
+        for y in range(y0, y1 + 1):
+            for x in range(x0, x1 + 1):
+                self._grid[y][x] = colour
+
+    def outline(self, x0, y0, x1, y1, colour, width=2):
+        self.fill(x0, y0, x1, y0 + width - 1, colour)
+        self.fill(x0, y1 - width + 1, x1, y1, colour)
+        self.fill(x0, y0, x0 + width - 1, y1, colour)
+        self.fill(x1 - width + 1, y0, x1, y1, colour)
+
+
 class LabelSpillTest(unittest.TestCase):
     """#249's measure: how far content is drawn outside its own container.
 
@@ -361,25 +400,24 @@ class LabelSpillTest(unittest.TestCase):
     """
 
     CONTAINER = (40, 10, 159, 49)  # 120 x 40
+    INK = (20, 20, 30, 255)
 
     def _image(self, left, right, fill=(233, 221, 255), solid=True):
         """A container plus a glyph run spanning exactly ``left``..``right`` inclusive."""
-        from PIL import Image, ImageDraw
-
-        image = Image.new("RGBA", (200, 60), (0, 0, 0, 0))
-        draw = ImageDraw.Draw(image)
+        image = FakeImage(200, 60)
+        x0, y0, x1, y1 = self.CONTAINER
         if solid:
-            draw.rectangle(self.CONTAINER, fill=fill + (255,))
+            image.fill(x0, y0, x1, y1, fill + (255,))
         else:
-            draw.rectangle(self.CONTAINER, outline=fill + (255,), width=2)
+            image.outline(x0, y0, x1, y1, fill + (255,))
         x = left
         while x + 3 < right - 3:
-            draw.rectangle((x, 20, x + 3, 39), fill=(20, 20, 30, 255))
+            image.fill(x, 20, x + 3, 39, self.INK)
             x += 14
-        # Pinned flush to the right edge, so the run's extent is the two arguments and not
-        # wherever the stride happened to stop — which is what made the first draft of this
-        # fixture assert a symmetric overhang it had not actually drawn.
-        draw.rectangle((right - 3, 20, right, 39), fill=(20, 20, 30, 255))
+        # Pinned flush to the right edge, so the run's extent is the two arguments and not wherever
+        # the stride happened to stop — which is what made the first draft of this fixture assert a
+        # symmetric overhang it had not actually drawn.
+        image.fill(right - 3, 20, right, 39, self.INK)
         return image
 
     def test_content_inside_the_container_is_no_spill(self):
@@ -388,8 +426,7 @@ class LabelSpillTest(unittest.TestCase):
     def test_content_past_both_edges_is_measured_in_dp(self):
         # The container spans x=40..159; the glyph run spans x=30..169, so it overhangs by 10px on
         # each side. 20px at density 2.0 is 10dp.
-        image = self._image(30, 169)
-        self.assertEqual(probe.label_spill_dp(image, 2.0), 10.0)
+        self.assertEqual(probe.label_spill_dp(self._image(30, 169), 2.0), 10.0)
 
     def test_the_measure_is_in_dp_so_density_cancels(self):
         # The same overhang at density 1.0 is twice the dp, which is what makes the number
@@ -410,9 +447,7 @@ class LabelSpillTest(unittest.TestCase):
         self.assertIsNone(probe.label_spill_dp(self._image(30, 169, solid=False), 2.0))
 
     def test_nothing_drawn_is_none(self):
-        from PIL import Image
-
-        self.assertIsNone(probe.label_spill_dp(Image.new("RGBA", (10, 10), (0, 0, 0, 0)), 2.0))
+        self.assertIsNone(probe.label_spill_dp(FakeImage(10, 10), 2.0))
 
 
 class ProbeTableTest(unittest.TestCase):
