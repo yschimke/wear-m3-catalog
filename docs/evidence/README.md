@@ -58,6 +58,19 @@ folded `Button/Disabled` into `Button/Filled`'s `disabled` cell, which put the b
 `buttonSizeModifier()` under it and changed the pill: the symptom is unchanged (max alpha 31, the
 container, and no label anywhere), only this catalog's framing of it.
 
+It was refreshed a SECOND time, for the same kind of reason and on the same evidence. #138 gave the
+button `.width(KitRowWidth)` so it stops publishing 50dp narrower than the kit cell it is compared
+against, and that widened this capture too: the drawn box goes 122.5x52.0dp -> 172.0x52.0dp, which
+is that 172dp arriving. Everything that makes it a #91 capture is untouched — max alpha 31 on both,
+the same 49 colours, the same dominant `(247, 239, 255, 31)` container at 12%, no pixel anywhere
+above the container's alpha and so no label. This repo moved the sticker; the library did not move
+the bug.
+
+Worth stating because the stale capture was not harmless: `identicalToKnownBroken` had been False
+for #91 ever since, so the probe could say neither "still broken" nor "somebody look". The
+[find_render] density fix landed alongside #249 exposed that as the remaining cause once the 160dpi
+mismatch was gone.
+
 `remote-m3-edge-button-label-spill-break.png` is #249's baseline: `EdgeButtonRemote`'s base cell,
 where the label is drawn 20.5dp outside the arc that is supposed to contain it. It is a SNAPSHOT
 LANE capture and cannot be reproduced with an empty `-PremoteSnapshot=` — `RemoteEdgeButton` is
