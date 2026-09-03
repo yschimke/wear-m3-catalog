@@ -62,6 +62,7 @@ import androidx.wear.compose.remote.material3.RemoteCard
 import androidx.wear.compose.remote.material3.RemoteCardDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteCompactButton
+import androidx.wear.compose.remote.material3.RemoteCurvedProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteIconButton
 import androidx.wear.compose.remote.material3.RemoteIconButtonColors
@@ -2280,6 +2281,76 @@ fun CircularProgressRemote() = RemoteSticker {
       strokeWidth = stroke,
     )
   }
+}
+
+// ---------------------------------------------------------------------------
+// Communication — the CURVED indicator, a different component from the ring above
+// rather than a variant of it. Wear M3 parallel: `ArcProgressIndicator`.
+// ---------------------------------------------------------------------------
+
+/**
+ * The arc struck along the bezel, drawn at a fixed 60%.
+ *
+ * **IT TAKES THE WEAR SHEET'S NAME, not the library's.** `remote-material3` spells this
+ * `RemoteCurvedProgressIndicator` and `androidx.wear.compose.material3` spells it
+ * `ArcProgressIndicator`. The two draw the same idea — an arc along the bezel for progress — so
+ * this card takes the Wear spelling and pairs with it, on the vocabulary rule in AGENTS.md: a card
+ * called `CurvedProgressIndicator` here beside `ArcProgressIndicator` there would pair with nothing
+ * and leave both rows reading as one-sided, which is the translation-in-disguise #116 folded out of
+ * this sheet.
+ *
+ * **NO KIT NODE, on both columns and for the same reason.** The kit's progress sets are the full
+ * ring, the segmented ring and the linear track; it publishes no arc at all. The Wear sibling's
+ * `ArcProgress` says exactly that in its own `noReference`, and this repeats that judgement rather
+ * than re-deciding it.
+ *
+ * **WHERE THE PAIR DIFFERS, and it is API rather than defect.** Wear's `ArcProgressIndicator` takes
+ * no `progress` — it is indeterminate only, which is why its caption reads "for a wait with no
+ * measurable progress" and its sticker is a still of an animation. The Remote one takes `progress`
+ * first and is DETERMINATE. The two therefore pair by role and by size but will never draw the same
+ * picture; that difference is the two libraries offering different components under one idea, and
+ * it is stated here rather than hidden behind a name of its own.
+ *
+ * **WHAT THE RENDER SHOWS, and it is the library's.** The arc is drawn as a HAIRLINE — one dp of
+ * ink at density 2.0 — however it is asked for. `strokeWidth` is not ignored: 8dp and 24dp bake to
+ * different bytes, and the arc's radius insets as the number grows, so the parameter reaches the
+ * layout. What it does not reach is the stroke, which stays a hairline at the library's own
+ * `RemoteProgressIndicatorDefaults.CurvedIndicatorStrokeWidth` and at every value tried. No
+ * workaround is taken: a stroke invented at the call site would draw an arc this library does not
+ * produce, under its name, which is the trade `CircularProgressRemote`'s stroke note refuses one
+ * component over.
+ *
+ * No `@OverrideVariant` cells, because there is no kit set to have cells OF. The knobs are real
+ * arguments a viewer can seed; they are simply not crossings of anything published.
+ */
+@CatalogComponent(
+  id = "ArcProgressIndicator",
+  group = "Communication",
+  parallel = "ArcProgressIndicator",
+  noReference =
+    "The kit publishes no arc indicator: its progress sets are the full ring, the segmented ring " +
+      "and the linear track. The Wear column says the same of its `ArcProgressIndicator`; this is " +
+      "that component's Remote counterpart, determinate where Wear's is indeterminate.",
+  caption =
+    "A determinate arc along the bezel, at a fixed 60%. Remote draws it as a hairline whatever " +
+      "stroke width it is given — see the KDoc.",
+)
+@CatalogRemoteLarge
+@Composable
+fun ArcProgressRemote() = RemoteSticker {
+  // Seeded the way `CircularProgressRemote` seeds its ring, and at the same 0.6, so the sheet's
+  // two determinate progress cards are read at one value rather than two arbitrary ones.
+  val progress = rememberOverridableRemoteFloat("progress", previewOverrideFloat("progress", 0.6f))
+  RemoteCurvedProgressIndicator(
+    progress = progress,
+    // 120dp is the Wear sibling's `Modifier.size(120.dp)` rather than a number chosen here: an arc
+    // has no intrinsic size, so the two columns must be handed the same one or the comparison is
+    // between two radii. It is also why this sticker is on [CatalogRemoteLarge] — 120dp does not
+    // fit the 100dp-tall component frame — rather than on [CatalogRemoteDisplay], which would make
+    // it a bezel rail on a 192dp face and stop it pairing with the Wear card's 120dp box.
+    modifier = RemoteModifier.size(120.rdp),
+    enabled = previewOverrideBoolean("enabled", true).rb,
+  )
 }
 
 // ---------------------------------------------------------------------------
