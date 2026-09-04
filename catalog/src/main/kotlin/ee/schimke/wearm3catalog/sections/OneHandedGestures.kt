@@ -4,6 +4,7 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,9 +46,11 @@ import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
+import ee.schimke.wearm3catalog.GestureActivation
 import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.TransparentScreenSticker
+import ee.schimke.wearm3catalog.counted
 import ee.schimke.wearm3catalog.kitCopy
 import ee.schimke.wearm3catalog.kitRowWidth
 
@@ -157,38 +160,50 @@ private fun rememberGestureConfiguration(
 @Composable
 fun GestureClickIndicator() = Sticker {
   val enabled = gesturesEnabled()
-  CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
-    val action = gestureAction()
-    val configuration = rememberGestureConfiguration(action, OneHandedGesturePriority.Clickable)
-    val interactionSource = remember { MutableInteractionSource() }
-    // Keyed on the configuration: a cell that changes the action registers a new indicator, and a
-    // state left over from the old one would animate under the wrong glyph.
-    val indicatorState = remember(configuration) { OneHandedGestureClickIndicatorState() }
-    val size =
-      when (previewOverrideChoice("indicatorSize", "medium", listOf("medium", "small"))) {
-        "small" -> OneHandedGestureIndicatorSize.Small
-        else -> OneHandedGestureIndicatorSize.Medium
+  // A COLUMN, not the frame's bare `Box`, because the activation button below the component has to
+  // sit under it rather than over it. In the baked lane the button is absent and the column wraps
+  // to exactly the button's bounds, so the published capture is unchanged — verified by hash.
+  Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
+      val action = gestureAction()
+      val configuration = rememberGestureConfiguration(action, OneHandedGesturePriority.Clickable)
+      val interactionSource = remember { MutableInteractionSource() }
+      // Keyed on the configuration: a cell that changes the action registers a new indicator, and a
+      // state left over from the old one would animate under the wrong glyph.
+      val indicatorState = remember(configuration) { OneHandedGestureClickIndicatorState() }
+      val size =
+        when (previewOverrideChoice("indicatorSize", "medium", listOf("medium", "small"))) {
+          "small" -> OneHandedGestureIndicatorSize.Small
+          else -> OneHandedGestureIndicatorSize.Medium
+        }
+      LaunchedEffect(indicatorState, enabled) { if (enabled) indicatorState.showIndicator() }
+      // The gesture PRESSES THE BUTTON, as the AndroidX sample's does. `onGesture = {}` was a
+      // component that announced an action and then had none: the glyph plays, the wearer pinches,
+      // and nothing anywhere changes. Sharing one lambda with `onClick` is also the point — the two
+      // routes to the same button must not be able to drift.
+      val press = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
+      Button(
+        onClick = press.onClick,
+        interactionSource = interactionSource,
+        modifier =
+          Modifier.kitRowWidth()
+            .oneHandedGesture(
+              gestureConfiguration = configuration,
+              interactionSource = interactionSource,
+              onGestureLabel = "press the button",
+              onGesture = { press.onClick() },
+            ),
+      ) {
+        // `fillMaxWidth()` on the LABEL, as the AndroidX sample has it. The indicator is a `Layout`
+        // that measures the content and centres the glyph over it, so a label that hugs its text
+        // pulls the glyph off-centre with it — visible on the recording in `Motion.kt` before this
+        // was here, where the hand sat over the first two words rather than in the button.
+        OneHandedGestureClickIndicator(configuration, indicatorState, gestureIndicatorSize = size) {
+          Text(press.label, modifier = Modifier.fillMaxWidth())
+        }
       }
-    LaunchedEffect(indicatorState, enabled) { if (enabled) indicatorState.showIndicator() }
-    Button(
-      onClick = {},
-      interactionSource = interactionSource,
-      modifier =
-        Modifier.kitRowWidth()
-          .oneHandedGesture(
-            gestureConfiguration = configuration,
-            interactionSource = interactionSource,
-            onGestureLabel = "press the button",
-            onGesture = {},
-          ),
-    ) {
-      // `fillMaxWidth()` on the LABEL, as the AndroidX sample has it. The indicator is a `Layout`
-      // that measures the content and centres the glyph over it, so a label that hugs its text
-      // pulls the glyph off-centre with it — visible on the recording in `Motion.kt` before this
-      // was here, where the hand sat over the first two words rather than in the button.
-      OneHandedGestureClickIndicator(configuration, indicatorState, gestureIndicatorSize = size) {
-        Text(kitCopy("label", KitCopy.PRIMARY_LABEL), modifier = Modifier.fillMaxWidth())
-      }
+      // Live lane only, and only where there is no wrist to do it — see `CatalogGestures.kt`.
+      GestureActivation(action, onGesture = { press.onClick() })
     }
   }
 }
@@ -252,6 +267,11 @@ fun GestureScrollIndicator() = TransparentScreenSticker {
         scrollState = scrollState,
       )
     }
+    GestureActivation(
+      OneHandedGestureAction.Primary,
+      onGesture = { OneHandedGestureDefaults.scrollDown(scrollState) },
+      modifier = Modifier.align(Alignment.TopCenter),
+    )
   }
 }
 
@@ -283,6 +303,22 @@ fun GestureHorizontalPages() = TransparentScreenSticker {
     // `initialPage` once, so an unkeyed state leaves the knob dead in a live session.
     val pagerState =
       key(pages, initialPage) { rememberPagerState(initialPage = initialPage) { pages } }
+    // THE GESTURE HAS TO BE REGISTERED SOMEWHERE, and it was registered nowhere.
+    //
+    // This drew the indicator and stopped: no `Modifier.oneHandedGesture` anywhere in the sticker,
+    // so the configuration named a gesture nothing had claimed and there was no `onGesture` to
+    // run. The dots sat at `initialPage` for good — the component announced "a pinch advances the
+    // pager" and could not advance one. On a screen the modifier goes on the pager itself; there
+    // is no pager here (the kit's cell is the dots alone, as `Indicators.kt` draws them), so it
+    // goes on the frame, which is what a pager would have filled.
+    Box(
+      Modifier.fillMaxSize()
+        .oneHandedGesture(
+          gestureConfiguration = configuration,
+          onGestureLabel = "scroll to the next page",
+          onGesture = { OneHandedGestureDefaults.scrollToNextPage(pagerState) },
+        )
+    )
     // Aligned from the outside — see the note in `GestureScrollIndicator` above.
     Box(Modifier.align(Alignment.BottomCenter)) {
       OneHandedGestureHorizontalPageIndicator(
@@ -291,6 +327,11 @@ fun GestureHorizontalPages() = TransparentScreenSticker {
         pagerState = pagerState,
       )
     }
+    GestureActivation(
+      OneHandedGestureAction.Primary,
+      onGesture = { OneHandedGestureDefaults.scrollToNextPage(pagerState) },
+      modifier = Modifier.align(Alignment.TopCenter),
+    )
   }
 }
 
@@ -326,6 +367,22 @@ fun GestureVerticalPages() = TransparentScreenSticker {
     LaunchedEffect(indicatorState, enabled) { if (enabled) indicatorState.showIndicator() }
     val pagerState =
       key(pages, initialPage) { rememberPagerState(initialPage = initialPage) { pages } }
+    // THE GESTURE HAS TO BE REGISTERED SOMEWHERE, and it was registered nowhere.
+    //
+    // This drew the indicator and stopped: no `Modifier.oneHandedGesture` anywhere in the sticker,
+    // so the configuration named a gesture nothing had claimed and there was no `onGesture` to
+    // run. The dots sat at `initialPage` for good — the component announced "a pinch advances the
+    // pager" and could not advance one. On a screen the modifier goes on the pager itself; there
+    // is no pager here (the kit's cell is the dots alone, as `Indicators.kt` draws them), so it
+    // goes on the frame, which is what a pager would have filled.
+    Box(
+      Modifier.fillMaxSize()
+        .oneHandedGesture(
+          gestureConfiguration = configuration,
+          onGestureLabel = "scroll to the next page",
+          onGesture = { OneHandedGestureDefaults.scrollToNextPage(pagerState) },
+        )
+    )
     // Aligned from the outside — see the note in `GestureScrollIndicator` above.
     Box(Modifier.align(Alignment.CenterEnd)) {
       OneHandedGestureVerticalPageIndicator(
@@ -334,5 +391,10 @@ fun GestureVerticalPages() = TransparentScreenSticker {
         pagerState = pagerState,
       )
     }
+    GestureActivation(
+      OneHandedGestureAction.Primary,
+      onGesture = { OneHandedGestureDefaults.scrollToNextPage(pagerState) },
+      modifier = Modifier.align(Alignment.TopCenter),
+    )
   }
 }
