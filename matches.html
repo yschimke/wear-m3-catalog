@@ -322,7 +322,7 @@
 <li><span class="cid">WidgetContainer/Small</span><span class="grp">Widget Container</span><span class="cap">The Small (200×60dp) squircle widget container the Wear widget host draws around widget content — default surfaceContainerLow fill, 8dp padding, 26dp corners — rendered through the glance-wear WearWidgetPreview tooling wrapper.</span></li>
 <li><span class="cid">WidgetContainer/Large</span><span class="grp">Widget Container</span><span class="cap">The Large (200×108dp) squircle widget container with the host&#39;s default background, carrying a title + supporting line.</span></li>
 <li><span class="cid">WidgetContainer/GradientBackground</span><span class="grp">Widget Container</span><span class="cap">A Small container whose widget declares its own WearWidgetBrush background (vertical gradient) — the corner clipping over the brush is the point.</span></li></ul></section>
-  <section class="solo"><h2>Only in wear-m3-catalog <span>42</span></h2>
+  <section class="solo"><h2>Only in wear-m3-catalog <span>46</span></h2>
        <ul><li><span class="cid">Auth/SignInButton</span><span class="grp">Sign-in</span><span class="cap">The primary action of a sign-in prompt, with the account glyph Wear&#39;s flow expects.</span></li>
 <li><span class="cid">Auth/GuestModeButton</span><span class="grp">Sign-in</span><span class="cap">The way past the sign-in prompt: continue without an account.</span></li>
 <li><span class="cid">Auth/SelectAccountScreen</span><span class="grp">Sign-in</span><span class="cap">Pick which account to sign in with — avatar, name and address per row.</span></li>
@@ -345,6 +345,10 @@
 <li><span class="cid">Media/PlayPauseProgressButton</span><span class="grp">Media controls</span><span class="cap">The middle button: play or pause. Its progress ring is drawn UNDER the filled container rather than around it, so the kit&#39;s `Progress=` does not read here — an upstream bug, not a seed. See the note in this file.</span></li>
 <li><span class="cid">Media/InfoDisplay</span><span class="grp">Media controls</span><span class="cap">Track and artist, marquee-scrolled when the title outruns the screen.</span></li>
 <li><span class="cid">Media/ShowPlaylistButton</span><span class="grp">Media controls</span><span class="cap">Jump to the playlist this track came from, with its artwork.</span></li>
+<li><span class="cid">OneHandedGestureClickIndicator</span><span class="grp">One-handed gestures</span><span class="cap">A button announcing that a double pinch will press it: the label steps aside for the glyph.</span></li>
+<li><span class="cid">OneHandedGestureScrollIndicator</span><span class="grp">One-handed gestures</span><span class="cap">The scroll rail growing a glyph: a pinch scrolls the list without the other hand.</span></li>
+<li><span class="cid">OneHandedGesturePageIndicator/Horizontal</span><span class="grp">One-handed gestures</span><span class="cap">The page dots with the pinch that advances them, along the bottom of the display.</span></li>
+<li><span class="cid">OneHandedGesturePageIndicator/Vertical</span><span class="grp">One-handed gestures</span><span class="cap">The same pinch-to-advance affordance for a vertical pager, against the right bezel.</span></li>
 <li><span class="cid">DatePicker</span><span class="grp">Pickers</span><span class="cap">Three wheels for a date, with the kit&#39;s field orderings folded in.</span></li>
 <li><span class="cid">TimePicker</span><span class="grp">Pickers</span><span class="cap">Wheels for a time, pinned to midnight; the kit&#39;s clock formats fold in as cells.</span></li>
 <li><span class="cid">Picker</span><span class="grp">Pickers</span><span class="cap">One wheel of options — the primitive the date and time pickers are built from.</span></li>
