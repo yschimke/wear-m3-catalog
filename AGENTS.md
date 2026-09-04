@@ -587,6 +587,22 @@ placeholder's "3 distinct frames in 46" turned out to be.
   clean local hooks. So scrub the **PR description** too, not just the commits.
   The CI gate only *blocks* once it is a **required status check** on the Protect Main ruleset;
   until then its `drift` job makes a breach loud rather than preventing it.
+- **Write `![alt](url)` in a PR body and leave the backticks alone if they appear.** A posted
+  description often lands as ``![alt](`url`)`` — or its cousin with the closing run pushed past the
+  `)` — which GitHub renders as literal text plus a stray code span, so the image never appears.
+  The backticks are injected somewhere between the agent and GitHub, not authored: only the FIRST
+  image URL in a body survives, and re-posting a "corrected" version brings them back. #258 merged
+  with its filmstrip evidence broken for exactly that reason, and #260 spent three edits proving
+  it. The [`PR Body Syntax`](.github/workflows/pr-body-syntax.yml) workflow now rewrites the body
+  in place on `opened` / `edited` / `reopened` / `synchronize`, stripping only backticks that touch
+  a link destination — code spans and fenced blocks are left alone (matcher and tests in
+  [`.github/scripts/fix-pr-body-markdown.mjs`](.github/scripts/fix-pr-body-markdown.mjs), ported
+  from compose-ai-tools; the tests run in `ci.yml`'s `pages` job). **A description changing under
+  you is that repair, not a reviewer.** Three things it does not cover: an image in a *review
+  comment*, a destination that no longer looks like one (a reference-style image whose leading `!`
+  was stripped, or an HTML `<img src="``…``">` — both tried on #260, neither repairable without
+  guessing), and proving the picture actually rendered. Committed render PNGs live in
+  [`docs/evidence/`](docs/evidence/) and are linked commit-pinned.
 
 ## Dependencies
 
