@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-09-04T10:09:01.971Z",
+  "generatedAt": "2026-09-04T14:01:49.012Z",
   "mappings": [
     {
       "componentId": "Auth/SignInButton",
@@ -1144,6 +1144,106 @@
         }
       ],
       "figmaSvg": "figma/media-showplaylistbutton.svg"
+    },
+    {
+      "componentId": "OneHandedGestureClickIndicator",
+      "figmaLayerName": "OneHandedGestureClickIndicator",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "GestureClickIndicator",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgestureclickindicator__ideal__default.svg"
+    },
+    {
+      "componentId": "OneHandedGestureScrollIndicator",
+      "figmaLayerName": "OneHandedGestureScrollIndicator",
+      "componentName": "TransparentScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "GestureScrollIndicator",
+      "codeSnippet": "TransparentScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.TransparentScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+          "nullable": false
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__default__192dp.svg"
+    },
+    {
+      "componentId": "OneHandedGesturePageIndicator/Horizontal",
+      "figmaLayerName": "OneHandedGesturePageIndicator/Horizontal",
+      "componentName": "TransparentScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "GestureHorizontalPages",
+      "codeSnippet": "TransparentScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.TransparentScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+          "nullable": false
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__default__192dp.svg"
+    },
+    {
+      "componentId": "OneHandedGesturePageIndicator/Vertical",
+      "figmaLayerName": "OneHandedGesturePageIndicator/Vertical",
+      "componentName": "TransparentScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "GestureVerticalPages",
+      "codeSnippet": "TransparentScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.TransparentScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+          "nullable": false
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__192dp.svg"
     },
     {
       "componentId": "DatePicker",

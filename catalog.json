@@ -53455,6 +53455,2583 @@
       ]
     },
     {
+      "componentId": "OneHandedGestureClickIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgestureclickindicator/ideal__default.png",
+          "state": "default",
+          "width": 344,
+          "height": 104,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgestureclickindicator__ideal__default",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "action",
+              "type": "string",
+              "label": "action",
+              "default": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "current": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "primary",
+                  "label": "primary"
+                },
+                {
+                  "value": "dismiss",
+                  "label": "dismiss"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "indicatorSize",
+              "type": "string",
+              "label": "indicatorSize",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "medium",
+                  "label": "medium"
+                },
+                {
+                  "value": "small",
+                  "label": "small"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgestureclickindicator__ideal__default.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgestureclickindicator/ideal__dismiss.png",
+          "state": "dismiss",
+          "width": 344,
+          "height": 104,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgestureclickindicator__ideal__dismiss",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_dismiss",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "action",
+              "type": "string",
+              "label": "action",
+              "default": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "current": {
+                "kind": "string",
+                "value": "dismiss"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "primary",
+                  "label": "primary"
+                },
+                {
+                  "value": "dismiss",
+                  "label": "dismiss"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "indicatorSize",
+              "type": "string",
+              "label": "indicatorSize",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "medium",
+                  "label": "medium"
+                },
+                {
+                  "value": "small",
+                  "label": "small"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgestureclickindicator__ideal__dismiss.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgestureclickindicator/ideal__gestures-off.png",
+          "state": "gestures-off",
+          "width": 344,
+          "height": 104,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgestureclickindicator__ideal__gestures-off",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "action",
+              "type": "string",
+              "label": "action",
+              "default": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "current": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "primary",
+                  "label": "primary"
+                },
+                {
+                  "value": "dismiss",
+                  "label": "dismiss"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "indicatorSize",
+              "type": "string",
+              "label": "indicatorSize",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "medium",
+                  "label": "medium"
+                },
+                {
+                  "value": "small",
+                  "label": "small"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgestureclickindicator__ideal__gestures-off.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgestureclickindicator/ideal__small-indicator.png",
+          "state": "small-indicator",
+          "width": 344,
+          "height": 104,
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgestureclickindicator__ideal__small-indicator",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_small-indicator",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "action",
+              "type": "string",
+              "label": "action",
+              "default": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "current": {
+                "kind": "string",
+                "value": "primary"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "primary",
+                  "label": "primary"
+                },
+                {
+                  "value": "dismiss",
+                  "label": "dismiss"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "indicatorSize",
+              "type": "string",
+              "label": "indicatorSize",
+              "default": {
+                "kind": "string",
+                "value": "medium"
+              },
+              "current": {
+                "kind": "string",
+                "value": "small"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [
+                {
+                  "value": "medium",
+                  "label": "medium"
+                },
+                {
+                  "value": "small",
+                  "label": "small"
+                }
+              ],
+              "optionsExhaustive": true
+            },
+            {
+              "key": "label",
+              "type": "string",
+              "label": "label",
+              "default": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "current": {
+                "kind": "string",
+                "value": "Primary label"
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgestureclickindicator__ideal__small-indicator.svg"
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 0,
+              "y": 0,
+              "width": 344,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 344,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 0,
+            "y": 0,
+            "width": 344,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 6,
+            "end": 14,
+            "bottom": 6
+          },
+          "cornerRadius": 26
+        }
+      ],
+      "motion": [
+        {
+          "path": "motion/onehandedgestureclickindicator/ee.schimke.wearm3catalog.sections.MotionKt.GestureHintMotion.gif",
+          "kind": "animation",
+          "caption": "The label fades out, the double-pinch glyph springs in and plays, and the label comes back — the button keeps its shape throughout."
+        }
+      ],
+      "section": "Communication",
+      "group": "One-handed gestures",
+      "caption": "A button announcing that a double pinch will press it: the label steps aside for the glyph.",
+      "noReference": "The kit publishes no gesture set — one-handed gestures are a design GUIDE (design/ui/wear/guides/patterns/gestures) rather than a component sheet, so there is no frame to compare against. The component is real Wear Compose API, new in 1.7.0-beta.",
+      "wireframe": "wireframes/onehandedgestureclickindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 158,
+      "sourceDirectory": "catalog",
+      "sourceFunction": "GestureClickIndicator",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
+    },
+    {
+      "componentId": "OneHandedGestureScrollIndicator",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_192dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_small_round",
+            "widthDp": 192,
+            "heightDp": 192
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__default__192dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__gestures-off__192dp.png",
+          "state": "gestures-off",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__gestures-off__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_192dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_small_round",
+            "widthDp": 192,
+            "heightDp": 192
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__gestures-off__192dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_204dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+            "widthDp": 204,
+            "heightDp": 204
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__default__204dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__gestures-off__204dp.png",
+          "state": "gestures-off",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__gestures-off__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_204dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+            "widthDp": 204,
+            "heightDp": 204
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__gestures-off__204dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_216dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+            "widthDp": 216,
+            "heightDp": 216
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__default__216dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__gestures-off__216dp.png",
+          "state": "gestures-off",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__gestures-off__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_216dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+            "widthDp": 216,
+            "heightDp": 216
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__gestures-off__216dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_225dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+            "widthDp": 225,
+            "heightDp": 225
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__default__225dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__gestures-off__225dp.png",
+          "state": "gestures-off",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__gestures-off__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_225dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+            "widthDp": 225,
+            "heightDp": 225
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__gestures-off__225dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_240dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_xl_round",
+            "widthDp": 240,
+            "heightDp": 240
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__default__240dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturescrollindicator/ideal__gestures-off__240dp.png",
+          "state": "gestures-off",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturescrollindicator__ideal__gestures-off__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_240dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "rows",
+              "type": "int",
+              "label": "rows",
+              "default": {
+                "kind": "int",
+                "value": 12
+              },
+              "current": {
+                "kind": "int",
+                "value": 12
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_xl_round",
+            "widthDp": 240,
+            "heightDp": 240
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturescrollindicator__ideal__gestures-off__240dp.svg"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "motion": [
+        {
+          "path": "motion/onehandedgesturescrollindicator/ee.schimke.wearm3catalog.sections.MotionKt.GestureScrollHintMotion.gif",
+          "kind": "animation",
+          "caption": "The scroll rail takes its gesture colours, grows a glyph, and jiggles down and back to show which way a pinch would move the list."
+        }
+      ],
+      "section": "Communication",
+      "group": "One-handed gestures",
+      "caption": "The scroll rail growing a glyph: a pinch scrolls the list without the other hand.",
+      "noReference": "The kit's `Scroll-Indicator` set draws the rail alone; the gesture layer over it — the pill, the glyph and the jiggle that says a pinch will scroll — has no cell in the kit, which publishes one-handed gestures as a design guide rather than as a component sheet.",
+      "wireframe": "wireframes/onehandedgesturescrollindicator.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 209,
+      "sourceDirectory": "catalog",
+      "sourceFunction": "GestureScrollIndicator",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "composableSlot": true
+        }
+      ]
+    },
+    {
+      "componentId": "OneHandedGesturePageIndicator/Horizontal",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_192dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_small_round",
+            "widthDp": 192,
+            "heightDp": 192
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__default__192dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__gestures-off__192dp.png",
+          "state": "gestures-off",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__gestures-off__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_192dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_small_round",
+            "widthDp": 192,
+            "heightDp": 192
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__gestures-off__192dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_204dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+            "widthDp": 204,
+            "heightDp": 204
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__default__204dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__gestures-off__204dp.png",
+          "state": "gestures-off",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__gestures-off__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_204dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+            "widthDp": 204,
+            "heightDp": 204
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__gestures-off__204dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_216dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+            "widthDp": 216,
+            "heightDp": 216
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__default__216dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__gestures-off__216dp.png",
+          "state": "gestures-off",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__gestures-off__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_216dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+            "widthDp": 216,
+            "heightDp": 216
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__gestures-off__216dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_225dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+            "widthDp": 225,
+            "heightDp": 225
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__default__225dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__gestures-off__225dp.png",
+          "state": "gestures-off",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__gestures-off__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_225dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+            "widthDp": 225,
+            "heightDp": 225
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__gestures-off__225dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_240dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_xl_round",
+            "widthDp": 240,
+            "heightDp": 240
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__default__240dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-horizontal/ideal__gestures-off__240dp.png",
+          "state": "gestures-off",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-horizontal__ideal__gestures-off__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_240dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_xl_round",
+            "widthDp": 240,
+            "heightDp": 240
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-horizontal__ideal__gestures-off__240dp.svg"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "motion": [
+        {
+          "path": "motion/onehandedgesturepageindicator-horizontal/ee.schimke.wearm3catalog.sections.MotionKt.GesturePageHintMotion.gif",
+          "kind": "animation",
+          "caption": "A pill grows above the page dots, plays the pinch glyph, and collapses back into the row."
+        }
+      ],
+      "section": "Communication",
+      "group": "One-handed gestures",
+      "caption": "The page dots with the pinch that advances them, along the bottom of the display.",
+      "noReference": "The kit's `Page-Indicator` set draws the dots alone; the gesture pill that grows above them has no cell, one-handed gestures being a design guide rather than a kit component sheet.",
+      "wireframe": "wireframes/onehandedgesturepageindicator-horizontal.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 270,
+      "sourceDirectory": "catalog",
+      "sourceFunction": "GestureHorizontalPages",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "composableSlot": true
+        }
+      ]
+    },
+    {
+      "componentId": "OneHandedGesturePageIndicator/Vertical",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__default__192dp.png",
+          "state": "default",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__default__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_192dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_small_round",
+            "widthDp": 192,
+            "heightDp": 192
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__192dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__gestures-off__192dp.png",
+          "state": "gestures-off",
+          "width": 384,
+          "height": 384,
+          "size": "192dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__gestures-off__192dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_192dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_small_round",
+            "widthDp": 192,
+            "heightDp": 192
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__gestures-off__192dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__default__204dp.png",
+          "state": "default",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__default__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_204dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+            "widthDp": 204,
+            "heightDp": 204
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__204dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__gestures-off__204dp.png",
+          "state": "gestures-off",
+          "width": 408,
+          "height": 408,
+          "size": "204dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__gestures-off__204dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_204dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=204dp,height=204dp,dpi=320,isRound=true",
+            "widthDp": 204,
+            "heightDp": 204
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__gestures-off__204dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__default__216dp.png",
+          "state": "default",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__default__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_216dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+            "widthDp": 216,
+            "heightDp": 216
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__216dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__gestures-off__216dp.png",
+          "state": "gestures-off",
+          "width": 432,
+          "height": 432,
+          "size": "216dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__gestures-off__216dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_216dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=216dp,height=216dp,dpi=320,isRound=true",
+            "widthDp": 216,
+            "heightDp": 216
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__gestures-off__216dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__default__225dp.png",
+          "state": "default",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__default__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_225dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+            "widthDp": 225,
+            "heightDp": 225
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__225dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__gestures-off__225dp.png",
+          "state": "gestures-off",
+          "width": 450,
+          "height": 450,
+          "size": "225dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__gestures-off__225dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_225dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+            "widthDp": 225,
+            "heightDp": 225
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__gestures-off__225dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__default__240dp.png",
+          "state": "default",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__default__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_240dp",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_xl_round",
+            "widthDp": 240,
+            "heightDp": 240
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__240dp.svg"
+        },
+        {
+          "variant": "ideal",
+          "path": "images/onehandedgesturepageindicator-vertical/ideal__gestures-off__240dp.png",
+          "state": "gestures-off",
+          "width": 480,
+          "height": 480,
+          "size": "240dp",
+          "livePreview": "https://preview.coo.ee/wear-m3-catalog/p/onehandedgesturepageindicator-vertical__ideal__gestures-off__240dp",
+          "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_240dp_VARIANT_gestures-off",
+          "overrides": [
+            {
+              "key": "gesturesEnabled",
+              "type": "bool",
+              "label": "gesturesEnabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "pages",
+              "type": "int",
+              "label": "pages",
+              "default": {
+                "kind": "int",
+                "value": 4
+              },
+              "current": {
+                "kind": "int",
+                "value": 4
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "initialPage",
+              "type": "int",
+              "label": "initialPage",
+              "default": {
+                "kind": "int",
+                "value": 0
+              },
+              "current": {
+                "kind": "int",
+                "value": 0
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "device": "id:wearos_xl_round",
+            "widthDp": 240,
+            "heightDp": 240
+          },
+          "density": 2,
+          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__gestures-off__240dp.svg"
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "section": "Communication",
+      "group": "One-handed gestures",
+      "caption": "The same pinch-to-advance affordance for a vertical pager, against the right bezel.",
+      "noReference": "The kit's `Page-Indicator` set draws the dots alone; the gesture pill beside them has no cell, one-handed gestures being a design guide rather than a kit component sheet.",
+      "wireframe": "wireframes/onehandedgesturepageindicator-vertical.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt",
+      "sourceModule": ":catalog",
+      "bodyLine": 315,
+      "sourceDirectory": "catalog",
+      "sourceFunction": "GestureVerticalPages",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "composableSlot": true
+        }
+      ]
+    },
+    {
       "componentId": "DatePicker",
       "images": [
         {
@@ -111663,7 +114240,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 1.71.0",
-  "generatedAt": "2026-09-04T10:08:56.427Z",
+  "generatedAt": "2026-09-04T14:01:43.177Z",
   "display": {
     "surface": "dark",
     "hero": "Media/PlayerScreen"
