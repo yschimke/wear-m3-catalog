@@ -1,0 +1,129 @@
+name: PR Body Syntax
+
+# Repairs the mangled-backtick markdown that agent-written PR descriptions keep
+# arriving with, so the visual evidence actually renders.
+#
+# The shape, seen verbatim in this repo's own PR bodies:
+#
+#   ![One-handed gesture hint recordings](``https://raw.githubusercontent.com/.../frames.png``)
+#
+# GitHub renders that as literal text and a stray code span — no image. AGENTS.md
+# requires a UI-affecting PR to carry its pixels *viewable inline*, so a PR that
+# did the expensive part right (rendered the evidence, committed the PNGs, wrote
+# the URLs) still fails its own bar over two stray backticks. #258 merged with
+# exactly that: its filmstrip evidence broken, its stills fine, because only the
+# FIRST image URL in a body survives the trip. Cheaper to fix the body than to
+# ask for a re-edit every time — and a re-edit does not help, since the injection
+# happens again on the way back.
+#
+# PORTED FROM yschimke/compose-ai-tools, where this has been running for a while;
+# the matcher and its tests are copied verbatim. Two deliberate divergences:
+# actions are pinned by tag, as everything else in this repo is rather than by
+# SHA; and the self-test runs in `ci.yml`'s `pages` job beside the repo's other
+# `node --test` scripts, rather than as a second job here.
+#
+# Detection and repair live in .github/scripts/fix-pr-body-markdown.mjs, which
+# only strips backticks ADJACENT TO A LINK DESTINATION — a destination can never
+# legally start with a backtick, so there is nothing to guess. Code spans, fenced
+# blocks, and every other backtick on the line are left alone. It has tests
+# because this edits descriptions unattended: over-reach silently rewrites
+# someone's prose, under-reach silently leaves the images broken, and neither is
+# visible without them.
+#
+# WHAT IT DOES NOT COVER, each of which has cost a PR its evidence here:
+#   • Only PR DESCRIPTIONS. An image in a review comment is never repaired.
+#   • Only destinations that still look like one. A reference-style image whose
+#     leading `!` was stripped, or an HTML `<img src="``…``">`, falls through —
+#     both were tried on #260 and neither is repairable without guessing. Write
+#     the plain `![alt](url)` form and let this catch it.
+#   • It does not prove the picture rendered. Look at the PR.
+#
+# Trigger notes:
+#   • `pull_request`, NOT `pull_request_target`. This never needs PR-head code —
+#     it reads the body from the API and writes it back — so there is no reason
+#     to take on the `pull_request_target` footgun. The cost is that a fork PR's
+#     token is read-only, hence the same-repo guard below; PRs here come from
+#     `agent/…` branches on this repo.
+#   • The PATCH re-fires `edited`, so this workflow triggers itself exactly once
+#     more. That run finds nothing to change (the repair is idempotent) and
+#     stops. The concurrency group keeps the pair ordered rather than racing:
+#     the job is a read-modify-write against one mutable resource, so two at once
+#     is a lost update by construction. `cancel-in-progress` is deliberately
+#     false — cancelling would mean an edit's repair silently never happens.
+#   • The body is untrusted text: it is read into a file through a quoted shell
+#     variable, never interpolated into a command.
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+permissions: {}
+
+jobs:
+  fix:
+    name: Fix backticked link destinations
+    # Serialize per PR: this is a read-modify-write against a single mutable
+    # resource (the description), so two of these at once is a lost update.
+    concurrency:
+      group: pr-body-syntax-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
+    # Fork PRs get a read-only token, so the PATCH would 403. Skip rather than
+    # fail red on a PR whose author cannot be helped by this job anyway.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.20.0
+
+      - name: Repair the description
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set -euo pipefail
+
+          # Read the CURRENT body, not `github.event.pull_request.body`. The
+          # payload is a snapshot from when the event fired, and this job PATCHes
+          # the whole description back — so a body edited while the run is queued
+          # or in flight would be overwritten by a repaired copy of the older
+          # text, silently eating someone's edit. The concurrency group cannot
+          # fix that: the staleness is baked into the payload before the group is
+          # ever evaluated. Re-reading here narrows the window to this job's own
+          # runtime. `.body // ""` maps a null body to the empty string, which
+          # the matcher treats as "nothing to fix".
+          #
+          # Piped into `jq -j`, NOT captured in `$(…)`. Command substitution
+          # strips *every* trailing newline, so a body ending in a blank line
+          # would come back shortened — and since the PATCH writes the whole
+          # description, a run that repaired a backtick would quietly reflow
+          # unrelated whitespace too. `jq -j` emits the string with no terminator
+          # at all, so body.md is byte-exact.
+          gh api "repos/${REPO}/pulls/${PR_NUMBER}" | jq -j '.body // ""' > body.md
+          node .github/scripts/fix-pr-body-markdown.mjs body.md > fixed.md
+
+          if cmp -s body.md fixed.md; then
+            echo "Description is clean — nothing to fix."
+            exit 0
+          fi
+
+          echo "Repairing backticked link destinations:"
+          diff -u body.md fixed.md || true
+
+          gh api --method PATCH "repos/${REPO}/pulls/${PR_NUMBER}" \
+            -F body=@fixed.md >/dev/null
+
+          {
+            echo "### PR body repaired"
+            echo
+            echo "Removed backticks wrapping a markdown link destination, so the"
+            echo "linked images render inline. See"
+            echo '`.github/scripts/fix-pr-body-markdown.mjs`.'
+          } >> "$GITHUB_STEP_SUMMARY"
