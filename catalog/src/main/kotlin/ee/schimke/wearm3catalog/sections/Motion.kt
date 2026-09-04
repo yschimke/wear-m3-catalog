@@ -9,8 +9,13 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -24,10 +29,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
@@ -44,6 +52,17 @@ import androidx.wear.compose.material3.RevealValue
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureAction
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureClickIndicator
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureClickIndicatorState
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureDefaults
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureHorizontalPageIndicator
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorState
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePriority
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureScrollIndicator
+import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureScrollIndicatorState
+import androidx.wear.compose.material3.onehandedgesture.oneHandedGesture
+import androidx.wear.compose.material3.onehandedgesture.rememberOneHandedGestureConfiguration
 import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
@@ -101,6 +120,9 @@ import kotlinx.coroutines.delay
 //   PlaceholderIconButtonMotion -> Placeholder/IconButton     (Placeholders.kt)
 //   PlaceholderCardMotion       -> Placeholder/Card           (Placeholders.kt)
 //   MediaTransportMotion        -> Media/PodcastControlButtons (MediaControls.kt)
+//   GestureHintMotion           -> OneHandedGestureClickIndicator          (OneHandedGestures.kt)
+//   GestureScrollHintMotion     -> OneHandedGestureScrollIndicator         (OneHandedGestures.kt)
+//   GesturePageHintMotion       -> OneHandedGesturePageIndicator/Horizontal (OneHandedGestures.kt)
 //
 // ONE FUNCTION PER COMPONENT, which is a constraint on what a recording may cover rather than a
 // detail of the wiring: `motionPreview` is a single name, so two things worth showing on the same
@@ -146,6 +168,12 @@ import kotlinx.coroutines.delay
 //    object (`RevealState`, `TransformingLazyColumnState`) through the same animation a finger
 //    would, so the spring and the anchors are real and only the cause is scripted. A drag gesture
 //    upstream would convert both, and their KDoc says so at the call site.
+//  - **A gesture that is not a pointer at all.** The three one-handed-gesture recordings at the
+//    foot of this file are raised by a double pinch or a wrist turn — sensor events the watch's
+//    `GestureInputManager` reports, which no pointer dispatcher can stand in for and which are
+//    simply absent off a watch. The app-side callback that receives them (`onGestureAvailable`)
+//    does one thing, and the recordings do that same public thing: call `showIndicator()`. Unlike
+//    the two drags above, this is not waiting on an annotation — there is no gesture to script.
 //
 // That is the whole of it: no recording here is state-driven merely because nobody revisited it.
 //
@@ -709,4 +737,194 @@ fun MediaTransportMotion() = MediaRowSticker {
     seekForwardButtonEnabled = true,
     trackPositionUiModel = HorologistSamples.position(percent),
   )
+}
+
+// ---------------------------------------------------------------------------
+// One-handed gestures — the affordance that only exists while it is playing.
+// ---------------------------------------------------------------------------
+//
+// `OneHandedGestures.kt` publishes stills of all three indicators, pinned with
+// `@SettledPreview(afterMs = 800)` to a frame in the middle of the animation. That is a phase, and
+// a phase is the wrong shape for what these components are: each one BEGINS and ENDS on the
+// picture it is not — a button showing its label, a plain scroll rail, plain page dots — and takes
+// the screen over for about two seconds in between. The still says what the glyph looks like; only
+// a recording says that the component gives the space back.
+//
+// All three are state-driven and none of them is waiting on a drag gesture: see the third bullet
+// at the top of this file. `showIndicator()` is the public API the framework's own callback calls.
+
+/**
+ * How long one hint runs, end to end: the 450ms lead-in, the animated vector, the 200ms after it,
+ * and the springs either side. Two of these fit in the capture window below, so a reader sees the
+ * component hand the space back and take it again rather than a glyph that appears once and stops.
+ */
+private const val GESTURE_HINT_CAPTURE_MS = 5000
+
+/**
+ * Frame step for the gesture recordings, a multiple of 16 for the reason [PLACEHOLDER_FRAME_MS]
+ * gives: the renderer rounds a nominal step up to a whole 16ms Compose frame while the GIF still
+ * plays it for the nominal time, so anything else plays the hint faster than a wearer sees it.
+ */
+private const val GESTURE_HINT_FRAME_MS = 32
+
+/**
+ * The click indicator taking a button over and giving it back: the label fades, the double-pinch
+ * glyph springs in and plays, and the label comes back.
+ *
+ * The pill does not move, and that is the design rather than a limitation of the capture — the
+ * indicator is a `Layout` that measures the *content* and centres the glyph over it, so the button
+ * keeps its shape and size while its label steps aside.
+ *
+ * **Copy that reads like an app, not [KitCopy]**, for the reason the placeholder recordings give: a
+ * recording answers to no kit node, and a label that reappears reading `Primary label` says nothing
+ * about what came back.
+ */
+@MotionCanvas
+@AnimatedPreview(
+  durationMs = GESTURE_HINT_CAPTURE_MS,
+  frameIntervalMs = GESTURE_HINT_FRAME_MS,
+  showCurves = false,
+  caption =
+    "The label fades out, the double-pinch glyph springs in and plays, and the label comes back — " +
+      "the button keeps its shape throughout.",
+)
+@Composable
+fun GestureHintMotion() = Sticker {
+  val configuration =
+    rememberOneHandedGestureConfiguration(
+      action = OneHandedGestureAction.Primary,
+      priority = OneHandedGesturePriority.Clickable,
+    )
+  val interactionSource = remember { MutableInteractionSource() }
+  val state = remember { OneHandedGestureClickIndicatorState() }
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(300)
+      state.showIndicator()
+    }
+  }
+  Button(
+    onClick = {},
+    interactionSource = interactionSource,
+    modifier =
+      Modifier.width(172.dp)
+        .oneHandedGesture(
+          gestureConfiguration = configuration,
+          interactionSource = interactionSource,
+          onGestureLabel = "start the run",
+          onGesture = {},
+        ),
+  ) {
+    OneHandedGestureClickIndicator(configuration, state) {
+      // `fillMaxWidth()` so the glyph centres in the BUTTON rather than over the label: the
+      // indicator measures its content and centres the icon on that. See `OneHandedGestures.kt`.
+      Text("Start run", modifier = Modifier.fillMaxWidth())
+    }
+  }
+}
+
+/**
+ * The scroll rail announcing that a pinch will scroll: the thumb picks up its gesture colours, the
+ * glyph grows out of the bezel, and the rail jiggles down and back before everything recedes.
+ *
+ * The jiggle is the part worth the recording. `OneHandedGestureScrollIndicatorState` runs it as two
+ * spring animations against the indicator's own `jiggleAmount` — down by half a thumb, then back —
+ * so the rail demonstrates the direction the gesture would take the list. A still catches it at one
+ * offset, which reads as a rail drawn in the wrong place.
+ *
+ * The list is empty rows, as the sticker's is and for the same reason (`Indicators.kt`): the
+ * indicator sizes its thumb from how much of the content fits on screen, so it needs a list that
+ * really overflows, and labels would be the loudest thing in a frame whose subject is the bezel.
+ */
+@MotionScreenCanvas
+@AnimatedPreview(
+  durationMs = GESTURE_HINT_CAPTURE_MS,
+  frameIntervalMs = GESTURE_HINT_FRAME_MS,
+  showCurves = false,
+  caption =
+    "The scroll rail takes its gesture colours, grows a glyph, and jiggles down and back to show " +
+      "which way a pinch would move the list.",
+)
+@Composable
+fun GestureScrollHintMotion() {
+  val configuration =
+    rememberOneHandedGestureConfiguration(
+      action = OneHandedGestureAction.Primary,
+      priority = OneHandedGesturePriority.Scrollable,
+    )
+  val scrollState = rememberTransformingLazyColumnState()
+  val state = remember { OneHandedGestureScrollIndicatorState() }
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(300)
+      state.showIndicator()
+    }
+  }
+  Box(Modifier.fillMaxSize()) {
+    TransformingLazyColumn(
+      state = scrollState,
+      modifier =
+        Modifier.fillMaxSize()
+          .oneHandedGesture(
+            gestureConfiguration = configuration,
+            onGestureLabel = "scroll down",
+            onGesture = { OneHandedGestureDefaults.scrollDown(scrollState) },
+          ),
+    ) {
+      items(12) { Spacer(Modifier.height(48.dp)) }
+    }
+    // Aligned from OUTSIDE the component: it forwards its `modifier` to the rail rather than to
+    // its own root, so a `BoxScope.align` handed to it lands on a child of its internal `Row` and
+    // is ignored — see the longer note in `OneHandedGestures.kt`.
+    Box(Modifier.align(Alignment.CenterEnd)) {
+      OneHandedGestureScrollIndicator(
+        gestureConfiguration = configuration,
+        indicatorState = state,
+        scrollState = scrollState,
+      )
+    }
+  }
+}
+
+/**
+ * The page dots doing the same thing along the bottom of the display: a pill grows above them,
+ * plays the glyph, and collapses back into the row of dots.
+ *
+ * Its own recording rather than a cell of the scroll one, because the two components place the
+ * affordance differently — `OneHandedGestureHorizontalPageIndicator` stacks the pill *above* the
+ * dots in a `Column` and scales it from their top edge, where the scroll indicator grows out of the
+ * rail itself. That is the thing a reader of a page indicator is asking about.
+ */
+@MotionScreenCanvas
+@AnimatedPreview(
+  durationMs = GESTURE_HINT_CAPTURE_MS,
+  frameIntervalMs = GESTURE_HINT_FRAME_MS,
+  showCurves = false,
+  caption =
+    "A pill grows above the page dots, plays the pinch glyph, and collapses back into the row.",
+)
+@Composable
+fun GesturePageHintMotion() {
+  val configuration =
+    rememberOneHandedGestureConfiguration(
+      action = OneHandedGestureAction.Primary,
+      priority = OneHandedGesturePriority.Scrollable,
+    )
+  val pagerState = rememberPagerState(initialPage = 1) { 4 }
+  val state = remember { OneHandedGesturePageIndicatorState() }
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(300)
+      state.showIndicator()
+    }
+  }
+  Box(Modifier.fillMaxSize()) {
+    Box(Modifier.align(Alignment.BottomCenter)) {
+      OneHandedGestureHorizontalPageIndicator(
+        gestureConfiguration = configuration,
+        indicatorState = state,
+        pagerState = pagerState,
+      )
+    }
+  }
 }

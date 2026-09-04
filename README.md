@@ -102,11 +102,11 @@ it: the sheet would look finished and the defect would be nowhere. `StickerBakeC
 against the call that causes it, and all three fail in the other direction too — the day the
 library starts drawing, the exemption is what announces it.
 
-Sixteen components enter through the **library's** door instead — components carrying `noReference`
+Twenty components enter through the **library's** door instead — components carrying `noReference`
 with the reason there is nothing to compare against. A sheet whose reader is looking for the
-component set should not omit a component because a design file did. Four are Wear Compose Material 3
-(`ButtonGroup`, `ArcProgressIndicator`, `TransformingLazyColumn`, `Scaffold`); the other twelve are
-Horologist's, below.
+component set should not omit a component because a design file did. Eight are Wear Compose Material 3
+(`ButtonGroup`, `ArcProgressIndicator`, `TransformingLazyColumn`, `Scaffold`, and the four
+one-handed-gesture indicators below); the other twelve are Horologist's, below.
 
 ### Two libraries
 
@@ -145,6 +145,25 @@ What is excluded, and why:
 | `Media-Player` | implemented (`Media/PlayerScreen`) but not comparable — the kit's cell exports as its album-artwork overlay, not as the player |
 | the six `Avatar-*` components | avatars are app content; the kit draws the shapes an app fills, and there is no composable to invoke |
 | `Confirmation-Overlay` | `ConfirmationDialogContent` animates its children in from `alpha = 0`; the renderer pauses the clock, so a still capture is an empty ring. Back in when a capture can settle first |
+
+### One-handed gestures
+
+`androidx.wear.compose.material3.onehandedgesture` arrived in wear-compose 1.7.0-beta and has no kit
+set behind it — one-handed gestures are published as a [design guide][gesture-guide], not as a
+component sheet — so the four indicators enter through the library's door and are filed under
+`Communication`, which is what they do: tell a wearer that a double pinch or a wrist turn will reach
+this control. [`OneHandedGestures.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt)
+draws `OneHandedGestureClickIndicator` on a button, `OneHandedGestureScrollIndicator` on the bezel,
+and the horizontal and vertical page indicators, each with the real `Modifier.oneHandedGesture`
+attached and each with a `gestures-off` cell for `LocalOneHandedGestureEnabled`.
+
+The hint is a *transient*: it begins and ends on the picture it is not. The stills are pinned to a
+phase with `@SettledPreview(afterMs = 800)` and three of the four are also recorded in `Motion.kt`,
+which is where a reader can see the component give the space back. Off a watch nothing raises the
+hint — `GestureInputManager` is a device service — so the stickers call the same public
+`showIndicator()` the framework's `onGestureAvailable` callback would, and nothing else is stubbed.
+
+[gesture-guide]: https://developer.android.com/design/ui/wear/guides/patterns/gestures
 
 Out of scope and not listed: the kit's own internals (names beginning `.`, and the `Base
 components` each page builds its published set from) and the 1072-component **Icons** page, which is
@@ -240,17 +259,20 @@ pixels — so the frame stands down when a provider has already installed one.
 
 ## Motion
 
-Nine recordings live in
+Twelve recordings live in
 [`Motion.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Motion.kt), published as
 GIFs beside the sticker sheet: the indeterminate progress ring, the switch thumb travelling, the
 toggle button's shape morph, swipe-to-reveal revealing, the edge button rising out of a scroll, the
-media transport row pressed button by button, and the button, icon button and card placeholders
-shimmering and then wiping off to reveal real content. They carry no `@CatalogComponent` — a
+media transport row pressed button by button, the button, icon button and card placeholders
+shimmering and then wiping off to reveal real content, and the three one-handed-gesture hints taking
+a button, a scroll rail and a row of page dots over and handing them back. They carry no `@CatalogComponent` — a
 recording is not a component, and membership is still the kit's call — but each is **claimed** by
 the component it records, through `motionPreview` on that component's `@CatalogComponent`. One
 function per component, so a recording covering several axes covers them in one window.
 
-Most are driven by the component's own animation or by a `LaunchedEffect` state change. The media
+Most are driven by the component's own animation or by a `LaunchedEffect` state change — including
+the gesture hints, where that is not a workaround waiting on a better annotation: a double pinch is a
+sensor event, so there is no pointer for `@InteractionPreview` to dispatch. The media
 transport row is the exception and the first here to use **`@InteractionPreview`**, which dispatches
 a real pointer at nodes resolved from the live semantics tree: the row's buttons respond through
 their own wiring, and pressing the middle one genuinely pauses playback rather than a preview
