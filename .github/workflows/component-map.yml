@@ -1,0 +1,121 @@
+name: Refresh component map
+
+# Regenerate `docs/COMPONENT_MAP.md` once the delivery branches have republished, and offer the
+# result as a PR.
+#
+# WHY THIS EXISTS. The map has two inputs and they move on different clocks. The pairings, kit nodes
+# and captions come from the `@CatalogComponent` annotations in this checkout, so they are current
+# the moment a PR lands. The THUMBNAILS come from each published sheet's `catalog.json` on its
+# `design-artifacts/*` branch, which is written by `Design Artifacts` some 20 minutes after that
+# same merge. A map regenerated in the PR that adds a component therefore names it with no render —
+# the file says so itself, with a "these have no render yet" callout — and nothing fills that in
+# afterwards. The four one-handed gesture components landed exactly that way (#258).
+#
+# WHY IT IS NOT A `--check` IN ci.yml. `scripts/component-map.mjs` fetches over the network and
+# reads a branch this repository does not control the timing of, so a reconciliation gate would go
+# red for the twenty minutes between a merge and its publish — and again every time the sheets
+# republish on their own weekly schedule with no commit here at all. That is the reasoning at the
+# top of the script, and it is why the record is refreshed rather than enforced.
+#
+# NO LOOP. The PR this opens touches `docs/COMPONENT_MAP.md` and nothing else, and that path is not
+# in `design-artifacts.yml`'s push filter (`catalog/**`, `catalog.spec.json`, the dependency
+# manifests), so merging it cannot trigger another publish and another refresh.
+
+on:
+  # The publish is the event worth reacting to: it is the moment the renders this map links to
+  # actually exist. Fires for every completion of `Design Artifacts` on the default branch — the
+  # merge-triggered ones and the Monday re-publish alike — which is also the backstop that would
+  # catch a run this workflow somehow missed.
+  workflow_run:
+    workflows: ['Design Artifacts']
+    types: [completed]
+  # The escape hatch, for a map that needs refreshing without waiting for a publish.
+  workflow_dispatch:
+
+# `contents: write` to push the refresh branch, `pull-requests: write` to open the PR for it.
+permissions:
+  contents: write
+  pull-requests: write
+
+# One at a time. Two publishes in quick succession would otherwise race to push the same branch.
+concurrency:
+  group: component-map
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    name: Refresh the map
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # A cancelled or failed publish leaves the delivery branch as it was, so there is nothing new to
+    # name, and a publish from anywhere but main is not what this record is of. `workflow_dispatch`
+    # carries no `workflow_run` payload and passes on the first clause.
+    if: >-
+      github.repository == 'yschimke/wear-m3-catalog' &&
+      (github.event_name == 'workflow_dispatch' ||
+       (github.event.workflow_run.conclusion == 'success' &&
+        github.event.workflow_run.head_branch == github.event.repository.default_branch))
+    steps:
+      # The default branch explicitly, not `github.sha`: on a `workflow_run` that is the head of the
+      # run that triggered this one, which may already be behind main. The map is a record OF main.
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24.20.0
+
+      # No Gradle and no `node_modules`: the script reads the Kotlin sources with `node:fs` and
+      # fetches two `catalog.json` files. That is the whole of it.
+      - name: Regenerate docs/COMPONENT_MAP.md
+        run: node scripts/component-map.mjs
+
+      - name: Open a PR for the refresh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- docs/COMPONENT_MAP.md; then
+            echo "component map unchanged — nothing to open"
+            exit 0
+          fi
+          # A bot identity, never an agent one — `.github/scripts/agent-attribution-scan.sh` rejects
+          # the latter on any branch, and this commit is machine-authored by definition. Same
+          # identity `figma-refs.yml` and `figma-pages.yml` commit under.
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          branch="chore/component-map-$(date -u +%Y%m%d)"
+          git checkout -b "$branch"
+          git add docs/COMPONENT_MAP.md
+          git commit -q -m 'docs: refresh the component map against the published sheets'
+          # FORCE, unlike `figma-refs.yml`, because this fires several times a day rather than
+          # weekly: a second publish lands on a branch the first one already created. The branch is
+          # cut fresh from main every run and carries exactly one commit touching exactly one
+          # generated file, so what a force discards is an earlier run's version of the same file —
+          # never somebody's work. Nothing else is ever pushed here.
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            "HEAD:$branch"
+          # An existing open PR for this branch already carries the change — the push above has just
+          # updated it in place — and a second PR would be noise.
+          if [ -n "$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq '.[].number')" ]; then
+            echo "a PR for $branch is already open — updated in place"
+            exit 0
+          fi
+          {
+            echo 'The sheets have republished, so the component map can name what they now draw.'
+            echo
+            echo 'Generated by `scripts/component-map.mjs` — the pairings and captions come from the'
+            echo '`@CatalogComponent` annotations, the thumbnails from each delivery branch'"'"'s'
+            echo '`catalog.json`. A component added since the last refresh gets its render here.'
+            echo
+            echo '```'
+            git --no-pager diff --stat HEAD~1..HEAD
+            echo '```'
+            echo
+            echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } > pr-body.md
+          gh pr create --repo "${{ github.repository }}" \
+            --head "$branch" \
+            --base "${{ github.event.repository.default_branch }}" \
+            --title 'docs: refresh the component map against the published sheets' \
+            --body-file pr-body.md
