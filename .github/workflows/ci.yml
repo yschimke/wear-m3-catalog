@@ -110,12 +110,24 @@ jobs:
       # whole — the failure mode that hid #284 during the manual audit, whose CRLF body a
       # hand-rolled fence regex skipped. Same "check out the driver, run it with node" shape
       # `parity-issues.yml` already uses to reach the producer.
+      # PINNED TO A SHA, not `main`. The checker is a GATE, and a gate that floats on another
+      # repository's head can redden this one for a change nobody here made — the hazard
+      # `scripts/design-map.sh` avoids by pinning its two upstream steps to exact versions. It
+      # cannot do the same thing the same way: those are published npm packages and this is a script
+      # in a git tree, so the version IS the commit.
+      #
+      # 26608e7 is compose-ai-tools#5214, the commit that added
+      # `check-parity-locators.mjs`. Bumping it is a one-line commit, and the reason to bump is a
+      # fix to the checker rather than a schedule.
+      #
+      # NOTE: the `spec` job below checks the same repository out at `main`, deliberately left as it
+      # was — that one runs a validator this repository has always taken from head.
       - name: Check out the locator checker
         uses: actions/checkout@v7.0.1
         with:
           repository: yschimke/compose-ai-tools
-          ref: main
-          path: .compose-ai-tools
+          ref: 26608e78bc12c930ff03d09075f74ec2f7185656
+          path: compose-ai-tools
           persist-credentials: false
 
       # The BASELINE, and what turns "some issue is broken" into "this pull request broke it". Each
@@ -141,7 +153,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          node .compose-ai-tools/scripts/design-artifacts/check-parity-locators.mjs \
+          node compose-ai-tools/scripts/design-artifacts/check-parity-locators.mjs \
             --repo ${{ github.repository }} \
             --manifest "wear-m3-catalog=catalog/build/compose-previews/previews.json" \
             --manifest "remote-m3=remote-catalog/build/compose-previews/previews.json" \
