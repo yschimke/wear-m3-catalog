@@ -54,7 +54,11 @@ import ee.schimke.wearm3catalog.CatalogFullScreenModes
   caption = "The Wear list: rows scale and fade toward the edges of the round display.",
 )
 @CatalogFullScreenModes
-@ScrollingPreview(modes = [ScrollMode.END])
+// LONG as well as END, because this component's whole claim is that the transformation "is only
+// visible on the real one" — and a single frame shows it at one scroll offset. The stitched tall
+// capture shows every row passing through the scaled band, which is the thing being asserted, and
+// it is the Wear long-screenshot form a designer reads a list in.
+@ScrollingPreview(modes = [ScrollMode.END, ScrollMode.LONG])
 @Composable
 fun WearList() = WearScreen {
   val state = rememberTransformingLazyColumnState()
