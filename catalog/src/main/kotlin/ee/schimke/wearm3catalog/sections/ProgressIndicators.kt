@@ -16,11 +16,9 @@ import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
 import androidx.wear.compose.material3.LinearProgressIndicator
 import androidx.wear.compose.material3.LinearProgressIndicatorDefaults
 import androidx.wear.compose.material3.SegmentedCircularProgressIndicator
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
-import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -222,8 +220,11 @@ annotation class CircularProgressKitCells
 // motion; `Motion.kt` carries the recording.
 @OverrideVariant(name = "indeterminate", strings = ["mode=indeterminate"])
 @Composable
-fun CircularProgress() = TransparentScreenSticker {
-  val progress = previewOverrideFloat("progress", 0.6f)
+fun CircularProgress(
+  progress: Float = 0.6f,
+  enabled: Boolean = true,
+  allowProgressOverflow: Boolean = true,
+) = TransparentScreenSticker {
   val stroke =
     if (previewOverrideChoice("stroke", "medium", listOf("medium", "small")) == "small")
       CircularProgressIndicatorDefaults.smallStrokeWidth
@@ -247,10 +248,10 @@ fun CircularProgress() = TransparentScreenSticker {
     CircularProgressIndicator(
       progress = { progress },
       modifier = Modifier.fillMaxSize(),
-      enabled = previewOverrideBoolean("enabled", true),
+      enabled = enabled,
       // The API defaults this to `false`; the sticker defaults it to `true` because the kit
       // publishes a `Progress=Overflow` cell, and coerced into 0..1 that cell is the complete one.
-      allowProgressOverflow = previewOverrideBoolean("allowProgressOverflow", true),
+      allowProgressOverflow = allowProgressOverflow,
       startAngle = startAngle,
       endAngle = endAngle,
       strokeWidth = stroke,
@@ -949,17 +950,21 @@ annotation class SegmentedProgressKitCells
 @CatalogModes
 @SegmentedProgressKitCells
 @Composable
-fun SegmentedProgress() = Sticker {
-  val progress = previewOverrideFloat("progress", 0.6f)
+fun SegmentedProgress(
+  progress: Float = 0.6f,
+  segmentCount: Int = 6,
+  enabled: Boolean = true,
+  allowProgressOverflow: Boolean = false,
+) = Sticker {
   val startAngle = previewOverrideFloat("startAngle", CircularProgressIndicatorDefaults.StartAngle)
   SegmentedCircularProgressIndicator(
     // `segmentCount` is the parameter's own name — the knob used to be `segments`, which is the
     // kit's word for the axis and rides on the cell instead.
-    segmentCount = previewOverrideInt("segmentCount", 6),
+    segmentCount = segmentCount,
     progress = { progress },
     modifier = Modifier.size(120.dp),
-    enabled = previewOverrideBoolean("enabled", true),
-    allowProgressOverflow = previewOverrideBoolean("allowProgressOverflow", false),
+    enabled = enabled,
+    allowProgressOverflow = allowProgressOverflow,
     startAngle = startAngle,
     endAngle = previewOverrideFloat("endAngle", startAngle),
     // A CHOICE, not a `previewOverrideDp`, and it is spelled exactly as the round indicator above
@@ -1071,12 +1076,14 @@ annotation class LinearProgressKitCells
 @CatalogModes
 @LinearProgressKitCells
 @Composable
-fun LinearProgress() = Sticker {
-  val progress = previewOverrideFloat("progress", 0.5f)
+fun LinearProgress(
+  progress: Float = 0.5f,
+  enabled: Boolean = true,
+) = Sticker {
   LinearProgressIndicator(
     progress = { progress },
     modifier = Modifier.width(150.dp),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     strokeWidth =
       if (previewOverrideChoice("size", "large", listOf("large", "small")) == "small")
         LinearProgressIndicatorDefaults.StrokeWidthSmall

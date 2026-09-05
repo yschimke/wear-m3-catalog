@@ -18,7 +18,6 @@ import androidx.wear.compose.material3.RevealValue
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.rememberRevealState
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -100,8 +99,7 @@ private fun revealState(secondary: Boolean): RevealState {
   kitValue = "2-actions",
 )
 @Composable
-fun SwipeToRevealCard() = FullScreenSticker {
-  val secondary = previewOverrideBoolean("secondary", false)
+fun SwipeToRevealCard(secondary: Boolean = false) = FullScreenSticker {
   val state = revealState(secondary)
   SwipeToReveal(
     primaryAction = {
@@ -142,8 +140,7 @@ fun SwipeToRevealCard() = FullScreenSticker {
   kitValue = "2-actions",
 )
 @Composable
-fun SwipeToRevealButton() = FullScreenSticker {
-  val secondary = previewOverrideBoolean("secondary", false)
+fun SwipeToRevealButton(secondary: Boolean = false) = FullScreenSticker {
   val state = revealState(secondary)
   SwipeToReveal(
     primaryAction = {

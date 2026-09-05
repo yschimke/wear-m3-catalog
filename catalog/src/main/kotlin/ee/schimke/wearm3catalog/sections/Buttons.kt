@@ -29,7 +29,6 @@ import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
-import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -196,12 +195,12 @@ annotation class ButtonLayoutCells
   kitValue = "Yes",
 )
 @Composable
-fun FilledButton() = Sticker {
+fun FilledButton(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
   )
@@ -222,12 +221,12 @@ fun FilledButton() = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun FilledVariantButton() = Sticker {
+fun FilledVariantButton(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = ButtonDefaults.filledVariantButtonColors(),
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
@@ -249,12 +248,12 @@ fun FilledVariantButton() = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun TonalButton() = Sticker {
+fun TonalButton(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   FilledTonalButton(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
   )
@@ -275,12 +274,12 @@ fun TonalButton() = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun OutlineButton() = Sticker {
+fun OutlineButton(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   OutlinedButton(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
   )
@@ -301,11 +300,11 @@ fun OutlineButton() = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun ChildLabelButton() = Sticker {
+fun ChildLabelButton(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   ChildButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     icon = leadingIcon(),
     label = { alignedLabel(c.label) },
   )
@@ -541,7 +540,7 @@ annotation class CompactButtonKitCells
 @CatalogModes
 @CompactButtonKitCells
 @Composable
-fun CompactActionButton() = Sticker {
+fun CompactActionButton(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   val content = previewOverrideChoice("content", "icon+text", listOf("icon+text", "icon", "text"))
   // Read ONCE. Declared twice — as it was, for the colours and again for the border — the panel
@@ -566,7 +565,7 @@ fun CompactActionButton() = Sticker {
   // the child cell existed to collide with. Text-Button carries the same note for the same reason.
   CompactButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = colors,
     border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
     icon =
@@ -624,16 +623,19 @@ fun CompactActionButton() = Sticker {
   kitProps = ["Secondary label=Yes", "Disabled=Yes"],
 )
 @Composable
-fun ImageBackgroundButton() = Sticker {
+fun ImageBackgroundButton(
+  enabled: Boolean = true,
+  secondary: Boolean = false,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
     containerPainter = CatalogImageWithFlatScrim,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = ButtonDefaults.buttonWithContainerPainterColors(),
     secondaryLabel =
-      if (previewOverrideBoolean("secondary", false)) {
+      if (secondary) {
         { Text(kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)) }
       } else null,
     label = { Text(c.label) },
@@ -774,7 +776,7 @@ annotation class LoadingButtonKitCells
 @CatalogModes
 @LoadingButtonKitCells
 @Composable
-fun LoadingButton() = Sticker {
+fun LoadingButton(enabled: Boolean = true) = Sticker {
   // TONAL is the base, and that is the kit's call rather than Compose's. `Button-Loading` publishes
   // three styles — Tonal, Outline, Child — and no FILLED one: a filled container behind a progress
   // ring is the one arrangement the kit declined to draw. This sticker defaulted to
@@ -790,7 +792,7 @@ fun LoadingButton() = Sticker {
   Button(
     onClick = {},
     modifier = Modifier.kitRowWidth(),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = colors,
     // As on the compact button: the outline is a `border`, not a colour, and without it the
     // outlined cell is the child cell's picture under another name.
@@ -866,8 +868,7 @@ fun LoadingButton() = Sticker {
 @CatalogModes
 @OverrideVariant(name = "three", ints = ["count=3"])
 @Composable
-fun ButtonRowGroup() = Sticker {
-  val count = previewOverrideInt("count", 2)
+fun ButtonRowGroup(count: Int = 2) = Sticker {
   ButtonGroup(modifier = Modifier.width(180.dp)) {
     repeat(count) { index ->
       // The expansion the caption promises is opt-in, and this is the opt-in:

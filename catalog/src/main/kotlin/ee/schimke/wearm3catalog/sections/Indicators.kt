@@ -20,10 +20,8 @@ import androidx.wear.compose.material3.LevelIndicator
 import androidx.wear.compose.material3.LevelIndicatorDefaults
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.VerticalPageIndicator
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
-import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -78,7 +76,11 @@ import ee.schimke.wearm3catalog.TransparentScreenSticker
 )
 @SettledPreview
 @Composable
-fun ScrollRail() = TransparentScreenSticker {
+fun ScrollRail(
+  position: Float = 0f,
+  contentScreens: Float = 5f,
+  reverseDirection: Boolean = false,
+) = TransparentScreenSticker {
   // SCROLLABLE, BUT EMPTY — and it has to be both.
   //
   // Scrollable, because a `ScrollState` seeded to an offset it cannot reach reports position zero:
@@ -92,7 +94,6 @@ fun ScrollRail() = TransparentScreenSticker {
   // the rail — the only thing either side is a picture OF — a few pixels wide at the edge. Spacers
   // scroll exactly as well as labels do and leave the component alone in the frame.
   val state = rememberScrollState()
-  val position = previewOverrideFloat("position", 0f)
   // How many screenfuls the column is. It is a knob rather than a constant because it is the only
   // thing that could reach the kit's `40%`…`70% (Max)` cells — those are the thumb's LENGTH, which
   // the component sizes from the fraction of the content that fits on screen. It does not reach
@@ -101,7 +102,7 @@ fun ScrollRail() = TransparentScreenSticker {
   // name. The knob stays because a reader can still turn it; the four cells stay out, and the
   // `kit-sets.json` row says so with this measurement rather than with the old capture blocker,
   // which `@SettledPreview` has since removed.
-  val screens = previewOverrideFloat("contentScreens", 5f)
+  val screens = contentScreens
   BoxWithConstraints(Modifier.fillMaxSize()) {
     val content = maxHeight * screens
     Column(Modifier.fillMaxSize().verticalScroll(state)) { Spacer(Modifier.height(content)) }
@@ -116,7 +117,7 @@ fun ScrollRail() = TransparentScreenSticker {
   LaunchedEffect(position, state.maxValue) { state.scrollTo((state.maxValue * position).toInt()) }
   ScrollIndicator(
     state = state,
-    reverseDirection = previewOverrideBoolean("reverseDirection", false),
+    reverseDirection = reverseDirection,
     modifier = Modifier.align(Alignment.CenterEnd),
   )
 }
@@ -137,21 +138,24 @@ fun ScrollRail() = TransparentScreenSticker {
   kitValue = "Yes",
 )
 @Composable
-fun LevelRail() = TransparentScreenSticker {
+fun LevelRail(
+  value: Float = 0.6f,
+  enabled: Boolean = true,
+  reverseDirection: Boolean = false,
+) = TransparentScreenSticker {
   // `value`, not `level`: the knob carries the name of the parameter it sets, so a reader of the
   // controls panel can find it in `LevelIndicator`'s signature. The kit calls the axis something
   // else on some sets and that word rides on the cell, not on the knob (see Sliders.kt).
-  val value = previewOverrideFloat("value", 0.6f)
   LevelIndicator(
     value = { value },
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     // The kit's `Size = Default | Long | Short` axis is this angle in Compose — the arc is 72
     // degrees, a fifth of the circumference, by default. No cells for the other two: the kit does
     // not publish the angles they draw, and guessing one would put an invented number under the
     // kit's name.
     sweepAngle = previewOverrideFloat("sweepAngle", LevelIndicatorDefaults.SweepAngle),
     strokeWidth = previewOverrideDp("strokeWidth", LevelIndicatorDefaults.StrokeWidth),
-    reverseDirection = previewOverrideBoolean("reverseDirection", false),
+    reverseDirection = reverseDirection,
     modifier = Modifier.align(Alignment.CenterStart),
   )
 }
@@ -230,13 +234,15 @@ annotation class HorizontalPageKitCells
 @CatalogTransparentScreenModes
 @HorizontalPageKitCells
 @Composable
-fun HorizontalPages() = TransparentScreenSticker {
-  val pages = previewOverrideInt("pages", 4)
+fun HorizontalPages(
+  pages: Int = 4,
+  initialPage: Int = 0,
+) = TransparentScreenSticker {
   // Which page is showing is the other half of what this component draws, and it was pinned to the
   // first one — so the kit's `6 - Start` / `6 - End` / `6 - MiddleEnd` positions were unreachable
   // from the controls. Coerced into the page count: a live knob can outrun it, and the pager
   // throws rather than rendering when it does.
-  val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
+  val initialPage = initialPage.coerceIn(0, (pages - 1).coerceAtLeast(0))
   HorizontalPageIndicator(
     // `key(…)`, because `rememberPagerState` saves its state unkeyed: it reads `initialPage` once
     // and ignores every later value, so the knob would move nothing in a live session. A baked
@@ -319,9 +325,11 @@ annotation class VerticalPageKitCells
 @CatalogTransparentScreenModes
 @VerticalPageKitCells
 @Composable
-fun VerticalPages() = TransparentScreenSticker {
-  val pages = previewOverrideInt("pages", 4)
-  val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
+fun VerticalPages(
+  pages: Int = 4,
+  initialPage: Int = 0,
+) = TransparentScreenSticker {
+  val initialPage = initialPage.coerceIn(0, (pages - 1).coerceAtLeast(0))
   VerticalPageIndicator(
     pagerState =
       key(pages, initialPage) { rememberPagerState(initialPage = initialPage) { pages } },

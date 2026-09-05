@@ -26,7 +26,6 @@ import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.overrides.previewOverrideFloat
-import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -365,20 +364,23 @@ annotation class SliderKitCells
 @CatalogModes
 @SliderKitCells
 @Composable
-fun ValueSlider() = Sticker {
+fun ValueSlider(
+  steps: Int = 4,
+  value: Float = 2f,
+  enabled: Boolean = true,
+) = Sticker {
   // THE KIT COUNTS BANDS; COMPOSE COUNTS THE STOPS BETWEEN THEM. The kit's axis is `Increments` —
   // how many bands the bar is cut into — and `steps` is the number of values between the ends, so
   // the bar draws `steps + 1` bands (`visibleSegments = steps + 1`, Slider.kt). The base cell is
   // `Increments=Five`, which is `steps = 4`: at five it drew six bands and five separators against
   // a five-band, four-separator reference (#34).
-  val steps = previewOverrideInt("steps", 4)
   // `value` COUNTS FILLED BANDS, because the range below runs over the bands rather than 0..1 —
   // and that is what the kit's `Level` cells are. `Mid` fills two bands whether the bar is cut
   // into three, four or five, and `Low` fills one, not none: `value = 0.0` published an empty bar
   // against a reference with one band lit. Counting is also what keeps the `Increments=Three` cell
   // on the kit's own Mid (two of three) while varying the one axis that cell names — two fifths of
   // a three-band bar is one band, and a cell that seeded both knobs could carry no `kitAxis`.
-  val (value, onValueChange) = heldValue(previewOverrideFloat("value", 2f))
+  val (value, onValueChange) = heldValue(value)
   // `plus-minus` is the pair `SliderDefaults` recommends and the kit draws. The chevrons are the
   // other pairing the API's two icon slots exist for, and a reader cannot discover a slot from a
   // still — so it is offered as a choice rather than described.
@@ -394,7 +396,7 @@ fun ValueSlider() = Sticker {
     // — so the knob's default computes it rather than pinning `true`, and a step count past the
     // recommended maximum still reports what the component would actually do.
     segmented = previewOverrideBoolean("segmented", steps <= SliderDefaults.MaxSegmentSteps),
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     decreaseIcon = {
       if (icons == "chevron")
         Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Less")
@@ -489,20 +491,24 @@ annotation class StepperKitCells
 @CatalogFullScreenModes
 @StepperKitCells
 @Composable
-fun ValueStepper() = FullScreenSticker {
-  val (value, onValueChange) = heldValue(previewOverrideFloat("value", 0.5f))
-  val enabled = previewOverrideBoolean("enabled", true)
+fun ValueStepper(
+  value: Float = 0.5f,
+  enabled: Boolean = true,
+  steps: Int = 5,
+  buttonFill: Boolean = true,
+) = FullScreenSticker {
+  val (value, onValueChange) = heldValue(value)
   // Up/down, because the stepper's buttons are stacked: its decrease button is at the BOTTOM of
   // the display and its increase button at the top, which is the arrangement the kit draws too.
   val icons = previewOverrideChoice("icons", "chevron", listOf("chevron", "plus-minus"))
   Stepper(
     value = value,
     onValueChange = onValueChange,
-    steps = previewOverrideInt("steps", 5),
+    steps = steps,
     valueRange = valueRange(),
     enabled = enabled,
     colors =
-      if (previewOverrideBoolean("buttonFill", true)) StepperDefaults.colors()
+      if (buttonFill) StepperDefaults.colors()
       else StepperDefaults.colors(buttonContainerColor = Color.Transparent),
     decreaseIcon = {
       if (icons == "plus-minus") SliderDefaults.DecreaseIcon()

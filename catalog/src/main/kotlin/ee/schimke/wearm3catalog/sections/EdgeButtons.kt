@@ -10,7 +10,6 @@ import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -491,7 +490,7 @@ annotation class EdgeButtonKitCells
 @CatalogModes
 @EdgeButtonKitCells
 @Composable
-fun ScreenEdgeButton() = EdgeButtonSticker {
+fun ScreenEdgeButton(enabled: Boolean = true) = EdgeButtonSticker {
   val c = counted(kitCopy("label", KitCopy.EDGE_BUTTON_LABEL))
   val colors =
     when (
@@ -520,7 +519,7 @@ fun ScreenEdgeButton() = EdgeButtonSticker {
   EdgeButton(
     onClick = c.onClick,
     buttonSize = size,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = colors,
   ) {
     if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {

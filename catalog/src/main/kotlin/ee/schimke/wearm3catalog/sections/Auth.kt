@@ -8,7 +8,6 @@ import com.google.android.horologist.auth.composables.material3.buttons.SignInBu
 import com.google.android.horologist.auth.composables.material3.screens.SelectAccountScreen
 import com.google.android.horologist.auth.composables.material3.screens.SignInPlaceholderScreen
 import com.google.android.horologist.auth.composables.material3.screens.SignedInConfirmationDialog
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -54,12 +53,12 @@ import ee.schimke.wearm3catalog.counted
 @CatalogModes
 @OverrideVariant(name = "disabled", booleans = ["enabled=false"])
 @Composable
-fun AuthSignInButton() = Sticker {
+fun AuthSignInButton(enabled: Boolean = true) = Sticker {
   val c = counted("Sign in")
   SignInButton(
     onClick = c.onClick,
     label = c.label,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
   )
 }
 
@@ -74,12 +73,12 @@ fun AuthSignInButton() = Sticker {
 @CatalogModes
 @OverrideVariant(name = "disabled", booleans = ["enabled=false"])
 @Composable
-fun AuthGuestModeButton() = Sticker {
+fun AuthGuestModeButton(enabled: Boolean = true) = Sticker {
   val c = counted("Guest mode")
   GuestModeButton(
     onClick = c.onClick,
     label = c.label,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
   )
 }
 
