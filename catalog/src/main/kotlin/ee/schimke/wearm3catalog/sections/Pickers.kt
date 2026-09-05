@@ -13,9 +13,9 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimePicker
 import androidx.wear.compose.material3.TimePickerType
 import androidx.wear.compose.material3.rememberPickerState
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
@@ -63,6 +63,26 @@ private const val BP_225 = "225=Larger Screen (BP)=Yes"
 private val PINNED_DATE: LocalDate = LocalDate.of(2026, 1, 1)
 private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
 
+/**
+ * The kit's `Type` axis for the date wheels, as the closed set the picker actually takes.
+ *
+ * `@KnobValue` carries the value each `@OverrideVariant(strings = ["order=…"])` already seeds and
+ * the kit already spells, so the constant can be named the Kotlin way without moving the seed
+ * vocabulary a single character.
+ */
+enum class DateOrder {
+  @KnobValue("day") Day,
+  @KnobValue("month") Month,
+  @KnobValue("year") Year,
+}
+
+/** The kit's `Limit` axis: which side of the pinned date the valid range is spent on. */
+enum class DateLimit {
+  @KnobValue("none") None,
+  @KnobValue("future") Future,
+  @KnobValue("past") Past,
+}
+
 @CatalogComponent(
   id = "DatePicker",
   reference = "figma:B24oss2tTeXAFykyeyusz0/43678:8942",
@@ -94,12 +114,15 @@ private val PINNED_TIME: LocalTime = LocalTime.of(0, 0)
 )
 @SettledPreview
 @Composable
-fun DateWheels() = FullScreenSticker {
+fun DateWheels(
+  order: DateOrder = DateOrder.Day,
+  limit: DateLimit = DateLimit.None,
+) = FullScreenSticker {
   val type =
-    when (previewOverrideChoice("order", "day", listOf("day", "month", "year"))) {
-      "month" -> DatePickerType.MonthDayYear
-      "year" -> DatePickerType.YearMonthDay
-      else -> DatePickerType.DayMonthYear
+    when (order) {
+      DateOrder.Month -> DatePickerType.MonthDayYear
+      DateOrder.Year -> DatePickerType.YearMonthDay
+      DateOrder.Day -> DatePickerType.DayMonthYear
     }
   // The kit's `Limit` axis, as the two bounds `DatePicker` takes. The pinned date is the bound in
   // both directions, so `future` starts the valid range at the date on the wheels and `past` ends
@@ -107,23 +130,35 @@ fun DateWheels() = FullScreenSticker {
   // Branched rather than passing a bound of `null`: `minValidDate` / `maxValidDate` are
   // non-nullable with library defaults spanning a century either way, so `none` has to be the call
   // that names neither.
-  when (previewOverrideChoice("limit", "none", listOf("none", "future", "past"))) {
-    "future" ->
+  when (limit) {
+    DateLimit.Future ->
       DatePicker(
         initialDate = PINNED_DATE,
         onDatePicked = {},
         minValidDate = PINNED_DATE,
         datePickerType = type,
       )
-    "past" ->
+    DateLimit.Past ->
       DatePicker(
         initialDate = PINNED_DATE,
         onDatePicked = {},
         maxValidDate = PINNED_DATE,
         datePickerType = type,
       )
-    else -> DatePicker(initialDate = PINNED_DATE, onDatePicked = {}, datePickerType = type)
+    DateLimit.None ->
+      DatePicker(initialDate = PINNED_DATE, onDatePicked = {}, datePickerType = type)
   }
+}
+
+/**
+ * The kit's clock-format axis. The constants are backticked because a Kotlin identifier cannot
+ * begin with a digit — which is precisely why the seed text is declared rather than the constant
+ * renamed: `format=24s` is what the `@OverrideVariant` and the kit both already say.
+ */
+enum class ClockFormat {
+  @KnobValue("12") `12`,
+  @KnobValue("24") `24`,
+  @KnobValue("24s") `24s`,
 }
 
 @CatalogComponent(
@@ -148,12 +183,12 @@ fun DateWheels() = FullScreenSticker {
 )
 @SettledPreview
 @Composable
-fun TimeWheels() = FullScreenSticker {
+fun TimeWheels(format: ClockFormat = ClockFormat.`12`) = FullScreenSticker {
   val type =
-    when (previewOverrideChoice("format", "12", listOf("12", "24", "24s"))) {
-      "24" -> TimePickerType.HoursMinutes24H
-      "24s" -> TimePickerType.HoursMinutesSeconds24H
-      else -> TimePickerType.HoursMinutesAmPm12H
+    when (format) {
+      ClockFormat.`24` -> TimePickerType.HoursMinutes24H
+      ClockFormat.`24s` -> TimePickerType.HoursMinutesSeconds24H
+      ClockFormat.`12` -> TimePickerType.HoursMinutesAmPm12H
     }
   TimePicker(initialTime = PINNED_TIME, onTimePicked = {}, timePickerType = type)
 }
