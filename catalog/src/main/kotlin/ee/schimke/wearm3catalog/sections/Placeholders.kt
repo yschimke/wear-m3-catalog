@@ -36,6 +36,7 @@ import androidx.wear.compose.material3.touchTargetAwareSize
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.Sticker
@@ -120,6 +121,25 @@ private fun PlaceholderLine(state: PlaceholderState, width: Dp, height: Dp, slot
   }
 }
 
+/**
+ * The kit's `Style` axis for the button placeholders.
+ *
+ * `variant` rather than `filled-variant`: this set spells it the short way and the seed vocabulary
+ * follows the kit, not a tidier name — which is exactly what `@KnobValue` is for.
+ */
+enum class PlaceholderButtonStyle {
+  @KnobValue("filled") Filled,
+  @KnobValue("variant") Variant,
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+}
+
+/** The kit's `Style` axis for the card placeholder. */
+enum class PlaceholderCardStyle {
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+}
+
 @CatalogComponent(
   id = "Placeholder/Button",
   reference = "figma:B24oss2tTeXAFykyeyusz0/71571:44771",
@@ -142,7 +162,7 @@ private fun PlaceholderLine(state: PlaceholderState, width: Dp, height: Dp, slot
   kitValue = "Outline",
 )
 @Composable
-fun ButtonPlaceholder() = Sticker {
+fun ButtonPlaceholder(style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled) = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
   val modifier = Modifier.width(172.dp).placeholderShimmer(state, ButtonDefaults.shape)
   val icon: @Composable BoxScope.() -> Unit = { PlaceholderIcon(state, ButtonDefaults.IconSize) }
@@ -150,10 +170,8 @@ fun ButtonPlaceholder() = Sticker {
   val secondaryLabel: @Composable RowScope.() -> Unit = {
     PlaceholderLine(state, 60.dp, 10.dp, 16.dp)
   }
-  when (
-    previewOverrideChoice("style", "filled", listOf("filled", "variant", "tonal", "outlined"))
-  ) {
-    "variant" ->
+  when (style) {
+    PlaceholderButtonStyle.Variant ->
       Button(
         onClick = {},
         modifier = modifier,
@@ -162,7 +180,7 @@ fun ButtonPlaceholder() = Sticker {
         icon = icon,
         label = label,
       )
-    "tonal" ->
+    PlaceholderButtonStyle.Tonal ->
       FilledTonalButton(
         onClick = {},
         modifier = modifier,
@@ -170,7 +188,7 @@ fun ButtonPlaceholder() = Sticker {
         icon = icon,
         label = label,
       )
-    "outlined" ->
+    PlaceholderButtonStyle.Outlined ->
       OutlinedButton(
         onClick = {},
         modifier = modifier,
@@ -178,7 +196,7 @@ fun ButtonPlaceholder() = Sticker {
         icon = icon,
         label = label,
       )
-    else ->
+    PlaceholderButtonStyle.Filled ->
       Button(
         onClick = {},
         modifier = modifier,
@@ -313,26 +331,27 @@ private fun placeholderIconButtonSize(): Dp =
 @CatalogModes
 @IconButtonPlaceholderKitCells
 @Composable
-fun IconButtonPlaceholder() = Sticker {
+fun IconButtonPlaceholder(style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled) = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
   val size = placeholderIconButtonSize()
   val modifier = Modifier.touchTargetAwareSize(size).placeholderShimmer(state, CircleShape)
   val icon: @Composable BoxScope.() -> Unit = {
     PlaceholderIcon(state, IconButtonDefaults.iconSizeFor(size))
   }
-  when (
-    previewOverrideChoice("style", "filled", listOf("filled", "variant", "tonal", "outlined"))
-  ) {
-    "variant" ->
+  when (style) {
+    PlaceholderButtonStyle.Variant ->
       FilledIconButton(
         onClick = {},
         modifier = modifier,
         colors = IconButtonDefaults.filledVariantIconButtonColors(),
         content = icon,
       )
-    "tonal" -> FilledTonalIconButton(onClick = {}, modifier = modifier, content = icon)
-    "outlined" -> OutlinedIconButton(onClick = {}, modifier = modifier, content = icon)
-    else -> FilledIconButton(onClick = {}, modifier = modifier, content = icon)
+    PlaceholderButtonStyle.Tonal ->
+      FilledTonalIconButton(onClick = {}, modifier = modifier, content = icon)
+    PlaceholderButtonStyle.Outlined ->
+      OutlinedIconButton(onClick = {}, modifier = modifier, content = icon)
+    PlaceholderButtonStyle.Filled ->
+      FilledIconButton(onClick = {}, modifier = modifier, content = icon)
   }
 }
 
@@ -351,7 +370,7 @@ fun IconButtonPlaceholder() = Sticker {
   kitValue = "Outline",
 )
 @Composable
-fun CardPlaceholder() = Sticker {
+fun CardPlaceholder(style: PlaceholderCardStyle = PlaceholderCardStyle.Tonal) = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
   val modifier = Modifier.width(172.dp).placeholderShimmer(state, CardDefaults.shape)
   // The kit's card cell is the same row an `AppCard` draws — an icon beside a title and two lines
@@ -367,7 +386,7 @@ fun CardPlaceholder() = Sticker {
       }
     }
   }
-  if (previewOverrideChoice("style", "tonal", listOf("tonal", "outlined")) == "outlined") {
+  if (style == PlaceholderCardStyle.Outlined) {
     OutlinedCard(onClick = {}, modifier = modifier) { content() }
   } else {
     Card(onClick = {}, modifier = modifier) { content() }

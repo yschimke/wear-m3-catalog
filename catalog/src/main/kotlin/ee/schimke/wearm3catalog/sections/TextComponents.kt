@@ -23,6 +23,7 @@ import androidx.wear.compose.material3.timeTextCurvedText
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
@@ -80,6 +81,12 @@ fun ListHeading() = Sticker {
   }
 }
 
+/** The kit's `Alignment` axis for a sub-heading. */
+enum class SubHeadingAlign {
+  @KnobValue("left") Left,
+  @KnobValue("centre") Centre,
+}
+
 @CatalogComponent(
   id = "ListSubHeader",
   reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66983",
@@ -101,7 +108,10 @@ fun ListHeading() = Sticker {
   kitProps = ["Icon=No", "Alignment=Centre"],
 )
 @Composable
-fun ListSubHeading(icon: Boolean = false) = Sticker {
+fun ListSubHeading(
+  icon: Boolean = false,
+  align: SubHeadingAlign = SubHeadingAlign.Left,
+) = Sticker {
   ListSubHeader(
     modifier = Modifier.width(180.dp),
     icon =
@@ -116,10 +126,7 @@ fun ListSubHeading(icon: Boolean = false) = Sticker {
       Text(
         kitCopy("label", KitCopy.SUBTITLE),
         modifier = Modifier.fillMaxWidth(),
-        textAlign =
-          if (previewOverrideChoice("align", "left", listOf("left", "centre")) == "centre")
-            TextAlign.Center
-          else TextAlign.Start,
+        textAlign = if (align == SubHeadingAlign.Centre) TextAlign.Center else TextAlign.Start,
       )
     },
   )

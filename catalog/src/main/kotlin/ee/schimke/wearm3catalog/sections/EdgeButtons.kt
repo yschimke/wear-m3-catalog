@@ -10,9 +10,9 @@ import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.Text
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.EdgeButtonSticker
@@ -477,6 +477,28 @@ import ee.schimke.wearm3catalog.kitCopy
 )
 annotation class EdgeButtonKitCells
 
+/** The kit's `Style` axis for the edge button, as the four colour treatments it takes. */
+enum class EdgeButtonStyle {
+  @KnobValue("filled") Filled,
+  @KnobValue("filled-variant") FilledVariant,
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+}
+
+/** The kit's `Size` axis for the edge button. */
+enum class EdgeButtonHeight {
+  @KnobValue("extra-small") ExtraSmall,
+  @KnobValue("small") Small,
+  @KnobValue("medium") Medium,
+  @KnobValue("large") Large,
+}
+
+/** The kit's `Content` axis: a label, or the icon that replaces it. */
+enum class EdgeButtonContent {
+  @KnobValue("text") Text,
+  @KnobValue("icon") Icon,
+}
+
 @CatalogComponent(
   id = "EdgeButton",
   reference = "figma:B24oss2tTeXAFykyeyusz0/36601:6587",
@@ -490,31 +512,28 @@ annotation class EdgeButtonKitCells
 @CatalogModes
 @EdgeButtonKitCells
 @Composable
-fun ScreenEdgeButton(enabled: Boolean = true) = EdgeButtonSticker {
+fun ScreenEdgeButton(
+  enabled: Boolean = true,
+  style: EdgeButtonStyle = EdgeButtonStyle.Filled,
+  size: EdgeButtonHeight = EdgeButtonHeight.Small,
+  content: EdgeButtonContent = EdgeButtonContent.Text,
+) = EdgeButtonSticker {
   val c = counted(kitCopy("label", KitCopy.EDGE_BUTTON_LABEL))
   val colors =
-    when (
-      previewOverrideChoice(
-        "style",
-        "filled",
-        listOf("filled", "filled-variant", "tonal", "outlined"),
-      )
-    ) {
-      "filled-variant" -> ButtonDefaults.filledVariantButtonColors()
-      "tonal" -> ButtonDefaults.filledTonalButtonColors()
-      "outlined" -> ButtonDefaults.outlinedButtonColors()
-      else -> ButtonDefaults.buttonColors()
+    when (style) {
+      EdgeButtonStyle.FilledVariant -> ButtonDefaults.filledVariantButtonColors()
+      EdgeButtonStyle.Tonal -> ButtonDefaults.filledTonalButtonColors()
+      EdgeButtonStyle.Outlined -> ButtonDefaults.outlinedButtonColors()
+      EdgeButtonStyle.Filled -> ButtonDefaults.buttonColors()
     }
   // Four values, one per kit cell, and the default is Compose's `Small` because that is what the
   // kit calls `Size=Default` — see the note above.
   val size =
-    when (
-      previewOverrideChoice("size", "small", listOf("extra-small", "small", "medium", "large"))
-    ) {
-      "extra-small" -> EdgeButtonSize.ExtraSmall
-      "medium" -> EdgeButtonSize.Medium
-      "large" -> EdgeButtonSize.Large
-      else -> EdgeButtonSize.Small
+    when (size) {
+      EdgeButtonHeight.ExtraSmall -> EdgeButtonSize.ExtraSmall
+      EdgeButtonHeight.Medium -> EdgeButtonSize.Medium
+      EdgeButtonHeight.Large -> EdgeButtonSize.Large
+      EdgeButtonHeight.Small -> EdgeButtonSize.Small
     }
   EdgeButton(
     onClick = c.onClick,
@@ -522,7 +541,7 @@ fun ScreenEdgeButton(enabled: Boolean = true) = EdgeButtonSticker {
     enabled = enabled,
     colors = colors,
   ) {
-    if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {
+    if (content == EdgeButtonContent.Icon) {
       Icon(Icons.Filled.Check, contentDescription = "Done")
     } else {
       Text(c.label)

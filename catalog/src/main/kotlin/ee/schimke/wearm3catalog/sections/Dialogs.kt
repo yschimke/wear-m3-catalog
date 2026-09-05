@@ -24,9 +24,9 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.confirmationDialogCurvedText
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
 import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
@@ -212,6 +212,13 @@ import ee.schimke.wearm3catalog.kitCopy
 // a device-framed render can be diffed against. Publishing them would need a preview that captures
 // its own full scroll extent rather than the display; see `docs/DESIGN_MAP.md`.
 
+/** The kit's `Edge Option` axis: which button treatment the alert closes on. */
+enum class AlertEdge {
+  @KnobValue("double") Double,
+  @KnobValue("single") Single,
+  @KnobValue("none") None,
+}
+
 @CatalogComponent(
   id = "AlertDialog",
   reference = "figma:B24oss2tTeXAFykyeyusz0/58475:87077",
@@ -236,7 +243,10 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Edge Option=None", "Scrolling=No", "Bottom=No"],
 )
 @Composable
-fun AlertDialogSticker(icon: Boolean = true) = FullScreenSticker {
+fun AlertDialogSticker(
+  icon: Boolean = true,
+  edge: AlertEdge = AlertEdge.Double,
+) = FullScreenSticker {
   val iconSlot: (@Composable () -> Unit)? =
     if (icon) {
       {
@@ -251,16 +261,16 @@ fun AlertDialogSticker(icon: Boolean = true) = FullScreenSticker {
       null
     }
 
-  when (previewOverrideChoice("edge", "double", listOf("double", "single", "none"))) {
-    "single" ->
+  when (edge) {
+    AlertEdge.Single ->
       AlertDialogContent(
         edgeButton = { AlertDialogDefaults.EdgeButton(onClick = {}) },
         title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
         icon = iconSlot,
       )
-    "none" ->
+    AlertEdge.None ->
       AlertDialogContent(title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) }, icon = iconSlot)
-    else ->
+    AlertEdge.Double ->
       AlertDialogContent(
         confirmButton = { AlertDialogDefaults.ConfirmButton(onClick = {}) },
         dismissButton = { AlertDialogDefaults.DismissButton(onClick = {}) },

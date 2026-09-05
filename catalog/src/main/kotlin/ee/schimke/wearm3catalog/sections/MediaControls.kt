@@ -33,10 +33,10 @@ import com.google.android.horologist.media.ui.material3.components.controls.Seek
 import com.google.android.horologist.media.ui.material3.screens.player.PlayerScreen
 import com.google.android.horologist.media.ui.state.model.MediaUiModel
 import com.google.android.horologist.media.ui.state.model.TrackPositionUiModel
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CaptureGutter
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
@@ -178,6 +178,31 @@ import ee.schimke.wearm3catalog.kitCopy
 // podcast card's Motion lane for what a transport row does, and read the captions here for why
 // these two draw a different picture.
 
+/** The kit's `Mode` axis: the interactive surface, or its ambient (always-on) rendition. */
+enum class MediaMode {
+  @KnobValue("interactive") Interactive,
+  @KnobValue("ambient") Ambient,
+}
+
+/** What the player has to show: a track, a spinner, or nothing at all. */
+enum class MediaState {
+  @KnobValue("playing") Playing,
+  @KnobValue("loading") Loading,
+  @KnobValue("nothing-playing") NothingPlaying,
+}
+
+/**
+ * The kit's `Progress` axis, as the percentage it means.
+ *
+ * The percentage is a constructor property rather than something a caller re-parses out of the
+ * name: `@KnobValue` fixes the seed text at the kit's own `20` / `80`, and the number the component
+ * needs is carried alongside it.
+ */
+enum class MediaProgress(val percent: Int) {
+  @KnobValue("20") `20`(20),
+  @KnobValue("80") `80`(80),
+}
+
 @CatalogComponent(
   id = "Media/PlayerScreen",
   noReference =
@@ -196,32 +221,32 @@ import ee.schimke.wearm3catalog.kitCopy
 @OverrideVariant(name = "nothing-playing", strings = ["state=nothing-playing"])
 @SettledPreview
 @Composable
-fun MediaPlayerScreen(playing: Boolean = true) = ScreenSticker {
-  val ambient = previewOverrideChoice("mode", "interactive", listOf("interactive", "ambient"))
-  val state =
-    previewOverrideChoice("state", "playing", listOf("playing", "loading", "nothing-playing"))
-  val progress = previewOverrideChoice("progress", "80", listOf("20", "80"))
-
+fun MediaPlayerScreen(
+  playing: Boolean = true,
+  mode: MediaMode = MediaMode.Interactive,
+  state: MediaState = MediaState.Playing,
+  progress: MediaProgress = MediaProgress.`80`,
+) = ScreenSticker {
   val media: MediaUiModel? =
     when (state) {
-      "loading" -> MediaUiModel.Loading
-      "nothing-playing" -> null
-      else ->
+      MediaState.Loading -> MediaUiModel.Loading
+      MediaState.NothingPlaying -> null
+      MediaState.Playing ->
         HorologistSamples.media(
           title = kitCopy("title", KitCopy.MEDIA_TITLE),
           artist = kitCopy("subtitle", KitCopy.MEDIA_ARTIST),
         )
     }
   val position =
-    if (state == "playing") HorologistSamples.position(progress.toFloat() / 100f)
+    if (state == MediaState.Playing) HorologistSamples.position(progress.percent / 100f)
     else TrackPositionUiModel.Loading()
 
   PlayerScreen(
     mediaDisplay = {
-      MediaInfoDisplay(media = media, loading = state == "loading", modifier = Modifier)
+      MediaInfoDisplay(media = media, loading = state == MediaState.Loading, modifier = Modifier)
     },
     controlButtons = {
-      if (ambient == "ambient") {
+      if (mode == MediaMode.Ambient) {
         AmbientMediaControlButtons(
           onPlayButtonClick = {},
           onPauseButtonClick = {},
@@ -256,11 +281,11 @@ fun MediaPlayerScreen(playing: Boolean = true) = ScreenSticker {
         )
       }
     },
-    buttons = { MediaFooterButtons(ambient = ambient == "ambient") },
+    buttons = { MediaFooterButtons(ambient = mode == MediaMode.Ambient) },
     // The kit draws the artwork behind the whole screen, tinted; ambient draws none. Horologist's
     // `RadialBackground` is that wash, seeded from the artwork's colour rather than the bitmap.
     background = {
-      if (ambient != "ambient" && state == "playing") {
+      if (mode != MediaMode.Ambient && state == MediaState.Playing) {
         RadialBackground(color = MediaBackgroundTint)
       }
     },
@@ -385,8 +410,8 @@ fun MediaFooterButtonsRow(ambient: Boolean = false) =
 fun MediaControlButtonsRow(
   enabled: Boolean = true,
   playing: Boolean = true,
+  progress: MediaProgress = MediaProgress.`80`,
 ) = MediaRowSticker {
-  val progress = previewOverrideChoice("progress", "80", listOf("20", "80"))
   MediaControlButtons(
     onPlayButtonClick = {},
     onPauseButtonClick = {},
@@ -396,7 +421,7 @@ fun MediaControlButtonsRow(
     seekToPreviousButtonEnabled = enabled,
     onSeekToNextButtonClick = {},
     seekToNextButtonEnabled = enabled,
-    trackPositionUiModel = HorologistSamples.position(progress.toFloat() / 100f),
+    trackPositionUiModel = HorologistSamples.position(progress.percent / 100f),
   )
 }
 
@@ -462,15 +487,15 @@ fun MediaPodcastControlButtons(playing: Boolean = true) = MediaRowSticker {
 fun MediaPlayPauseProgressButton(
   playing: Boolean = true,
   enabled: Boolean = true,
+  progress: MediaProgress = MediaProgress.`80`,
 ) = Sticker {
   val c = counted(KitCopy.MEDIA_TITLE)
-  val progress = previewOverrideChoice("progress", "80", listOf("20", "80"))
   PlayPauseProgressButton(
     onPlayClick = c.onClick,
     onPauseClick = c.onClick,
     playing = playing,
     enabled = enabled,
-    trackPositionUiModel = HorologistSamples.position(progress.toFloat() / 100f),
+    trackPositionUiModel = HorologistSamples.position(progress.percent / 100f),
     // The composable puts the progress ring in a `Box` sized by this modifier and draws it with
     // `fillMaxSize()`, so an unbounded frame gives the ring the whole measuring bound to fill.
     // 64dp is the size the kit's `Middle` row gives the main control on the 192dp base screen.
@@ -494,23 +519,22 @@ fun MediaPlayPauseProgressButton(
 )
 @OverrideVariant(name = "nothing-playing", strings = ["state=nothing-playing"])
 @Composable
-fun MediaInfoDisplayHeader() =
+fun MediaInfoDisplayHeader(state: MediaState = MediaState.Playing) =
   MediaRowSticker(height = HeaderHeight) {
     val state =
-      previewOverrideChoice("state", "playing", listOf("playing", "loading", "nothing-playing"))
-    MediaInfoDisplay(
-      media =
-        when (state) {
-          "loading" -> MediaUiModel.Loading
-          "nothing-playing" -> null
-          else ->
-            HorologistSamples.media(
-              title = kitCopy("title", KitCopy.MEDIA_TITLE),
-              artist = kitCopy("subtitle", KitCopy.MEDIA_ARTIST),
-            )
-        },
-      loading = state == "loading",
-    )
+      MediaInfoDisplay(
+        media =
+          when (state) {
+            MediaState.Loading -> MediaUiModel.Loading
+            MediaState.NothingPlaying -> null
+            else ->
+              HorologistSamples.media(
+                title = kitCopy("title", KitCopy.MEDIA_TITLE),
+                artist = kitCopy("subtitle", KitCopy.MEDIA_ARTIST),
+              )
+          },
+        loading = state == MediaState.Loading,
+      )
   }
 
 @CatalogComponent(

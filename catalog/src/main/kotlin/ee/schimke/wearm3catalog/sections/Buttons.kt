@@ -31,6 +31,7 @@ import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogImageWithFlatScrim
 import ee.schimke.wearm3catalog.CatalogModes
@@ -531,6 +532,22 @@ annotation class CompactButtonKitCells
 // kit's content axis folded in. `Style=` is NOT split here the way it is above: `CompactButton`
 // takes its emphasis as `colors`, so there is no second function to choose at the call site — the
 // distinction the carve-out exists to preserve isn't there.
+/** The kit's `Style` axis for the compact button, as its five colour treatments. */
+enum class CompactButtonStyle {
+  @KnobValue("filled") Filled,
+  @KnobValue("filled-variant") FilledVariant,
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+  @KnobValue("child") Child,
+}
+
+/** The kit's `Content` axis: which of the compact button's two slots are filled. */
+enum class CompactButtonContent {
+  @KnobValue("icon+text") IconText,
+  @KnobValue("icon") Icon,
+  @KnobValue("text") Text,
+}
+
 @CatalogComponent(
   id = "Button/Compact",
   reference = "figma:B24oss2tTeXAFykyeyusz0/35276:87975",
@@ -540,24 +557,19 @@ annotation class CompactButtonKitCells
 @CatalogModes
 @CompactButtonKitCells
 @Composable
-fun CompactActionButton(enabled: Boolean = true) = Sticker {
+fun CompactActionButton(
+  enabled: Boolean = true,
+  content: CompactButtonContent = CompactButtonContent.IconText,
+  style: CompactButtonStyle = CompactButtonStyle.Filled,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
-  val content = previewOverrideChoice("content", "icon+text", listOf("icon+text", "icon", "text"))
-  // Read ONCE. Declared twice — as it was, for the colours and again for the border — the panel
-  // still shows one control, but the duplication is how the two reads drift apart.
-  val style =
-    previewOverrideChoice(
-      "style",
-      "filled",
-      listOf("filled", "filled-variant", "tonal", "outlined", "child"),
-    )
   val colors =
     when (style) {
-      "filled-variant" -> ButtonDefaults.filledVariantButtonColors()
-      "tonal" -> ButtonDefaults.filledTonalButtonColors()
-      "outlined" -> ButtonDefaults.outlinedButtonColors()
-      "child" -> ButtonDefaults.childButtonColors()
-      else -> ButtonDefaults.buttonColors()
+      CompactButtonStyle.FilledVariant -> ButtonDefaults.filledVariantButtonColors()
+      CompactButtonStyle.Tonal -> ButtonDefaults.filledTonalButtonColors()
+      CompactButtonStyle.Outlined -> ButtonDefaults.outlinedButtonColors()
+      CompactButtonStyle.Child -> ButtonDefaults.childButtonColors()
+      CompactButtonStyle.Filled -> ButtonDefaults.buttonColors()
     }
   // The border is its OWN parameter, not part of `colors`. An outlined button built from
   // `outlinedButtonColors()` alone draws no outline, which makes it pixel-identical to the child
@@ -567,14 +579,16 @@ fun CompactActionButton(enabled: Boolean = true) = Sticker {
     onClick = c.onClick,
     enabled = enabled,
     colors = colors,
-    border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
+    border =
+      if (style == CompactButtonStyle.Outlined) ButtonDefaults.outlinedButtonBorder(enabled = true)
+      else null,
     icon =
-      if (content == "text") null
+      if (content == CompactButtonContent.Text) null
       else {
         { Icon(Icons.Filled.Add, contentDescription = null) }
       },
     label =
-      if (content == "icon") null
+      if (content == CompactButtonContent.Icon) null
       else {
         { Text(c.label) }
       },
@@ -767,6 +781,20 @@ fun ImageBackgroundButton(
 )
 annotation class LoadingButtonKitCells
 
+/** The three styles the kit's `Button-Loading` set actually publishes. */
+enum class LoadingButtonStyle {
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+  @KnobValue("child") Child,
+}
+
+/** The kit's `Icon size` axis, shared by the loading button's ring-and-glyph stack. */
+enum class LoadingIconSize {
+  @KnobValue("default") Default,
+  @KnobValue("large") Large,
+  @KnobValue("extra-large") ExtraLarge,
+}
+
 @CatalogComponent(
   id = "Button/Loading",
   reference = "figma:B24oss2tTeXAFykyeyusz0/68333:155116",
@@ -776,18 +804,21 @@ annotation class LoadingButtonKitCells
 @CatalogModes
 @LoadingButtonKitCells
 @Composable
-fun LoadingButton(enabled: Boolean = true) = Sticker {
+fun LoadingButton(
+  enabled: Boolean = true,
+  style: LoadingButtonStyle = LoadingButtonStyle.Tonal,
+  iconSize: LoadingIconSize = LoadingIconSize.Default,
+) = Sticker {
   // TONAL is the base, and that is the kit's call rather than Compose's. `Button-Loading` publishes
   // three styles — Tonal, Outline, Child — and no FILLED one: a filled container behind a progress
   // ring is the one arrangement the kit declined to draw. This sticker defaulted to
   // `buttonColors()` and so fronted the set with a style it does not contain, which is exactly the
   // silent divergence `design-led` exists to catch. The other two published styles ride as cells.
-  val style = previewOverrideChoice("style", "tonal", listOf("tonal", "outlined", "child"))
   val colors =
     when (style) {
-      "outlined" -> ButtonDefaults.outlinedButtonColors()
-      "child" -> ButtonDefaults.childButtonColors()
-      else -> ButtonDefaults.filledTonalButtonColors()
+      LoadingButtonStyle.Outlined -> ButtonDefaults.outlinedButtonColors()
+      LoadingButtonStyle.Child -> ButtonDefaults.childButtonColors()
+      LoadingButtonStyle.Tonal -> ButtonDefaults.filledTonalButtonColors()
     }
   Button(
     onClick = {},
@@ -796,7 +827,9 @@ fun LoadingButton(enabled: Boolean = true) = Sticker {
     colors = colors,
     // As on the compact button: the outline is a `border`, not a colour, and without it the
     // outlined cell is the child cell's picture under another name.
-    border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
+    border =
+      if (style == LoadingButtonStyle.Outlined) ButtonDefaults.outlinedButtonBorder(enabled = true)
+      else null,
     // The icon slot is a STACK, because the kit's is: `Button-Loading`'s `Icon` instance holds a
     // `Progress-Indicator-Small` filling all 26dp of the slot and an 18dp icon centred inside the
     // ring, and the pattern is "the thing you asked for, with a ring around it" rather than "a ring
@@ -823,12 +856,10 @@ fun LoadingButton(enabled: Boolean = true) = Sticker {
       // of the base cell's 26, so the ring's 4dp gap and its 3dp stroke scale with the slot rather
       // than eating a bigger share of a bigger one.
       val slot =
-        when (
-          previewOverrideChoice("iconSize", "default", listOf("default", "large", "extra-large"))
-        ) {
-          "large" -> ButtonDefaults.LargeIconSize
-          "extra-large" -> ButtonDefaults.ExtraLargeIconSize
-          else -> ButtonDefaults.IconSize
+        when (iconSize) {
+          LoadingIconSize.Large -> ButtonDefaults.LargeIconSize
+          LoadingIconSize.ExtraLarge -> ButtonDefaults.ExtraLargeIconSize
+          LoadingIconSize.Default -> ButtonDefaults.IconSize
         }
       Box(contentAlignment = Alignment.Center, modifier = Modifier.size(slot)) {
         CircularProgressIndicator(
