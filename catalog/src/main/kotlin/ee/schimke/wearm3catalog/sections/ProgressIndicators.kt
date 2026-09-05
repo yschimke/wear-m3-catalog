@@ -21,6 +21,7 @@ import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
@@ -202,6 +203,20 @@ import ee.schimke.wearm3catalog.TransparentScreenSticker
 )
 annotation class CircularProgressKitCells
 
+/** The kit's `Stroke Width` axis for the circular indicators. */
+enum class IndicatorStroke {
+  @KnobValue("medium") Medium,
+  @KnobValue("small") Small,
+}
+
+/**
+ * Determinate or not — a different `CircularProgressIndicator` overload, not a parameter of one.
+ */
+enum class ProgressMode {
+  @KnobValue("determinate") Determinate,
+  @KnobValue("indeterminate") Indeterminate,
+}
+
 @CatalogComponent(
   id = "CircularProgressIndicator",
   reference = "figma:B24oss2tTeXAFykyeyusz0/41424:58637",
@@ -224,10 +239,11 @@ fun CircularProgress(
   progress: Float = 0.6f,
   enabled: Boolean = true,
   allowProgressOverflow: Boolean = true,
+  stroke: IndicatorStroke = IndicatorStroke.Medium,
+  mode: ProgressMode = ProgressMode.Determinate,
 ) = TransparentScreenSticker {
-  val stroke =
-    if (previewOverrideChoice("stroke", "medium", listOf("medium", "small")) == "small")
-      CircularProgressIndicatorDefaults.smallStrokeWidth
+  val strokeWidth =
+    if (stroke == IndicatorStroke.Small) CircularProgressIndicatorDefaults.smallStrokeWidth
     else CircularProgressIndicatorDefaults.largeStrokeWidth
   // The kit's `Type = Full | Top Gap | Bottom Gap` axis is these two angles in Compose: equal
   // angles close the ring, and separating them opens a gap wherever the pair points. No cells —
@@ -237,13 +253,10 @@ fun CircularProgress(
   val endAngle = previewOverrideFloat("endAngle", startAngle)
   // `fillMaxSize` throughout, because the kit's cell draws the ring 2dp inside the bezel of the
   // whole display — a fixed `size(120.dp)` is a ring around nothing in particular.
-  if (
-    previewOverrideChoice("mode", "determinate", listOf("determinate", "indeterminate")) ==
-      "indeterminate"
-  ) {
+  if (mode == ProgressMode.Indeterminate) {
     // The indeterminate overload takes neither progress nor angles — it is a different function on
     // the same name, and the knobs above simply do not reach it.
-    CircularProgressIndicator(modifier = Modifier.fillMaxSize(), strokeWidth = stroke)
+    CircularProgressIndicator(modifier = Modifier.fillMaxSize(), strokeWidth = strokeWidth)
   } else {
     CircularProgressIndicator(
       progress = { progress },
@@ -254,7 +267,7 @@ fun CircularProgress(
       allowProgressOverflow = allowProgressOverflow,
       startAngle = startAngle,
       endAngle = endAngle,
-      strokeWidth = stroke,
+      strokeWidth = strokeWidth,
     )
   }
 }
@@ -955,6 +968,7 @@ fun SegmentedProgress(
   segmentCount: Int = 6,
   enabled: Boolean = true,
   allowProgressOverflow: Boolean = false,
+  stroke: IndicatorStroke = IndicatorStroke.Medium,
 ) = Sticker {
   val startAngle = previewOverrideFloat("startAngle", CircularProgressIndicatorDefaults.StartAngle)
   SegmentedCircularProgressIndicator(
@@ -972,8 +986,7 @@ fun SegmentedProgress(
     // `Stroke Width` values are library constants that resolve against the screen — they are not
     // numbers a cell can seed — so a cell for either had no way to name it.
     strokeWidth =
-      if (previewOverrideChoice("stroke", "medium", listOf("medium", "small")) == "small")
-        CircularProgressIndicatorDefaults.smallStrokeWidth
+      if (stroke == IndicatorStroke.Small) CircularProgressIndicatorDefaults.smallStrokeWidth
       else CircularProgressIndicatorDefaults.largeStrokeWidth,
   )
 }
