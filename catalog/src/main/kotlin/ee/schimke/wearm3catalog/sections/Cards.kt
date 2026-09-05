@@ -31,6 +31,7 @@ import androidx.wear.compose.material3.TitleCard
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogArtwork
 import ee.schimke.wearm3catalog.CatalogImage
@@ -155,12 +156,58 @@ private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
 
 /** The kit's `Style` axis where it is a colour pair rather than a different function. */
 @Composable
-private fun cardColorsFor(style: String): CardColors =
+private fun cardColorsFor(style: TitleCardStyle): CardColors =
   when (style) {
-    "outlined" -> CardDefaults.outlinedCardColors()
-    "image" -> CardDefaults.cardWithContainerPainterColors()
-    else -> CardDefaults.cardColors()
+    TitleCardStyle.Outlined -> CardDefaults.outlinedCardColors()
+    TitleCardStyle.Image -> CardDefaults.cardWithContainerPainterColors()
+    TitleCardStyle.Tonal -> CardDefaults.cardColors()
   }
+
+/**
+ * The same mapping for the app card, which publishes no image style.
+ *
+ * Two overloads rather than one enum covering both: a shared `CardStyle` would offer `image` on the
+ * app card's picker, and a control that offers a value the component does not take is the thing the
+ * closed set exists to prevent.
+ */
+@Composable
+private fun cardColorsFor(style: AppCardStyle): CardColors =
+  when (style) {
+    AppCardStyle.Outlined -> CardDefaults.outlinedCardColors()
+    AppCardStyle.Tonal -> CardDefaults.cardColors()
+  }
+
+/** The kit's numbered title-card layouts, named for the slots each fills. */
+enum class TitleCardLayout {
+  @KnobValue("title-time") TitleTime,
+  @KnobValue("title-time-subtitle") TitleTimeSubtitle,
+  @KnobValue("title-subtitle") TitleSubtitle,
+}
+
+/** The kit's `Style` axis for the title card. */
+enum class TitleCardStyle {
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+  @KnobValue("image") Image,
+}
+
+/** The kit's `Style` axis for the app card — no image style; the kit does not publish one. */
+enum class AppCardStyle {
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+}
+
+/** The kit's two leading-slot treatments: the app's artwork, or a glyph. */
+enum class AppCardImage {
+  @KnobValue("image") Image,
+  @KnobValue("icon") Icon,
+}
+
+/** The kit's `Style` axis for the plain card: a tonal container, or an image behind it. */
+enum class PlainCardStyle {
+  @KnobValue("tonal") Tonal,
+  @KnobValue("image") Image,
+}
 
 @CatalogComponent(
   id = "Card",
@@ -180,9 +227,9 @@ private fun cardColorsFor(style: String): CardColors =
 // cannot show, so a cell would publish the same picture under a second name. It is documented in
 // the caption instead.
 @Composable
-fun PlainCard() = Sticker {
+fun PlainCard(style: PlainCardStyle = PlainCardStyle.Tonal) = Sticker {
   val c = counted(kitCopy("content", KitCopy.CARD_CONTENT))
-  if (previewOverrideChoice("style", "tonal", listOf("tonal", "image")) == "image") {
+  if (style == PlainCardStyle.Image) {
     Card(
       onClick = c.onClick,
       containerPainter = CardDefaults.containerPainter(image = CatalogImage),
@@ -358,27 +405,24 @@ annotation class TitleCardKitCells
 @CatalogModes
 @TitleCardKitCells
 @Composable
-fun TitledCard() = Sticker {
+fun TitledCard(
+  layout: TitleCardLayout = TitleCardLayout.TitleTime,
+  style: TitleCardStyle = TitleCardStyle.Tonal,
+) = Sticker {
   val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
-  // The kit's three numbered layouts, named for the slots each fills rather than for its number:
-  // a reader of the panel is choosing slots, and `Title Card 2` says nothing about what it draws.
-  val layout =
-    previewOverrideChoice(
-      "layout",
-      "title-time",
-      listOf("title-time", "title-time-subtitle", "title-subtitle"),
-    )
-  val style = previewOverrideChoice("style", "tonal", listOf("tonal", "outlined", "image"))
   val time: @Composable () -> Unit = { Text(kitCopy("time", KitCopy.TIMESTAMP)) }
   val subtitle: (@Composable ColumnScope.() -> Unit)? =
-    if (layout == "title-time") null
+    if (layout == TitleCardLayout.TitleTime) null
     else {
       { Text(kitCopy("subtitle", KitCopy.SUBTITLE)) }
     }
   // `Title Card 3` is the layout with no body: its subtitle and time sit straight under the title.
   val content =
-    cardContent(if (layout == "title-subtitle") null else kitCopy("content", KitCopy.CARD_CONTENT))
-  if (style == "image") {
+    cardContent(
+      if (layout == TitleCardLayout.TitleSubtitle) null
+      else kitCopy("content", KitCopy.CARD_CONTENT)
+    )
+  if (style == TitleCardStyle.Image) {
     TitleCard(
       title = { Text(c.label) },
       containerPainter = CardDefaults.containerPainter(image = CatalogImage),
@@ -399,7 +443,7 @@ fun TitledCard() = Sticker {
       // The outline is a `border`, not a colour — the same trap the button pages carry a note
       // about. Without it an outlined card is the tonal one's picture with a transparent
       // container, which is not what the kit's outline column draws.
-      border = if (style == "outlined") CardDefaults.outlinedCardBorder() else null,
+      border = if (style == TitleCardStyle.Outlined) CardDefaults.outlinedCardBorder() else null,
       modifier = Modifier.width(CardWidth),
       content = content,
     )
@@ -522,17 +566,18 @@ annotation class AppCardKitCells
 @CatalogModes
 @AppCardKitCells
 @Composable
-fun ApplicationCard() = Sticker {
-  val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
-  val style = previewOverrideChoice("style", "tonal", listOf("tonal", "outlined"))
+fun ApplicationCard(
+  style: AppCardStyle = AppCardStyle.Tonal,
   // The leading slot is the kit's two layout names. `App Card` draws the app's own square artwork
   // there; `Title Card + Icon` draws a glyph. The slot used to be left empty, which is neither.
-  val appImage = previewOverrideChoice("appImage", "image", listOf("image", "icon"))
+  appImage: AppCardImage = AppCardImage.Image,
+) = Sticker {
+  val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
   AppCard(
     onClick = c.onClick,
     appName = { Text(kitCopy("appName", KitCopy.APP_LABEL)) },
     appImage =
-      if (appImage == "icon") {
+      if (appImage == AppCardImage.Icon) {
         { Icon(Icons.Filled.Star, contentDescription = null, modifier = Modifier.size(16.dp)) }
       } else {
         {
@@ -547,7 +592,7 @@ fun ApplicationCard() = Sticker {
     title = { Text(c.label) },
     time = { Text(kitCopy("time", KitCopy.TIMESTAMP)) },
     colors = cardColorsFor(style),
-    border = if (style == "outlined") CardDefaults.outlinedCardBorder() else null,
+    border = if (style == AppCardStyle.Outlined) CardDefaults.outlinedCardBorder() else null,
     modifier = Modifier.width(CardWidth),
     // `AppCard`'s content slot is `ColumnScope`-scoped where `TitleCard`'s is not, so the shared
     // helper's lambda is invoked inside one here.
