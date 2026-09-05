@@ -24,10 +24,10 @@ import androidx.wear.compose.material3.Stepper
 import androidx.wear.compose.material3.StepperDefaults
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.CatalogModes
@@ -355,6 +355,18 @@ private fun valueRange(defaultEnd: Float = 1f): ClosedFloatingPointRange<Float> 
 )
 annotation class SliderKitCells
 
+/** The kit's `Icons` axis for the slider and stepper buttons. */
+enum class StepIcons {
+  @KnobValue("plus-minus") PlusMinus,
+  @KnobValue("chevron") Chevron,
+}
+
+/** The kit's `Content` axis for the stepper's label slot. */
+enum class StepperContent {
+  @KnobValue("text") Text,
+  @KnobValue("icon") Icon,
+}
+
 @CatalogComponent(
   id = "Slider",
   reference = "figma:B24oss2tTeXAFykyeyusz0/43711:37256",
@@ -368,6 +380,7 @@ fun ValueSlider(
   steps: Int = 4,
   value: Float = 2f,
   enabled: Boolean = true,
+  icons: StepIcons = StepIcons.PlusMinus,
 ) = Sticker {
   // THE KIT COUNTS BANDS; COMPOSE COUNTS THE STOPS BETWEEN THEM. The kit's axis is `Increments` —
   // how many bands the bar is cut into — and `steps` is the number of values between the ends, so
@@ -384,7 +397,6 @@ fun ValueSlider(
   // `plus-minus` is the pair `SliderDefaults` recommends and the kit draws. The chevrons are the
   // other pairing the API's two icon slots exist for, and a reader cannot discover a slot from a
   // still — so it is offered as a choice rather than described.
-  val icons = previewOverrideChoice("icons", "plus-minus", listOf("plus-minus", "chevron"))
   Slider(
     value = value,
     onValueChange = onValueChange,
@@ -398,12 +410,12 @@ fun ValueSlider(
     segmented = previewOverrideBoolean("segmented", steps <= SliderDefaults.MaxSegmentSteps),
     enabled = enabled,
     decreaseIcon = {
-      if (icons == "chevron")
+      if (icons == StepIcons.Chevron)
         Icon(Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "Less")
       else SliderDefaults.DecreaseIcon()
     },
     increaseIcon = {
-      if (icons == "chevron")
+      if (icons == StepIcons.Chevron)
         Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "More")
       else SliderDefaults.IncreaseIcon()
     },
@@ -496,11 +508,12 @@ fun ValueStepper(
   enabled: Boolean = true,
   steps: Int = 5,
   buttonFill: Boolean = true,
+  icons: StepIcons = StepIcons.Chevron,
+  content: StepperContent = StepperContent.Text,
 ) = FullScreenSticker {
   val (value, onValueChange) = heldValue(value)
   // Up/down, because the stepper's buttons are stacked: its decrease button is at the BOTTOM of
   // the display and its increase button at the top, which is the arrangement the kit draws too.
-  val icons = previewOverrideChoice("icons", "chevron", listOf("chevron", "plus-minus"))
   Stepper(
     value = value,
     onValueChange = onValueChange,
@@ -511,15 +524,15 @@ fun ValueStepper(
       if (buttonFill) StepperDefaults.colors()
       else StepperDefaults.colors(buttonContainerColor = Color.Transparent),
     decreaseIcon = {
-      if (icons == "plus-minus") SliderDefaults.DecreaseIcon()
+      if (icons == StepIcons.PlusMinus) SliderDefaults.DecreaseIcon()
       else Icon(Icons.Filled.KeyboardArrowDown, contentDescription = "Less")
     },
     increaseIcon = {
-      if (icons == "plus-minus") SliderDefaults.IncreaseIcon()
+      if (icons == StepIcons.PlusMinus) SliderDefaults.IncreaseIcon()
       else Icon(Icons.Filled.KeyboardArrowUp, contentDescription = "More")
     },
   ) {
-    if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {
+    if (content == StepperContent.Icon) {
       Icon(Icons.Filled.Settings, contentDescription = "Volume")
     } else {
       Text(kitCopy("label", KitCopy.STEPPER_LABEL))
