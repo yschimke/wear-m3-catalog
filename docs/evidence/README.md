@@ -33,6 +33,17 @@ to the small one. Unlike the Wear contact sheets, every frame in it is composite
 `#141418` for the reason the next paragraph gives: the `remote-m3` stickers rasterise onto
 transparency and half of these are near-white on it. No pixel of any render is otherwise touched.
 
+`parity-*.png` are before/after BOARDS: one component's affected cells rendered from `main` on the
+top band and from the change on the bottom, with the cell's name under each frame and the lane
+(`:catalog` or `:remote-catalog`) in the title. They evidence the compare-page parity fixes of
+[#292](https://github.com/yschimke/wear-m3-catalog/issues/292),
+[#294](https://github.com/yschimke/wear-m3-catalog/issues/294) and
+[#295](https://github.com/yschimke/wear-m3-catalog/issues/295), where the interesting thing is
+almost always a *pair* — a type role, a glyph, a second label — rather than one frame, and reading
+it means seeing the same cell twice. The frames are ordinary `composePreviewRender` outputs
+composited onto the sheet's dark board for the reason `remote-m3-folded-cells.png` gives; no pixel
+of a render is otherwise touched.
+
 `remote-m3-snapshot-lane.png` is a two-lane contact sheet rather than a before/after of a change to
 this repo's code: the same stickers rendered against the released alphas and against an androidx.dev
 snapshot (`-PremoteSnapshot=<build id>`, see AGENTS.md → Dependencies), plus all eight cells of a

@@ -202,10 +202,22 @@ enum class AppCardStyle {
   @KnobValue("outlined") Outlined,
 }
 
-/** The kit's two leading-slot treatments: the app's artwork, or a glyph. */
+/**
+ * The kit's two leading-slot treatments — the app's artwork, or a glyph — plus the empty one.
+ *
+ * [None] is NOT a kit cell and the `no-app-image` variant names no node for that reason: the kit's
+ * leading slot is always filled, `App Card` with the artwork and `Title Card + Icon` with the
+ * glyph, and both of those are already drawn by the values above. It is here because
+ * `:remote-catalog` publishes the cell — `RemoteAppCard` allows the empty slot, which is the
+ * library's shape rather than the kit's — and its row was scoring against `content-image`, so the
+ * compare page reported the omission this cell exists for as the finding
+ * ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)). A cell drawn on both columns is
+ * what makes that row a comparison.
+ */
 enum class AppCardImage {
   @KnobValue("image") Image,
   @KnobValue("icon") Icon,
+  @KnobValue("none") None,
 }
 
 /** The kit's `Style` axis for the plain card: a tonal container, or an image behind it. */
@@ -399,6 +411,58 @@ fun OutlineCard() = Sticker {
 // to a node it is not a picture of. The kit's nine `Title Card 3` cells are the set's remaining
 // gap.
 @OverrideVariant(name = "title-and-subtitle", strings = ["layout=title-subtitle"])
+// `title-and-subtitle` CROSSED WITH THE OTHER TWO AXES, and none of these names a node either —
+// same reason as the cell above, which is the whole family's: `Title Card 3` puts the timestamp
+// under the subtitle and `TitleCard` has no argument that moves it, so the kit's nine cells of that
+// layout stay the set's gap and these are the arrangement Compose does have.
+//
+// They are drawn because `:remote-catalog` draws them, and the compare page reads the two columns
+// CELL by cell: this column published `title-and-subtitle` alone, so the Remote sheet's eight
+// crossings of it fell through to the canonical sticker and scored themselves against
+// `background-image` — eight rows diffing a title-over-subtitle card against a grey image-backed
+// one and reporting it as divergence
+// ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)). The names and the knob seeds
+// are the Remote sheet's, exactly, because that agreement is what the pairing walks.
+@OverrideVariant(
+  name = "title-and-subtitle-content-image",
+  strings = ["layout=title-subtitle", "content=image"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "title-and-subtitle-gallery-1",
+  strings = ["layout=title-subtitle", "content=gallery-1"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "title-and-subtitle-gallery-2",
+  strings = ["layout=title-subtitle", "content=gallery-2"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "title-and-subtitle-background-image",
+  strings = ["layout=title-subtitle", "style=image"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-title-and-subtitle",
+  strings = ["layout=title-subtitle", "style=outlined"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-title-and-subtitle-content-image",
+  strings = ["layout=title-subtitle", "style=outlined", "content=image"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-title-and-subtitle-gallery-1",
+  strings = ["layout=title-subtitle", "style=outlined", "content=gallery-1"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "outlined-title-and-subtitle-gallery-2",
+  strings = ["layout=title-subtitle", "style=outlined", "content=gallery-2"],
+  secondary = true,
+)
 annotation class TitleCardKitCells
 
 @CatalogComponent(
@@ -561,6 +625,9 @@ fun TitledCard(
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
+// The empty leading slot — see [AppCardImage.None] for why it names no kit node and why it is
+// drawn anyway. The name is `:remote-catalog`'s, because that is what the two columns pair on.
+@OverrideVariant(name = "no-app-image", strings = ["appImage=none"], secondary = true)
 annotation class AppCardKitCells
 
 @CatalogComponent(
@@ -584,16 +651,20 @@ fun ApplicationCard(
     onClick = c.onClick,
     appName = { Text(kitCopy("appName", KitCopy.APP_LABEL)) },
     appImage =
-      if (appImage == AppCardImage.Icon) {
-        { Icon(Icons.Filled.Star, contentDescription = null, modifier = Modifier.size(16.dp)) }
-      } else {
-        {
-          Image(
-            painter = CatalogArtwork,
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier.size(16.dp).clip(RoundedCornerShape(4.dp)),
-          )
+      when (appImage) {
+        AppCardImage.Icon -> {
+          { Icon(Icons.Filled.Star, contentDescription = null, modifier = Modifier.size(16.dp)) }
+        }
+        AppCardImage.None -> null
+        AppCardImage.Image -> {
+          {
+            Image(
+              painter = CatalogArtwork,
+              contentDescription = null,
+              contentScale = ContentScale.Crop,
+              modifier = Modifier.size(16.dp).clip(RoundedCornerShape(4.dp)),
+            )
+          }
         }
       },
     title = { Text(c.label) },

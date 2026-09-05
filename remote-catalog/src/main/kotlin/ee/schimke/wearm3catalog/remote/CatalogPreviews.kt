@@ -72,7 +72,6 @@ import androidx.wear.compose.remote.material3.RemoteOutlinedCard
 import androidx.wear.compose.remote.material3.RemoteText
 import androidx.wear.compose.remote.material3.RemoteTextButton
 import androidx.wear.compose.remote.material3.RemoteTextButtonDefaults
-import androidx.wear.compose.remote.material3.RemoteTitleCard
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import ee.schimke.composeai.daemon.rememberOverridableRemoteColor
 import ee.schimke.composeai.daemon.rememberOverridableRemoteDp
@@ -195,6 +194,40 @@ internal val addIcon: ImageVector =
         lineTo(13f, 5f)
         lineTo(13f, 11f)
         lineTo(19f, 11f)
+        close()
+      }
+    }
+    .build()
+
+// The glyph the kit's `Title Card + Icon` cells draw, and the ONLY slot on this sheet that is not
+// `addIcon`.
+//
+// `Icons.Filled.Star`, transcribed for the same reason `addIcon` is — Remote Compose bundles no
+// icon set. Checked against the kit's own export: `46048:69274` is a star over `Label text`, where
+// the `Button` set's `Icon=Yes` cells are a `+`. The card's leading slot used to draw `addIcon`
+// too, which put the button sheet's glyph under a card cell that draws a different one, on
+// seventeen AppCard rows ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)).
+// `wear-m3-catalog`'s `ApplicationCard` passes `Icons.Filled.Star` into the same slot.
+internal val starIcon: ImageVector =
+  ImageVector.Builder(
+      name = "Star",
+      defaultWidth = 24.dp,
+      defaultHeight = 24.dp,
+      viewportWidth = 24f,
+      viewportHeight = 24f,
+    )
+    .apply {
+      path(fill = SolidColor(Color.White)) {
+        moveTo(12f, 17.27f)
+        lineTo(18.18f, 21f)
+        lineTo(16.54f, 13.97f)
+        lineTo(22f, 9.24f)
+        lineTo(14.81f, 8.63f)
+        lineTo(12f, 2f)
+        lineTo(9.19f, 8.63f)
+        lineTo(2f, 9.24f)
+        lineTo(7.46f, 13.97f)
+        lineTo(5.82f, 21f)
         close()
       }
     }
@@ -434,7 +467,17 @@ fun OutlinedRemoteButton() = RemoteSticker {
 @CatalogComponent(
   id = "Button/CustomShape",
   group = "Buttons",
-  parallel = "Button/Filled",
+  // NO `parallel`, and the `noReference` below is the same answer one column over. Pointing this
+  // at `Button/Filled` compared a corner override against the stock pill and reported the shape —
+  // the only thing this row is for — as divergence
+  // ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)).
+  //
+  // Nothing on the Wear column is a better target: its button family is the five kit styles and
+  // `Compact` / `ImageBackground` / `Loading`, none of which overrides a shape, and AGENTS.md names
+  // this row as one of the door-2 components that stays top-level under `noReference` precisely
+  // because it has no kit call site to fold onto. If `:catalog` ever publishes a shape override of
+  // its own — `Button` takes a `shape` there too — this row gains a real counterpart and should
+  // name it.
   noReference =
     "The kit's `Button` set has no shape axis: its five styles are crossed with `Icon`, " +
       "`Icon size`, `Alignment` and `Disabled` and nothing else, so every one of its fifty cells " +
@@ -467,7 +510,10 @@ fun CustomShapeRemoteButton() = RemoteSticker {
 @CatalogComponent(
   id = "Button/NamedLabel",
   group = "Buttons",
-  parallel = "Button/Filled",
+  // NO `parallel`, for the reason the `noReference` below already gives about the kit node: what
+  // this row varies is where the label comes from, and `:catalog` has no counterpart for that. It
+  // pointed at `Button/Filled`, which drew the same picture and said nothing about the binding
+  // ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)).
   noReference =
     "Not a variant cell at all: what this sticker varies is where the label comes from, not what " +
       "the button looks like. Its default render is `Button/Filled`'s picture, and that row " +
@@ -1388,7 +1434,14 @@ fun ButtonGroupRemote() = RemoteSticker {
   // Each half counts independently, so a live tap tells you which one it landed on.
   val (first, onFirst) = countedRemote("A")
   val (second, onSecond) = countedRemote("B")
-  RemoteButtonGroup {
+  // 180dp, the width `wear-m3-catalog`'s `ButtonGroup` pins — and the same bargain the labels
+  // above strike, unfinished until now. With no kit node behind either rendition the sibling is the
+  // only thing this row can be read against, and it can only be read against it if both are given
+  // the same box. Left unpinned the group filled its 454-wide `CatalogRemoteLarge` frame — 410px of
+  // ink against the Wear column's 312 — and the row reported ~98px of width difference that was
+  // entirely the missing modifier
+  // ([#295](https://github.com/yschimke/wear-m3-catalog/issues/295)).
+  RemoteButtonGroup(modifier = RemoteModifier.width(180.rdp)) {
     RemoteButton(onClick = onFirst, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(first) }
     RemoteButton(onClick = onSecond, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(second) }
   }
@@ -1628,80 +1681,94 @@ private fun cardImagery(): (@Composable () -> Unit)? =
 // palette resolves to the same container the tonal one does, these renders are byte-identical to
 // the cells above and `RemoteRenderTest`'s duplicate guard says so — which would mean the axis has
 // no call site after all and these belong with the withheld ones.
+//
+// `outlined`, NOT `outline` — the knob value and the cell names both, here and on `AppCardRemote`
+// and in `KitCardStyles`. It is the Wear sheet's spelling (`TitleCardStyle.Outlined`,
+// `AppCardStyle.Outlined`) and already this sheet's own everywhere else: the buttons, the edge
+// buttons and the compact buttons all spell their outlined cells `outlined`, and only the cards
+// carried the short form. Two spellings of one axis value cost nothing while a shared kit node
+// carries the pairing, and cost the whole row where there is none: the `Title Card 3` crossings
+// below name no node on either column, so `style` matching literally is the only thing that pairs
+// them ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)).
 @OverrideVariant(
-  name = "outline",
-  strings = ["style=outline"],
+  name = "outlined",
+  strings = ["style=outlined"],
   kitProps = ["Layout type=Title Card 1", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-content-image",
-  strings = ["style=outline", "content=image"],
+  name = "outlined-content-image",
+  strings = ["style=outlined", "content=image"],
   kitProps = ["Layout type=Title Card 1", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-gallery-1",
-  strings = ["style=outline", "content=gallery-1"],
+  name = "outlined-gallery-1",
+  strings = ["style=outlined", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 1", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-gallery-2",
-  strings = ["style=outline", "content=gallery-2"],
+  name = "outlined-gallery-2",
+  strings = ["style=outlined", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 1", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-with-subtitle",
-  strings = ["style=outline", "layout=title-time-subtitle"],
+  name = "outlined-with-subtitle",
+  strings = ["style=outlined", "layout=title-time-subtitle"],
   kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-with-subtitle-content-image",
-  strings = ["style=outline", "layout=title-time-subtitle", "content=image"],
+  name = "outlined-with-subtitle-content-image",
+  strings = ["style=outlined", "layout=title-time-subtitle", "content=image"],
   kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-with-subtitle-gallery-1",
-  strings = ["style=outline", "layout=title-time-subtitle", "content=gallery-1"],
+  name = "outlined-with-subtitle-gallery-1",
+  strings = ["style=outlined", "layout=title-time-subtitle", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-with-subtitle-gallery-2",
-  strings = ["style=outline", "layout=title-time-subtitle", "content=gallery-2"],
+  name = "outlined-with-subtitle-gallery-2",
+  strings = ["style=outlined", "layout=title-time-subtitle", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
+// The `Title Card 3` outline crossings. A cell that names no kit node pairs by NAME and seeds or
+// not at all, so these four are the ones the spelling actually decides: `:catalog` publishes them
+// under exactly these names now, keeping this card's own style-first ordering rather than the Wear
+// sheet's `with-subtitle-outlined` suffix, because that is the smaller move and neither column had
+// the cells before.
 @OverrideVariant(
-  name = "outline-title-and-subtitle",
-  strings = ["style=outline", "layout=title-subtitle"],
+  name = "outlined-title-and-subtitle",
+  strings = ["style=outlined", "layout=title-subtitle"],
   kitProps = ["Layout type=Title Card 3", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-title-and-subtitle-content-image",
-  strings = ["style=outline", "layout=title-subtitle", "content=image"],
+  name = "outlined-title-and-subtitle-content-image",
+  strings = ["style=outlined", "layout=title-subtitle", "content=image"],
   kitProps = ["Layout type=Title Card 3", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-title-and-subtitle-gallery-1",
-  strings = ["style=outline", "layout=title-subtitle", "content=gallery-1"],
+  name = "outlined-title-and-subtitle-gallery-1",
+  strings = ["style=outlined", "layout=title-subtitle", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 3", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-title-and-subtitle-gallery-2",
-  strings = ["style=outline", "layout=title-subtitle", "content=gallery-2"],
+  name = "outlined-title-and-subtitle-gallery-2",
+  strings = ["style=outlined", "layout=title-subtitle", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 3", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
@@ -1851,53 +1918,53 @@ fun TitleCardRemote() = RemoteSticker {
 // The `Style=Outline` column for this function's two layouts. Same call site and same
 // expected divergence as `TitleCardRemote`'s: the palette lands, the stroke does not.
 @OverrideVariant(
-  name = "outline",
-  strings = ["style=outline"],
+  name = "outlined",
+  strings = ["style=outlined"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-content-image",
-  strings = ["style=outline", "content=image"],
+  name = "outlined-content-image",
+  strings = ["style=outlined", "content=image"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-gallery-1",
-  strings = ["style=outline", "content=gallery-1"],
+  name = "outlined-gallery-1",
+  strings = ["style=outlined", "content=gallery-1"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-gallery-2",
-  strings = ["style=outline", "content=gallery-2"],
+  name = "outlined-gallery-2",
+  strings = ["style=outlined", "content=gallery-2"],
   kitProps = ["Layout type=App Card", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-icon",
-  strings = ["style=outline", "appImage=icon"],
+  name = "outlined-icon",
+  strings = ["style=outlined", "appImage=icon"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-icon-content-image",
-  strings = ["style=outline", "appImage=icon", "content=image"],
+  name = "outlined-icon-content-image",
+  strings = ["style=outlined", "appImage=icon", "content=image"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-icon-gallery-1",
-  strings = ["style=outline", "appImage=icon", "content=gallery-1"],
+  name = "outlined-icon-gallery-1",
+  strings = ["style=outlined", "appImage=icon", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outline-icon-gallery-2",
-  strings = ["style=outline", "appImage=icon", "content=gallery-2"],
+  name = "outlined-icon-gallery-2",
+  strings = ["style=outlined", "appImage=icon", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
@@ -1932,7 +1999,7 @@ fun AppCardRemote() = RemoteSticker {
   // The kit's `Style` axis, on the same terms as `TitleCardRemote` above: `RemoteAppCard` takes
   // colours and no border, so the outlined cells draw the outlined palette with no stroke, and the
   // missing stroke is the finding rather than a reason to withhold them.
-  val outlined = previewOverrideChoice("style", "tonal", listOf("tonal", "outline")) == "outline"
+  val outlined = previewOverrideChoice("style", "tonal", listOf("tonal", "outlined")) == "outlined"
   RemoteAppCard(
     onClick = onClick,
     modifier = RemoteModifier.width(KitRowWidth),
@@ -1951,12 +2018,23 @@ fun AppCardRemote() = RemoteSticker {
     // as an empty `IMAGE` fill there too.
     appImage =
       when (previewOverrideChoice("appImage", "image", listOf("image", "icon", "none"))) {
-        "icon" -> ({ RemoteIcon(addIcon, null, modifier = RemoteModifier.size(16.rdp)) })
+        "icon" -> ({ RemoteIcon(starIcon, null, modifier = RemoteModifier.size(16.rdp)) })
         // NOT a kit cell, and the `none` cell's note below says why: the kit's leading slot is
         // always filled. This draws the empty one because `RemoteAppCard` allows it, which is the
         // library's shape rather than the kit's.
         "none" -> null
-        else -> ({ imageFrame(16, 16, 4) })
+        // The kit's `App Card` cell fills this slot with an app avatar, so it takes the ARTWORK
+        // stand-in rather than `imageFrame`'s empty-slot placeholder — the same split
+        // `:catalog` draws between `CatalogArtwork` and `CatalogImage`, and the same picture. A
+        // white square under a slot the kit fills is not a closer answer than a coloured one.
+        else -> ({
+            RemoteImage(
+              CatalogRemoteImage.artwork(),
+              null,
+              modifier = RemoteModifier.size(16.rdp).clip(RemoteRoundedCornerShape(4.rdp)),
+              contentScale = ContentScale.FillBounds,
+            )
+          })
       },
     content = cardImagery() ?: ({ RemoteText(KitCopy.CARD_CONTENT.rs) }),
   )
@@ -1986,15 +2064,31 @@ fun AppCardRemote() = RemoteSticker {
 // mirrors slot for slot (status strip, list header, a stack of TitleCards).
 // ---------------------------------------------------------------------------
 
-// Kept to one short line each: at the 150dp list width a wrapping subtitle grows its card past the
-// round crop, so the second card would fall off the bottom of the screen.
-private val screenActivities = listOf("Morning run" to "5.2 km", "Heart rate" to "72 bpm")
+// The rows `wear-m3-catalog`'s `WearScaffold` draws, and drawn here for that reason alone.
+//
+// This screen used to be its own invention — a pair of TitleCards reading "Morning run / 5.2 km"
+// and "Heart rate / 72 bpm" against the sibling's four "Row n" list headers — so the compare page's
+// hero row put two unrelated pictures side by side and scored the difference
+// ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)). The kit publishes no scaffold,
+// which makes the sibling the only reference this row has, and the same bargain `ButtonGroup` and
+// `KitCopy` strike applies: where there is no kit copy to quote, quote the sibling.
+private val screenRows = (1..4).map { "Row $it" }
 
 // `Scaffold`, as the Wear sibling names it. It shipped as `Template/WatchScreen` and had to be
 // paired across by `parallel`, which is the tell: two sheets naming one component two things is
 // exactly what stops the compare page's columns lining up on their own. NOT a fold — this stays a
 // top-level component carrying the `noReference` below, because it is a render the kit publishes no
 // cell for and only a component can say so.
+//
+// THE BREAKPOINT MISMATCH ON THIS ROW IS DELIBERATE, written down here so it is not re-derived as a
+// defect ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292) asked for the answer
+// rather than a change). The compare page pairs `scaffold__ideal__default__compact` — 454x454 —
+// against the sibling's `scaffold__ideal__default__192dp` at 384x384, because
+// [CatalogRemoteScreen] pins ONE 227dp canvas where `:catalog`'s `CatalogFullScreenModes` fans the
+// kit's five round breakpoints, and the pairing falls back to matching the cell with the size axis
+// dropped. That is the arrangement AGENTS.md describes — the breakpoint segment is the one thing
+// that does not converge between the sheets — and both frames are the `largeRound` end of the same
+// range, so the row compares the same screen at two sizes rather than two different screens.
 @CatalogComponent(
   id = "Scaffold",
   group = "Scaffold templates",
@@ -2004,9 +2098,10 @@ private val screenActivities = listOf("Morning run" to "5.2 km", "Heart rate" to
       "`noReference` for the same reason, so there is no node to compare either rendition " +
       "against.",
   caption =
-    "Full-screen Remote Compose watch screen — a status clock, a list header and a stack of " +
-      "RemoteTitleCards on the theme's own background fill. The catalog's hero: a RemoteDocument " +
-      "driving a whole surface, not a single sticker.",
+    "Full-screen Remote Compose watch screen — a status clock over the sibling's four list rows, " +
+      "on the theme's own background fill. The catalog's hero: a RemoteDocument driving a whole " +
+      "surface, not a single sticker. No scroll indicator: the Wear column draws one down the " +
+      "right bezel and remote-material3 publishes no scroll-position component to draw it with.",
 )
 @CatalogRemoteScreen
 @Composable
@@ -2029,13 +2124,8 @@ fun WatchScreenRemote() = RemoteSticker {
         horizontalAlignment = RemoteAlignment.CenterHorizontally,
       ) {
         RemoteText("10:10".rs, style = RemoteMaterialTheme.typography.labelMedium)
-        screenActivities.forEach { (rowTitle, subtitle) ->
-          val (title, onClick) = countedRemote(rowTitle)
-          RemoteTitleCard(
-            onClick = onClick,
-            title = { RemoteText(title) },
-            subtitle = { RemoteText(subtitle.rs) },
-          )
+        screenRows.forEach { row ->
+          RemoteText(row.rs, style = RemoteMaterialTheme.typography.titleMedium)
         }
       }
     },
@@ -2429,7 +2519,18 @@ fun RemoteTextSticker() = RemoteSticker {
     if (previewOverrideChoice("align", "centre", listOf("centre", "left")) == "left")
       TextAlign.Start
     else TextAlign.Center
-  RemoteText(text, modifier = RemoteModifier.width(160.rdp), textAlign = align)
+  // `bodyMedium` EXPLICITLY, because the sibling names it explicitly: `wear-m3-catalog`'s
+  // `BodyText` passes `style = MaterialTheme.typography.bodyMedium` for this same string in this
+  // same 160dp box. Left to `RemoteText`'s own default the two columns drew one string at two type
+  // roles — 67px of ink against 54, a line height of ~33.5 against ~27, and a word wrapping early —
+  // which the compare page reported as a layout difference on both cells of this row
+  // ([#295](https://github.com/yschimke/wear-m3-catalog/issues/295)).
+  RemoteText(
+    text,
+    modifier = RemoteModifier.width(160.rdp),
+    style = RemoteMaterialTheme.typography.bodyMedium,
+    textAlign = align,
+  )
 }
 
 // The text primitive exercising the maxLines / overflow product on a narrow column —
@@ -2438,7 +2539,13 @@ fun RemoteTextSticker() = RemoteSticker {
 @CatalogComponent(
   id = "Text/MaxLines-Truncated",
   group = "Text",
-  parallel = "Text/Body",
+  // NO `parallel`. `TextComponents.kt` publishes `Text/Body` and `Text/Caption` and nothing else,
+  // and `maxLines` / `overflow` appears nowhere in `:catalog` — so there is no truncation demo on
+  // that column to pair with, and pointing this at `Text/Body` compared an ellipsis against body
+  // text that flows in full and scored the ellipsis
+  // ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)). Same reasoning as the
+  // `noReference` below, one column over. Wear's `Text` carries the same two knobs, so a
+  // counterpart is buildable there; until one exists this row is one-sided.
   noReference =
     "The kit's `Text-Body` set has exactly one axis, `Alignment`, and exactly two cells: Left and " +
       "Centre. Neither is truncated — the kit draws its body copy in full and says nothing about " +
@@ -2480,7 +2587,14 @@ fun TruncatedTextRemote() = RemoteSticker {
 @CatalogComponent(
   id = "Text/Branded",
   group = "Text",
-  parallel = "Text/Body",
+  // NO `parallel`, and for the same reason as `Text/MaxLines-Truncated` above: `Text/Body` was
+  // comparing a named family against the generic one and reporting the face as divergence
+  // ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)).
+  //
+  // There is no better target and there is not meant to be one: `:catalog` draws its faces through
+  // `CatalogFonts.kt` and publishes its type ramp as a STYLES sheet rather than a component, which
+  // `Theme.kt` states as a deliberate choice ("a token sheet is not a component"). This sheet's
+  // `Typeface/Specimen` is one-sided for the same reason.
   noReference =
     "The kit's `Text-Body` set varies `Alignment` and nothing else; the typeface is fixed across " +
       "both its cells, and the kit publishes its families as a styles page rather than as a " +

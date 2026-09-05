@@ -23,7 +23,7 @@ import androidx.wear.compose.remote.material3.RemoteTitleCard
 // and the split for cards is over.
 
 /** The kit's `Style` values this lane can draw. */
-internal val KitCardStyles = listOf("tonal", "outline")
+internal val KitCardStyles = listOf("tonal", "outlined")
 
 /**
  * No cells. The snapshot sibling declares the three `Background Image` crossings; on this lane the
@@ -55,7 +55,7 @@ internal fun KitTitleCard(
     onClick = onClick,
     modifier = modifier,
     colors =
-      if (style == "outline") RemoteCardDefaults.outlinedCardColors()
+      if (style == "outlined") RemoteCardDefaults.outlinedCardColors()
       else RemoteCardDefaults.cardColors(),
     title = title,
     time = time,

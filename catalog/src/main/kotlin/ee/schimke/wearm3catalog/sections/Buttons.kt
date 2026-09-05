@@ -5,6 +5,7 @@ package ee.schimke.wearm3catalog.sections
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
@@ -97,6 +98,25 @@ private fun leadingIcon(
       }
     { Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(size)) }
   }
+
+/**
+ * The SECOND label the kit couples to its leading icon, and nothing without one.
+ *
+ * Every `Icon=Yes` cell in the `Button` set draws `Primary label` over `Secondary label` — checked
+ * against the set's own export (`35239:93167` and the two larger icon sizes beside it), which is a
+ * `+` glyph and two lines inside the same 52dp pill the one-line cells draw. The icon is what buys
+ * the row the height for the second line, which is why the kit publishes no single-line icon cell
+ * and why this is not an axis of its own here.
+ *
+ * It was missing, and that made the fifteen `icon*` rows of the compare page report a fixture as a
+ * component defect: `:remote-catalog` drew both lines and this column drew one, so `button-child`'s
+ * `icon` cell scored 1.77x the ink of its sibling and the filled styles came out narrower than the
+ * Wear ones because the second line takes width out of the first
+ * ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)).
+ */
+@Composable
+private fun kitSecondaryLabel(icon: Boolean): (@Composable RowScope.() -> Unit)? =
+  if (!icon) null else ({ Text(kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)) })
 
 /**
  * The label the kit's `Alignment` axis turns, as a `Button` label slot.
@@ -220,6 +240,7 @@ fun FilledButton(
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
     icon = leadingIcon(icon, iconSize),
+    secondaryLabel = kitSecondaryLabel(icon),
     label = { alignedLabel(c.label, alignment) },
   )
 }
@@ -252,6 +273,7 @@ fun FilledVariantButton(
     enabled = enabled,
     colors = ButtonDefaults.filledVariantButtonColors(),
     icon = leadingIcon(icon, iconSize),
+    secondaryLabel = kitSecondaryLabel(icon),
     label = { alignedLabel(c.label, alignment) },
   )
 }
@@ -283,6 +305,7 @@ fun TonalButton(
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
     icon = leadingIcon(icon, iconSize),
+    secondaryLabel = kitSecondaryLabel(icon),
     label = { alignedLabel(c.label, alignment) },
   )
 }
@@ -314,6 +337,7 @@ fun OutlineButton(
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
     icon = leadingIcon(icon, iconSize),
+    secondaryLabel = kitSecondaryLabel(icon),
     label = { alignedLabel(c.label, alignment) },
   )
 }
@@ -344,6 +368,7 @@ fun ChildLabelButton(
     onClick = c.onClick,
     enabled = enabled,
     icon = leadingIcon(icon, iconSize),
+    secondaryLabel = kitSecondaryLabel(icon),
     label = { alignedLabel(c.label, alignment) },
   )
 }

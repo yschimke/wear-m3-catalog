@@ -50,7 +50,7 @@ import ee.schimke.composeai.preview.OverrideVariant
 // statement about the style, and substituting our own would hide the finding rather than report it.
 
 /** The kit's `Style` values this lane can draw. */
-internal val KitCardStyles = listOf("tonal", "outline", "image")
+internal val KitCardStyles = listOf("tonal", "outlined", "image")
 
 /**
  * The kit's `Style=Background Image` column, crossed with the three numbered layouts already folded
@@ -124,7 +124,7 @@ internal fun KitTitleCard(
       onClick = onClick,
       modifier = modifier,
       colors =
-        if (style == "outline") RemoteCardDefaults.outlinedCardColors()
+        if (style == "outlined") RemoteCardDefaults.outlinedCardColors()
         else RemoteCardDefaults.cardColors(),
       title = title,
       time = time,

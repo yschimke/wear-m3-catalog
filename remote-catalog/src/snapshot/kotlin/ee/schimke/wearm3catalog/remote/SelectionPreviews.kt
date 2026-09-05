@@ -143,7 +143,7 @@ fun CheckboxRowRemote() = RemoteSticker {
     RemoteSplitCheckboxButton(
       checked = checked,
       onCheckedChange = toggle,
-      toggleContentDescription = KitCopy.PRIMARY_LABEL.rs,
+      toggleContentDescription = KitCopy.PRIMARY.rs,
       // The second tap target, and deliberately a `lambdaAction {}` rather than the toggle: the
       // point of the split row is that the container half does something ELSE, and wiring it to
       // `checked` too would draw a two-target row that behaves like a one-target one. This is the
@@ -152,8 +152,8 @@ fun CheckboxRowRemote() = RemoteSticker {
       onContainerClick = lambdaAction {},
       modifier = RemoteModifier.width(KitRowWidth),
       enabled = enabled,
-      label = { RemoteText(KitCopy.PRIMARY_LABEL.rs) },
-      secondaryLabel = { RemoteText(KitCopy.SECONDARY_LABEL.rs) },
+      label = { RemoteText(KitCopy.PRIMARY.rs) },
+      secondaryLabel = { RemoteText(KitCopy.SECONDARY.rs) },
     )
   } else {
     RemoteCheckboxButton(
@@ -161,8 +161,8 @@ fun CheckboxRowRemote() = RemoteSticker {
       onCheckedChange = toggle,
       modifier = RemoteModifier.width(KitRowWidth),
       enabled = enabled,
-      label = { RemoteText(KitCopy.PRIMARY_LABEL.rs) },
-      secondaryLabel = { RemoteText(KitCopy.SECONDARY_LABEL.rs) },
+      label = { RemoteText(KitCopy.PRIMARY.rs) },
+      secondaryLabel = { RemoteText(KitCopy.SECONDARY.rs) },
     )
   }
 }
