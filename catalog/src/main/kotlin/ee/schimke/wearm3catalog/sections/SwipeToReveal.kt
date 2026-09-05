@@ -18,9 +18,9 @@ import androidx.wear.compose.material3.RevealValue
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.rememberRevealState
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
 import ee.schimke.wearm3catalog.FullScreenSticker
@@ -61,19 +61,20 @@ import ee.schimke.wearm3catalog.kitCopy
  * been laid out, so there is nothing in the capture. `Motion.kt` has the recording, which is where
  * a gesture's own frames belong.
  */
+/** How far the row is already swiped when the capture is taken. */
+enum class RevealPosition {
+  @KnobValue("right-revealing") RightRevealing,
+  @KnobValue("covered") Covered,
+  @KnobValue("right-revealed") RightRevealed,
+}
+
 @Composable
-private fun revealState(secondary: Boolean): RevealState {
+private fun revealState(secondary: Boolean, revealValue: RevealPosition): RevealState {
   val value =
-    when (
-      previewOverrideChoice(
-        "revealValue",
-        "right-revealing",
-        listOf("right-revealing", "covered", "right-revealed"),
-      )
-    ) {
-      "covered" -> RevealValue.Covered
-      "right-revealed" -> RevealValue.RightRevealed
-      else -> RevealValue.RightRevealing
+    when (revealValue) {
+      RevealPosition.Covered -> RevealValue.Covered
+      RevealPosition.RightRevealed -> RevealValue.RightRevealed
+      RevealPosition.RightRevealing -> RevealValue.RightRevealing
     }
   // Both values are initial conditions read once by the remembered state. The reveal value chooses
   // the anchor, while the action count changes the distance needed to expose that anchor. A baked
@@ -99,8 +100,11 @@ private fun revealState(secondary: Boolean): RevealState {
   kitValue = "2-actions",
 )
 @Composable
-fun SwipeToRevealCard(secondary: Boolean = false) = FullScreenSticker {
-  val state = revealState(secondary)
+fun SwipeToRevealCard(
+  secondary: Boolean = false,
+  revealValue: RevealPosition = RevealPosition.RightRevealing,
+) = FullScreenSticker {
+  val state = revealState(secondary, revealValue)
   SwipeToReveal(
     primaryAction = {
       PrimaryActionButton(
@@ -140,8 +144,11 @@ fun SwipeToRevealCard(secondary: Boolean = false) = FullScreenSticker {
   kitValue = "2-actions",
 )
 @Composable
-fun SwipeToRevealButton(secondary: Boolean = false) = FullScreenSticker {
-  val state = revealState(secondary)
+fun SwipeToRevealButton(
+  secondary: Boolean = false,
+  revealValue: RevealPosition = RevealPosition.RightRevealing,
+) = FullScreenSticker {
+  val state = revealState(secondary, revealValue)
   SwipeToReveal(
     primaryAction = {
       PrimaryActionButton(

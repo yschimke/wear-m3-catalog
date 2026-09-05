@@ -19,7 +19,6 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import androidx.wear.compose.material3.TextButtonDefaults
 import androidx.wear.compose.material3.touchTargetAwareSize
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.KnobValue
@@ -49,16 +48,29 @@ import ee.schimke.wearm3catalog.kitCopy
 // card the sheet fronts, and `Child (No background)` is a bare letter on black — a picture of the
 // absence of a container. The other styles, including child, ride as cells.
 
+/** The kit's `Size` axis for the icon buttons. */
+enum class IconActionSize {
+  @KnobValue("default") Default,
+  @KnobValue("extra-small") ExtraSmall,
+  @KnobValue("small") Small,
+  @KnobValue("large") Large,
+}
+
+/** The kit's `Size` axis for the text button, which publishes three of the four. */
+enum class TextActionSize {
+  @KnobValue("default") Default,
+  @KnobValue("small") Small,
+  @KnobValue("large") Large,
+}
+
 /** The kit's `Size=` values, as the Wear touch-target sizes each one names. */
 @Composable
-private fun iconButtonSize(): Dp =
-  when (
-    previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
-  ) {
-    "extra-small" -> IconButtonDefaults.ExtraSmallButtonSize
-    "small" -> IconButtonDefaults.SmallButtonSize
-    "large" -> IconButtonDefaults.LargeButtonSize
-    else -> IconButtonDefaults.DefaultButtonSize
+private fun iconButtonSize(size: IconActionSize): Dp =
+  when (size) {
+    IconActionSize.ExtraSmall -> IconButtonDefaults.ExtraSmallButtonSize
+    IconActionSize.Small -> IconButtonDefaults.SmallButtonSize
+    IconActionSize.Large -> IconButtonDefaults.LargeButtonSize
+    IconActionSize.Default -> IconButtonDefaults.DefaultButtonSize
   }
 
 // The kit draws a plus in every icon-button cell, so this does too — a heart is a different
@@ -70,7 +82,7 @@ private fun iconButtonSize(): Dp =
 // default drew two dp small in every cell and the icon-to-button ratio was wrong at every size —
 // `iconSizeFor` is the pairing Wear publishes for exactly this.
 @Composable
-private fun kitGlyph(size: Dp = iconButtonSize()) =
+private fun kitGlyph(size: Dp) =
   Icon(
     Icons.Filled.Add,
     contentDescription = "Add",
@@ -144,14 +156,17 @@ annotation class IconButtonKitCells
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun FilledIconAction(enabled: Boolean = true) = Sticker {
+fun FilledIconAction(
+  enabled: Boolean = true,
+  size: IconActionSize = IconActionSize.Default,
+) = Sticker {
   val c = counted("filled")
   FilledIconButton(
     onClick = c.onClick,
     enabled = enabled,
-    modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
+    modifier = Modifier.touchTargetAwareSize(iconButtonSize(size)),
   ) {
-    kitGlyph()
+    kitGlyph(iconButtonSize(size))
   }
 }
 
@@ -164,15 +179,18 @@ fun FilledIconAction(enabled: Boolean = true) = Sticker {
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun FilledVariantIconAction(enabled: Boolean = true) = Sticker {
+fun FilledVariantIconAction(
+  enabled: Boolean = true,
+  size: IconActionSize = IconActionSize.Default,
+) = Sticker {
   val c = counted("variant")
   FilledIconButton(
     onClick = c.onClick,
     enabled = enabled,
     colors = IconButtonDefaults.filledVariantIconButtonColors(),
-    modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
+    modifier = Modifier.touchTargetAwareSize(iconButtonSize(size)),
   ) {
-    kitGlyph()
+    kitGlyph(iconButtonSize(size))
   }
 }
 
@@ -185,14 +203,17 @@ fun FilledVariantIconAction(enabled: Boolean = true) = Sticker {
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun TonalIconAction(enabled: Boolean = true) = Sticker {
+fun TonalIconAction(
+  enabled: Boolean = true,
+  size: IconActionSize = IconActionSize.Default,
+) = Sticker {
   val c = counted("tonal")
   FilledTonalIconButton(
     onClick = c.onClick,
     enabled = enabled,
-    modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
+    modifier = Modifier.touchTargetAwareSize(iconButtonSize(size)),
   ) {
-    kitGlyph()
+    kitGlyph(iconButtonSize(size))
   }
 }
 
@@ -205,14 +226,17 @@ fun TonalIconAction(enabled: Boolean = true) = Sticker {
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun OutlinedIconAction(enabled: Boolean = true) = Sticker {
+fun OutlinedIconAction(
+  enabled: Boolean = true,
+  size: IconActionSize = IconActionSize.Default,
+) = Sticker {
   val c = counted("outlined")
   OutlinedIconButton(
     onClick = c.onClick,
     enabled = enabled,
-    modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
+    modifier = Modifier.touchTargetAwareSize(iconButtonSize(size)),
   ) {
-    kitGlyph()
+    kitGlyph(iconButtonSize(size))
   }
 }
 
@@ -233,14 +257,17 @@ fun OutlinedIconAction(enabled: Boolean = true) = Sticker {
 // `CatalogRenderTest.knownDuplicate`, which fails from the other side when Wear learns to tell the
 // two sizes apart ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 @Composable
-fun StandardIconAction(enabled: Boolean = true) = Sticker {
+fun StandardIconAction(
+  enabled: Boolean = true,
+  size: IconActionSize = IconActionSize.Default,
+) = Sticker {
   val c = counted("standard")
   IconButton(
     onClick = c.onClick,
     enabled = enabled,
-    modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
+    modifier = Modifier.touchTargetAwareSize(iconButtonSize(size)),
   ) {
-    kitGlyph()
+    kitGlyph(iconButtonSize(size))
   }
 }
 
@@ -476,6 +503,7 @@ enum class TextActionStyle {
 fun TextAction(
   enabled: Boolean = true,
   style: TextActionStyle = TextActionStyle.Filled,
+  size: TextActionSize = TextActionSize.Default,
 ) = Sticker {
   val c = counted(kitCopy("label", KitCopy.GLYPHS))
   val colors =
@@ -496,16 +524,16 @@ fun TextAction(
     border =
       if (style == TextActionStyle.Outlined) ButtonDefaults.outlinedButtonBorder(enabled = true)
       else null,
-    modifier = Modifier.touchTargetAwareSize(textButtonSize()),
+    modifier = Modifier.touchTargetAwareSize(textButtonSize(size)),
   ) {
     Text(c.label)
   }
 }
 
 @Composable
-private fun textButtonSize(): Dp =
-  when (previewOverrideChoice("size", "default", listOf("default", "small", "large"))) {
-    "small" -> TextButtonDefaults.SmallButtonSize
-    "large" -> TextButtonDefaults.LargeButtonSize
-    else -> TextButtonDefaults.DefaultButtonSize
+private fun textButtonSize(size: TextActionSize): Dp =
+  when (size) {
+    TextActionSize.Small -> TextButtonDefaults.SmallButtonSize
+    TextActionSize.Large -> TextButtonDefaults.LargeButtonSize
+    TextActionSize.Default -> TextButtonDefaults.DefaultButtonSize
   }
