@@ -1,11 +1,57 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-05T11:40:13.052Z",
+  "generatedAt": "2026-09-05T12:04:30.004Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "4df0438d7c0f7f866c8eb8e642ad708762380fe2",
+        "subject": "refactor(catalog): make the shape set an enum knob carrying its own polygon (#278)",
+        "at": "2026-09-05T12:25:36+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [
+          "shape-materialshapes__ideal__default",
+          "shape-materialshapes__ideal__12-sided-cookie",
+          "shape-materialshapes__ideal__4-leaf-clover",
+          "shape-materialshapes__ideal__4-sided-cookie",
+          "shape-materialshapes__ideal__6-sided-cookie",
+          "shape-materialshapes__ideal__7-sided-cookie",
+          "shape-materialshapes__ideal__8-leaf-clover",
+          "shape-materialshapes__ideal__9-sided-cookie",
+          "shape-materialshapes__ideal__arch",
+          "shape-materialshapes__ideal__arrow",
+          "shape-materialshapes__ideal__boom",
+          "shape-materialshapes__ideal__bun",
+          "shape-materialshapes__ideal__burst",
+          "shape-materialshapes__ideal__diamond",
+          "shape-materialshapes__ideal__fan",
+          "shape-materialshapes__ideal__flower",
+          "shape-materialshapes__ideal__gem",
+          "shape-materialshapes__ideal__ghost-ish",
+          "shape-materialshapes__ideal__heart",
+          "shape-materialshapes__ideal__hexagon",
+          "shape-materialshapes__ideal__oval",
+          "shape-materialshapes__ideal__pantagon",
+          "shape-materialshapes__ideal__pill",
+          "shape-materialshapes__ideal__pixel-circle",
+          "shape-materialshapes__ideal__pixel-triangle",
+          "shape-materialshapes__ideal__puffy",
+          "shape-materialshapes__ideal__puffy-diamond",
+          "shape-materialshapes__ideal__semicircle",
+          "shape-materialshapes__ideal__slanted",
+          "shape-materialshapes__ideal__soft-boom",
+          "shape-materialshapes__ideal__soft-burst",
+          "shape-materialshapes__ideal__square",
+          "shape-materialshapes__ideal__sunny",
+          "shape-materialshapes__ideal__triangle",
+          "shape-materialshapes__ideal__very-sunny"
+        ],
+        "components": [
+          "Shape/MaterialShapes"
+        ]
+      },
       {
         "sha": "a1c61889625b2ec0803061a043d974f455f1692a",
         "subject": "fix(catalog): stop the card body copy and content slot sharing one knob key (#277)",
