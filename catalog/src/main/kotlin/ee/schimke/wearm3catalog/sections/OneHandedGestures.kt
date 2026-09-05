@@ -41,6 +41,7 @@ import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogModes
@@ -139,6 +140,12 @@ private fun rememberGestureConfiguration(
 ): OneHandedGestureConfiguration =
   rememberOneHandedGestureConfiguration(action = action, priority = priority)
 
+/** The kit's indicator-size axis for the one-handed gesture glyph. */
+enum class GestureIndicatorSize {
+  @KnobValue("medium") Medium,
+  @KnobValue("small") Small,
+}
+
 @CatalogComponent(
   id = "OneHandedGestureClickIndicator",
   noReference =
@@ -157,55 +164,66 @@ private fun rememberGestureConfiguration(
 @OverrideVariant(name = "gestures-off", booleans = ["gesturesEnabled=false"])
 @SettledPreview(afterMs = 800)
 @Composable
-fun GestureClickIndicator() = Sticker {
-  val enabled = gesturesEnabled()
-  // A COLUMN, not the frame's bare `Box`, because the activation button below the component has to
-  // sit under it rather than over it. In the baked lane the button is absent and the column wraps
-  // to exactly the button's bounds, so the published capture is unchanged — verified by hash.
-  Column(horizontalAlignment = Alignment.CenterHorizontally) {
-    CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
-      val action = gestureAction()
-      val configuration = rememberGestureConfiguration(action, OneHandedGesturePriority.Clickable)
-      val interactionSource = remember { MutableInteractionSource() }
-      // Keyed on the configuration: a cell that changes the action registers a new indicator, and a
-      // state left over from the old one would animate under the wrong glyph.
-      val indicatorState = remember(configuration) { OneHandedGestureClickIndicatorState() }
-      val size =
-        when (previewOverrideChoice("indicatorSize", "medium", listOf("medium", "small"))) {
-          "small" -> OneHandedGestureIndicatorSize.Small
-          else -> OneHandedGestureIndicatorSize.Medium
+fun GestureClickIndicator(indicatorSize: GestureIndicatorSize = GestureIndicatorSize.Medium) =
+  Sticker {
+    val enabled = gesturesEnabled()
+    // A COLUMN, not the frame's bare `Box`, because the activation button below the component has
+    // to
+    // sit under it rather than over it. In the baked lane the button is absent and the column wraps
+    // to exactly the button's bounds, so the published capture is unchanged — verified by hash.
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+      CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
+        val action = gestureAction()
+        val configuration = rememberGestureConfiguration(action, OneHandedGesturePriority.Clickable)
+        val interactionSource = remember { MutableInteractionSource() }
+        // Keyed on the configuration: a cell that changes the action registers a new indicator, and
+        // a
+        // state left over from the old one would animate under the wrong glyph.
+        val indicatorState = remember(configuration) { OneHandedGestureClickIndicatorState() }
+        val size =
+          when (indicatorSize) {
+            GestureIndicatorSize.Small -> OneHandedGestureIndicatorSize.Small
+            GestureIndicatorSize.Medium -> OneHandedGestureIndicatorSize.Medium
+          }
+        LaunchedEffect(indicatorState, enabled) { if (enabled) indicatorState.showIndicator() }
+        // The gesture PRESSES THE BUTTON, as the AndroidX sample's does. `onGesture = {}` was a
+        // component that announced an action and then had none: the glyph plays, the wearer
+        // pinches,
+        // and nothing anywhere changes. Sharing one lambda with `onClick` is also the point — the
+        // two
+        // routes to the same button must not be able to drift.
+        val press = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
+        Button(
+          onClick = press.onClick,
+          interactionSource = interactionSource,
+          modifier =
+            Modifier.kitRowWidth()
+              .oneHandedGesture(
+                gestureConfiguration = configuration,
+                interactionSource = interactionSource,
+                onGestureLabel = "press the button",
+                onGesture = { press.onClick() },
+              ),
+        ) {
+          // `fillMaxWidth()` on the LABEL, as the AndroidX sample has it. The indicator is a
+          // `Layout`
+          // that measures the content and centres the glyph over it, so a label that hugs its text
+          // pulls the glyph off-centre with it — visible on the recording in `Motion.kt` before
+          // this
+          // was here, where the hand sat over the first two words rather than in the button.
+          OneHandedGestureClickIndicator(
+            configuration,
+            indicatorState,
+            gestureIndicatorSize = size,
+          ) {
+            Text(press.label, modifier = Modifier.fillMaxWidth())
+          }
         }
-      LaunchedEffect(indicatorState, enabled) { if (enabled) indicatorState.showIndicator() }
-      // The gesture PRESSES THE BUTTON, as the AndroidX sample's does. `onGesture = {}` was a
-      // component that announced an action and then had none: the glyph plays, the wearer pinches,
-      // and nothing anywhere changes. Sharing one lambda with `onClick` is also the point — the two
-      // routes to the same button must not be able to drift.
-      val press = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
-      Button(
-        onClick = press.onClick,
-        interactionSource = interactionSource,
-        modifier =
-          Modifier.kitRowWidth()
-            .oneHandedGesture(
-              gestureConfiguration = configuration,
-              interactionSource = interactionSource,
-              onGestureLabel = "press the button",
-              onGesture = { press.onClick() },
-            ),
-      ) {
-        // `fillMaxWidth()` on the LABEL, as the AndroidX sample has it. The indicator is a `Layout`
-        // that measures the content and centres the glyph over it, so a label that hugs its text
-        // pulls the glyph off-centre with it — visible on the recording in `Motion.kt` before this
-        // was here, where the hand sat over the first two words rather than in the button.
-        OneHandedGestureClickIndicator(configuration, indicatorState, gestureIndicatorSize = size) {
-          Text(press.label, modifier = Modifier.fillMaxWidth())
-        }
+        // Live lane only, and only where there is no wrist to do it — see `CatalogGestures.kt`.
+        GestureActivation(action, onGesture = { press.onClick() })
       }
-      // Live lane only, and only where there is no wrist to do it — see `CatalogGestures.kt`.
-      GestureActivation(action, onGesture = { press.onClick() })
     }
   }
-}
 
 @CatalogComponent(
   id = "OneHandedGestureScrollIndicator",

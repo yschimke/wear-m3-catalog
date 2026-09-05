@@ -22,6 +22,7 @@ import androidx.wear.compose.material3.touchTargetAwareSize
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.KitCopy
@@ -454,6 +455,15 @@ fun StandardIconAction(enabled: Boolean = true) = Sticker {
 )
 annotation class TextButtonKitCells
 
+/** The kit's `Style` axis for the text button, as its five colour treatments. */
+enum class TextActionStyle {
+  @KnobValue("filled") Filled,
+  @KnobValue("filled-variant") FilledVariant,
+  @KnobValue("tonal") Tonal,
+  @KnobValue("outlined") Outlined,
+  @KnobValue("child") Child,
+}
+
 @CatalogComponent(
   id = "TextButton",
   reference = "figma:B24oss2tTeXAFykyeyusz0/34732:103081",
@@ -463,22 +473,18 @@ annotation class TextButtonKitCells
 @CatalogModes
 @TextButtonKitCells
 @Composable
-fun TextAction(enabled: Boolean = true) = Sticker {
+fun TextAction(
+  enabled: Boolean = true,
+  style: TextActionStyle = TextActionStyle.Filled,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.GLYPHS))
-  // Read once, used for both the colours and the border below.
-  val style =
-    previewOverrideChoice(
-      "style",
-      "filled",
-      listOf("filled", "filled-variant", "tonal", "outlined", "child"),
-    )
   val colors =
     when (style) {
-      "child" -> TextButtonDefaults.textButtonColors()
-      "filled-variant" -> TextButtonDefaults.filledVariantTextButtonColors()
-      "tonal" -> TextButtonDefaults.filledTonalTextButtonColors()
-      "outlined" -> TextButtonDefaults.outlinedTextButtonColors()
-      else -> TextButtonDefaults.filledTextButtonColors()
+      TextActionStyle.Child -> TextButtonDefaults.textButtonColors()
+      TextActionStyle.FilledVariant -> TextButtonDefaults.filledVariantTextButtonColors()
+      TextActionStyle.Tonal -> TextButtonDefaults.filledTonalTextButtonColors()
+      TextActionStyle.Outlined -> TextButtonDefaults.outlinedTextButtonColors()
+      TextActionStyle.Filled -> TextButtonDefaults.filledTextButtonColors()
     }
   // The border is its OWN parameter, not part of `colors` — an outlined text button built from
   // `outlinedTextButtonColors()` alone draws no outline and is pixel-identical to the child style,
@@ -487,7 +493,9 @@ fun TextAction(enabled: Boolean = true) = Sticker {
     onClick = c.onClick,
     enabled = enabled,
     colors = colors,
-    border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
+    border =
+      if (style == TextActionStyle.Outlined) ButtonDefaults.outlinedButtonBorder(enabled = true)
+      else null,
     modifier = Modifier.touchTargetAwareSize(textButtonSize()),
   ) {
     Text(c.label)

@@ -16,7 +16,6 @@ import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
 import androidx.wear.compose.material3.LinearProgressIndicator
 import androidx.wear.compose.material3.LinearProgressIndicatorDefaults
 import androidx.wear.compose.material3.SegmentedCircularProgressIndicator
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
@@ -991,6 +990,12 @@ fun SegmentedProgress(
   )
 }
 
+/** Which way the arc sweeps — the kit publishes both directions as cells. */
+enum class ArcDirection {
+  @KnobValue("counter-clockwise") CounterClockwise,
+  @KnobValue("clockwise") Clockwise,
+}
+
 @CatalogComponent(
   id = "ArcProgressIndicator",
   noReference =
@@ -1000,7 +1005,7 @@ fun SegmentedProgress(
 )
 @CatalogModes
 @Composable
-fun ArcProgress() = Sticker {
+fun ArcProgress(angularDirection: ArcDirection = ArcDirection.CounterClockwise) = Sticker {
   val strokeWidth =
     previewOverrideDp("strokeWidth", ArcProgressIndicatorDefaults.IndeterminateStrokeWidth)
   ArcProgressIndicator(
@@ -1009,16 +1014,9 @@ fun ArcProgress() = Sticker {
       previewOverrideFloat("startAngle", ArcProgressIndicatorDefaults.IndeterminateStartAngle),
     endAngle = previewOverrideFloat("endAngle", ArcProgressIndicatorDefaults.IndeterminateEndAngle),
     angularDirection =
-      if (
-        previewOverrideChoice(
-          "angularDirection",
-          "counter-clockwise",
-          listOf("counter-clockwise", "clockwise"),
-        ) == "clockwise"
-      ) {
-        AngularDirection.Clockwise
-      } else {
-        AngularDirection.CounterClockwise
+      when (angularDirection) {
+        ArcDirection.Clockwise -> AngularDirection.Clockwise
+        ArcDirection.CounterClockwise -> AngularDirection.CounterClockwise
       },
     strokeWidth = strokeWidth,
   )
@@ -1080,6 +1078,12 @@ fun ArcProgress() = Sticker {
 )
 annotation class LinearProgressKitCells
 
+/** The kit's `Size` axis for the linear indicator, which is its stroke weight. */
+enum class LinearSize {
+  @KnobValue("large") Large,
+  @KnobValue("small") Small,
+}
+
 @CatalogComponent(
   id = "LinearProgressIndicator",
   reference = "figma:B24oss2tTeXAFykyeyusz0/45011:259221",
@@ -1092,14 +1096,14 @@ annotation class LinearProgressKitCells
 fun LinearProgress(
   progress: Float = 0.5f,
   enabled: Boolean = true,
+  size: LinearSize = LinearSize.Large,
 ) = Sticker {
   LinearProgressIndicator(
     progress = { progress },
     modifier = Modifier.width(150.dp),
     enabled = enabled,
     strokeWidth =
-      if (previewOverrideChoice("size", "large", listOf("large", "small")) == "small")
-        LinearProgressIndicatorDefaults.StrokeWidthSmall
+      if (size == LinearSize.Small) LinearProgressIndicatorDefaults.StrokeWidthSmall
       else LinearProgressIndicatorDefaults.StrokeWidthLarge,
   )
 }
