@@ -36,6 +36,7 @@ import ee.schimke.wearm3catalog.CatalogArtwork
 import ee.schimke.wearm3catalog.CatalogImage
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.KitCopy
+import ee.schimke.wearm3catalog.KitRowWidth
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.counted
 import ee.schimke.wearm3catalog.kitCopy
@@ -81,7 +82,17 @@ import ee.schimke.wearm3catalog.kitCopy
 // crop decide one: at the measuring bound a card would size to the largest round screen and the
 // published sticker would be wider than the small-round device it has to fit.
 
-private val CardWidth = 180.dp
+// 172dp, and it is [KitRowWidth] rather than a number of this file's own: every one of the `Card`
+// set's forty-five nodes measures 172 wide — checked across twelve of them, App Card through
+// `Title Card 3`, tonal through outline — which is the same content column the button and selection
+// sets are drawn across.
+//
+// It was 180, which is 8dp of width on every card render, and design-parity rasterises the
+// reference to the CANDIDATE's width, so it rescaled the whole comparison rather than differing at
+// an edge — the trap [KitRowWidth]'s own KDoc describes. `:remote-catalog` has drawn its cards at
+// `KitRowWidth` all along, so the same 8dp was also the largest fixture difference left on the
+// compare page's card rows.
+private val CardWidth = KitRowWidth
 
 private val GallerySlotWidth = 148.dp
 private val GalleryGap = 4.dp

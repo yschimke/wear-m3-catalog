@@ -1506,11 +1506,12 @@ fun OutlinedCardRemote() = RemoteSticker {
 // asks whether a SET is reproduced. Neither looks at the cells inside a set, so two-thirds of this
 // one could go undrawn in silence.
 //
-// The geometry below is read off the kit's own nodes rather than copied from `:catalog`, which has
-// the shape wrong on every count and is tracked in #153: it draws two equal 42dp thumbnails for
-// both
-// galleries where the kit draws stepped frames at 64dp and 58dp, in opposite orders, with different
-// corners, plus an overflow badge that `:catalog` has no equivalent of at all.
+// The geometry below is read off the kit's own nodes rather than copied from `:catalog`. That
+// mattered when it was written — the sibling drew two equal 42dp thumbnails for both galleries
+// where the kit steps 86/58 frames at 64dp and 58dp, in opposite orders, with different corners —
+// and [#153](https://github.com/yschimke/wear-m3-catalog/issues/153) has since fixed all of it, so
+// the two columns now agree on every frame here. What is still one-sided is the overflow BADGE:
+// this sheet draws the kit's third frame and `:catalog` has no equivalent of it.
 //
 //   Slot Image      148 x 64        (the App Card cell measures 66.2 — its aspect-ratio keeper)
 //   Slot Gallery 1  148 x 64        left 86 @0 r14, right 58 @90 r14, badge 24 @120 r26
@@ -1837,9 +1838,20 @@ fun TitleCardRemote() = RemoteSticker {
     style = style,
     modifier = RemoteModifier.width(KitRowWidth),
     title = { RemoteText(title) },
-    // `Title Card 3` carries no timestamp slot the library can fill beside the title, and no body,
-    // so this cell drops both rather than drawing the base cell's furniture around a subtitle.
-    time = if (titleOverSubtitle) null else ({ RemoteText(KitCopy.TIMESTAMP.rs) }),
+    // EVERY layout fills the timestamp, `Title Card 3` included. Its node draws one — title,
+    // subtitle, then `XXm` under them (`39569:49145`) — so dropping it here published a cell
+    // missing content its own reference has, and the Wear sibling filled the slot while this one
+    // did not, which put a fixture difference on all eight of the row's cells.
+    //
+    // What the library cannot do is PLACE it. `RemoteTitleCard` puts `time` at the TOP of the card
+    // — beside the title on the layouts that carry a body, and on its own line above it on this
+    // one — and has no argument that moves it under the subtitle, which is where the kit draws it.
+    // Wear's `TitleCard` cannot either, and keeps it on the title's row here, so the two columns
+    // now disagree about the placement of a slot they both fill. That is a real library difference
+    // and the thing this row exists to surface; an empty slot on one column was an invented
+    // difference sitting on top of it, and drawing the cell failing rather than withholding it is
+    // this repo's rule.
+    time = { RemoteText(KitCopy.TIMESTAMP.rs) },
     // `Title Card 2`'s subtitle sits UNDER the body, which is where `RemoteTitleCard` draws its
     // `subtitle` slot. The base cell leaves it empty; `Title Card 3` is the subtitle alone.
     subtitle =
