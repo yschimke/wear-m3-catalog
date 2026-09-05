@@ -588,6 +588,42 @@ being handed the endpoint first.
   (preview.coo.ee served 2.22.0 when this landed). Against one of those the file only helps a
   session that already holds a token.
 
+### The UI builder is on that same endpoint
+
+There is no second server to register. The `ui_builder_*` tools arrive on the endpoint `.mcp.json`
+already declares. A sidecar on a path of its own was designed and then rejected — an agent holds
+exactly one bearer for the box, and two endpoints would have meant two origin checks, two body caps
+and two places to drift about what a grant means
+([`CATALOG_MCP.md` → Relationship to UI-builder MCP](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/CATALOG_MCP.md#relationship-to-ui-builder-mcp)).
+Pointing a second entry at `/ui-builder/mcp` gets a `404`.
+
+| Tool | Needs |
+| --- | --- |
+| `ui_builder_list_catalogs`, `ui_builder_list_designs`, `ui_builder_get_design` | `ui-builder-read` |
+| `ui_builder_create_design`, `ui_builder_apply` | `ui-builder-write` |
+| `ui_builder_export`, `ui_builder_render_native` | `ui-builder-export` |
+
+- **Capabilities are not scopes, and you have to ask for them.** `preview` and `live` do not carry
+  the builder; pass `capabilities: ["ui-builder-read", …]` to `request_access` alongside `scope`.
+  The human approving the request sees exactly what was asked for, and every tool is then checked
+  per call against the same `UiBuilderRouteCapability` mapping the browser's Design API uses — the
+  gate an agent reaches is the gate a person reaches.
+- **A design pins a component catalog, and the pin is checked.** Start at `ui_builder_list_catalogs`
+  so the `catalogPin` names a real revision. There is deliberately no blank-template argument:
+  create from a whole `document`, or `fromDesignId` to copy an existing design and inherit a pin
+  that is real by construction.
+- **Quote the revision you read.** `ui_builder_get_design` returns it and `baseRevision` is how a
+  concurrent edit is detected, so an agent that guesses it *is* the concurrent edit. `operationId`
+  on an apply is yours, and makes a retry idempotent.
+- **The tools are absent unless the box serves a builder** (`--ui-builder-dir`) — absent rather than
+  listed-and-failing, because listed-and-failing tells an agent the server can do something it
+  cannot. `tools/list` needs no grant, so checking costs one unauthenticated call rather than a
+  grant request. `preview.coo.ee` served `3.0.0` when this landed and advertised none of them; the
+  builder's Design API was already up there (`/api/ui-builder/v1/identity` answers `401`, not
+  `404`), so the gap is the deploy, not the box —
+  [compose-preview-server#300](https://github.com/yschimke/compose-preview-server/pull/300) is
+  newer than the running image.
+
 ## Kotlin
 
 - ktfmt Google style, 100 columns. `./gradlew ktfmtFormat`.
