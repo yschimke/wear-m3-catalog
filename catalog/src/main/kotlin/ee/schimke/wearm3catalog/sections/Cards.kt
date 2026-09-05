@@ -421,8 +421,10 @@ fun OutlineCard() = Sticker {
 // crossings of it fell through to the canonical sticker and scored themselves against
 // `background-image` — eight rows diffing a title-over-subtitle card against a grey image-backed
 // one and reporting it as divergence
-// ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)). The names and the knob seeds
-// are the Remote sheet's, exactly, because that agreement is what the pairing walks.
+// ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)). The knob seeds are the Remote
+// sheet's exactly, and so are the names, because that agreement is what the pairing walks — but
+// the SHAPE of the names is this sheet's own `<layout>-<style>-<content>`, which is why the outline
+// crossings read `title-and-subtitle-outlined-*` rather than `outlined-title-and-subtitle-*`.
 @OverrideVariant(
   name = "title-and-subtitle-content-image",
   strings = ["layout=title-subtitle", "content=image"],
@@ -444,22 +446,22 @@ fun OutlineCard() = Sticker {
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle",
+  name = "title-and-subtitle-outlined",
   strings = ["layout=title-subtitle", "style=outlined"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle-content-image",
+  name = "title-and-subtitle-outlined-content-image",
   strings = ["layout=title-subtitle", "style=outlined", "content=image"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle-gallery-1",
+  name = "title-and-subtitle-outlined-gallery-1",
   strings = ["layout=title-subtitle", "style=outlined", "content=gallery-1"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle-gallery-2",
+  name = "title-and-subtitle-outlined-gallery-2",
   strings = ["layout=title-subtitle", "style=outlined", "content=gallery-2"],
   secondary = true,
 )

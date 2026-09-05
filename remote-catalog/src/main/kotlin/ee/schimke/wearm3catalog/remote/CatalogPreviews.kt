@@ -1717,57 +1717,59 @@ private fun cardImagery(): (@Composable () -> Unit)? =
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-with-subtitle",
+  name = "with-subtitle-outlined",
   strings = ["style=outlined", "layout=title-time-subtitle"],
   kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-with-subtitle-content-image",
+  name = "with-subtitle-outlined-content-image",
   strings = ["style=outlined", "layout=title-time-subtitle", "content=image"],
   kitProps = ["Layout type=Title Card 2", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-with-subtitle-gallery-1",
+  name = "with-subtitle-outlined-gallery-1",
   strings = ["style=outlined", "layout=title-time-subtitle", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-with-subtitle-gallery-2",
+  name = "with-subtitle-outlined-gallery-2",
   strings = ["style=outlined", "layout=title-time-subtitle", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 2", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
 // The `Title Card 3` outline crossings. A cell that names no kit node pairs by NAME and seeds or
-// not at all, so these four are the ones the spelling actually decides: `:catalog` publishes them
-// under exactly these names now, keeping this card's own style-first ordering rather than the Wear
-// sheet's `with-subtitle-outlined` suffix, because that is the smaller move and neither column had
-// the cells before.
+// not at all, so these four are the ones the spelling actually decides, and `:catalog` publishes
+// them under exactly these names.
+//
+// LAYOUT, THEN STYLE, THEN CONTENT — the Wear sheet's ordering, which is this file's now too. These
+// four landed style-first when both columns gained them together, which made them the one card
+// family agreeing with each other and with nothing else.
 @OverrideVariant(
-  name = "outlined-title-and-subtitle",
+  name = "title-and-subtitle-outlined",
   strings = ["style=outlined", "layout=title-subtitle"],
   kitProps = ["Layout type=Title Card 3", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle-content-image",
+  name = "title-and-subtitle-outlined-content-image",
   strings = ["style=outlined", "layout=title-subtitle", "content=image"],
   kitProps = ["Layout type=Title Card 3", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle-gallery-1",
+  name = "title-and-subtitle-outlined-gallery-1",
   strings = ["style=outlined", "layout=title-subtitle", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card 3", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-title-and-subtitle-gallery-2",
+  name = "title-and-subtitle-outlined-gallery-2",
   strings = ["style=outlined", "layout=title-subtitle", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card 3", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
@@ -1942,28 +1944,28 @@ fun TitleCardRemote() = RemoteSticker {
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-icon",
+  name = "icon-outlined",
   strings = ["style=outlined", "appImage=icon"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Text", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-icon-content-image",
+  name = "icon-outlined-content-image",
   strings = ["style=outlined", "appImage=icon", "content=image"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Image", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-icon-gallery-1",
+  name = "icon-outlined-gallery-1",
   strings = ["style=outlined", "appImage=icon", "content=gallery-1"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 1", "Interactive=Yes"],
   secondary = true,
 )
 @OverrideVariant(
-  name = "outlined-icon-gallery-2",
+  name = "icon-outlined-gallery-2",
   strings = ["style=outlined", "appImage=icon", "content=gallery-2"],
   kitProps =
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],

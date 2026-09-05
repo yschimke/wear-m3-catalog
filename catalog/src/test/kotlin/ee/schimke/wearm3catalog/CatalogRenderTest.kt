@@ -188,7 +188,7 @@ class CatalogRenderTest {
         titleCardThreeCollapse,
       )
       put(
-        "TitledCard: outlined_title_and_subtitle_$content == with_subtitle_outlined_$content",
+        "TitledCard: title_and_subtitle_outlined_$content == with_subtitle_outlined_$content",
         titleCardThreeCollapse,
       )
     }
