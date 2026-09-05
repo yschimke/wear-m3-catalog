@@ -44,6 +44,13 @@ it means seeing the same cell twice. The frames are ordinary `composePreviewRend
 composited onto the sheet's dark board for the reason `remote-m3-folded-cells.png` gives; no pixel
 of a render is otherwise touched.
 
+`parity-card-width.png` and `parity-titlecard3-timestamp.png` are `parity-*.png` boards in the sense
+above, for the two fixture differences that survived
+[#294](https://github.com/yschimke/wear-m3-catalog/issues/294): the card width, where the top band is
+180dp and the bottom the kit's own 172, and `Title Card 3`'s timestamp, where the top band omits a
+slot the kit cell fills. The second one is worth reading beside its `with-subtitle` neighbour, which
+is included unchanged for exactly that: it is what says the timestamp moved rather than the card.
+
 `remote-m3-snapshot-lane.png` is a two-lane contact sheet rather than a before/after of a change to
 this repo's code: the same stickers rendered against the released alphas and against an androidx.dev
 snapshot (`-PremoteSnapshot=<build id>`, see AGENTS.md → Dependencies), plus all eight cells of a

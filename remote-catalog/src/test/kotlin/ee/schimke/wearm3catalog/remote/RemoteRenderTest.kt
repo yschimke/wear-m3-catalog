@@ -154,14 +154,51 @@ class RemoteRenderTest {
         "the CHILD style draws no container, so iconSizeFor resolves ExtraSmallButtonSize and " +
           "SmallButtonSize to the same glyph and there is nothing else in the frame — enabled as " +
           "well as disabled, unlike the four contained styles below",
+      "TitleCardRemote" to
+        "RemoteTitleCard cannot put the timestamp under the subtitle, so Title Card 3 differs " +
+          "from Title Card 2 only by its missing body — and an image or gallery cell has no body " +
+          "to miss. Exactly six pairs, held by expectedCollapses",
     ) +
       if (onSnapshotLane) EDGE_BUTTON_FILLED_STYLES_COLLAPSE_WHEN_DISABLED
       else CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED
 
   /**
+   * How many pairs a [knownDuplicate] component is allowed to collapse into.
+   *
+   * A blanket exemption suits the entries above: a disabled `RemoteButton` draws no label however
+   * it is called, so every cell of that component that turns `enabled` off collapses and the
+   * component IS the finding. `TitleCardRemote` is the other shape — six of its twenty-eight cells
+   * collapse and the other twenty-two must go on being checked — so exempting the component would
+   * buy the six by giving up the test on the rest.
+   *
+   * A COUNT rather than the sibling's pairs, and the reason is the filenames. `CatalogRenderTest`
+   * keys `<cell> == <cell>` because a Wear render spells its cell out
+   * (`TitledCard_VARIANT_title_and_subtitle_outlined_content_image-<digest>.png`); a Remote render
+   * spends its name budget on the frame first and truncates what is left, so all three outlined
+   * crossings land on `title_and_subtitle_outl == with_subtitle_outlined` and no key could tell
+   * them apart. The digest disambiguates but is `sha256(preview.id)` — stable, and unreadable as an
+   * exemption. The count is what remains checkable: a seventh collapse fails, and so does a sixth
+   * that appears because one of these was fixed and something else broke.
+   *
+   * The collapse itself: `Title Card 3` is a title, a subtitle and the timestamp UNDER them, with
+   * no body, and `RemoteTitleCard` has no argument that puts the time there — so once both layouts
+   * are handed the same slots, the only thing separating this sheet's `title-and-subtitle` cells
+   * from its `with-subtitle` ones is the body text. Replace that body with an image or a gallery
+   * and there is nothing left to differ by: three content crossings, tonal and outlined, is six.
+   * The `Text` crossings of both layouts DO differ — the body is still there on one of them — and
+   * they are ordinary comparisons.
+   *
+   * The Wear sibling records exactly these six for exactly this reason, which is what makes it a
+   * property of the design system rather than of either rendition: neither library has an argument
+   * that moves the timestamp off the title's row.
+   */
+  private val expectedCollapses: Map<String, Int> = mapOf("TitleCardRemote" to 6)
+
+  /**
    * Deliberately compares only renders of the SAME component. Two different components may
    * legitimately look alike at this size; two renders of one component may not — that is a cell
-   * varying nothing, unless [knownDuplicate] says the library draws one picture for both.
+   * varying nothing, unless [knownDuplicate] says the library draws one picture for both, in the
+   * number [expectedCollapses] records where it names one.
    */
   @Test
   fun `no two renders of a component are identical`() {
@@ -177,8 +214,23 @@ class RemoteRenderTest {
         val first = seen.put(digest, file.name)
         if (first == null) null else "${file.name} == $first"
       }
-      if (clashes.isEmpty() || componentOf(component) in knownDuplicate) null
-      else "$component: ${clashes.joinToString(", ")}"
+      val name = componentOf(component)
+      val allowed = expectedCollapses[name]
+      when {
+        clashes.isEmpty() -> null
+        // A counted component is exempt for as many collapses as it records and reports any
+        // beyond. What it cannot see is a SWAP — one recorded collapse fixed while an unrelated
+        // cell starts duplicating — which keeps the number at six. That is the price of counting
+        // instead of naming, and the reason the count is paired with a floor check below rather
+        // than left to stand on its own.
+        allowed != null ->
+          if (clashes.size == allowed) null
+          else
+            "$component: ${clashes.size} pairs collapse where $allowed are recorded — " +
+              clashes.joinToString(", ")
+        name in knownDuplicate -> null
+        else -> "$component: ${clashes.joinToString(", ")}"
+      }
     }
     assertTrue(
       "these renders of one component are byte-identical — a cell that varies nothing publishes " +
@@ -226,6 +278,23 @@ class RemoteRenderTest {
         "comparisons:\n" +
         separated.joinToString("\n") { "  $it (was: ${knownDuplicate[it]})" },
       separated.isEmpty(),
+    )
+
+    // The same both-directions rule for the counted components: a count that is too HIGH is a
+    // collapse the library has since fixed, and nothing above would say so — the assertion there
+    // only fires when the number grows.
+    val overCounted = expectedCollapses.mapNotNull { (component, allowed) ->
+      val files = byComponent[component].orEmpty()
+      val seen = mutableSetOf<Int>()
+      val clashes = files.count { !seen.add(it.readBytes().toList().hashCode()) }
+      if (clashes < allowed) "$component: $clashes pairs collapse, $allowed recorded" else null
+    }
+    assertTrue(
+      "these components collapse FEWER pairs than `expectedCollapses` records — the library has " +
+        "learned to tell some of them apart. Lower the count, or drop the entry and let the cells " +
+        "stand as ordinary comparisons:\n" +
+        overCounted.joinToString("\n") { "  $it" },
+      overCounted.isEmpty(),
     )
   }
 }
