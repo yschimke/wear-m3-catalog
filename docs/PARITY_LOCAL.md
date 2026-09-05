@@ -11,6 +11,7 @@ calls**.
 scripts/parity-local.sh FilledButton                              # :catalog
 scripts/parity-local.sh --module remote-catalog OutlinedCardRemote
 scripts/parity-local.sh --no-build Button IconButton              # catalog unchanged since last run
+scripts/parity-local.sh --no-semantics FilledButton               # pixels only; see below
 ```
 
 You get the markdown verdict on stdout — pairing, semantics and the visual diff
@@ -27,8 +28,9 @@ git fetch origin design-parity/reference --depth 1
 mkdir -p .design-parity/reference
 git archive FETCH_HEAD | tar -x -C .design-parity/reference
 
-# once per code change
-./gradlew :remote-catalog:composePreviewDiscover :remote-catalog:composePreviewBundle
+# once per code change — the CLI at the version gradle/libs.versions.toml pins, and
+# --with-semantics, or the run silently drops half its checks (see below)
+compose-preview bundle pack --module :remote-catalog --with-semantics
 ./scripts/design-map.sh remote-catalog
 
 # per question — seconds
@@ -47,15 +49,32 @@ your edit — which reads as *"my change did nothing"*, indistinguishable from a
 change that genuinely did nothing. It cost two wrong conclusions before the
 guard existed.
 
-## The four things that waste an hour if nobody wrote them down
+## The five things that waste an hour if nobody wrote them down
 
-The script handles the first and the fourth. They are written down anyway,
-because the second half of this page is what you need the day you run the CLI
-directly.
+The script handles the first, the second and the fifth. They are written down
+anyway, because the second half of this page is what you need the day you run the
+CLI directly.
+
+**The bundle has to be packed `--with-semantics`, and nothing downstream says
+otherwise.** `./gradlew :<module>:composePreviewBundle` writes a bundle with no
+`previews/<id>.semantics.json` in it, and design-parity does not treat that as an
+error: with no candidate tree to line the spec up against it reports every token
+group as *"candidate resolved no `<group>` tokens; compliance not evaluated"* and
+emits no i18n, layout or contrast findings at all. Deliberately — an extraction
+gap must not masquerade as a token violation — but the effect on a local verdict
+is that it comes back **cleaner than the board's for code that has not changed**.
+Measured on `:catalog`: 124 evaluated token checks, 42 i18n warnings and 20
+layout warnings all went to zero, and `SuccessConfirmation`'s ❌ `radius.corner:
+52 vs spec 200` read as a ⚠️ warn, while the 1790 visual findings stayed
+byte-identical — so nothing in the diff hinted that anything was missing. Packed
+`--with-semantics`, the same 50 components reproduce the board's 2344 findings
+exactly. `parity-local.sh` packs that way by default and refuses a bundle without
+the sidecars; `--no-semantics` is the deliberate way to accept the narrower
+verdict, and it is only ever right when you are looking at pixels.
 
 **`--candidate-bundles` wants the bundle, not the renders.** It is a PNG+zip
-polyglot that `composePreviewBundle` writes to
-`build/compose-previews/bundle.png`. Pointing it at `renders/` or at
+polyglot the pack writes to
+`<module>/build/compose-previews/bundle.png`. Pointing it at `renders/` or at
 `previews.json` fails with *"the file has no readable zip appended"*; pointing
 it at the `compose-previews/` directory reports *"no candidate render
 available"* and passes vacuously, which is the worse of the two failures — a
@@ -79,6 +98,16 @@ workflow that trips it. `parity-local.sh` copies both files aside before
 projecting and puts them back on exit — including on failure and on Ctrl-C, and
 by copy rather than `git checkout --`, so it cannot eat an edit you were making
 to them.
+
+## What it costs
+
+The semantics pass is a daemon render per preview, and it dominates: packing
+`:catalog`'s 1035 previews measured ~14 minutes, against ~2 minutes for the pack
+alone. That cost is per **code change**, not per question: the bundle covers the whole
+module, so every `--no-build` run after it answers any component in seconds. The
+script fetches the pinned `compose-preview` CLI into `.design-parity/cli/<version>/`
+the first time (~213 MB, once per pin bump) unless a matching one is already on
+`PATH`.
 
 ## What this does not replace
 
