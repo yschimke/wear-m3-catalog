@@ -20,7 +20,6 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.timeTextCurvedText
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.KnobValue
@@ -39,6 +38,13 @@ import ee.schimke.wearm3catalog.kitCopy
 // stickers. What each names on the Compose side is a `MaterialTheme.typography` role, which is why
 // the caption says which one: the sticker is otherwise indistinguishable from any other text.
 
+/** The kit's `Alignment` axis for the text specimens. */
+enum class TextAlignment {
+  @KnobValue("centre") Centre,
+  @KnobValue("left") Left,
+  @KnobValue("right") Right,
+}
+
 /**
  * The kit's `Alignment=` axis, as the `textAlign` its three text sets take.
  *
@@ -48,11 +54,11 @@ import ee.schimke.wearm3catalog.kitCopy
  * where a reader tries the thing the kit did not draw.
  */
 @Composable
-private fun textAlign(): TextAlign =
-  when (previewOverrideChoice("align", "centre", listOf("centre", "left", "right"))) {
-    "left" -> TextAlign.Start
-    "right" -> TextAlign.End
-    else -> TextAlign.Center
+private fun textAlign(align: TextAlignment): TextAlign =
+  when (align) {
+    TextAlignment.Left -> TextAlign.Start
+    TextAlignment.Right -> TextAlign.End
+    TextAlignment.Centre -> TextAlign.Center
   }
 
 @CatalogComponent(
@@ -75,9 +81,9 @@ private fun textAlign(): TextAlign =
   kitValue = "Left",
 )
 @Composable
-fun ListHeading() = Sticker {
+fun ListHeading(align: TextAlignment = TextAlignment.Centre) = Sticker {
   ListHeader(modifier = Modifier.width(180.dp)) {
-    Text(kitCopy("label", KitCopy.TITLE), textAlign = textAlign())
+    Text(kitCopy("label", KitCopy.TITLE), textAlign = textAlign(align))
   }
 }
 
@@ -146,12 +152,12 @@ fun ListSubHeading(
   kitValue = "Left",
 )
 @Composable
-fun BodyText() = Sticker {
+fun BodyText(align: TextAlignment = TextAlignment.Centre) = Sticker {
   Text(
     kitCopy("text", KitCopy.BODY),
     style = MaterialTheme.typography.bodyMedium,
     modifier = Modifier.width(160.dp),
-    textAlign = textAlign(),
+    textAlign = textAlign(align),
   )
 }
 
@@ -169,12 +175,12 @@ fun BodyText() = Sticker {
   kitValue = "Left",
 )
 @Composable
-fun CaptionText() = Sticker {
+fun CaptionText(align: TextAlignment = TextAlignment.Centre) = Sticker {
   Text(
     kitCopy("text", KitCopy.CAPTION),
     style = MaterialTheme.typography.labelSmall,
     modifier = Modifier.width(160.dp),
-    textAlign = textAlign(),
+    textAlign = textAlign(align),
   )
 }
 

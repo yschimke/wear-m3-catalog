@@ -17,9 +17,9 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextToggleButton
 import androidx.wear.compose.material3.TextToggleButtonDefaults
 import androidx.wear.compose.material3.touchTargetAwareSize
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.KitCopy
@@ -61,15 +61,34 @@ import ee.schimke.wearm3catalog.toggleable
 // it hands the button back to its content. The `fixedWidth` knob below is that, and the three cells
 // are drawn ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 
+enum class IconToggleSize {
+  @KnobValue("default") Default,
+  @KnobValue("small") Small,
+  @KnobValue("large") Large,
+  @KnobValue("extra-large") ExtraLarge,
+}
+
+/** The kit's `Shape` axis: the toggle's resting silhouette. */
+enum class IconToggleShape {
+  @KnobValue("circular") Circular,
+  @KnobValue("rounded") Rounded,
+}
+
+/** The kit's `Size` axis for the text toggle, which publishes three of the four. */
+enum class TextToggleSize {
+  @KnobValue("default") Default,
+  @KnobValue("large") Large,
+  @KnobValue("extra-large") ExtraLarge,
+}
+
+/** The kit's `Size` axis for the icon toggle. */
 @Composable
-private fun iconToggleSize(): Dp =
-  when (
-    previewOverrideChoice("size", "default", listOf("default", "small", "large", "extra-large"))
-  ) {
-    "small" -> IconToggleButtonDefaults.SmallSize
-    "large" -> IconToggleButtonDefaults.LargeSize
-    "extra-large" -> IconToggleButtonDefaults.ExtraLargeSize
-    else -> IconToggleButtonDefaults.Size
+private fun iconToggleSize(size: IconToggleSize): Dp =
+  when (size) {
+    IconToggleSize.Small -> IconToggleButtonDefaults.SmallSize
+    IconToggleSize.Large -> IconToggleButtonDefaults.LargeSize
+    IconToggleSize.ExtraLarge -> IconToggleButtonDefaults.ExtraLargeSize
+    IconToggleSize.Default -> IconToggleButtonDefaults.Size
   }
 
 /**
@@ -180,9 +199,9 @@ annotation class IconToggleKitCells
 // Both shapes are set explicitly instead, so what the capture holds is a shape rather than a frame
 // of the animation, and the live session still animates the press.
 @Composable
-private fun iconToggleShapes(): IconToggleButtonShapes {
+private fun iconToggleShapes(shape: IconToggleShape): IconToggleButtonShapes {
   val shapes = IconToggleButtonDefaults.shapes()
-  if (previewOverrideChoice("shape", "circular", listOf("circular", "rounded")) != "rounded") {
+  if (shape != IconToggleShape.Rounded) {
     return shapes
   }
   val rounded = IconToggleButtonDefaults.checkedShape
@@ -204,17 +223,19 @@ private fun iconToggleShapes(): IconToggleButtonShapes {
 fun IconToggle(
   checked: Boolean = true,
   enabled: Boolean = true,
+  size: IconToggleSize = IconToggleSize.Default,
+  shape: IconToggleShape = IconToggleShape.Circular,
 ) = Sticker {
   val (checked, onCheckedChange) = toggleable(checked)
   // Read once: the container size and the glyph size are the same choice, and `iconSizeFor` is
   // what pairs them.
-  val size = iconToggleSize()
+  val toggleSize = iconToggleSize(size)
   IconToggleButton(
     checked = checked,
     onCheckedChange = onCheckedChange,
     enabled = enabled,
-    modifier = Modifier.touchTargetAwareSize(size),
-    shapes = iconToggleShapes(),
+    modifier = Modifier.touchTargetAwareSize(toggleSize),
+    shapes = iconToggleShapes(shape),
   ) {
     // Sized explicitly for the reason IconButtons.kt states: Wear's toggle button does not size
     // its content either, and a bare `Icon` falls back to Material's 24dp default. That is the
@@ -223,17 +244,17 @@ fun IconToggle(
     Icon(
       Icons.Filled.Add,
       contentDescription = "Add",
-      modifier = Modifier.size(IconToggleButtonDefaults.iconSizeFor(size)),
+      modifier = Modifier.size(IconToggleButtonDefaults.iconSizeFor(toggleSize)),
     )
   }
 }
 
 @Composable
-private fun textToggleSize(): Dp =
-  when (previewOverrideChoice("size", "default", listOf("default", "large", "extra-large"))) {
-    "large" -> TextToggleButtonDefaults.LargeSize
-    "extra-large" -> TextToggleButtonDefaults.ExtraLargeSize
-    else -> TextToggleButtonDefaults.Size
+private fun textToggleSize(size: TextToggleSize): Dp =
+  when (size) {
+    TextToggleSize.Large -> TextToggleButtonDefaults.LargeSize
+    TextToggleSize.ExtraLarge -> TextToggleButtonDefaults.ExtraLargeSize
+    TextToggleSize.Default -> TextToggleButtonDefaults.Size
   }
 
 /**
@@ -347,18 +368,20 @@ fun TextToggle(
   checked: Boolean = true,
   fixedWidth: Boolean = true,
   enabled: Boolean = true,
+  size: TextToggleSize = TextToggleSize.Default,
 ) = Sticker {
   val (checked, onCheckedChange) = toggleable(checked)
   // The kit's `Fixed Width` axis. Wear's `RoundButton` applies no size of its own, so pinning the
   // button IS this modifier: `touchTargetAwareSize` sets both dimensions, and `Fixed Width=False`
   // keeps the height the size names and hands the width back to the label — which is what the kit
   // draws, its three `False` cells being the same 52/60/72 boxes as their `True` twins.
-  val size = textToggleSize()
+  val toggleSize = textToggleSize(size)
   TextToggleButton(
     checked = checked,
     onCheckedChange = onCheckedChange,
     enabled = enabled,
-    modifier = if (fixedWidth) Modifier.touchTargetAwareSize(size) else Modifier.height(size),
+    modifier =
+      if (fixedWidth) Modifier.touchTargetAwareSize(toggleSize) else Modifier.height(toggleSize),
   ) {
     Text(kitCopy("label", KitCopy.GLYPHS))
   }
