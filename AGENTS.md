@@ -612,9 +612,17 @@ Pointing a second entry at `/ui-builder/mcp` gets a `404`.
   so the `catalogPin` names a real revision. There is deliberately no blank-template argument:
   create from a whole `document`, or `fromDesignId` to copy an existing design and inherit a pin
   that is real by construction.
-- **Quote the revision you read.** `ui_builder_get_design` returns it and `baseRevision` is how a
-  concurrent edit is detected, so an agent that guesses it *is* the concurrent edit. `operationId`
-  on an apply is yours, and makes a retry idempotent.
+- **`baseRevision` is required, but it is not a revision lock.** It is the base the service computes
+  conflicts against, not a value it insists still be current: an apply quoting a stale base whose
+  edits touch nothing that moved since is **accepted**, at a new revision, with `conflicts: []`.
+  Verified against 3.1.0 — an insert quoting `baseRevision: 0` on a design already at revision 1
+  committed as revision 2. So quote the revision `ui_builder_get_design` returned, because that is
+  what makes the conflict report meaningful; do not expect a stale one to be refused for you.
+- **What the service does refuse and deduplicate.** Re-sending an `operationId` already applied
+  answers `idempotentReplay: true` at the revision it first committed, rather than applying twice —
+  so `operationId` is yours to choose and makes a retry safe. A *new* operation reusing an existing
+  node id is rejected outright: `code: invalidCommand`, `node id is blank or already used`, naming
+  the `operationIndex` and `nodeId`.
 - **The tools are absent unless the box serves a builder** (`--ui-builder-dir`) — absent rather than
   listed-and-failing, because listed-and-failing tells an agent the server can do something it
   cannot. `tools/list` needs no grant, so checking costs one unauthenticated call rather than a
