@@ -498,10 +498,15 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_240dp_VARIANT_three_pages-edcbd6d7.png" width="150" /> |
 | `VerticalPages` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/VerticalPages_240dp_VARIANT_two_pages-6074189a.png" width="150" /> |
 | `WearList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_192dp-97261d54.png" width="150" /> |
+| `WearList · scroll long` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_192dp-97261d54_SCROLL_long.png" width="150" /> |
 | `WearList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_204dp-9f455324.png" width="150" /> |
+| `WearList · scroll long` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_204dp-9f455324_SCROLL_long.png" width="150" /> |
 | `WearList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_216dp-1852125b.png" width="150" /> |
+| `WearList · scroll long` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_216dp-1852125b_SCROLL_long.png" width="150" /> |
 | `WearList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_225dp-3f97ce9d.png" width="150" /> |
+| `WearList · scroll long` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_225dp-3f97ce9d_SCROLL_long.png" width="150" /> |
 | `WearList · scroll end` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_240dp-f9526f40.png" width="150" /> |
+| `WearList · scroll long` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearList_240dp-f9526f40_SCROLL_long.png" width="150" /> |
 | `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_192dp-07484732.png" width="150" /> |
 | `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_192dp_VARIANT_no_scroll_indicator-e02a328e.png" width="150" /> |
 | `WearScaffold` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/catalog/WearScaffold_204dp-78d340b7.png" width="150" /> |
