@@ -1,6 +1,6 @@
 {
   "schema": "compose-preview-issues/v1",
-  "generatedAt": "2026-09-02T02:22:19.362Z",
+  "generatedAt": "2026-09-05T16:43:18.996Z",
   "issues": [
     {
       "repository": "yschimke/wear-m3-catalog",
@@ -493,6 +493,142 @@
       ],
       "referenceIds": [
         "titlecard__ideal__default__compact"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 249,
+      "title": "Upstream: `RemoteEdgeButton` does not clip its label to its arc — the text spills outside the container",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/249",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "EdgeButton",
+      "previewIds": [
+        "edgebutton__ideal__default__compact"
+      ],
+      "referenceIds": [
+        "edgebutton__ideal__default__compact"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 284,
+      "title": "Outline card is missing the border",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/284",
+      "state": "open",
+      "area": null,
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "AppCard",
+      "previewIds": [
+        "appcard__ideal__outline-icon-gallery-2__compact"
+      ],
+      "referenceIds": [
+        "appcard__ideal__outline-icon-gallery-2__compact"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 286,
+      "title": "Upstream: `EdgeButton` takes no `border`, so the kit's `Style=Outline` draws no outline at all",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/286",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "wear-m3-catalog",
+      "component": "EdgeButton",
+      "previewIds": [
+        "edgebutton__ideal__outlined"
+      ],
+      "referenceIds": [
+        "edgebutton__ideal__outlined"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 288,
+      "title": "Upstream: a disabled `RemoteCheckboxButton` collapses — `unselected-disabled` draws nothing, `disabled` draws a bare tick",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/288",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "CheckboxButton",
+      "previewIds": [
+        "checkboxbutton__ideal__unselected-disabled__compact"
+      ],
+      "referenceIds": [
+        "checkboxbutton__ideal__unselected-disabled__compact"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 289,
+      "title": "Upstream: `RemoteCurvedProgressIndicator` draws a hairline whatever `strokeWidth` it is given",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/289",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "ArcProgressIndicator",
+      "previewIds": [
+        "arcprogressindicator__ideal__default__compact"
+      ],
+      "referenceIds": [
+        "arcprogressindicator__ideal__default__compact"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 290,
+      "title": "Upstream: Remote page indicators draw no background container, where the Wear ones do",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/290",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "PageIndicator/Horizontal",
+      "previewIds": [
+        "pageindicator-horizontal__ideal__default__192dp"
+      ],
+      "referenceIds": [
+        "pageindicator-horizontal__ideal__default__192dp"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 291,
+      "title": "Upstream: Remote outlined buttons draw a 2dp border where Wear draws 1dp — exactly double, on every outlined button cell",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/291",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "IconButton/Outlined",
+      "previewIds": [
+        "iconbutton-outlined__ideal__default__compact"
+      ],
+      "referenceIds": [
+        "iconbutton-outlined__ideal__default__compact"
+      ]
+    },
+    {
+      "repository": "yschimke/wear-m3-catalog",
+      "number": 293,
+      "title": "Upstream: outlined AppCard/TitleCard lay out ~48px narrower than their filled siblings, and every Remote card is 16px narrower than the Wear one",
+      "url": "https://github.com/yschimke/wear-m3-catalog/issues/293",
+      "state": "open",
+      "area": "component",
+      "parity": "upstream",
+      "system": "remote-m3",
+      "component": "AppCard",
+      "previewIds": [
+        "appcard__ideal__outline__compact"
+      ],
+      "referenceIds": [
+        "appcard__ideal__outline__compact"
       ]
     }
   ]
