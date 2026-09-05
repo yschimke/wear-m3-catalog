@@ -167,6 +167,31 @@ class CatalogRenderTest {
     // as wide as the box the size names, so hugging lands on the same 52dp square. The kit's own
     // two nodes export identically for the same reason (`39083:776` and `39083:767` are both 52×52)
     // — and `hug_large` / `hug_extra_large` do differ from their fixed twins, so the knob works.
+    // `Title Card 3` CROSSED WITH IMAGERY, which Compose cannot tell from `Title Card 2` crossed
+    // with imagery. The kit's third layout is a title, a subtitle and the timestamp UNDER it, with
+    // no body — and `TitleCard` draws `time` on the title's row however it is called, so the only
+    // thing separating this sheet's `title-and-subtitle` cells from its `with-subtitle` ones is the
+    // body text. Replace that body with an image or a gallery and there is nothing left to differ
+    // by. The `Text` crossings of both layouts DO differ, and they are ordinary comparisons.
+    //
+    // Published rather than withheld, on this file's own rule: the collapse is the finding, and
+    // `:remote-catalog` publishes all eight of these cells, so withdrawing them here is what left
+    // its rows pairing against `background-image`
+    // ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)).
+    val titleCardThreeCollapse =
+      "TitleCard draws its time slot on the title's row whatever the layout, so Title Card 3 " +
+        "differs from Title Card 2 only by its missing body — and an image or gallery cell has no " +
+        "body to miss"
+    for (content in listOf("content_image", "gallery_1", "gallery_2")) {
+      put(
+        "TitledCard: title_and_subtitle_$content == with_subtitle_$content",
+        titleCardThreeCollapse,
+      )
+      put(
+        "TitledCard: outlined_title_and_subtitle_$content == with_subtitle_outlined_$content",
+        titleCardThreeCollapse,
+      )
+    }
     put(
       "TextToggle: hug == base",
       "the label is as wide as TextToggleButtonDefaults.Size, so hugging lands on the same box — " +

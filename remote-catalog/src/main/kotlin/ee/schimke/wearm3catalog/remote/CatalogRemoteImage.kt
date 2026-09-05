@@ -4,9 +4,11 @@ import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.LinearGradientShader
 import androidx.compose.ui.graphics.Paint
 
 /**
@@ -46,6 +48,51 @@ object CatalogRemoteImage {
   private val Fill = Color(0xFFECECEC)
 
   private const val SizePx = 8
+
+  /**
+   * The stand-in for a slot the kit draws real content into, rather than an empty fill.
+   *
+   * The kit's `App Card` cell puts an `Avatar-AppEg` instance in its leading slot — a coloured app
+   * icon, not a placeholder — so answering it with [Fill] drew a white square where the kit draws
+   * artwork, and the compare page reported that against the Wear sibling's own stand-in on
+   * seventeen AppCard rows ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)).
+   *
+   * The gradient and its three stops are `:catalog`'s `CatalogArtwork`, transcribed here on the
+   * same terms [KitCopy] is: the sibling lives in another module and publishes no artifact carrying
+   * them, and two stand-ins for one slot have to be the same picture or the row compares the
+   * catalogs rather than the libraries. It is baked at [ArtworkSizePx] because a gradient does
+   * carry detail — unlike [Fill] it cannot be one pixel stretched.
+   */
+  @Composable
+  fun artwork(): RemoteImageBitmap {
+    val image = remember {
+      ImageBitmap(ArtworkSizePx, ArtworkSizePx).also { target ->
+        val side = ArtworkSizePx.toFloat()
+        Canvas(target)
+          .drawRect(
+            left = 0f,
+            top = 0f,
+            right = side,
+            bottom = side,
+            paint =
+              Paint().apply {
+                shader =
+                  LinearGradientShader(
+                    from = Offset.Zero,
+                    to = Offset(side, side),
+                    colors = ArtworkStops,
+                  )
+              },
+          )
+      }
+    }
+    return image.rb
+  }
+
+  /** `:catalog`'s `CatalogArtwork` stops, in its order. */
+  private val ArtworkStops = listOf(Color(0xFF2B4C7E), Color(0xFF567EBB), Color(0xFF9BB7D4))
+
+  private const val ArtworkSizePx = 32
 
   /** The placeholder, ready for `RemoteImage` or `containerPainter`. */
   @Composable

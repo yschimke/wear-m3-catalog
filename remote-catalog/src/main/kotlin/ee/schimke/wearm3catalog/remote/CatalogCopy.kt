@@ -36,6 +36,19 @@ object KitCopy {
   /** The second line of the two-slot buttons. */
   const val SECONDARY_LABEL = "Secondary label"
 
+  /**
+   * `Toggle+Selection-Buttons` — shorter than the button sets' wording, and deliberately so.
+   *
+   * Not [PRIMARY_LABEL]. The selection rows used to draw the button sets' longer string, which the
+   * kit does not put there: on the `split` cells the extra word TRUNCATED ("Primary la…"), and
+   * since the Wear sibling quotes the kit correctly the compare page reported a truncation defect
+   * that was purely the fixture ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)).
+   */
+  const val PRIMARY = "Primary"
+
+  /** @see PRIMARY */
+  const val SECONDARY = "Secondary"
+
   /** `Card`'s app-name slot, on the App Card layout. */
   const val APP_LABEL = "Label text"
 

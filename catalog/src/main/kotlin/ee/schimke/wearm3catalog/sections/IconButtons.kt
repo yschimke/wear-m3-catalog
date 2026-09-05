@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.FilledIconButton
@@ -526,7 +527,14 @@ fun TextAction(
       else null,
     modifier = Modifier.touchTargetAwareSize(textButtonSize(size)),
   ) {
-    Text(c.label)
+    // The size's OWN text style, not just its container. `TextButton` scales the circle and
+    // nothing inside it, so for the four styles that draw a container the size axis is visible and
+    // for `child` — which draws none — it was not: `child-small`, `child` and `child-large`
+    // rendered byte-identical, three cells publishing one picture of an axis they claim to show
+    // ([#295](https://github.com/yschimke/wear-m3-catalog/issues/295)). `TextButtonDefaults`
+    // publishes the per-size styles for exactly this; the call site is where they have to be
+    // passed.
+    Text(c.label, style = textButtonTextStyle(size))
   }
 }
 
@@ -536,4 +544,13 @@ private fun textButtonSize(size: TextActionSize): Dp =
     TextActionSize.Small -> TextButtonDefaults.SmallButtonSize
     TextActionSize.Large -> TextButtonDefaults.LargeButtonSize
     TextActionSize.Default -> TextButtonDefaults.DefaultButtonSize
+  }
+
+/** The label style that goes with [textButtonSize] — see the call site for why it is passed. */
+@Composable
+private fun textButtonTextStyle(size: TextActionSize): TextStyle =
+  when (size) {
+    TextActionSize.Small -> TextButtonDefaults.smallButtonTextStyle
+    TextActionSize.Large -> TextButtonDefaults.largeButtonTextStyle
+    TextActionSize.Default -> TextButtonDefaults.defaultButtonTextStyle
   }

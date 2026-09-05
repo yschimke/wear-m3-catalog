@@ -525,7 +525,18 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
 @CatalogComponent(
   id = "PageIndicator/Interactive",
   group = "Communication",
-  parallel = "PageIndicator/Horizontal",
+  // NO `parallel`, at any of the five sizes. It pointed at `PageIndicator/Horizontal`, which is
+  // dots and nothing else, so the Next affordance this row exists for was reported as divergence
+  // five times ([#292](https://github.com/yschimke/wear-m3-catalog/issues/292)). The `noReference`
+  // below says the same thing one column over, about the kit node.
+  //
+  // The one candidate worth checking was `OneHandedGesturePageIndicator/Horizontal`, which IS dots
+  // plus an affordance that advances them, and carries a `noReference` for the same reason this
+  // does. It is not this component: its affordance is a pinch on Horologist's one-handed-gesture
+  // surface, not a tap on a control, so pairing them would go on reporting the affordance — a
+  // pill against a button — as the finding, which is the thing being fixed here. One-sided is the
+  // honest shape of this row until Wear Compose publishes an indicator that carries its own
+  // control.
   noReference =
     "The four-page horizontal cell this would map to (`38684:138301`) is already named by " +
       "`PageIndicator/Horizontal`, and what this row adds is not in the picture: a Next button " +
