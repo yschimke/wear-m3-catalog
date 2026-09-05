@@ -40,7 +40,11 @@ class OneHandedGestureActivationTest {
    */
   @Test
   fun `every gesture sticker registers a gesture`() {
-    val stickers = Regex("""^fun (Gesture\w+)\(\)""", RegexOption.MULTILINE)
+    // `\(` and not `\(\)`: a sticker's knobs are now defaulted value parameters on its own
+    // signature rather than `previewOverride*` calls in its body, so `fun GestureX(rows: Int = 12)`
+    // is the ordinary shape. This regex only has to FIND the sticker — what the test asserts about
+    // it is below, and is unchanged.
+    val stickers = Regex("""^fun (Gesture\w+)\(""", RegexOption.MULTILINE)
     val bodies = source.split(Regex("""(?=^@CatalogComponent\()""", RegexOption.MULTILINE)).drop(1)
     assertEquals("four gesture components", 4, bodies.size)
     for (body in bodies) {
