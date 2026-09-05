@@ -18,6 +18,10 @@ jobs:
     name: Build + discover previews
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # `issues: read` for the locator check at the end of this job; everything else reads the tree.
+    permissions:
+      contents: read
+      issues: read
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: ./.github/actions/setup
@@ -91,6 +95,58 @@ jobs:
       # republished", not "the doc is stale", and a check would fail for something no PR did.
       - name: docs/KIT_COVERAGE.md is up to date
         run: node scripts/kit-coverage.mjs --check
+
+      # The fifth record projected from the annotations, and the only one that does not live in this
+      # tree: the parity issue index, keyed on a `preview:` id inside each issue's
+      # `compose-parity-locator/v1` block. The four checks above guard files against the
+      # annotations; nothing guarded the issues, so renaming a cell pointed a locator at a preview
+      # that no longer exists and every one of them stayed green. It happened twice from one rename
+      # (#299, #300) and detached #293 and #284 from the compare page in silence — an issue whose
+      # locator does not resolve lands exactly where an issue with no locator lands, which is
+      # skipped. Filed as #305.
+      #
+      # THE CHECKER IS UPSTREAM, beside the parser it has to agree with. A locator is parsed by
+      # `parity-issues.mjs`, and a second parser here would validate a subset while reporting on the
+      # whole — the failure mode that hid #284 during the manual audit, whose CRLF body a
+      # hand-rolled fence regex skipped. Same "check out the driver, run it with node" shape
+      # `parity-issues.yml` already uses to reach the producer.
+      - name: Check out the locator checker
+        uses: actions/checkout@v7.0.1
+        with:
+          repository: yschimke/compose-ai-tools
+          ref: main
+          path: .compose-ai-tools
+          persist-credentials: false
+
+      # The BASELINE, and what turns "some issue is broken" into "this pull request broke it". Each
+      # delivery branch's `preview-index.json` is what the catalog last actually served, so an id
+      # that was served and is not drawn in this tree is this change's doing, while one that was
+      # never served is somebody's typo and only warns. Without it a single badly edited issue would
+      # redden every later PR with the fix nowhere in its diff.
+      #
+      # `--depth=1` of two branch tips, for one file each: the delivery branches carry thousands of
+      # renders and none of them are wanted here.
+      - name: Fetch the served baselines
+        run: |
+          set -euo pipefail
+          for system in wear-m3-catalog remote-m3; do
+            git fetch --depth=1 origin "design-artifacts/$system"
+            git show FETCH_HEAD:preview-index.json > "$RUNNER_TEMP/$system-index.json"
+          done
+
+      # `issues: read` is granted on this job alone — the workflow's default is `contents: read`,
+      # and every other step here reads the tree.
+      - name: Parity locators still name a cell this catalog draws
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          node .compose-ai-tools/scripts/design-artifacts/check-parity-locators.mjs \
+            --repo ${{ github.repository }} \
+            --manifest "wear-m3-catalog=catalog/build/compose-previews/previews.json" \
+            --manifest "remote-m3=remote-catalog/build/compose-previews/previews.json" \
+            --published "wear-m3-catalog=$RUNNER_TEMP/wear-m3-catalog-index.json" \
+            --published "remote-m3=$RUNNER_TEMP/remote-m3-index.json"
 
       - uses: actions/upload-artifact@v7.0.1
         if: always()
