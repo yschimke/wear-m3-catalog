@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
@@ -14,6 +15,7 @@ import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
@@ -63,7 +65,19 @@ import ee.schimke.wearm3catalog.CatalogFullScreenModes
 fun WearList() = WearScreen {
   val state = rememberTransformingLazyColumnState()
   val spec = rememberTransformationSpec()
-  ScreenScaffold(scrollState = state) { padding ->
+  ScreenScaffold(
+    scrollState = state,
+    // The check that makes the LONG capture readable. A stitched long screenshot composites many
+    // frames into one tall image, and the indicator is drawn at a different offset and opacity in
+    // every one of them — so leaving it on paints a column of disconnected dashes down the right
+    // edge of the capture, which is what this component published until now.
+    //
+    // `LocalScrollCaptureInProgress` is the platform's own signal, set by Android's system
+    // long-screenshot and by the renderer for a `ScrollMode.LONG` capture, and suppressing
+    // transient chrome while it is set is what it is for. The `END` capture is a single frame at a
+    // real scroll position, and there the indicator is exactly what a watch shows, so it stays.
+    scrollIndicator = { if (!LocalScrollCaptureInProgress.current) ScrollIndicator(state) },
+  ) { padding ->
     TransformingLazyColumn(
       state = state,
       contentPadding = padding,
