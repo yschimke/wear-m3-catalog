@@ -21,9 +21,9 @@ import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.timeTextCurvedText
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
@@ -86,6 +86,12 @@ fun WearList() = WearScreen {
   }
 }
 
+/** The kit's `Scrolling` axis: whether the scaffold draws its scroll indicator. */
+enum class ListChrome {
+  @KnobValue("scroll") Scroll,
+  @KnobValue("bare") Bare,
+}
+
 @CatalogComponent(
   id = "Scaffold",
   noReference =
@@ -104,9 +110,9 @@ fun WearList() = WearScreen {
 @OverrideVariant(name = "no-scroll-indicator", strings = ["chrome=bare"])
 @SettledPreview
 @Composable
-fun WearScaffold() = WearScreen {
+fun WearScaffold(chrome: ListChrome = ListChrome.Scroll) = WearScreen {
   val state = rememberTransformingLazyColumnState()
-  val bare = previewOverrideChoice("chrome", "scroll", listOf("scroll", "bare")) == "bare"
+  val bare = chrome == ListChrome.Bare
   val body: @Composable BoxScope.(PaddingValues) -> Unit = { padding ->
     TransformingLazyColumn(
       state = state,
