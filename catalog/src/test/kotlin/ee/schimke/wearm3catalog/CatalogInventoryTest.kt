@@ -2,7 +2,8 @@ package ee.schimke.wearm3catalog
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewWrapperProvider
-import ee.schimke.wearm3catalog.sections.SHAPE_SET
+import ee.schimke.composeai.preview.KnobValue
+import ee.schimke.wearm3catalog.sections.CatalogShape
 import java.io.File
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -159,7 +160,16 @@ class CatalogInventoryTest {
    */
   @Test
   fun `every shape in the set has a cell, and every cell a shape`() {
-    val keys = SHAPE_SET.map { it.first }
+    // Read off `@KnobValue`, which is what a seed actually binds against — not off the constant
+    // names, which are Compose's spelling and deliberately differ from the kit's.
+    val keys =
+      CatalogShape.entries.map { shape ->
+        CatalogShape::class
+          .java
+          .getDeclaredField(shape.name)
+          .getAnnotation(KnobValue::class.java)
+          ?.value ?: error("${shape.name} declares no @KnobValue, so no seed can reach it")
+      }
     assertEquals("shape keys must be unique", keys.size, keys.toSet().size)
 
     val shapesSource = sections.single { it.name == "Shapes.kt" }.readText()

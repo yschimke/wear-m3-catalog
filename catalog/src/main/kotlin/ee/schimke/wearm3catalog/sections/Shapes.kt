@@ -18,9 +18,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.wear.compose.material3.MaterialTheme
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.Sticker
@@ -55,60 +55,56 @@ import ee.schimke.wearm3catalog.Sticker
 // directions, so a shape cannot be added to one and forgotten in the other.
 
 /**
- * Every shape in the kit's set, keyed by **the kit's own variant value**, lower-cased.
+ * Every shape in the kit's set, as the closed value set the `shape` knob offers.
  *
- * The key is the seed the `shape` knob takes, and the kit-index resolver matches that seed against
- * the set's `Shape=` property to find each cell's node — so the key has to be the kit's spelling,
- * not Compose's. Mostly they agree. Where they do not, the kit wins on the left and the Compose
- * name survives only on the right: `hexagon` is `MaterialShapes.ClamShell`, `pantagon` is the kit's
- * own spelling of Pentagon, and the cookies and clovers put their count first.
+ * `@KnobValue` carries **the kit's own variant value**, lower-cased, and the constant name carries
+ * Compose's. The seed and the kit-index resolver both speak the annotation's spelling, so the two
+ * vocabularies live side by side instead of one having to win: `hexagon` is `MaterialShapes
+ * .ClamShell`, `pantagon` is the kit's own spelling of Pentagon, and the cookies and clovers put
+ * their count first — none of which is a legal Kotlin identifier, which is why the value is
+ * declared rather than the constant renamed to it.
+ *
+ * The polygon rides on the constant rather than in a parallel table. A `Pair` list could disagree
+ * with itself — a key with no shape, a shape reachable under no key — and [catalogShape] had to
+ * carry an `?: Circle` fallback for a lookup that could miss. An enum constant cannot be missing
+ * its own property, so that whole failure mode is gone rather than guarded.
  */
-internal val SHAPE_SET: List<Pair<String, RoundedPolygon>> =
-  listOf(
-    "circle" to MaterialShapes.Circle,
-    "square" to MaterialShapes.Square,
-    "slanted" to MaterialShapes.Slanted,
-    "arch" to MaterialShapes.Arch,
-    "fan" to MaterialShapes.Fan,
-    "arrow" to MaterialShapes.Arrow,
-    "semicircle" to MaterialShapes.SemiCircle,
-    "oval" to MaterialShapes.Oval,
-    "pill" to MaterialShapes.Pill,
-    "triangle" to MaterialShapes.Triangle,
-    "diamond" to MaterialShapes.Diamond,
-    "hexagon" to MaterialShapes.ClamShell,
-    "pantagon" to MaterialShapes.Pentagon,
-    "gem" to MaterialShapes.Gem,
-    "very sunny" to MaterialShapes.VerySunny,
-    "sunny" to MaterialShapes.Sunny,
-    "4-sided cookie" to MaterialShapes.Cookie4Sided,
-    "6-sided cookie" to MaterialShapes.Cookie6Sided,
-    "7-sided cookie" to MaterialShapes.Cookie7Sided,
-    "9-sided cookie" to MaterialShapes.Cookie9Sided,
-    "12-sided cookie" to MaterialShapes.Cookie12Sided,
-    "ghost-ish" to MaterialShapes.Ghostish,
-    "4-leaf clover" to MaterialShapes.Clover4Leaf,
-    "8-leaf clover" to MaterialShapes.Clover8Leaf,
-    "burst" to MaterialShapes.Burst,
-    "soft burst" to MaterialShapes.SoftBurst,
-    "boom" to MaterialShapes.Boom,
-    "soft boom" to MaterialShapes.SoftBoom,
-    "flower" to MaterialShapes.Flower,
-    "puffy" to MaterialShapes.Puffy,
-    "puffy diamond" to MaterialShapes.PuffyDiamond,
-    "pixel circle" to MaterialShapes.PixelCircle,
-    "pixel triangle" to MaterialShapes.PixelTriangle,
-    "bun" to MaterialShapes.Bun,
-    "heart" to MaterialShapes.Heart,
-  )
-
-@Composable
-private fun catalogShape(): RoundedPolygon {
-  // A CHOICE, not a text box. Thirty-five shapes with names like `puffy diamond` and `pantagon`
-  // (the kit's own spelling) are unreachable from a control that only shows the current value —
-  // the alternatives were in this file and nowhere a reader of the sheet could see them.
-  val key = previewOverrideChoice("shape", "circle", SHAPE_SET.map { it.first })
-  return SHAPE_SET.firstOrNull { it.first == key }?.second ?: MaterialShapes.Circle
+enum class CatalogShape(val polygon: RoundedPolygon) {
+  @KnobValue("circle") Circle(MaterialShapes.Circle),
+  @KnobValue("square") Square(MaterialShapes.Square),
+  @KnobValue("slanted") Slanted(MaterialShapes.Slanted),
+  @KnobValue("arch") Arch(MaterialShapes.Arch),
+  @KnobValue("fan") Fan(MaterialShapes.Fan),
+  @KnobValue("arrow") Arrow(MaterialShapes.Arrow),
+  @KnobValue("semicircle") Semicircle(MaterialShapes.SemiCircle),
+  @KnobValue("oval") Oval(MaterialShapes.Oval),
+  @KnobValue("pill") Pill(MaterialShapes.Pill),
+  @KnobValue("triangle") Triangle(MaterialShapes.Triangle),
+  @KnobValue("diamond") Diamond(MaterialShapes.Diamond),
+  @KnobValue("hexagon") Hexagon(MaterialShapes.ClamShell),
+  @KnobValue("pantagon") Pantagon(MaterialShapes.Pentagon),
+  @KnobValue("gem") Gem(MaterialShapes.Gem),
+  @KnobValue("very sunny") VerySunny(MaterialShapes.VerySunny),
+  @KnobValue("sunny") Sunny(MaterialShapes.Sunny),
+  @KnobValue("4-sided cookie") `4SidedCookie`(MaterialShapes.Cookie4Sided),
+  @KnobValue("6-sided cookie") `6SidedCookie`(MaterialShapes.Cookie6Sided),
+  @KnobValue("7-sided cookie") `7SidedCookie`(MaterialShapes.Cookie7Sided),
+  @KnobValue("9-sided cookie") `9SidedCookie`(MaterialShapes.Cookie9Sided),
+  @KnobValue("12-sided cookie") `12SidedCookie`(MaterialShapes.Cookie12Sided),
+  @KnobValue("ghost-ish") GhostIsh(MaterialShapes.Ghostish),
+  @KnobValue("4-leaf clover") `4LeafClover`(MaterialShapes.Clover4Leaf),
+  @KnobValue("8-leaf clover") `8LeafClover`(MaterialShapes.Clover8Leaf),
+  @KnobValue("burst") Burst(MaterialShapes.Burst),
+  @KnobValue("soft burst") SoftBurst(MaterialShapes.SoftBurst),
+  @KnobValue("boom") Boom(MaterialShapes.Boom),
+  @KnobValue("soft boom") SoftBoom(MaterialShapes.SoftBoom),
+  @KnobValue("flower") Flower(MaterialShapes.Flower),
+  @KnobValue("puffy") Puffy(MaterialShapes.Puffy),
+  @KnobValue("puffy diamond") PuffyDiamond(MaterialShapes.PuffyDiamond),
+  @KnobValue("pixel circle") PixelCircle(MaterialShapes.PixelCircle),
+  @KnobValue("pixel triangle") PixelTriangle(MaterialShapes.PixelTriangle),
+  @KnobValue("bun") Bun(MaterialShapes.Bun),
+  @KnobValue("heart") Heart(MaterialShapes.Heart),
 }
 
 @CatalogComponent(
@@ -153,10 +149,10 @@ private fun catalogShape(): RoundedPolygon {
 @OverrideVariant(name = "bun", strings = ["shape=bun"])
 @OverrideVariant(name = "heart", strings = ["shape=heart"])
 @Composable
-fun MaterialShapesSticker() = Sticker {
+fun MaterialShapesSticker(shape: CatalogShape = CatalogShape.Circle) = Sticker {
   Box(
     Modifier.size(72.dp)
-      .clip(catalogShape().toShape())
+      .clip(shape.polygon.toShape())
       .background(MaterialTheme.colorScheme.primaryDim)
   )
 }
