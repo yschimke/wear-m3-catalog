@@ -11,7 +11,6 @@ import androidx.wear.compose.material3.SplitRadioButton
 import androidx.wear.compose.material3.SplitSwitchButton
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -107,10 +106,13 @@ annotation class SelectionCells
 @CatalogModes
 @SelectionCells
 @Composable
-fun CheckboxRow() = Sticker {
-  val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
-  val enabled = previewOverrideBoolean("enabled", true)
-  if (previewOverrideBoolean("split", false)) {
+fun CheckboxRow(
+  checked: Boolean = true,
+  enabled: Boolean = true,
+  split: Boolean = false,
+) = Sticker {
+  val (checked, onCheckedChange) = toggleable(checked)
+  if (split) {
     SplitCheckboxButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
@@ -144,10 +146,13 @@ fun CheckboxRow() = Sticker {
 @CatalogModes
 @SelectionCells
 @Composable
-fun SwitchRow() = Sticker {
-  val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
-  val enabled = previewOverrideBoolean("enabled", true)
-  if (previewOverrideBoolean("split", false)) {
+fun SwitchRow(
+  checked: Boolean = true,
+  enabled: Boolean = true,
+  split: Boolean = false,
+) = Sticker {
+  val (checked, onCheckedChange) = toggleable(checked)
+  if (split) {
     SplitSwitchButton(
       checked = checked,
       onCheckedChange = onCheckedChange,
@@ -179,10 +184,13 @@ fun SwitchRow() = Sticker {
 @CatalogModes
 @SelectionCells
 @Composable
-fun RadioRow() = Sticker {
-  val (selected, onSelectedChange) = toggleable(previewOverrideBoolean("checked", true))
-  val enabled = previewOverrideBoolean("enabled", true)
-  if (previewOverrideBoolean("split", false)) {
+fun RadioRow(
+  checked: Boolean = true,
+  enabled: Boolean = true,
+  split: Boolean = false,
+) = Sticker {
+  val (selected, onSelectedChange) = toggleable(checked)
+  if (split) {
     SplitRadioButton(
       selected = selected,
       onSelectionClick = { onSelectedChange(true) },

@@ -236,9 +236,9 @@ import ee.schimke.wearm3catalog.kitCopy
   kitProps = ["Edge Option=None", "Scrolling=No", "Bottom=No"],
 )
 @Composable
-fun AlertDialogSticker() = FullScreenSticker {
-  val icon: (@Composable () -> Unit)? =
-    if (previewOverrideBoolean("icon", true)) {
+fun AlertDialogSticker(icon: Boolean = true) = FullScreenSticker {
+  val iconSlot: (@Composable () -> Unit)? =
+    if (icon) {
       {
         Icon(
           Icons.Filled.Info,
@@ -256,16 +256,16 @@ fun AlertDialogSticker() = FullScreenSticker {
       AlertDialogContent(
         edgeButton = { AlertDialogDefaults.EdgeButton(onClick = {}) },
         title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
-        icon = icon,
+        icon = iconSlot,
       )
     "none" ->
-      AlertDialogContent(title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) }, icon = icon)
+      AlertDialogContent(title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) }, icon = iconSlot)
     else ->
       AlertDialogContent(
         confirmButton = { AlertDialogDefaults.ConfirmButton(onClick = {}) },
         dismissButton = { AlertDialogDefaults.DismissButton(onClick = {}) },
         title = { Text(kitCopy("title", KitCopy.DIALOG_TITLE)) },
-        icon = icon,
+        icon = iconSlot,
       )
   }
 }
@@ -291,14 +291,13 @@ private val AlertIconSize = 32.dp
 )
 @SettledPreview
 @Composable
-fun OpenOnPhoneDialogSticker() = FullScreenSticker {
+fun OpenOnPhoneDialogSticker(text: Boolean = true) = FullScreenSticker {
   val style = OpenOnPhoneDialogDefaults.curvedTextStyle
   // Read outside the slot: `curvedText` is a `CurvedScope` lambda, not a `@Composable` one, so a
   // composable call inside it does not compile.
-  val text = kitCopy("curvedText", KitCopy.OPEN_ON_PHONE)
-  val showText = previewOverrideBoolean("text", true)
+  val copy = kitCopy("curvedText", KitCopy.OPEN_ON_PHONE)
   OpenOnPhoneDialogContent(
-    curvedText = if (showText) ({ openOnPhoneDialogCurvedText(text, style) }) else null,
+    curvedText = if (text) ({ openOnPhoneDialogCurvedText(copy, style) }) else null,
     durationMillis = OpenOnPhoneDialogDefaults.DurationMillis,
   ) {
     OpenOnPhoneDialogDefaults.Icon()

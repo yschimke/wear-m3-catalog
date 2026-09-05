@@ -17,7 +17,6 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextToggleButton
 import androidx.wear.compose.material3.TextToggleButtonDefaults
 import androidx.wear.compose.material3.touchTargetAwareSize
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -202,15 +201,18 @@ private fun iconToggleShapes(): IconToggleButtonShapes {
 @CatalogModes
 @IconToggleKitCells
 @Composable
-fun IconToggle() = Sticker {
-  val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
+fun IconToggle(
+  checked: Boolean = true,
+  enabled: Boolean = true,
+) = Sticker {
+  val (checked, onCheckedChange) = toggleable(checked)
   // Read once: the container size and the glyph size are the same choice, and `iconSizeFor` is
   // what pairs them.
   val size = iconToggleSize()
   IconToggleButton(
     checked = checked,
     onCheckedChange = onCheckedChange,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     modifier = Modifier.touchTargetAwareSize(size),
     shapes = iconToggleShapes(),
   ) {
@@ -341,18 +343,21 @@ annotation class TextToggleKitCells
 @CatalogModes
 @TextToggleKitCells
 @Composable
-fun TextToggle() = Sticker {
-  val (checked, onCheckedChange) = toggleable(previewOverrideBoolean("checked", true))
+fun TextToggle(
+  checked: Boolean = true,
+  fixedWidth: Boolean = true,
+  enabled: Boolean = true,
+) = Sticker {
+  val (checked, onCheckedChange) = toggleable(checked)
   // The kit's `Fixed Width` axis. Wear's `RoundButton` applies no size of its own, so pinning the
   // button IS this modifier: `touchTargetAwareSize` sets both dimensions, and `Fixed Width=False`
   // keeps the height the size names and hands the width back to the label — which is what the kit
   // draws, its three `False` cells being the same 52/60/72 boxes as their `True` twins.
   val size = textToggleSize()
-  val fixedWidth = previewOverrideBoolean("fixedWidth", true)
   TextToggleButton(
     checked = checked,
     onCheckedChange = onCheckedChange,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     modifier = if (fixedWidth) Modifier.touchTargetAwareSize(size) else Modifier.height(size),
   ) {
     Text(kitCopy("label", KitCopy.GLYPHS))

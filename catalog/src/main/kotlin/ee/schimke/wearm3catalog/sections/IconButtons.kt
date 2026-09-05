@@ -19,7 +19,6 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import androidx.wear.compose.material3.TextButtonDefaults
 import androidx.wear.compose.material3.touchTargetAwareSize
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -144,11 +143,11 @@ annotation class IconButtonKitCells
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun FilledIconAction() = Sticker {
+fun FilledIconAction(enabled: Boolean = true) = Sticker {
   val c = counted("filled")
   FilledIconButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
     kitGlyph()
@@ -164,11 +163,11 @@ fun FilledIconAction() = Sticker {
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun FilledVariantIconAction() = Sticker {
+fun FilledVariantIconAction(enabled: Boolean = true) = Sticker {
   val c = counted("variant")
   FilledIconButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = IconButtonDefaults.filledVariantIconButtonColors(),
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
@@ -185,11 +184,11 @@ fun FilledVariantIconAction() = Sticker {
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun TonalIconAction() = Sticker {
+fun TonalIconAction(enabled: Boolean = true) = Sticker {
   val c = counted("tonal")
   FilledTonalIconButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
     kitGlyph()
@@ -205,11 +204,11 @@ fun TonalIconAction() = Sticker {
 @CatalogModes
 @IconButtonKitCells
 @Composable
-fun OutlinedIconAction() = Sticker {
+fun OutlinedIconAction(enabled: Boolean = true) = Sticker {
   val c = counted("outlined")
   OutlinedIconButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
     kitGlyph()
@@ -233,11 +232,11 @@ fun OutlinedIconAction() = Sticker {
 // `CatalogRenderTest.knownDuplicate`, which fails from the other side when Wear learns to tell the
 // two sizes apart ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)).
 @Composable
-fun StandardIconAction() = Sticker {
+fun StandardIconAction(enabled: Boolean = true) = Sticker {
   val c = counted("standard")
   IconButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     modifier = Modifier.touchTargetAwareSize(iconButtonSize()),
   ) {
     kitGlyph()
@@ -464,7 +463,7 @@ annotation class TextButtonKitCells
 @CatalogModes
 @TextButtonKitCells
 @Composable
-fun TextAction() = Sticker {
+fun TextAction(enabled: Boolean = true) = Sticker {
   val c = counted(kitCopy("label", KitCopy.GLYPHS))
   // Read once, used for both the colours and the border below.
   val style =
@@ -486,7 +485,7 @@ fun TextAction() = Sticker {
   // which is how this cell published the wrong picture under the right name.
   TextButton(
     onClick = c.onClick,
-    enabled = previewOverrideBoolean("enabled", true),
+    enabled = enabled,
     colors = colors,
     border = if (style == "outlined") ButtonDefaults.outlinedButtonBorder(enabled = true) else null,
     modifier = Modifier.touchTargetAwareSize(textButtonSize()),

@@ -20,9 +20,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.timeTextCurvedText
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
-import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -103,11 +101,11 @@ fun ListHeading() = Sticker {
   kitProps = ["Icon=No", "Alignment=Centre"],
 )
 @Composable
-fun ListSubHeading() = Sticker {
+fun ListSubHeading(icon: Boolean = false) = Sticker {
   ListSubHeader(
     modifier = Modifier.width(180.dp),
     icon =
-      if (previewOverrideBoolean("icon", false)) {
+      if (icon) {
         { Icon(Icons.Filled.Add, contentDescription = null) }
       } else null,
     // The kit's `Alignment` axis, which is what the label does with the width it is given rather
@@ -208,9 +206,8 @@ fun CaptionText() = Sticker {
   secondary = true,
 )
 @Composable
-fun FixedTimeText() = TransparentScreenSticker {
+fun FixedTimeText(fontScale: Float = 1f) = TransparentScreenSticker {
   val time = kitCopy("time", KitCopy.TIME_12H)
-  val fontScale = previewOverrideFloat("fontScale", 1f)
   val density = LocalDensity.current
   CompositionLocalProvider(LocalDensity provides Density(density.density, fontScale)) {
     TimeText { timeTextCurvedText(time) }

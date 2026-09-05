@@ -33,7 +33,6 @@ import com.google.android.horologist.media.ui.material3.components.controls.Seek
 import com.google.android.horologist.media.ui.material3.screens.player.PlayerScreen
 import com.google.android.horologist.media.ui.state.model.MediaUiModel
 import com.google.android.horologist.media.ui.state.model.TrackPositionUiModel
-import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CaptureGutter
 import ee.schimke.composeai.preview.CatalogComponent
@@ -197,11 +196,10 @@ import ee.schimke.wearm3catalog.kitCopy
 @OverrideVariant(name = "nothing-playing", strings = ["state=nothing-playing"])
 @SettledPreview
 @Composable
-fun MediaPlayerScreen() = ScreenSticker {
+fun MediaPlayerScreen(playing: Boolean = true) = ScreenSticker {
   val ambient = previewOverrideChoice("mode", "interactive", listOf("interactive", "ambient"))
   val state =
     previewOverrideChoice("state", "playing", listOf("playing", "loading", "nothing-playing"))
-  val playing = previewOverrideBoolean("playing", true)
   val progress = previewOverrideChoice("progress", "80", listOf("20", "80"))
 
   val media: MediaUiModel? =
@@ -350,10 +348,8 @@ private fun MediaFooterButtons(ambient: Boolean) {
 @CatalogModes
 @OverrideVariant(name = "ambient", booleans = ["ambient=true"])
 @Composable
-fun MediaFooterButtonsRow() =
-  MediaRowSticker(height = FooterSectionHeight) {
-    MediaFooterButtons(ambient = previewOverrideBoolean("ambient", false))
-  }
+fun MediaFooterButtonsRow(ambient: Boolean = false) =
+  MediaRowSticker(height = FooterSectionHeight) { MediaFooterButtons(ambient = ambient) }
 
 @CatalogComponent(
   id = "Media/ControlButtons",
@@ -386,14 +382,16 @@ fun MediaFooterButtonsRow() =
   kitValue = "Yes",
 )
 @Composable
-fun MediaControlButtonsRow() = MediaRowSticker {
-  val enabled = previewOverrideBoolean("enabled", true)
+fun MediaControlButtonsRow(
+  enabled: Boolean = true,
+  playing: Boolean = true,
+) = MediaRowSticker {
   val progress = previewOverrideChoice("progress", "80", listOf("20", "80"))
   MediaControlButtons(
     onPlayButtonClick = {},
     onPauseButtonClick = {},
     playPauseButtonEnabled = enabled,
-    playing = previewOverrideBoolean("playing", true),
+    playing = playing,
     onSeekToPreviousButtonClick = {},
     seekToPreviousButtonEnabled = enabled,
     onSeekToNextButtonClick = {},
@@ -416,12 +414,12 @@ fun MediaControlButtonsRow() = MediaRowSticker {
 @OverrideVariant(name = "paused", booleans = ["playing=false"])
 @SettledPreview
 @Composable
-fun MediaPodcastControlButtons() = MediaRowSticker {
+fun MediaPodcastControlButtons(playing: Boolean = true) = MediaRowSticker {
   PodcastControlButtons(
     onPlayButtonClick = {},
     onPauseButtonClick = {},
     playPauseButtonEnabled = true,
-    playing = previewOverrideBoolean("playing", true),
+    playing = playing,
     onSeekBackButtonClick = {},
     seekBackButtonEnabled = true,
     onSeekForwardButtonClick = {},
@@ -461,14 +459,17 @@ fun MediaPodcastControlButtons() = MediaRowSticker {
   kitValue = "Yes",
 )
 @Composable
-fun MediaPlayPauseProgressButton() = Sticker {
+fun MediaPlayPauseProgressButton(
+  playing: Boolean = true,
+  enabled: Boolean = true,
+) = Sticker {
   val c = counted(KitCopy.MEDIA_TITLE)
   val progress = previewOverrideChoice("progress", "80", listOf("20", "80"))
   PlayPauseProgressButton(
     onPlayClick = c.onClick,
     onPauseClick = c.onClick,
-    playing = previewOverrideBoolean("playing", true),
-    enabled = previewOverrideBoolean("enabled", true),
+    playing = playing,
+    enabled = enabled,
     trackPositionUiModel = HorologistSamples.position(progress.toFloat() / 100f),
     // The composable puts the progress ring in a `Box` sized by this modifier and draws it with
     // `fillMaxSize()`, so an unbounded frame gives the ring the whole measuring bound to fill.

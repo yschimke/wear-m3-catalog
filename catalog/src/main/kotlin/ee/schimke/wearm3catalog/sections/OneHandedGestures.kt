@@ -39,7 +39,6 @@ import androidx.wear.compose.material3.onehandedgesture.oneHandedGesture
 import androidx.wear.compose.material3.onehandedgesture.rememberOneHandedGestureConfiguration
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
-import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.OverrideVariant
@@ -221,7 +220,7 @@ fun GestureClickIndicator() = Sticker {
 @OverrideVariant(name = "gestures-off", booleans = ["gesturesEnabled=false"])
 @SettledPreview(afterMs = 800)
 @Composable
-fun GestureScrollIndicator() = TransparentScreenSticker {
+fun GestureScrollIndicator(rows: Int = 12) = TransparentScreenSticker {
   val enabled = gesturesEnabled()
   CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
     val configuration =
@@ -230,7 +229,6 @@ fun GestureScrollIndicator() = TransparentScreenSticker {
         OneHandedGesturePriority.Scrollable,
       )
     val scrollState = rememberTransformingLazyColumnState()
-    val rows = previewOverrideInt("rows", 12)
     val indicatorState = remember(configuration) { OneHandedGestureScrollIndicatorState() }
     LaunchedEffect(indicatorState, enabled) { if (enabled) indicatorState.showIndicator() }
     // Empty rows, for the reason `Indicators.kt` gives for the plain rail: the indicator sizes its
@@ -287,11 +285,13 @@ fun GestureScrollIndicator() = TransparentScreenSticker {
 @OverrideVariant(name = "gestures-off", booleans = ["gesturesEnabled=false"])
 @SettledPreview(afterMs = 800)
 @Composable
-fun GestureHorizontalPages() = TransparentScreenSticker {
+fun GestureHorizontalPages(
+  pages: Int = 4,
+  initialPage: Int = 0,
+) = TransparentScreenSticker {
   val enabled = gesturesEnabled()
   CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
-    val pages = previewOverrideInt("pages", 4)
-    val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
+    val initialPage = initialPage.coerceIn(0, (pages - 1).coerceAtLeast(0))
     val configuration =
       rememberGestureConfiguration(
         OneHandedGestureAction.Primary,
@@ -353,11 +353,13 @@ fun GestureHorizontalPages() = TransparentScreenSticker {
 @OverrideVariant(name = "gestures-off", booleans = ["gesturesEnabled=false"])
 @SettledPreview(afterMs = 800)
 @Composable
-fun GestureVerticalPages() = TransparentScreenSticker {
+fun GestureVerticalPages(
+  pages: Int = 4,
+  initialPage: Int = 0,
+) = TransparentScreenSticker {
   val enabled = gesturesEnabled()
   CompositionLocalProvider(LocalOneHandedGestureEnabled provides enabled) {
-    val pages = previewOverrideInt("pages", 4)
-    val initialPage = previewOverrideInt("initialPage", 0).coerceIn(0, (pages - 1).coerceAtLeast(0))
+    val initialPage = initialPage.coerceIn(0, (pages - 1).coerceAtLeast(0))
     val configuration =
       rememberGestureConfiguration(
         OneHandedGestureAction.Primary,
