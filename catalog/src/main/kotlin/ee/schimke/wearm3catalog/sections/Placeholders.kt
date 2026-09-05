@@ -33,7 +33,6 @@ import androidx.wear.compose.material3.placeholder
 import androidx.wear.compose.material3.placeholderShimmer
 import androidx.wear.compose.material3.rememberPlaceholderState
 import androidx.wear.compose.material3.touchTargetAwareSize
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.KnobValue
@@ -309,16 +308,22 @@ fun ButtonPlaceholder(style: PlaceholderButtonStyle = PlaceholderButtonStyle.Fil
 )
 annotation class IconButtonPlaceholderKitCells
 
+/** The kit's `Size` axis for the icon-button placeholder. */
+enum class PlaceholderIconSize {
+  @KnobValue("default") Default,
+  @KnobValue("extra-small") ExtraSmall,
+  @KnobValue("small") Small,
+  @KnobValue("large") Large,
+}
+
 /** The kit's `Size=` values on the placeholder set, as the touch-target sizes each one names. */
 @Composable
-private fun placeholderIconButtonSize(): Dp =
-  when (
-    previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
-  ) {
-    "extra-small" -> IconButtonDefaults.ExtraSmallButtonSize
-    "small" -> IconButtonDefaults.SmallButtonSize
-    "large" -> IconButtonDefaults.LargeButtonSize
-    else -> IconButtonDefaults.DefaultButtonSize
+private fun placeholderIconButtonSize(size: PlaceholderIconSize): Dp =
+  when (size) {
+    PlaceholderIconSize.ExtraSmall -> IconButtonDefaults.ExtraSmallButtonSize
+    PlaceholderIconSize.Small -> IconButtonDefaults.SmallButtonSize
+    PlaceholderIconSize.Large -> IconButtonDefaults.LargeButtonSize
+    PlaceholderIconSize.Default -> IconButtonDefaults.DefaultButtonSize
   }
 
 @CatalogComponent(
@@ -331,9 +336,12 @@ private fun placeholderIconButtonSize(): Dp =
 @CatalogModes
 @IconButtonPlaceholderKitCells
 @Composable
-fun IconButtonPlaceholder(style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled) = Sticker {
+fun IconButtonPlaceholder(
+  style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled,
+  size: PlaceholderIconSize = PlaceholderIconSize.Default,
+) = Sticker {
   val state = rememberPlaceholderState(isVisible = true)
-  val size = placeholderIconButtonSize()
+  val size = placeholderIconButtonSize(size)
   val modifier = Modifier.touchTargetAwareSize(size).placeholderShimmer(state, CircleShape)
   val icon: @Composable BoxScope.() -> Unit = {
     PlaceholderIcon(state, IconButtonDefaults.iconSizeFor(size))

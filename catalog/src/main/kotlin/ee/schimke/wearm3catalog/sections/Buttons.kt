@@ -27,8 +27,6 @@ import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.Text
-import ee.schimke.composeai.overrides.previewOverrideBoolean
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.KnobValue
@@ -64,6 +62,19 @@ import ee.schimke.wearm3catalog.kitRowWidth
 // sticker is compared against, and a source scan — CatalogInventoryTest, and the map projector —
 // reads the annotation, not a resolved constant.
 
+/** The kit's `Icon size` axis, a refinement of `Icon=Yes` rather than a matrix against it. */
+enum class ButtonIconSize {
+  @KnobValue("default") Default,
+  @KnobValue("large") Large,
+  @KnobValue("extra-large") ExtraLarge,
+}
+
+/** The kit's `Alignment` axis: what the label does with the width it is given. */
+enum class LabelAlignment {
+  @KnobValue("center") Center,
+  @KnobValue("left") Left,
+}
+
 /**
  * The leading icon the kit's `Icon=Yes` cells draw, and nothing when they draw `Icon=No`.
  *
@@ -72,16 +83,17 @@ import ee.schimke.wearm3catalog.kitRowWidth
  * a matrix against `icon` but a refinement of one of its values.
  */
 @Composable
-private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
-  if (!previewOverrideBoolean("icon", false)) null
+private fun leadingIcon(
+  icon: Boolean,
+  iconSize: ButtonIconSize,
+): (@Composable BoxScope.() -> Unit)? =
+  if (!icon) null
   else {
     val size =
-      when (
-        previewOverrideChoice("iconSize", "default", listOf("default", "large", "extra-large"))
-      ) {
-        "large" -> ButtonDefaults.LargeIconSize
-        "extra-large" -> ButtonDefaults.ExtraLargeIconSize
-        else -> ButtonDefaults.IconSize
+      when (iconSize) {
+        ButtonIconSize.Large -> ButtonDefaults.LargeIconSize
+        ButtonIconSize.ExtraLarge -> ButtonDefaults.ExtraLargeIconSize
+        ButtonIconSize.Default -> ButtonDefaults.IconSize
       }
     { Icon(Icons.Filled.Add, contentDescription = null, modifier = Modifier.size(size)) }
   }
@@ -99,8 +111,8 @@ private fun leadingIcon(): (@Composable BoxScope.() -> Unit)? =
  * kit set does not publish the axis has no business turning it.
  */
 @Composable
-private fun alignedLabel(text: String) {
-  if (previewOverrideChoice("alignment", "center", listOf("center", "left")) == "left") {
+private fun alignedLabel(text: String, alignment: LabelAlignment) {
+  if (alignment == LabelAlignment.Left) {
     Text(text, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Start)
   } else {
     Text(text)
@@ -196,14 +208,19 @@ annotation class ButtonLayoutCells
   kitValue = "Yes",
 )
 @Composable
-fun FilledButton(enabled: Boolean = true) = Sticker {
+fun FilledButton(
+  enabled: Boolean = true,
+  icon: Boolean = false,
+  iconSize: ButtonIconSize = ButtonIconSize.Default,
+  alignment: LabelAlignment = LabelAlignment.Center,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
-    icon = leadingIcon(),
-    label = { alignedLabel(c.label) },
+    icon = leadingIcon(icon, iconSize),
+    label = { alignedLabel(c.label, alignment) },
   )
 }
 
@@ -222,15 +239,20 @@ fun FilledButton(enabled: Boolean = true) = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun FilledVariantButton(enabled: Boolean = true) = Sticker {
+fun FilledVariantButton(
+  enabled: Boolean = true,
+  icon: Boolean = false,
+  iconSize: ButtonIconSize = ButtonIconSize.Default,
+  alignment: LabelAlignment = LabelAlignment.Center,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   Button(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
     colors = ButtonDefaults.filledVariantButtonColors(),
-    icon = leadingIcon(),
-    label = { alignedLabel(c.label) },
+    icon = leadingIcon(icon, iconSize),
+    label = { alignedLabel(c.label, alignment) },
   )
 }
 
@@ -249,14 +271,19 @@ fun FilledVariantButton(enabled: Boolean = true) = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun TonalButton(enabled: Boolean = true) = Sticker {
+fun TonalButton(
+  enabled: Boolean = true,
+  icon: Boolean = false,
+  iconSize: ButtonIconSize = ButtonIconSize.Default,
+  alignment: LabelAlignment = LabelAlignment.Center,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   FilledTonalButton(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
-    icon = leadingIcon(),
-    label = { alignedLabel(c.label) },
+    icon = leadingIcon(icon, iconSize),
+    label = { alignedLabel(c.label, alignment) },
   )
 }
 
@@ -275,14 +302,19 @@ fun TonalButton(enabled: Boolean = true) = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun OutlineButton(enabled: Boolean = true) = Sticker {
+fun OutlineButton(
+  enabled: Boolean = true,
+  icon: Boolean = false,
+  iconSize: ButtonIconSize = ButtonIconSize.Default,
+  alignment: LabelAlignment = LabelAlignment.Center,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   OutlinedButton(
     onClick = c.onClick,
     modifier = Modifier.kitRowWidth(),
     enabled = enabled,
-    icon = leadingIcon(),
-    label = { alignedLabel(c.label) },
+    icon = leadingIcon(icon, iconSize),
+    label = { alignedLabel(c.label, alignment) },
   )
 }
 
@@ -301,13 +333,18 @@ fun OutlineButton(enabled: Boolean = true) = Sticker {
   kitValue = "Yes",
 )
 @Composable
-fun ChildLabelButton(enabled: Boolean = true) = Sticker {
+fun ChildLabelButton(
+  enabled: Boolean = true,
+  icon: Boolean = false,
+  iconSize: ButtonIconSize = ButtonIconSize.Default,
+  alignment: LabelAlignment = LabelAlignment.Center,
+) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
   ChildButton(
     onClick = c.onClick,
     enabled = enabled,
-    icon = leadingIcon(),
-    label = { alignedLabel(c.label) },
+    icon = leadingIcon(icon, iconSize),
+    label = { alignedLabel(c.label, alignment) },
   )
 }
 
