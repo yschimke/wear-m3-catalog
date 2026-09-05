@@ -561,6 +561,33 @@ If a component does not animate under this renderer, publish no recording rather
 implies motion nobody would see — but rule out a missing wrapper first, because that is what the
 placeholder's "3 distinct frames in 46" turned out to be.
 
+## The catalog over MCP
+
+`.mcp.json` at the repository root registers the hosted catalog server
+(`compose-preview-catalog`, `POST https://preview.coo.ee/mcp`) for every agent that reads
+project-scoped MCP config, so an agent working here can list and render published previews without
+being handed the endpoint first.
+
+- **Default to this repository's own catalogs**, and pick the one that matches the module you are
+  in: `wear-m3-catalog` is `:catalog`, `remote-m3` is `:remote-catalog`. Catalog-bearing tools take
+  a `catalog` argument, and the endpoint is the aggregate one deliberately: `m3-catalog` and the app
+  catalogs stay reachable for a cross-catalog comparison. Reach for a neighbour on purpose, not by
+  leaving the argument off.
+- **No credential is committed, and none may be.** The file passes
+  `X-Compose-Preview-Token: ${COMPOSE_PREVIEW_TOKEN:-}`, so a session that exports a grant token
+  uses it and a session that does not sends an empty header — which the server reads exactly like
+  no header at all. Reading a catalog needs a short-lived grant; `initialize`, `ping`, `tools/list`,
+  `request_access` and `poll_access` do not
+  ([compose-preview-server#277](https://github.com/yschimke/compose-preview-server/pull/277)).
+- **Getting a grant in-band:** call `request_access`, show the human its `approveUrl` and `userCode`
+  and let them approve, poll `poll_access` until it answers `approved`, then export the bearer as
+  `COMPOSE_PREVIEW_TOKEN` and reconnect the server. The last step is not optional — an MCP host
+  cannot inject a header its config never declared, so the token has to reach the transport through
+  the environment.
+- A server older than that change answers `401` to **every** MCP message, handshake included
+  (preview.coo.ee served 2.22.0 when this landed). Against one of those the file only helps a
+  session that already holds a token.
+
 ## Kotlin
 
 - ktfmt Google style, 100 columns. `./gradlew ktfmtFormat`.
