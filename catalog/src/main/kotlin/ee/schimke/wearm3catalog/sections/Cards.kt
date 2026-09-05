@@ -28,7 +28,6 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.OutlinedCard
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TitleCard
-import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.KnobValue
@@ -108,6 +107,14 @@ private fun galleryRow(height: Dp, leadWidth: Dp, trailingWidth: Dp, shape: Shap
   }
 }
 
+/** The kit's `Content` axis for a card's body slot. */
+enum class CardContent {
+  @KnobValue("text") Text,
+  @KnobValue("image") Image,
+  @KnobValue("gallery-1") Gallery1,
+  @KnobValue("gallery-2") Gallery2,
+}
+
 /**
  * The kit's `Content type` axis, as what the card's content slot holds.
  *
@@ -117,11 +124,9 @@ private fun galleryRow(height: Dp, leadWidth: Dp, trailingWidth: Dp, shape: Shap
  * slot rather than a line of text.
  */
 @Composable
-private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
-  when (
-    previewOverrideChoice("content", "text", listOf("text", "image", "gallery-1", "gallery-2"))
-  ) {
-    "image" -> {
+private fun cardContent(bodyText: String?, content: CardContent): (@Composable () -> Unit)? =
+  when (content) {
+    CardContent.Image -> {
       {
         Image(
           painter = CatalogImage,
@@ -131,7 +136,7 @@ private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
         )
       }
     }
-    "gallery-1" -> {
+    CardContent.Gallery1 -> {
       {
         galleryRow(
           height = 64.dp,
@@ -141,7 +146,7 @@ private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
         )
       }
     }
-    "gallery-2" -> {
+    CardContent.Gallery2 -> {
       {
         galleryRow(
           height = 58.dp,
@@ -151,7 +156,7 @@ private fun cardContent(bodyText: String?): (@Composable () -> Unit)? =
         )
       }
     }
-    else -> bodyText?.let { text -> { Text(text) } }
+    CardContent.Text -> bodyText?.let { text -> { Text(text) } }
   }
 
 /** The kit's `Style` axis where it is a colour pair rather than a different function. */
@@ -408,6 +413,7 @@ annotation class TitleCardKitCells
 fun TitledCard(
   layout: TitleCardLayout = TitleCardLayout.TitleTime,
   style: TitleCardStyle = TitleCardStyle.Tonal,
+  content: CardContent = CardContent.Text,
 ) = Sticker {
   val c = counted(kitCopy("title", KitCopy.CARD_TITLE))
   val time: @Composable () -> Unit = { Text(kitCopy("time", KitCopy.TIMESTAMP)) }
@@ -417,10 +423,10 @@ fun TitledCard(
       { Text(kitCopy("subtitle", KitCopy.SUBTITLE)) }
     }
   // `Title Card 3` is the layout with no body: its subtitle and time sit straight under the title.
-  val content =
+  val contentSlot =
     cardContent(
-      if (layout == TitleCardLayout.TitleSubtitle) null
-      else kitCopy("content", KitCopy.CARD_CONTENT)
+      if (layout == TitleCardLayout.TitleSubtitle) null else kitCopy("body", KitCopy.CARD_CONTENT),
+      content,
     )
   if (style == TitleCardStyle.Image) {
     TitleCard(
@@ -431,7 +437,7 @@ fun TitledCard(
       subtitle = subtitle,
       colors = CardDefaults.cardWithContainerPainterColors(),
       modifier = Modifier.width(CardWidth),
-      content = content,
+      content = contentSlot,
     )
   } else {
     TitleCard(
@@ -445,7 +451,7 @@ fun TitledCard(
       // container, which is not what the kit's outline column draws.
       border = if (style == TitleCardStyle.Outlined) CardDefaults.outlinedCardBorder() else null,
       modifier = Modifier.width(CardWidth),
-      content = content,
+      content = contentSlot,
     )
   }
 }
@@ -567,6 +573,7 @@ annotation class AppCardKitCells
 @AppCardKitCells
 @Composable
 fun ApplicationCard(
+  content: CardContent = CardContent.Text,
   style: AppCardStyle = AppCardStyle.Tonal,
   // The leading slot is the kit's two layout names. `App Card` draws the app's own square artwork
   // there; `Title Card + Icon` draws a glyph. The slot used to be left empty, which is neither.
@@ -596,6 +603,6 @@ fun ApplicationCard(
     modifier = Modifier.width(CardWidth),
     // `AppCard`'s content slot is `ColumnScope`-scoped where `TitleCard`'s is not, so the shared
     // helper's lambda is invoked inside one here.
-    content = { cardContent(kitCopy("content", KitCopy.CARD_CONTENT))?.invoke() },
+    content = { cardContent(kitCopy("body", KitCopy.CARD_CONTENT), content)?.invoke() },
   )
 }
