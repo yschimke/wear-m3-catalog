@@ -77,6 +77,16 @@ component they paired with. That is the direction of travel, not an exception to
 that points a whole card at somebody else's cell is usually a fold waiting to happen, so treat one
 as a question rather than a settled answer.
 
+**That vocabulary covers CELL names, and their segment order is part of it.** A cell name reads
+`<layout>-<style>-<content/size>`, each segment dropped when it is the default: `icon-outlined-gallery-1`
+on `AppCard`, `with-subtitle-outlined-content-image` on `TitleCard`, and `outlined-icon-only` on
+`Button/Compact` — which fits, because `icon-only` there is the CONTENT axis and the set has no layout
+one. The order matters because a cell that names no kit node has nothing else to pair on: the kit node
+carries the pairing wherever there is one, so a style-first spelling costs nothing until it does, and
+then it costs the whole row. Eight card cells spelled it `outlined-with-subtitle` / `outlined-icon` and
+were renamed for exactly that reason; see
+[#292](https://github.com/yschimke/wear-m3-catalog/issues/292).
+
 What does NOT converge is the breakpoint segment, and it is worth being exact about which segment,
 because there are two and only one of them has moved. Remote stickers must name their frame — a
 Remote Compose document rasterises the whole `@Preview` — while the Wear stickers are device-less
