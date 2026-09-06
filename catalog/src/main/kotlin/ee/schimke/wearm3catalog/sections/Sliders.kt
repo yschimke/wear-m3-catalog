@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -22,6 +23,7 @@ import androidx.wear.compose.material3.Slider
 import androidx.wear.compose.material3.SliderDefaults
 import androidx.wear.compose.material3.Stepper
 import androidx.wear.compose.material3.StepperDefaults
+import androidx.wear.compose.material3.StepperLevelIndicator
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideFloat
@@ -498,7 +500,9 @@ annotation class StepperKitCells
   id = "Stepper",
   reference = "figma:B24oss2tTeXAFykyeyusz0/45007:258717",
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
-  caption = "A value moved a step at a time, between buttons at the top and bottom of the screen.",
+  caption =
+    "A value moved a step at a time, between buttons at the top and bottom of the screen, with " +
+      "the level rail the kit draws beside them.",
 )
 @CatalogFullScreenModes
 @StepperKitCells
@@ -510,15 +514,49 @@ fun ValueStepper(
   buttonFill: Boolean = true,
   icons: StepIcons = StepIcons.Chevron,
   content: StepperContent = StepperContent.Text,
+  levelIndicator: Boolean = true,
 ) = FullScreenSticker {
   val (value, onValueChange) = heldValue(value)
+  val range = valueRange()
+  // THE RAIL IS PART OF THE KIT'S STEPPER, and this sticker used to leave it out.
+  //
+  // `StepperLevelIndicator` is a separate function from `LevelIndicator` — which by the call-site
+  // test argues for a card of its own — but the kit is the one that decides what a component IS
+  // here, and the kit does not publish it as a set: `Level-Indicator-RSB` is the rotating side
+  // button's rail, and the stepper pairing is a BOOLEAN property on the `Stepper` set itself
+  // (`Level Indicator`, default **Yes**). So every node this card is compared against draws the
+  // rail, and the projector said so out loud — "`Stepper` — Stepper: `Level Indicator`" under the
+  // references that draw optional content the render omits. A second card would have paired that
+  // gap with a picture nobody was comparing; drawing it here closes it
+  // ([#315](https://github.com/yschimke/wear-m3-catalog/issues/315)).
+  //
+  // It is a KNOB rather than a cell because the kit's `Level Indicator` is a boolean property and
+  // not a variant axis: the set publishes eight nodes over `Button Fill` × `Icon` × `Disabled` and
+  // none of them turn the rail off, so a cell for it would name a vector the kit never drew. The
+  // default is the kit's default, which is what makes the baked capture the comparable one.
+  //
+  // Same `valueRange` and same `enabled` as the stepper below, because that is the whole point of
+  // the pairing: the rail reads the stepper's value domain rather than a fraction of its own, and
+  // a disabled stepper's rail takes the disabled colours with it.
+  if (levelIndicator) {
+    StepperLevelIndicator(
+      value = { value },
+      valueRange = range,
+      enabled = enabled,
+      // `CenterStart`, as `LevelRail` is aligned in `Indicators.kt`: the rail passes
+      // `rsbSide = false` internally and draws on the left in Ltr, and it strikes its arc from the
+      // centre of the box it is laid out in — so an unaligned one comes out as a diagonal stroke
+      // half off the frame (#18).
+      modifier = Modifier.align(Alignment.CenterStart),
+    )
+  }
   // Up/down, because the stepper's buttons are stacked: its decrease button is at the BOTTOM of
   // the display and its increase button at the top, which is the arrangement the kit draws too.
   Stepper(
     value = value,
     onValueChange = onValueChange,
     steps = steps,
-    valueRange = valueRange(),
+    valueRange = range,
     enabled = enabled,
     colors =
       if (buttonFill) StepperDefaults.colors()
