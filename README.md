@@ -38,11 +38,11 @@ customising the live render are two ends of one workflow.
 
 | | |
 | --- | --- |
-| Components | **73** |
-| Rendered images (PNG) | **1022** |
-| Editable wireframes (SVG) | **73** |
-| Editable design vectors (figma-svg) | **73** |
-| Components with a11y greenlines | **40** |
+| Components | **79** |
+| Rendered images (PNG) | **1098** |
+| Editable wireframes (SVG) | **79** |
+| Editable design vectors (figma-svg) | **79** |
+| Components with a11y greenlines | **41** |
 | Library | `androidx.wear.compose:compose-material3` |
 | Renderer | compose-preview 1.85.0 |
 | Schema | `design-parity-catalog/v1` |
@@ -54,24 +54,26 @@ customising the live render are two ends of one workflow.
 | --- | ---: |
 | Buttons | 9 |
 | Media controls | 7 |
+| Text | 7 |
 | Icon buttons | 6 |
 | Sign-in | 5 |
 | Dialogs | 5 |
-| Text | 5 |
 | Cards | 4 |
 | Position indicators | 4 |
 | One-handed gestures | 4 |
+| Pickers | 4 |
 | Progress indicators | 4 |
-| Pickers | 3 |
 | Placeholders | 3 |
 | Selection buttons | 3 |
 | Lists and screens | 2 |
+| Pagers | 2 |
 | Sliders and steppers | 2 |
 | Swipe to reveal | 2 |
 | Toggle buttons | 2 |
 | Edge-hugging buttons | 1 |
 | Fast scrolling | 1 |
 | Shapes | 1 |
+| Swipe to dismiss | 1 |
 
 ## What's in this branch
 

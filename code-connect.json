@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-09-06T11:19:12.488Z",
+  "generatedAt": "2026-09-06T11:50:07.415Z",
   "mappings": [
     {
       "componentId": "Auth/SignInButton",
@@ -1416,6 +1416,64 @@
       "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/onehandedgesturepageindicator-vertical__ideal__default__192dp.svg"
     },
     {
+      "componentId": "Pager/Horizontal",
+      "figmaLayerName": "Pager/Horizontal",
+      "componentName": "ScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "HorizontalPagerScreen",
+      "codeSnippet": "ScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.ScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/pager-horizontal__ideal__default__192dp.svg"
+    },
+    {
+      "componentId": "Pager/Vertical",
+      "figmaLayerName": "Pager/Vertical",
+      "componentName": "ScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "VerticalPagerScreen",
+      "codeSnippet": "ScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.ScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/pager-vertical__ideal__default__192dp.svg"
+    },
+    {
       "componentId": "DatePicker",
       "figmaLayerName": "DatePicker",
       "componentName": "FullScreenSticker",
@@ -1501,6 +1559,35 @@
         }
       ],
       "figmaSvg": "figma/picker.svg"
+    },
+    {
+      "componentId": "PickerGroup",
+      "figmaLayerName": "PickerGroup",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "PickerColumns",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/pickergroup.svg"
     },
     {
       "componentId": "Placeholder/Button",
@@ -1880,6 +1967,35 @@
       "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/stepper__ideal__default__192dp.svg"
     },
     {
+      "componentId": "SwipeToDismissBox",
+      "figmaLayerName": "SwipeToDismissBox",
+      "componentName": "FullScreenSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "DismissableScreen",
+      "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.FullScreenSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "BoxScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/swipetodismissbox__ideal__default__192dp.svg"
+    },
+    {
       "componentId": "SwipeToReveal/Card",
       "figmaLayerName": "SwipeToReveal/Card",
       "componentName": "FullScreenSticker",
@@ -2081,6 +2197,64 @@
         }
       ],
       "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/timetext__ideal__default__192dp.svg"
+    },
+    {
+      "componentId": "FadingExpandingLabel",
+      "figmaLayerName": "FadingExpandingLabel",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "FadingLabel",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/fadingexpandinglabel__ideal__default.svg"
+    },
+    {
+      "componentId": "AnimatedText",
+      "figmaLayerName": "AnimatedText",
+      "componentName": "Sticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "AnimatedNumeral",
+      "codeSnippet": "Sticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.Sticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/animatedtext__ideal__default.svg"
     },
     {
       "componentId": "IconToggleButton",
