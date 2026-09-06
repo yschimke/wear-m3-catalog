@@ -88,6 +88,31 @@ jobs:
       - name: The imported page join is up to date
         run: node scripts/import-figma-pages.mjs --check
 
+      # The join above is `:catalog`'s, because the map it is projected from is — one design map
+      # per checkout, and the committed one belongs to the Wear sheet. The Remote sheet's own join
+      # is projected at publish time (`design-artifacts.yml`, `design-map-command`), so there is no
+      # committed file here to reconcile; what CAN be checked without a second checkout is that
+      # relinking against the Remote map reaches the whole of it. It did not, and nothing said so:
+      # the published `/remote-m3/pages/` surface linked 22 of 1845 nodes — the component-level
+      # references and nothing below them — while that sheet's map resolves 228 (#316).
+      - name: The Remote sheet's page join reaches its whole map
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          scripts/design-map.sh --out-dir "$work" remote-catalog
+          node scripts/import-figma-pages.mjs \
+            --relink --design-map "$work/design-map.json" --require-full-join
+          # `--relink` rewrote the committed cache, which belongs to `:catalog`. Put it back, so
+          # the rest of this job reads the file this repository actually holds.
+          git checkout -- design/pages/pages.json
+
+      # The two sheets pair component by component through `parallel`, and until now nothing held
+      # the declaration to what AGENTS.md says it means — one taxonomy, the same id, the same kit
+      # node. Every way of breaking it is silent and a rename is when it breaks, which is why the
+      # gate lives in the job that has just discovered both manifests.
+      - name: The two sheets still pair
+        run: scripts/parallel-map.sh
+
       # `docs/KIT_COVERAGE.md` reads the two records gated directly above and nothing else, so it
       # is a projection of files this job has already proved fresh — which is what makes gating it
       # honest rather than flaky. Its sibling `docs/COMPONENT_MAP.md` deliberately has no gate: that
@@ -251,6 +276,11 @@ jobs:
       # reconciled in the `map` job above, so a bug here would move every number in it at once and
       # the diff would look like a change to the catalog rather than to the counter.
       - run: node --test scripts/kit-cells.test.mjs
+
+      # What counts as a broken pairing between the two sheets. The gate it backs runs in the `build`
+      # job (it needs both discovered manifests); its pure half is fixture-driven and belongs here
+      # beside the other script tests.
+      - run: node --test scripts/parallel-map.test.mjs
 
       # The PR-body repair, which `pr-body-syntax.yml` runs UNATTENDED against real descriptions.
       # Both failure modes are silent: a matcher that over-reaches rewrites someone's prose, one

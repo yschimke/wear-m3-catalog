@@ -61,6 +61,15 @@
 //
 //   FIGMA_TOKEN=figd_... node scripts/import-figma-pages.mjs
 //   FIGMA_TOKEN=figd_... node scripts/import-figma-pages.mjs --page shape
+//   node scripts/import-figma-pages.mjs --relink [--design-map F] [--require-full-join]
+//
+// ONE CACHE, TWO SHEETS. The node -> code join is a projection of `design-map.json`, and there is
+// exactly one of those per checkout — `:catalog`'s (see `scripts/design-map.sh`). So the COMMITTED
+// join is the Wear sheet's, and the Remote sheet gets its own by relinking against its own
+// projected map inside its publish job (`design-artifacts.yml`, `design-map-command`). Until that
+// happened, `/remote-m3/pages/` carried whatever the publisher could re-derive from
+// component-level references alone: 22 linked nodes out of 1845, against the Wear sheet's 597
+// ([#316](https://github.com/yschimke/wear-m3-catalog/issues/316)).
 //
 // Reads `design-pages.json` (which pages, and where to write them) and `design-map.json` (the
 // node → code join, itself derived from the `@CatalogComponent(reference = …)` annotations). Writes
@@ -113,6 +122,7 @@ const configPath = arg("config", "design-pages.json");
 const designMapPath = arg("design-map", "design-map.json");
 const onlyPage = arg("page", null);
 const relinkOnly = process.argv.includes("--relink");
+const requireFullJoin = process.argv.includes("--require-full-join");
 const checkOnly = process.argv.includes("--check");
 const token = process.env.FIGMA_TOKEN;
 
@@ -586,6 +596,26 @@ function relink({ fileKey, byRef, outDir, check = false }) {
     `import-figma-pages: relinked ${pages.length} cached page(s) — ${linked}/${total} nodes now ` +
       `join to code, from ${byRef.size} mapped reference(s).`,
   );
+
+  // `--require-full-join`: every reference in the map reached a node on a cached page.
+  //
+  // For the sheet whose join is COMMITTED, `--check` already covers this — a shortfall would show
+  // as a diff. The sheet whose join is projected at publish time has no such file, and its
+  // shortfall is what #316 was: `/remote-m3/pages/` published 22 linked nodes against a map that
+  // resolves 228, because the publisher was re-deriving the join from component-level references
+  // instead of relinking. On the page an unlinked node is drawn exactly like one no catalog
+  // implements, so nothing about it reads as a bug.
+  //
+  // The bar is the MAP, not the cache: a page the import skipped (over the size cap) or excluded
+  // still has to hold every node the map claims, because parity compares against those nodes
+  // whether or not a reader can see them.
+  if (requireFullJoin && linked < byRef.size) {
+    console.error(
+      `::error::the page join reaches ${linked} node(s), but the map resolves ${byRef.size} ` +
+        `reference(s). Some kit node this sheet draws is on no cached page.`,
+    );
+    process.exit(1);
+  }
 }
 
 async function main() {
