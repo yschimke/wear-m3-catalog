@@ -40,6 +40,24 @@ Three rules follow, and they are the ones easiest to break by accident:
   (`git checkout -- design-map.json`) before committing. Which you will, if you run a parity check
   locally — the recipe, and the four other things that waste an hour, are in
   [docs/PARITY_LOCAL.md](docs/PARITY_LOCAL.md).
+- **And everything projected FROM that map is per-module too — including the page join.**
+  `design/pages/pages.json` records, per kit node, the preview that implements it, and it is a
+  projection of `design-map.json`: so the committed join is `:catalog`'s, node for node. The Remote
+  sheet gets its own the same way its map does — `node scripts/import-figma-pages.mjs --relink`
+  after `scripts/design-map.sh remote-catalog`, in its own publish job. Leave that out and the
+  publisher falls back to what it can re-derive from component-level `reference`s alone, which is
+  the base cell of each component and nothing under it: `/remote-m3/pages/buttons` drew 14 links
+  against the Wear sheet's 244, with every kit CELL on the sheet painted as "no code behind this"
+  ([#316](https://github.com/yschimke/wear-m3-catalog/issues/316)). It reads as a catalog that has
+  not been written, which is why CI now checks that the Remote relink reaches its whole map
+  (`--require-full-join`) rather than trusting the page to look wrong.
+- **The two sheets pair through `parallel`, and `scripts/parallel-map.sh` is what holds them to
+  it.** A `parallel` naming an id the other sheet does not publish, a pair naming two different kit
+  nodes, and an id both sheets publish with no `parallel` behind it are all silent, and a rename is
+  when they happen. The gate needs both modules discovered; it fails on those three and only
+  REPORTS a cell one sheet draws and the other cannot (`RemoteTitleCard` takes no painter, so every
+  `background-image` cell is one-sided) — that question belongs to `kit-cells.json`, and it is
+  answered against the kit rather than against the other sheet.
 
 ## Annotation-first is the rule, not a preference
 

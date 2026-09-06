@@ -127,9 +127,16 @@ jobs:
       # Redundant here in the sense that the committed map IS this module's — but stating it is
       # what stops that being a coincidence the next module relies on, and the reusable workflow
       # deletes the root map before running the command, so this job proves its own projection too.
+      #
+      # The page join is relinked for the same reason, and is a no-op here for the same reason the
+      # projection is: the committed `design/pages/pages.json` already carries `:catalog`'s join,
+      # and CI gates it (`import-figma-pages.mjs --check`). Stating it keeps the two callers
+      # reading as one recipe — project this module's map, then rebuild the page join from it —
+      # rather than leaving the Remote job looking like it does something extra.
       design-map-command: >
         ./gradlew :catalog:composePreviewDiscover --stacktrace &&
-        scripts/design-map.sh
+        scripts/design-map.sh &&
+        node scripts/import-figma-pages.mjs --relink
       # Keep the render CLI lockstep with the applied Gradle plugin — the pin is
       # `composePreviewPlugin` in libs.versions.toml, and a CLI/plugin skew breaks preview
       # discovery outright.
@@ -260,10 +267,22 @@ jobs:
       # lane everywhere rather than an error, so without this the job would publish that lane's
       # sheet under a board built for the other one, which is the drift the shared pin exists to
       # prevent.
+      #
+      # AND THE PAGE JOIN, for the same reason one step further on. `design/pages/pages.json` is
+      # committed carrying a node -> code join, and that join is a projection of
+      # `design-map.json` — which means the committed one names `:catalog` previews and nothing
+      # else. The publisher drops a link whose code this system does not have and re-derives what
+      # it can from the component-level `reference`s alone, so this sheet published 22 linked
+      # nodes out of 1845 while its own map resolves 228: `/remote-m3/pages/buttons` drew 14
+      # links against the Wear sheet's 244, every kit CELL on it reading as "no code behind
+      # this". Relinking here — a pure function of the cache and the map just projected, no token
+      # and no network — is what makes the published page the Remote sheet's own answer rather
+      # than the leftovers of somebody else's.
       design-map-command: >
         test -s .github/ci/remote-snapshot-pin &&
         ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
-        scripts/design-map.sh remote-catalog
+        scripts/design-map.sh remote-catalog &&
+        node scripts/import-figma-pages.mjs --relink
       # Same CLI/plugin lockstep as the job above: the pin is `composePreviewPlugin` in
       # libs.versions.toml, and this catalog is the one that would notice a skew first — its
       # connector and wear-preview-runtime dependencies ship from the same release.
