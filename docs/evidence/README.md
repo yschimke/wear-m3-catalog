@@ -17,6 +17,17 @@ served into it. What they show is not a component but a **choice** — which com
 puts on the index (`catalog.spec.json`'s `display.hero`) — and that is a picture of the server, not
 of a sticker, so no render task here produces it.
 
+`new-components.png` and `new-motion-frames.png` are the evidence for the six components added
+for [#310](https://github.com/yschimke/wear-m3-catalog/issues/310)–[#315](https://github.com/yschimke/wear-m3-catalog/issues/315).
+The first is a contact sheet in the `kit-*-cells*.png` sense — each new card's base render beside
+the cells that say what its knobs do, plus the `Stepper` card now drawing the level rail its kit
+node has. The second is a FILMSTRIP: six evenly spaced frames out of each of the four new
+`Motion.kt` recordings, with the frame number under each. A recording is the deliverable for a
+component whose subject is a transition, and a still of one says nothing about it — the frames are
+what show the pager's page scaling under its scrim and the fading label's wipe mid-sweep. Frames are
+`composePreviewRender` outputs composited onto the sheet's `#141418` for the reason the paragraph
+below gives; no pixel of any render is otherwise touched.
+
 `kit-*-cells*.png` are the other exception: a CONTACT SHEET of one component's variant cells,
 every `_VARIANT_` render of it composited onto one dark board with the cell's name under each. A
 change that adds cells by the dozen (the kit's `Edge-Button` set alone is 64) cannot be evidenced
