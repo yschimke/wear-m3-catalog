@@ -686,6 +686,42 @@ Pointing a second entry at `/ui-builder/mcp` gets a `404`.
   clean local hooks. So scrub the **PR description** too, not just the commits.
   The CI gate only *blocks* once it is a **required status check** on the Protect Main ruleset;
   until then its `drift` job makes a breach loud rather than preventing it.
+- **Point every image embed at a GitHub-hosted URL — a `preview.coo.ee` embed does not survive.**
+  Claude Code on the web rewrites `![alt](url)` to `[alt](url)` on the way to the API whenever the
+  destination is not a GitHub origin, so the picture lands as a bare link. It is silent: the API
+  returns 201 and the tool reports success, and the only way to see it is to read the body back.
+  Measured variant-by-variant on
+  [compose-preview-server#456](https://github.com/yschimke/compose-preview-server/issues/456) and
+  filed upstream as
+  [anthropics/claude-code#89540](https://github.com/anthropics/claude-code/issues/89540) (open,
+  `area:security`) — it is an anti-exfiltration control rather than a bug to route around, so write
+  the allowed form instead of trying to defeat it. **Kept:** `raw.githubusercontent.com`,
+  `github.com/<owner>/<repo>/raw/<ref>/…`, `github.com/user-attachments/assets/…`, and the
+  `user-images` / `private-user-images` / `avatars` / `objects` / `media` / `gist`
+  `.githubusercontent.com` hosts. **Stripped:** everything else, `preview.coo.ee`,
+  `camo.githubusercontent.com` and `img.shields.io` included. The rewrite is a blind regex over the
+  whole body — it fires inside code spans and fenced blocks too, and an `<img src=…>` is
+  HTML-escaped into a code span — so there is no spelling of a non-GitHub host that renders.
+
+  This costs nothing, because every published render already has a twin on its delivery branch:
+
+  | `preview.coo.ee` | `raw.githubusercontent.com/yschimke/wear-m3-catalog` |
+  | --- | --- |
+  | `/<system>/render/<component>__<rest>.png` | `/design-artifacts/<system>/images/<component>/<rest>.png` |
+  | `/<system>/reference/<id>.png` | `/design-artifacts/<system>/references/<id>.png` |
+
+  Split a render id on its **first** `__` and the head is the directory:
+  `appcard__ideal__outlined__compact` is `images/appcard/ideal__outlined__compact.png`. A reference
+  keeps its whole id. Pin to a commit SHA rather than the branch name when the picture has to keep
+  meaning what the issue said it meant — `design-artifacts/*` is rewritten on every republish.
+  `preview.coo.ee` stays the right thing to *link* to in prose (the compare page, the viewer, the
+  live re-render); it is only image **embeds** that need the GitHub origin.
+
+  The same rule applies to **issue bodies and issue comments**, not just PR descriptions — that is
+  where it has actually cost evidence
+  ([#293](https://github.com/yschimke/wear-m3-catalog/issues/293) posted a three-cell evidence table
+  and two of the three cells arrived as bare links).
+
 - **Write `![alt](url)` in a PR body and leave the backticks alone if they appear.** A posted
   description often lands as ``![alt](`url`)`` — or its cousin with the closing run pushed past the
   `)` — which GitHub renders as literal text plus a stray code span, so the image never appears.
@@ -700,7 +736,9 @@ Pointing a second entry at `/ui-builder/mcp` gets a `404`.
   you is that repair, not a reviewer.** Three things it does not cover: an image in a *review
   comment*, a destination that no longer looks like one (a reference-style image whose leading `!`
   was stripped, or an HTML `<img src="``…``">` — both tried on #260, neither repairable without
-  guessing), and proving the picture actually rendered. Committed render PNGs live in
+  guessing), and proving the picture actually rendered. That stripped `!` is the separate,
+  upstream rewrite described in the bullet above, and it is fixed by choosing a GitHub-hosted
+  destination rather than by any repair here. Committed render PNGs live in
   [`docs/evidence/`](docs/evidence/) and are linked commit-pinned.
 
 ## Dependencies
