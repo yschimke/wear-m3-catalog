@@ -120,6 +120,28 @@ val KitRowWidth = 172.rdp
 val KitDisplayWidth = 192.rdp
 
 /**
+ * The width the kit strokes an **outlined button's** border at: 1dp.
+ *
+ * `remote-material3` carries the outline in a call-site parameter rather than in the colours — a
+ * `RemoteButtonColors` has no border field — so every outlined cell on this sheet has to name a
+ * number, and until now each of the five named `2.rdp` with nothing saying why. That doubled the
+ * kit's stroke on around thirty cells and was reported as a library defect
+ * ([#291](https://github.com/yschimke/wear-m3-catalog/issues/291)), whose central claim — "the
+ * catalog passes the Remote library's own default; the number comes from the library" — was simply
+ * not true of this column. It came from here.
+ *
+ * ONE DP, because that is what the other column resolves. `:catalog` passes
+ * `ButtonDefaults.outlinedButtonBorder(enabled = …)` and names no width, and Wear Compose Material
+ * 3 resolves that to 1dp, which is also the M3 spec and what the kit draws. So this is a
+ * transcription of the Wear default rather than a number invented here, exactly as
+ * `RemoteIconButtonPalette` transcribes the four emphasis pairs.
+ *
+ * A CONSTANT rather than five literals, because five copies of an unexplained number is how the
+ * first one went unnoticed: a border that drifts now moves one line that says what it is.
+ */
+val KitOutlinedBorderWidth = 1.rdp
+
+/**
  * The catalog's Remote Compose **component** multipreview. A single 227×100 capture. Remote Compose
  * has no light/dark theme split of its own — the document carries explicit colours — so this is the
  * one primary mode. Those colours come from `RemoteMaterialTheme`, the dark-first Wear Compose

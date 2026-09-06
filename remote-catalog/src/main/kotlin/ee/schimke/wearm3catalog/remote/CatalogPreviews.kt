@@ -332,7 +332,7 @@ annotation class RemoteButtonKitCells
 @CatalogRemoteModes
 @RemoteButtonKitCells
 @Composable
-fun FilledRemoteButton() = RemoteSticker { RemoteKitButton(RemoteButtonDefaults.buttonColors()) }
+fun FilledRemoteButton() = RemoteSticker { RemoteKitButton(remoteFilledButtonColors()) }
 
 /**
  * One style's worth of the kit's `Button` cells: the `Icon` / `Icon size` / `Disabled` axes, drawn
@@ -455,12 +455,8 @@ internal fun RemoteKitButton(
 @Composable
 fun OutlinedRemoteButton() = RemoteSticker {
   RemoteKitButton(
-    colors =
-      RemoteButtonDefaults.buttonColors(
-        containerColor = RemoteColor(Color.Transparent),
-        contentColor = RemoteMaterialTheme.colorScheme.onSurface,
-      ),
-    border = 2.rdp,
+    colors = remoteOutlinedButtonColors(),
+    border = KitOutlinedBorderWidth,
     borderColor = RemoteMaterialTheme.colorScheme.outline,
   )
 }
@@ -850,7 +846,7 @@ fun TextRemoteButton() = RemoteSticker {
     colors = colors,
     // The border is its OWN parameter, not part of `colors`: an outlined text button built from
     // the container-less colours alone draws no outline and is pixel-identical to the child cell.
-    border = if (style == "outlined") 2.rdp else null,
+    border = if (style == "outlined") KitOutlinedBorderWidth else null,
     borderColor = if (style == "outlined") RemoteMaterialTheme.colorScheme.outline else null,
     content = {
       RemoteText(
@@ -1358,37 +1354,35 @@ fun CompactRemoteButton() = RemoteSticker {
   // bargain `IconButton/Standard` strikes. At rest `on` is 0f and `tween(a, b, 0f)` is `a`, so the
   // baked capture is whichever style's own container.
   val (on, toggle) = toggledRemote()
-  val container =
+  // The emphasis comes from the shared palette, which is the library's own named factory on the
+  // snapshot lane. This used to pick a container and a content colour per style and pass that pair
+  // through the generic `buttonColors()`, which left the other six — the disabled quartet, the
+  // secondary content and the icon — at the FILLED style's values on all five styles.
+  val colors =
     when (style) {
-      "filled-variant" -> RemoteMaterialTheme.colorScheme.primaryContainer
-      "tonal" -> RemoteMaterialTheme.colorScheme.surfaceContainer
-      "outlined",
-      "child" -> RemoteColor(Color.Transparent)
-      else -> RemoteButtonDefaults.buttonColors().containerColor
-    }
-  val contentColor =
-    when (style) {
-      "filled-variant" -> RemoteMaterialTheme.colorScheme.onPrimaryContainer
-      "tonal",
-      "outlined",
-      "child" -> RemoteMaterialTheme.colorScheme.onSurface
-      else -> RemoteButtonDefaults.buttonColors().contentColor
+      "filled-variant" -> remoteFilledVariantButtonColors()
+      "tonal" -> remoteTonalButtonColors()
+      "outlined" -> remoteOutlinedButtonColors()
+      "child" -> remoteChildButtonColors()
+      else -> remoteFilledButtonColors()
     }
   RemoteCompactButton(
     onClick = if (content == "icon") toggle else onClick,
     enabled = previewOverrideBoolean("enabled", true).rb,
-    border = if (style == "outlined") 2.rdp else 0.rdp,
+    border = if (style == "outlined") KitOutlinedBorderWidth else 0.rdp,
     borderColor =
       if (style == "outlined") RemoteMaterialTheme.colorScheme.outline
       else RemoteColor(Color.Transparent),
+    // `copy` rather than a fresh `buttonColors(...)`: the toggle tween moves the CONTAINER and
+    // nothing else, so copying keeps every other colour the emphasis resolved. At rest `on` is 0f
+    // and `tween(a, b, 0f)` is `a`, so the baked capture is the palette's own container.
     colors =
-      RemoteButtonDefaults.buttonColors(
-        containerColor =
-          if (content == "icon")
-            tween(container, RemoteMaterialTheme.colorScheme.tertiaryContainer, on)
-          else container,
-        contentColor = contentColor,
-      ),
+      if (content == "icon")
+        colors.copy(
+          containerColor =
+            tween(colors.containerColor, RemoteMaterialTheme.colorScheme.tertiaryContainer, on)
+        )
+      else colors,
     icon =
       if (content == "text") null
       else

@@ -10,7 +10,6 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.width
-import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.animateRemoteFloat
@@ -21,7 +20,6 @@ import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.ri
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
@@ -102,20 +100,10 @@ fun TonalRemoteButton() = RemoteSticker {
   // filled style's body with the emphasis lifted out — those axes are arguments to `RemoteButton`
   // rather than a choice of function, so drawing them a second time here would be a copy that can
   // drift.
-  RemoteKitButton(
-    // `surfaceContainer`, NOT `secondaryContainer`. `RemoteButtonDefaults` publishes no tonal
-    // colours, so this style is written out here — and written out against the wrong token it drew
-    // a blue button beside a kit cell (and a `wear-m3-catalog` parallel) that is neutral grey.
-    // Wear Material 3 is where the token comes from: `ButtonDefaults.filledTonalButtonColors()` is
-    // `surfaceContainer` / `onSurface` on this platform, unlike phone M3's secondary-container
-    // tonal, and `Button/Tonal` in the sibling catalog is that function.
-    RemoteButtonDefaults.buttonColors(
-      containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
-      contentColor = RemoteMaterialTheme.colorScheme.onSurface,
-      secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
-      iconColor = RemoteMaterialTheme.colorScheme.primary,
-    )
-  )
+  // The emphasis is [remoteTonalButtonColors], which is the library's own `filledTonalButtonColors`
+  // on the snapshot lane and the transcribed `surfaceContainer` / `onSurface` pair on the released
+  // one. It used to be written out here on both.
+  RemoteKitButton(remoteTonalButtonColors())
 }
 
 @CatalogComponent(
@@ -137,14 +125,7 @@ fun TonalRemoteButton() = RemoteSticker {
 // with: `ButtonDefaults.filledVariantButtonColors()` is `primaryContainer` / `onPrimaryContainer`.
 @Composable
 fun FilledVariantRemoteButton() = RemoteSticker {
-  RemoteKitButton(
-    RemoteButtonDefaults.buttonColors(
-      containerColor = RemoteMaterialTheme.colorScheme.primaryContainer,
-      contentColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
-      secondaryContentColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
-      iconColor = RemoteMaterialTheme.colorScheme.onPrimaryContainer,
-    )
-  )
+  RemoteKitButton(remoteFilledVariantButtonColors())
 }
 
 @CatalogComponent(
@@ -161,16 +142,7 @@ fun FilledVariantRemoteButton() = RemoteSticker {
 // container plus `onSurface` content is how Wear's own `childButtonColors()` is built, and with no
 // container to draw the whole style IS those two colours.
 @Composable
-fun ChildRemoteButton() = RemoteSticker {
-  RemoteKitButton(
-    RemoteButtonDefaults.buttonColors(
-      containerColor = RemoteColor(Color.Transparent),
-      contentColor = RemoteMaterialTheme.colorScheme.onSurface,
-      secondaryContentColor = RemoteMaterialTheme.colorScheme.onSurfaceVariant,
-      iconColor = RemoteMaterialTheme.colorScheme.primary,
-    )
-  )
-}
+fun ChildRemoteButton() = RemoteSticker { RemoteKitButton(remoteChildButtonColors()) }
 
 @CatalogComponent(
   id = "Button/ImageBackground",
@@ -312,7 +284,7 @@ fun TonalRemoteIconButton() = RemoteSticker {
 fun OutlinedRemoteIconButton() = RemoteSticker {
   RemoteKitIconButton(
     colors = remoteOutlinedIconButtonColors(),
-    border = 2.rdp,
+    border = KitOutlinedBorderWidth,
     borderColor = RemoteMaterialTheme.colorScheme.outline,
   )
 }
