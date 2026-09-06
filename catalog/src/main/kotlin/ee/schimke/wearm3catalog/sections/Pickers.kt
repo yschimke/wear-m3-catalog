@@ -2,13 +2,21 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.DatePicker
 import androidx.wear.compose.material3.DatePickerType
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Picker
+import androidx.wear.compose.material3.PickerGroup
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimePicker
 import androidx.wear.compose.material3.TimePickerType
@@ -228,5 +236,88 @@ fun SingleColumnPicker() = FullScreenSticker {
     // which is 25 options rendered "%02d" resting on the first. Counting by fives from 25 put
     // three numbers on screen that the reference does not contain.
     Text(index.toString().padStart(2, '0'), style = MaterialTheme.typography.numeralMedium)
+  }
+}
+
+// `PickerGroup` is a Wear Compose component with no kit set, and the reason is the same shape as
+// `ButtonGroup`'s: the kit draws multi-column pickers as the two it publishes — `Date Picker (…)`
+// and `Time Picker …`, both cells of the one `Picker` set above — rather than as the container that
+// generalises them. There is no `Type` value for "some columns an app chose", because a kit cannot
+// draw one. The library disagrees, and it is the library a reader of this sheet is calling: this is
+// what `DatePicker` and `TimePicker` are built out of, and what an app builds its own wheels from.
+// So it enters through the second door (AGENTS.md) with the reason stated
+// ([#311](https://github.com/yschimke/wear-m3-catalog/issues/311)).
+@CatalogComponent(
+  id = "PickerGroup",
+  noReference =
+    "The kit publishes no picker-group set — its multi-column cells are the `Date Picker` and " +
+      "`Time Picker` types of the one `Picker` set, which this sheet draws as `DatePicker` and " +
+      "`TimePicker`. The container those are built from is a Wear Compose component with no kit " +
+      "counterpart.",
+  caption = "Several wheels side by side, with the focused one centred on the screen.",
+)
+@CatalogFullScreenModes
+@OverrideVariant(name = "two-columns", ints = ["columns=2"])
+// Which column has the focus is the other half of what this component does — `autoCenter` moves
+// the group so the selected wheel sits on the screen's centre line, and the unselected ones scale
+// down beside it. Both ends get a cell, because the base is the MIDDLE one: three 56dp columns are
+// 168dp of a 192dp screen, so centring an outer column pushes the far one past the bezel, which is
+// a true picture of the component and a poor picture of a picker group. The kit's own multi-column
+// cells (`DatePicker`, `TimePicker`) rest on their middle wheel for the same reason.
+@OverrideVariant(name = "first-column-selected", ints = ["selected=0"])
+@OverrideVariant(name = "last-column-selected", ints = ["selected=2"])
+// Seeded off the middle column ON PURPOSE, and it is the one cell here that turns two knobs.
+// `autoCenter` moves the group so the SELECTED wheel lands on the centre line — and with the
+// middle of three selected it is already there, so switching it off against the base changes
+// nothing and publishes the base render under a second name. Against `first-column-selected`,
+// which is the same seed with the centring left on, it is exactly one knob's difference.
+@OverrideVariant(
+  name = "no-auto-centering",
+  booleans = ["autoCenter=false"],
+  ints = ["selected=0"],
+)
+@SettledPreview
+@Composable
+fun PickerColumns(
+  columns: Int = 3,
+  selected: Int = 1,
+  autoCenter: Boolean = true,
+) = FullScreenSticker {
+  // Clamped, because both are live knobs and a group asked for the fourth of three columns has
+  // nothing to select. The pickers themselves are built per column rather than pinned at three, so
+  // the `columns` knob really changes the group rather than hiding wheels that are still there.
+  val columns = columns.coerceIn(1, 4)
+  val states = List(columns) { rememberPickerState(initialNumberOfOptions = 25) }
+  var selectedColumn by
+    remember(columns, selected) { mutableIntStateOf(selected.coerceIn(0, columns - 1)) }
+  PickerGroup(
+    // The group's own knob, and the one a still cannot otherwise show: with it off the wheels stay
+    // where the row put them, and the selected one is no longer the one on the centre line.
+    autoCenter = autoCenter,
+    // Which `PickerState` the group centres ON. Handing it the selected column's state is what
+    // makes `autoCenter` mean anything: given none, the group has nothing to centre.
+    selectedPickerState = states[selectedColumn],
+    // The screen, for the reason `SingleColumnPicker` takes it above: `PickerGroup` lays its
+    // children out in a row that wraps what it is given, so a group with no size lands at the
+    // frame's top-start with the round mask biting into every wheel.
+    modifier = Modifier.fillMaxSize(),
+  ) {
+    states.forEachIndexed { column, state ->
+      // A fixed width and the full height, which is how the library's own `DatePicker` sizes each
+      // of its columns. Left to wrap, a wheel is as wide as its widest option and the group's
+      // spacing collapses.
+      PickerGroupItem(
+        pickerState = state,
+        selected = column == selectedColumn,
+        onSelected = { selectedColumn = column },
+        modifier = Modifier.width(56.dp).fillMaxHeight(),
+        contentDescription = { "Column ${column + 1}" },
+      ) { index, _ ->
+        // The same numeral token and the same zero-padded options as the single wheel above, so
+        // the group reads as three of the primitive it is a group of rather than as another
+        // component that happens to scroll.
+        Text(index.toString().padStart(2, '0'), style = MaterialTheme.typography.numeralMedium)
+      }
+    }
   }
 }

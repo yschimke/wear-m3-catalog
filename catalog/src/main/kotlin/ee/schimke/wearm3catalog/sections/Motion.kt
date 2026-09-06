@@ -2,7 +2,9 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -35,7 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.foundation.pager.HorizontalPager
+import androidx.wear.compose.foundation.pager.VerticalPager
 import androidx.wear.compose.foundation.pager.rememberPagerState
+import androidx.wear.compose.material3.AnimatedPage
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
@@ -44,7 +49,9 @@ import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
+import androidx.wear.compose.material3.FadingExpandingLabel
 import androidx.wear.compose.material3.FilledIconButton
+import androidx.wear.compose.material3.HorizontalPagerScaffold
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IconToggleButton
 import androidx.wear.compose.material3.IconToggleButtonDefaults
@@ -52,6 +59,7 @@ import androidx.wear.compose.material3.RevealValue
 import androidx.wear.compose.material3.SwipeToReveal
 import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.material3.VerticalPagerScaffold
 import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureAction
 import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureClickIndicator
 import androidx.wear.compose.material3.onehandedgesture.OneHandedGestureClickIndicatorState
@@ -76,6 +84,7 @@ import ee.schimke.composeai.preview.MotionFormat
 import ee.schimke.wearm3catalog.AnimatedSticker
 import ee.schimke.wearm3catalog.EdgeButtonScreen
 import ee.schimke.wearm3catalog.HorologistSamples
+import ee.schimke.wearm3catalog.ScreenSticker
 import ee.schimke.wearm3catalog.Sticker
 import kotlinx.coroutines.delay
 
@@ -123,6 +132,10 @@ import kotlinx.coroutines.delay
 //   GestureHintMotion           -> OneHandedGestureClickIndicator          (OneHandedGestures.kt)
 //   GestureScrollHintMotion     -> OneHandedGestureScrollIndicator         (OneHandedGestures.kt)
 //   GesturePageHintMotion       -> OneHandedGesturePageIndicator/Horizontal (OneHandedGestures.kt)
+//   FadingExpandingLabelMotion  -> FadingExpandingLabel       (TextComponents.kt)
+//   AnimatedTextMotion          -> AnimatedText               (TextComponents.kt)
+//   PagerTransitionMotion       -> Pager/Horizontal           (Pagers.kt)
+//   VerticalPagerTransitionMotion -> Pager/Vertical           (Pagers.kt)
 //
 // ONE FUNCTION PER COMPONENT, which is a constraint on what a recording may cover rather than a
 // detail of the wiring: `motionPreview` is a single name, so two things worth showing on the same
@@ -163,11 +176,17 @@ import kotlinx.coroutines.delay
 //  - **Nothing to press.** A spinner and a shimmer run on their own; there is no gesture that
 //    starts them, so `@AnimatedPreview` is not a workaround there, it is the correct annotation.
 //  - **A gesture the annotation cannot script.** `@InteractionPreview` dispatches `Tap` and
-//    `PressAndHold` — presses. Swipe-to-reveal and the edge button's scroll are both **drags**, and
-//    a press that never travels does nothing to either. They drive the component's own state
-//    object (`RevealState`, `TransformingLazyColumnState`) through the same animation a finger
-//    would, so the spring and the anchors are real and only the cause is scripted. A drag gesture
-//    upstream would convert both, and their KDoc says so at the call site.
+//    `PressAndHold` — presses. Swipe-to-reveal, the edge button's scroll and the two pagers are all
+//    **drags**, and a press that never travels does nothing to any of them. They drive the
+//    component's own state object (`RevealState`, `TransformingLazyColumnState`, `PagerState`)
+//    through the same animation a finger would, so the spring and the anchors are real and only the
+//    cause is scripted. A drag gesture upstream would convert them all, and their KDoc says so at
+//    the call site.
+//
+//    `SwipeToDismissBox` is the one drag that does NOT appear below, and the difference is the
+//    state object rather than the gesture: it publishes only `snapTo(Default | Dismissed)`, which
+//    teleports between two anchors, so there is no animation of the component's own to drive. Its
+//    card publishes the two ends and says so — see `SwipeToDismiss.kt`.
 //  - **A gesture that is not a pointer at all.** The three one-handed-gesture recordings at the
 //    foot of this file are raised by a double pinch or a wrist turn — sensor events the watch's
 //    `GestureInputManager` reports, which no pointer dispatcher can stand in for and which are
@@ -925,6 +944,164 @@ fun GesturePageHintMotion() {
         indicatorState = state,
         pagerState = pagerState,
       )
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Components whose subject IS the animation — a still of one is a frame of it, and the card says
+// so. Four recordings, all state-driven for the reason each one names.
+// ---------------------------------------------------------------------------
+
+/**
+ * The label growing a line at a time, with each new line fading in as the button expands to hold
+ * it.
+ *
+ * `FadingExpandingLabel` animates on a text CHANGE — it measures the new string, springs the height
+ * to it and wipes the arriving line in — so the recording changes the text rather than a knob. Both
+ * directions, because a button that only ever grows records half of what an app does with it: a
+ * label that shrinks back plays the same animation in reverse and settles differently.
+ *
+ * `@AnimatedPreview` rather than `@InteractionPreview`: nothing is pressed here. The text changes
+ * because the app got a new value, which is the situation the component is published for, and there
+ * is no gesture that would stand in for it.
+ */
+@MotionRowCanvas
+@AnimatedPreview(
+  showCurves = false,
+  caption =
+    "One line, then three, then back: the button's height springs to the new text while each " +
+      "arriving line fades in under the wipe.",
+)
+@Composable
+fun FadingExpandingLabelMotion() = Sticker {
+  var lines by remember { mutableStateOf(1) }
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(700)
+      lines = if (lines == 1) 3 else 1
+    }
+  }
+  // The component sticker's own wiring (`TextComponents.kt`'s `FadingLabel`), down to the width:
+  // the container growing is half of what is being recorded, and a button that wraps its label
+  // would grow sideways instead.
+  Button(
+    onClick = {},
+    modifier = Modifier.width(172.dp),
+    label = { FadingExpandingLabel(text = fadingLabelText(lines)) },
+  )
+}
+
+/**
+ * The numeral travelling: `AnimatedText` interpolating its variable font's weight axis and its size
+ * between the two ends the card publishes as `start` and the base cell.
+ *
+ * **The component is the interpolation**, which is why the card's two stills are cells of a
+ * recording rather than states: `AnimatedText` takes a progress lambda instead of a text style
+ * precisely because there is no "state" to draw — an app hands it an `Animatable` and the digit
+ * counts. This drives the same lambda from an `InfiniteTransition`, which is the honest stand-in:
+ * the font registry, the shaping and the size lerp are all the component's, and only the clock is
+ * ours.
+ *
+ * Reversing rather than restarting. The ends are a light 30sp and a heavy 48sp, and a sawtooth
+ * would spend a frame of every cycle teleporting between them — which reads as a glitch rather than
+ * as the travel a designer is choosing.
+ */
+@RequiresApi(31)
+@MotionCanvas
+@AnimatedPreview(
+  showCurves = false,
+  caption =
+    "The numeral thickens along the font's weight axis and grows from 30sp to 48sp, then plays " +
+      "back down again.",
+)
+@Composable
+fun AnimatedTextMotion() = Sticker {
+  val transition = rememberInfiniteTransition(label = "animated-text")
+  val progress by
+    transition.animateFloat(
+      initialValue = 0f,
+      targetValue = 1f,
+      animationSpec =
+        infiniteRepeatable(
+          animation = tween(durationMillis = 700, easing = LinearEasing),
+          repeatMode = RepeatMode.Reverse,
+        ),
+      label = "progress",
+    )
+  AnimatedNumeralText { progress }
+}
+
+/**
+ * A horizontal pager paging: the outgoing page scales down and takes a scrim while the incoming one
+ * grows into place, and the scaffold's dots follow.
+ *
+ * A still of a pager is a still of one page — which is a picture of whatever that page contains and
+ * says nothing about the component. The transition is the whole of what `HorizontalPagerScaffold`
+ * and `AnimatedPage` add over a `Row` of screens, so it belongs here and the card claims it.
+ *
+ * **State-driven, and it is the drag limitation `Motion.kt` already names twice.**
+ * `@InteractionPreview` dispatches taps and holds; paging is a horizontal drag, and a press that
+ * never travels pages nothing. `animateScrollToPage` moves the component's own `PagerState` through
+ * the same animation a fling would, so the spring, the scrim and the indicator's own show/hide are
+ * real and only the finger is scripted.
+ *
+ * Forward and back, because the scaffold's furniture is not symmetric: the page indicator fades in
+ * as paging starts and out as it settles, and one pass records the fade-in once.
+ */
+@MotionScreenCanvas
+@AnimatedPreview(
+  showCurves = false,
+  caption =
+    "Paged forward and back: the leaving page scales down under a scrim, the arriving one grows " +
+      "in, and the dots move with them.",
+)
+@Composable
+fun PagerTransitionMotion() = ScreenSticker {
+  val state = pagerState(pages = 4, initialPage = 0)
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(400)
+      state.animateScrollToPage(2)
+      delay(400)
+      state.animateScrollToPage(0)
+    }
+  }
+  HorizontalPagerScaffold(pagerState = state) {
+    HorizontalPager(state = state) { page ->
+      AnimatedPage(pageIndex = page, pagerState = state) { PagerPage(page, pages = 4) }
+    }
+  }
+}
+
+/**
+ * The same transition up and down, for the vertical pager.
+ *
+ * Its own recording rather than a cell of the horizontal one, for the reason the two cards are two
+ * cards: `VerticalPagerScaffold` places its indicator against the right bezel and travels its pages
+ * on the other axis, and which of those a reader is looking at is the question they came with.
+ */
+@MotionScreenCanvas
+@AnimatedPreview(
+  showCurves = false,
+  caption =
+    "The same paging vertically, with the dots riding the right bezel as the pages scale past " +
+      "each other.",
+)
+@Composable
+fun VerticalPagerTransitionMotion() = ScreenSticker {
+  val state = pagerState(pages = 4, initialPage = 0)
+  LaunchedEffect(Unit) {
+    while (true) {
+      delay(400)
+      state.animateScrollToPage(2)
+      delay(400)
+      state.animateScrollToPage(0)
+    }
+  }
+  VerticalPagerScaffold(pagerState = state) {
+    VerticalPager(state = state) { page ->
+      AnimatedPage(pageIndex = page, pagerState = state) { PagerPage(page, pages = 4) }
     }
   }
 }

@@ -2,6 +2,7 @@
 
 package ee.schimke.wearm3catalog.sections
 
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -10,15 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.AnimatedText
+import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.FadingExpandingLabel
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ListSubHeader
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
+import androidx.wear.compose.material3.rememberAnimatedTextFontRegistry
 import androidx.wear.compose.material3.timeTextCurvedText
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
@@ -30,6 +37,7 @@ import ee.schimke.wearm3catalog.KitCopy
 import ee.schimke.wearm3catalog.Sticker
 import ee.schimke.wearm3catalog.TransparentScreenSticker
 import ee.schimke.wearm3catalog.kitCopy
+import ee.schimke.wearm3catalog.kitRowWidth
 
 // The kit's `Text` page: the two list headers, the two body roles, and the curved clock.
 //
@@ -226,3 +234,134 @@ fun FixedTimeText(fontScale: Float = 1f) = TransparentScreenSticker {
     TimeText { timeTextCurvedText(time) }
   }
 }
+
+// ---------------------------------------------------------------------------
+// The two text components whose subject is a MOTION, and which therefore enter through the
+// library's door: the kit draws states, and neither of these is one.
+// ---------------------------------------------------------------------------
+
+/**
+ * The three lengths the fading label is drawn at, as the strings each cell shows.
+ *
+ * Plain literals rather than [KitCopy], because there is no kit node for either component below and
+ * so no reference whose words the capture has to match (AGENTS.md → Sticker conventions). What they
+ * do have to be is *the same sentence growing*: the animation is the arrival of a LINE, so three
+ * unrelated strings would record three different labels rather than one label expanding.
+ */
+private val FADING_LABEL_LINES =
+  listOf(
+    "Run started",
+    "Run started, 2.4 km logged",
+    "Run started, 2.4 km logged and your pace is holding steady",
+  )
+
+/** The label text for a given number of lines, clamped to what [FADING_LABEL_LINES] holds. */
+internal fun fadingLabelText(lines: Int): String =
+  FADING_LABEL_LINES[lines.coerceIn(1, FADING_LABEL_LINES.size) - 1]
+
+@CatalogComponent(
+  id = "FadingExpandingLabel",
+  noReference =
+    "The kit publishes no set for it, and could not: what this component draws is the ARRIVAL " +
+      "of a line of text — the container growing while the new line fades in — which is a " +
+      "transition rather than a state, and the kit's text pages publish states. Wear Compose " +
+      "ships it as its own component in its own file, so it enters through the library's door.",
+  caption =
+    "A label that grows its container a line at a time, fading each new line in as it arrives.",
+  // The whole of it. Every cell below is one frame of the thing the component is named after —
+  // see `Motion.FadingExpandingLabelMotion`.
+  motionPreview = "FadingExpandingLabelMotion",
+)
+@CatalogModes
+@OverrideVariant(name = "one-line", ints = ["lines=1"])
+@OverrideVariant(name = "three-lines", ints = ["lines=3"])
+@Composable
+fun FadingLabel(lines: Int = 2) = Sticker {
+  // IN A BUTTON, because the container is half of what the component does: its KDoc says it is
+  // "intended to be used for labels in a Button or Card, where we want the container to expand to
+  // fit the contents". Drawn bare it is a `Text` that changes height and nothing visibly grows.
+  //
+  // `kitRowWidth()` for the reason every row-shaped control here takes it: the button has no width
+  // of its own, and the wrap sandbox would resolve one that is not the kit's content column.
+  Button(
+    onClick = {},
+    modifier = Modifier.kitRowWidth(),
+    label = { FadingExpandingLabel(text = fadingLabelText(lines)) },
+  )
+}
+
+/**
+ * The variable-font axes the animated numeral travels along, and the sizes it travels between.
+ *
+ * Declared here rather than inline because `Motion.AnimatedTextMotion` draws the same numeral
+ * moving: a recording seeded from a second copy of these numbers is a recording of something
+ * slightly other than the component.
+ *
+ * **Weight AND size, not weight alone.** The registry interpolates font variation settings, so on a
+ * face that carries a `wght` axis the numeral thickens; on one that does not it simply does not
+ * move. The size lerp is what makes the animation legible either way, and it is what the library's
+ * own samples animate too — the digit grows as it counts.
+ */
+private val ANIMATED_TEXT_START_AXES = FontVariation.Settings(FontVariation.weight(400))
+private val ANIMATED_TEXT_END_AXES = FontVariation.Settings(FontVariation.weight(900))
+
+/** The numeral's size at each end of the animation. */
+private val AnimatedTextStartSize = 30.sp
+private val AnimatedTextEndSize = 48.sp
+
+/**
+ * The registry [AnimatedText] animates through, built from the axes and sizes above.
+ *
+ * `numeralMedium` is the role, because this is a glanceable hero digit and that is the role Wear's
+ * type scale publishes for one — the same token the pickers give their options.
+ */
+@RequiresApi(31)
+@Composable
+private fun animatedNumeralFonts() =
+  rememberAnimatedTextFontRegistry(
+    startFontVariationSettings = ANIMATED_TEXT_START_AXES,
+    endFontVariationSettings = ANIMATED_TEXT_END_AXES,
+    textStyle = MaterialTheme.typography.numeralMedium,
+    startFontSize = AnimatedTextStartSize,
+    endFontSize = AnimatedTextEndSize,
+  )
+
+/**
+ * The numeral itself, shared by the card below and by `Motion.AnimatedTextMotion`.
+ *
+ * One function rather than two copies, because `motionPreview` promises the recording is a
+ * recording OF this component: a second spelling of the same call is where the two quietly stop
+ * being the same picture. [progress] is a lambda for the same reason the component takes one — the
+ * recording drives it from an animation that must not recompose the text on every frame.
+ */
+@RequiresApi(31)
+@Composable
+internal fun AnimatedNumeralText(progress: () -> Float) {
+  // A two-digit numeral, because the component's own size lerp is what is being shown and a single
+  // glyph makes the width change hard to read. `AnimatedText` shapes the text itself on a
+  // `Canvas` — it is not a `Text` — so the string is passed straight through rather than styled.
+  AnimatedText(text = "24", fontRegistry = animatedNumeralFonts(), progressFraction = progress)
+}
+
+@CatalogComponent(
+  id = "AnimatedText",
+  noReference =
+    "The kit publishes no animated-text set: this is a motion treatment — a numeral travelling " +
+      "along a variable font's axes and between two sizes — rather than a text style, which is " +
+      "why the library ships it as its own component taking a font registry and a progress " +
+      "lambda instead of a `TextStyle`.",
+  caption =
+    "A numeral animated along a variable font's weight axis and between two sizes; the still is " +
+      "one frame of it.",
+  motionPreview = "AnimatedTextMotion",
+)
+@CatalogModes
+// `progress` is the component's only real argument, and every cell here is a frame of the
+// animation rather than a state the component has. They are published anyway because the ends are
+// what a reader is choosing between — how big, how heavy — and the recording is what shows the
+// travel between them.
+@OverrideVariant(name = "start", floats = ["progress=0.0"])
+@OverrideVariant(name = "midway", floats = ["progress=0.5"])
+@RequiresApi(31)
+@Composable
+fun AnimatedNumeral(progress: Float = 1f) = Sticker { AnimatedNumeralText { progress } }
