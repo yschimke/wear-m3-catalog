@@ -139,8 +139,13 @@ class RemoteRenderTest {
           "cell is the same empty frame; passing the disabled colours explicitly does not " +
           "change it",
       "CompactRemoteButton" to
-        "RemoteButtonDefaults.buttonColors leaves the disabled pair at its defaults, so a style " +
-          "written out by passing containerColor/contentColor is the disabled FILLED button",
+        "RemoteButtonDefaults resolves the filled, filled-variant, tonal and child disabled " +
+          "colours to one pair, so all four styles draw one picture per cell once enabled = " +
+          "false — the same collapse EDGE_BUTTON_FILLED_STYLES_COLLAPSE_WHEN_DISABLED records " +
+          "for RemoteEdgeButtonDefaults. This reason used to blame the call site for passing " +
+          "containerColor/contentColor through the generic factory, which was true of the code " +
+          "and not of the collapse: the styles now come from the library's own named factories " +
+          "(RemoteButtonPalette) and the four disabled cells are still byte-identical",
       "FilledRemoteButton" to "a disabled RemoteButton draws its container and not its label",
       "FilledVariantRemoteButton" to
         "a disabled RemoteButton draws its container and not its label",

@@ -559,7 +559,7 @@ fun EdgeButtonRemote() = RemoteSticker {
     enabled = previewOverrideBoolean("enabled", true).rb,
     colors = colors,
     // Zero on the three filled styles, and a no-op there whatever colour rides with it.
-    border = if (style == "outlined") 2.rdp else 0.rdp,
+    border = if (style == "outlined") KitOutlinedBorderWidth else 0.rdp,
     borderColor =
       if (style == "outlined") RemoteMaterialTheme.colorScheme.outline
       else RemoteColor(Color.Transparent),
