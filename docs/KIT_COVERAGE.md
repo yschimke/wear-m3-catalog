@@ -13,18 +13,18 @@ run actually compares.
 ## Cells
 
 **Read the overlap figure, not the whole-kit one.** The sheets share
-**9 of the kit's 34 sets**. Outside that overlap the Remote sheet is not
+**10 of the kit's 34 sets**. Outside that overlap the Remote sheet is not
 behind — there is nothing there for it to be behind on, because it draws none of those sets at
 all. The whole-kit percentage divides its cells by every set including the ones it never claimed,
 which reads as a shortfall it does not have.
 
 | | published cells | `wear-m3-catalog` | `remote-m3` |
 | --- | ---: | ---: | ---: |
-| **The 9 shared sets** | **331** | **222** (67.1%) | **228** (68.9%) |
-| All 34 sets | 897 | 597 (66.6%) | 228 (25.4%) |
+| **The 10 shared sets** | **333** | **224** (67.3%) | **230** (69.1%) |
+| All 34 sets | 897 | 597 (66.6%) | 230 (25.6%) |
 
 Inside the overlap the two sheets differ by **6 cells, in 1 set(s)**. The
-other 8 shared sets are drawn cell for cell the same on both.
+other 9 shared sets are drawn cell for cell the same on both.
 
 | set | published | wear | remote | difference |
 | --- | ---: | ---: | ---: | ---: |
@@ -70,7 +70,7 @@ failing to close. The kit page each set sits on is linked, so a set can be opene
 | `Card-Placeholder` | Cards | [`71571:45109`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71571-45109) | 2 | 2 (100.0%) | — |
 | `OpenOnPhone-Overlay` | Confirmation Overlays | [`46964:90920`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=46964-90920) | 2 | 2 (100.0%) | — |
 | `Text-Body` | Text | [`38977:66990`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66990) | 2 | 2 (100.0%) | 2 (100.0%) |
-| `Text-Caption` | Text | [`38977:66995`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66995) | 2 | 2 (100.0%) | — |
+| `Text-Caption` | Text | [`38977:66995`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66995) | 2 | 2 (100.0%) | 2 (100.0%) |
 
 ## Page grids
 

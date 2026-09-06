@@ -76,6 +76,9 @@ object KitCopy {
   /** `Text-Body`. */
   const val BODY = "Body text lorem ipsum dolor sit amet"
 
+  /** `Text-Caption`. Transcribed from the Wear sibling, so both columns caption the same words. */
+  const val CAPTION = "Caption text enim ad minim veniam, quis nostrud"
+
   /**
    * `Edge-Button`, for the same reason [GLYPHS] is an M-run — long enough that it truncates.
    *

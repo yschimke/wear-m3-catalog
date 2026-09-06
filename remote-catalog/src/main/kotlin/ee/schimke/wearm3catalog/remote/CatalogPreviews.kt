@@ -99,7 +99,8 @@ import ee.schimke.composeai.preview.OverrideVariant
 // non-component helpers are omitted: `RemoteContainerPainter` (a painter factory,
 // not a drawable component) and `RemoteTypographyTokens` (the raw token table).
 // `RemoteTimeText` has source samples in ComponentVariantPreviews.kt but no sticker:
-// the resolved player still rejects its DrawTextOnCircle opcode (57). The
+// the resolved WRITER still rejects its DrawTextOnCircle opcode (57) — re-tested
+// 2026-09-06, see the note above the theme section below. The
 // `remote-creation-compose` shader sticker is the one Remote-only extra.
 // ---------------------------------------------------------------------------
 
@@ -2547,6 +2548,57 @@ fun RemoteTextSticker() = RemoteSticker {
   )
 }
 
+/**
+ * **Both cells of the kit's `Text-Caption` set** — the same shape of row as [RemoteTextSticker]
+ * above, one type role down.
+ *
+ * The set was drawn by the Wear column and by nothing here, which is the whole of why it was short:
+ * `RemoteText` and `RemoteMaterialTheme.typography` have published `labelSmall` since this sheet
+ * existed, so there was never a library gap behind it — only a component nobody had written. That
+ * is the honest reading of a blank row and the reason this one is filled rather than explained
+ * (`kit-sets.json`'s `Text-Caption` row carries no `cells` prose for either sheet now, because
+ * neither sheet is short of it).
+ *
+ * `labelSmall` EXPLICITLY, for the reason [RemoteTextSticker] records one line up: the Wear
+ * sibling's `CaptionText` passes `style = MaterialTheme.typography.labelSmall` for this same string
+ * in this same 160dp box, and leaving the role to `RemoteText`'s own default is what put two type
+ * roles under one heading on the compare page
+ * ([#295](https://github.com/yschimke/wear-m3-catalog/issues/295)).
+ *
+ * `160.rdp` for the same reason too, and it is what makes `Alignment` an axis at all: unconstrained
+ * text sizes itself to its own glyphs and `Left` and `Centre` draw the identical picture.
+ */
+@CatalogComponent(
+  id = "Text/Caption",
+  group = "Text",
+  parallel = "Text/Caption",
+  // `Alignment=Centre` — the cell this sticker draws, and the Wear sibling names the same node.
+  reference = "figma:B24oss2tTeXAFykyeyusz0/38977:66998",
+  referenceSet = "figma:B24oss2tTeXAFykyeyusz0/38977:66995",
+  caption = "Secondary text at the `labelSmall` role — a timestamp, a unit, a footnote.",
+)
+@CatalogRemoteModes
+@OverrideVariant(
+  name = "left-aligned",
+  strings = ["align=left"],
+  kitAxis = "Alignment",
+  kitValue = "Left",
+)
+@Composable
+fun RemoteCaptionSticker() = RemoteSticker {
+  val text = rememberOverridableRemoteString("text", KitCopy.CAPTION)
+  val align =
+    if (previewOverrideChoice("align", "centre", listOf("centre", "left")) == "left")
+      TextAlign.Start
+    else TextAlign.Center
+  RemoteText(
+    text,
+    modifier = RemoteModifier.width(160.rdp),
+    style = RemoteMaterialTheme.typography.labelSmall,
+    textAlign = align,
+  )
+}
+
 // The text primitive exercising the maxLines / overflow product on a narrow column —
 // the Remote parallel of Wear M3's `Text/MaxLines-Truncated`. `RemoteText` carries the
 // same `maxLines` + `overflow` knobs as Wear's `Text`.
@@ -2766,12 +2818,37 @@ fun VariableWidthRemote() = RemoteSticker {
   }
 }
 
-// NOTE: `RemoteTimeText` is intentionally NOT stickered. Source samples live in
-// ComponentVariantPreviews.kt, but it draws the time as
-// *curved* text (a `DrawTextOnCircle` document op) that the Remote Compose player
-// bundled in the renderer can't replay ("Operation 57 is not supported for this
-// version" — an alpha writer/player version skew), so it fails the render outright.
-// Re-add a `TimeText` sticker once the player supports the curved-text op.
+// NOTE: `RemoteTimeText` is intentionally NOT stickered, and this is the one gap on the Text page
+// that is a library limitation rather than a component nobody wrote. Source samples live in
+// ComponentVariantPreviews.kt, but it draws the time as *curved* text (a `DrawTextOnCircle`
+// document op) that the Remote Compose player bundled in the renderer can't replay, so it fails
+// the render outright. Re-add a `TimeText` sticker once the player supports the curved-text op.
+//
+// RE-TESTED 2026-09-06 against `.github/ci/remote-snapshot-pin` 16248243 — the sweep that filled
+// `Text/Caption` beside it, since AGENTS.md says a gap held open by a library limitation is worth
+// re-testing rather than re-reading. It still fails, and this time the re-test went far enough to
+// say WHY, which the old note could not: the block is a writer/reader disagreement inside Remote
+// Compose itself, and no choice available at this call site clears it.
+//
+// A document is written against a PROFILE, and a profile is the set of operations its writer will
+// emit. Under `RcPlatformProfiles.ANDROIDX` — what [RemoteSticker] captures with, and what the
+// AndroidX tooling renders — `CanvasOp$Draw.write` throws `Operation 57 is not supported for this
+// version` while the sticker is still being CAPTURED, so there is no document at all.
+//
+// `RcPlatformProfiles.WEAR_WIDGETS` *does* list 57 among its 122 supported operations, and
+// capturing under it is a real change: the sticker records, and the failure moves from the writer
+// to the reader — `RemoteComposeBuffer.inflateFromBuffer` then throws `Unknown operation
+// encountered 57` on the way back in. The reason is that `Operations` keeps a separate opcode
+// table per profile for READING, and 57 is in none of them: `getOperations(7, profile)` resolves
+// `DRAW_TEXT_ON_CIRCLE` to nothing for `PROFILE_ANDROIDX` (145 entries), `PROFILE_WIDGETS` (143)
+// and `PROFILE_WEAR_WIDGETS` (126) alike, while its neighbours `DRAW_TEXT_RUN` (43) and
+// `DRAW_TEXT_ON_PATH` (53) resolve in all three. So the one profile whose writer will emit the
+// curved-text op has no reader that will accept it, and a document nothing can read is not a
+// sticker. Filed as [#321](https://github.com/yschimke/wear-m3-catalog/issues/321).
+//
+// What that means for re-testing this NEXT time: the thing to check is the reader table, not the
+// player version and not the writer profile. `Operations.getOperations(7, RcProfiles.PROFILE_*)`
+// gaining a `DRAW_TEXT_ON_CIRCLE` entry is the event this sticker waits on.
 
 // ---------------------------------------------------------------------------
 // Theme — the Remote Material 3 theme surfaced as design specimens (the "even themes"
