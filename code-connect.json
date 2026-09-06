@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":catalog"
   },
-  "generatedAt": "2026-09-06T10:44:59.868Z",
+  "generatedAt": "2026-09-06T11:19:12.488Z",
   "mappings": [
     {
       "componentId": "Auth/SignInButton",
@@ -334,7 +334,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "ImageBackgroundButton",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -363,7 +363,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "LoadingButton",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -447,30 +447,11 @@
     {
       "componentId": "Card/Outlined",
       "figmaLayerName": "Card/Outlined",
-      "componentName": "Sticker",
-      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "componentName": "OutlineCard",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "preview-fallback",
       "previewName": "OutlineCard",
-      "codeSnippet": "Sticker(\n    content = { },\n)",
-      "imports": [
-        "import ee.schimke.wearm3catalog.Sticker"
-      ],
-      "parameters": [
-        {
-          "name": "content",
-          "type": "() -> Unit",
-          "typeFqn": "kotlin.Function0",
-          "hasDefault": false,
-          "composableSlot": true,
-          "composableSlotReceiver": null,
-          "nullable": false,
-          "noArgConstructible": false,
-          "noArgFactory": null,
-          "scopeDslReceiver": null,
-          "lambdaReturnTypeFqn": "kotlin.Unit"
-        }
-      ],
       "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/card-outlined__ideal__default.svg"
     },
     {
@@ -479,7 +460,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "TitledCard",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -508,7 +489,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "ApplicationCard",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -537,7 +518,7 @@
       "componentName": "FullScreenSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "AlertDialogSticker",
       "codeSnippet": "FullScreenSticker(\n    content = { },\n)",
       "imports": [
@@ -1311,30 +1292,11 @@
     {
       "componentId": "Media/ShowPlaylistButton",
       "figmaLayerName": "Media/ShowPlaylistButton",
-      "componentName": "Sticker",
-      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
+      "componentName": "MediaShowPlaylistButton",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "preview-fallback",
       "previewName": "MediaShowPlaylistButton",
-      "codeSnippet": "Sticker(\n    content = { },\n)",
-      "imports": [
-        "import ee.schimke.wearm3catalog.Sticker"
-      ],
-      "parameters": [
-        {
-          "name": "content",
-          "type": "() -> Unit",
-          "typeFqn": "kotlin.Function0",
-          "hasDefault": false,
-          "composableSlot": true,
-          "composableSlotReceiver": null,
-          "nullable": false,
-          "noArgConstructible": false,
-          "noArgFactory": null,
-          "scopeDslReceiver": null,
-          "lambdaReturnTypeFqn": "kotlin.Unit"
-        }
-      ],
       "figmaSvg": "figma/media-showplaylistbutton.svg"
     },
     {
@@ -1749,7 +1711,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "CheckboxRow",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -1778,7 +1740,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "SwitchRow",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -1807,7 +1769,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "RadioRow",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
@@ -2155,7 +2117,7 @@
       "componentName": "Sticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "HIGH",
+      "confidence": "LOW",
       "previewName": "TextToggle",
       "codeSnippet": "Sticker(\n    content = { },\n)",
       "imports": [
