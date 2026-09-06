@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":remote-catalog"
   },
-  "generatedAt": "2026-09-06T12:04:34.322Z",
+  "generatedAt": "2026-09-06T13:46:49.057Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -15,7 +15,7 @@
       "componentName": "RemoteSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "MEDIUM",
+      "confidence": "LOW",
       "previewName": "FilledRemoteButton",
       "codeSnippet": "RemoteSticker(\n    content = { },\n)",
       "imports": [
@@ -44,7 +44,7 @@
       "componentName": "RemoteSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "MEDIUM",
+      "confidence": "LOW",
       "previewName": "OutlinedRemoteButton",
       "codeSnippet": "RemoteSticker(\n    content = { },\n)",
       "imports": [
@@ -186,30 +186,11 @@
     {
       "componentId": "Button/Compact",
       "figmaLayerName": "Button/Compact",
-      "componentName": "RemoteSticker",
-      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "componentName": "CompactRemoteButton",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "label": "Compose",
-      "confidence": "LOW",
+      "confidence": "preview-fallback",
       "previewName": "CompactRemoteButton",
-      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
-      "imports": [
-        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
-      ],
-      "parameters": [
-        {
-          "name": "content",
-          "type": "() -> Unit",
-          "typeFqn": "kotlin.Function0",
-          "hasDefault": false,
-          "composableSlot": true,
-          "composableSlotReceiver": null,
-          "nullable": false,
-          "noArgConstructible": false,
-          "noArgFactory": null,
-          "scopeDslReceiver": null,
-          "lambdaReturnTypeFqn": "kotlin.Unit"
-        }
-      ],
       "figmaSvg": "figma/button-compact.svg"
     },
     {
@@ -247,7 +228,7 @@
       "componentName": "RemoteSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "MEDIUM",
+      "confidence": "LOW",
       "previewName": "TonalRemoteButton",
       "codeSnippet": "RemoteSticker(\n    content = { },\n)",
       "imports": [
@@ -276,7 +257,7 @@
       "componentName": "RemoteSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "MEDIUM",
+      "confidence": "LOW",
       "previewName": "FilledVariantRemoteButton",
       "codeSnippet": "RemoteSticker(\n    content = { },\n)",
       "imports": [
@@ -305,7 +286,7 @@
       "componentName": "RemoteSticker",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
       "label": "Compose",
-      "confidence": "MEDIUM",
+      "confidence": "LOW",
       "previewName": "ChildRemoteButton",
       "codeSnippet": "RemoteSticker(\n    content = { },\n)",
       "imports": [
