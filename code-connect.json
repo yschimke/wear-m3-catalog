@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":remote-catalog"
   },
-  "generatedAt": "2026-09-06T11:07:44.596Z",
+  "generatedAt": "2026-09-06T12:04:34.322Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -849,6 +849,35 @@
         }
       ],
       "figmaSvg": "https://preview.coo.ee/remote-m3/render/text-body__ideal__default__compact.svg"
+    },
+    {
+      "componentId": "Text/Caption",
+      "figmaLayerName": "Text/Caption",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "RemoteCaptionSticker",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "https://preview.coo.ee/remote-m3/render/text-caption__ideal__default__compact.svg"
     },
     {
       "componentId": "Text/MaxLines-Truncated",
