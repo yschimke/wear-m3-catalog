@@ -102,7 +102,11 @@ jobs:
       # The resolver reads the discovered manifest, so the annotations are the list of things to
       # resolve — the same single source of truth the catalog itself is built from.
       - name: Discover previews
-        run: ./gradlew :catalog:composePreviewDiscover --stacktrace
+        # BOTH modules. The resolve below only reads `:catalog`'s manifest, but the refresh step
+        # further down runs `scripts/kit-cells.sh`, which answers for both sheets and hard-errors
+        # with "remote-catalog/build/compose-previews/previews.json is missing" when the second
+        # module was never discovered (run 34102140551). Same pair `ci.yml` discovers.
+        run: ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover --stacktrace
 
       - name: Resolve
         env:
