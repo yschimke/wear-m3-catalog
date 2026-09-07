@@ -755,6 +755,20 @@ Pointing a second entry at `/ui-builder/mcp` gets a `404`.
 - `compose-ai-tools` is the exception in the other direction: the Gradle plugin marker, the
   annotation coordinates and the pinned CI action ref are one release and move together in a single
   PR, unscheduled and automerged. A skew between them breaks preview discovery outright.
+  **"One release" means its CORE line only.** compose-ai-tools publishes two independent version
+  lines from one tag — its release job's `maven-publish-guard` decides each separately, so v2.2.1
+  published `data-preview-overrides-runtime` and `data-remotecompose-connector` at 2.2.1 while
+  holding the plugin marker, `preview-annotations` and `wear-preview-runtime` at 2.2.0. They get
+  two refs (`composePreviewCore`, `composePreviewData`) and two Renovate groups. **Both sit at
+  2.2.0 regardless**, because that release's data artifacts pin `daemon-core` — a core coordinate —
+  at 2.2.1, which the same release held at 2.2.0, so `data-remotecompose-connector:2.2.1` cannot
+  resolve its own runtime classpath. 2.2.1 resolves on neither line; Renovate excludes it by name. Pinning them to
+  one ref is what took `main` red at configuration time in #347, and it is the same bug as #199 one
+  repository closer in: a version ref is a claim that its artifacts release together, and it is
+  wrong the moment they do not. A GitHub release tag exists for every version either line
+  publishes, so `v2.2.1` resolves as an ACTION ref while the plugin at 2.2.1 does not exist — the
+  release's own `verify-maven-readiness` job is what guarantees the CLI at a tag asks Gradle for a
+  plugin version that is actually on Central.
 - **The alpha Remote line is watched, not bumped.** `remote-snapshot-probe.yml` builds
   `:remote-catalog` against the newest androidx.dev snapshot every Monday and comments on
   [#95](https://github.com/yschimke/wear-m3-catalog/issues/95) only when the picture moves — it

@@ -19,16 +19,60 @@ compose-bom = "2026.08.00"
 # wear-compose 1.7.0-beta. Drop the pin once 1.5.0 is stable in the BOM.
 compose-material3 = "1.5.0-alpha27"
 
-# compose-ai-tools: the `ee.schimke.composeai.preview` Gradle plugin and the annotation artifacts
-# are one release — keep them pinned together (Renovate groups them; see .github/renovate.json).
-composePreviewPlugin = "2.2.1"
-composePreviewAnnotations = "2.2.1"
+# compose-ai-tools publishes TWO INDEPENDENT VERSION LINES out of one repository and one tag, and
+# they are not interchangeable. Its release job runs a `maven-publish-guard` that decides each line
+# separately — "no published module, shared build input or build-toolchain pin changed since
+# v2.2.0" holds a line at its last version while the other moves — so a tag that says v2.2.1 can
+# publish the DATA line at 2.2.1 and leave the CORE line at 2.2.0. That is exactly what v2.2.1 did.
+#
+#   CORE  — the `ee.schimke.composeai.preview` plugin marker, `preview-annotations`,
+#           `wear-preview-runtime`. Published at 2.2.0; there is no 2.2.1 on Maven Central.
+#   DATA  — `data-preview-overrides-runtime`, `data-remotecompose-connector`. 2.2.1 exists.
+#
+# BOTH REFS ARE 2.2.0 ANYWAY, because the 2.2.1 DATA ARTIFACTS ARE THEMSELVES UNUSABLE. Splitting
+# the ref and taking data to 2.2.1 still fails, one level deeper and only at resolution of the full
+# runtime classpath:
+#
+#     Could not find ee.schimke.composeai:daemon-core:2.2.1.
+#       Required by: ... data-remotecompose-connector:2.2.1
+#                    ... data-remotecompose-connector:2.2.1 > data-remotecompose-core:2.2.1
+#
+# `data-remotecompose-connector-2.2.1.pom` pins `daemon-core` at 2.2.1 — a CORE coordinate the same
+# release deliberately held at 2.2.0. So the guard published a data line whose POMs demand a core
+# line that does not exist: 2.2.1 is not a version of this library that resolves at all, on either
+# ref. That is an upstream release defect, not a pin to work around here, and it is why the data ref
+# below sits at 2.2.0 and `.github/renovate.json` refuses 2.2.1 for it by name.
+#
+# The split still earns its place: the two lines DO move independently, and one ref spanning them is
+# a latent version lie whichever way it is pointed. It is structure fixed now so the next release
+# that publishes a coherent data line moves one ref instead of breaking `main`.
+#
+# ONE REF CANNOT TRACK BOTH, and #347 is the proof: Renovate saw the v2.2.1 GitHub release, raised
+# the single `composePreviewAnnotations` ref to 2.2.1 — right for the two data artifacts, wrong for
+# the two core ones — and `main` went red at configuration time with "Plugin
+# [id: 'ee.schimke.composeai.preview', version: '2.2.1'] was not found". This is the SAME BUG as
+# #199 recorded immediately below, one repository closer in: there it was rc-players sharing a ref
+# with compose-ai-tools, here it is compose-ai-tools' own two lines sharing one. The cure is the
+# same one — a ref per line — and `.github/renovate.json` carves the data line into its own group
+# so the two are never proposed as one bump again.
+#
+# The pinned CI action ref travels with CORE, not with the tag: a release tag exists for every
+# version either line publishes, so `v2.2.1` resolves as an action ref while the plugin at 2.2.1
+# does not exist. The release's own `verify-maven-readiness` job checks that the CLI shipped at a
+# tag asks Gradle for a plugin version that IS on Central, which is why the action at v2.2.1 is
+# correct beside a plugin at 2.2.0.
+composePreviewPlugin = "2.2.0"
+composePreviewCore = "2.2.0"
+composePreviewData = "2.2.0"
 
 # rc-players — `ee.schimke.composeai:third-party-rc-embedded-player`. Same GROUP as the artifacts
 # above and nothing else: it is published from yschimke/rc-players on a release line of its own,
-# which moves separately and is already ahead. Sharing `composePreviewAnnotations` with it dragged
-# the four compose-ai-tools artifacts to a version that does not exist (#199); it gets its own ref,
-# and .github/renovate.json keeps it out of the compose-ai-tools group so the two cannot re-merge.
+# which moves separately and is already ahead. Sharing one ref with it (the `composePreviewAnnotations`
+# that the block above has now split in two) dragged the four compose-ai-tools artifacts to a version
+# that does not exist (#199); it gets its own ref, and .github/renovate.json keeps it out of the
+# compose-ai-tools group so the two cannot re-merge. Read that block for the third instance of this
+# bug: a version REF is a claim that its artifacts release together, and it is wrong the moment they
+# do not — whether the other line lives in another repository (here) or in the same one (#347).
 rcEmbeddedPlayer = "1.59.3"
 
 # materialkolor — the dynamic-colour engine Confetti Wear builds its conference palettes with. The
@@ -92,8 +136,8 @@ wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation",
 wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
 wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wear-tooling-preview" }
 
-composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewAnnotations" }
-composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewAnnotations" }
+composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewCore" }
+composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewData" }
 
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
@@ -145,8 +189,8 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 #                                   dependency block in remote-catalog/build.gradle.kts for why
 #                                   this is the vendored coordinate and not upstream's published
 #                                   `remote-player-compose`.
-composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewAnnotations" }
-composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-runtime", version.ref = "composePreviewAnnotations" }
+composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewData" }
+composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-runtime", version.ref = "composePreviewCore" }
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
