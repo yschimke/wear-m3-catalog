@@ -166,7 +166,34 @@ FINGERPRINT_ARTIFACTS = {
 # undrawn" — `RemoteSlider` and `RemoteStepper` also landed in 16280882 and neither has a sticker
 # yet, and a component that IS published is a piece of work rather than a watch. Add an entry here
 # only for a class the library would have to publish first.
-AWAITED_API = []
+AWAITED_API = [
+    {
+        "symbol": "androidx/wear/compose/remote/material3/RemotePickerKt",
+        "unlocks": (
+            "the `Picker` set, 42 published cells the Remote sheet draws none of. It is the largest "
+            "set still at `—` whose absence is the LIBRARY's rather than this catalog's: the "
+            "creation layer already publishes everything a picker is built from — "
+            "`rememberRemoteScrollState(notches)` for the snapping, `RemoteModifier.verticalScroll`, "
+            "and `scrollTo`/`scrollBy` as recordable actions — so the gap is a Material 3 component "
+            "on top of them, not a renderer that cannot scroll"
+        ),
+        # NO GERRIT LINK, deliberately, and this is the first entry without one. The field is for a
+        # human to read, and there is nothing to read yet: no change proposing a Remote picker was
+        # found. Inventing a plausible URL would be worse than an empty one.
+        "change": "https://github.com/yschimke/wear-m3-catalog/issues/95",
+    },
+]
+# THE SYMBOL IS PREDICTED, WHICH NO PREVIOUS ENTRY WAS, and that is worth stating because a watch on
+# a name upstream never uses is a watch that stays silent for ever — the exact failure mode the note
+# above warns about, from a direction the earlier entries could not reach: `RemoteSwitchButtonKt`
+# and `RemoteRadioButtonKt` were read off merged changes, this one is derived from the library's
+# naming. It is a defensible derivation rather than a guess: every one of `remote-material3`'s 84
+# classes spells a component `Remote<Name>`, with the file facade at `Remote<Name>Kt` and the
+# companions at `Remote<Name>Colors` / `Remote<Name>Defaults` — `RemoteSlider`, `RemoteStepper`,
+# `RemoteCheckboxButton` and the rest, without exception. The Wear component this mirrors is
+# `androidx.wear.compose.material3.Picker`, so `RemotePickerKt` is what that convention produces.
+# If a picker lands under some other name this entry will not notice, so re-derive it rather than
+# trusting it the day the `Picker` set stops reading `—` by some other route.
 # The artifact the watchlist's symbols are looked for in. One AAR, because every awaited symbol so
 # far is a `remote-material3` component; widen this to a per-entry field the first time one is not.
 AWAITED_API_ARTIFACT = FINGERPRINT_ARTIFACTS["remote-material3"]
