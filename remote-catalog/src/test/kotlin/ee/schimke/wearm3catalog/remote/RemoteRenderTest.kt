@@ -131,13 +131,42 @@ class RemoteRenderTest {
    * one picture for both states however it is called, it belongs here.
    *
    * The keys are `<cell> == <cell>` within one component, ordered as the failure prints them.
+   *
+   * **Six entries were deleted from this map rather than retargeted, and how they went is the point
+   * of the staleness assertion below.** `FilledRemoteButton`, `FilledVariantRemoteButton`,
+   * `TonalRemoteButton`, `OutlinedRemoteButton`, `ChildRemoteButton` and
+   * `ImageBackgroundRemoteButton` each recorded "a disabled `RemoteButton` draws its container and
+   * not its label" — a reading that survived here for as long as it did because every lane that
+   * could have contradicted it was never asked. The label was not missing from the library. It was
+   * missing from the **player the capture bakes through**: `RemoteOverridablePreview` defaults to
+   * the embedded player, and the AOSP View player, the JS player and the CMP player all drew these
+   * labels from the identical `.rc` bytes the whole time. Three separate causes in the embedded
+   * player, all fixed in rc-players 1.59.2
+   * ([rc-players#47](https://github.com/yschimke/rc-players/issues/47),
+   * [#50](https://github.com/yschimke/rc-players/issues/50)): a store write that was never
+   * mirrored, text drawing a colour it had resolved once, and a computed-op index that did not walk
+   * a component's canvas stream — which left the labels being drawn, in a fully transparent colour.
+   * Bumping the player separated all six components' cells, this test failed from the other side,
+   * and the entries went.
+   *
+   * `TextRemoteButton` is the instructive survivor: its cells still collapse, so the entry stays,
+   * but for a cause with nothing to do with the one it named. Read its reason beside the deleted
+   * six — **a collapse is evidence that two cells drew the same picture, never evidence of who
+   * failed to draw the difference**, and the cheapest way to tell a library gap from a player gap
+   * is to render the same document on a second player before blaming the first.
    */
   private val knownDuplicate: Map<String, String> =
     mapOf(
       "TextRemoteButton" to
-        "#130 — RemoteTextButton(enabled = false) draws nothing at all, so every Disabled=Yes " +
-          "cell is the same empty frame; passing the disabled colours explicitly does not " +
-          "change it",
+        "RemoteTextButtonDefaults resolves the filled, filled-variant, tonal and child DISABLED " +
+          "container to transparent, so a disabled text button is its label and nothing else and " +
+          "the four styles are one picture — outlined stays distinct because its border is a " +
+          "separate parameter. `default` and `small` then collapse into each other on top of " +
+          "that: those two cells differ only by the container RemoteModifier.size draws and by " +
+          "smallButtonTextStyle, which resolves to the default style, so with no container there " +
+          "is nothing left to differ by. `large` carries its own text style and is its own " +
+          "picture. This reason used to read \"#130 — RemoteTextButton(enabled = false) draws " +
+          "nothing at all\", which was never the library — see the KDoc above",
       "CompactRemoteButton" to
         "RemoteButtonDefaults resolves the filled, filled-variant, tonal and child disabled " +
           "colours to one pair, so all four styles draw one picture per cell once enabled = " +
@@ -146,15 +175,6 @@ class RemoteRenderTest {
           "containerColor/contentColor through the generic factory, which was true of the code " +
           "and not of the collapse: the styles now come from the library's own named factories " +
           "(RemoteButtonPalette) and the four disabled cells are still byte-identical",
-      "FilledRemoteButton" to "a disabled RemoteButton draws its container and not its label",
-      "FilledVariantRemoteButton" to
-        "a disabled RemoteButton draws its container and not its label",
-      "TonalRemoteButton" to "a disabled RemoteButton draws its container and not its label",
-      "OutlinedRemoteButton" to "a disabled RemoteButton draws its container and not its label",
-      "ChildRemoteButton" to "a disabled RemoteButton draws its container and not its label",
-      "ImageBackgroundRemoteButton" to
-        "a disabled RemoteButton draws its container and not its labels, so the secondary one " +
-          "cannot show",
       "IconRemoteButton" to
         "the CHILD style draws no container, so iconSizeFor resolves ExtraSmallButtonSize and " +
           "SmallButtonSize to the same glyph and there is nothing else in the frame — enabled as " +
@@ -170,11 +190,11 @@ class RemoteRenderTest {
   /**
    * How many pairs a [knownDuplicate] component is allowed to collapse into.
    *
-   * A blanket exemption suits the entries above: a disabled `RemoteButton` draws no label however
-   * it is called, so every cell of that component that turns `enabled` off collapses and the
-   * component IS the finding. `TitleCardRemote` is the other shape — six of its twenty-eight cells
-   * collapse and the other twenty-two must go on being checked — so exempting the component would
-   * buy the six by giving up the test on the rest.
+   * A blanket exemption suits the entries above: a disabled `RemoteTextButton` draws no container
+   * however it is called, so every cell of that component that turns `enabled` off collapses and
+   * the component IS the finding. `TitleCardRemote` is the other shape — six of its twenty-eight
+   * cells collapse and the other twenty-two must go on being checked — so exempting the component
+   * would buy the six by giving up the test on the rest.
    *
    * A COUNT rather than the sibling's pairs, and the reason is the filenames. `CatalogRenderTest`
    * keys `<cell> == <cell>` because a Wear render spells its cell out
