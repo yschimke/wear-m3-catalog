@@ -29,9 +29,9 @@ compose-material3 = "1.5.0-alpha27"
 #           `wear-preview-runtime`. Published at 2.2.0; there is no 2.2.1 on Maven Central.
 #   DATA  — `data-preview-overrides-runtime`, `data-remotecompose-connector`. 2.2.1 exists.
 #
-# BOTH REFS ARE 2.2.0 ANYWAY, because the 2.2.1 DATA ARTIFACTS ARE THEMSELVES UNUSABLE. Splitting
-# the ref and taking data to 2.2.1 still fails, one level deeper and only at resolution of the full
-# runtime classpath:
+# 2.2.1 IS STILL SKIPPED, because those DATA ARTIFACTS ARE THEMSELVES UNUSABLE. Taking data to
+# 2.2.1 fails one level deeper than the plugin does, and only at resolution of the full runtime
+# classpath:
 #
 #     Could not find ee.schimke.composeai:daemon-core:2.2.1.
 #       Required by: ... data-remotecompose-connector:2.2.1
@@ -39,9 +39,20 @@ compose-material3 = "1.5.0-alpha27"
 #
 # `data-remotecompose-connector-2.2.1.pom` pins `daemon-core` at 2.2.1 — a CORE coordinate the same
 # release deliberately held at 2.2.0. So the guard published a data line whose POMs demand a core
-# line that does not exist: 2.2.1 is not a version of this library that resolves at all, on either
-# ref. That is an upstream release defect, not a pin to work around here, and it is why the data ref
-# below sits at 2.2.0 and `.github/renovate.json` refuses 2.2.1 for it by name.
+# line that does not exist: 2.2.1 resolves at all on neither ref. `.github/renovate.json` refuses it
+# by name, and that exclusion stays until there is a reason to believe Renovate could re-propose it.
+#
+# THE UPSTREAM DEFECT IS FIXED, which is why all three refs move again. compose-ai-tools#5277 gave
+# the core train its own line version rather than the raw release tag, so a skipped train can no
+# longer stamp a never-published version onto the line that shipped. v2.2.3 is the first release cut
+# with it, and it publishes a coherent pair — verified per coordinate rather than assumed from the
+# tag, which is the check #347 skipped:
+#
+#     data-remotecompose-connector:2.2.3  →  pins daemon-core:2.2.3
+#     daemon-core:2.2.3                   →  200 on Central
+#
+# Verify the same way before any future bump of these refs. A release tag is not evidence that the
+# artifacts behind it exist: v2.2.1 had a tag, a GitHub release, and a green release run.
 #
 # The split still earns its place: the two lines DO move independently, and one ref spanning them is
 # a latent version lie whichever way it is pointed. It is structure fixed now so the next release
