@@ -169,6 +169,12 @@ dependencies {
   // ui, and the alpha remote runtime aligns with that line. Pinning explicit prerelease versions
   // keeps resolution aligned instead of fighting the 2026.08.00 BOM the rest of the repo is on.
   implementation(libs.compose.ui.tooling.preview.prerelease)
+  // `Icons.*`, at the version the BOM pins for `:catalog` (see `compose-material-icons` in
+  // libs.versions.toml). This module drew NO icon dependency until now and transcribed three
+  // glyphs by hand instead — the two columns of a comparison sheet reading their icons from two
+  // sources, which is a difference this repository would have been reporting against itself.
+  implementation(libs.compose.material.icons.core.prerelease)
+  implementation(libs.compose.material.icons.extended.prerelease)
   implementation(libs.compose.remote.tooling.preview)
   implementation(libs.compose.remote.creation)
   implementation(libs.compose.remote.creation.compose)

@@ -108,6 +108,13 @@ glance-wear = "1.0.0-alpha17"
 # versions instead of taking the 2026.08.00 BOM the rest of the repo uses.
 compose-ui-prerelease = "1.12.0"
 
+# `Icons.*` — the icon artifacts BOTH catalogs draw their icon slots from. Pinned as a version here
+# rather than left to the BOM because `:remote-catalog` takes no BOM, and the two modules must draw
+# the SAME glyph or every icon cell reports a difference neither library causes. 1.7.8 is not a
+# stale pin to bump: it is the last version either artifact published, and it is exactly what the
+# 2026.08.00 BOM maps them to, so both modules resolve the same bytes by two different routes.
+compose-material-icons = "1.7.8"
+
 activity-compose = "1.13.0"
 truth = "1.4.5"
 
@@ -117,9 +124,18 @@ junit = "4.13.2"
 [libraries]
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
-# `Icons.Filled.*` — the icon set the kit's icon slots draw. Core only: the extended set is ~1000
-# vectors this catalog does not reference.
+# `Icons.*` — the icon set the kit's icon slots draw, CORE PLUS EXTENDED.
+#
+# The extended set is ~1000 vectors and most of them will never be referenced, which is the reason
+# it used to be left out. That reasoning was wrong twice over. It is a PREVIEW-ONLY catalog: nothing
+# here ships to a device, so the download is the whole cost and there is no app to bloat. And the
+# saving bought a real loss — `:remote-catalog` had no icon dependency at all and hand-transcribed
+# `Icons.Filled.Add`, `Check` and `Star` as `ImageVector.Builder` path data, so the two columns of
+# a two-column comparison sheet drew icons from two different sources and any drift between them
+# would have been reported as a difference the libraries do not cause. R8 strips what an app does
+# not use; a preview catalog has no such worry to trade against.
 compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
+compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
@@ -173,6 +189,10 @@ glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-tooling-prev
 # Compose UI at the prerelease line `:remote-catalog` needs, declared WITHOUT the BOM.
 compose-ui-tooling-preview-prerelease = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui-prerelease" }
 compose-ui-tooling-prerelease = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui-prerelease" }
+# The SAME icon artifacts `:catalog` takes from the BOM, at the version the BOM maps them to — see
+# `compose-material-icons` above for why that equality is load-bearing rather than incidental.
+compose-material-icons-core-prerelease = { module = "androidx.compose.material:material-icons-core", version.ref = "compose-material-icons" }
+compose-material-icons-extended-prerelease = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-material-icons" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 
 # compose-ai-tools, `:remote-catalog` side. All three move with the plugin pin above — the CLI the
