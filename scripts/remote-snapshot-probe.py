@@ -115,25 +115,18 @@ FINGERPRINT_ARTIFACTS = {
 #
 # Retire an entry the week it flips. A watch that has arrived reports "present" every week
 # thereafter and means nothing by it — the same silence-by-noise `PROBES` above is careful about.
-AWAITED_API = [
-    {
-        "symbol": "androidx/wear/compose/remote/material3/RemoteSwitchButtonKt",
-        "unlocks": (
-            "`Toggle+Selection-Buttons` `Type=Switch`. Its SPLIT form (`RemoteSplitSwitchButton`) "
-            "already ships; the plain row does not, and a component published as split-only would "
-            "map its base render onto the kit's `Split=No` node"
-        ),
-        "change": "https://android-review.googlesource.com/c/platform/frameworks/support/+/4260122",
-    },
-    {
-        "symbol": "androidx/wear/compose/remote/material3/RemoteRadioButtonKt",
-        "unlocks": (
-            "`Toggle+Selection-Buttons` `Type=Radio`, on the same terms as `Switch` above — "
-            "`RemoteSplitRadioButton` ships, the plain row does not"
-        ),
-        "change": "https://android-review.googlesource.com/c/platform/frameworks/support/+/4260142",
-    },
-]
+# BOTH ENTRIES WERE RETIRED IN BUILD 16280882, which is the watchlist working rather than the
+# watchlist ending. `RemoteSwitchButtonKt` and `RemoteRadioButtonKt` appeared in that build,
+# `SelectionPreviews.kt` now draws all three `Type`s, and leaving the entries in place would have
+# reported "present" every week for the rest of time — the silence-by-noise the note above is
+# careful about, from the other direction.
+#
+# AN EMPTY LIST IS A VALID STATE and the markdown drops the table when it is empty: it says this
+# catalog is not currently blocked on an unpublished class. It is NOT the same as "nothing is
+# undrawn" — `RemoteSlider` and `RemoteStepper` also landed in 16280882 and neither has a sticker
+# yet, and a component that IS published is a piece of work rather than a watch. Add an entry here
+# only for a class the library would have to publish first.
+AWAITED_API = []
 # The artifact the watchlist's symbols are looked for in. One AAR, because every awaited symbol so
 # far is a `remote-material3` component; widen this to a per-entry field the first time one is not.
 AWAITED_API_ARTIFACT = FINGERPRINT_ARTIFACTS["wear-compose-remote"]
