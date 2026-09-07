@@ -575,6 +575,40 @@ class AwaitedApiTest(unittest.TestCase):
             probe.unchanged_artifacts(previous, dict(artifacts, _awaitedApi={"x": True, "y": False}))
         )
 
+    def test_an_artifact_outside_the_old_three_opens_the_gate(self):
+        # THE GAP THIS LIST WAS WIDENED FOR. `FINGERPRINT_ARTIFACTS` used to hash one artifact per
+        # group, so a build whose only change was in any of the other nine reported "unchanged" and
+        # the render was skipped — weekly and silently. Between builds 16248243 and 16280882
+        # `remote-creation-core` moved and was not among the three; that build's gate opened only
+        # because two hashed artifacts happened to move too.
+        artifacts = {
+            "remote-material3": {"version": "v", "sha256": "same"},
+            "remote-creation-compose": {"version": "v", "sha256": "same"},
+            "remote-creation-core": {"version": "v", "sha256": "before"},
+        }
+        previous = report()
+        previous["build"]["fingerprint"] = artifacts
+        moved = dict(artifacts, **{"remote-creation-core": {"version": "v", "sha256": "after"}})
+        self.assertFalse(probe.unchanged_artifacts(previous, moved))
+
+    def test_every_repointed_artifact_is_fingerprinted(self):
+        # The list is a claim about `apply_overlay`: it rewrites all three `VERSION_REFS` and admits
+        # all three groups, so every group it moves must be represented here. A group with no
+        # artifact in this dict is a group whose changes cannot open the gate.
+        prefixes = {
+            "androidx/compose/remote",
+            "androidx/wear/compose/remote",
+            "androidx/glance/wear",
+        }
+        covered = {
+            prefix
+            for prefix in prefixes
+            for path in probe.FINGERPRINT_ARTIFACTS.values()
+            if path.startswith(prefix)
+        }
+        self.assertEqual(covered, prefixes)
+        self.assertIn(probe.AWAITED_API_ARTIFACT, probe.FINGERPRINT_ARTIFACTS.values())
+
     def test_a_real_byte_change_still_opens_the_gate(self):
         previous = report()
         previous["build"]["fingerprint"] = {"wear-compose-remote": {"version": "v", "sha256": "a"}}

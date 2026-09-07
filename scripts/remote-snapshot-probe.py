@@ -37,6 +37,7 @@ import io
 import json
 import re
 import sys
+import urllib.error
 import urllib.request
 import zipfile
 from pathlib import Path
@@ -87,10 +88,49 @@ SWEEP_SOURCE = "remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/C
 # AAR under different timestamps for all three groups. Gating on the id would spend a runner on a
 # full render to learn nothing, weekly. Gating on the bytes makes the common week a 30-second
 # no-op and reserves the render for a build that actually changed something.
+# EVERY artifact the overlay repoints, not one per group, and that distinction has already cost a
+# gate. `apply_overlay` rewrites all three `VERSION_REFS` in `libs.versions.toml` and admits all
+# three groups through the repository `content` filter, so the render this job measures depends on
+# every artifact `:remote-catalog` resolves from them — twelve, per
+# `./gradlew :remote-catalog:dependencies --configuration debugCompileClasspath`. Hashing one per
+# group left nine of them unwatched: a build changing only an unwatched artifact reported
+# "unchanged", the gate returned false, and a render regression it caused would have been invisible,
+# weekly and silently.
+#
+# THE MISS, measured. Between builds 16248243 and 16280882 (the pin bump in #346), FIVE artifacts
+# moved: `remote-material3`, `remote-creation-compose` and `glance-wear` — the three that were
+# hashed — plus `remote-creation-core` and `glance-wear-core`, which were not. That build's gate
+# opened on the watched three; a build whose change fell only in the other two would have reported
+# "unchanged" and skipped the render. Two of five moving artifacts invisible is the rate this list
+# was running at, and the gate opening at all that week was luck rather than design.
+#
+# WHY BYTES AND NOT VERSIONS. Every artifact in one androidx.dev build carries the same timestamped
+# version (`1.0.0-20260907.164407-1`), so a version-only gate cannot tell two builds apart at all —
+# hashing has to download. Twelve artifacts is ~3.6MB against the ~1.9MB of the three, once a week:
+# the cheapest part of a job whose expensive half is rendering 400+ previews four times over.
 FINGERPRINT_ARTIFACTS = {
-    "wear-compose-remote": "androidx/wear/compose/remote/remote-material3",
-    "compose-remote": "androidx/compose/remote/remote-creation-compose",
+    # androidx.compose.remote — `remote-creation` is an umbrella AAR carrying no `classes.jar`
+    # (only a manifest and META-INF). It is hashed like the rest, because a change to what the
+    # umbrella POM aggregates is still a change to what resolves; `classes_in` would raise on it,
+    # which is why `AWAITED_API_ARTIFACT` names a real artifact and this list is not read for
+    # classes.
+    "foundation": "androidx/compose/remote/foundation/foundation",
+    "remote-core": "androidx/compose/remote/remote-core",
+    "remote-creation": "androidx/compose/remote/remote-creation",
+    "remote-creation-android": "androidx/compose/remote/remote-creation-android",
+    "remote-creation-compose": "androidx/compose/remote/remote-creation-compose",
+    "remote-creation-core": "androidx/compose/remote/remote-creation-core",
+    "remote-player-core": "androidx/compose/remote/remote-player-core",
+    "remote-tooling-preview": "androidx/compose/remote/remote-tooling-preview",
+    # androidx.wear.compose.remote
+    "remote-material3": "androidx/wear/compose/remote/remote-material3",
+    # androidx.glance.wear — all three, because THIS JOB's overlay moves Glance even though the
+    # committed lane holds it at its release behind `-PremoteSnapshotGlance=true` (AGENTS.md).
+    # `SNAPSHOT_GROUPS` and `VERSION_REFS` both carry it, so a Glance change reaches the probe's
+    # render and has to reach its gate.
     "glance-wear": "androidx/glance/wear/wear",
+    "glance-wear-core": "androidx/glance/wear/wear-core",
+    "glance-wear-tooling-preview": "androidx/glance/wear/wear-tooling-preview",
 }
 
 # ── THE API WATCHLIST ──────────────────────────────────────────────────────────
@@ -129,7 +169,7 @@ FINGERPRINT_ARTIFACTS = {
 AWAITED_API = []
 # The artifact the watchlist's symbols are looked for in. One AAR, because every awaited symbol so
 # far is a `remote-material3` component; widen this to a per-entry field the first time one is not.
-AWAITED_API_ARTIFACT = FINGERPRINT_ARTIFACTS["wear-compose-remote"]
+AWAITED_API_ARTIFACT = FINGERPRINT_ARTIFACTS["remote-material3"]
 
 # Renders are captured at `dpi=320`, i.e. density 2.0 — see CatalogTheme.kt. The
 # filename carries it, so the conversion is read rather than assumed.
@@ -166,23 +206,20 @@ BASELINE_DPI = 320
 # A density sweep at 160/240/320/480 is what closed both: the compact pill measures 32dp at every
 # density (its baseline capture is 16dp), and the card's outline closes with its corner arcs
 # present at 2.0. Notably it was NOT the renderer — 1.46.1 and 1.46.2 render identically today.
+#
+# #91 (disabled RemoteButton drew no label) and #130 (disabled RemoteTextButton drew nothing at
+# all) were CLOSED on 2026-09-07 by rc-players 1.59.2 (#336), and their entries are retired here
+# for exactly the reason stated above — WITH THE MISS WORTH RECORDING, because the rule was
+# already written and still did not fire in time. Both closed that morning, 07:06 and 07:35; the
+# weekly probe ran at 14:04 the same day and reported both as "no — look" a second week running
+# (androidx.dev 16279889, issue #95). Retiring is a step in closing the issue, not a follow-up to
+# it: nothing in this job can tell a probe whose bug was FIXED from one whose bug CHANGED SHAPE,
+# which is the whole point of the paragraph above and the whole reason the report says "look"
+# rather than "fixed".
+#
+# Their two metrics went with them, and so did the `max_alpha` helper they were the only callers
+# of. A metric with no probe is measured every week and read by nobody.
 PROBES = [
-    {
-        "issue": 91,
-        "preview": "FilledRemoteButton",
-        "variant": "disabled",
-        "baseline": "docs/evidence/remote-m3-button-disabled-break.png",
-        "summary": "a disabled RemoteButton draws no label",
-        "metrics": ("disabled_max_alpha",),
-    },
-    {
-        "issue": 130,
-        "preview": "TextRemoteButton",
-        "variant": "disabled",
-        "baseline": "docs/evidence/remote-m3-text-button-disabled-break.png",
-        "summary": "a disabled RemoteTextButton draws nothing at all — neither colour resolves",
-        "metrics": ("text_disabled_max_alpha",),
-    },
     # The BASE cell, not a variant, and not the worst one. `extra-small` spills furthest (49.5dp
     # against the base's 20.5dp) and was the tempting choice; the base is the render the component
     # publishes and the one the compare page puts beside the kit, so a flip there is the flip a
@@ -274,8 +311,28 @@ def awaited_api_in(aar: bytes) -> dict:
     return {entry["symbol"]: entry["symbol"] in present for entry in AWAITED_API}
 
 
+def _read_packaging(base: str, path: str, version: str) -> bytes:
+    """One artifact's bytes, whichever packaging it publishes.
+
+    `androidx.compose.remote` mixes the two: `remote-core` and `remote-creation-core` are plain
+    JARs while everything beside them is an AAR, and hardcoding `.aar` made the widened
+    [FINGERPRINT_ARTIFACTS] fail on exactly the artifact whose invisibility motivated widening it.
+    A 404 on the first is not an error; a 404 on both is.
+    """
+    name = path.rsplit("/", 1)[1]
+    last: Exception | None = None
+    for extension in ("aar", "jar"):
+        try:
+            return _read(f"{base}/{path}/1.0.0-SNAPSHOT/{name}-{version}.{extension}")
+        except urllib.error.HTTPError as error:  # noqa: PERF203 - two attempts, not a loop body
+            if error.code != 404:
+                raise
+            last = error
+    raise SystemExit(f"no .aar or .jar for {path} at {version} ({last})")
+
+
 def fingerprint_of(build_id: str) -> dict:
-    """`{version ref: sha256}` for one artifact per group in ``build_id``."""
+    """`{artifact: sha256}` for every artifact the overlay repoints in ``build_id``."""
     base = f"https://androidx.dev/snapshots/builds/{build_id}/artifacts/repository"
     prints = {}
     for ref, path in FINGERPRINT_ARTIFACTS.items():
@@ -284,8 +341,7 @@ def fingerprint_of(build_id: str) -> dict:
         if not match:
             raise SystemExit(f"no timestamped snapshot version for {path} in build {build_id}")
         version = match.group(0)
-        artifact = f"{base}/{path}/1.0.0-SNAPSHOT/{path.rsplit('/', 1)[1]}-{version}.aar"
-        body = _read(artifact)
+        body = _read_packaging(base, path, version)
         prints[ref] = {
             "version": version,
             "sha256": hashlib.sha256(body).hexdigest(),
@@ -490,28 +546,14 @@ def measure(renders: Path) -> dict:
         match = find_render(renders, stem, variant)
         return (Image.open(match).convert("RGBA"), match.name) if match else (None, None)
 
-    def max_alpha(stem: str, variant: str | None = None):
-        image, _ = one(stem, variant)
-        return None if image is None else image.getchannel("A").getextrema()[1]
-
     metrics: dict[str, object] = {}
 
-    # #91 — the disabled label resolves to nothing above the 12% container. A CELL of
-    # `FilledRemoteButton` since #116 folded it; it was `DisabledRemoteButton` before.
-    alpha = max_alpha("FilledRemoteButton", "disabled")
-    if alpha is not None:
-        metrics["disabled_max_alpha"] = alpha
-
-    # #130 — the disabled TEXT button resolves neither of its colours, so the whole capture is
-    # transparent. 0 is "still broken"; anything above it means a human should look.
-    alpha = max_alpha("TextRemoteButton", "disabled")
-    if alpha is not None:
-        metrics["text_disabled_max_alpha"] = alpha
-
-    # #249 — RemoteEdgeButton draws its label outside its own arc. The number is the overhang, so 0
-    # is "fixed" here where 0 means "still broken" for the two alpha probes above: this is the one
-    # metric on the list whose healthy value is its floor, which is why it is worth a number at all
-    # rather than a byte comparison. 20.5dp on the base cell at the time of writing.
+    # #249 — RemoteEdgeButton draws its label outside its own arc. The number is the overhang, so
+    # its healthy value is its FLOOR: 0 means fixed. That is the opposite of the two disabled-alpha
+    # probes this list used to carry (#91, #130, retired), where 0 was the broken reading and any
+    # ink meant a human should look — worth saying because the next metric added here has to
+    # declare which of the two it is, and `compare` reports movement either way.
+    # 20.5dp on the base cell at the time of writing.
     image, name = one("EdgeButtonRemote")
     if image is not None:
         spill = label_spill_dp(image, density_of(name))
