@@ -27608,6 +27608,674 @@
           }
         ]
       }
+    ],
+    "ee.schimke.wearm3catalog.remote.StepperPreviewsKt.ValueStepperRemote_width=227dp,height=227dp,dpi=320": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
+            "detail": {
+              "token": "spacing.*",
+              "unverified": "true",
+              "specCount": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #000000)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#000000",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Level Indicator=true — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Level Indicator\",\"type\":\"boolean\",\"value\":\"true\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.674077",
+              "alphaLossPixels": "138938",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.5% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.664592",
+              "diffPixels": "136983"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 67.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "disabled",
+              "alphaLossRatio": "0.6769",
+              "alphaLossPixels": "139520",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 74.8% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.748443",
+              "diffPixels": "154266"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 68.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon",
+              "alphaLossRatio": "0.685672",
+              "alphaLossPixels": "141328",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 67.2% of pixels differ from reference",
+            "detail": {
+              "key": "icon",
+              "score": "0.672384",
+              "diffPixels": "138589"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: 68.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-disabled",
+              "alphaLossRatio": "0.687647",
+              "alphaLossPixels": "141735",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: 75.6% of pixels differ from reference",
+            "detail": {
+              "key": "icon-disabled",
+              "score": "0.756157",
+              "diffPixels": "155856"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill: 77.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-no-button-fill",
+              "alphaLossRatio": "0.777087",
+              "alphaLossPixels": "160170",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill: 76.3% of pixels differ from reference",
+            "detail": {
+              "key": "icon-no-button-fill",
+              "score": "0.762915",
+              "diffPixels": "157249"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill-disabled: 68.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-no-button-fill-disabled",
+              "alphaLossRatio": "0.687647",
+              "alphaLossPixels": "141735",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill-disabled: 76.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon-no-button-fill-disabled",
+              "score": "0.760795",
+              "diffPixels": "156812"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill: 76.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "no-button-fill",
+              "alphaLossRatio": "0.765491",
+              "alphaLossPixels": "157780",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill: 75.5% of pixels differ from reference",
+            "detail": {
+              "key": "no-button-fill",
+              "score": "0.75523",
+              "diffPixels": "155665"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill-disabled: 67.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "no-button-fill-disabled",
+              "alphaLossRatio": "0.6769",
+              "alphaLossPixels": "139520",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill-disabled: 75.3% of pixels differ from reference",
+            "detail": {
+              "key": "no-button-fill-disabled",
+              "score": "0.752731",
+              "diffPixels": "155150"
+            }
+          }
+        ]
+      }
+    ],
+    "remote-catalog/src/snapshot/kotlin/ee/schimke/wearm3catalog/remote/StepperPreviews.kt#ValueStepperRemote": [
+      {
+        "source": "figma",
+        "status": "warn",
+        "findings": [
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "spacing: candidate resolved no spacing tokens; compliance not evaluated (2 spec tokens)",
+            "detail": {
+              "token": "spacing.*",
+              "unverified": "true",
+              "specCount": "2"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "radius: candidate resolved no radius tokens; compliance not evaluated (1 spec token)",
+            "detail": {
+              "token": "radius.*",
+              "unverified": "true",
+              "specCount": "1"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.container has no Material-role mapping; unverified (spec #000000)",
+            "detail": {
+              "token": "colors.container",
+              "expected": "#000000",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "colors.label has no Material-role mapping; unverified (spec #210F48)",
+            "detail": {
+              "token": "colors.label",
+              "expected": "#210F48",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "token",
+            "severity": "info",
+            "message": "typography.label has no Material-role mapping; unverified (spec {\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645})",
+            "detail": {
+              "token": "typography.label",
+              "expected": "{\"fontFamily\":\"Roboto Flex\",\"fontSize\":15,\"fontWeight\":500,\"lineHeight\":18,\"letterSpacing\":0.4000000059604645}",
+              "unmapped": "true"
+            },
+            "anchors": [
+              {
+                "side": "reference",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 192,
+                  "height": 192
+                }
+              },
+              {
+                "side": "actual",
+                "bounds": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 454,
+                  "height": 454
+                }
+              }
+            ]
+          },
+          {
+            "kind": "pairing",
+            "severity": "info",
+            "message": "reference renders with Level Indicator=true — component property defaults the variant name does not state",
+            "detail": {
+              "properties": "[{\"name\":\"Level Indicator\",\"type\":\"boolean\",\"value\":\"true\"}]"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 67.4% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "default",
+              "alphaLossRatio": "0.674077",
+              "alphaLossPixels": "138938",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "default: 66.5% of pixels differ from reference",
+            "detail": {
+              "key": "default",
+              "score": "0.664592",
+              "diffPixels": "136983"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 67.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "disabled",
+              "alphaLossRatio": "0.6769",
+              "alphaLossPixels": "139520",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "disabled: 74.8% of pixels differ from reference",
+            "detail": {
+              "key": "disabled",
+              "score": "0.748443",
+              "diffPixels": "154266"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 68.6% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon",
+              "alphaLossRatio": "0.685672",
+              "alphaLossPixels": "141328",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon: 67.2% of pixels differ from reference",
+            "detail": {
+              "key": "icon",
+              "score": "0.672384",
+              "diffPixels": "138589"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: 68.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-disabled",
+              "alphaLossRatio": "0.687647",
+              "alphaLossPixels": "141735",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-disabled: 75.6% of pixels differ from reference",
+            "detail": {
+              "key": "icon-disabled",
+              "score": "0.756157",
+              "diffPixels": "155856"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill: 77.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-no-button-fill",
+              "alphaLossRatio": "0.777087",
+              "alphaLossPixels": "160170",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill: 76.3% of pixels differ from reference",
+            "detail": {
+              "key": "icon-no-button-fill",
+              "score": "0.762915",
+              "diffPixels": "157249"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill-disabled: 68.8% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "icon-no-button-fill-disabled",
+              "alphaLossRatio": "0.687647",
+              "alphaLossPixels": "141735",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "icon-no-button-fill-disabled: 76.1% of pixels differ from reference",
+            "detail": {
+              "key": "icon-no-button-fill-disabled",
+              "score": "0.760795",
+              "diffPixels": "156812"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill: 76.5% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "no-button-fill",
+              "alphaLossRatio": "0.765491",
+              "alphaLossPixels": "157780",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill: 75.5% of pixels differ from reference",
+            "detail": {
+              "key": "no-button-fill",
+              "score": "0.75523",
+              "diffPixels": "155665"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill-disabled: 67.7% of aligned pixels are opaque in the reference but transparent in the candidate",
+            "detail": {
+              "key": "no-button-fill-disabled",
+              "alphaLossRatio": "0.6769",
+              "alphaLossPixels": "139520",
+              "alphaComparedPixels": "206116"
+            }
+          },
+          {
+            "kind": "visual",
+            "severity": "warn",
+            "message": "no-button-fill-disabled: 75.3% of pixels differ from reference",
+            "detail": {
+              "key": "no-button-fill-disabled",
+              "score": "0.752731",
+              "diffPixels": "155150"
+            }
+          }
+        ]
+      }
     ]
   }
 }
