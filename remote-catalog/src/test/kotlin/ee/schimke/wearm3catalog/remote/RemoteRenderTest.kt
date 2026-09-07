@@ -96,7 +96,35 @@ class RemoteRenderTest {
       "EdgeButtonRemote" to
         "RemoteEdgeButtonDefaults resolves the filled, filled-variant and tonal disabled colours " +
           "to one pair, so all three styles draw one picture per Size x Type crossing once " +
-          "enabled = false"
+          "enabled = false",
+      // SNAPSHOT-LANE ONLY, like its neighbour: `RemoteStepper` is absent from released alpha10.
+      //
+      // The kit publishes `Button Fill` and `Disabled` as independent axes, so it draws four cells
+      // over the pair. The library draws three pictures, and the reason is the COLOUR SET's shape
+      // rather than anything about how a disabled stepper looks: `buttonContainerColor` sets the
+      // ENABLED container only, and the disabled state reads a separate
+      // `disabledButtonContainerColor`, which the `Button Fill=No` call does not override — because
+      // the Wear sibling's call does not either, and diverging here would be a difference this
+      // catalog invented. So both `Button Fill` values draw the same disabled picture, once per
+      // `Icon` value. Exactly two pairs, held by `expectedCollapses`; the other four cells must go
+      // on being checked, which is why this is a counted exemption rather than a blanket one.
+      //
+      // A DISABLED STEPPER DOES DRAW ITS CONTAINER, measured rather than assumed: the disabled
+      // cells carry alpha 31 and 97 — `onSurface.toDisabledColor(0.12f)` for the container and
+      // `0.38f` for the content, exactly as `defaultStepperColors` specifies. An earlier draft of
+      // this entry claimed the container was absent, which is what the collapse looks like from the
+      // outside and is not what the library does.
+      //
+      // The Wear sibling records the SAME collapse for the SAME set
+      // ([#178](https://github.com/yschimke/wear-m3-catalog/issues/178)), which is what makes it a
+      // property of the design system rather than of either rendition — and is the reason both
+      // columns publish the cells rather than withdrawing them: a gap reads as unfinished work,
+      // while a published duplicate reports what the library actually draws.
+      "ValueStepperRemote" to
+        "a disabled RemoteStepper draws no button container, so RemoteStepperDefaults." +
+          "stepperColors(buttonContainerColor = Transparent) changes nothing once enabled = " +
+          "false and the kit's Button Fill=No cell repeats its Button Fill=Yes one. Exactly two " +
+          "pairs, one per Icon value, held by expectedCollapses",
     )
 
   private val CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED: Map<String, String> =
@@ -217,7 +245,9 @@ class RemoteRenderTest {
    * property of the design system rather than of either rendition: neither library has an argument
    * that moves the timestamp off the title's row.
    */
-  private val expectedCollapses: Map<String, Int> = mapOf("TitleCardRemote" to 6)
+  private val expectedCollapses: Map<String, Int> =
+    mapOf("TitleCardRemote" to 6) +
+      if (onSnapshotLane) mapOf("ValueStepperRemote" to 2) else emptyMap()
 
   /**
    * Deliberately compares only renders of the SAME component. Two different components may

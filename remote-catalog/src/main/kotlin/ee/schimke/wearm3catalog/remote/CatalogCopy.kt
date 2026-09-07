@@ -92,4 +92,13 @@ object KitCopy {
 
   /** `TimeText`, `Type=12hr`. Pinned, never the system clock. */
   const val TIME_12H = "9:30"
+
+  /**
+   * The `Stepper`'s content slot, word for word the Wear sibling's `KitCopy.STEPPER_LABEL`.
+   *
+   * A stepper's label is what the value is FOR, and the kit's node names a real setting rather than
+   * a placeholder — so a Remote-only string here would unpair the two columns' cells over a
+   * difference neither library draws. Same rule the rest of this object follows.
+   */
+  const val STEPPER_LABEL = "This watch's headphones"
 }
