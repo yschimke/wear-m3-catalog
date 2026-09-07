@@ -32,42 +32,6 @@ import org.junit.Test
  */
 class StickerBakeCoverageTest {
 
-  /**
-   * Blanks that only exist on the SNAPSHOT lane, because the component that bakes them only exists
-   * there — see `src/snapshot/kotlin/…/SelectionPreviews.kt`.
-   *
-   * `RemoteCheckboxButton` arrived after 1.0.0-alpha10, so `CheckboxRowRemote` is the first
-   * selection row this sheet has ever drawn. Seven of its eight cells bake something; the eighth —
-   * unchecked AND disabled AND not split — bakes fully transparent. Both state halves are needed to
-   * reach it: `unselected` (unchecked, enabled) is a whole row, and `disabled` (checked, disabled)
-   * still draws its checkmark, so it is the crossing rather than either knob.
-   *
-   * THE SPLIT CELLS ARE WHAT MAKE THIS A LIBRARY BUG RATHER THAN A SUSPICION.
-   * `RemoteSplitCheckboxButton(checked = false, enabled = false)` — the same two knobs, the same
-   * kit set, one function over — draws its containers and its checkbox perfectly well. So the blank
-   * is specific to the plain row's disabled path rather than to anything this sticker asks for, and
-   * there is no argument from this call site that would change it.
-   *
-   * `disabled` is worth looking at beside it: it keeps the checkmark and loses the container and
-   * both labels, which is the same shape of gap one component over
-   * ([#91](https://github.com/yschimke/wear-m3-catalog/issues/91)) and not something this sheet can
-   * reach from the call site. It is not listed here because it is not blank, and this test only
-   * owns the blanks.
-   *
-   * Published rather than withdrawn, for the reason the KDoc above gives: the kit publishes this
-   * cell, and a sheet that quietly skips it reads as a sheet nobody got to. The entry is scoped to
-   * the lane because on the released alphas there is no render here at all, and `every known-blank
-   * sticker is still blank` fails a `knownBlank` key that names no render — correctly, since a
-   * stale exemption hides a blank.
-   */
-  private val SNAPSHOT_LANE_BLANKS =
-    mapOf(
-      "CheckboxRowRemote_VARIANT_unselected-disabled" to
-        "RemoteCheckboxButton(checked = false, enabled = false) draws nothing at all — not the " +
-          "container, not either label, not the checkbox. Either knob alone renders; only the " +
-          "crossing is blank"
-    )
-
   private val rendersDir = File("build/compose-previews/renders")
 
   /** Alpha above which a pixel counts as drawn; matches `rc-compare-pixels.mjs`. */
@@ -99,7 +63,14 @@ class StickerBakeCoverageTest {
    * mirrored, text drawing a colour it had resolved once, and a computed-op index that did not walk
    * a component's canvas stream — which left the labels being drawn, in a fully transparent colour.
    *
-   * So the twelve entries are deleted rather than retargeted, and the cells stand as ordinary
+   * The SNAPSHOT lane's own entry went the same way on the same bump. `RemoteCheckboxButton(checked
+   * = false, enabled = false)` was recorded here as drawing nothing at all — not the container, not
+   * either label, not the checkbox — with the split row one function over offered as proof that the
+   * plain row's disabled path was the gap. It was the same player, and the same three causes: on
+   * 1.59.2 that cell bakes 33449 drawn pixels against the enabled row's 33540, which is the whole
+   * row. The lane branch went with it, so this map is now unconditionally empty.
+   *
+   * So all thirteen entries are deleted rather than retargeted, and the cells stand as ordinary
    * comparisons. That is exactly what the second assertion below was built to force: it fails the
    * day a known-blank capture stops being blank, which is how this gap announced its own closure
    * instead of quietly persisting as an exemption nobody rechecked.
@@ -113,8 +84,7 @@ class StickerBakeCoverageTest {
    * catches a library that starts drawing — it could not have caught this, because the library was
    * never the one at fault.
    */
-  private val knownBlank =
-    emptyMap<String, String>() + if (onSnapshotLane) SNAPSHOT_LANE_BLANKS else emptyMap()
+  private val knownBlank = emptyMap<String, String>()
 
   /**
    * `<stem>_VARIANT_<cell>`, the identity a [knownBlank] entry names, or null for a base render.
