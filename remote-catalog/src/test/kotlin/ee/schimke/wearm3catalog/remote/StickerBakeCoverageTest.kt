@@ -68,14 +68,6 @@ class StickerBakeCoverageTest {
           "crossing is blank"
     )
 
-  /**
-   * One reason, twelve cells: the whole `Disabled=Yes` column of the kit's `Text-Button` set, none
-   * of which `remote-material3` draws anything for.
-   */
-  private val REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED =
-    "#130 — RemoteTextButton(enabled = false) draws nothing at all: no container, no label, and " +
-      "passing disabledContainerColor / disabledContentColor explicitly does not change it"
-
   private val rendersDir = File("build/compose-previews/renders")
 
   /** Alpha above which a pixel counts as drawn; matches `rc-compare-pixels.mjs`. */
@@ -89,63 +81,40 @@ class StickerBakeCoverageTest {
   }
 
   /**
-   * The captures that are **expected** to bake transparent, each one a published gap in the library
-   * rather than a mistake in this catalog — and each asserted in BOTH directions below.
+   * The captures that are **expected** to bake transparent, each one a gap outside this catalog
+   * rather than a mistake in it — and each asserted in BOTH directions below.
    *
-   * `RemoteTextButton(enabled = false)` draws nothing at all on the alpha surface: no container, no
-   * label. The kit publishes fifteen `Disabled=Yes` cells for the `Text-Button` set and this
-   * rendition draws none of them. Tracked as
-   * [#130](https://github.com/yschimke/wear-m3-catalog/issues/130), the sibling of
-   * [#91](https://github.com/yschimke/wear-m3-catalog/issues/91) one component over: there
-   * `RemoteButton` resolves its disabled container and loses the label; here neither resolves.
-   * `RemoteIconButton` resolves both, which is what makes it the library rather than this sheet.
+   * **This map is empty of component gaps now, and how it emptied is the point of the mechanism.**
+   * It used to carry all twelve `Disabled=Yes` cells of the kit's `Text-Button` set on the reading
+   * that `RemoteTextButton(enabled = false)` "draws nothing at all on the alpha surface" — tracked
+   * as [#130](https://github.com/yschimke/wear-m3-catalog/issues/130), with
+   * [#91](https://github.com/yschimke/wear-m3-catalog/issues/91) one component over as its sibling.
+   * That reading was wrong in an instructive way: the gap was never in `remote-material3` at all.
+   * It was in the **player the capture bakes through**. `RemoteOverridablePreview` defaults to the
+   * embedded player, so a baked PNG is one interpreter's opinion, and the AOSP View player, the JS
+   * player and the CMP player all drew these buttons correctly from the identical `.rc` bytes the
+   * whole time. Three separate causes in the embedded player, all fixed in rc-players 1.59.2
+   * ([rc-players#47](https://github.com/yschimke/rc-players/issues/47),
+   * [#50](https://github.com/yschimke/rc-players/issues/50)): a store write that was never
+   * mirrored, text drawing a colour it had resolved once, and a computed-op index that did not walk
+   * a component's canvas stream — which left the labels being drawn, in a fully transparent colour.
    *
-   * The alternative was to withdraw the cell and explain the gap in a KDoc, which is what the first
-   * draft of #116 phase 3 did. A comment is invisible: nobody reads it again, and nothing announces
-   * the day the library starts drawing. Publishing the cell puts the gap on the sheet where a
-   * reader meets it, lets design-parity report it as the real divergence it is — this rendition
-   * genuinely does not draw what the kit specifies, which is what a design-led scan is for — and
-   * makes the fix self-announcing through the second assertion below.
+   * So the twelve entries are deleted rather than retargeted, and the cells stand as ordinary
+   * comparisons. That is exactly what the second assertion below was built to force: it fails the
+   * day a known-blank capture stops being blank, which is how this gap announced its own closure
+   * instead of quietly persisting as an exemption nobody rechecked.
    *
-   * ALL TWELVE of them, not one. This used to carry `disabled` alone, on the reasoning that the
-   * others bake byte-identically and publishing them would be the same empty picture under a dozen
-   * names. That reasoning traded one invisibility for another: the kit publishes fifteen
-   * `Disabled=Yes` cells for this set, and a sheet drawing one of them reads as a sheet that has
-   * nearly finished. Drawing all twelve the library can be asked for says the size of the hole, and
-   * design-parity scores twelve divergences rather than one. The duplication is recorded next door
-   * in `RemoteRenderTest.knownDuplicate`, which is the test that owns that question.
-   *
-   * The three `outlined-*-disabled` cells are not listed and are not blank: the border survives,
-   * because this sticker draws it itself through `border` rather than through the component, so
-   * each is a real picture of a button that lost only its label.
-   *
-   * PASSING THE COLOURS DOES NOT HELP, which is worth knowing before anyone tries.
-   * `textButtonColors` takes `disabledContainerColor` and `disabledContentColor`; handing it both,
-   * at the tokens Wear resolves, still bakes transparent. The failure is in what the disabled path
-   * draws rather than in what it looks up, so a caller cannot reach it from the call site.
-   *
-   * **An entry here is never a way to quiet a sticker that is simply broken.** It says the LIBRARY
-   * draws nothing for this state; the entry names the tracked issue and the call that does it, and
-   * `remote-snapshot-probe.yml` re-checks it against the newest androidx.dev build weekly.
+   * **The lesson worth keeping when the next entry is added.** An entry here is never a way to
+   * quiet a sticker that is simply broken, and it is not enough for it to name a tracked issue: it
+   * has to name a cause that was actually *established*. A blank capture says the pipeline drew
+   * nothing, not who failed to draw it, and the cheapest way to tell a library gap from a player
+   * gap is to render the same document on a second player before blaming the first.
+   * `remote-snapshot-probe.yml` re-checks these against the newest androidx.dev build weekly, which
+   * catches a library that starts drawing — it could not have caught this, because the library was
+   * never the one at fault.
    */
   private val knownBlank =
-    mapOf(
-      "TextRemoteButton_VARIANT_disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_filled-variant-disable" to
-        REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_filled-variant-small-d" to
-        REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_filled-variant-large-d" to
-        REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_tonal-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_tonal-small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_tonal-large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_child-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_child-small-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-      "TextRemoteButton_VARIANT_child-large-disabled" to REMOTE_TEXT_BUTTON_DRAWS_NOTHING_DISABLED,
-    ) + if (onSnapshotLane) SNAPSHOT_LANE_BLANKS else emptyMap()
+    emptyMap<String, String>() + if (onSnapshotLane) SNAPSHOT_LANE_BLANKS else emptyMap()
 
   /**
    * `<stem>_VARIANT_<cell>`, the identity a [knownBlank] entry names, or null for a base render.
