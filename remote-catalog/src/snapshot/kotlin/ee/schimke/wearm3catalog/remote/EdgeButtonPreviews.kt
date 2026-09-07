@@ -8,6 +8,8 @@ import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rs
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
@@ -565,40 +567,13 @@ fun EdgeButtonRemote() = RemoteSticker {
       else RemoteColor(Color.Transparent),
   ) {
     // The kit's `Type` axis. The glyph is the Wear sibling's — a check, the confirm action this
-    // component exists for — hand-built rather than taken from `material-icons-core`, which this
-    // module does not depend on (see `addIcon`, the same story one file over).
+    // component exists for — and it is now literally the same `ImageVector` the Wear sibling
+    // passes, resolved from the same artifact rather than transcribed beside it.
     if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {
-      RemoteIcon(checkIcon, contentDescription = "Done".rs)
+      RemoteIcon(Icons.Filled.Check, contentDescription = "Done".rs)
     } else {
       RemoteText(label)
     }
   }
 }
 
-/**
- * Material's `Check`, hand-built.
- *
- * The Wear sibling draws `Icons.Filled.Check` in this set's `Type=Icon` cells; this module has no
- * `material-icons-core` on its classpath, so the one path is transcribed rather than depended on —
- * the same bargain [addIcon] strikes for the button set's leading icon.
- */
-internal val checkIcon: ImageVector =
-  ImageVector.Builder(
-      name = "Check",
-      defaultWidth = 24.dp,
-      defaultHeight = 24.dp,
-      viewportWidth = 24f,
-      viewportHeight = 24f,
-    )
-    .apply {
-      path(fill = SolidColor(Color.White)) {
-        moveTo(9f, 16.17f)
-        lineTo(4.83f, 12f)
-        lineTo(3.41f, 13.41f)
-        lineTo(9f, 19f)
-        lineTo(21f, 7f)
-        lineTo(19.59f, 5.59f)
-        close()
-      }
-    }
-    .build()

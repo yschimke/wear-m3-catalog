@@ -2,6 +2,9 @@
 
 package ee.schimke.wearm3catalog.remote
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.action.hostAction
 import androidx.compose.remote.creation.compose.action.valueChange
@@ -43,9 +46,6 @@ import androidx.compose.remote.creation.compose.state.tween
 import androidx.compose.remote.creation.compose.text.RemoteFontFamily
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
@@ -163,76 +163,24 @@ internal fun toggledRemote(): Pair<RemoteFloat, Action> {
   return animateRemoteFloat(on, duration = 0.45f) to valueChange(on, (1f.rf - on).createReference())
 }
 
-// The leading glyph every icon slot on this sheet draws.
+// THE ICON SLOTS DRAW `Icons.*` DIRECTLY, from `material-icons-core` / `-extended`.
 //
-// It is `Icons.Filled.Add` — the SAME glyph the kit's `Icon=Yes` cells carry and the same one
-// `wear-m3-catalog` passes to every slot (`Icon(Icons.Filled.Add, …)`). Remote Compose has no
-// bundled icon set and `RemoteIcon` takes an `ImageVector`, so the path is transcribed here
-// (`M19,13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z`, the material `add` path on a 24dp viewport) rather than
-// depending on `material-icons`. It used to be a hand-built five-point star, which put a different
-// glyph in every icon slot from the cell it is compared against — a difference reported on ten
-// rows that said nothing about Remote Compose. `RemoteIcon` re-tints it, so the path fill here is
-// a placeholder.
-internal val addIcon: ImageVector =
-  ImageVector.Builder(
-      name = "Add",
-      defaultWidth = 24.dp,
-      defaultHeight = 24.dp,
-      viewportWidth = 24f,
-      viewportHeight = 24f,
-    )
-    .apply {
-      path(fill = SolidColor(Color.White)) {
-        moveTo(19f, 13f)
-        lineTo(13f, 13f)
-        lineTo(13f, 19f)
-        lineTo(11f, 19f)
-        lineTo(11f, 13f)
-        lineTo(5f, 13f)
-        lineTo(5f, 11f)
-        lineTo(11f, 11f)
-        lineTo(11f, 5f)
-        lineTo(13f, 5f)
-        lineTo(13f, 11f)
-        lineTo(19f, 11f)
-        close()
-      }
-    }
-    .build()
-
-// The glyph the kit's `Title Card + Icon` cells draw, and the ONLY slot on this sheet that is not
-// `addIcon`.
+// They used to be transcribed here as `ImageVector.Builder` path data, because this module carried
+// no icon dependency at all. That trade was wrong for a comparison sheet: `:catalog` drew
+// `Icons.Filled.Add` and this module drew a hand-copy of it, so the two columns read their glyphs
+// from two sources and any drift between them would have been reported as a difference neither
+// library causes. It had already cost seventeen AppCard rows once
+// ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)), when the card's leading slot
+// drew the button sheet's `+` instead of the star its kit cell publishes. Both modules now resolve
+// the same artifact at the same version (`compose-material-icons` in libs.versions.toml), so glyph
+// parity is a fact of the build rather than of two files agreeing.
 //
-// `Icons.Filled.Star`, transcribed for the same reason `addIcon` is — Remote Compose bundles no
-// icon set. Checked against the kit's own export: `46048:69274` is a star over `Label text`, where
-// the `Button` set's `Icon=Yes` cells are a `+`. The card's leading slot used to draw `addIcon`
-// too, which put the button sheet's glyph under a card cell that draws a different one, on
-// seventeen AppCard rows ([#294](https://github.com/yschimke/wear-m3-catalog/issues/294)).
-// `wear-m3-catalog`'s `ApplicationCard` passes `Icons.Filled.Star` into the same slot.
-internal val starIcon: ImageVector =
-  ImageVector.Builder(
-      name = "Star",
-      defaultWidth = 24.dp,
-      defaultHeight = 24.dp,
-      viewportWidth = 24f,
-      viewportHeight = 24f,
-    )
-    .apply {
-      path(fill = SolidColor(Color.White)) {
-        moveTo(12f, 17.27f)
-        lineTo(18.18f, 21f)
-        lineTo(16.54f, 13.97f)
-        lineTo(22f, 9.24f)
-        lineTo(14.81f, 8.63f)
-        lineTo(12f, 2f)
-        lineTo(9.19f, 8.63f)
-        lineTo(2f, 9.24f)
-        lineTo(7.46f, 13.97f)
-        lineTo(5.82f, 21f)
-        close()
-      }
-    }
-    .build()
+// WHICH GLYPH GOES WHERE is unchanged and still the kit's business, not convenience:
+//   * `Icons.Filled.Add` in every button icon slot — the `+` the kit's `Icon=Yes` cells carry, and
+//     what `wear-m3-catalog` passes to the same slots.
+//   * `Icons.Filled.Star` in the card leading slot — checked against the kit's own export
+//     (`46048:69274` is a star over `Label text`), and what `ApplicationCard` passes on the Wear
+//     side.
 
 // ---------------------------------------------------------------------------
 // Buttons — the Remote Material 3 button emphasis family plus the border / shape /
@@ -399,7 +347,7 @@ internal fun RemoteKitButton(
       borderColor = borderColor,
       icon = {
         RemoteIcon(
-          addIcon,
+          Icons.Filled.Add,
           contentDescription = null,
           modifier =
             RemoteModifier.size(
@@ -1033,7 +981,7 @@ internal fun RemoteKitIconButton(
     borderColor = borderColor,
     content = {
       RemoteIcon(
-        addIcon,
+        Icons.Filled.Add,
         "Add".rs,
         modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
       )
@@ -1089,7 +1037,7 @@ fun IconRemoteButton() = RemoteSticker {
       ),
     content = {
       RemoteIcon(
-        addIcon,
+        Icons.Filled.Add,
         "Add".rs,
         modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
       )
@@ -1388,7 +1336,7 @@ fun CompactRemoteButton() = RemoteSticker {
       else
         ({
           RemoteIcon(
-            addIcon,
+            Icons.Filled.Add,
             // The icon-only cell is the whole button, so it carries the description the label
             // carries on the other two.
             contentDescription = if (content == "icon") "Add".rs else null,
@@ -2027,7 +1975,7 @@ fun AppCardRemote() = RemoteSticker {
     // as an empty `IMAGE` fill there too.
     appImage =
       when (previewOverrideChoice("appImage", "image", listOf("image", "icon", "none"))) {
-        "icon" -> ({ RemoteIcon(starIcon, null, modifier = RemoteModifier.size(16.rdp)) })
+        "icon" -> ({ RemoteIcon(Icons.Filled.Star, null, modifier = RemoteModifier.size(16.rdp)) })
         // NOT a kit cell, and the `none` cell's note below says why: the kit's leading slot is
         // always filled. This draws the empty one because `RemoteAppCard` allows it, which is the
         // library's shape rather than the kit's.
@@ -2473,7 +2421,7 @@ fun IconRemote() = RemoteSticker {
   // An editable `iconSize` dp knob: reseeding `rc.iconSize=dp:<value>` resizes the icon live. dp is
   // carried distinctly from a bare float so the connector binds it as a density-independent value.
   val iconSize = rememberOverridableRemoteDp("iconSize", 48.dp)
-  RemoteIcon(addIcon, "Add".rs, modifier = RemoteModifier.size(iconSize))
+  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(iconSize))
 }
 
 // ---------------------------------------------------------------------------
