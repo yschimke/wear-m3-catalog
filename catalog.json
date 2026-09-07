@@ -45051,7 +45051,7 @@
       "wireframe": "wireframes/checkboxbutton.svg",
       "sourceFile": "src/snapshot/kotlin/ee/schimke/wearm3catalog/remote/SelectionPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 133,
+      "bodyLine": 143,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "CheckboxRowRemote",
       "parameters": [
@@ -45062,6 +45062,1306 @@
         }
       ],
       "parallel": "CheckboxButton"
+    },
+    {
+      "componentId": "SwitchButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__default__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__disabled__compact.png",
+          "state": "disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__split__compact.png",
+          "state": "split",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__split__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__split-disabled__compact.png",
+          "state": "split-disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__split-disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_split-disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__unselected__compact.png",
+          "state": "unselected",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__unselected__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__unselected-disabled__compact.png",
+          "state": "unselected-disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__unselected-disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected-disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__unselected-split__compact.png",
+          "state": "unselected-split",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__unselected-split__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected-split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/switchbutton/ideal__unselected-split-disabled__compact.png",
+          "state": "unselected-split-disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/switchbutton__ideal__unselected-split-disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.SwitchRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected-split-disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 55,
+              "y": 48,
+              "width": 344,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 55,
+            "y": 48,
+            "width": 344,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 55,
+            "y": 48,
+            "width": 344,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 8,
+            "end": 14,
+            "bottom": 8
+          }
+        }
+      ],
+      "group": "Selection buttons",
+      "caption": "A labelled row that flips a switch; for a setting that takes effect immediately.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85629",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "wireframe": "wireframes/switchbutton.svg",
+      "sourceFile": "src/snapshot/kotlin/ee/schimke/wearm3catalog/remote/SelectionPreviews.kt",
+      "sourceModule": ":remote-catalog",
+      "bodyLine": 191,
+      "sourceDirectory": "remote-catalog",
+      "sourceFunction": "SwitchRowRemote",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ],
+      "parallel": "SwitchButton"
+    },
+    {
+      "componentId": "RadioButton",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__default__compact.png",
+          "state": "default",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__default__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__disabled__compact.png",
+          "state": "disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__split__compact.png",
+          "state": "split",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__split__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__split-disabled__compact.png",
+          "state": "split-disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__split-disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_split-disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__unselected__compact.png",
+          "state": "unselected",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__unselected__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__unselected-disabled__compact.png",
+          "state": "unselected-disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__unselected-disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected-disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__unselected-split__compact.png",
+          "state": "unselected-split",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__unselected-split__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected-split",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        },
+        {
+          "variant": "ideal",
+          "path": "images/radiobutton/ideal__unselected-split-disabled__compact.png",
+          "state": "unselected-split-disabled",
+          "width": 454,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/radiobutton__ideal__unselected-split-disabled__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.SelectionPreviewsKt.RadioRowRemote_width_227dp_height_100dp_dpi_320_VARIANT_unselected-split-disabled",
+          "overrides": [
+            {
+              "key": "checked",
+              "type": "bool",
+              "label": "checked",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "enabled",
+              "type": "bool",
+              "label": "enabled",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "split",
+              "type": "bool",
+              "label": "split",
+              "default": {
+                "kind": "bool",
+                "value": false
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            }
+          ],
+          "secondary": true,
+          "previewParams": {
+            "capturePlayer": "cmp-android",
+            "device": "spec:width=227dp,height=100dp,dpi=320",
+            "widthDp": 227,
+            "heightDp": 100
+          },
+          "density": 2
+        }
+      ],
+      "greenlines": [
+        {
+          "kind": "a11y",
+          "severity": "info",
+          "message": "button",
+          "detail": {
+            "role": "button",
+            "bounds": {
+              "x": 55,
+              "y": 48,
+              "width": 344,
+              "height": 104
+            }
+          },
+          "bounds": {
+            "x": 55,
+            "y": 48,
+            "width": 344,
+            "height": 104
+          }
+        }
+      ],
+      "redlines": [
+        {
+          "bounds": {
+            "x": 55,
+            "y": 48,
+            "width": 344,
+            "height": 104
+          },
+          "role": "Button",
+          "padding": {
+            "start": 14,
+            "top": 8,
+            "end": 14,
+            "bottom": 8
+          }
+        }
+      ],
+      "group": "Selection buttons",
+      "caption": "A labelled row in a set where exactly one may be chosen.",
+      "reference": "figma:B24oss2tTeXAFykyeyusz0/35326:85655",
+      "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/35276:84869",
+      "wireframe": "wireframes/radiobutton.svg",
+      "sourceFile": "src/snapshot/kotlin/ee/schimke/wearm3catalog/remote/SelectionPreviews.kt",
+      "sourceModule": ":remote-catalog",
+      "bodyLine": 233,
+      "sourceDirectory": "remote-catalog",
+      "sourceFunction": "RadioRowRemote",
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ],
+      "parallel": "RadioButton"
     },
     {
       "componentId": "WidgetContainer/Small",
@@ -45150,8 +46450,8 @@
     "androidx.compose.remote:remote-creation-compose",
     "androidx.glance.wear:wear"
   ],
-  "renderer": "compose-preview 2.1.0",
-  "generatedAt": "2026-09-07T11:58:54.834Z",
+  "renderer": "compose-preview 2.2.0",
+  "generatedAt": "2026-09-07T19:05:52.481Z",
   "display": {
     "surface": "dark",
     "hero": "Scaffold"

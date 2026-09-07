@@ -110,7 +110,7 @@
 <body>
 <header class="top">
   <h1>Remote Compose Material 3</h1>
-  <div class="subtitle">system <code>remote-m3</code> · androidx.wear.compose.remote:remote-material3, androidx.compose.remote:remote-creation-compose, androidx.glance.wear:wear · rendered by compose-preview 2.1.0 · 2026-09-07T11:58:54.834Z · 50 components</div>
+  <div class="subtitle">system <code>remote-m3</code> · androidx.wear.compose.remote:remote-material3, androidx.compose.remote:remote-creation-compose, androidx.glance.wear:wear · rendered by compose-preview 2.2.0 · 2026-09-07T19:05:52.481Z · 52 components</div>
   <div class="subtitle"><a class="pagelink" href="compare.html">SVG vs PNG compare ↗</a> <a class="pagelink" href="rc-compare.html">PNG vs Remote Compose ↗</a> <a class="pagelink" href="matches.html">↔ M3 Wear OS Apps Design Kit matches ↗</a></div>
 </header>
 
@@ -146,8 +146,8 @@
       <a class="nav-head" href="#g-edge-hugging-buttons">Edge-hugging buttons <span>1</span></a>
       <ul><li><a href="#c-edgebutton">EdgeButton</a></li></ul>
     </section><section class="nav-group">
-      <a class="nav-head" href="#g-selection-buttons">Selection buttons <span>1</span></a>
-      <ul><li><a href="#c-checkboxbutton">CheckboxButton</a></li></ul>
+      <a class="nav-head" href="#g-selection-buttons">Selection buttons <span>3</span></a>
+      <ul><li><a href="#c-checkboxbutton">CheckboxButton</a></li><li><a href="#c-switchbutton">SwitchButton</a></li><li><a href="#c-radiobutton">RadioButton</a></li></ul>
     </section><section class="nav-group">
       <a class="nav-head" href="#g-widget-container">Widget Container <span>3</span></a>
       <ul><li><a href="#c-widgetcontainer-small">WidgetContainer/Small</a></li><li><a href="#c-widgetcontainer-large">WidgetContainer/Large</a></li><li><a href="#c-widgetcontainer-gradientbackground">WidgetContainer/GradientBackground</a></li></ul>
@@ -557,6 +557,22 @@
   <div class="meta">
     <h3><a class="ctitle" href="#d-checkboxbutton">CheckboxButton</a></h3>
     <div class="sub">454×200<a class="statechip" href="#d-checkboxbutton">+7 states</a><a class="wf" href="wireframes/checkboxbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/checkboxbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-switchbutton">
+  <a class="shot" href="#d-switchbutton" aria-label="Zoom SwitchButton"><img loading="lazy" src="images/switchbutton/ideal__default__compact.png" alt="SwitchButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-switchbutton">SwitchButton</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-switchbutton">+7 states</a><a class="wf" href="wireframes/switchbutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/switchbutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
+    <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
+  </div>
+</article>
+<article class="card" id="c-radiobutton">
+  <a class="shot" href="#d-radiobutton" aria-label="Zoom RadioButton"><img loading="lazy" src="images/radiobutton/ideal__default__compact.png" alt="RadioButton" /></a>
+  <div class="meta">
+    <h3><a class="ctitle" href="#d-radiobutton">RadioButton</a></h3>
+    <div class="sub">454×200<a class="statechip" href="#d-radiobutton">+7 states</a><a class="wf" href="wireframes/radiobutton.svg" target="_blank" rel="noopener">wireframe ↗</a><a class="wf figma-svg-link" href="figma/radiobutton.svg" target="_blank" rel="noopener">figma svg ↗</a></div>
     <div class="greenlines" title="accessibility greenlines"><span class="chip chip--info">button</span></div>
   </div>
 </article></div>
@@ -1010,6 +1026,24 @@
     <h3>CheckboxButton</h3>
     <div class="detail-caption">A labelled row that toggles a checkbox; for a set where any number may be chosen.</div>
     <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__default__compact.png" alt="CheckboxButton default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__disabled__compact.png" alt="CheckboxButton disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>split</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__split__compact.png" alt="CheckboxButton split" /><span>compact</span></div></div></figure><figure class="state"><figcaption>split-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__split-disabled__compact.png" alt="CheckboxButton split-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__unselected__compact.png" alt="CheckboxButton unselected" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__unselected-disabled__compact.png" alt="CheckboxButton unselected-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-split</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__unselected-split__compact.png" alt="CheckboxButton unselected-split" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-split-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/checkboxbutton/ideal__unselected-split-disabled__compact.png" alt="CheckboxButton unselected-split-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-switchbutton" role="dialog" aria-label="SwitchButton">
+  <a class="detail-scrim" href="#c-switchbutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-switchbutton" aria-label="Close">×</a>
+    <h3>SwitchButton</h3>
+    <div class="detail-caption">A labelled row that flips a switch; for a setting that takes effect immediately.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__default__compact.png" alt="SwitchButton default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__disabled__compact.png" alt="SwitchButton disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>split</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__split__compact.png" alt="SwitchButton split" /><span>compact</span></div></div></figure><figure class="state"><figcaption>split-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__split-disabled__compact.png" alt="SwitchButton split-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__unselected__compact.png" alt="SwitchButton unselected" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__unselected-disabled__compact.png" alt="SwitchButton unselected-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-split</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__unselected-split__compact.png" alt="SwitchButton unselected-split" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-split-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/switchbutton/ideal__unselected-split-disabled__compact.png" alt="SwitchButton unselected-split-disabled" /><span>compact</span></div></div></figure></div>
+  </div>
+</div>
+<div class="detail" id="d-radiobutton" role="dialog" aria-label="RadioButton">
+  <a class="detail-scrim" href="#c-radiobutton" aria-label="Close"></a>
+  <div class="detail-panel">
+    <a class="detail-x" href="#c-radiobutton" aria-label="Close">×</a>
+    <h3>RadioButton</h3>
+    <div class="detail-caption">A labelled row in a set where exactly one may be chosen.</div>
+    <div class="detail-states"><figure class="state"><figcaption>default</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__default__compact.png" alt="RadioButton default" /><span>compact</span></div></div></figure><figure class="state"><figcaption>disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__disabled__compact.png" alt="RadioButton disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>split</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__split__compact.png" alt="RadioButton split" /><span>compact</span></div></div></figure><figure class="state"><figcaption>split-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__split-disabled__compact.png" alt="RadioButton split-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__unselected__compact.png" alt="RadioButton unselected" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__unselected-disabled__compact.png" alt="RadioButton unselected-disabled" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-split</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__unselected-split__compact.png" alt="RadioButton unselected-split" /><span>compact</span></div></div></figure><figure class="state"><figcaption>unselected-split-disabled</figcaption><div class="state-shots"><div class="state-shot"><img loading="lazy" src="images/radiobutton/ideal__unselected-split-disabled__compact.png" alt="RadioButton unselected-split-disabled" /><span>compact</span></div></div></figure></div>
   </div>
 </div>
 <div class="detail" id="d-widgetcontainer-small" role="dialog" aria-label="WidgetContainer/Small">
