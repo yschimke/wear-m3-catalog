@@ -48,10 +48,10 @@ customising the live render are two ends of one workflow.
 
 | | |
 | --- | --- |
-| Components | **54** |
-| Rendered images (PNG) | **538** |
-| Editable wireframes (SVG) | **54** |
-| Editable design vectors (figma-svg) | **54** |
+| Components | **55** |
+| Rendered images (PNG) | **573** |
+| Editable wireframes (SVG) | **55** |
+| Editable design vectors (figma-svg) | **55** |
 | Components with a11y greenlines | **28** |
 | Library | `androidx.wear.compose.remote:remote-material3`<br>`androidx.compose.remote:remote-creation-compose`<br>`androidx.glance.wear:wear` |
 | Renderer | compose-preview 2.2.4 |
@@ -74,6 +74,7 @@ customising the live render are two ends of one workflow.
 | Iconography | 1 |
 | Shaders | 1 |
 | Edge-hugging buttons | 1 |
+| Shapes | 1 |
 | Sliders | 1 |
 | Steppers | 1 |
 

@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":remote-catalog"
   },
-  "generatedAt": "2026-09-08T00:30:24.145Z",
+  "generatedAt": "2026-09-08T06:07:50.718Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -1410,6 +1410,35 @@
         }
       ],
       "figmaSvg": "figma/radiobutton.svg"
+    },
+    {
+      "componentId": "Shape/MaterialShapes",
+      "figmaLayerName": "Shape/MaterialShapes",
+      "componentName": "RemoteSticker",
+      "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogTheme.kt",
+      "label": "Compose",
+      "confidence": "HIGH",
+      "previewName": "MaterialShapesRemote",
+      "codeSnippet": "RemoteSticker(\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.RemoteSticker"
+      ],
+      "parameters": [
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
+      "figmaSvg": "figma/shape-materialshapes.svg"
     },
     {
       "componentId": "Slider",
