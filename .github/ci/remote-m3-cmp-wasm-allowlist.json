@@ -1,5 +1,5 @@
 {
-  "$comment": "DOCUMENTS THE CMP/WASM PLAYER CANNOT DRAW YET, temporarily allowed past the gate design-artifacts.yml enforces. Every entry names the player gap and expires, because an allowlist that does not expire is a gate that has been switched off. An entry whose id no longer exists is WORSE than no entry: it protects nothing while making the list look maintained, which is how this file came to hold six dead ids from before the #116 taxonomy fold (old component names, 200dp/320dp frames) while eight live failures blocked every remote-m3 publish from 2026-08-29 15:50 onward. Take ids from the lane's own output — the `CMP/Wasm: n/m rendered` block prints them — rather than from previews.json, whose spelling of the frame differs. REMOVED 2026-09-02: the four `ImageBackgroundRemoteButton` entries. The lane now renders them — actions/runs/33668348892 reported `388/392 rendered, 4 temporarily allowed, 1 failed` with the four allowed being the THEME SPECIMENS, and the button scoring `34.89% (Android) vs cmp-wasm 34.62%`, the two players agreeing to within 0.3%. So paint commands 22 (SHADER_MATRIX) and 24 (TEXTURE) are implemented in CMP/Wasm now and the entries protected nothing. Note this does NOT mean the button draws its image: both players render the same opaque container, which is a separate defect tracked on https://github.com/yschimke/wear-m3-catalog/issues/157 — an allowlist entry is about whether the lane can render a document at all, not about whether the picture is right. ADDED 2026-09-03: the eight `LinearProgressRemote` entries, which are a different KIND of entry from everything above — not a player gap we intend to close, but an upstream Compose Wasm backend bug rc-players deliberately routes around. They carry a longer expiry for that reason. Everything else in this file was cleared by rc-players 1.56.1 (FILTER_BITMAP, yschimke/rc-players#26): the ~40 EdgeButton/CheckboxRow/WidgetContainer/ThemeSpecimen rows that failed `paint command 17 is not implemented` on 1.56.0 all render now and never needed entries.",
+  "$comment": "DOCUMENTS THE CMP/WASM PLAYER CANNOT DRAW YET, temporarily allowed past the gate design-artifacts.yml enforces. Every entry names the player gap and expires, because an allowlist that does not expire is a gate that has been switched off. An entry whose id no longer exists is WORSE than no entry: it protects nothing while making the list look maintained, which is how this file came to hold six dead ids from before the #116 taxonomy fold (old component names, 200dp/320dp frames) while eight live failures blocked every remote-m3 publish from 2026-08-29 15:50 onward. Take ids from the lane's own output — the `CMP/Wasm: n/m rendered` block prints them — rather than from previews.json, whose spelling of the frame differs. REMOVED 2026-09-02: the four `ImageBackgroundRemoteButton` entries. The lane now renders them — actions/runs/33668348892 reported `388/392 rendered, 4 temporarily allowed, 1 failed` with the four allowed being the THEME SPECIMENS, and the button scoring `34.89% (Android) vs cmp-wasm 34.62%`, the two players agreeing to within 0.3%. So paint commands 22 (SHADER_MATRIX) and 24 (TEXTURE) are implemented in CMP/Wasm now and the entries protected nothing. Note this does NOT mean the button draws its image: both players render the same opaque container, which is a separate defect tracked on https://github.com/yschimke/wear-m3-catalog/issues/157 — an allowlist entry is about whether the lane can render a document at all, not about whether the picture is right. ADDED 2026-09-03: the eight `LinearProgressRemote` entries, which are a different KIND of entry from everything above — not a player gap we intend to close, but an upstream Compose Wasm backend bug rc-players deliberately routes around. They carry a longer expiry for that reason. Everything else in this file was cleared by rc-players 1.56.1 (FILTER_BITMAP, yschimke/rc-players#26): the ~40 EdgeButton/CheckboxRow/WidgetContainer/ThemeSpecimen rows that failed `paint command 17 is not implemented` on 1.56.0 all render now and never needed entries. ADDED 2026-09-08: the fifty `VerticalPageIndicatorRemote_*_VARIANT_left*` entries (five frame sizes x ten page-count variants), same KIND as the LinearProgress block -- the upstream Compose Wasm graphics-layer bug rc-players routes around, not a gap we intend to close -- and carrying the same longer expiry for that reason. They arrived with the mirrored left-hand rail in #372 and blocked every remote-m3 publish from 2026-09-08 07:38 onward; the sheet went stale at f06de04a until this landed.",
   "entries": [
     {
       "id": "ee.schimke.wearm3catalog.remote.RemoteThemeSpecimensKt.ThemeSpecimenAndroidMakersRemote_width_227dp_height_200dp_dpi_320",
@@ -59,6 +59,256 @@
     {
       "id": "ee.schimke.wearm3catalog.remote.LinearProgressPreviewsKt.LinearProgressRemote_width_227dp_height_100dp_dpi_320_VARIANT_small",
       "reason": "The same excluded graphics-layer operation; the variant changes the track's fill, not how it is composited. See the base entry above. Observed in actions/runs/33721955693.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left",
+      "reason": "The mirrored rail draws through a graphics layer, and CMP/Wasm is not offered that operation. `VerticalPageIndicatorRemote`'s `left` variants wrap `RemoteVerticalPageIndicator` in `RemoteModifier.graphicsLayer { scaleX = -1 }` -- the kit has no left-hand rail, so the cell mirrors the right-hand one -- and rc-players excludes MODIFIER_GRAPHICS_LAYER from its `CMP_WASM_ALPHA16` profile (RcOperationProfiles) because \"Compose's current Wasm graphics-layer surface disappears when this modifier is present\". Exactly the `LinearProgressRemote` situation above: the operation IS implemented and the shared/iOS renderer gets it, only browser producers are held back until that Compose Multiplatform backend behaviour is fixed, so there is nothing for this repo or our player to implement. The whole document reports `ModifierGraphicsLayer[10]: operation is excluded from the cmp-wasm-alpha16 profile`. Observed in actions/runs/34197100663 (`CMP/Wasm gate: 643/701 rendered, 8 allowlisted, 50 failing` -- these fifty).",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-five-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-many-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-many-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-many-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-six-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-six-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-six-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-three-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_192dp_VARIANT_left-two-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 192dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left",
+      "reason": "The mirrored rail draws through a graphics layer, and CMP/Wasm is not offered that operation. `VerticalPageIndicatorRemote`'s `left` variants wrap `RemoteVerticalPageIndicator` in `RemoteModifier.graphicsLayer { scaleX = -1 }` -- the kit has no left-hand rail, so the cell mirrors the right-hand one -- and rc-players excludes MODIFIER_GRAPHICS_LAYER from its `CMP_WASM_ALPHA16` profile (RcOperationProfiles) because \"Compose's current Wasm graphics-layer surface disappears when this modifier is present\". Exactly the `LinearProgressRemote` situation above: the operation IS implemented and the shared/iOS renderer gets it, only browser producers are held back until that Compose Multiplatform backend behaviour is fixed, so there is nothing for this repo or our player to implement. The whole document reports `ModifierGraphicsLayer[10]: operation is excluded from the cmp-wasm-alpha16 profile`. Observed in actions/runs/34197100663 (`CMP/Wasm gate: 643/701 rendered, 8 allowlisted, 50 failing` -- these fifty).",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-five-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-many-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-many-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-many-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-six-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-six-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-six-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-three-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_204dp_VARIANT_left-two-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 204dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left",
+      "reason": "The mirrored rail draws through a graphics layer, and CMP/Wasm is not offered that operation. `VerticalPageIndicatorRemote`'s `left` variants wrap `RemoteVerticalPageIndicator` in `RemoteModifier.graphicsLayer { scaleX = -1 }` -- the kit has no left-hand rail, so the cell mirrors the right-hand one -- and rc-players excludes MODIFIER_GRAPHICS_LAYER from its `CMP_WASM_ALPHA16` profile (RcOperationProfiles) because \"Compose's current Wasm graphics-layer surface disappears when this modifier is present\". Exactly the `LinearProgressRemote` situation above: the operation IS implemented and the shared/iOS renderer gets it, only browser producers are held back until that Compose Multiplatform backend behaviour is fixed, so there is nothing for this repo or our player to implement. The whole document reports `ModifierGraphicsLayer[10]: operation is excluded from the cmp-wasm-alpha16 profile`. Observed in actions/runs/34197100663 (`CMP/Wasm gate: 643/701 rendered, 8 allowlisted, 50 failing` -- these fifty).",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-five-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-many-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-many-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-many-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-six-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-six-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-six-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-three-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_216dp_VARIANT_left-two-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 216dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left",
+      "reason": "The mirrored rail draws through a graphics layer, and CMP/Wasm is not offered that operation. `VerticalPageIndicatorRemote`'s `left` variants wrap `RemoteVerticalPageIndicator` in `RemoteModifier.graphicsLayer { scaleX = -1 }` -- the kit has no left-hand rail, so the cell mirrors the right-hand one -- and rc-players excludes MODIFIER_GRAPHICS_LAYER from its `CMP_WASM_ALPHA16` profile (RcOperationProfiles) because \"Compose's current Wasm graphics-layer surface disappears when this modifier is present\". Exactly the `LinearProgressRemote` situation above: the operation IS implemented and the shared/iOS renderer gets it, only browser producers are held back until that Compose Multiplatform backend behaviour is fixed, so there is nothing for this repo or our player to implement. The whole document reports `ModifierGraphicsLayer[10]: operation is excluded from the cmp-wasm-alpha16 profile`. Observed in actions/runs/34197100663 (`CMP/Wasm gate: 643/701 rendered, 8 allowlisted, 50 failing` -- these fifty).",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-five-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-many-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-many-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-many-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-six-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-six-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-six-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-three-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_225dp_VARIANT_left-two-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 225dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left",
+      "reason": "The mirrored rail draws through a graphics layer, and CMP/Wasm is not offered that operation. `VerticalPageIndicatorRemote`'s `left` variants wrap `RemoteVerticalPageIndicator` in `RemoteModifier.graphicsLayer { scaleX = -1 }` -- the kit has no left-hand rail, so the cell mirrors the right-hand one -- and rc-players excludes MODIFIER_GRAPHICS_LAYER from its `CMP_WASM_ALPHA16` profile (RcOperationProfiles) because \"Compose's current Wasm graphics-layer surface disappears when this modifier is present\". Exactly the `LinearProgressRemote` situation above: the operation IS implemented and the shared/iOS renderer gets it, only browser producers are held back until that Compose Multiplatform backend behaviour is fixed, so there is nothing for this repo or our player to implement. The whole document reports `ModifierGraphicsLayer[10]: operation is excluded from the cmp-wasm-alpha16 profile`. Observed in actions/runs/34197100663 (`CMP/Wasm gate: 643/701 rendered, 8 allowlisted, 50 failing` -- these fifty).",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-five-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-many-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-many-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-many-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-six-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-six-pages-end",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-six-pages-middle",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-three-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
+      "expires": "2026-12-01"
+    },
+    {
+      "id": "ee.schimke.wearm3catalog.remote.ComponentVariantPreviewsKt.VerticalPageIndicatorRemote_240dp_VARIANT_left-two-pages",
+      "reason": "The same excluded graphics-layer operation; the variant changes how many dots the rail holds and where the selected one sits, not how it is composited. See the 240dp base entry above. Observed in actions/runs/34197100663.",
       "expires": "2026-12-01"
     }
   ]
