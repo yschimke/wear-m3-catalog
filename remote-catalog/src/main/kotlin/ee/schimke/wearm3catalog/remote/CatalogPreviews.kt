@@ -2358,14 +2358,21 @@ fun CircularProgressRemote() = RemoteSticker {
  * picture; that difference is the two libraries offering different components under one idea, and
  * it is stated here rather than hidden behind a name of its own.
  *
- * **WHAT THE RENDER SHOWS, and it is the library's.** The arc is drawn as a HAIRLINE — one dp of
- * ink at density 2.0 — however it is asked for. `strokeWidth` is not ignored: 8dp and 24dp bake to
- * different bytes, and the arc's radius insets as the number grows, so the parameter reaches the
- * layout. What it does not reach is the stroke, which stays a hairline at the library's own
- * `RemoteProgressIndicatorDefaults.CurvedIndicatorStrokeWidth` and at every value tried. No
- * workaround is taken: a stroke invented at the call site would draw an arc this library does not
- * produce, under its name, which is the trade `CircularProgressRemote`'s stroke note refuses one
- * component over.
+ * **THE HAIRLINE IS GONE, and it was never this library's**
+ * ([#289](https://github.com/yschimke/wear-m3-catalog/issues/289)). The arc used to draw as one dp
+ * of ink at density 2.0 however it was asked for, which read from here as `strokeWidth` reaching
+ * the layout — 8dp and 24dp bake to different bytes and the radius insets as the number grows — and
+ * being dropped before the paint. It was neither ignored nor dropped:
+ * `RemoteCurvedProgressIndicator` encodes `strokeWidth` as a computed expression, so the paint
+ * bundle carries a NaN-BOXED ID into the float store rather than a literal, and the EMBEDDED player
+ * read that word with `Float.fromBits` alone. `Stroke(width = NaN)` rasterises to the platform
+ * minimum, which is why every value drew the same sliver, and why the AOSP View, JS and CMP players
+ * all drew the correct width from the same document the whole time. Fixed in the embedded player
+ * (rc-players#53) and shipped in `third-party-rc-embedded-player` 1.59.3, which this build takes;
+ * the arc now draws at `RemoteProgressIndicatorDefaults.CurvedIndicatorStrokeWidth` and at whatever
+ * else it is given. Worth keeping because of how it hid: the bundle decoded, the op applied, the
+ * draw ran, and only the ink was wrong — a player-lane defect that read from here as an upstream
+ * one.
  *
  * No `@OverrideVariant` cells, because there is no kit set to have cells OF. The knobs are real
  * arguments a viewer can seed; they are simply not crossings of anything published.
@@ -2378,9 +2385,7 @@ fun CircularProgressRemote() = RemoteSticker {
     "The kit publishes no arc indicator: its progress sets are the full ring, the segmented ring " +
       "and the linear track. The Wear column says the same of its `ArcProgressIndicator`; this is " +
       "that component's Remote counterpart, determinate where Wear's is indeterminate.",
-  caption =
-    "A determinate arc along the bezel, at a fixed 60%. Remote draws it as a hairline whatever " +
-      "stroke width it is given — see the KDoc.",
+  caption = "A determinate arc along the bezel, at a fixed 60%.",
 )
 @CatalogRemoteLarge
 @Composable
