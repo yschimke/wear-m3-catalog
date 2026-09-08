@@ -8,6 +8,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.modifier.graphicsLayer
 import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.width
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -33,6 +34,7 @@ import androidx.wear.compose.remote.material3.RemoteVerticalPageIndicator
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import androidx.wear.compose.remote.material3.rememberRemotePageIndicatorState
 import ee.schimke.composeai.overrides.previewOverrideBoolean
+import ee.schimke.composeai.overrides.previewOverrideChoice
 import ee.schimke.composeai.overrides.previewOverrideInt
 import ee.schimke.composeai.preview.AnimatedPreview
 import ee.schimke.composeai.preview.CatalogComponent
@@ -377,11 +379,24 @@ fun IndeterminateCircularProgressMotionRemote() = RemoteSticker {
 annotation class RemoteHorizontalPageKitCells
 
 /**
- * The same nine cells at `Position=Vertical-Right`, for the vertical indicator.
+ * The same nine cells at `Position=Vertical-Right`, for the vertical indicator — **and the kit's
+ * third column, `Vertical-Left`, crossed with all ten `Number` values.**
  *
- * The kit's third column, `Vertical-Left`, is not drawn: which bezel the rail sits against is where
- * the caller puts it, not a parameter of `RemoteVerticalPageIndicator` — the same absence the Wear
- * column states for the same ten cells.
+ * That column used to be a stated absence on both sheets: which bezel the rail sits against is
+ * where the caller PUTS it rather than a parameter of `RemoteVerticalPageIndicator`, so a cell for
+ * it read as a picture of the sticker's own layout under the kit's name. What changes that reading
+ * is the second half of the move. Alignment alone would indeed be the sticker choosing a place to
+ * stand; a rail against the left bezel is the right-hand rail **mirrored**, and a mirror is a
+ * transform the library publishes — `RemoteModifier.graphicsLayer { scaleX = -1f }` on this column,
+ * `Modifier.graphicsLayer { scaleX = -1f }` on the Wear one. So the cell draws the kit's node
+ * rather than a relocation of its sibling, and the two sheets spell it the same way.
+ *
+ * **On today's rail the mirror is pixel-identical to its absence, and that is stated rather than
+ * hidden.** `RemoteVerticalPageIndicator` draws a straight, symmetric column of dots — the same
+ * measured finding the horizontal sticker records, that this component has no curvature and no edge
+ * affinity — so flipping it about its own centre moves nothing. It is written because the flip is
+ * what makes the cell honest the day the rail gains a side, and because the Wear column, whose rail
+ * IS curved, needs it today.
  */
 @OverrideVariant(name = "two-pages", ints = ["pages=2"], kitAxis = "Number", kitValue = "2")
 @OverrideVariant(name = "three-pages", ints = ["pages=3"], kitAxis = "Number", kitValue = "3")
@@ -419,6 +434,77 @@ annotation class RemoteHorizontalPageKitCells
   name = "many-pages-end",
   ints = ["pages=8", "initialPage=7"],
   kitProps = ["Number=7+ - End", "Position=Vertical-Right"],
+  secondary = true,
+)
+// THE `Vertical-Left` COLUMN. `left` turns one knob off the base cell — the side — and stays
+// primary; every other cell crosses the side with a `Number` and is a crossing, so it is secondary.
+@OverrideVariant(
+  name = "left",
+  strings = ["side=left"],
+  kitAxis = "Position",
+  kitValue = "Vertical-Left",
+)
+@OverrideVariant(
+  name = "left-two-pages",
+  ints = ["pages=2"],
+  strings = ["side=left"],
+  kitProps = ["Number=2", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-three-pages",
+  ints = ["pages=3"],
+  strings = ["side=left"],
+  kitProps = ["Number=3", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-five-pages",
+  ints = ["pages=5"],
+  strings = ["side=left"],
+  kitProps = ["Number=5", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-six-pages",
+  ints = ["pages=6"],
+  strings = ["side=left"],
+  kitProps = ["Number=6 - Start", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-six-pages-middle",
+  ints = ["pages=6", "initialPage=3"],
+  strings = ["side=left"],
+  kitProps = ["Number=6  - MiddleEnd", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-six-pages-end",
+  ints = ["pages=6", "initialPage=5"],
+  strings = ["side=left"],
+  kitProps = ["Number=6 - End", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-many-pages",
+  ints = ["pages=8"],
+  strings = ["side=left"],
+  kitProps = ["Number=7+ - Start", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-many-pages-middle",
+  ints = ["pages=8", "initialPage=4"],
+  strings = ["side=left"],
+  kitProps = ["Number=7+  - MiddleEnd", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-many-pages-end",
+  ints = ["pages=8", "initialPage=7"],
+  strings = ["side=left"],
+  kitProps = ["Number=7+ - End", "Position=Vertical-Left"],
   secondary = true,
 )
 annotation class RemoteVerticalPageKitCells
@@ -487,10 +573,20 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
   // Against the right bezel, for the reason spelled out on the horizontal one: the component draws
   // a straight content-sized rail wherever it is put and at whatever size, so the sticker supplies
   // the position the kit cell is about and leaves the missing curvature on show.
+  //
+  // The kit's `Position` axis, as the side plus the mirror that makes it the kit's node rather than
+  // this one moved — see [RemoteVerticalPageKitCells] for why both halves are needed and for what
+  // the mirror is worth on a straight rail today.
+  val left = previewOverrideChoice("side", "right", listOf("right", "left")) == "left"
   RemoteBox(
     modifier = RemoteModifier.fillMaxSize(),
-    contentAlignment = RemoteAlignment.CenterEnd,
-    content = { RemoteVerticalPageIndicator(state = rememberKitPageIndicatorState()) },
+    contentAlignment = if (left) RemoteAlignment.CenterStart else RemoteAlignment.CenterEnd,
+    content = {
+      RemoteVerticalPageIndicator(
+        state = rememberKitPageIndicatorState(),
+        modifier = if (left) RemoteModifier.graphicsLayer { scaleX = (-1f).rf } else RemoteModifier,
+      )
+    },
   )
 }
 

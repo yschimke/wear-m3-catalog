@@ -49,6 +49,9 @@ object KitCopy {
   /** @see PRIMARY */
   const val SECONDARY = "Secondary"
 
+  /** `Text-ListHeader`. Transcribed from the Wear sibling's `KitCopy.TITLE`, like the rest. */
+  const val TITLE = "Title"
+
   /** `Card`'s app-name slot, on the App Card layout. */
   const val APP_LABEL = "Label text"
 
