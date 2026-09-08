@@ -148,3 +148,15 @@ the stepper's own buttons carry the container colour, so the frame reads on any 
 rail is the only thing that moves between the two. Reproduced with
 `./gradlew :remote-catalog:composePreviewRender --preview ValueStepperRemote` at the pinned build id
 in [`.github/ci/remote-snapshot-pin`](../../.github/ci/remote-snapshot-pin).
+
+`remote-m3-shapes.png` and `remote-m3-shapes-parity.png` are contact sheets in the
+`remote-m3-folded-cells.png` sense, for the kit's `Shapes` set. The first is all 35 cells of
+`Shape/MaterialShapes` as the Remote sheet now draws them, with the cell's name under each; the
+second is the same 35 cells with the Wear column's frame beside the Remote one, which is the
+question a reader of a three-way comparison actually has — does the polygon painted as a
+RemoteDocument path land on the same silhouette as the one clipped with `RoundedPolygon.toShape()`.
+A set added 35 cells at a time cannot be evidenced one PNG at a time, and neither can a claim about
+parity. Frames are `composePreviewRender` outputs cropped to their drawn bounds and composited onto
+the sheet's dark board for the reason `remote-m3-folded-cells.png` gives — these are a flat
+`primaryDim` silhouette on transparency, invisible on a light page — and no pixel of a render is
+otherwise touched.

@@ -13,18 +13,18 @@ run actually compares.
 ## Cells
 
 **Read the overlap figure, not the whole-kit one.** The sheets share
-**10 of the kit's 34 sets**. Outside that overlap the Remote sheet is not
+**11 of the kit's 34 sets**. Outside that overlap the Remote sheet is not
 behind — there is nothing there for it to be behind on, because it draws none of those sets at
 all. The whole-kit percentage divides its cells by every set including the ones it never claimed,
 which reads as a shortfall it does not have.
 
 | | published cells | `wear-m3-catalog` | `remote-m3` |
 | --- | ---: | ---: | ---: |
-| **The 10 shared sets** | **333** | **224** (67.3%) | **230** (69.1%) |
-| All 34 sets | 897 | 597 (66.6%) | 230 (25.6%) |
+| **The 11 shared sets** | **368** | **259** (70.4%) | **265** (72.0%) |
+| All 34 sets | 897 | 597 (66.6%) | 265 (29.5%) |
 
 Inside the overlap the two sheets differ by **6 cells, in 1 set(s)**. The
-other 9 shared sets are drawn cell for cell the same on both.
+other 10 shared sets are drawn cell for cell the same on both.
 
 | set | published | wear | remote | difference |
 | --- | ---: | ---: | ---: | ---: |
@@ -46,7 +46,7 @@ failing to close. The kit page each set sits on is linked, so a set can be opene
 | `Picker` | Pickers | [`43678:8580`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=43678-8580) | 42 | 11 (26.2%) | — |
 | `Button-Compact` | Buttons | [`35276:87971`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=35276-87971) | 40 | 30 (75.0%) | 30 (75.0%) |
 | `Icon-Button` | Buttons | [`34732:102972`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34732-102972) | 40 | 40 (100.0%) | 40 (100.0%) |
-| `Shapes` | Shapes | [`42284:176650`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=42284-176650) | 35 | 35 (100.0%) | — |
+| `Shapes` | Shapes | [`42284:176650`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=42284-176650) | 35 | 35 (100.0%) | 35 (100.0%) |
 | `Toggle+Selection-Buttons` | Buttons | [`35276:84869`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=35276-84869) | 32 | 24 (75.0%) | — |
 | `Page-Indicator` | Page Indicators | [`38684:137917`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38684-137917) | 30 | 20 (66.7%) | 20 (66.7%) |
 | `Text-Button` | Buttons | [`34732:103080`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34732-103080) | 30 | 30 (100.0%) | 30 (100.0%) |
