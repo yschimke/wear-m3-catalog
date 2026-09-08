@@ -13,22 +13,23 @@ run actually compares.
 ## Cells
 
 **Read the overlap figure, not the whole-kit one.** The sheets share
-**11 of the kit's 34 sets**. Outside that overlap the Remote sheet is not
+**16 of the kit's 34 sets**. Outside that overlap the Remote sheet is not
 behind — there is nothing there for it to be behind on, because it draws none of those sets at
 all. The whole-kit percentage divides its cells by every set including the ones it never claimed,
 which reads as a shortfall it does not have.
 
 | | published cells | `wear-m3-catalog` | `remote-m3` |
 | --- | ---: | ---: | ---: |
-| **The 11 shared sets** | **368** | **259** (70.4%) | **265** (72.0%) |
-| All 34 sets | 897 | 597 (66.6%) | 265 (29.5%) |
+| **The 16 shared sets** | **406** | **297** (73.2%) | **307** (75.6%) |
+| All 34 sets | 897 | 607 (67.7%) | 307 (34.2%) |
 
-Inside the overlap the two sheets differ by **6 cells, in 1 set(s)**. The
-other 10 shared sets are drawn cell for cell the same on both.
+Inside the overlap the two sheets differ by **10 cells, in 2 set(s)**. The
+other 14 shared sets are drawn cell for cell the same on both.
 
 | set | published | wear | remote | difference |
 | --- | ---: | ---: | ---: | ---: |
 | `Card` | 45 | 34 | 40 | wear −6 |
+| `Scroll-Indicator` | 7 | 3 | 7 | wear −4 |
 
 ### Every set
 
@@ -48,25 +49,25 @@ failing to close. The kit page each set sits on is linked, so a set can be opene
 | `Icon-Button` | Buttons | [`34732:102972`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34732-102972) | 40 | 40 (100.0%) | 40 (100.0%) |
 | `Shapes` | Shapes | [`42284:176650`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=42284-176650) | 35 | 35 (100.0%) | 35 (100.0%) |
 | `Toggle+Selection-Buttons` | Buttons | [`35276:84869`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=35276-84869) | 32 | 24 (75.0%) | — |
-| `Page-Indicator` | Page Indicators | [`38684:137917`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38684-137917) | 30 | 20 (66.7%) | 20 (66.7%) |
+| `Page-Indicator` | Page Indicators | [`38684:137917`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38684-137917) | 30 | 30 (100.0%) | 30 (100.0%) |
 | `Text-Button` | Buttons | [`34732:103080`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=34732-103080) | 30 | 30 (100.0%) | 30 (100.0%) |
 | `Icon-ToggleButton` | Buttons | [`39083:679`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=39083-679) | 24 | 16 (66.7%) | — |
-| `Button-Loading` | Buttons | [`68333:155055`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=68333-155055) | 18 | 18 (100.0%) | — |
+| `Button-Loading` | Buttons | [`68333:155055`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=68333-155055) | 18 | 18 (100.0%) | 18 (100.0%) |
 | `Dialog` | Dialogs | [`58475:87022`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=58475-87022) | 17 | 3 (17.6%) | — |
 | `Icon-Button-Placeholder` | Buttons | [`71571:44843`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71571-44843) | 16 | 16 (100.0%) | — |
 | `Progress-Indicator-Linear` | Progress Indicators | [`45011:259051`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=45011-259051) | 16 | 8 (50.0%) | — |
 | `Text-ToggleButton` | Buttons | [`39083:760`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=39083-760) | 15 | 12 (80.0%) | — |
 | `Confirmation-Overlay` | Confirmation Overlays | [`47251:36765`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=47251-36765) | 9 | 6 (66.7%) | — |
 | `Stepper` | Steppers | [`44993:61162`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=44993-61162) | 8 | 8 (100.0%) | — |
-| `Scroll-Indicator` | Position Indicators | [`44998:18342`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=44998-18342) | 7 | 3 (42.9%) | — |
-| `Level-Indicator-RSB` | Position Indicators | [`46619:47146`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=46619-47146) | 6 | 2 (33.3%) | — |
+| `Scroll-Indicator` | Position Indicators | [`44998:18342`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=44998-18342) | 7 | 3 (42.9%) | 7 (100.0%) |
+| `Level-Indicator-RSB` | Position Indicators | [`46619:47146`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=46619-47146) | 6 | 2 (33.3%) | 2 (33.3%) |
 | `Button-ImageBackground` | Buttons | [`38425:101028`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38425-101028) | 4 | 4 (100.0%) | 4 (100.0%) |
 | `Button-Placeholder` | Buttons | [`71571:44772`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71571-44772) | 4 | 4 (100.0%) | — |
 | `STR-button` | Swipe to Reveal | [`56392:155784`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=56392-155784) | 4 | 2 (50.0%) | — |
 | `STR-card` | Swipe to Reveal | [`56392:155752`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=56392-155752) | 4 | 2 (50.0%) | — |
-| `Text-ListHeader` | Text | [`38977:66977`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66977) | 4 | 2 (50.0%) | — |
+| `Text-ListHeader` | Text | [`38977:66977`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66977) | 4 | 2 (50.0%) | 2 (50.0%) |
 | `TimeText` | Text | [`38973:10025`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38973-10025) | 4 | 4 (100.0%) | — |
-| `Text-ListHeader-Sub` | Text | [`38977:66982`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66982) | 3 | 3 (100.0%) | — |
+| `Text-ListHeader-Sub` | Text | [`38977:66982`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66982) | 3 | 3 (100.0%) | 3 (100.0%) |
 | `Card-Placeholder` | Cards | [`71571:45109`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71571-45109) | 2 | 2 (100.0%) | — |
 | `OpenOnPhone-Overlay` | Confirmation Overlays | [`46964:90920`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=46964-90920) | 2 | 2 (100.0%) | — |
 | `Text-Body` | Text | [`38977:66990`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=38977-66990) | 2 | 2 (100.0%) | 2 (100.0%) |
@@ -75,13 +76,13 @@ failing to close. The kit page each set sits on is linked, so a set can be opene
 ## Page grids
 
 The kit's own pages, imported whole: **22 pages, 1845 nodes**, of which
-**597 (32.4%)** carry a code handle naming a preview in this
+**607 (32.9%)** carry a code handle naming a preview in this
 repository. A page node is a frame the kit draws — a grid cell, a spec callout, a documentation
 sticker — so most of them are never anyone's component and the total is not a target.
 
 | | nodes linked |
 | --- | ---: |
-| `wear-m3-catalog` | **597** |
+| `wear-m3-catalog` | **607** |
 | `remote-m3` | **0** |
 
 **Every linked node names `wear-m3-catalog`; `remote-m3` claims none of them.** That is not
@@ -107,7 +108,7 @@ kit node's code handle names.
 | `cards` | 50 | 36 (72.0%) | [`71496:10917`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-10917) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/cards.svg) |
 | `dialogs` | 45 | 3 (6.7%) | [`71496:31986`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-31986) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/dialogs.svg) |
 | `pickers` | 44 | 11 (25.0%) | [`71496:31185`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-31185) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/pickers.svg) |
-| `page-indicators` | 40 | 20 (50.0%) | [`71496:27531`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-27531) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/page-indicators.svg) |
+| `page-indicators` | 40 | 30 (75.0%) | [`71496:27531`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-27531) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/page-indicators.svg) |
 | `shapes` | 37 | 35 (94.6%) | [`48503:35392`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=48503-35392) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/shapes.svg) |
 | `text` | 22 | 13 (59.1%) | [`71496:27050`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-27050) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/text.svg) |
 | `swipe-to-reveal` | 21 | 4 (19.0%) | [`71496:32052`](https://www.figma.com/design/B24oss2tTeXAFykyeyusz0/?node-id=71496-32052) | [grid](https://github.com/yschimke/wear-m3-catalog/blob/main/design/pages/swipe-to-reveal.svg) |

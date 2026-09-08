@@ -244,9 +244,28 @@ class RemoteRenderTest {
    * The Wear sibling records exactly these six for exactly this reason, which is what makes it a
    * property of the design system rather than of either rendition: neither library has an argument
    * that moves the timestamp off the title's row.
+   *
+   * `LoadingRemoteButton` is the third counted component, and its three are the CHILD style's
+   * disabled cells against the TONAL ones — one pair per icon size, measured:
+   *
+   * 516058ed… …_VARIANT_child_disabled == …_VARIANT_disabled a7c537d4…
+   * …_VARIANT_child_icon_large_disabled == …_VARIANT_icon_large_disabled 6b75edc3…
+   * …_VARIANT_child_icon_extra_large_disabled == …_VARIANT_icon_extra_large_disabled
+   *
+   * The kit publishes `Tonal` and `Child (No background)` as separate styles at every icon size,
+   * and the library draws one picture for both once `enabled = false`: `remoteChildButtonColors()`
+   * is `buttonColors(containerColor = Transparent, …)`, which sets the ENABLED pair only, so the
+   * disabled container and content fall back to the generic defaults — which is exactly what the
+   * tonal factory's disabled pair resolves to as well. It is the same shape of collapse
+   * `CompactRemoteButton` records above and, being the colour set's, it is a fact about the library
+   * rather than about this call site: overriding a disabled colour here would be a treatment this
+   * catalog invented, and the Wear sibling passes `childButtonColors()` unmodified for the same
+   * reason. The OUTLINED style stays distinct at all three sizes because its border is a separate
+   * parameter, and the fifteen other cells go on being checked — which is why this is a count
+   * rather than a `knownDuplicate` entry.
    */
   private val expectedCollapses: Map<String, Int> =
-    mapOf("TitleCardRemote" to 6) +
+    mapOf("TitleCardRemote" to 6, "LoadingRemoteButton" to 3) +
       if (onSnapshotLane) mapOf("ValueStepperRemote" to 2) else emptyMap()
 
   /**

@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.LevelIndicator
@@ -24,6 +25,7 @@ import ee.schimke.composeai.overrides.previewOverrideDp
 import ee.schimke.composeai.overrides.previewOverrideFloat
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
+import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogTransparentScreenModes
@@ -42,6 +44,9 @@ import ee.schimke.wearm3catalog.TransparentScreenSticker
 // screen's furniture; here there is no scaffold, so the sticker supplies it:
 //
 //  - `ScrollIndicator` and `VerticalPageIndicator` → `Alignment.CenterEnd` (right bezel in Ltr).
+//    `VerticalPageIndicator`'s `Vertical-Left` cells take `CenterStart` AND a
+//    `graphicsLayer { scaleX = -1f }`, because moving a rail that bows towards its bezel is not the
+//    same picture as mirroring it — see `VerticalPageKitCells`.
 //  - `LevelIndicator` → `Alignment.CenterStart`. It is the odd one out: it passes `rsbSide = false`
 //    internally, so it draws on the *left* in Ltr, and unlike the page indicators its KDoc names no
 //    alignment at all — which is how it shipped here unaligned and rendered as issue #18.
@@ -254,12 +259,26 @@ fun HorizontalPages(
 }
 
 /**
- * The same ten cells at `Position=Vertical-Right`, for the vertical pager.
+ * The same ten cells at `Position=Vertical-Right`, for the vertical pager — **and the kit's third
+ * column, `Vertical-Left`, crossed with all ten `Number` values.**
  *
- * The kit's third column, `Vertical-Left`, is not drawn: which bezel the rail sits against is the
- * caller's `Alignment` (or the layout direction), not a parameter of `VerticalPageIndicator` — see
- * the placement note at the top of this file. A cell for it would be a picture of the sticker's own
- * layout under the kit's name.
+ * That column used to be a stated absence: which bezel the rail sits against is the caller's
+ * `Alignment` rather than a parameter of `VerticalPageIndicator`, so a cell for it read as a
+ * picture of the sticker's own layout under the kit's name. What changes that reading is the second
+ * half of the move. Alignment alone would indeed be the sticker choosing a place to stand; a rail
+ * against the left bezel is the right-hand rail **mirrored**, and a mirror is a transform Compose
+ * publishes — `Modifier.graphicsLayer { scaleX = -1f }`. So the cell draws the kit's node rather
+ * than a relocation of its sibling.
+ *
+ * It is a real difference here, not a formality: `VerticalPageIndicator` strikes its rail on the
+ * screen's circle, so the dots BOW towards the bezel they sit against and an unmirrored rail moved
+ * to the left curves the wrong way. (The Remote sibling spells the same cells the same way for the
+ * same reason, and records that on its own straight rail the flip currently moves no pixels.)
+ *
+ * NOT `LocalLayoutDirection provides Rtl`, which is the other way to reach the left bezel: the
+ * component reads the layout direction for `indicatorOnTheRight`, but so does everything else in
+ * the composition, and the kit's `Vertical-Left` cells are an Ltr screen with the rail on the left
+ * rather than an Rtl screen.
  */
 @OverrideVariant(
   name = "two-pages",
@@ -314,7 +333,87 @@ fun HorizontalPages(
   kitProps = ["Number=7+ - End", "Position=Vertical-Right"],
   secondary = true,
 )
+// THE `Vertical-Left` COLUMN. `left` turns one knob off the base cell — the side — and stays
+// primary; every other cell crosses the side with a `Number` and is a crossing, so it is secondary.
+// The names are the Remote sibling's, cell for cell.
+@OverrideVariant(
+  name = "left",
+  strings = ["side=left"],
+  kitAxis = "Position",
+  kitValue = "Vertical-Left",
+)
+@OverrideVariant(
+  name = "left-two-pages",
+  ints = ["pages=2"],
+  strings = ["side=left"],
+  kitProps = ["Number=2", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-three-pages",
+  ints = ["pages=3"],
+  strings = ["side=left"],
+  kitProps = ["Number=3", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-five-pages",
+  ints = ["pages=5"],
+  strings = ["side=left"],
+  kitProps = ["Number=5", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-six-pages",
+  ints = ["pages=6"],
+  strings = ["side=left"],
+  kitProps = ["Number=6 - Start", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-six-pages-middle",
+  ints = ["pages=6", "initialPage=3"],
+  strings = ["side=left"],
+  kitProps = ["Number=6  - MiddleEnd", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-six-pages-end",
+  ints = ["pages=6", "initialPage=5"],
+  strings = ["side=left"],
+  kitProps = ["Number=6 - End", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-many-pages",
+  ints = ["pages=8"],
+  strings = ["side=left"],
+  kitProps = ["Number=7+ - Start", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-many-pages-middle",
+  ints = ["pages=8", "initialPage=4"],
+  strings = ["side=left"],
+  kitProps = ["Number=7+  - MiddleEnd", "Position=Vertical-Left"],
+  secondary = true,
+)
+@OverrideVariant(
+  name = "left-many-pages-end",
+  ints = ["pages=8", "initialPage=7"],
+  strings = ["side=left"],
+  kitProps = ["Number=7+ - End", "Position=Vertical-Left"],
+  secondary = true,
+)
 annotation class VerticalPageKitCells
+
+/**
+ * The kit's `Position` axis for the vertical page indicator, as the bezel the rail is struck on.
+ */
+enum class PageIndicatorSide {
+  @KnobValue("right") Right,
+  @KnobValue("left") Left,
+}
 
 @CatalogComponent(
   id = "PageIndicator/Vertical",
@@ -328,11 +427,19 @@ annotation class VerticalPageKitCells
 fun VerticalPages(
   pages: Int = 4,
   initialPage: Int = 0,
+  side: PageIndicatorSide = PageIndicatorSide.Right,
 ) = TransparentScreenSticker {
   val initialPage = initialPage.coerceIn(0, (pages - 1).coerceAtLeast(0))
+  val left = side == PageIndicatorSide.Left
   VerticalPageIndicator(
     pagerState =
       key(pages, initialPage) { rememberPagerState(initialPage = initialPage) { pages } },
-    modifier = Modifier.align(Alignment.CenterEnd),
+    // The kit's `Position` axis: the bezel, plus the mirror that makes the left cell the kit's node
+    // rather than the right one moved — see [VerticalPageKitCells]. `graphicsLayer` flips about the
+    // layer's own centre, so the rail keeps its place against the bezel and only its curvature
+    // turns over.
+    modifier =
+      Modifier.align(if (left) Alignment.CenterStart else Alignment.CenterEnd)
+        .then(if (left) Modifier.graphicsLayer { scaleX = -1f } else Modifier),
   )
 }

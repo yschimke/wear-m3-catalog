@@ -160,3 +160,24 @@ parity. Frames are `composePreviewRender` outputs cropped to their drawn bounds 
 the sheet's dark board for the reason `remote-m3-folded-cells.png` gives — these are a flat
 `primaryDim` silhouette on transparency, invisible on a light page — and no pixel of a render is
 otherwise touched.
+
+`remote-m3-position-and-text-cells.png` is a contact sheet in the `remote-m3-folded-cells.png` sense
+for the five kit sets the Remote sheet drew none of until now — `Button-Loading`, `Scroll-Indicator`,
+`Level-Indicator-RSB`, `Text-ListHeader` and `Text-ListHeader-Sub`. It is banded by set rather than
+by component, because the question each band answers is different: whether the loading button's
+three styles and three icon sizes are three pictures each, whether the scroll rail's thumb OFFSET
+and its thumb LENGTH are two independent axes (they are the same kit `Position` property and the
+reason this column reaches four cells the Wear one cannot), and whether the two headers' `Alignment`
+cells differ at all — an unconstrained line of text is the same picture at every alignment, so that
+one is a real risk rather than a formality. Frames are `:remote-catalog:composePreviewRender`
+outputs on the snapshot lane, composited onto the sheet's `#141418` for the reason
+`remote-m3-folded-cells.png` gives and outlined so a reader can tell which frame a rail sits at the
+edge of; no pixel of a render is otherwise touched.
+
+`page-indicator-vertical-left.png` is a two-sheet board for the kit's `Position=Vertical-Left`
+column, which both sheets used to state as an absence. The top band is `wear-m3-catalog` and the
+bottom `remote-m3`, each showing a right-bezel cell beside the left-bezel cell it mirrors. There is
+no "before" band because the change ADDS cells: the right-hand cells are the before, in the only
+sense the comparison has. It is worth reading as a pair because the two columns disagree, honestly —
+Wear's rail bows towards its bezel and its mirror is visible, the Remote rail is straight and its
+mirror moves no pixels, which is exactly what the two files say in their own words.

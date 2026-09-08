@@ -231,11 +231,7 @@
       "components": [
         "PageIndicator/Horizontal",
         "PageIndicator/Vertical"
-      ],
-      "cells": {
-        "catalog": "All ten are `Position=Vertical-Left`. Which bezel the rail sits against is the caller's `Alignment` (or the layout direction), not a parameter of `VerticalPageIndicator` — a cell for it would be a picture of the sticker's own layout under the kit's name.",
-        "remote-catalog": "All ten are `Position=Vertical-Left`. Which bezel the rail sits against is where the caller puts it, not a parameter of `RemoteVerticalPageIndicator` — the same absence the `catalog` row states for the same ten cells, and a cell for it would be a picture of the sticker's own layout under the kit's name."
-      }
+      ]
     },
     {
       "page": "Pickers",
@@ -258,7 +254,8 @@
         "LevelIndicator"
       ],
       "cells": {
-        "catalog": "All four are `Size = Long | Short`, which in Compose is the arc's `sweepAngle` — 72 degrees, a fifth of the circumference, by default. The API takes it; the kit does not publish the two angles its cells draw. They are bound to no variable and the cells export as flattened SVGs, so the numbers live in that path data and guessing one would put an invented angle under the kit's name — the same blocker as the progress rings' `Top Gap`/`Bottom Gap`."
+        "catalog": "All four are `Size = Long | Short`, which in Compose is the arc's `sweepAngle` — 72 degrees, a fifth of the circumference, by default. The API takes it; the kit does not publish the two angles its cells draw. They are bound to no variable and the cells export as flattened SVGs, so the numbers live in that path data and guessing one would put an invented angle under the kit's name — the same blocker as the progress rings' `Top Gap`/`Bottom Gap`.",
+        "remote-catalog": "All four are `Size = Long | Short`, and the blocker is the kit's rather than the library's — the same one the `catalog` row states. The sweep is an argument here too (`sweepAngle` on `RemoteCurvedProgressIndicator`, which is what draws this rail at all, since `remote-material3` publishes no level indicator), so the API reaches those cells; the kit does not publish the two angles they draw. They are bound to no variable and the cells export as flattened SVGs, so the numbers live in that path data and guessing one would put an invented angle under the kit's name."
       }
     },
     {
@@ -355,7 +352,8 @@
         "ListHeader"
       ],
       "cells": {
-        "catalog": "The two are `Type=Page-Mid`. `ListHeader` takes a `contentPadding`, but `ListHeaderDefaults` publishes one value for it (the second, `subHeaderContentPadding`, belongs to `ListSubHeader` and its own kit set) and nothing distinguishes the first header on a screen from one further down a list. The two kit cells differ in the space ABOVE them, which is a property of where the header sits rather than of the component — and a wrap sticker is cropped tight, so that space is not in the picture either way."
+        "catalog": "The two are `Type=Page-Mid`. `ListHeader` takes a `contentPadding`, but `ListHeaderDefaults` publishes one value for it (the second, `subHeaderContentPadding`, belongs to `ListSubHeader` and its own kit set) and nothing distinguishes the first header on a screen from one further down a list. The two kit cells differ in the space ABOVE them, which is a property of where the header sits rather than of the component — and a wrap sticker is cropped tight, so that space is not in the picture either way.",
+        "remote-catalog": "The two are `Type=Page-Mid`, and the reason is the kit's rather than either library's — the same one the `catalog` row states. The two cells differ in the space ABOVE the header, which is a property of where it sits in a list rather than of the header; a component sticker is cropped to what it draws, so that space is in neither picture. This sheet builds the header from `RemoteText` (there is no `RemoteListHeader`), which changes nothing about it: a content padding is what a header has, and it says nothing about what is above the header."
       }
     },
     {
