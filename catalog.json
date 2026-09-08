@@ -28176,12 +28176,12 @@
       "greenlines": [],
       "redlines": [],
       "group": "Communication",
-      "caption": "A determinate arc along the bezel, at a fixed 60%. Remote draws it as a hairline whatever stroke width it is given — see the KDoc.",
+      "caption": "A determinate arc along the bezel, at a fixed 60%.",
       "noReference": "The kit publishes no arc indicator: its progress sets are the full ring, the segmented ring and the linear track. The Wear column says the same of its `ArcProgressIndicator`; this is that component's Remote counterpart, determinate where Wear's is indeterminate.",
       "wireframe": "wireframes/arcprogressindicator.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2387,
+      "bodyLine": 2392,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "ArcProgressRemote",
       "parameters": [
@@ -34841,7 +34841,7 @@
       "wireframe": "wireframes/icon.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2420,
+      "bodyLine": 2425,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "IconRemote",
       "parameters": [
@@ -34977,7 +34977,7 @@
       "wireframe": "wireframes/text-body.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2467,
+      "bodyLine": 2472,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "RemoteTextSticker",
       "parameters": [
@@ -35114,7 +35114,7 @@
       "wireframe": "wireframes/text-caption.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2530,
+      "bodyLine": 2535,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "RemoteCaptionSticker",
       "parameters": [
@@ -35156,7 +35156,7 @@
       "wireframe": "wireframes/text-maxlines-truncated.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2567,
+      "bodyLine": 2572,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "TruncatedTextRemote",
       "parameters": [
@@ -35197,7 +35197,7 @@
       "wireframe": "wireframes/text-branded.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2618,
+      "bodyLine": 2623,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "BrandedTextRemote",
       "parameters": [
@@ -35238,7 +35238,7 @@
       "wireframe": "wireframes/typeface-specimen.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2653,
+      "bodyLine": 2658,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "TypefaceSpecimenRemote",
       "parameters": [
@@ -35279,7 +35279,7 @@
       "wireframe": "wireframes/typeface-variableweight.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2714,
+      "bodyLine": 2719,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "VariableWeightRemote",
       "parameters": [
@@ -35320,7 +35320,7 @@
       "wireframe": "wireframes/typeface-variablewidth.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2747,
+      "bodyLine": 2752,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "VariableWidthRemote",
       "parameters": [
@@ -35361,7 +35361,7 @@
       "wireframe": "wireframes/theme-typography.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2811,
+      "bodyLine": 2816,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "TypographyRemote",
       "parameters": [
@@ -35401,7 +35401,7 @@
       "wireframe": "wireframes/theme-colorscheme.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2829,
+      "bodyLine": 2834,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "ColorSchemeRemote",
       "parameters": [
@@ -35725,7 +35725,7 @@
       "wireframe": "wireframes/shader-lineargradient.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 2872,
+      "bodyLine": 2877,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "ShaderGradientSticker",
       "parameters": [
@@ -49822,6 +49822,24 @@
               "optionsExhaustive": false
             },
             {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
               "key": "content",
               "type": "string",
               "label": "content",
@@ -49889,6 +49907,24 @@
               "key": "buttonFill",
               "type": "bool",
               "label": "buttonFill",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
               "default": {
                 "kind": "bool",
                 "value": true
@@ -49986,6 +50022,24 @@
               "optionsExhaustive": false
             },
             {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
               "key": "content",
               "type": "string",
               "label": "content",
@@ -50053,6 +50107,24 @@
               "key": "buttonFill",
               "type": "bool",
               "label": "buttonFill",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
               "default": {
                 "kind": "bool",
                 "value": true
@@ -50151,6 +50223,24 @@
               "optionsExhaustive": false
             },
             {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
               "key": "content",
               "type": "string",
               "label": "content",
@@ -50226,6 +50316,24 @@
               "current": {
                 "kind": "bool",
                 "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -50317,6 +50425,24 @@
               "optionsExhaustive": false
             },
             {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
               "key": "content",
               "type": "string",
               "label": "content",
@@ -50391,6 +50517,24 @@
               "current": {
                 "kind": "bool",
                 "value": false
+              },
+              "index": null,
+              "suggestions": [],
+              "googleFonts": false,
+              "options": [],
+              "optionsExhaustive": false
+            },
+            {
+              "key": "levelIndicator",
+              "type": "bool",
+              "label": "levelIndicator",
+              "default": {
+                "kind": "bool",
+                "value": true
+              },
+              "current": {
+                "kind": "bool",
+                "value": true
               },
               "index": null,
               "suggestions": [],
@@ -50522,13 +50666,13 @@
       ],
       "redlines": [],
       "group": "Steppers",
-      "caption": "A value moved a step at a time, between buttons at the top and bottom of the screen. The kit draws a level rail beside them; remote-material3 publishes no level indicator, so this rendition cannot.",
+      "caption": "A value moved a step at a time, between buttons at the top and bottom of the screen, with the level rail the kit draws beside them — a curved progress arc standing in for the level indicator remote-material3 does not publish.",
       "reference": "figma:B24oss2tTeXAFykyeyusz0/45007:258717",
       "referenceSet": "figma:B24oss2tTeXAFykyeyusz0/44993:61162",
       "wireframe": "wireframes/stepper.svg",
       "sourceFile": "src/snapshot/kotlin/ee/schimke/wearm3catalog/remote/StepperPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 135,
+      "bodyLine": 172,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "ValueStepperRemote",
       "parameters": [
@@ -50628,7 +50772,7 @@
     "androidx.glance.wear:wear"
   ],
   "renderer": "compose-preview 2.2.4",
-  "generatedAt": "2026-09-07T23:56:26.637Z",
+  "generatedAt": "2026-09-08T00:30:15.484Z",
   "display": {
     "surface": "dark",
     "hero": "Scaffold"
