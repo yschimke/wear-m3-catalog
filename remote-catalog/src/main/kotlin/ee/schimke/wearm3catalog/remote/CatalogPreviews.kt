@@ -1930,16 +1930,20 @@ fun TitleCardRemote() = RemoteSticker {
 // what the preview server's front door features for `remote-m3`.
 //
 // It took the job from `Scaffold` below, whose claim was the better argument in the abstract — a
-// RemoteDocument driving a whole surface is what this catalog is for — and the weaker picture on a
-// card. That screen is four list rows reading "Row 1" to "Row 4", and they read that way on
-// purpose: they quote the Wear sibling's scaffold so the compare page pairs like with like. Quoted
-// placeholder text is the right content for a parity comparison and the wrong content for a front
-// door, where the card is one sticker and has to say what this catalog draws.
+// RemoteDocument driving a whole surface is what this catalog is for — and the weaker picture at
+// card size.
 //
-// An app card says it: an icon, an app name, a time, a title and a content slot, all of them real
-// `RemoteAppCard` geometry under the dark-first scheme, in one picture at card size. The server
-// resolves `display.hero` by component id and takes this component's first published render, so
-// nothing here pins a breakpoint — the id is the whole declaration.
+// Not because of the COPY: both stickers draw placeholder strings, and this one's title is
+// `KitCopy.CARD_TITLE` lorem. Because of the GEOMETRY. `Scaffold` at front-door size is four bare
+// list rows reading "Row 1" to "Row 4" under a frozen clock, and they read that way on purpose —
+// they quote the Wear sibling's scaffold so the compare page pairs like with like, which is the
+// right content for a parity comparison and very little to look at on a card. An app card in the
+// same box draws a container, an icon slot, an app name, a trailing time and a title/content type
+// ramp: five distinct pieces of `RemoteAppCard` under the dark-first scheme, so the sticker shows
+// what this library draws rather than what it can put text in.
+//
+// The server resolves `display.hero` by component id and takes this component's first published
+// render, so nothing here pins a breakpoint — the id is the whole declaration.
 @CatalogComponent(
   id = "AppCard",
   group = "Containment",
@@ -2018,12 +2022,11 @@ fun AppCardRemote() = RemoteSticker {
 // button on transparency doesn't show that.
 //
 // It WAS the catalog's declared hero for that argument, and the front door is
-// where the argument stopped holding. At card size the screen is four list rows
-// reading "Row 1" to "Row 4" under a frozen clock — deliberately so, since those
-// rows exist to quote the Wear sibling's own scaffold rather than to look like
-// anything — and a sticker whose whole content is placeholder text says less
-// about what Remote Compose draws than a component does. `display.hero` is
-// `AppCard` now; see the note there.
+// where the argument stopped holding. At card size the screen is four bare list
+// rows reading "Row 1" to "Row 4" under a frozen clock — deliberately so, since
+// those rows exist to quote the Wear sibling's own scaffold rather than to look
+// like anything — which is very little geometry for the one sticker a catalog
+// gets. `display.hero` is `AppCard` now; see the note there.
 //
 // Unlike every sticker above, the screen paints its own `background` fill: a
 // screen IS a surface plus its content, so rasterising it onto transparency would
