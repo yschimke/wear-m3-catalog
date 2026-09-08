@@ -51,7 +51,6 @@ import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
 import androidx.wear.compose.remote.material3.RemoteAppCard
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -74,7 +73,6 @@ import androidx.wear.compose.remote.material3.RemoteTextButton
 import androidx.wear.compose.remote.material3.RemoteTextButtonDefaults
 import androidx.wear.compose.remote.material3.buttonSizeModifier
 import ee.schimke.composeai.daemon.rememberOverridableRemoteColor
-import ee.schimke.composeai.daemon.rememberOverridableRemoteDp
 import ee.schimke.composeai.daemon.rememberOverridableRemoteFloat
 import ee.schimke.composeai.daemon.rememberOverridableRemoteString
 import ee.schimke.composeai.overrides.previewOverrideBoolean
@@ -2446,10 +2444,21 @@ fun ArcProgressRemote() = RemoteSticker {
 @CatalogRemoteModes
 @Composable
 fun IconRemote() = RemoteSticker {
-  // An editable `iconSize` dp knob: reseeding `rc.iconSize=dp:<value>` resizes the icon live. dp is
-  // carried distinctly from a bare float so the connector binds it as a density-independent value.
-  val iconSize = rememberOverridableRemoteDp("iconSize", 48.dp)
-  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(iconSize))
+  // A LITERAL 48dp, not the `iconSize` knob this used to carry.
+  //
+  // The knob bound the size through AndroidX's `rememberNamedRemoteDp`, which mis-scales by the
+  // display density: a named dp draws density-times too large under a constant-density capture and
+  // density-times too small under `RemoteDensity.Host`. So this sticker has been drawing at 96dp
+  // since it was written -- consistently wrong, and therefore invisible to every baseline. The
+  // measurements and the upstream report are compose-ai-tools#5302; `DensityProbe*` in
+  // `DensityProbePreviews.kt` are the reproduction, and they will agree once it is fixed.
+  //
+  // A literal `RemoteDp` is correct today at any capture density, which is what makes this the fix
+  // rather than a workaround for the render. What it costs is the live knob: `rc.iconSize=dp:<v>`
+  // no longer resizes the icon, because a literal bakes into the document and nothing can override
+  // it. That is the trade -- an icon that is the size it says it is, over one that could be
+  // reseeded to the wrong size. Restore the knob when upstream lands a fix.
+  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(48.rdp))
 }
 
 // ---------------------------------------------------------------------------
