@@ -1926,6 +1926,24 @@ fun TitleCardRemote() = RemoteSticker {
     ["Layout type=Title Card + Icon", "Style=Outline", "Content type=Gallery 2", "Interactive=Yes"],
   secondary = true,
 )
+// THE CATALOG'S DECLARED HERO (`display.hero` in `remote-catalog/catalog.spec.json`), so this is
+// what the preview server's front door features for `remote-m3`.
+//
+// It took the job from `Scaffold` below, whose claim was the better argument in the abstract — a
+// RemoteDocument driving a whole surface is what this catalog is for — and the weaker picture at
+// card size.
+//
+// Not because of the COPY: both stickers draw placeholder strings, and this one's title is
+// `KitCopy.CARD_TITLE` lorem. Because of the GEOMETRY. `Scaffold` at front-door size is four bare
+// list rows reading "Row 1" to "Row 4" under a frozen clock, and they read that way on purpose —
+// they quote the Wear sibling's scaffold so the compare page pairs like with like, which is the
+// right content for a parity comparison and very little to look at on a card. An app card in the
+// same box draws a container, an icon slot, an app name, a trailing time and a title/content type
+// ramp: five distinct pieces of `RemoteAppCard` under the dark-first scheme, so the sticker shows
+// what this library draws rather than what it can put text in.
+//
+// The server resolves `display.hero` by component id and takes this component's first published
+// render, so nothing here pins a breakpoint — the id is the whole declaration.
 @CatalogComponent(
   id = "AppCard",
   group = "Containment",
@@ -2001,9 +2019,14 @@ fun AppCardRemote() = RemoteSticker {
 // Scaffold templates — a full-screen Remote Compose watch screen rather than a
 // single component sticker: the whole reason the catalog exists is that a
 // RemoteDocument drives a real surface (watch face / tile / widget), and one
-// button on transparency doesn't show that. This is the catalog's declared hero
-// (`display.hero` in catalog.spec.json), so it is what the preview server's front
-// door features for `remote-m3`.
+// button on transparency doesn't show that.
+//
+// It WAS the catalog's declared hero for that argument, and the front door is
+// where the argument stopped holding. At card size the screen is four bare list
+// rows reading "Row 1" to "Row 4" under a frozen clock — deliberately so, since
+// those rows exist to quote the Wear sibling's own scaffold rather than to look
+// like anything — which is very little geometry for the one sticker a catalog
+// gets. `display.hero` is `AppCard` now; see the note there.
 //
 // Unlike every sticker above, the screen paints its own `background` fill: a
 // screen IS a surface plus its content, so rasterising it onto transparency would
