@@ -33,6 +33,26 @@
     }
   },
 
+  "colorTokens": {
+    "$comment": "The theme roles a colour property may name. Same Material 3 vocabulary as the sibling :catalog, and stated here for the same reason: a Remote design names roles, and a role the canvas cannot resolve is a literal. Every sticker in this catalog is a RemoteDocument carrying explicit dark-first Material colours, so the values behind these names are the document's rather than a theme's — but the names are what a design writes.",
+    "roles": [
+      "background",
+      "surface",
+      "surfaceContainer",
+      "surfaceContainerLow",
+      "surfaceContainerHigh",
+      "surfaceContainerHighest",
+      "primary",
+      "onPrimary",
+      "tertiary",
+      "onTertiary",
+      "onSurface",
+      "onSurfaceVariant",
+      "outlineVariant",
+      "transparent"
+    ]
+  },
+
   "menu": {
     "$comment": "This catalog's own @CatalogComponent(group = …) vocabulary. Widget Container and Scaffold templates lead because a Remote design starts from a container: everything else goes inside one.",
     "groupOrder": [

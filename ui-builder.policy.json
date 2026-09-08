@@ -60,6 +60,26 @@
     }
   },
 
+  "colorTokens": {
+    "$comment": "The theme roles a colour property or a background modifier may name — the vocabulary, not the values. A Wear design resolves these against Wear Material 3's own scheme, which is why the sampled colours the canvas draws the frame with are a separate question and still live in the server's renderer until a probe here measures them. The list itself is Material 3's, which Wear Material 3 shares: a design that names `onSurfaceVariant` means the same role on both, and on a watch it happens to be a warm #FFDCC2 rather than the grey a phone puts there.",
+    "roles": [
+      "background",
+      "surface",
+      "surfaceContainer",
+      "surfaceContainerLow",
+      "surfaceContainerHigh",
+      "surfaceContainerHighest",
+      "primary",
+      "onPrimary",
+      "tertiary",
+      "onTertiary",
+      "onSurface",
+      "onSurfaceVariant",
+      "outlineVariant",
+      "transparent"
+    ]
+  },
+
   "menu": {
     "$comment": "This catalog's own @file:CatalogGroup(section = …) vocabulary, ordered as a person reaches for it rather than alphabetically. A group a component names that this list omits sorts after the ones it lists, so adding a section in code does not make its components vanish from the panel.",
     "groupOrder": [
