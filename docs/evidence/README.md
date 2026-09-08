@@ -140,3 +140,11 @@ are named for the question they answer rather than for the preview
 (`alert-dialog-confirm-a11y-stops.png`: the two nested accessibility stops on the alert dialog's
 confirm button, [#76](https://github.com/yschimke/wear-m3-catalog/issues/76)). The frame underneath
 is still an ordinary `composePreviewRender` output, so it moves with the component like the rest.
+
+`remote-stepper-level-rail-{before,after}.png` are `:remote-catalog:composePreviewRender` outputs on
+the **snapshot lane** — `ValueStepperRemote` at its base cell, before and after the card drew a level
+rail with `RemoteCurvedProgressIndicator`. They are transparent renders left uncomposited on purpose:
+the stepper's own buttons carry the container colour, so the frame reads on any background, and the
+rail is the only thing that moves between the two. Reproduced with
+`./gradlew :remote-catalog:composePreviewRender --preview ValueStepperRemote` at the pinned build id
+in [`.github/ci/remote-snapshot-pin`](../../.github/ci/remote-snapshot-pin).
