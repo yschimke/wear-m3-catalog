@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/yschimke/compose-ai-tools/main/scripts/design-artifacts/ui-builder.policy.schema.json",
+  "$comment": "Catalog-level UI builder policy for :remote-catalog, beside its own cover sheet. PER-COMPONENT policy is @BuilderComponent on the sticker, not here. Nothing reads this file yet: it is authored so it can be proved equivalent to the `remote-m3` catalog the preview server synthesises in Kotlin today (ProductionUiBuilderRuntime.remoteM3Catalog), BEFORE the server changes a reader. The contract: https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md",
+
+  "schema": "compose-ui-builder-policy/v1",
+
+  "$comment_catalogId": "Not declared, and that is the point: this module's `system` in catalog.spec.json IS `remote-m3`, which is the id the builder has always authored against. 'A builder catalog is a served catalog' holds here by construction, where the sibling :catalog has to declare it — see that module's policy for why.",
+
+  "platform": "remote-compose",
+  "platformLabel": "RemoteCompose",
+
+  "previewSurfaces": {
+    "wasm": {
+      "fidelity": "approximate",
+      "reason": "A Remote Compose document is played, not composed. The builder's Wasm canvas has no player, so it draws the widget host frame and placeholders inside it; what the player would draw is a different picture, produced by a different program from the same document."
+    },
+    "native": {
+      "fidelity": "authoritative",
+      "backend": "android",
+      "reason": "The generated creation-DSL Kotlin compiled against this module's own alpha Remote Compose trio and rasterised by the real player — the same lane that produces every sticker in this catalog."
+    }
+  },
+
+  "frame": {
+    "$comment_adapter": "Not a screen. A Remote Compose widget is drawn into a host container of a fixed size, so the frame is the host, not a watch face: `frame/widget-host` rather than the sibling catalog's `frame/round-screen`. This is the second reason `remote-m3` is a catalog of its own rather than a mode of the Wear one.",
+    "adapter": "frame/widget-host",
+    "geometry": {
+      "$comment": "The two host sizes are DECLARED BY THE PREVIEW CONTRACT, not measured after the fact: remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt pins @Preview(widthDp = 216, heightDp = 76) and (216, 124), being 200x60dp and 200x108dp of content plus 8dp of padding on every edge. Every widget sticker in this catalog renders at one of them, so they are the sizes a builder must offer. Recorded here rather than transcribed into the server, which carried both numbers as constants.",
+      "sizesDp": [
+        { "widthDp": 216, "heightDp": 76, "label": "Small container" },
+        { "widthDp": 216, "heightDp": 124, "label": "Large container" }
+      ]
+    }
+  },
+
+  "menu": {
+    "$comment": "This catalog's own @CatalogComponent(group = …) vocabulary. Widget Container and Scaffold templates lead because a Remote design starts from a container: everything else goes inside one.",
+    "groupOrder": [
+      "Widget Container",
+      "Scaffold templates",
+      "Containment",
+      "Buttons",
+      "Text",
+      "Iconography",
+      "Communication",
+      "Position indicators",
+      "Shapes",
+      "Shaders",
+      "Typeface",
+      "Theme",
+      "Wear M3",
+      "Confetti"
+    ]
+  },
+
+  "$comment_builtins": "None. Every component this catalog offers a builder has a real call site in a real sticker, so it is in the component record and its policy belongs on the sticker. `remote-compose/document` — the typed embed a Remote design carries — is a BUILTIN OF THE BUILDER rather than of any catalog (https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_REMOTE_COMPOSE.md), and declaring it here would be this catalog claiming to own the builder's vocabulary.",
+
+  "$comment_code": "No `code` block yet, so the export stays `record`. A Remote widget is written in the creation DSL rather than in Compose, which is a `code.language` and a set of structural templates — and both arrive with the template engine, not ahead of it. Until then the export prints call sites from the record, which is what it already does."
+}
