@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
+import ee.schimke.wearcmp.port.skiaTypefaceForFamily
 import kotlin.math.min
 import org.jetbrains.skia.Font
 import org.jetbrains.skia.FontMgr
@@ -97,17 +98,23 @@ internal actual class CurvedTextDelegate {
         // something else rather than pretending the text cannot be drawn.
         val resolved =
             remember(fontFamily, fontWeight, fontStyle, fontSynthesis, resolver) {
-                runCatching {
-                        resolver
-                            .resolve(
-                                fontFamily,
-                                fontWeight ?: FontWeight.Normal,
-                                fontStyle ?: FontStyle.Normal,
-                                fontSynthesis ?: FontSynthesis.All,
-                            )
-                            .value as? Typeface
-                    }
-                    .getOrNull() ?: FontMgr.default.legacyMakeTypeface("", skiaStyle(fontWeight))
+                // A family this port built — the Wear type scale's `roboto-flex`, or anything else
+                // registered with WearFonts — hands its typeface straight back. That is the case
+                // that matters, and it is checked first because the general one below cannot cover
+                // it: Compose wraps a loaded typeface in a platform type it will not unwrap.
+                skiaTypefaceForFamily(fontFamily)
+                    ?: runCatching {
+                            resolver
+                                .resolve(
+                                    fontFamily,
+                                    fontWeight ?: FontWeight.Normal,
+                                    fontStyle ?: FontStyle.Normal,
+                                    fontSynthesis ?: FontSynthesis.All,
+                                )
+                                .value as? Typeface
+                        }
+                        .getOrNull()
+                    ?: FontMgr.default.legacyMakeTypeface("", skiaStyle(fontWeight))
             }
         if (resolved !== typeface) {
             typeface = resolved

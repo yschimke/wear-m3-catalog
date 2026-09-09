@@ -37,6 +37,11 @@ rootProject.name = "wear-compose-cmp"
 include(":port-runtime")
 project(":port-runtime").projectDir = file("modules/port-runtime")
 
+// Roboto Flex, as an optional artifact — 1.7 MB that a wasm consumer should opt into rather than
+// inherit. See modules/wear-compose-fonts/build.gradle.kts.
+include(":wear-compose-fonts")
+project(":wear-compose-fonts").projectDir = file("modules/wear-compose-fonts")
+
 // One Gradle project per AndroidX artifact, named after it and living under `modules/`. The
 // artifact -> module mapping is declared once, in `upstream.json`, and read here, so adding an
 // artifact to the port is a one-file edit rather than three files that can disagree.
