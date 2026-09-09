@@ -18,6 +18,8 @@
 
 package androidx.wear.compose.material3
 
+import kotlin.jvm.JvmField
+
 /**
  * This is a collection of flags which are used to guard against regressions in some of the
  * "riskier" refactors or new feature support that is added to this module. These flags are always

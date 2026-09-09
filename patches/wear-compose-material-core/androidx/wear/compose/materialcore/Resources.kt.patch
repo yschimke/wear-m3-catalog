@@ -1,6 +1,6 @@
 --- a/src/commonMain/kotlin/androidx/wear/compose/materialcore/Resources.kt
 +++ b/src/commonMain/kotlin/androidx/wear/compose/materialcore/Resources.kt
-@@ -18,13 +18,8 @@
+@@ -18,17 +18,14 @@
  
  package androidx.wear.compose.materialcore
  
@@ -14,7 +14,13 @@
  import androidx.compose.ui.platform.LocalDensity
  import androidx.compose.ui.platform.LocalLayoutDirection
  import androidx.compose.ui.unit.LayoutDirection
-@@ -40,51 +35,45 @@
+ import androidx.compose.ui.unit.dp
++import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
++import ee.schimke.wearcmp.port.platformCurrentTimeMillis
+ 
+ @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+ @Composable
+@@ -40,51 +37,45 @@
  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
  @Composable
  public fun isRoundDevice(): Boolean {

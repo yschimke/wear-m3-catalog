@@ -33,6 +33,8 @@
   ],
   "dropAnnotations": [
     "SuppressLint",
+    "SuppressWarnings",
+    "JvmDefaultWithCompatibility",
     "RequiresApi",
     "RequiresPermission",
     "DoNotInline",
@@ -62,21 +64,49 @@
     "RangeDefaults.kt carries no patch to re-cut when upstream edits it."
   ],
 
-  "$rewriteImportsComment": [
+  "$rewriteReferencesComment": [
     "One-for-one moves where Compose Multiplatform publishes the same declaration under another",
     "package. `androidx.activity.compose.BackHandler` is the load-bearing one: CMP 1.8 lifted",
     "back handling into `androidx.compose.ui.backhandler`, so the call sites need no edit at all."
   ],
-  "rewriteImports": {
+  "rewriteReferences": {
     "java.util.concurrent.atomic.AtomicReference": "ee.schimke.wearcmp.port.AtomicReference",
     "java.util.concurrent.atomic.AtomicInteger": "ee.schimke.wearcmp.port.AtomicInteger",
+    "android.util.Log": "ee.schimke.wearcmp.port.Log",
+    "androidx.core.util.Predicate": "ee.schimke.wearcmp.port.Predicate",
+    "javaClass != other?.javaClass": "this::class != other?.let { it::class }",
+    "javaClass.hashCode()": "this::class.hashCode()",
     "androidx.activity.compose.BackHandler": "androidx.compose.ui.backhandler.BackHandler",
     "androidx.activity.compose.PredictiveBackHandler": "androidx.compose.ui.backhandler.PredictiveBackHandler"
   },
 
+  "$ensureImportsComment": [
+    "Declarations the Kotlin/JVM compiler default-imports and AndroidX therefore never imports.",
+    "In common code they need an import like anything else. The key is a regex looked for in the",
+    "file; the value is the import added, in sorted position, when it is missing."
+  ],
+  "ensureImports": {
+    "@JvmInline": "kotlin.jvm.JvmInline",
+    "@JvmField": "kotlin.jvm.JvmField",
+    "@JvmName": "kotlin.jvm.JvmName",
+    "@JvmStatic": "kotlin.jvm.JvmStatic",
+    "@JvmOverloads": "kotlin.jvm.JvmOverloads"
+  },
+
   "modules": {
     "wear-compose-material-core": { "exclude": {} },
-    "wear-compose-foundation": { "exclude": {} },
+    "wear-compose-foundation": {
+      "$excludeComment": [
+        "Files dropped from the generated commonMain because a patch would be the wrong tool — the",
+        "Android body is most of the file, and a patch deleting most of a file has to be re-cut",
+        "every time any of it moves. Each one is replaced, name for name, by a hand-written file",
+        "under `src/commonPort/kotlin` that restates the API the rest of the module compiles",
+        "against. Nothing is silently missing: `docs/ANDROID_SURFACE.md` lists every entry."
+      ],
+      "exclude": {
+        "androidx/wear/compose/foundation/TouchExplorationStateProvider.kt": "138 lines of AccessibilityManager listener plumbing around a one-method interface. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt, which keeps the interface and answers from `platformTouchExplorationEnabled()`."
+      }
+    },
     "wear-compose-material3": { "exclude": {} }
   }
 }

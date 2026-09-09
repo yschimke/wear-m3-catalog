@@ -42,6 +42,8 @@ public class AtomicReference<T>(initialValue: T) {
 
     public fun compareAndSet(expect: T, update: T): Boolean = delegate.compareAndSet(expect, update)
 
+    public fun getAndSet(value: T): T = delegate.exchange(value)
+
     override fun toString(): String = get().toString()
 }
 

@@ -77,6 +77,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.wear.compose.materialcore.screenWidthDp
+import kotlin.jvm.JvmInline
 import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.roundToInt

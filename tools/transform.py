@@ -67,14 +67,51 @@ def strip_annotation(text: str, name: str) -> str:
     return "".join(out)
 
 
+def ensure_imports(text: str, rules: dict) -> str:
+    """Add an import the sources never needed on Android.
+
+    `kotlin.jvm.JvmInline` and friends are default-imported by the Kotlin/JVM compiler and are
+    written without an import all over AndroidX. In common code they are ordinary declarations that
+    have to be imported like any other, so the transform adds what the platform used to supply.
+    """
+    for token, fqn in rules["ensureImports"].items():
+        if f"import {fqn}" in text or not re.search(token, text):
+            continue
+        line = f"import {fqn}"
+        imports = list(re.finditer(r"^import .*$", text, flags=re.M))
+        if not imports:
+            # A file with no imports at all still has a package declaration to hang one off.
+            package = re.search(r"^package .*$", text, flags=re.M)
+            if not package:
+                continue
+            text = text[: package.end()] + f"\n\n{line}" + text[package.end() :]
+            continue
+        after = None
+        for match in imports:
+            if match.group(0) < line:
+                after = match
+        # Kotlin style keeps the import block sorted; inserting in place keeps the generated file
+        # byte-identical to what a formatter would produce, so nothing downstream reformats it.
+        insert_at = after.end() if after else imports[0].start() - 1
+        text = text[:insert_at] + "\n" + line + text[insert_at:]
+    return text
+
+
 def rewrite(text: str, rules: dict) -> str:
     for fqn in rules["dropImports"]:
         text = re.sub(rf"^import {re.escape(fqn)}\n", "", text, flags=re.M)
     for name in rules["dropAnnotations"]:
         text = strip_annotation(text, name)
-    for old, new in rules["rewriteImports"].items():
-        text = re.sub(rf"^import {re.escape(old)}$", f"import {new}", text, flags=re.M)
-    return text
+    for old, new in rules["rewriteReferences"].items():
+        # Textual, not import-only: AndroidX writes `java.util.concurrent.atomic.AtomicReference`
+        # inline in at least one file, and an import-only rule would silently miss it. The word
+        # boundary keeps `android.util.Log` from matching `android.util.LogPrinter`.
+        # `\b` only where the pattern actually ends in a word character: a key like
+        # `javaClass.hashCode()` ends in `)`, and a trailing `\b` there would never match.
+        left = r"\b" if old[0].isalnum() or old[0] == "_" else ""
+        right = r"\b" if old[-1].isalnum() or old[-1] == "_" else ""
+        text = re.sub(left + re.escape(old) + right, new.replace("\\", "\\\\"), text)
+    return ensure_imports(text, rules)
 
 
 def android_imports(text: str, prefixes: list[str]) -> list[str]:

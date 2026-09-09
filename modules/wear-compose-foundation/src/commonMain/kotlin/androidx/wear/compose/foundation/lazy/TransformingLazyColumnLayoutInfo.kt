@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.util.packFloats
 import androidx.compose.ui.util.unpackFloat1
 import androidx.compose.ui.util.unpackFloat2
+import kotlin.jvm.JvmInline
 
 /**
  * Scroll progress of an item in a [TransformingLazyColumn] before any modifications to the item's

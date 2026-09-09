@@ -24,6 +24,7 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.wear.compose.material3.R
+import kotlin.jvm.JvmInline
 
 @Composable
 @ReadOnlyComposable

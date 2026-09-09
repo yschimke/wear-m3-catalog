@@ -36,6 +36,7 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.util.fastMap
 import androidx.compose.ui.util.lerp
 import androidx.wear.compose.foundation.lazy.ScalingLazyListScope
+import kotlin.jvm.JvmName
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

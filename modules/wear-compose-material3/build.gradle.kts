@@ -13,7 +13,7 @@ kotlin {
       api(libs.compose.ui)
       api(libs.compose.animation)
       implementation(libs.compose.material)
-      implementation(project(":port-runtime"))
+      api(project(":port-runtime"))
       implementation(libs.androidx.annotation)
       implementation(libs.androidx.collection)
       // The expressive shape library. Already multiplatform — `graphics-shapes-wasm-js` is

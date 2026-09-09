@@ -20,6 +20,7 @@ package androidx.wear.compose.material3.onehandedgesture
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.jvm.JvmInline
 
 /**
  * Represents the size of the gesture indicator icon.

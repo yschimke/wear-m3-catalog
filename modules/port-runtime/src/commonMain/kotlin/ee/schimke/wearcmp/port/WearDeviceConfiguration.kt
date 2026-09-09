@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.wear.compose.materialcore
+package ee.schimke.wearcmp.port
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -77,17 +77,17 @@ public val LocalWearDeviceConfiguration: androidx.compose.runtime.ProvidableComp
  * What this platform can say about the device without being told: the browser reports its viewport
  * and its locale's clock, the JVM reports nothing and takes the reference watch.
  */
-internal expect fun platformWearDeviceConfiguration(): WearDeviceConfiguration
+public expect fun platformWearDeviceConfiguration(): WearDeviceConfiguration
 
 /**
  * Wall-clock milliseconds. Upstream calls `System.currentTimeMillis()`, which is JVM-only; the
  * multiplatform stdlib clock says the same thing everywhere, so this needs no `expect`.
  */
 @OptIn(kotlin.time.ExperimentalTime::class)
-internal fun platformCurrentTimeMillis(): Long = kotlin.time.Clock.System.now().toEpochMilliseconds()
+public fun platformCurrentTimeMillis(): Long = kotlin.time.Clock.System.now().toEpochMilliseconds()
 
 /** Convenience for the generated sources, which read the configuration in composable position. */
 @Composable
 @ReadOnlyComposable
-internal fun currentWearDeviceConfiguration(): WearDeviceConfiguration =
+public fun currentWearDeviceConfiguration(): WearDeviceConfiguration =
     LocalWearDeviceConfiguration.current

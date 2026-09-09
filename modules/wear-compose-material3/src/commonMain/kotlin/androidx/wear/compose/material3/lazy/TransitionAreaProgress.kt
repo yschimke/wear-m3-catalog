@@ -25,6 +25,7 @@ import androidx.compose.ui.util.unpackFloat1
 import androidx.compose.ui.util.unpackFloat2
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnItemScrollProgress
 import androidx.wear.compose.foundation.lazy.inverseLerp
+import kotlin.jvm.JvmInline
 
 /**
  * Class that represents where in the transition areas a given item is. This can be either in the

@@ -120,9 +120,10 @@ public fun Modifier.requestFocusOnHierarchyActive(): Modifier =
  * synthetic key events (e.g., from "petc") to prevent unintended focus change.
  */
 internal fun shouldSwallowFocusGroupKeyEvent(active: Boolean, keyEvent: KeyEvent): Boolean {
-    if (active && keyEvent.isDpadKey()) {
-        return keyEvent.nativeKeyEvent.device?.name?.equals("petc", ignoreCase = true) == true
-    }
+    // Upstream identifies the synthetic key events by the name of the Android InputDevice that
+    // sent them ("petc"). There is no InputDevice off-Android, and nothing else in the event
+    // distinguishes them, so nothing is swallowed: a host that synthesises low-power key events
+    // is responsible for not sending them to a focus group in the first place.
     return false
 }
 

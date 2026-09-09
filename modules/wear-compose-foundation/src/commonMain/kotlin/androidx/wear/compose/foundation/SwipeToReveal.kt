@@ -78,8 +78,9 @@ import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.core.util.Predicate
+import ee.schimke.wearcmp.port.Predicate
 import ee.schimke.wearcmp.port.AtomicReference
+import kotlin.jvm.JvmInline
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
@@ -238,7 +239,6 @@ public value class RevealActionType private constructor(public val value: Int) {
     "The SwipeToReveal component from the latest material library should be used instead. This will be removed in a future release of this library."
 )
 @ExperimentalWearFoundationApi
-@SuppressWarnings("PrimitiveInCollection")
 public fun createRevealAnchors(
     coveredAnchor: Float = 0f,
     revealingAnchor: Float = SwipeToRevealDefaults.RevealingRatio,
@@ -876,7 +876,7 @@ private class DefaultGestureInclusion(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (this::class != other?.let { it::class }) return false
 
         other as DefaultGestureInclusion
 
@@ -900,12 +900,12 @@ private object BidirectionalGestureInclusion : GestureInclusion {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (this::class != other?.let { it::class }) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return javaClass.hashCode()
+        return this::class.hashCode()
     }
 }
 

@@ -19,6 +19,7 @@
 package androidx.wear.compose.material3.onehandedgesture
 
 import androidx.compose.runtime.Immutable
+import kotlin.jvm.JvmInline
 
 /**
  * Defines the distinct actions of one-handed gestures supported by the system.

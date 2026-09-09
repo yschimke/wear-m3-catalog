@@ -7,7 +7,7 @@ Upstream: `androidx.wear.compose` **1.7.0-beta02**.
 | Module | In common | Excluded | Patches | Still Android-bound |
 | --- | ---: | ---: | ---: | ---: |
 | `wear-compose-material-core` | 17 | 0 | 1 | 0 |
-| `wear-compose-foundation` | 69 | 0 | 0 | 11 |
+| `wear-compose-foundation` | 68 | 1 | 4 | 5 |
 | `wear-compose-material3` | 136 | 0 | 0 | 12 |
 
 ## `wear-compose-material-core`
@@ -17,19 +17,17 @@ Fully ported: nothing excluded, nothing Android-bound.
 
 ## `wear-compose-foundation`
 
+### Excluded from `commonMain`
+
+- `androidx/wear/compose/foundation/TouchExplorationStateProvider.kt` — 138 lines of AccessibilityManager listener plumbing around a one-method interface. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt, which keeps the interface and answers from `platformTouchExplorationEnabled()`.
+
 ### Still importing an Android-only package
 
 Each of these needs a patch in [`patches/wear-compose-foundation/`](../patches/wear-compose-foundation) introducing an `expect` declaration, and an `actual` under `src/wasmJsMain`.
 
 - `androidx/wear/compose/foundation/BasicCurvedText.kt` — `android.graphics.Canvas`, `android.graphics.Paint`, `android.graphics.Paint.LINEAR_TEXT_FLAG`, `android.graphics.Paint.SUBPIXEL_TEXT_FLAG`, `android.graphics.Path`, `android.graphics.Typeface`, `android.os.Build`, `android.text.StaticLayout`, `android.text.TextPaint`, `android.text.TextUtils`
-- `androidx/wear/compose/foundation/BasicSwipeToDismissBox.kt` — `android.os.Build`
-- `androidx/wear/compose/foundation/CompositionLocals.kt` — `android.content.ContentResolver`, `android.database.ContentObserver`, `android.net.Uri`, `android.os.Looper`, `android.provider.Settings`, `android.util.Log`, `androidx.core.os.HandlerCompat`
 - `androidx/wear/compose/foundation/LocalAmbientModeManager.kt` — `android.app.Activity`, `android.app.Application`, `android.os.Bundle`, `androidx.activity.compose.LocalActivity`, `com.google.wear.Sdk`, `com.google.wear.services.ambient.AmbientComponentState`, `com.google.wear.services.ambient.AmbientManager`, `com.google.wear.services.ambient.AmbientManager.AmbientComponentListener`, `com.google.wear.services.ambient.AmbientManager.ConfigurationDetails`, `com.google.wear.services.ambient.AmbientOptions`
-- `androidx/wear/compose/foundation/SwipeToReveal.kt` — `androidx.core.util.Predicate`
-- `androidx/wear/compose/foundation/TouchExplorationStateProvider.kt` — `android.content.Context`, `android.view.accessibility.AccessibilityManager`, `android.view.accessibility.AccessibilityManager.AccessibilityStateChangeListener`, `android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener`
 - `androidx/wear/compose/foundation/WarpedCurvedTextRenderer.kt` — `android.graphics.Canvas`, `android.graphics.Paint`, `android.graphics.Path`, `android.graphics.PathIterator`, `android.graphics.PathMeasure`, `android.icu.lang.UCharacter`, `android.icu.lang.UProperty`, `android.os.Build`, `android.text.GraphemeClusterSegmentFinder`, `android.text.TextDirectionHeuristics`, `android.text.TextPaint`, `androidx.core.text.TextDirectionHeuristicsCompat`
-- `androidx/wear/compose/foundation/lazy/ScalingLazyColumnSnapFlingBehavior.kt` — `android.util.Log`
-- `androidx/wear/compose/foundation/lazy/TransformingLazyColumnSnapFlingBehavior.kt` — `android.util.Log`
 - `androidx/wear/compose/foundation/rotary/Haptics.kt` — `android.content.Context`, `android.content.pm.PackageManager`, `android.os.Build`, `android.provider.Settings`, `android.view.InputDevice`, `android.view.ScrollFeedbackProvider`, `android.view.View`, `com.google.wear.input.WearHapticFeedbackConstants`
 - `androidx/wear/compose/foundation/rotary/RotaryScrollable.kt` — `android.os.Build`, `android.view.InputDevice`, `android.view.MotionEvent`, `android.view.ViewConfiguration`
 
@@ -49,6 +47,6 @@ Each of these needs a patch in [`patches/wear-compose-material3/`](../patches/we
 - `androidx/wear/compose/material3/TimePicker.kt` — `android.content.Context`, `android.os.Build`, `android.text.format.DateFormat`, `java.time.LocalTime`, `java.time.format.DateTimeFormatter`, `java.time.temporal.ChronoField`, `java.util.Locale`
 - `androidx/wear/compose/material3/TimeText.kt` — `android.content.BroadcastReceiver`, `android.content.Context`, `android.content.Intent`, `android.content.IntentFilter`, `android.text.format.DateFormat`, `java.util.Calendar`
 - `androidx/wear/compose/material3/TouchExplorationStateProvider.kt` — `android.content.Context`, `android.view.accessibility.AccessibilityManager`, `android.view.accessibility.AccessibilityManager.AccessibilityStateChangeListener`, `android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener`
-- `androidx/wear/compose/material3/internal/LocalWristOrientation.kt` — `android.content.ContentResolver`, `android.database.ContentObserver`, `android.net.Uri`, `android.os.Looper`, `android.provider.Settings`, `android.util.Log`, `androidx.core.os.HandlerCompat`
+- `androidx/wear/compose/material3/internal/LocalWristOrientation.kt` — `android.content.ContentResolver`, `android.database.ContentObserver`, `android.net.Uri`, `android.os.Looper`, `android.provider.Settings`, `androidx.core.os.HandlerCompat`
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureManager.kt` — `android.content.Context`, `android.view.View`, `android.view.ViewGroup`, `androidx.core.content.ContextCompat`, `androidx.wear.utils.WearApiVersionHelper`, `com.google.wear.Sdk`, `com.google.wear.input.ForegroundGestureSubscriptionParams`, `com.google.wear.input.GestureEvent`, `com.google.wear.input.GestureInputManager`, `java.util.function.Consumer`
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt` — `android.view.View`

@@ -18,7 +18,7 @@
 
 package androidx.wear.compose.foundation.lazy
 
-import android.util.Log
+import ee.schimke.wearcmp.port.Log
 import androidx.compose.animation.core.AnimationState
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.DecayAnimationSpec

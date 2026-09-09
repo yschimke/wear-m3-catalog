@@ -18,7 +18,6 @@
 
 package androidx.wear.compose.foundation
 
-import android.os.Build
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.SpringSpec
@@ -29,7 +28,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.systemGestureExclusion
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -57,7 +55,6 @@ import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.changedToUp
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
@@ -65,6 +62,7 @@ import androidx.compose.ui.unit.Velocity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.lerp
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import kotlin.math.max
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.isActive
@@ -117,7 +115,7 @@ public fun BasicSwipeToDismissBox(
     content: @Composable BoxScope.(isBackground: Boolean) -> Unit,
 ) {
     val density = LocalDensity.current
-    val maxWidthPx = with(density) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+    val maxWidthPx = with(density) { LocalWearDeviceConfiguration.current.screenWidthDp.dp.toPx() }
     SideEffect {
         val anchors =
             mapOf(SwipeToDismissValue.Default to 0f, SwipeToDismissValue.Dismissed to maxWidthPx)
@@ -129,13 +127,10 @@ public fun BasicSwipeToDismissBox(
         modifier =
             modifier
                 .fillMaxSize()
-                .then(
-                    if (userSwipeEnabled && Build.VERSION.SDK_INT > Build.VERSION_CODES.TIRAMISU) {
-                        Modifier.systemGestureExclusion()
-                    } else {
-                        Modifier
-                    }
-                )
+                // Upstream excludes this box from the system back gesture on Android T+
+                // (`Modifier.systemGestureExclusion()`). There is no system gesture region to opt
+                // out of off-Android — the host owns its own navigation gestures — so the whole
+                // branch reduces to the `Modifier` the else arm already used.
                 .swipeableV2(
                     state = state.swipeableState,
                     orientation = Orientation.Horizontal,

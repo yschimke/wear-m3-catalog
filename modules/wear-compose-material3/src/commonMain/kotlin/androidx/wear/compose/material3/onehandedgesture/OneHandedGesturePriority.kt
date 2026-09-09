@@ -19,6 +19,7 @@
 package androidx.wear.compose.material3.onehandedgesture
 
 import androidx.compose.runtime.Immutable
+import kotlin.jvm.JvmInline
 
 /**
  * Defines the fixed precedence levels for one-handed gesture interception.

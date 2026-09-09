@@ -93,6 +93,7 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoField
 import java.util.Locale
+import kotlin.jvm.JvmInline
 
 /**
  * A full screen TimePicker with configurable columns that allows users to select a time.

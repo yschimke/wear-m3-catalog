@@ -24,6 +24,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
+import ee.schimke.wearcmp.port.platformCurrentTimeMillis
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Composable

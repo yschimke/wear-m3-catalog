@@ -23,7 +23,7 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
+import ee.schimke.wearcmp.port.Log
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.ProvidableCompositionLocal

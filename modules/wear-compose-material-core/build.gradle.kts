@@ -10,7 +10,7 @@ kotlin {
       api(libs.compose.foundation)
       api(libs.compose.ui)
       api(libs.compose.animation)
-      implementation(project(":port-runtime"))
+      api(project(":port-runtime"))
       implementation(libs.androidx.annotation)
     }
   }

@@ -70,6 +70,7 @@ import androidx.wear.compose.materialcore.isLargeScreen
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import kotlin.jvm.JvmInline
 import kotlin.math.max
 
 /**

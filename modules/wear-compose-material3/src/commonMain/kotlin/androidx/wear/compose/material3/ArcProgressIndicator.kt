@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.materialcore.screenHeightDp
+import kotlin.jvm.JvmInline
 import kotlin.math.PI
 import kotlin.math.asin
 

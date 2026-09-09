@@ -130,6 +130,7 @@ import androidx.wear.compose.material3.tokens.SwipeToRevealTokens
 import androidx.wear.compose.materialcore.CustomTouchSlopProvider
 import androidx.wear.compose.materialcore.screenWidthDp
 import ee.schimke.wearcmp.port.AtomicReference
+import kotlin.jvm.JvmInline
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
@@ -1659,7 +1660,7 @@ private class DefaultGestureInclusion(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (this::class != other?.let { it::class }) return false
 
         other as DefaultGestureInclusion
 
@@ -1683,12 +1684,12 @@ private object BidirectionalGestureInclusion : GestureInclusion {
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (this::class != other?.let { it::class }) return false
         return true
     }
 
     override fun hashCode(): Int {
-        return javaClass.hashCode()
+        return this::class.hashCode()
     }
 }
 

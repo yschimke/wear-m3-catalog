@@ -200,7 +200,7 @@ public class TransformationVariableSpec(
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (this::class != other?.let { it::class }) return false
 
         other as TransformationVariableSpec
 

@@ -1,4 +1,4 @@
-package androidx.wear.compose.materialcore
+package ee.schimke.wearcmp.port
 
 /**
  * In the browser the emulated watch is the canvas the host gave us, so the viewport is the closest
@@ -10,7 +10,7 @@ package androidx.wear.compose.materialcore
  * Wear kit is drawn for, and a host that means square says so through
  * [LocalWearDeviceConfiguration].
  */
-internal actual fun platformWearDeviceConfiguration(): WearDeviceConfiguration =
+public actual fun platformWearDeviceConfiguration(): WearDeviceConfiguration =
     WearDeviceConfiguration(
         isScreenRound = true,
         screenWidthDp = viewportWidthDp(),

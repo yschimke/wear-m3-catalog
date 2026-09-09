@@ -1,4 +1,4 @@
-package androidx.wear.compose.materialcore
+package ee.schimke.wearcmp.port
 
 /**
  * A desktop JVM host is not a watch and has nothing to report, so it takes the reference watch —
@@ -6,5 +6,5 @@ package androidx.wear.compose.materialcore
  * faster than the wasm one, not to ship; a host that renders for real overrides
  * [LocalWearDeviceConfiguration].
  */
-internal actual fun platformWearDeviceConfiguration(): WearDeviceConfiguration =
+public actual fun platformWearDeviceConfiguration(): WearDeviceConfiguration =
     WearDeviceConfiguration()
