@@ -686,6 +686,19 @@ Pointing a second entry at `/ui-builder/mcp` gets a `404`.
   clean local hooks. So scrub the **PR description** too, not just the commits.
   The CI gate only *blocks* once it is a **required status check** on the Protect Main ruleset;
   until then its `drift` job makes a breach loud rather than preventing it.
+- **Reviewers, human or bot: verify before reporting an attribution finding.** It is the
+  most-reported and least-real finding across these repositories, and the reports keep naming commits
+  that do not exist here at all. Never infer the identity from the fact that an agent wrote the code
+  — it is whatever `git config user.email` held, and here that is the human. Check first:
+
+      git cat-file -t <sha>          # a commit you are about to name must actually exist
+      git log --format='%h %an <%ae> | %cn <%ce>' <base>..<head>
+      .github/scripts/agent-attribution-scan.sh --range '<base>..<head>'
+
+  Report only what the scanner exits 1 on, and quote its output. `Yuri Schimke <yuri@schimke.ee>` is
+  this repository's human identity, and `github-actions[bot]` / `renovate[bot]` are exempt bot
+  accounts — none of the three is ever a finding. If the `Reject agent attribution` check is already
+  green on the head commit, there is nothing to report.
 - **Point every image embed at a GitHub-hosted URL — a `preview.coo.ee` embed does not survive.**
   Claude Code on the web rewrites `![alt](url)` to `[alt](url)` on the way to the API whenever the
   destination is not a GitHub origin, so the picture lands as a bare link. It is silent: the API
