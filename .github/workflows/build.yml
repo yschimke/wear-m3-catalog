@@ -37,7 +37,9 @@ jobs:
       - name: A published change bumps the version
         if: github.event_name == 'pull_request'
         run: |
-          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          # NOT --depth=1: the check diffs `base...HEAD`, which needs a merge base, and a shallow
+          # fetch of the base shares no history with the PR branch — `fatal: no merge base`, exit 128.
+          git fetch --no-tags origin "${{ github.base_ref }}"
           .github/scripts/check-port-revision.sh FETCH_HEAD
 
       # `assemble`, not `build`: see AGENTS.md -> Conventions.
