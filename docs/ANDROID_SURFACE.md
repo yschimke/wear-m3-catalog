@@ -8,7 +8,7 @@ Upstream: `androidx.wear.compose` **1.7.0-beta02**.
 | --- | ---: | ---: | ---: | ---: |
 | `wear-compose-material-core` | 17 | 0 | 1 | 0 |
 | `wear-compose-foundation` | 65 | 4 | 5 | 0 |
-| `wear-compose-material3` | 124 | 12 | 9 | 0 |
+| `wear-compose-material3` | 126 | 10 | 10 | 0 |
 
 ## `wear-compose-material-core`
 
@@ -30,9 +30,7 @@ Fully ported: nothing excluded, nothing Android-bound.
 ### Excluded from `commonMain`
 
 - `androidx/wear/compose/material3/AnimatedText.kt` — NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` — per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.
-- `androidx/wear/compose/material3/DatePicker.kt` — NOT YET PORTED. `java.time.LocalDate` plus `DateTimeFormatter` patterns obtained from Android's locale data. kotlinx-datetime covers the arithmetic; the locale-derived field order does not port directly. See docs/PIPELINE.md -> Dates and times.
 - `androidx/wear/compose/material3/KeepScreenOn.kt` — Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.
-- `androidx/wear/compose/material3/TimePicker.kt` — NOT YET PORTED. Same as DatePicker: java.time plus locale-derived 12/24-hour patterns.
 - `androidx/wear/compose/material3/TouchExplorationStateProvider.kt` — The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.
 - `androidx/wear/compose/material3/internal/Strings.kt` — 23 `Strings(R.string.…)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt — generated from the AAR's own values.xml.
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureClickIndicator.kt` — Draws the gesture hint with animated vector drawables loaded from `R` — aapt output, with no off-Android equivalent. The gesture API itself IS ported: see src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt.

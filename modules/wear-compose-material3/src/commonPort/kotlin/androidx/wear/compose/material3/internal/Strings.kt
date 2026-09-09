@@ -247,7 +247,8 @@ private fun String.formatResource(args: Array<out Any>): String {
 }
 
 /**
- * The formatter, reachable from tests. `formatResource` is private to this file because nothing
- * else should call it; the tests are the exception, and this is cheaper than widening it.
+ * Substitute [args] into a resource template. `formatResource` is private to this file; this is the
+ * way in for the one ported component that formats a template itself (`DatePicker`'s content
+ * description, which upstream builds with `String.format(locale, …)`) and for the tests.
  */
-internal fun formatForTest(text: String, args: Array<out Any>): String = text.formatResource(args)
+internal fun formatTemplate(text: String, args: Array<out Any>): String = text.formatResource(args)

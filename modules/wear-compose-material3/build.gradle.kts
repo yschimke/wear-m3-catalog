@@ -34,6 +34,7 @@ kotlin {
       implementation(libs.androidx.annotation)
       implementation(libs.androidx.collection)
       implementation(compose.components.resources)
+      api(libs.kotlinx.datetime)
       // The expressive shape library. Already multiplatform — `graphics-shapes-wasm-js` is
       // published — so the shape morphing in Wear Material 3 needs no port at all.
       implementation(libs.androidx.graphics.shapes)

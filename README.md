@@ -20,7 +20,7 @@ upstream.json ──► tools/sync.py ──► upstream/ ──► tools/transf
 
 | Artifact | Contents |
 | --- | --- |
-| `ee.schimke.wearcmp:wear-compose-material3` | 124 of 136 Material 3 files |
+| `ee.schimke.wearcmp:wear-compose-material3` | 126 of 136 Material 3 files |
 | `ee.schimke.wearcmp:wear-compose-foundation` | 65 of 69 Foundation files |
 | `ee.schimke.wearcmp:wear-compose-material-core` | all 17 Material Core files |
 | `ee.schimke.wearcmp:port-runtime` | the port's own seams — the `expect`s the three above compile against |

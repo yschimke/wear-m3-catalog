@@ -286,8 +286,8 @@ public class ColorScheme(
     internal var mDefaultOpenOnPhoneDialogColorsCached: OpenOnPhoneDialogColors? = null
 
     // Picker
-    // TimePicker and DatePicker are not ported yet (java.time), so their cached colour holders
-    // have no type to name. The rest of the cache is untouched.
+    internal var defaultTimePickerColorsCached: TimePickerColors? = null
+    internal var defaultDatePickerColorsCached: DatePickerColors? = null
 }
 
 /**

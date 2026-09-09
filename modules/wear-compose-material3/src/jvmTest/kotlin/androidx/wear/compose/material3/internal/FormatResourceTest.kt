@@ -53,6 +53,6 @@ class FormatResourceTest {
         assertEquals("x  y", "x %s y".format())
     }
 
-    /** `formatResource` is private to the file it lives in; this is the same call the getters make. */
-    private fun String.format(vararg args: Any): String = formatForTest(this, args)
+    /** The same entry point the string getters and `DatePicker` use. */
+    private fun String.format(vararg args: Any): String = formatTemplate(this, args)
 }

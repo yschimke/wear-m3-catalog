@@ -140,16 +140,40 @@ that makes it live, and everything above the modifier then works unchanged.
 
 ### Dates and times
 
-`DatePicker` and `TimePicker`. `java.time` arithmetic maps cleanly onto `kotlinx-datetime`; what
-does not map is the locale-derived field order and 12/24-hour pattern that upstream gets from
-`DateFormat.getBestDateTimePattern`. `Intl.DateTimeFormat().formatToParts()` answers the same
-question in a browser, which makes this a wasm-side seam rather than a blocker.
+`DatePicker` and `TimePicker` are ported, and they are the port's **one deliberate API change**.
 
-`TimeText` IS ported: `platformLocalTime` splits an epoch into local clock fields per platform, the
-`SimpleDateFormat`-style pattern is formatted in common code, and the once-a-minute
-`ACTION_TIME_TICK` broadcast became a coroutine sleeping to the next minute boundary. Its one
-simplification is the pattern itself — `platformTimePattern` assumes a colon separator, and carries
-the TODO.
+Upstream takes and returns `java.time.LocalDate` and `LocalTime`, which exist only on the JVM.
+Keeping that signature would have meant keeping both components off the target this port exists
+for, so they move to `kotlinx-datetime`, which has the same shapes and publishes a wasmJs target. A
+caller writes `kotlinx.datetime.LocalDate` where upstream documents `java.time.LocalDate`;
+everything else about the two components is unchanged.
+
+The type migration is rules, not patches — `LocalDate.of(y, m, d)` → `LocalDate(y, m, d)`,
+`monthValue` → `month.number`, `dayOfMonth` → `day`. One of those rules needed a lookahead:
+`DatePickerState.monthValue(index)` is a *method* with the same name as the date property, and a
+literal rule rewrote it into nonsense.
+
+What is left is locale data, which `kotlinx-datetime` deliberately does not carry — it does
+arithmetic, not presentation. `PlatformDateTimeFormat` in `:port-runtime` asks the platform
+instead, stated as the questions the pickers ask rather than as Android's
+`getBestDateTimePattern`:
+
+| Question | JVM | wasm |
+| --- | --- | --- |
+| Does this locale mark its year (`2022年`)? | format `y` and look for a letter | `Intl.DateTimeFormat(tag, {year})` |
+| The twelve month names | `Month.getDisplayName` | `Intl.DateTimeFormat(tag, {month})` |
+| Which order does a date go in? | `getLocalizedDateTimePattern` | `formatToParts` order |
+| This number, in the locale's own digits | `String.format(locale, …)` | `Intl.NumberFormat` |
+| The two day-period words | `DateTimeFormatter.ofPattern("a")` | `formatToParts` dayPeriod |
+
+Both implementations read the same CLDR data through different doors, so neither is a table this
+port maintains.
+
+**TODO, in `TimePicker`:** the field pattern is the skeleton as written, not localised. Upstream
+passes it through `getBestDateTimePattern`, which reorders fields and swaps separators for the
+locales that need it — most visibly the ones that put the am/pm marker first (`ah:mm` in Chinese).
+The 12- versus 24-hour choice is *not* lost: it is in the skeleton, chosen by the caller's
+`TimePickerType`.
 
 ### Localisation
 

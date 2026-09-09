@@ -4,6 +4,7 @@ compose = "1.12.0"
 androidx-annotation = "1.10.0"
 androidx-collection = "1.6.0"
 androidx-graphics-shapes = "1.1.0"
+kotlinx-datetime = "0.8.0"
 
 [libraries]
 # Compose Multiplatform. Declared as explicit coordinates rather than through the `compose.*`
@@ -24,6 +25,10 @@ androidx-graphics-shapes = { module = "androidx.graphics:graphics-shapes", versi
 # Skia, through the same skiko build Compose Multiplatform renders with. Declared so `skikoMain`
 # can name it; the version is pinned to what CMP 1.12.0 resolves, and moves with it.
 skiko = { module = "org.jetbrains.skiko:skiko", version = "0.150.1" }
+
+# The date and time types the two pickers are written against. `java.time` is JVM-only; this is the
+# multiplatform library with the same shapes, and it publishes a wasmJs target.
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
