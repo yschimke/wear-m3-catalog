@@ -1,6 +1,8 @@
 package ee.schimke.wearcmp.port
 
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
+import org.jetbrains.skia.FontVariation as SkiaFontVariation
 import org.jetbrains.skia.FontMgr
 import org.jetbrains.skia.FontStyle
 
@@ -27,6 +29,35 @@ public actual fun deviceFontFamily(name: String): FontFamily =
             typefaces[it] = typeface
         }
     }
+
+public actual fun FontFamily.withFontVariation(
+    variationSettings: FontVariation.Settings
+): FontFamily {
+    // A `Setting` that needs a density is one written in `sp`. The type scale uses none, and
+    // resolving one against a density it was not given would be worse than dropping it.
+    val axes =
+        variationSettings.settings
+            .filterNot { it.needsDensity }
+            .map { SkiaFontVariation(it.axisName, it.toVariationValue(null)) }
+    // Nothing to apply, or a family that came from somewhere other than `deviceFontFamily` — the
+    // typeface is not ours to clone, so hand back what we were given.
+    val base = skiaTypefaceForFamily(this)
+    if (axes.isEmpty() || base == null) return this
+
+    // Keyed by the axes as well as the typeface: two styles of one family at different weights are
+    // two different typefaces, and sharing a cache entry would give whichever asked first.
+    val key = axes.joinToString(",", prefix = "${base.uniqueId}@") { "${it.tag}=${it.value}" }
+    return variationCache.getOrPut(key) {
+        // An axis the font does not declare is ignored rather than rejected, so asking for `wdth`
+        // on a font with no width axis is safe.
+        val varied = base.makeClone(axes.toTypedArray())
+        FontFamily(androidx.compose.ui.text.platform.Typeface(varied)).also {
+            typefaces[it] = varied
+        }
+    }
+}
+
+private val variationCache = mutableMapOf<String, FontFamily>()
 
 private val cache = mutableMapOf<String, FontFamily>()
 

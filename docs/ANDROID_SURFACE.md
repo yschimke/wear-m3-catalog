@@ -29,7 +29,7 @@ Fully ported: nothing excluded, nothing Android-bound.
 
 ### Excluded from `commonMain`
 
-- `androidx/wear/compose/material3/AnimatedText.kt` — NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` — per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.
+- `androidx/wear/compose/material3/AnimatedText.kt` — NOT YET PORTED. The AXES are no longer the blocker: `withFontVariation` drives a variable font's `wght` and `wdth` through Skia, and the type scale uses it. What remains is the other half — `TextRunShaper` and `TextPaint`, per-glyph shaping and a custom draw pass. That is the same shape of work `CurvedTextDelegate` already does on Skia; it simply is not written yet.
 - `androidx/wear/compose/material3/KeepScreenOn.kt` — Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.
 - `androidx/wear/compose/material3/TouchExplorationStateProvider.kt` — The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.
 - `androidx/wear/compose/material3/internal/Strings.kt` — 23 `Strings(R.string.…)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt — generated from the AAR's own values.xml.

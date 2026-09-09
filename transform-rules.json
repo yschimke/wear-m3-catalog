@@ -158,8 +158,9 @@
       "replacement": "initialTime.portSecond"
     },
     {
-      "pattern": "Font\\(\\s*DeviceFontFamilyName\\(([^)]*)\\.name\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*[^,]*,\\s*\\)\\s*\\.toFontFamily\\(\\)",
-      "replacement": "\\1"
+      "$comment": "The Wear type scale declares each arc font as a point in Roboto Flex's design space — `Font(DeviceFontFamilyName(name), weight, variationSettings)` where the settings name BOTH `wght` and `wdth`. This rule used to throw the settings away and keep the family, which drew arc text at the default width. `withFontVariation(settings)` applies them to the resolved typeface through Skia. It is a rule rather than a patch because TypographyTokens.kt is itself generated upstream and carries eleven identical copies of the expression.",
+      "pattern": "Font\\(\\s*DeviceFontFamilyName\\(([^)]*)\\.name\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*([^,]*),\\s*\\)\\s*\\.toFontFamily\\(\\)",
+      "replacement": "\\1.withFontVariation(\\2)"
     },
     {
       "pattern": "DeviceFontFamilyName\\((\"[^\"]*\")\\)",
@@ -183,6 +184,7 @@
     "\\bportLocalDate\\(": "ee.schimke.wearcmp.port.portLocalDate",
     "\\bportLocalTime\\(": "ee.schimke.wearcmp.port.portLocalTime",
     "deviceFontFamily\\(": "ee.schimke.wearcmp.port.deviceFontFamily",
+    "\\.withFontVariation\\(": "ee.schimke.wearcmp.port.withFontVariation",
     "\\.removeIf": "ee.schimke.wearcmp.port.removeIf",
     "\\.computeIfAbsent": "ee.schimke.wearcmp.port.computeIfAbsent",
     "@JvmInline": "kotlin.jvm.JvmInline",
@@ -221,7 +223,7 @@
         "wear_one_handed_gesture_primary_indicator_animation.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show."
       },
       "exclude": {
-        "androidx/wear/compose/material3/AnimatedText.kt": "NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` \u2014 per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.",
+        "androidx/wear/compose/material3/AnimatedText.kt": "NOT YET PORTED. The AXES are no longer the blocker: `withFontVariation` drives a variable font's `wght` and `wdth` through Skia, and the type scale uses it. What remains is the other half \u2014 `TextRunShaper` and `TextPaint`, per-glyph shaping and a custom draw pass. That is the same shape of work `CurvedTextDelegate` already does on Skia; it simply is not written yet.",
         "androidx/wear/compose/material3/KeepScreenOn.kt": "Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.",
         "androidx/wear/compose/material3/TouchExplorationStateProvider.kt": "The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.",
         "androidx/wear/compose/material3/internal/Strings.kt": "23 `Strings(R.string.\u2026)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt \u2014 generated from the AAR's own values.xml.",

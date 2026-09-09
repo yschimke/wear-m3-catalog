@@ -17,6 +17,7 @@
 package ee.schimke.wearcmp.port
 
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
 
 /**
  * A font family named the way the platform names it — Android's `DeviceFontFamilyName`, which asks
@@ -30,3 +31,26 @@ import androidx.compose.ui.text.font.FontFamily
  * fallback and what a browser without the font will do anyway.
  */
 public expect fun deviceFontFamily(name: String): FontFamily
+
+/**
+ * [family] with variable-font axes applied — Android's
+ * `Font(DeviceFontFamilyName(name), weight, variationSettings)`.
+ *
+ * The Wear type scale asks for more than a weight. Every arc style names both `wght` and `wdth`,
+ * because Roboto Flex is a variable font and the arc scale is a point in its design space rather
+ * than one of its named instances. Dropping the settings, as this port did until now, draws arc
+ * text at the default width and at whatever weight the nearest instance happens to be.
+ *
+ * Compose Multiplatform DOES honour `FontVariation.Settings` — measurably so — but only through
+ * its own `Font(resource | File, weight, style, variationSettings)` factories, which take a font
+ * the caller supplies. There is no equivalent for a typeface resolved BY NAME, which is the whole
+ * of what `DeviceFontFamilyName` does. Hence a seam: on Skia the axes are applied to the resolved
+ * typeface directly.
+ *
+ * Takes a [FontFamily] rather than a name because that is what the type scale holds by the time
+ * this is called — `TypeScaleTokens.ArcLargeFont` is already `deviceFontFamily("roboto-flex")`.
+ * A family this module did not resolve, or one with no axes to apply, is returned unchanged.
+ */
+public expect fun FontFamily.withFontVariation(
+    variationSettings: FontVariation.Settings
+): FontFamily
