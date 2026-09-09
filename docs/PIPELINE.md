@@ -196,11 +196,21 @@ pickers ask rather than as Android's API:
 Both implementations read the same CLDR data through different doors, so neither is a table this
 port maintains.
 
-**TODO, in `TimePicker`:** the field pattern is the skeleton as written, not localised. Upstream
-passes it through `getBestDateTimePattern`, which reorders fields and swaps separators for the
-locales that need it — most visibly the ones that put the am/pm marker first (`ah:mm` in Chinese).
-The 12- versus 24-hour choice is *not* lost: it is in the skeleton, chosen by the caller's
-`TimePickerType`.
+`TimePicker`'s field pattern is localised too, and by the same route: `getBestDateTimePattern` is
+ICU's `DateTimePatternGenerator`, so `TimePatterns.kt` carries ICU's own answers for the 86 shipped
+locales rather than a heuristic. Four skeletons each, 4 KB, generated once from ICU4J 77.1.
+
+A table beats a rule here because the data is not guessable. Hungarian puts the day-period marker
+*before* the hour, as Chinese and Korean do — an assumption that only CJK does would have been
+wrong. Japanese counts its 12-hour clock with `K` (0..11) rather than `h` (1..12). Finnish
+separates with a full stop. French Canadian writes `HH 'h' mm`, which upstream's own `parsePattern`
+already names in a comment, because it was written to consume exactly this. 109 of the patterns
+contain a NARROW NO-BREAK SPACE before the marker, so regenerate with `-Dstdout.encoding=UTF-8` or
+they arrive as `?`.
+
+The 12- versus 24-hour choice still comes from the caller's `TimePickerType`, because it is in the
+skeleton the table is keyed by — a locale's own preference does not override what the caller asked
+for.
 
 ### Localisation
 
