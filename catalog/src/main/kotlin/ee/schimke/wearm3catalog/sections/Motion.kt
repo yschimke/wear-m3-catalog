@@ -90,35 +90,26 @@ import kotlinx.coroutines.delay
 
 // MOTION — what the component sheet cannot show, because a sticker is one frame.
 //
-// WHY THESE ARE THEIR OWN PREVIEWS AND NOT ANNOTATIONS ON THE COMPONENTS
+// These recordings are deliberately OUTSIDE the component inventory: they carry no
+// `@CatalogComponent`, so they add nothing to the kit taxonomy and answer to no kit node. They are
+// recordings *of* components catalogued elsewhere. Two reasons they are not annotations on those
+// components:
 //
-// Two reasons, both found by trying the other way first.
-//
-// 1. An `@AnimatedPreview` on a `@CatalogComponent` rides every `@OverrideVariant` cell as well,
-//    and the animated path does NOT apply a cell's knobs. Putting one on `Placeholder/Button`
-//    published three byte-identical GIFs — the base recording, under the tonal and outlined names.
+// 1. An `@AnimatedPreview` on a `@CatalogComponent` rides every `@OverrideVariant` cell too, and
+//    the animated path does NOT apply a cell's knobs — every cell publishes a byte-identical copy
+//    of the base recording under a different name.
 // 2. A motion capture needs a pinned canvas (`widthDp` + `heightDp`); the component stickers wrap
 //    and are cropped, which is what makes them droppable onto any canvas.
 //
-// So motion is authored here, deliberately outside the component inventory: these carry no
-// `@CatalogComponent`, so they add nothing to the kit taxonomy and answer to no kit node. They are
-// recordings *of* components that are catalogued elsewhere.
+// CLAIMING — authoring a recording here does NOT publish it.
 //
-// AND THAT IS ONLY HALF THE WIRING — THE HALF THAT WAS MISSING
-//
-// Authoring a recording here does NOT publish it. A design catalog collects motion PER COMPONENT:
-// the export reads each component's own `@Preview`, or its `motionPreview`, and folds what it finds
-// onto `components[].motion[]`. A recording no component names is resolved by nobody, so it renders
-// into the bundle and is dropped at the join — the catalog then publishes with an empty `motion/`
-// and nothing anywhere says why. That is exactly what happened to the first five of these from the
-// day they landed until compose-ai-tools 1.23.0: green runs, correct GIFs in the bundle, no Motion
-// lane on the delivery branch.
-//
-// Each recording below is therefore CLAIMED by the component it is a recording of, by naming it as
-// `motionPreview = "<function>"` on that component's own `@CatalogComponent` — never here. (Spelled
-// without the opening bracket on purpose: `CatalogInventoryTest` finds components by scanning these
-// files for the annotation's literal text, so writing it in full in a comment mints a phantom
-// component with no id and fails the build.)
+// A design catalog collects motion PER COMPONENT: the export reads each component's own `@Preview`
+// or its `motionPreview` and folds what it finds onto `components[].motion[]`. A recording no
+// component claims renders into the bundle and is dropped at the join, leaving an empty `motion/`
+// lane. So each recording is claimed by naming it as `motionPreview = "<function>"` on that
+// component's own `@CatalogComponent` — never here. (Spelled without the opening bracket on
+// purpose: `CatalogInventoryTest` finds components by scanning these files for the annotation's
+// literal text, so writing it in full in a comment mints a phantom component and fails the build.)
 //
 //   IndeterminateProgressMotion -> CircularProgressIndicator  (ProgressIndicators.kt)
 //   SwitchTransitionMotion      -> SwitchButton               (SelectionButtons.kt)
@@ -137,84 +128,57 @@ import kotlinx.coroutines.delay
 //   PagerTransitionMotion       -> Pager/Horizontal           (Pagers.kt)
 //   VerticalPagerTransitionMotion -> Pager/Vertical           (Pagers.kt)
 //
-// ONE FUNCTION PER COMPONENT, which is a constraint on what a recording may cover rather than a
-// detail of the wiring: `motionPreview` is a single name, so two things worth showing on the same
-// component share one capture window. `MediaTransportMotion` is the worked example: the presses,
-// the shape morph and the progress ring all belong to the transport row, so they run together.
+// ADDING A RECORDING MEANS ADDING ITS CLAIM TOO. An unclaimed one is warned about by the export
+// ("N @Preview function(s) declare captures that no catalog component claims"), but the warning
+// does not publish it.
 //
-// Claiming costs the recording nothing it had: it still carries no `@CatalogComponent`, still adds
-// no card and no kit node. It only tells the export whose Motion lane the bytes belong in. ADDING A
-// RECORDING HERE MEANS ADDING ITS CLAIM TOO — an unclaimed one is now warned about by the export
-// ("N @Preview function(s) declare captures that no catalog component claims") rather than being
-// silently dropped, but the warning does not publish it.
+// ONE FUNCTION PER COMPONENT, which constrains what a recording may cover: `motionPreview` is a
+// single name, so two things worth showing on the same component share one capture window.
+// `MediaTransportMotion` is the worked example — the presses, the shape morph and the progress
+// ring all belong to the transport row, so they run together.
 //
-// `@InteractionPreview` WORKS HERE NOW, AND THIS NOTE USED TO SAY IT DID NOT
+// WHICH ANNOTATION
 //
-// It is the annotation for pointer-provoked motion — a switch only moves because someone flipped
-// it — and it WAS implemented in the desktop renderer only. An Android catalog that reached for it
-// got no capture, and failed confusingly rather than clearly: nothing wrote the animated file, and
-// the still frame then failed to decode with `<id>.apng: file is missing on disk`, which also cost
-// the component its ordinary PNG. That is compose-ai-tools issue #4215, and it is CLOSED —
-// implemented on Robolectric in #4240, with the ripple's clock fixed in #4315, both shipped in
-// **1.25.0**, which is the version this repo already pins.
+// **Where a press or a tap makes the pixels move, `@InteractionPreview` is the tool.** It
+// dispatches a real pointer, and the Android backend advances the **main looper** alongside
+// `mainClock` on every frame. Material's ripple is a platform `RippleDrawable` that does not run on
+// Compose's test clock at all, so a hand-driven press records a state layer frozen at frame 0 while
+// the Compose-side animation plays — half of a press response, and the half a reader looks for.
 //
-// So the constraint this file was written under is gone, and the note is kept rather than deleted
-// because it explains why the recordings below are split the way they are. **Where a press or a tap
-// is what makes the pixels move, the annotation is now the tool** — the media transport row, the
-// switch and the toggle button are all real dispatched pointers.
+// What stays state-driven, and why:
 //
-// One thing it buys that no `LaunchedEffect` could: the Android backend advances the **main
-// looper** alongside `mainClock` on every frame. Material's ripple is a platform `RippleDrawable`
-// and does not run on Compose's test clock at all, so a hand-driven press records a state layer
-// frozen at frame 0 while the Compose-side animation plays. That is half of a press response, and
-// it is the half a reader is usually looking for.
-//
-// WHAT IS STILL STATE-DRIVEN, AND THE ONE REASON LEFT
-//
-// Two kinds, and only one of them is a limitation.
-//
-//  - **Nothing to press.** A spinner and a shimmer run on their own; there is no gesture that
-//    starts them, so `@AnimatedPreview` is not a workaround there, it is the correct annotation.
+//  - **Nothing to press.** A spinner and a shimmer run on their own, so `@AnimatedPreview` is the
+//    correct annotation rather than a workaround.
 //  - **A gesture the annotation cannot script.** `@InteractionPreview` dispatches `Tap` and
-//    `PressAndHold` — presses. Swipe-to-reveal, the edge button's scroll and the two pagers are all
-//    **drags**, and a press that never travels does nothing to any of them. They drive the
-//    component's own state object (`RevealState`, `TransformingLazyColumnState`, `PagerState`)
-//    through the same animation a finger would, so the spring and the anchors are real and only the
-//    cause is scripted. A drag gesture upstream would convert them all, and their KDoc says so at
-//    the call site.
+//    `PressAndHold`. Swipe-to-reveal, the edge button's scroll and the two pagers are **drags**,
+//    and a press that never travels does nothing to any of them. They drive the component's own
+//    state object (`RevealState`, `TransformingLazyColumnState`, `PagerState`) through the same
+//    animation a finger would, so the spring and the anchors are real and only the cause is
+//    scripted. A drag gesture upstream would convert them all; their KDoc says so at the call site.
 //
-//    `SwipeToDismissBox` is the one drag that does NOT appear below, and the difference is the
-//    state object rather than the gesture: it publishes only `snapTo(Default | Dismissed)`, which
-//    teleports between two anchors, so there is no animation of the component's own to drive. Its
-//    card publishes the two ends and says so — see `SwipeToDismiss.kt`.
+//    `SwipeToDismissBox` is the one drag NOT below, and the difference is the state object rather
+//    than the gesture: it publishes only `snapTo(Default | Dismissed)`, which teleports between two
+//    anchors, so there is no animation of its own to drive. See `SwipeToDismiss.kt`.
 //  - **A gesture that is not a pointer at all.** The three one-handed-gesture recordings at the
-//    foot of this file are raised by a double pinch or a wrist turn — sensor events the watch's
-//    `GestureInputManager` reports, which no pointer dispatcher can stand in for and which are
-//    simply absent off a watch. The app-side callback that receives them (`onGestureAvailable`)
-//    does one thing, and the recordings do that same public thing: call `showIndicator()`. Unlike
-//    the two drags above, this is not waiting on an annotation — there is no gesture to script.
+//    foot of this file are raised by a double pinch or a wrist turn — sensor events no pointer
+//    dispatcher can stand in for, and which are absent off a watch. The recordings call the same
+//    public `showIndicator()` the app-side `onGestureAvailable` callback does.
 //
-// That is the whole of it: no recording here is state-driven merely because nobody revisited it.
+// THE PLACEHOLDER NEEDS AN `AppScaffold`, AND NOTHING ELSE DOES.
 //
-// THE PLACEHOLDER, WHICH WAS "NOT HERE" AND IS NOW
-//
-// This file used to record the placeholder as a thing the renderer could not do: held visible it
-// came out with 3 distinct frames in 46, and toggling `isVisible` so the wipe plays made it 4.
-// That reading was wrong, and the correction is worth keeping because it looks nothing like a
-// missing wrapper: `PlaceholderState` reads its frame clock from the library's internal
-// `AnimationCoordinator`, and the ONLY thing in Wear Compose that composes that coordinator's
-// looper is `AppScaffold`. No scaffold, no frames — under any renderer, on a watch as much as
-// here. The placeholder recordings below therefore go in `AnimatedSticker`, which is that scaffold
-// and nothing else; the component stickers keep [Sticker] and keep their placeholder frozen, which
-// is what a baked capture wants anyway.
+// `PlaceholderState` reads its frame clock from the library's internal `AnimationCoordinator`, and
+// the ONLY thing in Wear Compose that composes that coordinator's looper is `AppScaffold` — no
+// scaffold, no frames, under any renderer and on a watch as much as here. A still placeholder looks
+// exactly like a renderer limitation and is not one. The placeholder recordings use
+// `AnimatedSticker`, which is that scaffold and nothing else; the component stickers keep [Sticker]
+// and keep their placeholder frozen, which is what a baked capture wants anyway.
 //
 // WHAT NEVER DRIVES ANY OF THESE
 //
 // A seeded `MutableInteractionSource`. Emitting `PressInteraction.Press` paints a state layer that
-// nothing is causing, so the capture shows a component that LOOKS pressed and documents this file's
-// belief about it rather than the component. It does not even work: the state layer is a platform
-// `RippleDrawable` running on the main looper, which a hand-driven press does not advance — see the
-// measurement in the media note below. Where a press is the motion, dispatch a real one.
+// nothing is causing, so the capture documents this file's belief about the component rather than
+// the component. It does not even work: the state layer is a platform `RippleDrawable` on the main
+// looper, which a hand-driven press does not advance. Where a press is the motion, dispatch one.
 
 /**
  * The canvas every motion capture is pinned to. Frames must share one size or no GIF is written.

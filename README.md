@@ -1,19 +1,15 @@
 # M3 Wear OS Apps Design Kit — as code
 
 The [M3 Wear OS Apps Design Kit][kit] rebuilt as **Jetpack Compose `@Preview`s**, published as an
-importable design catalog. The Wear-side sibling of [yschimke/m3-catalog][m3], and the same
-posture: the kit is the source of truth, the code is what moves.
+importable design catalog. The Wear-side sibling of [yschimke/m3-catalog][m3].
 
 **The Figma kit is the source of truth.** A divergence between the two is a bug in this code, and
 the code is what changes — that is what `direction: "design-led"` in
-[`.design-parity.json`](.design-parity.json) says. That is the opposite of the `wear-m3` catalog in
-compose-ai-tools, which publishes a system whose own render is authoritative; this one exists to
-*reproduce* a published kit. The direction has teeth beyond reporting: design-parity's
-Code-to-Canvas push-back is gated on `code-led`, so `design-led` makes writing back to the Figma
-file structurally impossible rather than merely forbidden by convention.
-
-**Nothing in this repo writes to Figma.** Every Figma interaction is read-only: the REST API for
-node ids and reference images, and the MCP server for variables and metadata.
+[`.design-parity.json`](.design-parity.json) says. The direction has teeth beyond reporting:
+design-parity's Code-to-Canvas push-back is gated on `code-led`, so `design-led` makes writing back
+to the Figma file structurally impossible rather than merely forbidden by convention. Every Figma
+interaction here is read-only — the REST API for node ids and reference images, the MCP server for
+variables and metadata.
 
 - **Browse it:** the published catalog is served at `preview.coo.ee/wear-m3-catalog/`.
 - **Import it:** the generated bundle lives on the `design-artifacts/wear-m3-catalog` branch —
@@ -33,97 +29,63 @@ This repo publishes **two** catalogs, and the pairing between them is the point.
 | [`:remote-catalog`](remote-catalog) | `remote-m3` | `androidx.wear.compose.remote:remote-material3` (+ `remote-creation-compose`, Glance Wear) | `design-artifacts/remote-m3` |
 
 `:catalog` draws the kit with Wear Compose Material 3. `:remote-catalog` draws the same components
-as **Remote Compose documents** — each sticker is a real `RemoteDocument`, rasterised by the player,
+as **Remote Compose documents** — each sticker a real `RemoteDocument`, rasterised by the player,
 which is the path a watch face, tile or widget takes on-device. Every Remote component names its
 `:catalog` counterpart, so the published compare page reads as three columns: **the kit**, the Wear
 Compose rendition, and the Remote one. Two implementations can only tell you that they differ; the
 kit is what says which one is wrong.
 
-The Remote catalog moved here from `:samples:design-catalog-remote-m3` in
-[compose-ai-tools](https://github.com/yschimke/compose-ai-tools) — see
-[issue #4588](https://github.com/yschimke/compose-ai-tools/issues/4588). It is a separate Gradle
-module rather than a source set because it is on the alpha Remote Compose line at `compileSdk 37`
-with no Compose BOM, and none of that may reach the catalog that reproduces the kit.
+They are separate Gradle modules rather than source sets because `:remote-catalog` is on the alpha
+Remote Compose line at `compileSdk 37` with no Compose BOM, and none of that may reach the catalog
+that reproduces the kit. **Both are design-led**, and the parity workflow runs a job per module.
 
-**Both are design-led.** `.design-parity.json` is repo-wide and the parity workflow runs a job per
-module, so each sheet is compared against the kit under the same policy: a divergence is a defect in
-this code.
-
-Where the two sheets meet, where only one of them goes, and which Figma node each component answers
-to is drawn out component by component, with renders, in
-[`docs/COMPONENT_MAP.md`](docs/COMPONENT_MAP.md) — 23 Wear components facing 28 Remote ones, 17
-Remote-only, 46 Wear-only. The Remote sheet's kit mapping is partial **by design**: seventeen of its
-components document what Remote Compose can do that the kit has no counterpart for at all — document
-shaders, colour and typography token specimens, downloadable-font axes, the Glance Wear widget host
-frame — so its component coverage cannot reach 100% by construction. Everything else either names a
-kit node or records why it does not, and "the library draws it wrong" is never one of those reasons:
-a component whose API exists is drawn failing rather than withheld.
-
-One level down — the kit's published **sets**, their **cells**, and the imported **page grids** — is
-[`docs/KIT_COVERAGE.md`](docs/KIT_COVERAGE.md). Read the overlap figure there rather than the
-whole-kit one: the sheets share 9 of the kit's 34 sets, and within those 331 cells they sit at 222
-and 199 — 23 cells apart, in two sets. Against the whole kit the Remote sheet reads 22% to the Wear
-sheet's 67%, which measures how many sets it never claimed rather than how much of its own work is
-missing.
+Where the two sheets meet, where only one goes, and which Figma node each answers to is drawn out
+component by component, with renders, in [`docs/COMPONENT_MAP.md`](docs/COMPONENT_MAP.md)
+(generated). The Remote sheet's kit mapping is partial **by design**: several of its components
+document what Remote Compose can do that the kit has no counterpart for at all — document shaders,
+colour and typography token specimens, downloadable-font axes, the Glance Wear widget host frame —
+so its component coverage cannot reach 100% by construction.
 
 ## Status
 
-**Every published set in the kit is accounted for.** 33 of the kit's 42 published component sets are
-reproduced by a catalog component; the other 9 are excluded, each with a stated reason.
-[`kit-sets.json`](kit-sets.json) is that record — one row per set, carrying either the components
-that reproduce it or why it is absent — and `CatalogKitCoverageTest` holds it to the annotations in
-both directions, so a set cannot be quietly dropped and an exclusion cannot outlive the limitation
-that earned it.
+**Every published set in the kit is accounted for.** [`kit-sets.json`](kit-sets.json) is that record
+— one row per set, carrying either the components that reproduce it or why it is absent — and
+`CatalogKitCoverageTest` holds it to the annotations in both directions, so a set cannot be quietly
+dropped and an exclusion cannot outlive the limitation that earned it.
 
-**How much of each set is drawn is a second question, and it now has an answer too.**
-[`kit-cells.json`](kit-cells.json) counts it cell by cell, for both sheets: `:catalog` draws 550 of
-the 888 cells published by the 33 sets it reproduces, `:remote-catalog` 196 of the 331 published by
-the 9 it names. Fifteen of those 42 sheet-rows draw their set in full. The record is projected from
-each module's resolved design map and reconciled by CI, so a cell that stops being drawn moves a
-number in a reviewable diff — the check that was missing when the Remote sheet drew 15 of the `Card`
-set's 45 cells with everything green
-([#158](https://github.com/yschimke/wear-m3-catalog/issues/158)).
+**How much of each set is drawn is a second question.** [`kit-cells.json`](kit-cells.json) counts it
+cell by cell for both sheets, projected from each module's resolved design map and reconciled by CI,
+so a cell that stops being drawn moves a number in a reviewable diff. **Every gap says why**, on its
+`kit-sets.json` row, and `KitCellCoverageTest` fails on a gap that states none. Most of those reasons
+are a library declining to draw a distinction the kit does — Wear resolves the three filled styles'
+disabled colours to one `onSurface` pair, so cells across `Text-Button`, `Button-Compact` and
+`Edge-Button` are one picture under two or three names, a comparison that cannot fail.
 
-**And every gap on both sheets now says why.** All 29 short rows carry a written reason on their
-`kit-sets.json` row, and `KitCellCoverageTest` fails on a gap that states none — so a cell that goes
-missing cannot go quiet. Most of those reasons are a library declining to draw a distinction the kit
-does: Wear resolves the three filled styles' disabled colours to one `onSurface` pair, so 28 cells
-across `Text-Button`, `Button-Compact` and `Edge-Button` are one picture under two or three names —
-a comparison that cannot fail. The Remote line says the same thing in its own accent, and adds
-absences of its own: no outlined title or app card, no segmented progress ring.
+Read the **overlap** figure in [`docs/KIT_COVERAGE.md`](docs/KIT_COVERAGE.md) rather than the
+whole-kit one: against the whole kit the Remote sheet's percentage measures how many sets it never
+claimed rather than how much of its own work is missing.
 
 **Where the library draws the wrong thing, the sheet draws it anyway.** A cell whose API exists is
 called and published even when the result is blank or identical to its neighbour — an image-backed
 button that renders a black pill with no image in it, a text button that draws nothing at all when
 disabled, a disabled tonal button that is the disabled filled one to the byte. Withdrawing those
-would leave the set reading as unreproduced, which is indistinguishable from nobody having got to
-it: the sheet would look finished and the defect would be nowhere. `StickerBakeCoverageTest`'s
-`knownBlank`, `RemoteRenderTest`'s `knownDuplicate` and `CatalogRenderTest`'s record each one
-against the call that causes it, and all three fail in the other direction too — the day the
-library starts drawing, the exemption is what announces it.
+would leave the set reading as unreproduced, indistinguishable from nobody having got to it: the
+sheet would look finished and the defect would be nowhere. `StickerBakeCoverageTest`'s `knownBlank`,
+`RemoteRenderTest`'s `knownDuplicate` and `CatalogRenderTest`'s record each one against the call that
+causes it, and all three fail in the other direction too — the day the library starts drawing, the
+exemption is what announces it.
 
-Twenty components enter through the **library's** door instead — components carrying `noReference`
-with the reason there is nothing to compare against. A sheet whose reader is looking for the
-component set should not omit a component because a design file did. Eight are Wear Compose Material 3
-(`ButtonGroup`, `ArcProgressIndicator`, `TransformingLazyColumn`, `Scaffold`, and the four
-one-handed-gesture indicators below); the other twelve are Horologist's, below.
+Components with nothing to compare against enter through the **library's** door, carrying
+`noReference`: a sheet whose reader is looking for the component set should not omit a component
+because a design file did.
 
 ### Two libraries
 
-Wear Compose Material 3 is the first library here. **Horologist is the second**, and it is on the
-sheet because the kit does not stop where the platform library does: `Media-Player` is a whole
-screen, and Wear Compose ships no media player. That set used to be an exclusion reading "assembled
-by an app (or by Horologist), not a library component" — true of Wear Compose, wrong about the
-ecosystem. [Horologist][horologist] publishes the screen and its parts as library components, so the
-catalog calls them.
-
-The player is still excluded, but for a different and narrower reason: the kit's cell **exports** as
-its own album-artwork overlay rather than as the player, so there is no faithful reference image to
-compare against. The component ships; the comparison does not. See
-[`MediaControls.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt).
-
-Everything Horologist is filed under a `Horologist` section, so a reader can always tell which
-library a card's composable comes from:
+Wear Compose Material 3 is the first library here. **Horologist is the second**, because the kit
+does not stop where the platform library does: `Media-Player` is a whole screen, and Wear Compose
+ships no media player. [Horologist][horologist] publishes that screen and its parts as library
+components, so the catalog calls them. Everything Horologist is filed under a `Horologist` section,
+so a reader can always tell which library a card's composable comes from:
 
 | Group | Components |
 | --- | --- |
@@ -142,32 +104,31 @@ What is excluded, and why:
 | Kit set | Why |
 | --- | --- |
 | `Button-ImageBackground-Round` | Compose puts the image container painter on `Button` and `Card`; `IconButton` takes no painter |
-| `Media-Player` | implemented (`Media/PlayerScreen`) but not comparable — the kit's cell exports as its album-artwork overlay, not as the player |
+| `Media-Player` | implemented (`Media/PlayerScreen`) but not comparable — the kit's cell exports as its album-artwork overlay, not as the player. See [`MediaControls.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/MediaControls.kt) |
 | the six `Avatar-*` components | avatars are app content; the kit draws the shapes an app fills, and there is no composable to invoke |
 | `Confirmation-Overlay` | `ConfirmationDialogContent` animates its children in from `alpha = 0`; the renderer pauses the clock, so a still capture is an empty ring. Back in when a capture can settle first |
 
-### One-handed gestures
-
-`androidx.wear.compose.material3.onehandedgesture` arrived in wear-compose 1.7.0-beta and has no kit
-set behind it — one-handed gestures are published as a [design guide][gesture-guide], not as a
-component sheet — so the four indicators enter through the library's door and are filed under
-`Communication`, which is what they do: tell a wearer that a double pinch or a wrist turn will reach
-this control. [`OneHandedGestures.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt)
-draws `OneHandedGestureClickIndicator` on a button, `OneHandedGestureScrollIndicator` on the bezel,
-and the horizontal and vertical page indicators, each with the real `Modifier.oneHandedGesture`
-attached and each with a `gestures-off` cell for `LocalOneHandedGestureEnabled`.
-
-The hint is a *transient*: it begins and ends on the picture it is not. The stills are pinned to a
-phase with `@SettledPreview(afterMs = 800)` and three of the four are also recorded in `Motion.kt`,
-which is where a reader can see the component give the space back. Off a watch nothing raises the
-hint — `GestureInputManager` is a device service — so the stickers call the same public
-`showIndicator()` the framework's `onGestureAvailable` callback would, and nothing else is stubbed.
-
-[gesture-guide]: https://developer.android.com/design/ui/wear/guides/patterns/gestures
-
-Out of scope and not listed: the kit's own internals (names beginning `.`, and the `Base
+Also out of scope and not listed: the kit's own internals (names beginning `.`, and the `Base
 components` each page builds its published set from) and the 1072-component **Icons** page, which is
 an icon set rather than a component inventory.
+
+### One-handed gestures
+
+`androidx.wear.compose.material3.onehandedgesture` has no kit set behind it — one-handed gestures
+are published as a [design guide][gesture-guide], not a component sheet — so the four indicators
+enter through the library's door, filed under `Communication`, which is what they do: tell a wearer
+that a double pinch or a wrist turn will reach this control.
+[`OneHandedGestures.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt)
+draws each with the real `Modifier.oneHandedGesture` attached and a `gestures-off` cell for
+`LocalOneHandedGestureEnabled`.
+
+The hint is a *transient*: it begins and ends on the picture it is not. The stills are pinned to a
+phase with `@SettledPreview(afterMs = 800)` and three of the four are also recorded in `Motion.kt`.
+Off a watch nothing raises the hint — `GestureInputManager` is a device service — so the stickers
+call the same public `showIndicator()` the framework's `onGestureAvailable` callback would, and
+nothing else is stubbed.
+
+[gesture-guide]: https://developer.android.com/design/ui/wear/guides/patterns/gestures
 
 See [`AGENTS.md`](AGENTS.md) for the conventions any addition has to hold.
 
@@ -198,77 +159,71 @@ about: the system slug, title, primary modes, the round-size breakpoints and the
 [`ui-builder.policy.json`](ui-builder.policy.json) is its sibling for the **UI builder** — the
 platform word, the screen frame and its measured content padding, the two structural builtins, the
 shelf order — and `remote-catalog/` has its own for the `remote-m3` system's widget host frame.
-Per-component builder policy is not in either; it is `@BuilderComponent` beside `@CatalogComponent`
-on the sticker, so a component is never renamed in two places. Both replace Kotlin that lived in the
-preview server and described this catalog's components from across a repository boundary; the
+Per-component builder policy is `@BuilderComponent` beside `@CatalogComponent` on the sticker, so a
+component is never renamed in two places. The
 [contract](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md)
-explains why, and each file's own `$comment` fields explain the decisions in it. **Nothing reads
+explains the split, and each file's `$comment` fields explain the decisions in it. **Nothing reads
 them yet** — they are authored so they can be proved equivalent before anything switches over.
 
 The padding table under `frame.geometry` is written by a test, not by a person:
 `ScreenScaffoldContentPaddingTest` composes the real `ScreenScaffold` over a real
 `TransformingLazyColumn` at each round size and asserts the committed rows equal what Wear Compose
-computes. A hand-edit is a failing test, which is the whole reason the numbers moved here.
+computes. A hand-edit is a failing test.
 
-`display.hero` is `Media/PlayerScreen` — a whole round watch face, not a component swatch. It is
-the picture the preview server's index shows for this catalog, and on a sheet of Wear stickers a
-running media player says "this is a watch design system" at a glance where an isolated shape or
-button cannot. It names a `@CatalogComponent` id; `CatalogInventoryTest` holds it to one that
-exists, because a hero naming nothing does not fail anything — the server just quietly features
-its own pick instead.
+`display.hero` is `Media/PlayerScreen` — a whole round watch face, not a component swatch. On a
+sheet of Wear stickers a running media player says "this is a watch design system" at a glance where
+an isolated shape or button cannot. It names a `@CatalogComponent` id, and `CatalogInventoryTest`
+holds it to one that exists: a hero naming nothing does not fail anything, the server just quietly
+features its own pick instead.
 
 ## Android, not desktop — and why
 
 The phone catalog is a Compose **Multiplatform desktop** module, which is what lets the preview
 server hold a live Compose session over Skiko. This one cannot be:
 `androidx.wear.compose:compose-material3` ships only for Android. So `:catalog` is an Android
-application module and the render goes through **Robolectric**, the same lane the `wear-m3` catalog
-in compose-ai-tools uses — and the live re-render lane needs a serve host carrying the Android
-daemon rather than the desktop one.
+application module and the render goes through **Robolectric** — and the live re-render lane needs a
+serve host carrying the Android daemon rather than the desktop one.
 
 One dependency deserves naming: the module pulls in **mobile** `androidx.compose.material3` for
 `MaterialShapes` and `RoundedPolygon.toShape()` alone. The kit's Shapes page publishes the 35
-expressive shapes and Wear Compose names none of them — `androidx.wear.compose.material3` ships
-corner radii and a morph shape, and `androidx.graphics:graphics-shapes` ships only the primitives
-they are built from. `MaterialShapes` is plain `RoundedPolygon` data, so the specimen sheet draws
-Material's own finished polygons rather than this repo's arithmetic, which is the point of a
-design-led catalog.
+expressive shapes and Wear Compose names none of them — it ships corner radii and a morph shape, and
+`androidx.graphics:graphics-shapes` ships only the primitives they are built from. `MaterialShapes`
+is plain `RoundedPolygon` data, so the specimen sheet draws Material's own finished polygons rather
+than this repo's arithmetic, which is the point of a design-led catalog.
 
 ## Dark-first
 
 Wear draws its components on a black watch face, so a sticker is a **single dark capture** with a
 transparent background rather than the light/dark pair the phone catalog publishes
 (`@CatalogModes`, `showBackground = false`). `catalog.spec.json` says `modes: ["dark"]` and
-`display.surface: "dark"`, so the preview server's front door stages the hero on dark too.
-
-That single mode has one consequence worth knowing about before you go looking for a parity report:
-see [`docs/DESIGN_MAP.md`](docs/DESIGN_MAP.md).
+`display.surface: "dark"`, so the preview server's front door stages the hero on dark too. That
+single mode has one consequence worth knowing before you go looking for a parity report: see
+[`docs/DESIGN_MAP.md`](docs/DESIGN_MAP.md).
 
 ## Themes
 
-The kit publishes one theme — the stock Wear M3 dark palette every sticker on this sheet is drawn
-in. Six more are declared as `@WearThemeCatalog` providers in
+The kit publishes one theme — the stock Wear M3 dark palette every sticker is drawn in. Six more are
+declared as `@WearThemeCatalog` providers in
 [`CatalogThemes.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/CatalogThemes.kt), which puts
 them in the preview server's **Theme** select (any sticker re-renders under any of them) and bakes
-one specimen sheet per theme showing the Wear roles and type scale it resolves to.
+one specimen sheet per theme.
 
 Five are [Confetti Wear](https://github.com/joreilly/Confetti)'s: its stock theme plus the four
 curated conference identities — KotlinConf, AndroidMakers, Droidcon, DevFest. They are built the way
 Confetti builds them, a seed colour through `materialkolor`'s dynamic dark scheme mapped onto the
 Wear roles, rather than transcribed as a table of resolved hex values that would drift the first
-time either side moved. Each carries Confetti's typography too: a theme is a typeface pairing as
-much as a palette, and KotlinConf's JetBrains Mono titles over an Inter body are as much of that
-identity as the purple.
+time either side moved. Each carries Confetti's typography too: KotlinConf's JetBrains Mono titles
+over an Inter body are as much of that identity as the purple.
 
-The sixth is not Confetti's. It is the stock Wear palette with only the type scale re-pointed at
-**Google Sans Flex**, so a side-by-side against an un-themed sticker reads as a pure type comparison
-rather than a type *and* colour change.
+The sixth is the stock Wear palette with only the type scale re-pointed at **Google Sans Flex**, so
+a side-by-side against an un-themed sticker reads as a pure type comparison rather than a type *and*
+colour change.
 
 These answer to no kit node and are not inventory — membership is still the kit's call. Every
 typeface resolves as a downloadable Google font, so no TTF is vendored here.
 
-These are why a sticker frame installs its theme through `CatalogMaterialTheme` rather than a bare
-`MaterialTheme { … }`: a provider wraps the sticker from the outside, and an inner theme would
+They are also why a sticker frame installs its theme through `CatalogMaterialTheme` rather than a
+bare `MaterialTheme { … }`: a provider wraps the sticker from the outside, and an inner theme would
 shadow it. That failure is silent and convincing — every entry in the switcher renders identical
 pixels — so the frame stands down when a provider has already installed one.
 
@@ -276,25 +231,19 @@ pixels — so the frame stands down when a provider has already installed one.
 
 Twelve recordings live in
 [`Motion.kt`](catalog/src/main/kotlin/ee/schimke/wearm3catalog/sections/Motion.kt), published as
-GIFs beside the sticker sheet: the indeterminate progress ring, the switch thumb travelling, the
-toggle button's shape morph, swipe-to-reveal revealing, the edge button rising out of a scroll, the
-media transport row pressed button by button, the button, icon button and card placeholders
-shimmering and then wiping off to reveal real content, and the three one-handed-gesture hints taking
-a button, a scroll rail and a row of page dots over and handing them back. They carry no `@CatalogComponent` — a
-recording is not a component, and membership is still the kit's call — but each is **claimed** by
-the component it records, through `motionPreview` on that component's `@CatalogComponent`. One
-function per component, so a recording covering several axes covers them in one window.
+GIFs beside the sticker sheet. They carry no `@CatalogComponent` — a recording is not a component —
+but each is **claimed** by the component it records, through `motionPreview` on that component's
+`@CatalogComponent`. One function per component, so a recording covering several axes covers them in
+one window.
 
 Most are driven by the component's own animation or by a `LaunchedEffect` state change — including
 the gesture hints, where that is not a workaround waiting on a better annotation: a double pinch is a
-sensor event, so there is no pointer for `@InteractionPreview` to dispatch. The media
-transport row is the exception and the first here to use **`@InteractionPreview`**, which dispatches
-a real pointer at nodes resolved from the live semantics tree: the row's buttons respond through
-their own wiring, and pressing the middle one genuinely pauses playback rather than a preview
-setting `playing` on its behalf. That annotation was desktop-only when this file's Motion notes were
-first written; it has run on Robolectric since compose-ai-tools 1.25.0, below the version this repo pins. See
-[`AGENTS.md`](AGENTS.md) and the notes in `Motion.kt` for when to reach for which, and for why a
-press that dispatches cleanly still needs measuring before you call it motion.
+sensor event, so there is no pointer to dispatch. The media transport row uses
+**`@InteractionPreview`**, which dispatches a real pointer at nodes resolved from the live semantics
+tree: the row's buttons respond through their own wiring, and pressing the middle one genuinely
+pauses playback rather than a preview setting `playing` on its behalf. See the notes in `Motion.kt`
+for when to reach for which, and for why a press that dispatches cleanly still needs measuring
+before you call it motion.
 
 ## Building
 
@@ -305,7 +254,7 @@ press that dispatches cleanly still needs measuring before you call it motion.
 ./gradlew ktfmtFormat                                                      # format
 ```
 
-`composePreviewDiscover` is the real contract: it is what turns the annotations into the published
+`composePreviewDiscover` is the real contract: it turns the annotations into the published
 inventory. A component that compiles but is not discovered vanishes from the sheet silently.
 
 ## CI
@@ -314,19 +263,16 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | --- | --- |
 | [`ci.yml`](.github/workflows/ci.yml) | compile, run preview discovery, unit tests, `ktfmtCheck`, and the build-free catalog-spec pre-flight |
 | [`compose-preview.yml`](.github/workflows/compose-preview.yml) | renders the previews and posts a before/after visual diff on every PR |
-| [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes both bundles — `design-artifacts/wear-m3-catalog` and `design-artifacts/remote-m3` — scoped so a push that moves one catalog does not re-render the other |
+| [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes both bundles, scoped so a push that moves one catalog does not re-render the other |
 | [`design-parity.yml`](.github/workflows/design-parity.yml) | compares each catalog's render against the Figma kit — `:catalog` to `design-parity/main`, `:remote-catalog` to `design-parity/remote-m3` |
 | [`design-parity-import.yml`](.github/workflows/design-parity-import.yml) | owns the Figma traffic: refreshes the reference cache on `design-parity/reference` |
 | [`figma-pages.yml`](.github/workflows/figma-pages.yml) | imports the kit's page SVGs and commits the cache under `design/pages` |
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |
 | [`no-agent-attribution.yml`](.github/workflows/no-agent-attribution.yml) | blocks agent `Co-authored-by:` trailers and agent commit identities from reaching `main` |
 
-design-parity runs **hourly** and weekly — the `FIGMA_TOKEN` secret is set and `design-map.json` is
-committed, so the two prerequisites this section used to describe as missing are both met. It is
-deliberately not per-push: a run takes ~35-45 min and merges land every few minutes, so the
-per-push trigger could never drain, and the concurrency lane resolved that by cancelling queued
-runs before they started. Hourly is the cadence the lane can actually serve, and the cache check
-makes a quiet hour a ~40s no-op. See the comment at the top of
+design-parity runs **hourly** and weekly, deliberately not per-push: a run takes ~35-45 min and
+merges land every few minutes, so a per-push trigger could never drain. Hourly is the cadence the
+lane can serve, and the cache check makes a quiet hour a ~40s no-op. See the comment at the top of
 [`design-parity.yml`](.github/workflows/design-parity.yml).
 
 Dependencies update themselves via Renovate ([`renovate.json`](.github/renovate.json)).
