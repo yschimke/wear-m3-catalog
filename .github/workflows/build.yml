@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [agent/wear-compose-cmp]
+  pull_request:
+    branches: [agent/wear-compose-cmp]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      # The generated sources are committed. This proves they are what the pipeline produces, so a
+      # reviewer can read `modules/` as output rather than having to trust it.
+      - name: Generated sources are up to date
+        run: scripts/check-generated.sh
+
+      # `assemble`, not `build`: see AGENTS.md -> Conventions.
+      - name: Assemble
+        run: ./gradlew assemble
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wasm-klibs
+          path: modules/*/build/libs/*.klib
