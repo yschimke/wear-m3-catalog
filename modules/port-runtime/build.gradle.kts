@@ -27,6 +27,8 @@ kotlin {
       api(libs.compose.ui)
       // For the Morph -> Compose Path transcription in ShapePaths.kt.
       api(libs.androidx.graphics.shapes)
+      // The date types the pickers are written against; see PlatformDateTimeFormat.
+      api(libs.kotlinx.datetime)
     }
   }
 }

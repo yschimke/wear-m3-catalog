@@ -82,6 +82,10 @@
     "java.util.concurrent.atomic.AtomicInteger": "ee.schimke.wearcmp.port.AtomicInteger",
     "android.util.Log": "ee.schimke.wearcmp.port.Log",
     "androidx.compose.ui.platform.LocalConfiguration": "ee.schimke.wearcmp.port.LocalWearDeviceConfiguration",
+    "java.time.LocalDate": "kotlinx.datetime.LocalDate",
+    "java.time.LocalTime": "kotlinx.datetime.LocalTime",
+    "LocalDate.of(": "LocalDate(",
+    "LocalTime.of(": "LocalTime(",
     "LocalConfiguration": "LocalWearDeviceConfiguration",
     "Integer.MAX_VALUE": "Int.MAX_VALUE",
     "Integer.MIN_VALUE": "Int.MIN_VALUE",
@@ -125,6 +129,15 @@
   ],
   "rewritePatterns": [
     {
+      "$comment": "kotlinx-datetime renamed these two date properties. A negative lookahead on `(` is what keeps the rule off `DatePickerState.monthValue(index)`, which is a METHOD with the same name and no relation to the date type — the literal rule this replaced rewrote it into nonsense that happened to compile a little further before failing.",
+      "pattern": "\\.monthValue\\b(?!\\()",
+      "replacement": ".month.number"
+    },
+    {
+      "pattern": "\\.dayOfMonth\\b(?!\\()",
+      "replacement": ".day"
+    },
+    {
       "pattern": "Font\\(\\s*DeviceFontFamilyName\\(([^)]*)\\.name\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*[^,]*,\\s*\\)\\s*\\.toFontFamily\\(\\)",
       "replacement": "\\1"
     },
@@ -140,6 +153,8 @@
     "file; the value is the import added, in sorted position, when it is missing."
   ],
   "ensureImports": {
+    "\\.month\\.number": "kotlinx.datetime.number",
+    "\\.lengthOfMonth\\(\\)": "ee.schimke.wearcmp.port.lengthOfMonth",
     "deviceFontFamily\\(": "ee.schimke.wearcmp.port.deviceFontFamily",
     "\\.removeIf": "ee.schimke.wearcmp.port.removeIf",
     "\\.computeIfAbsent": "ee.schimke.wearcmp.port.computeIfAbsent",
@@ -181,8 +196,6 @@
       "exclude": {
         "androidx/wear/compose/material3/AnimatedText.kt": "NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` \u2014 per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.",
         "androidx/wear/compose/material3/KeepScreenOn.kt": "Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.",
-        "androidx/wear/compose/material3/DatePicker.kt": "NOT YET PORTED. `java.time.LocalDate` plus `DateTimeFormatter` patterns obtained from Android's locale data. kotlinx-datetime covers the arithmetic; the locale-derived field order does not port directly. See docs/PIPELINE.md -> Dates and times.",
-        "androidx/wear/compose/material3/TimePicker.kt": "NOT YET PORTED. Same as DatePicker: java.time plus locale-derived 12/24-hour patterns.",
         "androidx/wear/compose/material3/TouchExplorationStateProvider.kt": "The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.",
         "androidx/wear/compose/material3/internal/Strings.kt": "23 `Strings(R.string.\u2026)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt \u2014 generated from the AAR's own values.xml.",
         "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureClickIndicator.kt": "Draws the gesture hint with animated vector drawables loaded from `R` \u2014 aapt output, with no off-Android equivalent. The gesture API itself IS ported: see src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt.",

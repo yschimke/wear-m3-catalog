@@ -1,0 +1,158 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/material3/DatePicker.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/material3/DatePicker.kt
+@@ -18,8 +18,6 @@
+ 
+ package androidx.wear.compose.material3
+ 
+-import android.os.Build
+-import android.text.format.DateFormat
+ import androidx.compose.animation.core.Animatable
+ import androidx.compose.foundation.focusable
+ import androidx.compose.foundation.layout.Arrangement
+@@ -50,7 +48,6 @@
+ import androidx.compose.ui.graphics.Color
+ import androidx.compose.ui.graphics.takeOrElse
+ import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
+-import androidx.compose.ui.platform.LocalContext
+ import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.platform.LocalInspectionMode
+ import androidx.compose.ui.semantics.focused
+@@ -64,13 +61,15 @@
+ import androidx.wear.compose.material3.ButtonDefaults.filledTonalButtonColors
+ import androidx.wear.compose.material3.internal.Icons
+ import androidx.wear.compose.material3.internal.Strings
++import androidx.wear.compose.material3.internal.formatTemplate
+ import androidx.wear.compose.material3.internal.getString
+ import androidx.wear.compose.material3.tokens.DatePickerTokens
+ import androidx.wear.compose.materialcore.isLargeScreen
+ import ee.schimke.wearcmp.port.lengthOfMonth
++import androidx.compose.ui.text.intl.Locale
++import ee.schimke.wearcmp.port.MonthNameStyle
++import ee.schimke.wearcmp.port.PlatformDateTimeFormat
+ import kotlinx.datetime.LocalDate
+-import java.time.format.DateTimeFormatter
+-import java.util.Locale
+ import kotlin.jvm.JvmInline
+ import kotlin.math.max
+ import kotlinx.datetime.number
+@@ -203,25 +202,25 @@
+         }
+     }
+ 
+-    val locale = LocalWearDeviceConfiguration.current.locales[0]
+-    val monthPattern =
++    val locale = Locale.current
++    // Upstream asks Android for the locale's year pattern and looks for a letter in it that is not
++    // `y` — a linguistic year marker like 年 or 년, which marks a locale whose months read better
++    // as numbers. The seam asks the same question of the platform's own locale data.
++    val monthStyle =
+         remember(locale) {
+-            val yearPattern = DateFormat.getBestDateTimePattern(locale, "y")
+-            // REVISED, SAFER HEURISTIC:
+-            // Check if the pattern contains any letter that isn't 'y'. This correctly
+-            // identifies linguistic markers like '年', '년', 'г', etc., while safely
+-            // ignoring spaces or simple punctuation.
+-            val useNumericMonth = yearPattern.any { it.isLetter() && it != 'y' }
+-
+-            if (useNumericMonth) {
+-                "MM"
+-            } else {
+-                "MMM"
+-            }
+-        }
+-
+-    val shortMonthNames = remember(monthPattern) { getMonthNames(monthPattern) }
+-    val fullMonthNames = remember { getMonthNames("MMMM") }
++            if (PlatformDateTimeFormat.yearHasLinguisticMarker(locale.toLanguageTag()))
++                MonthNameStyle.Numeric
++            else MonthNameStyle.Abbreviated
++        }
++
++    val shortMonthNames =
++        remember(locale, monthStyle) {
++            PlatformDateTimeFormat.monthNames(locale.toLanguageTag(), monthStyle)
++        }
++    val fullMonthNames =
++        remember(locale) {
++            PlatformDateTimeFormat.monthNames(locale.toLanguageTag(), MonthNameStyle.Full)
++        }
+     val yearContentDescription = {
+         createDescriptionDatePicker(
+             locale,
+@@ -422,11 +421,11 @@
+                                             pickerTextOption(
+                                                 textStyle = optionTextStyle,
+                                                 indexToText = {
+-                                                    "%02d"
+-                                                        .format(
+-                                                            locale,
+-                                                            datePickerState.dayValue(it),
+-                                                        )
++                                                    PlatformDateTimeFormat.formatNumber(
++                                                        locale.toLanguageTag(),
++                                                        datePickerState.dayValue(it),
++                                                        minimumDigits = 2,
++                                                    )
+                                                 },
+                                                 optionHeight = optionHeight,
+                                                 optionBaseline = optionBaseline,
+@@ -485,11 +484,10 @@
+                                             pickerTextOption(
+                                                 textStyle = optionTextStyle,
+                                                 indexToText = {
+-                                                    "%4d"
+-                                                        .format(
+-                                                            locale,
+-                                                            datePickerState.yearValue(it),
+-                                                        )
++                                                    PlatformDateTimeFormat.formatNumber(
++                                                        locale.toLanguageTag(),
++                                                        datePickerState.yearValue(it),
++                                                    )
+                                                 },
+                                                 optionHeight = optionHeight,
+                                                 optionBaseline = optionBaseline,
+@@ -611,7 +609,7 @@
+     public val datePickerType: DatePickerType
+         @Composable
+         get() {
+-            val formatOrder = DateFormat.getDateFormatOrder(LocalContext.current)
++            val formatOrder = PlatformDateTimeFormat.dateFieldOrder(Locale.current.toLanguageTag())
+             return when (formatOrder[0]) {
+                 'M' -> DatePickerType.MonthDayYear
+                 'y' -> DatePickerType.YearMonthDay
+@@ -801,11 +799,12 @@
+     require(date in minDate..maxDate) { "date should lie between minDate and maxDate" }
+ }
+ 
+-private fun getMonthNames(pattern: String): List<String> {
+-    val monthFormatter = DateTimeFormatter.ofPattern(pattern)
+-    val months = 1..12
+-    return months.map { LocalDate(2022, it, 1).format(monthFormatter) }
+-}
++/*
++ * `getMonthNames(pattern)` formatted a `java.time.LocalDate` with a `DateTimeFormatter` built from
++ * an Android month pattern. `PlatformDateTimeFormat.monthNames` asks the platform's own locale data
++ * for the same twelve strings — java.time on the JVM, `Intl` in the browser — which is where
++ * Android's formatter reads them from too.
++ */
+ 
+ private class DatePickerState(
+     initialDate: LocalDate,
+@@ -958,7 +957,15 @@
+     selectedValue: Int,
+     label: String,
+ ): String =
+-    if (selectedIndex == null) label else String.format(locale, template, label, selectedValue)
++    if (selectedIndex == null) label
++    else
++        // `String.format(locale, …)` is JVM-only. The template is a string resource with the same
++        // positional `%1${'$'}s` specifiers the rest of them use, and the number goes through the
++        // seam so it keeps the locale's own digits.
++        formatTemplate(
++            template,
++            arrayOf(label, PlatformDateTimeFormat.formatNumber(locale.toLanguageTag(), selectedValue)),
++        )
+ 
+ /** A private data class to hold the measured raw pixel metrics for picker options. */
+ private data class DatePickerMeasuredMetrics(
