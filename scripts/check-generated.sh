@@ -10,10 +10,10 @@ cd "$(dirname "$0")/.."
 
 python3 tools/transform.py
 
-# Only the GENERATED paths: `src/commonMain` in each module, plus the report. The hand-written
-# port (`commonPort`, `skikoMain`, the platform source sets) lives under `modules` too, and
-# including it here made an ordinary work-in-progress edit look like generator drift.
-generated=(docs)
+# Only the GENERATED paths, named exactly. Everything else under `modules/` and `docs/` is
+# hand-written — the port's own source sets, the pipeline guide — and listing their parents made an
+# ordinary work-in-progress edit look like generator drift.
+generated=(docs/ANDROID_SURFACE.md)
 for module in modules/*/src/commonMain; do generated+=("$module"); done
 
 if ! git diff --quiet -- "${generated[@]}"; then
