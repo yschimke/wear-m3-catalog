@@ -477,13 +477,14 @@ two origin checks, two body caps and two places to drift about what a grant mean
   mobile BOM and the material3 pin), and **Horologist**. All change what the catalog renders, and the
   render is the product — a human reads the visual diff before it lands. Horologist ships as one release
   (a skew is a compile error) and only its `*-material3` artifacts are dependencies here.
-- **`compose-ai-tools` moves as two lines, not one.** The plugin marker, annotation coordinates and
-  pinned CI action ref must not skew — a skew breaks preview discovery outright — but the repo publishes
-  two independent version lines from one tag, its `maven-publish-guard` deciding each separately. So
-  they get two refs (`composePreviewCore`, `composePreviewData`) and two Renovate groups; pinning both
-  to one ref took `main` red at configuration time. Note that a GitHub release tag exists for every
-  version either line publishes, so a tag can resolve as an ACTION ref while the plugin at that version
-  does not exist on Central.
+- **The preview coordinates come from two repositories, on two lines.** The plugin marker and the
+  pinned CI action ref are compose-ai-tools' (`composePreviewCore`) and must not skew — a skew breaks
+  preview discovery outright. `preview-annotations`, `data-preview-overrides-runtime` and
+  `data-remotecompose-connector` publish from compose-preview-daemon (`composePreviewDaemon`) on a
+  line of their own since compose-ai-tools#5336. Two refs and two Renovate groups; pinning both to
+  one ref took `main` red at configuration time when the two lines still shared a repository. Note
+  that a GitHub release tag exists for every version a line publishes, so a tag can resolve as an
+  ACTION ref while the plugin at that version does not exist on Central.
 - **The alpha Remote line is watched, not bumped.** `remote-snapshot-probe.yml` builds
   `:remote-catalog` against the newest androidx.dev snapshot every Monday and comments on
   [#95](https://github.com/yschimke/wear-m3-catalog/issues/95) only when the picture moves. Its overlay
