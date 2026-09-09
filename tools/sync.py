@@ -108,6 +108,17 @@ def sync_artifact(config: dict, entry: dict, dest_root: pathlib.Path) -> dict:
                 resources += 1
         print(f"    {resources} locales -> upstream/{artifact}/resources/")
 
+        drawable_dir = dest / "drawables"
+        drawable_dir.mkdir(parents=True, exist_ok=True)
+        drawables = 0
+        with zipfile.ZipFile(io.BytesIO(fetch(aar_url))) as aar:
+            for name in aar.namelist():
+                if not name.startswith("res/drawable/") or not name.endswith(".xml"):
+                    continue
+                (drawable_dir / pathlib.PurePosixPath(name).name).write_bytes(aar.read(name))
+                drawables += 1
+        print(f"    {drawables} drawables -> upstream/{artifact}/drawables/")
+
     print(f"    {kept} Kotlin files -> upstream/{artifact}")
     return {
         "artifact": artifact,

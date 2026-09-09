@@ -1,0 +1,91 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/material3/ConfirmationDialog.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/material3/ConfirmationDialog.kt
+@@ -21,9 +21,6 @@
+ import androidx.compose.animation.core.Animatable
+ import androidx.compose.animation.core.AnimationSpec
+ import androidx.compose.animation.core.spring
+-import androidx.compose.animation.graphics.res.animatedVectorResource
+-import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+-import androidx.compose.animation.graphics.vector.AnimatedImageVector
+ import androidx.compose.foundation.background
+ import androidx.compose.foundation.layout.Box
+ import androidx.compose.foundation.layout.BoxScope
+@@ -50,12 +47,16 @@
+ import androidx.compose.ui.graphics.graphicsLayer
+ import androidx.compose.ui.graphics.takeOrElse
+ import androidx.compose.ui.graphics.vector.ImageVector
++import ee.schimke.wearcmp.material3.resources.Res
++import ee.schimke.wearcmp.material3.resources.wear_m3c_check_animation
++import ee.schimke.wearcmp.material3.resources.wear_m3c_error
++import ee.schimke.wearcmp.material3.resources.wear_m3c_failure_animation
++import org.jetbrains.compose.resources.vectorResource
+ import androidx.compose.ui.graphics.vector.rememberVectorPainter
+ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+ import androidx.compose.ui.platform.LocalAccessibilityManager
+ import androidx.compose.ui.platform.LocalHapticFeedback
+ import androidx.compose.ui.platform.LocalLayoutDirection
+-import androidx.compose.ui.res.vectorResource
+ import androidx.compose.ui.text.style.TextAlign
+ import androidx.compose.ui.text.style.TextOverflow
+ import androidx.compose.ui.unit.Dp
+@@ -623,18 +624,16 @@
+      */
+     @Composable
+     public fun SuccessIcon(modifier: Modifier = Modifier) {
+-        val animation =
+-            AnimatedImageVector.animatedVectorResource(R.drawable.wear_m3c_check_animation)
+-        var atEnd by remember { mutableStateOf(false) }
+-        val reduceMotionEnabled = LocalReduceMotion.current
+-
+-        LaunchedEffect(Unit) {
+-            animatedDelay(IconDelay, reduceMotionEnabled)
+-            atEnd = true
+-        }
++        // TODO: THE ICON DOES NOT ANIMATE. Upstream draws an AnimatedVectorDrawable — the check
++        //  mark draws itself on, the failure icon shakes. Compose Multiplatform publishes the AVD
++        //  model (AnimatedImageVector, ObjectAnimator, Keyframe) but neither the parser that reads
++        //  the XML nor `rememberAnimatedVectorPainter` that plays it, on any target but Android.
++        //  So this draws the artwork the animation animates — the real upstream vector, parsed by
++        //  Compose's own resource pipeline — at its final state.
++        val image = vectorResource(Res.drawable.wear_m3c_check_animation)
+         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+             Icon(
+-                painter = rememberAnimatedVectorPainter(animation, atEnd),
++                painter = rememberVectorPainter(image),
+                 contentDescription = null,
+                 modifier = modifier.size(IconSize),
+             )
+@@ -649,8 +648,13 @@
+      */
+     @Composable
+     public fun ConnectionFailureIcon(modifier: Modifier = Modifier) {
+-        val animation =
+-            AnimatedImageVector.animatedVectorResource(R.drawable.wear_m3c_failure_animation)
++        // TODO: THE ICON DOES NOT ANIMATE. Upstream draws an AnimatedVectorDrawable — the check
++        //  mark draws itself on, the failure icon shakes. Compose Multiplatform publishes the AVD
++        //  model (AnimatedImageVector, ObjectAnimator, Keyframe) but neither the parser that reads
++        //  the XML nor `rememberAnimatedVectorPainter` that plays it, on any target but Android.
++        //  So this draws the artwork the animation animates — the real upstream vector, parsed by
++        //  Compose's own resource pipeline — at its final state.
++        val image = vectorResource(Res.drawable.wear_m3c_failure_animation)
+         var atEnd by remember { mutableStateOf(false) }
+         val reduceMotionEnabled = LocalReduceMotion.current
+ 
+@@ -659,7 +663,7 @@
+             atEnd = true
+         }
+         Icon(
+-            painter = rememberAnimatedVectorPainter(animation, atEnd),
++            painter = rememberVectorPainter(image),
+             contentDescription = null,
+             modifier = modifier.size(IconSize),
+         )
+@@ -687,7 +691,7 @@
+      */
+     @Composable
+     public fun GenericFailureIcon(modifier: Modifier = Modifier) {
+-        val image = ImageVector.vectorResource(R.drawable.wear_m3c_error)
++        val image = vectorResource(Res.drawable.wear_m3c_error)
+         Icon(
+             painter = rememberVectorPainter(image),
+             contentDescription = null,

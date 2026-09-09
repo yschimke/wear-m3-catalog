@@ -1,18 +1,7 @@
 --- a/src/commonMain/kotlin/androidx/wear/compose/material3/ColorScheme.kt
 +++ b/src/commonMain/kotlin/androidx/wear/compose/material3/ColorScheme.kt
-@@ -278,16 +278,15 @@
-     internal var defaultScrollIndicatorColorsCached: ScrollIndicatorColors? = null
- 
-     // Confirmation
--    internal var defaultConfirmationColorsCached: ConfirmationDialogColors? = null
--    internal var defaultSuccessConfirmationColorsCached: ConfirmationDialogColors? = null
--    internal var defaultFailureConfirmationColorsCached: ConfirmationDialogColors? = null
-+    // ConfirmationDialog is not ported yet (curved text plus an animated vector drawable), so
-+    // its three cached colour holders have no type to name either.
- 
-     // Open on Phone dialog
--    internal var mDefaultOpenOnPhoneDialogColorsCached: OpenOnPhoneDialogColors? = null
-+    // OpenOnPhoneDialog is not ported yet either — same two blockers as ConfirmationDialog.
+@@ -286,8 +286,8 @@
+     internal var mDefaultOpenOnPhoneDialogColorsCached: OpenOnPhoneDialogColors? = null
  
      // Picker
 -    internal var defaultTimePickerColorsCached: TimePickerColors? = null

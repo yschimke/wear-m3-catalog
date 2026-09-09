@@ -20,7 +20,7 @@ upstream.json ──► tools/sync.py ──► upstream/ ──► tools/transf
 
 | Artifact | Contents |
 | --- | --- |
-| `ee.schimke.wearcmp:wear-compose-material3` | 122 of 136 Material 3 files |
+| `ee.schimke.wearcmp:wear-compose-material3` | 124 of 136 Material 3 files |
 | `ee.schimke.wearcmp:wear-compose-foundation` | 65 of 69 Foundation files |
 | `ee.schimke.wearcmp:wear-compose-material-core` | all 17 Material Core files |
 | `ee.schimke.wearcmp:port-runtime` | the port's own seams — the `expect`s the three above compile against |
@@ -34,13 +34,16 @@ What is *not* in there, and why, is measured rather than described:
 sources. 18 files of 222, each with a reason: the two date/time pickers, dynamic colour, the
 one-handed-gesture *indicators*, and the two dialogs whose icons are animated vector drawables.
 
-**Curved text draws, and is not curved.** `basicCurvedText`, `curvedText`, `CurvedLayout` and
-`TimeText` are all ported and render: each run is measured with the real font, then drawn as one
-straight line, rotated to the tangent of its arc and centred on it. Short labels — a time, a title,
-which is what Wear curves — read correctly; a long run visibly departs from the arc towards its
-ends. The seam and the way out are in
-[`CurvedTextDelegate`](modules/wear-compose-foundation/src/commonPort/kotlin/androidx/wear/compose/foundation/CurvedTextDelegate.kt),
-which carries the TODO.
+**Curved text is drawn glyph by glyph.** `basicCurvedText`, `curvedText`, `CurvedLayout` and
+`TimeText` render through Skia's `RSXform` and `TextBlobBuilder.appendRunRSXform` — the same
+mechanism Android's `Canvas.drawTextOnPath` uses internally, rather than an approximation of it.
+Upstream's additional glyph *warping* is not reproduced; at watch radii it is a fraction of a pixel.
+
+**Animated vector drawables draw, but do not animate.** The dialogs' icons are upstream's own
+artwork, parsed by Compose Multiplatform's resource pipeline and frozen at the animation's last
+frame — CMP ships the AVD model without the parser or the painter that play it.
+
+Both, and what it would take to close them, are in [`docs/PIPELINE.md`](docs/PIPELINE.md).
 
 ## Using it from a wasm app
 

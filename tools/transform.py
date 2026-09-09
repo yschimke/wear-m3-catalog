@@ -272,6 +272,128 @@ def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package:
     return len(default_strings) + len(default_plurals) + len(translated)
 
 
+# Framework colours an AAR may reference by name. Compose Multiplatform's vector parser resolves
+# nothing outside the file it is reading, and Android's own values are fixed, so substituting them
+# is exact rather than a guess. An unknown `@` reference stops the build instead of rendering wrong.
+ANDROID_COLORS = {
+    "@android:color/white": "#FFFFFFFF",
+    "@android:color/black": "#FF000000",
+    "@android:color/transparent": "#00000000",
+}
+
+ANDROID_NAMESPACE = 'xmlns:android="http://schemas.android.com/apk/res/android"'
+
+
+def freeze_animated_vector(text: str) -> str:
+    """Unwrap an `<animated-vector>` to its artwork, at the END of the animation.
+
+    The `<vector>` nested inside an AVD is its FIRST frame, and for a drawing animation that frame
+    is blank: the check mark's path carries `trimPathEnd="0"`, and the animation takes it to 1.
+    Extracting the vector alone therefore yields an invisible icon — which is what the first
+    attempt at this rendered, and what the rendered check caught.
+
+    So each `<target>`'s animators are read for the value they end on, and that value is written
+    onto the named element as a plain attribute. The result is a still of the last frame: no
+    animation, but the artwork the component is trying to show.
+    """
+    document = xml.etree.ElementTree.fromstring(text)
+    android = "{http://schemas.android.com/apk/res/android}"
+    aapt = "{http://schemas.android.com/aapt}"
+
+    # `<aapt:attr name="android:drawable">` holds the artwork; the rest of the file animates it.
+    artwork = None
+    for attr in document.findall(f"{aapt}attr"):
+        if attr.get("name") == "android:drawable":
+            artwork = attr.find("vector")
+    if artwork is None:
+        raise SystemExit("an <animated-vector> with no <vector> inside its aapt:attr")
+
+    # target name -> property -> the value its last animator ends on.
+    final: dict[str, dict[str, str]] = {}
+    for target in document.findall(f"{android}target") + document.findall("target"):
+        name = target.get(f"{android}name") or target.get("name")
+        if name is None:
+            continue
+        for animator in target.iter():
+            if not animator.tag.endswith("objectAnimator"):
+                continue
+            property_name = animator.get(f"{android}propertyName")
+            value_to = animator.get(f"{android}valueTo")
+            if property_name is None or value_to is None:
+                continue
+            final.setdefault(name, {})[property_name] = value_to
+
+    for element in artwork.iter():
+        name = element.get(f"{android}name")
+        for property_name, value in final.get(name, {}).items():
+            element.set(f"{android}{property_name}", value)
+
+    xml.etree.ElementTree.register_namespace("android", "http://schemas.android.com/apk/res/android")
+    return xml.etree.ElementTree.tostring(artwork, encoding="unicode")
+
+
+# Framework colours an AAR may reference by name. Compose Multiplatform's vector parser resolves
+# nothing outside the file it is reading, and Android's own values are fixed, so substituting them
+# is exact rather than a guess. An unknown `@` reference stops the build instead of rendering wrong.
+ANDROID_COLORS = {
+    "@android:color/white": "#FFFFFFFF",
+    "@android:color/black": "#FF000000",
+    "@android:color/transparent": "#00000000",
+}
+
+ANDROID_NAMESPACE = 'xmlns:android="http://schemas.android.com/apk/res/android"'
+
+
+def generate_drawables(
+    source_root: pathlib.Path, module_dir: pathlib.Path, excluded: dict
+) -> int:
+    """Copy the AAR's vector drawables into the module's Compose resources.
+
+    Compose Multiplatform's resource pipeline parses Android `<vector>` XML on every target,
+    including wasm, so these are upstream's own artwork rather than a redrawing of it.
+
+    An `<animated-vector>` is frozen at its last frame — see [freeze_animated_vector], and the TODO
+    on the components that draw one. `@android:color/…` is substituted, because the parser resolves
+    no reference it cannot see.
+    """
+    drawables = source_root / "drawables"
+    if not drawables.is_dir():
+        return 0
+
+    destination = module_dir / "src" / "commonMain" / "composeResources" / "drawable"
+    if destination.exists():
+        shutil.rmtree(destination)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    header = "<!-- Generated from AndroidX Wear Compose by tools/transform.py — DO NOT EDIT. -->\n"
+    written = 0
+    for source in sorted(drawables.glob("*.xml")):
+        if source.name in excluded:
+            continue
+        text = source.read_text()
+        if "<animated-vector" in text:
+            vector = freeze_animated_vector(text)
+        else:
+            vector = text[text.index("<vector") :]
+
+        if ANDROID_NAMESPACE not in vector:
+            vector = vector.replace("<vector", f"<vector {ANDROID_NAMESPACE}", 1)
+
+        for reference, value in ANDROID_COLORS.items():
+            vector = vector.replace(reference, value)
+        unresolved = re.findall(r'"(@[^"]+)"', vector)
+        if unresolved:
+            raise SystemExit(
+                f"{source.name} references {', '.join(sorted(set(unresolved)))}, which Compose's "
+                f"vector parser cannot resolve. Add it to ANDROID_COLORS in tools/transform.py if "
+                f"it is a framework colour, or exclude the drawable."
+            )
+
+        (destination / source.name).write_text(header + vector)
+        written += 1
+    return written
+
+
 def transform_module(config: dict, rules: dict, entry: dict) -> dict:
     artifact, module = entry["artifact"], entry["module"]
     source_root = ROOT / "upstream" / artifact
@@ -296,6 +418,9 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
         copied += 1
 
     resources = generate_resources(source_root, common, entry["package"])
+    drawables = generate_drawables(
+        source_root, module_dir, rules["modules"].get(module, {}).get("excludeDrawables", {})
+    )
     applied = apply_patches(module_dir, ROOT / "patches" / module)
 
     for generated in sorted(common.rglob("*.kt")):
@@ -307,6 +432,7 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
         f"  {module}: {copied} files, {len(skipped)} excluded, "
         f"{len(applied)} patches, {len(offenders)} still Android-bound"
         + (f", {resources} resources" if resources else "")
+        + (f", {drawables} drawables" if drawables else "")
     )
     return {
         "module": module,

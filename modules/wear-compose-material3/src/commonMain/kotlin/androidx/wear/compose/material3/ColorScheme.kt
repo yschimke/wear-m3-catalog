@@ -278,11 +278,12 @@ public class ColorScheme(
     internal var defaultScrollIndicatorColorsCached: ScrollIndicatorColors? = null
 
     // Confirmation
-    // ConfirmationDialog is not ported yet (curved text plus an animated vector drawable), so
-    // its three cached colour holders have no type to name either.
+    internal var defaultConfirmationColorsCached: ConfirmationDialogColors? = null
+    internal var defaultSuccessConfirmationColorsCached: ConfirmationDialogColors? = null
+    internal var defaultFailureConfirmationColorsCached: ConfirmationDialogColors? = null
 
     // Open on Phone dialog
-    // OpenOnPhoneDialog is not ported yet either — same two blockers as ConfirmationDialog.
+    internal var mDefaultOpenOnPhoneDialogColorsCached: OpenOnPhoneDialogColors? = null
 
     // Picker
     // TimePicker and DatePicker are not ported yet (java.time), so their cached colour holders

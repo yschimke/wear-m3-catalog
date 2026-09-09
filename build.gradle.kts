@@ -9,6 +9,7 @@ val portVersion = "${upstream["version"]}-cmp%02d".format((upstream["portRevisio
 plugins {
   alias(libs.plugins.kotlin.multiplatform) apply false
   alias(libs.plugins.compose.compiler) apply false
+  alias(libs.plugins.compose) apply false
 }
 
 subprojects {

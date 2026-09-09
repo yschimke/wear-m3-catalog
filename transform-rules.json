@@ -168,11 +168,19 @@
       }
     },
     "wear-compose-material3": {
+      "$excludeDrawablesComment": [
+        "Vector drawables left out of the module's Compose resources. Same idea as `exclude`, for",
+        "the AAR's `res/drawable`: a drawable no ported component draws is weight in every",
+        "consumer's bundle."
+      ],
+      "excludeDrawables": {
+        "wear_one_handed_gesture_dismiss_indicator_animation.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show.",
+        "wear_one_handed_gesture_indicator_pointer_background.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show.",
+        "wear_one_handed_gesture_primary_indicator_animation.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show."
+      },
       "exclude": {
         "androidx/wear/compose/material3/AnimatedText.kt": "NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` \u2014 per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.",
         "androidx/wear/compose/material3/KeepScreenOn.kt": "Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.",
-        "androidx/wear/compose/material3/ConfirmationDialog.kt": "NOT YET PORTED. Its icons are AnimatedImageVectors — animated vector drawables loaded from R, which is aapt output. Curved text no longer blocks it; an asset pipeline does. Bringing it back also restores three ConfirmationDialogColors caches in ColorScheme.kt, which that file's patch currently removes.",
-        "androidx/wear/compose/material3/OpenOnPhoneDialog.kt": "NOT YET PORTED. Same animated vector drawables as ConfirmationDialog.",
         "androidx/wear/compose/material3/DatePicker.kt": "NOT YET PORTED. `java.time.LocalDate` plus `DateTimeFormatter` patterns obtained from Android's locale data. kotlinx-datetime covers the arithmetic; the locale-derived field order does not port directly. See docs/PIPELINE.md -> Dates and times.",
         "androidx/wear/compose/material3/TimePicker.kt": "NOT YET PORTED. Same as DatePicker: java.time plus locale-derived 12/24-hour patterns.",
         "androidx/wear/compose/material3/TouchExplorationStateProvider.kt": "The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.",

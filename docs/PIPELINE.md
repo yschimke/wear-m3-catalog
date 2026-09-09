@@ -158,6 +158,27 @@ the TODO.
 generate a map per locale, key the lookup on the composition's locale — and nothing in the current
 design is in the way.
 
+### Animated vector drawables do not animate
+
+`ConfirmationDialog` and `OpenOnPhoneDialog` draw their icons with `AnimatedVectorDrawable`s: the
+check mark draws itself on, the phone icon animates. Both components are ported and both icons are
+upstream's own artwork, parsed by Compose Multiplatform's resource pipeline — which reads Android
+`<vector>` XML on every target, wasm included. What is missing is the animation.
+
+Compose Multiplatform publishes the AVD *model* — `AnimatedImageVector`, `ObjectAnimator`,
+`Keyframe`, `AnimatorSet` are all in the wasm klib — but not the `androidx.compose.animation
+.graphics.res` package that parses the XML into one, and not `rememberAnimatedVectorPainter` that
+plays it. Those are Android-only.
+
+So `tools/transform.py` freezes each AVD at its **last frame**: it reads every `<target>`'s
+animators for the value they end on and writes that onto the named element. Without that step the
+extracted vector is the animation's *first* frame, and for a drawing animation the first frame is
+blank — the check mark's path carries `trimPathEnd="0"`. A rendered preview caught exactly that.
+
+Two ways forward, if the animation matters: implement the painter over the model CMP already ships
+(the subset in use is `trimPathEnd`, `translate`, `scale`, `alpha` and `pathData`), or wait for
+Compose Multiplatform to publish `animatedVectorResource` off-Android.
+
 ### Dynamic colour and one-handed gestures
 
 Neither has an off-Android meaning. Dynamic colour reads the wearer's watch-face palette out of
