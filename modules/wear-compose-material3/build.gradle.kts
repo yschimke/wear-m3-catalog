@@ -20,7 +20,14 @@ kotlin {
 
     // The port's own tests. They run on the JVM because that is the fast target; everything they
     // cover is common code.
-    jvmTest.dependencies { implementation(kotlin("test")) }
+    jvmTest.dependencies {
+      implementation(kotlin("test"))
+      // For the gesture modifier's lifecycle test: it needs a real composition to attach and
+      // detach a Modifier.Node in, which is the whole thing under test.
+      @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
+      implementation(compose.uiTest)
+      implementation(compose.desktop.currentOs)
+    }
 
     commonMain.dependencies {
       api(project(":wear-compose-foundation"))

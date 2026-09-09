@@ -135,8 +135,19 @@ method took. What is not ported is the other half: `OneHandedGestureModifier` re
 against the `View` under the composition, and the indicators draw their hints from animated vector
 drawables loaded out of `R`.
 
-So today nothing in the port calls the interface. Porting the modifier over it is the follow-up
-that makes it live, and everything above the modifier then works unchanged.
+`OneHandedGestureModifier` is ported now, so the interface is live rather than dead code. Its whole
+Android surface was one import and one read — `currentValueOf(LocalView)`, passed to the manager to
+identify the registration — and everything else in its 352 lines is `androidx.compose.ui.node`,
+which is multiplatform. The ported interface hands back an opaque `GestureRegistration` instead, so
+the modifier holds the handle and gives it back on detach rather than reconstructing the arguments.
+
+One method had to be added: upstream's manager has `updateGesture(view, oldConfig, newConfig, …)`
+for changing a registration in place. Here it takes the handle, whose old configuration is implied,
+and has a default that unregisters and registers again — so a host implements two methods and is
+done, and overrides the third only if re-registering would cost it a round trip.
+
+What is still not ported is the hint indicators, which draw from animated vector drawables loaded
+from `R`. A host gets working gestures; it does not get the built-in visual hint.
 
 ### Dates and times
 
