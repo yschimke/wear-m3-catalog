@@ -108,8 +108,16 @@
     "`Font(DeviceFontFamilyName(\"roboto-flex\"), weight, variationSettings).toFontFamily()`.",
     "`DeviceFontFamilyName` asks the Android font provider for a font installed on the device by",
     "name, and there is no equivalent anywhere else — a browser has web fonts and generic families,",
-    "not a queryable system font table. So the whole expression collapses to the generic sans-serif",
-    "family, and the variable-font axis settings go with it (see AnimatedText in the exclusions).",
+    "not a queryable system font table — but Skia, which every target here renders through, does",
+    "have one: `FontMgr.matchFamilyStyle`. So `DeviceFontFamilyName(\"roboto-flex\")` becomes",
+    "`deviceFontFamily(\"roboto-flex\")`, which asks Skia for the same font by the same name and",
+    "falls back to sans-serif when the host does not have it.",
+    "",
+    "That turns `TypefaceTokens.Brand` from a NAME into a FontFamily, which is why the type scale",
+    "needs the second rule: `Font(DeviceFontFamilyName(TypeScaleTokens.ArcLargeFont.name), …)",
+    ".toFontFamily()` collapses to `TypeScaleTokens.ArcLargeFont`, the family it already is. The",
+    "variable-font axis settings are dropped with the wrapper: Skia can clone a typeface with axis",
+    "values set, and wiring that up is a follow-up rather than a blocker.",
     "",
     "It is a rule and not a patch because TypographyTokens.kt is itself generated upstream and",
     "carries eleven identical copies of the expression; a patch would have to be re-cut every time",
@@ -117,12 +125,12 @@
   ],
   "rewritePatterns": [
     {
-      "pattern": "Font\\(\\s*DeviceFontFamilyName\\([^\\n]*\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*[^,]*,\\s*\\)\\s*\\.toFontFamily\\(\\)",
-      "replacement": "FontFamily.SansSerif"
+      "pattern": "Font\\(\\s*DeviceFontFamilyName\\(([^)]*)\\.name\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*[^,]*,\\s*\\)\\s*\\.toFontFamily\\(\\)",
+      "replacement": "\\1"
     },
     {
-      "pattern": "DeviceFontFamilyName\\(\"[^\"]*\"\\)",
-      "replacement": "FontFamily.SansSerif"
+      "pattern": "DeviceFontFamilyName\\((\"[^\"]*\")\\)",
+      "replacement": "deviceFontFamily(\\1)"
     }
   ],
 
@@ -132,7 +140,7 @@
     "file; the value is the import added, in sorted position, when it is missing."
   ],
   "ensureImports": {
-    "FontFamily\\.SansSerif": "androidx.compose.ui.text.font.FontFamily",
+    "deviceFontFamily\\(": "ee.schimke.wearcmp.port.deviceFontFamily",
     "\\.removeIf": "ee.schimke.wearcmp.port.removeIf",
     "\\.computeIfAbsent": "ee.schimke.wearcmp.port.computeIfAbsent",
     "@JvmInline": "kotlin.jvm.JvmInline",
@@ -160,11 +168,19 @@
       }
     },
     "wear-compose-material3": {
+      "$excludeDrawablesComment": [
+        "Vector drawables left out of the module's Compose resources. Same idea as `exclude`, for",
+        "the AAR's `res/drawable`: a drawable no ported component draws is weight in every",
+        "consumer's bundle."
+      ],
+      "excludeDrawables": {
+        "wear_one_handed_gesture_dismiss_indicator_animation.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show.",
+        "wear_one_handed_gesture_indicator_pointer_background.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show.",
+        "wear_one_handed_gesture_primary_indicator_animation.xml": "Drawn only by the one-handed-gesture indicators, which are excluded \u2014 the modifier that would request them is Android-bound. 52 KB of vector XML that every wasm bundle would otherwise carry for a component it cannot show."
+      },
       "exclude": {
         "androidx/wear/compose/material3/AnimatedText.kt": "NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` \u2014 per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.",
         "androidx/wear/compose/material3/KeepScreenOn.kt": "Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.",
-        "androidx/wear/compose/material3/ConfirmationDialog.kt": "NOT YET PORTED. Its icons are AnimatedImageVectors — animated vector drawables loaded from R, which is aapt output. Curved text no longer blocks it; an asset pipeline does. Bringing it back also restores three ConfirmationDialogColors caches in ColorScheme.kt, which that file's patch currently removes.",
-        "androidx/wear/compose/material3/OpenOnPhoneDialog.kt": "NOT YET PORTED. Same animated vector drawables as ConfirmationDialog.",
         "androidx/wear/compose/material3/DatePicker.kt": "NOT YET PORTED. `java.time.LocalDate` plus `DateTimeFormatter` patterns obtained from Android's locale data. kotlinx-datetime covers the arithmetic; the locale-derived field order does not port directly. See docs/PIPELINE.md -> Dates and times.",
         "androidx/wear/compose/material3/TimePicker.kt": "NOT YET PORTED. Same as DatePicker: java.time plus locale-derived 12/24-hour patterns.",
         "androidx/wear/compose/material3/TouchExplorationStateProvider.kt": "The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.",

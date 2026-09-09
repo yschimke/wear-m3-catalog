@@ -31,6 +31,11 @@ jobs:
       - name: Assemble
         run: ./gradlew assemble
 
+      # The port's own tests, on the JVM — everything they cover is common code, and the JVM is
+      # the target that runs them without a browser toolchain.
+      - name: Test
+        run: ./gradlew jvmTest
+
       - uses: actions/upload-artifact@v4
         with:
           name: wasm-klibs

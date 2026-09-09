@@ -5,6 +5,9 @@ plugins {
 
 kotlin {
   sourceSets {
+    // Curved text is drawn with Skia directly — see src/skikoMain/.../CurvedTextDelegate.kt.
+    named("skikoMain").dependencies { api(libs.skiko) }
+
     commonMain.dependencies {
       api(libs.compose.runtime)
       api(libs.compose.foundation)

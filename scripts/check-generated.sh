@@ -10,12 +10,18 @@ cd "$(dirname "$0")/.."
 
 python3 tools/transform.py
 
-if ! git diff --quiet -- modules docs; then
+# Only the GENERATED paths, named exactly. Everything else under `modules/` and `docs/` is
+# hand-written — the port's own source sets, the pipeline guide — and listing their parents made an
+# ordinary work-in-progress edit look like generator drift.
+generated=(docs/ANDROID_SURFACE.md)
+for module in modules/*/src/commonMain; do generated+=("$module"); done
+
+if ! git diff --quiet -- "${generated[@]}"; then
   echo
   echo "FAIL: the committed generated sources differ from what tools/transform.py produces."
   echo "Run scripts/regenerate.sh and commit the result."
   echo
-  git --no-pager diff --stat -- modules docs
+  git --no-pager diff --stat -- "${generated[@]}"
   exit 1
 fi
 

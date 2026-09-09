@@ -51,6 +51,10 @@ Never `claude/…`, `codex/…`, or any other agent prefix. If a session hands y
   by AndroidX, and running a formatter over them would fight the patches — a reformat shifts the
   context lines every patch is cut against. Hand-written code here follows the same style by hand:
   ktfmt Google style, 100 columns.
+- **`./gradlew jvmTest` runs the port's own tests**, and CI runs it. They live in
+  `src/jvmTest` and cover common code — the JVM is simply the target that runs a test without a
+  browser toolchain. Anything a rendered PNG cannot check (string resolution, formatting, plural
+  selection) belongs there.
 - **`./gradlew assemble`, not `build`.** `build` drags in the wasm browser test task, which
   downloads a karma tarball from `codeload.github.com` at configuration time. There are no tests to
   run yet; when there are, that comes back.

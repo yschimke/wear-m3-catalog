@@ -18,6 +18,10 @@ plugins {
 
 kotlin {
   sourceSets {
+    // Skia is already on both targets' classpaths through Compose; naming it here is what lets
+    // `skikoMain` compile against it directly.
+    named("skikoMain").dependencies { api(libs.skiko) }
+
     commonMain.dependencies {
       api(libs.compose.runtime)
       api(libs.compose.ui)

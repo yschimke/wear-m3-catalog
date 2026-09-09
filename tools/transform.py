@@ -155,61 +155,243 @@ def apply_patches(module_dir: pathlib.Path, patch_dir: pathlib.Path) -> list[str
     return applied
 
 
-def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package: str) -> int:
-    """Turn the AAR's `res/values/values.xml` into a Kotlin lookup table.
+def android_text(value: str) -> str:
+    """Undo the encoding an Android string resource carries, as aapt would at build time.
 
-    Android resolves `R.string.x` through the resource table an APK is built with. Off-Android
-    there is no such table, so the strings become what they always were underneath: a map from
-    resource name to text, generated so that an upstream wording change arrives with the next sync
-    instead of being re-typed here.
+    Two conventions, both load-bearing in the AAR's translations. A value wrapped in double quotes
+    is quoted so its leading and trailing whitespace survives, and the quotes are not part of the
+    text: French's "fermer" is the word, not the word in quotes. And a backslash escapes the
+    character after it for the XML parser, which is how an apostrophe and a newline get in.
     """
-    resources = source_root / "resources.xml"
-    if not resources.is_file():
+    text = value
+    if len(text) >= 2 and text.startswith('"') and text.endswith('"'):
+        text = text[1:-1]
+    out = []
+    index = 0
+    while index < len(text):
+        char = text[index]
+        if char == "\\" and index + 1 < len(text):
+            following = text[index + 1]
+            out.append({"n": "\n", "t": "\t"}.get(following, following))
+            index += 2
+            continue
+        out.append(char)
+        index += 1
+    return "".join(out)
+
+
+def kotlin_string(value: str) -> str:
+    text = android_text(value)
+    escaped = text
+    for old, replacement in (
+        ("\\", "\\\\"),
+        ('"', '\\"'),
+        ("$", "\\$"),
+        ("\n", "\\n"),
+        ("\t", "\\t"),
+    ):
+        escaped = escaped.replace(old, replacement)
+    return '"' + escaped + '"'
+
+
+def kotlin_map(entries: dict, indent: int) -> list[str]:
+    """Render a (possibly nested) dict as a Kotlin `mapOf(...)`, ktfmt-shaped."""
+    pad = " " * indent
+    lines = [f"{pad}mapOf("]
+    for key, value in entries.items():
+        if isinstance(value, dict):
+            lines.append(f'{pad}    {kotlin_string(key)} to')
+            lines += kotlin_map(value, indent + 8)
+            lines[-1] += ","
+        else:
+            lines.append(f"{pad}    {kotlin_string(key)} to {kotlin_string(value)},")
+    lines.append(f"{pad})")
+    return lines
+
+
+def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package: str) -> int:
+    """Turn the AAR's `res/values*` into Kotlin lookup tables, one per locale.
+
+    Android resolves `R.string.x` through the resource table an APK is built with, choosing the
+    locale at runtime. Off-Android there is no such table, so the strings become what they always
+    were underneath: maps from resource name to text, generated so that an upstream wording or
+    translation change arrives with the next sync rather than by hand.
+
+    Every locale the AAR ships is generated, not just the default. These strings are what a screen
+    reader announces, and announcing them in English to someone using their watch in Arabic is a
+    defect rather than a simplification.
+    """
+    resources = source_root / "resources"
+    if not resources.is_dir():
         return 0
 
-    root = xml.etree.ElementTree.fromstring(resources.read_text())
-    strings = {node.get("name"): "".join(node.itertext()) for node in root.findall("string")}
-    plurals = {
-        node.get("name"): {item.get("quantity"): "".join(item.itertext()) for item in node}
-        for node in root.findall("plurals")
-    }
+    def read(path: pathlib.Path) -> tuple[dict, dict]:
+        root = xml.etree.ElementTree.fromstring(path.read_text())
+        strings = {node.get("name"): "".join(node.itertext()) for node in root.findall("string")}
+        plurals = {
+            node.get("name"): {item.get("quantity"): "".join(item.itertext()) for item in node}
+            for node in root.findall("plurals")
+        }
+        return dict(sorted(strings.items())), dict(sorted(plurals.items()))
 
-    def literal(value: str) -> str:
-        escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("$", "\\$")
-        # aapt escapes an apostrophe for the XML parser; the text itself does not carry the slash.
-        return '"' + escaped.replace("\\'", "'") + '"'
+    default_strings, default_plurals = read(resources / "default.xml")
+    translated = {
+        path.stem: read(path) for path in sorted(resources.glob("*.xml")) if path.stem != "default"
+    }
 
     lines = [
         BANNER.rstrip("\n"),
-        "// Source: the `res/values/values.xml` of the AAR pinned in upstream.json.",
+        "// Source: the `res/values*` of the AAR pinned in upstream.json.",
         "",
         f"package {package}.internal",
         "",
-        "/** Every `<string>` in the upstream resource table, by resource name. */",
+        "/** Every `<string>` of the default locale, by resource name. */",
         "internal val GeneratedStrings: Map<String, String> =",
-        "    mapOf(",
-    ]
-    for name, value in sorted(strings.items()):
-        lines.append(f"        \"{name}\" to {literal(value)},")
-    lines += [
-        "    )",
+        *kotlin_map(default_strings, 4),
         "",
-        "/** Every `<plurals>`, by resource name and then by quantity keyword. */",
+        "/** Every `<plurals>` of the default locale, by resource name then CLDR quantity keyword. */",
         "internal val GeneratedPlurals: Map<String, Map<String, String>> =",
-        "    mapOf(",
+        *kotlin_map(default_plurals, 4),
+        "",
+        "/**",
+        " * The translations, by BCP 47 language tag. A tag that is absent falls back to",
+        " * [GeneratedStrings] — the AAR's default locale, which is English.",
+        " */",
+        "internal val GeneratedLocalizedStrings: Map<String, Map<String, String>> =",
+        *kotlin_map({tag: strings for tag, (strings, _) in translated.items()}, 4),
+        "",
+        "/** The translated plurals, by language tag, then resource name, then quantity keyword. */",
+        "internal val GeneratedLocalizedPlurals: Map<String, Map<String, Map<String, String>>> =",
+        *kotlin_map({tag: plurals for tag, (_, plurals) in translated.items()}, 4),
+        "",
     ]
-    for name, quantities in sorted(plurals.items()):
-        lines.append(f"        \"{name}\" to")
-        lines.append("            mapOf(")
-        for quantity, value in sorted(quantities.items()):
-            lines.append(f"                \"{quantity}\" to {literal(value)},")
-        lines.append("            ),")
-    lines += ["    )", ""]
 
     target = common / package.replace(".", "/") / "internal" / "GeneratedResources.kt"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text("\n".join(lines))
-    return len(strings) + len(plurals)
+    return len(default_strings) + len(default_plurals) + len(translated)
+
+
+# Framework colours an AAR may reference by name. Compose Multiplatform's vector parser resolves
+# nothing outside the file it is reading, and Android's own values are fixed, so substituting them
+# is exact rather than a guess. An unknown `@` reference stops the build instead of rendering wrong.
+ANDROID_COLORS = {
+    "@android:color/white": "#FFFFFFFF",
+    "@android:color/black": "#FF000000",
+    "@android:color/transparent": "#00000000",
+}
+
+ANDROID_NAMESPACE = 'xmlns:android="http://schemas.android.com/apk/res/android"'
+
+
+def freeze_animated_vector(text: str) -> str:
+    """Unwrap an `<animated-vector>` to its artwork, at the END of the animation.
+
+    The `<vector>` nested inside an AVD is its FIRST frame, and for a drawing animation that frame
+    is blank: the check mark's path carries `trimPathEnd="0"`, and the animation takes it to 1.
+    Extracting the vector alone therefore yields an invisible icon — which is what the first
+    attempt at this rendered, and what the rendered check caught.
+
+    So each `<target>`'s animators are read for the value they end on, and that value is written
+    onto the named element as a plain attribute. The result is a still of the last frame: no
+    animation, but the artwork the component is trying to show.
+    """
+    document = xml.etree.ElementTree.fromstring(text)
+    android = "{http://schemas.android.com/apk/res/android}"
+    aapt = "{http://schemas.android.com/aapt}"
+
+    # `<aapt:attr name="android:drawable">` holds the artwork; the rest of the file animates it.
+    artwork = None
+    for attr in document.findall(f"{aapt}attr"):
+        if attr.get("name") == "android:drawable":
+            artwork = attr.find("vector")
+    if artwork is None:
+        raise SystemExit("an <animated-vector> with no <vector> inside its aapt:attr")
+
+    # target name -> property -> the value its last animator ends on.
+    final: dict[str, dict[str, str]] = {}
+    for target in document.findall(f"{android}target") + document.findall("target"):
+        name = target.get(f"{android}name") or target.get("name")
+        if name is None:
+            continue
+        for animator in target.iter():
+            if not animator.tag.endswith("objectAnimator"):
+                continue
+            property_name = animator.get(f"{android}propertyName")
+            value_to = animator.get(f"{android}valueTo")
+            if property_name is None or value_to is None:
+                continue
+            final.setdefault(name, {})[property_name] = value_to
+
+    for element in artwork.iter():
+        name = element.get(f"{android}name")
+        for property_name, value in final.get(name, {}).items():
+            element.set(f"{android}{property_name}", value)
+
+    xml.etree.ElementTree.register_namespace("android", "http://schemas.android.com/apk/res/android")
+    return xml.etree.ElementTree.tostring(artwork, encoding="unicode")
+
+
+# Framework colours an AAR may reference by name. Compose Multiplatform's vector parser resolves
+# nothing outside the file it is reading, and Android's own values are fixed, so substituting them
+# is exact rather than a guess. An unknown `@` reference stops the build instead of rendering wrong.
+ANDROID_COLORS = {
+    "@android:color/white": "#FFFFFFFF",
+    "@android:color/black": "#FF000000",
+    "@android:color/transparent": "#00000000",
+}
+
+ANDROID_NAMESPACE = 'xmlns:android="http://schemas.android.com/apk/res/android"'
+
+
+def generate_drawables(
+    source_root: pathlib.Path, module_dir: pathlib.Path, excluded: dict
+) -> int:
+    """Copy the AAR's vector drawables into the module's Compose resources.
+
+    Compose Multiplatform's resource pipeline parses Android `<vector>` XML on every target,
+    including wasm, so these are upstream's own artwork rather than a redrawing of it.
+
+    An `<animated-vector>` is frozen at its last frame — see [freeze_animated_vector], and the TODO
+    on the components that draw one. `@android:color/…` is substituted, because the parser resolves
+    no reference it cannot see.
+    """
+    drawables = source_root / "drawables"
+    if not drawables.is_dir():
+        return 0
+
+    destination = module_dir / "src" / "commonMain" / "composeResources" / "drawable"
+    if destination.exists():
+        shutil.rmtree(destination)
+    destination.mkdir(parents=True, exist_ok=True)
+
+    header = "<!-- Generated from AndroidX Wear Compose by tools/transform.py — DO NOT EDIT. -->\n"
+    written = 0
+    for source in sorted(drawables.glob("*.xml")):
+        if source.name in excluded:
+            continue
+        text = source.read_text()
+        if "<animated-vector" in text:
+            vector = freeze_animated_vector(text)
+        else:
+            vector = text[text.index("<vector") :]
+
+        if ANDROID_NAMESPACE not in vector:
+            vector = vector.replace("<vector", f"<vector {ANDROID_NAMESPACE}", 1)
+
+        for reference, value in ANDROID_COLORS.items():
+            vector = vector.replace(reference, value)
+        unresolved = re.findall(r'"(@[^"]+)"', vector)
+        if unresolved:
+            raise SystemExit(
+                f"{source.name} references {', '.join(sorted(set(unresolved)))}, which Compose's "
+                f"vector parser cannot resolve. Add it to ANDROID_COLORS in tools/transform.py if "
+                f"it is a framework colour, or exclude the drawable."
+            )
+
+        (destination / source.name).write_text(header + vector)
+        written += 1
+    return written
 
 
 def transform_module(config: dict, rules: dict, entry: dict) -> dict:
@@ -236,6 +418,9 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
         copied += 1
 
     resources = generate_resources(source_root, common, entry["package"])
+    drawables = generate_drawables(
+        source_root, module_dir, rules["modules"].get(module, {}).get("excludeDrawables", {})
+    )
     applied = apply_patches(module_dir, ROOT / "patches" / module)
 
     for generated in sorted(common.rglob("*.kt")):
@@ -247,6 +432,7 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
         f"  {module}: {copied} files, {len(skipped)} excluded, "
         f"{len(applied)} patches, {len(offenders)} still Android-bound"
         + (f", {resources} resources" if resources else "")
+        + (f", {drawables} drawables" if drawables else "")
     )
     return {
         "module": module,
