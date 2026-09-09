@@ -36,7 +36,12 @@ import androidx.wear.compose.material3.timeTextCurvedText
  */
 @Composable
 private fun CatalogMaterialTheme(content: @Composable () -> Unit) {
-  if (LocalCatalogThemeOverride.current) content() else MaterialTheme(content = content)
+  if (LocalCatalogThemeOverride.current) content()
+  // [DefaultTypography], not `MaterialTheme()`'s own default: the stock Wear roles resolve to
+  // `FontFamily.SansSerif`, and the renderer's sans-serif is a static face that silently drops the
+  // `wght` / `wdth` the type scale puts on every role. Naming the vendored variable Roboto Flex is
+  // what makes the expressive scale actually render as specified. See `CatalogFonts.kt`.
+  else MaterialTheme(typography = DefaultTypography, content = content)
 }
 
 /**
