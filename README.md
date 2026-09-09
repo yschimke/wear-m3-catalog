@@ -195,6 +195,21 @@ fun MaterialShapesSticker() = Sticker { /* … */ }
 [`catalog.spec.json`](catalog.spec.json) carries only cover-sheet fields the code has no opinion
 about: the system slug, title, primary modes, the round-size breakpoints and the front-door hero.
 
+[`ui-builder.policy.json`](ui-builder.policy.json) is its sibling for the **UI builder** — the
+platform word, the screen frame and its measured content padding, the two structural builtins, the
+shelf order — and `remote-catalog/` has its own for the `remote-m3` system's widget host frame.
+Per-component builder policy is not in either; it is `@BuilderComponent` beside `@CatalogComponent`
+on the sticker, so a component is never renamed in two places. Both replace Kotlin that lived in the
+preview server and described this catalog's components from across a repository boundary; the
+[contract](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md)
+explains why, and each file's own `$comment` fields explain the decisions in it. **Nothing reads
+them yet** — they are authored so they can be proved equivalent before anything switches over.
+
+The padding table under `frame.geometry` is written by a test, not by a person:
+`ScreenScaffoldContentPaddingTest` composes the real `ScreenScaffold` over a real
+`TransformingLazyColumn` at each round size and asserts the committed rows equal what Wear Compose
+computes. A hand-edit is a failing test, which is the whole reason the numbers moved here.
+
 `display.hero` is `Media/PlayerScreen` — a whole round watch face, not a component swatch. It is
 the picture the preview server's index shows for this catalog, and on a sheet of Wear stickers a
 running media player says "this is a watch design system" at a glance where an isolated shape or
