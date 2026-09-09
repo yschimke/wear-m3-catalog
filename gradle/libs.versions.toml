@@ -19,6 +19,13 @@ compose-bom = "2026.08.00"
 # wear-compose 1.7.0-beta. Drop the pin once 1.5.0 is stable in the BOM.
 compose-material3 = "1.5.0-alpha27"
 
+# THE DATA LINE MOVED OUT OF compose-ai-tools. `preview-annotations`, `data-preview-overrides-runtime`
+# and `data-remotecompose-connector` publish from yschimke/compose-preview-daemon since its 3.0.0
+# (compose-ai-tools#5336), on a release line of their own — `composePreviewDaemon` below, carved
+# out of the compose-ai-tools group in .github/renovate.json. `composePreviewCore` still names the
+# compose-ai-tools line (the plugin marker, `wear-preview-runtime`); the former data ref is gone.
+# The history below is why one ref must never span two lines; it stays because it will happen again.
+#
 # compose-ai-tools publishes TWO INDEPENDENT VERSION LINES out of one repository and one tag, and
 # they are not interchangeable. Its release job runs a `maven-publish-guard` that decides each line
 # separately — "no published module, shared build input or build-toolchain pin changed since
@@ -74,7 +81,7 @@ compose-material3 = "1.5.0-alpha27"
 # correct beside a plugin at 2.2.0.
 composePreviewPlugin = "2.4.1"
 composePreviewCore = "2.4.1"
-composePreviewData = "3.0.0"
+composePreviewDaemon = "3.0.0"
 
 # rc-players — `ee.schimke.composeai:third-party-rc-embedded-player`. Same GROUP as the artifacts
 # above and nothing else: it is published from yschimke/rc-players on a release line of its own,
@@ -163,8 +170,8 @@ wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation",
 wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
 wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wear-tooling-preview" }
 
-composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewCore" }
-composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewData" }
+composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewDaemon" }
+composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewDaemon" }
 
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 
@@ -220,7 +227,7 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 #                                   dependency block in remote-catalog/build.gradle.kts for why
 #                                   this is the vendored coordinate and not upstream's published
 #                                   `remote-player-compose`.
-composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewData" }
+composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewDaemon" }
 composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-runtime", version.ref = "composePreviewCore" }
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 
