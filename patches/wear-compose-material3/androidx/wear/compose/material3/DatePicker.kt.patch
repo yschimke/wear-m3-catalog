@@ -9,7 +9,7 @@
  import androidx.compose.animation.core.Animatable
  import androidx.compose.foundation.focusable
  import androidx.compose.foundation.layout.Arrangement
-@@ -50,7 +48,6 @@
+@@ -50,12 +48,12 @@
  import androidx.compose.ui.graphics.Color
  import androidx.compose.ui.graphics.takeOrElse
  import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
@@ -17,7 +17,13 @@
  import androidx.compose.ui.platform.LocalDensity
  import androidx.compose.ui.platform.LocalInspectionMode
  import androidx.compose.ui.semantics.focused
-@@ -64,13 +61,15 @@
+ import androidx.compose.ui.semantics.heading
+ import androidx.compose.ui.semantics.semantics
++import androidx.compose.ui.text.intl.Locale
+ import androidx.compose.ui.text.rememberTextMeasurer
+ import androidx.compose.ui.text.style.TextAlign
+ import androidx.compose.ui.unit.dp
+@@ -64,17 +62,19 @@
  import androidx.wear.compose.material3.ButtonDefaults.filledTonalButtonColors
  import androidx.wear.compose.material3.internal.Icons
  import androidx.wear.compose.material3.internal.Strings
@@ -25,17 +31,21 @@
  import androidx.wear.compose.material3.internal.getString
  import androidx.wear.compose.material3.tokens.DatePickerTokens
  import androidx.wear.compose.materialcore.isLargeScreen
- import ee.schimke.wearcmp.port.lengthOfMonth
-+import androidx.compose.ui.text.intl.Locale
+ import ee.schimke.wearcmp.port.LocalDate
 +import ee.schimke.wearcmp.port.MonthNameStyle
 +import ee.schimke.wearcmp.port.PlatformDateTimeFormat
- import kotlinx.datetime.LocalDate
++import ee.schimke.wearcmp.port.compareTo
+ import ee.schimke.wearcmp.port.portDayOfMonth
+ import ee.schimke.wearcmp.port.portLengthOfMonth
+ import ee.schimke.wearcmp.port.portLocalDate
+ import ee.schimke.wearcmp.port.portMonthNumber
+ import ee.schimke.wearcmp.port.portYear
 -import java.time.format.DateTimeFormatter
 -import java.util.Locale
  import kotlin.jvm.JvmInline
  import kotlin.math.max
- import kotlinx.datetime.number
-@@ -203,25 +202,25 @@
+ 
+@@ -206,25 +206,25 @@
          }
      }
  
@@ -79,7 +89,7 @@
      val yearContentDescription = {
          createDescriptionDatePicker(
              locale,
-@@ -422,11 +421,11 @@
+@@ -425,11 +425,11 @@
                                              pickerTextOption(
                                                  textStyle = optionTextStyle,
                                                  indexToText = {
@@ -96,7 +106,7 @@
                                                  },
                                                  optionHeight = optionHeight,
                                                  optionBaseline = optionBaseline,
-@@ -485,11 +484,10 @@
+@@ -488,11 +488,10 @@
                                              pickerTextOption(
                                                  textStyle = optionTextStyle,
                                                  indexToText = {
@@ -112,7 +122,7 @@
                                                  },
                                                  optionHeight = optionHeight,
                                                  optionBaseline = optionBaseline,
-@@ -611,7 +609,7 @@
+@@ -614,7 +613,7 @@
      public val datePickerType: DatePickerType
          @Composable
          get() {
@@ -121,14 +131,21 @@
              return when (formatOrder[0]) {
                  'M' -> DatePickerType.MonthDayYear
                  'y' -> DatePickerType.YearMonthDay
-@@ -801,11 +799,12 @@
-     require(date in minDate..maxDate) { "date should lie between minDate and maxDate" }
+@@ -801,14 +800,18 @@
+ 
+ private fun verifyDates(date: LocalDate, minDate: LocalDate, maxDate: LocalDate) {
+     require(maxDate >= minDate) { "maxDate should be greater than or equal to minDate" }
+-    require(date in minDate..maxDate) { "date should lie between minDate and maxDate" }
++    // `date in minDate..maxDate` needs `Comparable<LocalDate>`, which `java.time.LocalDate` does not
++    // declare — it is `Comparable<ChronoLocalDate>` — so the seam supplies `compareTo` as an
++    // operator extension instead and the range check is spelled out. Same test, same message.
++    require(date >= minDate && date <= maxDate) { "date should lie between minDate and maxDate" }
  }
  
 -private fun getMonthNames(pattern: String): List<String> {
 -    val monthFormatter = DateTimeFormatter.ofPattern(pattern)
 -    val months = 1..12
--    return months.map { LocalDate(2022, it, 1).format(monthFormatter) }
+-    return months.map { portLocalDate(2022, it, 1).format(monthFormatter) }
 -}
 +/*
 + * `getMonthNames(pattern)` formatted a `java.time.LocalDate` with a `DateTimeFormatter` built from
@@ -139,7 +156,7 @@
  
  private class DatePickerState(
      initialDate: LocalDate,
-@@ -958,7 +957,15 @@
+@@ -961,7 +964,15 @@
      selectedValue: Int,
      label: String,
  ): String =

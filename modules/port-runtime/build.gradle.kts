@@ -22,13 +22,21 @@ kotlin {
     // `skikoMain` compile against it directly.
     named("skikoMain").dependencies { api(libs.skiko) }
 
+    // The date types the pickers take are `expect class`es (see PortDateTime.kt). The JVM
+    // actualises them to `java.time`, keeping upstream's published signature; only wasm needs a
+    // date library, so only wasm gets the dependency — a JVM or Android consumer's classpath ends
+    // up exactly as it is against the real AndroidX artifact.
+    named("wasmJsMain").dependencies { api(libs.kotlinx.datetime) }
+
+    // The seams that have a platform actual worth pinning — the date types, above all — are
+    // tested on the JVM, which is the fast target.
+    jvmTest.dependencies { implementation(kotlin("test")) }
+
     commonMain.dependencies {
       api(libs.compose.runtime)
       api(libs.compose.ui)
       // For the Morph -> Compose Path transcription in ShapePaths.kt.
       api(libs.androidx.graphics.shapes)
-      // The date types the pickers are written against; see PlatformDateTimeFormat.
-      api(libs.kotlinx.datetime)
     }
   }
 }

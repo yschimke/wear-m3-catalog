@@ -140,23 +140,50 @@ that makes it live, and everything above the modifier then works unchanged.
 
 ### Dates and times
 
-`DatePicker` and `TimePicker` are ported, and they are the port's **one deliberate API change**.
+`DatePicker` and `TimePicker` are ported, and **the JVM keeps upstream's exact signature**.
 
 Upstream takes and returns `java.time.LocalDate` and `LocalTime`, which exist only on the JVM.
-Keeping that signature would have meant keeping both components off the target this port exists
-for, so they move to `kotlinx-datetime`, which has the same shapes and publishes a wasmJs target. A
-caller writes `kotlinx.datetime.LocalDate` where upstream documents `java.time.LocalDate`;
-everything else about the two components is unchanged.
+Dropping them would have kept both components off the target this port exists for; changing them
+would have meant a caller who compiles against the real `androidx.wear.compose.material3` could no
+longer compile against this one. `PortDateTime.kt` in `:port-runtime` resolves that with an
+`expect class` per type, actualised by a `typealias`:
 
-The type migration is rules, not patches — `LocalDate.of(y, m, d)` → `LocalDate(y, m, d)`,
-`monthValue` → `month.number`, `dayOfMonth` → `day`. One of those rules needed a lookahead:
-`DatePickerState.monthValue(index)` is a *method* with the same name as the date property, and a
-literal rule rewrote it into nonsense.
+| | `LocalDate` / `LocalTime` is | Date dependency |
+| --- | --- | --- |
+| JVM (and a future Android target) | `java.time.LocalDate` / `java.time.LocalTime` | none |
+| wasmJs | `kotlinx.datetime.LocalDate` / `kotlinx.datetime.LocalTime` | `kotlinx-datetime` |
 
-What is left is locale data, which `kotlinx-datetime` deliberately does not carry — it does
-arithmetic, not presentation. `PlatformDateTimeFormat` in `:port-runtime` asks the platform
-instead, stated as the questions the pickers ask rather than as Android's
-`getBestDateTimePattern`:
+So `DatePicker(initialDate = LocalDate.now(), …)` compiles and links against the port unchanged on
+the JVM, parameter types included, and `kotlinx-datetime` never reaches a JVM consumer's classpath.
+On wasm there is no prior API to be compatible with, so the port takes the multiplatform library.
+
+The cost is that a `typealias` cannot add members, and an `expect class` declaring `val year: Int`
+would not match `java.time.LocalDate`'s Java getter — so in common code the type has **no members
+at all**, and every field the pickers read goes through a `port`-prefixed `expect` extension
+(`portYear`, `portMonthNumber`, `portDayOfMonth`, `portHour`, `portMinute`, `portSecond`,
+`portLengthOfMonth`, and `compareTo`). The prefix is not decoration: an extension named `year`
+would be silently shadowed by the member both platform types already have.
+
+The migration is rules, not patches — `LocalDate.of(y, m, d)` → `portLocalDate(y, m, d)`,
+`.monthValue` → `.portMonthNumber`, `.dayOfMonth` → `.portDayOfMonth`, and so on. Two of them are
+narrowed deliberately: `.monthValue` carries a `(?!\()` lookahead because
+`DatePickerState.monthValue(index)` is a *method* with the same name as the date property and a
+literal rule rewrote it into nonsense, and the `.year` / `.hour` / `.minute` / `.second` rules are
+pinned to their receivers (`minDate`, `initialTime`, …) because `.second` also means `Pair.second`
+elsewhere in the tree. A pinned rule that stops matching after an upstream rename fails the build
+with an unresolved reference — the same loud failure a patch gives, and the reason it is safe to
+pin.
+
+Only one thing in the two components is not upstream's: `date in minDate..maxDate` in `verifyDates`
+needs `Comparable<LocalDate>`, and `java.time.LocalDate` declares `Comparable<ChronoLocalDate>` —
+which an `expect class` supertype could not be actualised to. The range check is spelled out as two
+comparisons instead, with the same test and the same message.
+
+What is left is locale data. Upstream read it from Android — `getBestDateTimePattern`, a
+`DateTimeFormatter` built from a pattern — and neither `java.time` alone nor `kotlinx-datetime`
+(which does arithmetic, not presentation) answers those questions the same way.
+`PlatformDateTimeFormat` in `:port-runtime` asks the platform instead, stated as the questions the
+pickers ask rather than as Android's API:
 
 | Question | JVM | wasm |
 | --- | --- | --- |

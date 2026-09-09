@@ -16,11 +16,6 @@
 
 package ee.schimke.wearcmp.port
 
-import kotlinx.datetime.DatePeriod
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-
 /** How a month is written: `MM`, `MMM` and `MMMM` in an Android date pattern. */
 public enum class MonthNameStyle {
     Numeric,
@@ -75,12 +70,3 @@ public expect object PlatformDateTimeFormat {
      */
     public fun amPmNames(languageTag: String): Pair<String, String>
 }
-
-/**
- * `java.time.LocalDate.lengthOfMonth()`, which `kotlinx-datetime` has no direct equivalent of.
- *
- * Adding a month and stepping back a day lands on the last day of the original month, whatever its
- * length and whether the year is a leap year — so this is arithmetic rather than a table.
- */
-public fun LocalDate.lengthOfMonth(): Int =
-    LocalDate(year, month, 1).plus(DatePeriod(months = 1)).minus(DatePeriod(days = 1)).day

@@ -18,7 +18,15 @@
  import androidx.compose.ui.platform.LocalDensity
  import androidx.compose.ui.platform.LocalInspectionMode
  import androidx.compose.ui.platform.LocalLayoutDirection
-@@ -85,14 +81,14 @@
+@@ -69,6 +65,7 @@
+ import androidx.compose.ui.semantics.semantics
+ import androidx.compose.ui.text.TextMeasurer
+ import androidx.compose.ui.text.TextStyle
++import androidx.compose.ui.text.intl.Locale
+ import androidx.compose.ui.text.rememberTextMeasurer
+ import androidx.compose.ui.text.style.TextAlign
+ import androidx.compose.ui.unit.Density
+@@ -85,18 +82,17 @@
  import androidx.wear.compose.material3.internal.Icons
  import androidx.wear.compose.material3.internal.Plurals
  import androidx.wear.compose.material3.internal.Strings
@@ -27,16 +35,19 @@
  import androidx.wear.compose.material3.tokens.TimePickerTokens
  import androidx.wear.compose.materialcore.is24HourFormat
  import androidx.wear.compose.materialcore.isLargeScreen
-+import androidx.compose.ui.text.intl.Locale
+ import ee.schimke.wearcmp.port.LocalTime
 +import ee.schimke.wearcmp.port.PlatformDateTimeFormat
- import kotlinx.datetime.LocalTime
+ import ee.schimke.wearcmp.port.portHour
+ import ee.schimke.wearcmp.port.portLocalTime
+ import ee.schimke.wearcmp.port.portMinute
+ import ee.schimke.wearcmp.port.portSecond
 -import java.time.format.DateTimeFormatter
 -import java.time.temporal.ChronoField
 -import java.util.Locale
  import kotlin.jvm.JvmInline
  
  /**
-@@ -164,8 +160,7 @@
+@@ -168,8 +164,7 @@
  
      val focusRequesterConfirmButton = remember { FocusRequester() }
  
@@ -46,7 +57,7 @@
      val localeConfig =
          remember(locale, timePickerType) { PickerLocaleConfig(locale, timePickerType) }
  
-@@ -183,7 +178,7 @@
+@@ -187,7 +182,7 @@
                  rememberPickerState(
                      initialNumberOfOptions = 12,
                      initiallySelectedIndex =
@@ -55,7 +66,7 @@
                  )
              else ->
                  rememberPickerState(
-@@ -210,7 +205,7 @@
+@@ -214,7 +209,7 @@
          if (timePickerType == TimePickerType.HoursMinutesAmPm12H) {
              rememberPickerState(
                  initialNumberOfOptions = 2,
@@ -64,7 +75,7 @@
                  shouldRepeatOptions = false,
              )
          } else {
-@@ -225,7 +220,7 @@
+@@ -229,7 +224,7 @@
  
      val hoursContentDescription = {
          createDescription(
@@ -73,7 +84,7 @@
              selectedElement,
              hourState?.run { selectedOptionIndex + localeConfig.hourValueOffset } ?: 0,
              hourString,
-@@ -234,7 +229,7 @@
+@@ -238,7 +233,7 @@
      }
      val minutesContentDescription = {
          createDescription(
@@ -82,7 +93,7 @@
              selectedElement,
              minuteState.selectedOptionIndex,
              minuteString,
-@@ -243,7 +238,7 @@
+@@ -247,7 +242,7 @@
      }
      val secondsContentDescription = {
          createDescription(
@@ -91,7 +102,7 @@
              selectedElement,
              secondState?.selectedOptionIndex ?: 0,
              secondString,
-@@ -355,10 +350,10 @@
+@@ -359,10 +354,10 @@
                          )
                      val confirmedTime =
                          if (localeConfig.is12hour) {
@@ -106,7 +117,7 @@
                          } else timeWithoutPeriod
  
                      onTimePicked(confirmedTime)
-@@ -533,7 +528,7 @@
+@@ -537,7 +532,7 @@
       */
      @Composable
      public fun timePickerSelection(timePickerType: TimePickerType): TimePickerSelection {
@@ -115,7 +126,7 @@
          val localeConfig = PickerLocaleConfig(locale, timePickerType)
          return localeConfig.toDefaultSelection()
      }
-@@ -857,7 +852,13 @@
+@@ -861,7 +856,13 @@
                  textStyle = layoutConfig.optionTextStyle,
                  selectedContentColor = colors.selectedPickerContentColor,
                  unselectedContentColor = colors.unselectedPickerContentColor,
@@ -130,7 +141,7 @@
                  optionHeight = layoutConfig.optionHeight,
                  optionBaseline = layoutConfig.optionBaseline,
              ),
-@@ -884,7 +885,13 @@
+@@ -888,7 +889,13 @@
          option =
              pickerTextOption(
                  textStyle = layoutConfig.optionTextStyle,
@@ -145,7 +156,7 @@
                  selectedContentColor = colors.selectedPickerContentColor,
                  unselectedContentColor = colors.unselectedPickerContentColor,
                  optionHeight = layoutConfig.optionHeight,
-@@ -913,7 +920,13 @@
+@@ -917,7 +924,13 @@
          option =
              pickerTextOption(
                  textStyle = layoutConfig.optionTextStyle,
@@ -160,7 +171,7 @@
                  selectedContentColor = colors.selectedPickerContentColor,
                  unselectedContentColor = colors.unselectedPickerContentColor,
                  optionHeight = layoutConfig.optionHeight,
-@@ -1191,7 +1204,7 @@
+@@ -1195,7 +1208,7 @@
  }
  
  private fun createDescription(
@@ -169,7 +180,7 @@
      selectedElement: TimePickerSelection,
      selectedValue: Int,
      label: String,
-@@ -1200,7 +1213,11 @@
+@@ -1204,7 +1217,11 @@
      if (selectedElement == TimePickerSelection.None) {
          label
      } else {
@@ -182,7 +193,7 @@
      }
  
  @Immutable
-@@ -1215,7 +1232,13 @@
+@@ -1219,7 +1236,13 @@
              else -> "H:mm"
          }
  
@@ -197,7 +208,7 @@
  
      val layoutElements: List<TimeLayoutElement> = groupTimeParts(parsePattern(pattern))
  
-@@ -1234,16 +1257,20 @@
+@@ -1238,16 +1261,20 @@
      // (e.g., k for 1-24, h for 1-12). This offset accounts for that difference.
      val hourValueOffset: Int = if (pattern.contains('H') || pattern.contains('K')) 0 else 1
  
@@ -212,8 +223,8 @@
      init {
          if (is12hour) {
 -            val formatter = DateTimeFormatter.ofPattern("a", locale)
--            localizedAmText = formatter.format(LocalTime(0, 0))
--            localizedPmText = formatter.format(LocalTime(12, 0))
+-            localizedAmText = formatter.format(portLocalTime(0, 0))
+-            localizedPmText = formatter.format(portLocalTime(12, 0))
 +            // `DateTimeFormatter.ofPattern("a", locale)` formatted midnight and noon to read the
 +            // locale's two day-period words out of it. The seam asks for them directly.
 +            val (am, pm) = PlatformDateTimeFormat.amPmNames(locale.toLanguageTag())
@@ -222,7 +233,7 @@
          } else {
              localizedAmText = ""
              localizedPmText = ""
-@@ -1417,3 +1444,18 @@
+@@ -1421,3 +1448,18 @@
  private const val FallbackAmText = "AM"
  private const val FallbackPmText = "PM"
  private val SeparatorWidth = 12.dp
@@ -233,11 +244,11 @@
 + */
 +
 +/** `ChronoField.CLOCK_HOUR_OF_AMPM`: the hour as a clock face shows it, 12 rather than 0. */
-+private fun LocalTime.clockHourOfAmPm(): Int = if (hour % 12 == 0) 12 else hour % 12
++private fun LocalTime.clockHourOfAmPm(): Int = if (portHour % 12 == 0) 12 else portHour % 12
 +
 +/** `ChronoField.AMPM_OF_DAY`: 0 before noon, 1 after. */
-+private fun LocalTime.amPmOfDay(): Int = if (hour < 12) 0 else 1
++private fun LocalTime.amPmOfDay(): Int = if (portHour < 12) 0 else 1
 +
 +/** `LocalTime.with(ChronoField.AMPM_OF_DAY, half)`: 0 moves the hour into the morning, 1 after noon. */
 +private fun LocalTime.withAmPmOfDay(half: Int): LocalTime =
-+    LocalTime(hour % 12 + half * 12, minute, second)
++    portLocalTime(portHour % 12 + half * 12, portMinute, portSecond)
