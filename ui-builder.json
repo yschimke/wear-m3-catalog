@@ -1,0 +1,113 @@
+{
+    "schema": "compose-ui-builder-catalog/v1",
+    "catalog": {
+        "id": "remote-m3",
+        "title": "Remote Compose Material 3",
+        "platform": "remote-compose",
+        "platformLabel": "RemoteCompose",
+        "module": "remote-catalog",
+        "variant": "debug"
+    },
+    "record": {
+        "file": "components.json",
+        "schemaVersion": 2,
+        "components": 2
+    },
+    "statusSemantics": {
+        "platform": "remote-compose",
+        "platformLabel": "RemoteCompose",
+        "componentIdPrefix": "remote-m3/",
+        "previewSurfaces": {
+            "wasm": {
+                "fidelity": "approximate",
+                "reason": "A Remote Compose document is played, not composed. The builder's Wasm canvas has no player, so it draws the widget host frame and placeholders inside it; what the player would draw is a different picture, produced by a different program from the same document."
+            },
+            "native": {
+                "fidelity": "authoritative",
+                "backend": "android",
+                "reason": "The generated creation-DSL Kotlin compiled against this module's own alpha Remote Compose trio and rasterised by the real player — the same lane that produces every sticker in this catalog."
+            }
+        },
+        "componentMenu": {
+            "groupOrder": [
+                "Widget Container",
+                "Scaffold templates",
+                "Containment",
+                "Buttons",
+                "Text",
+                "Iconography",
+                "Communication",
+                "Position indicators",
+                "Shapes",
+                "Shaders",
+                "Typeface",
+                "Theme",
+                "Wear M3",
+                "Confetti"
+            ],
+            "components": {
+                "remote-m3/app-card": {
+                    "group": "Containment"
+                },
+                "remote-m3/specimen-android-makers": {
+                    "group": "Theme"
+                }
+            }
+        },
+        "frame": {
+            "$comment_adapter": "Not a screen. A Remote Compose widget is drawn into a host container of a fixed size, so the frame is the host, not a watch face: `frame/widget-host` rather than the sibling catalog's `frame/round-screen`. This is the second reason `remote-m3` is a catalog of its own rather than a mode of the Wear one.",
+            "adapter": "frame/widget-host",
+            "geometry": {
+                "$comment": "The two host sizes are DECLARED BY THE PREVIEW CONTRACT, not measured after the fact: remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt pins @Preview(widthDp = 216, heightDp = 76) and (216, 124), being 200x60dp and 200x108dp of content plus 8dp of padding on every edge. Every widget sticker in this catalog renders at one of them, so they are the sizes a builder must offer. Recorded here rather than transcribed into the server, which carried both numbers as constants.",
+                "sizesDp": [
+                    {
+                        "widthDp": 216,
+                        "heightDp": 76,
+                        "label": "Small container"
+                    },
+                    {
+                        "widthDp": 216,
+                        "heightDp": 124,
+                        "label": "Large container"
+                    }
+                ]
+            }
+        },
+        "code": null,
+        "templates": [],
+        "colorTokens": {
+            "$comment": "The theme roles a colour property may name. Same Material 3 vocabulary as the sibling :catalog, and stated here for the same reason: a Remote design names roles, and a role the canvas cannot resolve is a literal. Every sticker in this catalog is a RemoteDocument carrying explicit dark-first Material colours, so the values behind these names are the document's rather than a theme's — but the names are what a design writes.",
+            "roles": [
+                "background",
+                "surface",
+                "surfaceContainer",
+                "surfaceContainerLow",
+                "surfaceContainerHigh",
+                "surfaceContainerHighest",
+                "primary",
+                "onPrimary",
+                "tertiary",
+                "onTertiary",
+                "onSurface",
+                "onSurfaceVariant",
+                "outlineVariant",
+                "transparent"
+            ]
+        },
+        "assetRegistry": null,
+        "builtins": {},
+        "components": {}
+    },
+    "diagnostics": [
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "remote-m3/app-card",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "remote-m3/specimen-android-makers",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        }
+    ]
+}
