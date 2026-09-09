@@ -5,6 +5,8 @@ plugins {
 
 kotlin {
   sourceSets {
+    named("skikoMain").dependencies { api(libs.skiko) }
+
     commonMain.dependencies {
       api(project(":wear-compose-foundation"))
       api(project(":wear-compose-material-core"))

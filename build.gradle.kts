@@ -60,6 +60,20 @@ subprojects {
         }
       }
 
+      // Both published targets render through Skia — wasmJs via skiko-wasm, the JVM via
+      // skiko-awt — so `skikoMain` is where the port can reach the graphics stack Compose itself
+      // draws with. That is not a detail: curved text and named font families are IMPOSSIBLE in
+      // common code (Compose exposes no glyph positions and no font-by-name lookup) and ordinary
+      // in Skia, which has RSXform and FontMgr for exactly these two jobs.
+      //
+      // It is wired by hand because the default hierarchy has no intermediate source set for
+      // "jvm and wasmJs and nothing else". Adding an Android or a JS target later would need a
+      // decision here rather than inheriting one silently, which is the right way round.
+      applyDefaultHierarchyTemplate()
+      val skikoMain = sourceSets.create("skikoMain") { dependsOn(sourceSets.getByName("commonMain")) }
+      sourceSets.getByName("jvmMain") { dependsOn(skikoMain) }
+      sourceSets.getByName("wasmJsMain") { dependsOn(skikoMain) }
+
       // The port's own common code: the `expect` declarations the patches in `patches/` rewire
       // the generated sources onto. It is a second directory rather than a file in
       // `src/commonMain/kotlin` because transform.py deletes that directory wholesale on every

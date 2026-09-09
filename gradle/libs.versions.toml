@@ -21,6 +21,10 @@ androidx-annotation = { module = "androidx.annotation:annotation", version.ref =
 androidx-collection = { module = "androidx.collection:collection", version.ref = "androidx-collection" }
 androidx-graphics-shapes = { module = "androidx.graphics:graphics-shapes", version.ref = "androidx-graphics-shapes" }
 
+# Skia, through the same skiko build Compose Multiplatform renders with. Declared so `skikoMain`
+# can name it; the version is pinned to what CMP 1.12.0 resolves, and moves with it.
+skiko = { module = "org.jetbrains.skiko:skiko", version = "0.150.1" }
+
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

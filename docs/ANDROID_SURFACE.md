@@ -8,7 +8,7 @@ Upstream: `androidx.wear.compose` **1.7.0-beta02**.
 | --- | ---: | ---: | ---: | ---: |
 | `wear-compose-material-core` | 17 | 0 | 1 | 0 |
 | `wear-compose-foundation` | 65 | 4 | 5 | 0 |
-| `wear-compose-material3` | 122 | 14 | 8 | 0 |
+| `wear-compose-material3` | 122 | 14 | 7 | 0 |
 
 ## `wear-compose-material-core`
 
