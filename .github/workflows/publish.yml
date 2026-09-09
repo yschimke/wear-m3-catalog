@@ -9,7 +9,14 @@ name: Publish
 #
 #   maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/")
 #
-# GitHub Packages is published to as well when a token is present, for anyone who prefers it.
+# GitHub Packages is published to as well, for anyone who prefers it.
+#
+# A PUBLISHED VERSION IS IMMUTABLE. The version is `<upstream>-cmp<portRevision>`, both from
+# upstream.json, so it does not change when a commit lands — and republishing it would either
+# silently move what a consumer already resolved (the Maven branch) or fail outright (GitHub
+# Packages answers 409 Conflict, which is what taught us this). So the job checks first and skips
+# when the version is already out; publishing a change against an unchanged upstream version means
+# bumping `portRevision`.
 
 on:
   push:
@@ -17,9 +24,14 @@ on:
     # what a consumer resolves.
     branches: [wear-compose-cmp]
   workflow_dispatch:
+    inputs:
+      republish:
+        description: "Overwrite the version on the Maven branch even if it is already published"
+        type: boolean
+        default: false
 
 concurrency:
-  # The publish branch is rewritten wholesale; two runs racing on it would interleave trees.
+  # The publish branch is read, added to, and pushed; two runs racing on it would interleave trees.
   group: publish-wear-compose-cmp
   cancel-in-progress: false
 
@@ -39,26 +51,14 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v5
 
-      - name: Build the repository tree
-        run: ./gradlew publishToBuildDir
-
-      - name: Publish to GitHub Packages
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          GITHUB_ACTOR: ${{ github.actor }}
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
-
-      - name: Push the Maven tree
+      - name: Read the version and the published tree
+        id: state
         run: |
           set -euo pipefail
           version=$(./gradlew -q printPortVersion)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
 
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          # Accumulate rather than replace: a consumer pinned to an older version keeps resolving.
-          # Fetching the branch when it exists is what makes this additive.
-          tree=$(mktemp -d)
+          tree="$RUNNER_TEMP/maven"
           if git ls-remote --exit-code --heads origin wear-compose-cmp-maven >/dev/null 2>&1; then
             git clone -q --depth 1 --branch wear-compose-cmp-maven \
               "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$tree"
@@ -66,18 +66,67 @@ jobs:
             git init -q "$tree"
             git -C "$tree" checkout -q --orphan wear-compose-cmp-maven
           fi
+          echo "tree=$tree" >> "$GITHUB_OUTPUT"
 
+          # One artifact's directory is enough to tell whether this version is already out: the
+          # tree is written in a single commit, so it is never half published.
+          if [ -d "$tree/ee/schimke/wearcmp/wear-compose-material3/$version" ]; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Already published
+        if: steps.state.outputs.published == 'true' && !inputs.republish
+        run: |
+          {
+            echo "### ${{ steps.state.outputs.version }} is already published"
+            echo
+            echo 'Nothing to do. A published version is immutable — to publish a change against an'
+            echo 'unchanged AndroidX version, bump `portRevision` in `upstream.json`.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build the repository tree
+        if: steps.state.outputs.published == 'false' || inputs.republish
+        run: ./gradlew publishToBuildDir
+
+      # Not conditional on `republish`: GitHub Packages rejects a re-upload with 409 whatever we
+      # think, so the only safe thing to do with an already-published version is leave it alone.
+      - name: Publish to GitHub Packages
+        if: steps.state.outputs.published == 'false'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+
+      - name: Push the Maven tree
+        if: steps.state.outputs.published == 'false' || inputs.republish
+        run: |
+          set -euo pipefail
+          version="${{ steps.state.outputs.version }}"
+          tree="${{ steps.state.outputs.tree }}"
+
+          # Copy over the existing tree rather than replacing it: a consumer pinned to an older
+          # version has to keep resolving.
           cp -r build/maven/. "$tree/"
           git -C "$tree" add -A
           if git -C "$tree" diff --cached --quiet; then
-            echo "nothing new to publish"
+            echo "the published tree is already identical" >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          git -C "$tree" -c user.name="github-actions[bot]" \
+          git -C "$tree" \
+            -c user.name="github-actions[bot]" \
             -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
             commit -qm "chore: publish $version"
           git -C "$tree" push -q \
             "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
             "HEAD:wear-compose-cmp-maven"
 
-          echo "Published $version to the wear-compose-cmp-maven branch." >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "### Published $version"
+            echo
+            echo '```kotlin'
+            echo 'maven("https://raw.githubusercontent.com/${{ github.repository }}/wear-compose-cmp-maven/")'
+            echo "implementation(\"ee.schimke.wearcmp:wear-compose-material3:$version\")"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
