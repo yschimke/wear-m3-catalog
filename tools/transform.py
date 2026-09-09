@@ -147,8 +147,9 @@ def apply_patches(module_dir: pathlib.Path, patch_dir: pathlib.Path) -> list[str
             sys.stderr.write(result.stdout + result.stderr)
             raise SystemExit(
                 f"\npatch failed: {patch.relative_to(ROOT)}\n"
-                f"  Upstream moved under it. Re-cut the patch against the regenerated file:\n"
-                f"  see docs/PIPELINE.md -> 'When a patch stops applying'."
+                f"  Upstream moved under it. The rejected hunks are in the matching .rej file\n"
+                f"  under {module_dir.relative_to(ROOT)}; re-cut the patch against the\n"
+                f"  regenerated source. See docs/PIPELINE.md -> 'When a patch stops applying'."
             )
         applied.append(patch.name)
     return applied
