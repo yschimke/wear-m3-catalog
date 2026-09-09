@@ -193,21 +193,50 @@ pickers ask rather than as Android's API:
 | This number, in the locale's own digits | `String.format(locale, …)` | `Intl.NumberFormat` |
 | The two day-period words | `DateTimeFormatter.ofPattern("a")` | `formatToParts` dayPeriod |
 
-Both implementations read the same CLDR data through different doors, so neither is a table this
-port maintains.
+Both implementations read the same CLDR data through different doors, so neither of those five is a
+table this port maintains. Two things below are — `TimePatterns.kt` here and `PluralRules.kt` under
+Localisation — and in both cases because the platform exposes no way to ask the question at all.
 
-**TODO, in `TimePicker`:** the field pattern is the skeleton as written, not localised. Upstream
-passes it through `getBestDateTimePattern`, which reorders fields and swaps separators for the
-locales that need it — most visibly the ones that put the am/pm marker first (`ah:mm` in Chinese).
-The 12- versus 24-hour choice is *not* lost: it is in the skeleton, chosen by the caller's
-`TimePickerType`.
+`TimePicker`'s field pattern is localised too, and by the same route: `getBestDateTimePattern` is
+ICU's `DateTimePatternGenerator`, so `TimePatterns.kt` carries ICU's own answers for the 86 shipped
+locales rather than a heuristic. Four skeletons each, 4 KB, generated once from ICU4J 77.1.
+
+A table beats a rule here because the data is not guessable. Hungarian puts the day-period marker
+*before* the hour, as Chinese and Korean do — an assumption that only CJK does would have been
+wrong. Japanese counts its 12-hour clock with `K` (0..11) rather than `h` (1..12). Finnish
+separates with a full stop. French Canadian writes `HH 'h' mm`, which upstream's own `parsePattern`
+already names in a comment, because it was written to consume exactly this. 109 of the patterns
+contain a NARROW NO-BREAK SPACE before the marker, so regenerate with `-Dstdout.encoding=UTF-8` or
+they arrive as `?`.
+
+The 12- versus 24-hour choice still comes from the caller's `TimePickerType`, because it is in the
+skeleton the table is keyed by — a locale's own preference does not override what the caller asked
+for.
 
 ### Localisation
 
-`GeneratedResources.kt` is generated from the AAR's default `res/values/values.xml`. The AAR ships
-80 more locales beside it, and the generator reads none of them. Extending it is mechanical —
-generate a map per locale, key the lookup on the composition's locale — and nothing in the current
-design is in the way.
+Largely done, and this entry now records what is left rather than what is missing.
+
+`GeneratedResources.kt` is generated from the AAR's `res/values*` — the default `values.xml` **and
+the 85 localised ones** — so the strings and plurals are translated, chosen against the
+composition's own `Locale.current`.
+
+Plural forms go through the locale's real **CLDR category**, not English's rule: `PluralRules.kt`
+in `commonPort` maps a language to one of fifteen rule sets, which is what the 86 shipped tags
+collapse to. It is verified rather than asserted — `PluralRulesTest` compares every locale at every
+count from 0 to 200 against a committed fixture generated from ICU4J, 17,286 comparisons, so a
+wrong rule fails the build rather than reaching a screen reader. The fixture is committed instead
+of taking an ICU dependency: the answer does not change between runs, and the test module should
+not pull 14 MB of CLDR data to look it up.
+
+The keyword is chosen per candidate tag rather than once, because the tag decides the rule as well
+as the text — `pt-PT` takes `one` for 1 alone where `pt` takes it for 0 and 1, and choosing against
+the locale before falling back to another tag would read a form by the wrong language's rule.
+
+What is still not Android's behaviour is **resource resolution**: `localeCandidates` tries
+`lang-REGION` then `lang`, where Android walks a full script and region fallback chain. No locale
+the AAR ships needs more than the two steps, so this has not bitten; a locale that did would fall
+through to the default resources rather than to a near neighbour.
 
 ### Animated vector drawables do not animate
 

@@ -26,7 +26,7 @@
  import androidx.compose.ui.text.rememberTextMeasurer
  import androidx.compose.ui.text.style.TextAlign
  import androidx.compose.ui.unit.Density
-@@ -85,18 +82,17 @@
+@@ -85,18 +82,18 @@
  import androidx.wear.compose.material3.internal.Icons
  import androidx.wear.compose.material3.internal.Plurals
  import androidx.wear.compose.material3.internal.Strings
@@ -44,10 +44,11 @@
 -import java.time.format.DateTimeFormatter
 -import java.time.temporal.ChronoField
 -import java.util.Locale
++import ee.schimke.wearcmp.port.timeFieldPattern
  import kotlin.jvm.JvmInline
  
  /**
-@@ -168,8 +164,7 @@
+@@ -168,8 +165,7 @@
  
      val focusRequesterConfirmButton = remember { FocusRequester() }
  
@@ -57,7 +58,7 @@
      val localeConfig =
          remember(locale, timePickerType) { PickerLocaleConfig(locale, timePickerType) }
  
-@@ -187,7 +182,7 @@
+@@ -187,7 +183,7 @@
                  rememberPickerState(
                      initialNumberOfOptions = 12,
                      initiallySelectedIndex =
@@ -66,7 +67,7 @@
                  )
              else ->
                  rememberPickerState(
-@@ -214,7 +209,7 @@
+@@ -214,7 +210,7 @@
          if (timePickerType == TimePickerType.HoursMinutesAmPm12H) {
              rememberPickerState(
                  initialNumberOfOptions = 2,
@@ -75,7 +76,7 @@
                  shouldRepeatOptions = false,
              )
          } else {
-@@ -229,7 +224,7 @@
+@@ -229,7 +225,7 @@
  
      val hoursContentDescription = {
          createDescription(
@@ -84,7 +85,7 @@
              selectedElement,
              hourState?.run { selectedOptionIndex + localeConfig.hourValueOffset } ?: 0,
              hourString,
-@@ -238,7 +233,7 @@
+@@ -238,7 +234,7 @@
      }
      val minutesContentDescription = {
          createDescription(
@@ -93,7 +94,7 @@
              selectedElement,
              minuteState.selectedOptionIndex,
              minuteString,
-@@ -247,7 +242,7 @@
+@@ -247,7 +243,7 @@
      }
      val secondsContentDescription = {
          createDescription(
@@ -102,7 +103,7 @@
              selectedElement,
              secondState?.selectedOptionIndex ?: 0,
              secondString,
-@@ -359,10 +354,10 @@
+@@ -359,10 +355,10 @@
                          )
                      val confirmedTime =
                          if (localeConfig.is12hour) {
@@ -117,7 +118,7 @@
                          } else timeWithoutPeriod
  
                      onTimePicked(confirmedTime)
-@@ -537,7 +532,7 @@
+@@ -537,7 +533,7 @@
       */
      @Composable
      public fun timePickerSelection(timePickerType: TimePickerType): TimePickerSelection {
@@ -126,7 +127,7 @@
          val localeConfig = PickerLocaleConfig(locale, timePickerType)
          return localeConfig.toDefaultSelection()
      }
-@@ -861,7 +856,13 @@
+@@ -861,7 +857,13 @@
                  textStyle = layoutConfig.optionTextStyle,
                  selectedContentColor = colors.selectedPickerContentColor,
                  unselectedContentColor = colors.unselectedPickerContentColor,
@@ -141,7 +142,7 @@
                  optionHeight = layoutConfig.optionHeight,
                  optionBaseline = layoutConfig.optionBaseline,
              ),
-@@ -888,7 +889,13 @@
+@@ -888,7 +890,13 @@
          option =
              pickerTextOption(
                  textStyle = layoutConfig.optionTextStyle,
@@ -156,7 +157,7 @@
                  selectedContentColor = colors.selectedPickerContentColor,
                  unselectedContentColor = colors.unselectedPickerContentColor,
                  optionHeight = layoutConfig.optionHeight,
-@@ -917,7 +924,13 @@
+@@ -917,7 +925,13 @@
          option =
              pickerTextOption(
                  textStyle = layoutConfig.optionTextStyle,
@@ -171,7 +172,7 @@
                  selectedContentColor = colors.selectedPickerContentColor,
                  unselectedContentColor = colors.unselectedPickerContentColor,
                  optionHeight = layoutConfig.optionHeight,
-@@ -1195,7 +1208,7 @@
+@@ -1195,7 +1209,7 @@
  }
  
  private fun createDescription(
@@ -180,7 +181,7 @@
      selectedElement: TimePickerSelection,
      selectedValue: Int,
      label: String,
-@@ -1204,7 +1217,11 @@
+@@ -1204,7 +1218,11 @@
      if (selectedElement == TimePickerSelection.None) {
          label
      } else {
@@ -193,22 +194,20 @@
      }
  
  @Immutable
-@@ -1219,7 +1236,13 @@
+@@ -1219,7 +1237,11 @@
              else -> "H:mm"
          }
  
 -    val pattern: String = DateFormat.getBestDateTimePattern(locale, skeleton)
-+    // TODO: the skeleton is used as the pattern. Upstream asks Android to localise it —
-+    //  `getBestDateTimePattern` reorders the fields and swaps the separators for locales that need
-+    //  it, most visibly the ones that put the am/pm marker first (`ah:mm` in Chinese). The 12- and
-+    //  24-hour choice is NOT lost: it is in the skeleton, chosen by the caller's TimePickerType.
-+    //  Doing this properly means deriving a pattern from `Intl.DateTimeFormat().formatToParts()`
-+    //  and java.time's localised patterns, in `PlatformDateTimeFormat`.
-+    val pattern: String = skeleton
++    // Upstream's `DateFormat.getBestDateTimePattern(locale, skeleton)`. That call is ICU's
++    // `DateTimePatternGenerator`, so `timeFieldPattern` is the same answer read from a table
++    // generated from ICU rather than approximated — see `TimePatterns.kt`. The 12- vs 24-hour
++    // choice still comes from the caller's TimePickerType, because it is in the skeleton.
++    val pattern: String = timeFieldPattern(locale.toLanguageTag(), skeleton)
  
      val layoutElements: List<TimeLayoutElement> = groupTimeParts(parsePattern(pattern))
  
-@@ -1238,16 +1261,20 @@
+@@ -1238,16 +1260,20 @@
      // (e.g., k for 1-24, h for 1-12). This offset accounts for that difference.
      val hourValueOffset: Int = if (pattern.contains('H') || pattern.contains('K')) 0 else 1
  
@@ -233,7 +232,7 @@
          } else {
              localizedAmText = ""
              localizedPmText = ""
-@@ -1421,3 +1448,18 @@
+@@ -1421,3 +1447,18 @@
  private const val FallbackAmText = "AM"
  private const val FallbackPmText = "PM"
  private val SeparatorWidth = 12.dp

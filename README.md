@@ -68,10 +68,15 @@ dependencyResolutionManagement {
 kotlin {
     wasmJs { browser() }
     sourceSets.commonMain.dependencies {
-        implementation("ee.schimke.wearcmp:wear-compose-material3:1.7.0-beta02-cmp01")
+        implementation("ee.schimke.wearcmp:wear-compose-material3:1.7.0-beta02-cmp03")
     }
 }
 ```
+
+The latest published version is whatever
+[`maven-metadata.xml`](https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/ee/schimke/wearcmp/wear-compose-material3/maven-metadata.xml)
+on the Maven branch says — this snippet is pinned rather than a range, so check it rather than
+assuming the number here is current.
 
 These are Kotlin Multiplatform publications, so that one coordinate resolves the `-wasm-js` variant
 by itself. Built against **Kotlin 2.4.10** and **Compose Multiplatform 1.12.0**; a consumer on a

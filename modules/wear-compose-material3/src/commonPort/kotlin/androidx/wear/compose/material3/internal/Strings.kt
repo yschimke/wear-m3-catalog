@@ -37,9 +37,9 @@ import kotlin.jvm.JvmInline
  * `SliderDecreaseIconContentDescription`, and no rule produces that.
  *
  * Localised: every locale the AAR ships is generated, and the text is chosen against the
- * composition's own `Locale.current`. What is NOT reproduced is Android's full resource
- * resolution — no script or region fallback chains beyond the two steps in [localeCandidates],
- * and no per-language plural rules (see [Plurals.text]).
+ * composition's own `Locale.current`. Plural forms are chosen by the locale's own CLDR category —
+ * see `PluralRules.kt`. What is NOT reproduced is Android's full resource resolution: there are no
+ * script or region fallback chains beyond the two steps in [localeCandidates].
  */
 
 @Composable
@@ -162,25 +162,28 @@ internal value class Strings(val resourceName: String) {
 @Immutable
 internal value class Plurals(val resourceName: String) {
     /**
-     * TODO: the QUANTITY rule is English's, in every language. Android picks the CLDR plural
-     * category for the locale — Polish has `few` and `many`, Arabic has six categories — and this
-     * asks only whether the quantity is one, then falls back to `other` when the translation has
-     * no form under the keyword it chose.
+     * The grammatical form [quantity] takes in this locale, by CLDR's rules — see [pluralCategory].
      *
-     * So the text is in the right language and the grammar can be wrong for a quantity other than
-     * one. The three plurals in this library all count hours, minutes and seconds in a time
-     * picker; the fix is a CLDR rule table, which is a table rather than a decision, and it is
-     * worth having before anyone leans on the picker in a Slavic or Semitic language.
+     * The keyword is chosen per CANDIDATE TAG rather than once up front, because the tag decides
+     * the rule as well as the text: `pt-PT` takes `one` for 1 alone where `pt` takes it for 0 and 1,
+     * so choosing against the locale and then reading from a fallback tag could pick a form by the
+     * wrong language's rule.
+     *
+     * `other` remains the fallback when a translation ships no form under the chosen keyword. That
+     * is not a shortcut: CLDR only requires the forms a language actually distinguishes, and
+     * `other` is the one every locale defines.
      */
     fun textIn(locale: Locale, quantity: Int): String {
-        val keyword = if (quantity == 1) "one" else "other"
         for (tag in localeCandidates(locale)) {
             val forms = GeneratedLocalizedPlurals[tag]?.get(resourceName) ?: continue
+            val keyword = pluralCategory(tag, quantity).keyword
             (forms[keyword] ?: forms["other"])?.let {
                 return it
             }
         }
+        // The default resources, which are the English ones — so English's rule chooses among them.
         val forms = GeneratedPlurals[resourceName] ?: return resourceName
+        val keyword = pluralCategory("en", quantity).keyword
         return forms[keyword] ?: forms["other"] ?: resourceName
     }
 

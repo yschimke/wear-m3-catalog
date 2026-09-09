@@ -93,6 +93,7 @@ import ee.schimke.wearcmp.port.portHour
 import ee.schimke.wearcmp.port.portLocalTime
 import ee.schimke.wearcmp.port.portMinute
 import ee.schimke.wearcmp.port.portSecond
+import ee.schimke.wearcmp.port.timeFieldPattern
 import kotlin.jvm.JvmInline
 
 /**
@@ -1236,13 +1237,11 @@ private class PickerLocaleConfig(val locale: Locale, val timePickerType: TimePic
             else -> "H:mm"
         }
 
-    // TODO: the skeleton is used as the pattern. Upstream asks Android to localise it —
-    //  `getBestDateTimePattern` reorders the fields and swaps the separators for locales that need
-    //  it, most visibly the ones that put the am/pm marker first (`ah:mm` in Chinese). The 12- and
-    //  24-hour choice is NOT lost: it is in the skeleton, chosen by the caller's TimePickerType.
-    //  Doing this properly means deriving a pattern from `Intl.DateTimeFormat().formatToParts()`
-    //  and java.time's localised patterns, in `PlatformDateTimeFormat`.
-    val pattern: String = skeleton
+    // Upstream's `DateFormat.getBestDateTimePattern(locale, skeleton)`. That call is ICU's
+    // `DateTimePatternGenerator`, so `timeFieldPattern` is the same answer read from a table
+    // generated from ICU rather than approximated — see `TimePatterns.kt`. The 12- vs 24-hour
+    // choice still comes from the caller's TimePickerType, because it is in the skeleton.
+    val pattern: String = timeFieldPattern(locale.toLanguageTag(), skeleton)
 
     val layoutElements: List<TimeLayoutElement> = groupTimeParts(parsePattern(pattern))
 
