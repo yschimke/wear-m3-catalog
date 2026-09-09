@@ -1,0 +1,197 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "ee.schimke.wearcmp",
+    "module": "port-runtime",
+    "version": "1.7.0-beta02-cmp03",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "androidx.graphics",
+          "module": "graphics-shapes",
+          "version": {
+            "requires": "1.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "port-runtime-metadata-1.7.0-beta02-cmp03.jar",
+          "url": "port-runtime-1.7.0-beta02-cmp03.jar",
+          "size": 13415,
+          "sha512": "5826572bb10be67012ed2fc363c9987307f11d69ee96090d035d015191dd9116fac02a628d74cb4175f677c893e39cbbd4c5705b4ca287d7995b9f56c8bbde54",
+          "sha256": "6aec2d0db4a3185a2e902a979726a811d8033a8b58a6fd015d767af45fe2f464",
+          "sha1": "acbdc13fff4506537c52a728b730de02bf94a240",
+          "md5": "283424bef40bc9395c1981b5d120fcc1"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "port-runtime-kotlin-1.7.0-beta02-cmp03-sources.jar",
+          "url": "port-runtime-1.7.0-beta02-cmp03-sources.jar",
+          "size": 27612,
+          "sha512": "db1fef29153c7e8ac790329b80c83513876acdbb2eb78d1d3079278290102301f6edfda6f36237cd07fddaba419057f95168dbeb41be2347b76d18d6357503dd",
+          "sha256": "735839c47d13edbb8b116ce1614c34c97739e57461a47dbbd2f5871bfe9ab2d5",
+          "sha1": "7252c7eec6d52dad47a96cb104267f1970b1a8c8",
+          "md5": "40d17b4d8f59ce27b449776392a3d6e0"
+        }
+      ]
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../port-runtime-jvm/1.7.0-beta02-cmp03/port-runtime-jvm-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "port-runtime-jvm",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../port-runtime-jvm/1.7.0-beta02-cmp03/port-runtime-jvm-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "port-runtime-jvm",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../port-runtime-jvm/1.7.0-beta02-cmp03/port-runtime-jvm-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "port-runtime-jvm",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../port-runtime-wasm-js/1.7.0-beta02-cmp03/port-runtime-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "port-runtime-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../port-runtime-wasm-js/1.7.0-beta02-cmp03/port-runtime-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "port-runtime-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../port-runtime-wasm-js/1.7.0-beta02-cmp03/port-runtime-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "port-runtime-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    }
+  ]
+}

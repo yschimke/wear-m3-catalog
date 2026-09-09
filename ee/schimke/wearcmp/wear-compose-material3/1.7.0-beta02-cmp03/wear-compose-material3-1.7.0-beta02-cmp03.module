@@ -1,0 +1,243 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "ee.schimke.wearcmp",
+    "module": "wear-compose-material3",
+    "version": "1.7.0-beta02-cmp03",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "wear-compose-foundation",
+          "version": {
+            "requires": "1.7.0-beta02-cmp03"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "wear-compose-material-core",
+          "version": {
+            "requires": "1.7.0-beta02-cmp03"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp03"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-material3-metadata-1.7.0-beta02-cmp03.jar",
+          "url": "wear-compose-material3-1.7.0-beta02-cmp03.jar",
+          "size": 145998,
+          "sha512": "9da7e59b5548adf335a67f35f67a92db0a6f546141532ae81ca9bd55c14350880185ee3fb0f6c9e12fd8b2120d2322e2ba1bedcde1d156613755da59eb7952c5",
+          "sha256": "6cc7d42e3c9c893243a93d60330d0a2cfc739c3d4e432705ecda5fab86ec8934",
+          "sha1": "227d3930308ba01cf80c0c30dcefac8117ef147a",
+          "md5": "9b35c683ae4f6b845fafdf8cda37d9af"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "wear-compose-material3-kotlin-1.7.0-beta02-cmp03-sources.jar",
+          "url": "wear-compose-material3-1.7.0-beta02-cmp03-sources.jar",
+          "size": 464844,
+          "sha512": "604dcbee82993619040fcd3f48e11cc4adb594aae789168e5c6208a0e530f95e66d45fc7e5542f04c7b753875ebeca4a1d90ba7e2f7544adaa5c8f7c9baa9d6f",
+          "sha256": "701f9321ecc3f94a9c5440652b2236f10ccee67715efd747cecf40f8e82b3686",
+          "sha1": "d1e84417e76318783a60a2e69fbd1b720eead795",
+          "md5": "679d5d4401eabcae102c3f77124404d8"
+        }
+      ]
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-jvm/1.7.0-beta02-cmp03/wear-compose-material3-jvm-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-jvm",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-jvm/1.7.0-beta02-cmp03/wear-compose-material3-jvm-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-jvm",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-jvm/1.7.0-beta02-cmp03/wear-compose-material3-jvm-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-jvm",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-wasm-js/1.7.0-beta02-cmp03/wear-compose-material3-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-wasm-js/1.7.0-beta02-cmp03/wear-compose-material3-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-wasm-js/1.7.0-beta02-cmp03/wear-compose-material3-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    },
+    {
+      "name": "wasmJsResourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.libraryelements": "kotlin-multiplatformresourcesjs",
+        "org.gradle.usage": "kotlin-multiplatformresourcesjs",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-material3-wasm-js/1.7.0-beta02-cmp03/wear-compose-material3-wasm-js-1.7.0-beta02-cmp03.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-material3-wasm-js",
+        "version": "1.7.0-beta02-cmp03"
+      }
+    }
+  ]
+}
