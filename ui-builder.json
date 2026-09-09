@@ -1,0 +1,671 @@
+{
+    "schema": "compose-ui-builder-catalog/v1",
+    "catalog": {
+        "id": "wear-m3",
+        "title": "M3 Wear OS Apps Design Kit",
+        "platform": "wear",
+        "platformLabel": "Wear",
+        "module": "catalog",
+        "variant": "debug"
+    },
+    "record": {
+        "file": "components.json",
+        "schemaVersion": 2,
+        "components": 78
+    },
+    "statusSemantics": {
+        "platform": "wear",
+        "platformLabel": "Wear",
+        "componentIdPrefix": "wear-m3/",
+        "previewSurfaces": {
+            "wasm": {
+                "fidelity": "approximate",
+                "reason": "The builder's canvas is Compose Multiplatform for Wasm, which cannot link an Android AAR and therefore cannot call Wear Compose Material 3 at all. It draws the screen frame from the measured geometry below, and every component as a placeholder or — where this catalog claims one — through a Material 3 adapter the builder already ships. It is a drawing aid; it is not what a watch shows."
+            },
+            "native": {
+                "fidelity": "authoritative",
+                "backend": "android",
+                "reason": "The generated Kotlin compiled against this module's own classpath and rendered under Robolectric: the same lane that produces this catalog's stickers."
+            }
+        },
+        "componentMenu": {
+            "groupOrder": [
+                "Layout",
+                "Navigation",
+                "Actions",
+                "Selection",
+                "Text",
+                "Containment",
+                "Communication",
+                "Motion",
+                "Styles",
+                "Horologist"
+            ],
+            "components": {
+                "wear-m3/alert-dialog": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/arc-progress-indicator": {
+                    "group": "Progress indicators"
+                },
+                "wear-m3/button-group": {
+                    "group": "Buttons"
+                },
+                "wear-m3/filled": {
+                    "group": "Buttons"
+                },
+                "wear-m3/child": {
+                    "group": "Buttons"
+                },
+                "wear-m3/compact": {
+                    "group": "Buttons"
+                },
+                "wear-m3/tonal": {
+                    "group": "Buttons"
+                },
+                "wear-m3/outlined": {
+                    "group": "Buttons"
+                },
+                "wear-m3/app-card": {
+                    "group": "Cards"
+                },
+                "wear-m3/card": {
+                    "group": "Cards"
+                },
+                "wear-m3/title-card": {
+                    "group": "Cards"
+                },
+                "wear-m3/checkbox-button": {
+                    "group": "Selection buttons"
+                },
+                "wear-m3/loading": {
+                    "group": "Buttons"
+                },
+                "wear-m3/generic": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/failure": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/success": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/date-picker": {
+                    "group": "Pickers"
+                },
+                "wear-m3/edge-button": {
+                    "group": "Edge-hugging buttons"
+                },
+                "wear-m3/fading-expanding-label": {
+                    "group": "Text"
+                },
+                "wear-m3/standard": {
+                    "group": "Icon buttons"
+                },
+                "wear-m3/icon-toggle-button": {
+                    "group": "Toggle buttons"
+                },
+                "wear-m3/level-indicator": {
+                    "group": "Position indicators"
+                },
+                "wear-m3/stepper": {
+                    "group": "Sliders and steppers"
+                },
+                "wear-m3/linear-progress-indicator": {
+                    "group": "Progress indicators"
+                },
+                "wear-m3/fast-scrolling-transforming-lazy-column": {
+                    "group": "Fast scrolling"
+                },
+                "wear-m3/list-sub-header": {
+                    "group": "Text"
+                },
+                "wear-m3/open-on-phone-dialog": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/horizontal": {
+                    "group": "Position indicators"
+                },
+                "wear-m3/vertical": {
+                    "group": "Position indicators"
+                },
+                "wear-m3/picker-group": {
+                    "group": "Pickers"
+                },
+                "wear-m3/picker": {
+                    "group": "Pickers"
+                },
+                "wear-m3/radio-button": {
+                    "group": "Selection buttons"
+                },
+                "wear-m3/scroll-indicator": {
+                    "group": "Position indicators"
+                },
+                "wear-m3/segmented-circular-progress-indicator": {
+                    "group": "Progress indicators"
+                },
+                "wear-m3/slider": {
+                    "group": "Sliders and steppers"
+                },
+                "wear-m3/swipe-to-dismiss-box": {
+                    "group": "Swipe to dismiss"
+                },
+                "wear-m3/button": {
+                    "group": "Swipe to reveal"
+                },
+                "wear-m3/switch-button": {
+                    "group": "Selection buttons"
+                },
+                "wear-m3/text-button": {
+                    "group": "Icon buttons"
+                },
+                "wear-m3/text-toggle-button": {
+                    "group": "Toggle buttons"
+                },
+                "wear-m3/time-picker": {
+                    "group": "Pickers"
+                },
+                "wear-m3/time-text": {
+                    "group": "Text"
+                },
+                "wear-m3/one-handed-gesture-click-indicator": {
+                    "group": "One-handed gestures"
+                },
+                "wear-m3/one-handed-gesture-scroll-indicator": {
+                    "group": "One-handed gestures"
+                },
+                "wear-m3/animated-text": {
+                    "group": "Text"
+                },
+                "wear-m3/circular-progress-indicator": {
+                    "group": "Progress indicators"
+                },
+                "wear-m3/scaffold": {
+                    "group": "Lists and screens"
+                },
+                "wear-m3/control-buttons": {
+                    "group": "Media controls"
+                }
+            }
+        },
+        "frame": {
+            "adapter": "frame/round-screen",
+            "$comment_seedDevice": "The first entry of catalog.spec.json's breakpoints table, named explicitly rather than defaulted: a new design opening at a size this catalog does not document would be drawn against padding nobody measured.",
+            "seedDevice": "id:wearos_small_round",
+            "geometry": {
+                "$comment": "WRITTEN BY A TEST, NEVER BY HAND. catalog/src/test/kotlin/ee/schimke/wearm3catalog/ScreenScaffoldContentPaddingTest.kt composes the real ScreenScaffold over a real TransformingLazyColumn at each round size, reads the padding Wear Compose computes, and asserts this block equals its measurement. Editing these numbers is a failing test, which is the entire reason the block lives in this repository: the preview server carried a transcribed copy, and a number copied out of a render goes stale silently. ONLY WHAT THAT PROBE MEASURES IS HERE. The frame's corner radius, its sampled colours and its clock geometry are still constants in the server's renderer, sampled from this catalog's stitched capture; they move here when a probe measures them, and until then this catalog does not claim numbers it has not taken.",
+                "contentPadding": [
+                    {
+                        "screenDp": 192,
+                        "horizontalDp": 10,
+                        "verticalDp": 20
+                    },
+                    {
+                        "screenDp": 227,
+                        "horizontalDp": 12,
+                        "verticalDp": 23
+                    },
+                    {
+                        "screenDp": 240,
+                        "horizontalDp": 13,
+                        "verticalDp": 24
+                    }
+                ]
+            }
+        },
+        "code": null,
+        "templates": [],
+        "colorTokens": {
+            "$comment": "The theme roles a colour property or a background modifier may name — the vocabulary, not the values. A Wear design resolves these against Wear Material 3's own scheme, which is why the sampled colours the canvas draws the frame with are a separate question and still live in the server's renderer until a probe here measures them. The list itself is Material 3's, which Wear Material 3 shares: a design that names `onSurfaceVariant` means the same role on both, and on a watch it happens to be a warm #FFDCC2 rather than the grey a phone puts there.",
+            "roles": [
+                "background",
+                "surface",
+                "surfaceContainer",
+                "surfaceContainerLow",
+                "surfaceContainerHigh",
+                "surfaceContainerHighest",
+                "primary",
+                "onPrimary",
+                "tertiary",
+                "onTertiary",
+                "onSurface",
+                "onSurfaceVariant",
+                "outlineVariant",
+                "transparent"
+            ]
+        },
+        "assetRegistry": null,
+        "builtins": {
+            "wear-m3/screen-scaffold": {
+                "role": "screen-root",
+                "displayName": "Screen",
+                "group": "Layout",
+                "canvas": "frame/round-screen",
+                "slots": {
+                    "content": {
+                        "required": true,
+                        "role": "list"
+                    },
+                    "edgeButton": {
+                        "acceptedTraits": [
+                            "Action"
+                        ]
+                    },
+                    "overlays": {
+                        "acceptedTraits": [
+                            "Overlay"
+                        ],
+                        "role": "overlay"
+                    }
+                },
+                "properties": []
+            },
+            "wear-m3/transforming-lazy-column": {
+                "role": "list",
+                "displayName": "Scrolling list",
+                "group": "Layout",
+                "canvas": "placeholder",
+                "slots": {
+                    "items": {
+                        "required": true,
+                        "role": "list-item"
+                    }
+                },
+                "properties": []
+            }
+        },
+        "components": {}
+    },
+    "diagnostics": [
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/alert-dialog",
+            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.AlertDialogDefaults.DismissButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/alert-dialog",
+            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.AlertDialogDefaults.EdgeButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/alert-dialog",
+            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.AlertDialogKt.AlertDialogContent. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/outlined",
+            "message": "'wear-m3/outlined' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.OutlinedButton and catalog/androidx.wear.compose.material3.CardKt.OutlinedCard. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/checkbox-button",
+            "message": "'wear-m3/checkbox-button' is claimed by both catalog/androidx.wear.compose.material3.CheckboxButtonKt.CheckboxButton and catalog/androidx.wear.compose.material3.CheckboxButtonKt.SplitCheckboxButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/filled",
+            "message": "'wear-m3/filled' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.Button and catalog/androidx.wear.compose.material3.IconButtonKt.FilledIconButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/tonal",
+            "message": "'wear-m3/tonal' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.FilledTonalButton and catalog/androidx.wear.compose.material3.IconButtonKt.FilledTonalIconButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/outlined",
+            "message": "'wear-m3/outlined' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.OutlinedButton and catalog/androidx.wear.compose.material3.IconButtonKt.OutlinedIconButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/alert-dialog",
+            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.IconKt.Icon. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/open-on-phone-dialog",
+            "message": "'wear-m3/open-on-phone-dialog' is claimed by both catalog/androidx.wear.compose.material3.OpenOnPhoneDialogDefaults.Icon and catalog/androidx.wear.compose.material3.OpenOnPhoneDialogKt.OpenOnPhoneDialogContent. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/horizontal",
+            "message": "'wear-m3/horizontal' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator and catalog/androidx.wear.compose.material3.PagerScaffoldKt.AnimatedPage. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/horizontal",
+            "message": "'wear-m3/horizontal' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator and catalog/androidx.wear.compose.material3.PagerScaffoldKt.HorizontalPagerScaffold. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/vertical",
+            "message": "'wear-m3/vertical' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.VerticalPageIndicator and catalog/androidx.wear.compose.material3.PagerScaffoldKt.VerticalPagerScaffold. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/picker-group",
+            "message": "'wear-m3/picker-group' is claimed by both catalog/androidx.wear.compose.material3.PickerGroupKt.PickerGroup and catalog/androidx.wear.compose.material3.PickerGroupScope.PickerGroupItem. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/radio-button",
+            "message": "'wear-m3/radio-button' is claimed by both catalog/androidx.wear.compose.material3.RadioButtonKt.RadioButton and catalog/androidx.wear.compose.material3.RadioButtonKt.SplitRadioButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/fast-scrolling-transforming-lazy-column",
+            "message": "'wear-m3/fast-scrolling-transforming-lazy-column' is claimed by both catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader and catalog/androidx.wear.compose.material3.ScreenScaffoldKt.ScreenScaffold. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/slider",
+            "message": "'wear-m3/slider' is claimed by both catalog/androidx.wear.compose.material3.SliderDefaults.DecreaseIcon and catalog/androidx.wear.compose.material3.SliderDefaults.IncreaseIcon. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/slider",
+            "message": "'wear-m3/slider' is claimed by both catalog/androidx.wear.compose.material3.SliderDefaults.DecreaseIcon and catalog/androidx.wear.compose.material3.SliderKt.Slider. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/stepper",
+            "message": "'wear-m3/stepper' is claimed by both catalog/androidx.wear.compose.material3.LevelIndicatorKt.StepperLevelIndicator and catalog/androidx.wear.compose.material3.StepperKt.Stepper. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/button",
+            "message": "'wear-m3/button' is claimed by both catalog/androidx.wear.compose.material3.SwipeToRevealKt.SwipeToReveal and catalog/androidx.wear.compose.material3.SwipeToRevealScope.PrimaryActionButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/button",
+            "message": "'wear-m3/button' is claimed by both catalog/androidx.wear.compose.material3.SwipeToRevealKt.SwipeToReveal and catalog/androidx.wear.compose.material3.SwipeToRevealScope.SecondaryActionButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/switch-button",
+            "message": "'wear-m3/switch-button' is claimed by both catalog/androidx.wear.compose.material3.SwitchButtonKt.SplitSwitchButton and catalog/androidx.wear.compose.material3.SwitchButtonKt.SwitchButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/alert-dialog",
+            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.TextKt.Text. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/horizontal",
+            "message": "'wear-m3/horizontal' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator and catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorKt.OneHandedGestureHorizontalPageIndicator. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/vertical",
+            "message": "'wear-m3/vertical' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.VerticalPageIndicator and catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorKt.OneHandedGestureVerticalPageIndicator. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/edge-button",
+            "message": "'wear-m3/edge-button' is claimed by both catalog/androidx.wear.compose.material3.EdgeButtonKt.EdgeButton and catalog/ee.schimke.wearm3catalog.CatalogThemeKt.EdgeButtonSticker. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/alert-dialog",
+            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/ee.schimke.wearm3catalog.CatalogThemeKt.FullScreenSticker. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.id.collision",
+            "subject": "wear-m3/fast-scrolling-transforming-lazy-column",
+            "message": "'wear-m3/fast-scrolling-transforming-lazy-column' is claimed by both catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader and catalog/ee.schimke.wearm3catalog.CatalogThemeKt.ScreenSticker. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/alert-dialog",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/arc-progress-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/button-group",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/filled",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/child",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/compact",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/tonal",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/outlined",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/app-card",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/card",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/title-card",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/checkbox-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/loading",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/generic",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/failure",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/success",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/date-picker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/edge-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/fading-expanding-label",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/standard",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/icon-toggle-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/level-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/stepper",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/linear-progress-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/fast-scrolling-transforming-lazy-column",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/list-sub-header",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/open-on-phone-dialog",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/horizontal",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/vertical",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/picker-group",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/picker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/radio-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/scroll-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/segmented-circular-progress-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/slider",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/swipe-to-dismiss-box",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/switch-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/text-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/text-toggle-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/time-picker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/time-text",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/one-handed-gesture-click-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/one-handed-gesture-scroll-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/animated-sticker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/edge-button-screen",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/animated-text",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/circular-progress-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/scaffold",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/control-buttons",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        }
+    ]
+}
