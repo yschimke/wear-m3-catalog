@@ -55,3 +55,7 @@ Never `claude/…`, `codex/…`, or any other agent prefix. If a session hands y
   downloads a karma tarball from `codeload.github.com` at configuration time. There are no tests to
   run yet; when there are, that comes back.
 - **`-PcentralMirror=true`** if Maven Central rate-limits the runner (HTTP 429 on a cold cache).
+- **Bump `portRevision` in `upstream.json` when you change what is published for an unchanged
+  AndroidX version.** The published version is `<upstream>-cmp<portRevision>` and is immutable: the
+  publish workflow skips a version already on the Maven branch, and GitHub Packages rejects a
+  re-upload with 409 whatever we would prefer.

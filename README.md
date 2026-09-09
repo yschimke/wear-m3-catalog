@@ -74,6 +74,19 @@ These are Kotlin Multiplatform publications, so that one coordinate resolves the
 by itself. Built against **Kotlin 2.4.10** and **Compose Multiplatform 1.12.0**; a consumer on a
 different Kotlin needs a matching klib ABI, so bump both together.
 
+**Two targets are published: `wasmJs` and `jvm`.** wasm is what the port exists for. The JVM target
+is there because it compiles an order of magnitude faster and catches most of what wasm would, so it
+is what the port is checked against — and it happens to make Compose Desktop work too.
+
+**Android is deliberately not published.** On Android the real `androidx.wear.compose` artifacts are
+right there, complete, and a port that has *removed* Android functionality would be a worse version
+of them. `js`, `iOS` and the other native targets are absent only because nothing has asked; adding
+one is a line in the root build file, since nothing in the common sources is wasm-specific.
+
+A published version is immutable: it is `<upstream>-cmp<portRevision>`, and the publish workflow
+skips a version that is already out. Publishing a change against an unchanged AndroidX version means
+bumping `portRevision` in `upstream.json`.
+
 `./gradlew publishToMavenLocal` and `./gradlew publishToBuildDir` (which writes the same repository
 tree into `build/maven`) are the local equivalents.
 
