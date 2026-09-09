@@ -8,7 +8,7 @@ Upstream: `androidx.wear.compose` **1.7.0-beta02**.
 | --- | ---: | ---: | ---: | ---: |
 | `wear-compose-material-core` | 17 | 0 | 1 | 0 |
 | `wear-compose-foundation` | 65 | 4 | 5 | 0 |
-| `wear-compose-material3` | 126 | 10 | 10 | 0 |
+| `wear-compose-material3` | 127 | 9 | 11 | 0 |
 
 ## `wear-compose-material-core`
 
@@ -35,7 +35,6 @@ Fully ported: nothing excluded, nothing Android-bound.
 - `androidx/wear/compose/material3/internal/Strings.kt` — 23 `Strings(R.string.…)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt — generated from the AAR's own values.xml.
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureClickIndicator.kt` — Draws the gesture hint with animated vector drawables loaded from `R` — aapt output, with no off-Android equivalent. The gesture API itself IS ported: see src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt.
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureIndicatorCommon.kt` — Draws the gesture hint with animated vector drawables loaded from `R` — aapt output, with no off-Android equivalent. The gesture API itself IS ported: see src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt.
-- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureManager.kt` — Its implementation is `com.google.wear.input.GestureInputManager`, a Wear OS system service, and every method of its interface takes an `android.view.View`. The INTERFACE is ported: src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt restates it View-free, with LocalOneHandedGestureManager to provide one, so a host can implement gestures itself.
-- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt` — NOT YET PORTED. Registers a gesture against the `android.view.View` under the composition (LocalView), which is the one thing the ported manager interface drops. Until it is ported over that interface, nothing in the port calls the manager: a host can implement gestures but no component requests one. See docs/PIPELINE.md -> One-handed gestures.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureManager.kt` — Its implementation is `com.google.wear.input.GestureInputManager`, a Wear OS system service, and every method of its interface takes an `android.view.View`. The INTERFACE is ported: src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt restates it View-free, with LocalOneHandedGestureManager to provide one, so a host can implement gestures itself. `OneHandedGestureModifier` is ported over that interface and calls it, so it is live rather than dead code; the hint indicators are the half that stays excluded.
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGesturePageIndicator.kt` — Draws the gesture hint with animated vector drawables loaded from `R` — aapt output, with no off-Android equivalent. The gesture API itself IS ported: see src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt.
 - `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureScrollIndicator.kt` — Draws the gesture hint with animated vector drawables loaded from `R` — aapt output, with no off-Android equivalent. The gesture API itself IS ported: see src/commonPort/.../onehandedgesture/OneHandedGestureManager.kt.

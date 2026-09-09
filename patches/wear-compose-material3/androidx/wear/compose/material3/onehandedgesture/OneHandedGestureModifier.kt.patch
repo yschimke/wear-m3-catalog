@@ -1,0 +1,186 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt
+@@ -18,7 +18,6 @@
+ 
+ package androidx.wear.compose.material3.onehandedgesture
+ 
+-import android.view.View
+ import androidx.compose.foundation.interaction.MutableInteractionSource
+ import androidx.compose.foundation.interaction.PressInteraction
+ import androidx.compose.ui.Modifier
+@@ -33,7 +32,6 @@
+ import androidx.compose.ui.node.observeReads
+ import androidx.compose.ui.platform.InspectorInfo
+ import androidx.compose.ui.platform.LocalHapticFeedback
+-import androidx.compose.ui.platform.LocalView
+ import androidx.compose.ui.unit.IntSize
+ import androidx.wear.compose.foundation.LocalScreenIsActive
+ 
+@@ -224,7 +222,11 @@
+ 
+     private var gestureManager: OneHandedGestureManager? = null
+     private var localScreenIsActive = false
+-    private var currentView: View? = null
++    // Upstream keys every call on the `android.view.View` the gesture is registered against. The
++    // ported interface hands back an opaque registration instead, so this is where it is held: the
++    // node owns the handle for as long as it is attached, which is also what makes unregistering a
++    // matter of giving back what you were given rather than reconstructing the arguments.
++    private var registration: OneHandedGestureManager.GestureRegistration? = null
+     private var hapticFeedback: HapticFeedback? = null
+     private var size: IntSize = IntSize.Zero
+     private var isEnabled = true
+@@ -236,10 +238,10 @@
+     override fun onObservedReadsChanged() = updateCompositionLocals(true)
+ 
+     override fun onDetach() {
+-        unregisterGesture(gestureManager, currentView!!, gestureConfiguration)
++        unregisterGesture(gestureManager, registration)
+         gestureManager = null
+         localScreenIsActive = false
+-        currentView = null
++        registration = null
+         hapticFeedback = null
+     }
+ 
+@@ -264,74 +266,78 @@
+ 
+         val managerChanged = oldGestureManager != gestureManager
+         if (!isEnabled || managerChanged) {
+-            unregisterGesture(oldGestureManager, currentView!!, oldConfig)
++            unregisterGesture(oldGestureManager, registration)
++            registration = null
+         }
+ 
+         if (isEnabled && isAttached) {
+             if (managerChanged || !wasEnabled) {
++                registration =
++                    registerGesture(
++                        gestureManager,
++                        hapticFeedback!!,
++                        gestureConfiguration,
++                        newEnabledInAmbient,
++                        onGestureLabel,
++                        onGestureAvailable,
++                        onGesture,
++                    )
++            } else {
++                // `oldConfig` is not passed: it is whatever the registration was made with.
++                registration =
++                    registration?.let { current ->
++                        gestureManager?.updateGesture(
++                            registration = current,
++                            haptic = hapticFeedback!!,
++                            gestureConfiguration = newConfig,
++                            enabledInAmbient = newEnabledInAmbient,
++                            onGestureLabel = newOnGestureLabel,
++                            onGestureAvailable = newOnGestureAvailable,
++                            onGesture = newOnGesture,
++                            isActive = { localScreenIsActive },
++                            size = { size },
++                        )
++                    }
++            }
++        }
++
++        gestureConfiguration = newConfig
++        onGestureLabel = newOnGestureLabel
++        onGesture = newOnGesture
++    }
++
++    private fun updateCompositionLocals(reregister: Boolean) = observeReads {
++        localScreenIsActive = currentValueOf(LocalScreenIsActive)
++        hapticFeedback = currentValueOf(LocalHapticFeedback)
++        isEnabled = currentValueOf(LocalOneHandedGestureEnabled)
++        val newGestureManager = currentValueOf(LocalOneHandedGestureManager)
++        if (reregister) {
++            unregisterGesture(gestureManager, registration)
++            registration =
+                 registerGesture(
+-                    gestureManager,
+-                    currentView!!,
++                    newGestureManager,
+                     hapticFeedback!!,
+                     gestureConfiguration,
+-                    newEnabledInAmbient,
++                    enabledInAmbient,
+                     onGestureLabel,
+                     onGestureAvailable,
+                     onGesture,
+                 )
+-            } else {
+-                gestureManager?.updateGesture(
+-                    currentView!!,
+-                    oldConfig,
+-                    newConfig,
+-                    newEnabledInAmbient,
+-                    newOnGestureLabel,
+-                    newOnGestureAvailable,
+-                    newOnGesture,
+-                )
+-            }
+-        }
+-
+-        gestureConfiguration = newConfig
+-        onGestureLabel = newOnGestureLabel
+-        onGesture = newOnGesture
+-    }
+-
+-    private fun updateCompositionLocals(reregister: Boolean) = observeReads {
+-        localScreenIsActive = currentValueOf(LocalScreenIsActive)
+-        currentView = currentValueOf(LocalView)
+-        hapticFeedback = currentValueOf(LocalHapticFeedback)
+-        isEnabled = currentValueOf(LocalOneHandedGestureEnabled)
+-        val newGestureManager = currentValueOf(LocalOneHandedGestureManager)
+-        if (reregister) {
+-            unregisterGesture(gestureManager, currentView!!, gestureConfiguration)
+-            registerGesture(
+-                newGestureManager,
+-                currentView!!,
+-                hapticFeedback!!,
+-                gestureConfiguration,
+-                enabledInAmbient,
+-                onGestureLabel,
+-                onGestureAvailable,
+-                onGesture,
+-            )
+         }
+         gestureManager = newGestureManager
+     }
+ 
+     private fun registerGesture(
+         manager: OneHandedGestureManager?,
+-        view: View,
+         haptic: HapticFeedback,
+         gestureConfiguration: OneHandedGestureConfiguration,
+         enabledInAmbient: Boolean,
+         onGestureLabel: String?,
+         onGestureAvailable: () -> Unit,
+         onGesture: suspend (centerOffset: Offset) -> Unit,
+-    ) {
++    ): OneHandedGestureManager.GestureRegistration? {
+         if (isEnabled) {
+-            manager?.registerGesture(
+-                view = view,
++            return manager?.registerGesture(
+                 haptic = haptic,
+                 gestureConfiguration = gestureConfiguration,
+                 enabledInAmbient = enabledInAmbient,
+@@ -342,13 +348,15 @@
+                 size = { size },
+             )
+         }
++        return null
+     }
+ 
+     private fun unregisterGesture(
+         manager: OneHandedGestureManager?,
+-        view: View,
+-        gestureConfiguration: OneHandedGestureConfiguration,
++        registration: OneHandedGestureManager.GestureRegistration?,
+     ) {
+-        manager?.unregisterGesture(view, gestureConfiguration)
++        // Null whenever the gesture was never registered — disabled, or already torn down. Upstream
++        // could not express that: a View is always there, so it always had a call to make.
++        registration?.let { manager?.unregisterGesture(it) }
+     }
+ }

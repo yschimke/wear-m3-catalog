@@ -37,10 +37,14 @@ import androidx.compose.ui.unit.IntSize
  * identity here, which also makes unregistering a matter of holding on to what you were given
  * rather than reconstructing the arguments.
  *
- * Nothing in the port calls this yet: the modifier that would (`OneHandedGestureModifier`) is the
- * other half of the Android coupling and is not ported. It exists so a host CAN — a browser that
- * knows how to detect its own gestures implements this and provides it, and the day the modifier
- * is ported over this interface, everything above it works unchanged.
+ * `OneHandedGestureModifier` IS ported now, over this interface, and it was the change this shape
+ * was designed for: the modifier holds the [GestureRegistration] it was handed and gives it back on
+ * detach, where upstream reconstructs the arguments to identify what to remove. So a host that
+ * knows how to detect its own gestures — a browser, a test — implements this, provides it through
+ * [LocalOneHandedGestureManager], and every component above it works unchanged.
+ *
+ * What is still not ported is the hint INDICATORS, which draw from animated vector drawables. A
+ * host gets working gestures from this; it does not get the built-in visual hint.
  */
 
 /** Registers and delivers Wear's one-handed gestures — a wrist turn, a double pinch. */
@@ -69,6 +73,43 @@ public interface OneHandedGestureManager {
         isActive: () -> Boolean,
         size: () -> IntSize,
     ): GestureRegistration
+
+    /**
+     * Change what an existing registration delivers, without tearing it down.
+     *
+     * Upstream takes the old and the new [OneHandedGestureConfiguration]; here the old one is
+     * whatever [registration] was made with, which is the point of handing back a handle.
+     *
+     * The default unregisters and registers again, which is the correct behaviour for any manager
+     * that has nothing cheaper to offer — so a host implements [registerGesture] and
+     * [unregisterGesture] and is done. Override it when re-registering would cost something the
+     * host would rather avoid, such as a round trip to a system service.
+     *
+     * @return the registration to use from now on, which may or may not be [registration].
+     */
+    public fun updateGesture(
+        registration: GestureRegistration,
+        haptic: HapticFeedback,
+        gestureConfiguration: OneHandedGestureConfiguration,
+        enabledInAmbient: Boolean,
+        onGestureLabel: String?,
+        onGestureAvailable: () -> Unit,
+        onGesture: suspend (centerOffset: Offset) -> Unit,
+        isActive: () -> Boolean,
+        size: () -> IntSize,
+    ): GestureRegistration {
+        unregisterGesture(registration)
+        return registerGesture(
+            haptic = haptic,
+            gestureConfiguration = gestureConfiguration,
+            enabledInAmbient = enabledInAmbient,
+            onGestureLabel = onGestureLabel,
+            onGestureAvailable = onGestureAvailable,
+            onGesture = onGesture,
+            isActive = isActive,
+            size = size,
+        )
+    }
 
     /** Stop delivering a gesture registered by [registerGesture]. */
     public fun unregisterGesture(registration: GestureRegistration)
