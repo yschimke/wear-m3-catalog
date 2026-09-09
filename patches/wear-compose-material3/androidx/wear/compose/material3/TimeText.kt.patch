@@ -1,0 +1,127 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/material3/TimeText.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/material3/TimeText.kt
+@@ -18,11 +18,6 @@
+ 
+ package androidx.wear.compose.material3
+ 
+-import android.content.BroadcastReceiver
+-import android.content.Context
+-import android.content.Intent
+-import android.content.IntentFilter
+-import android.text.format.DateFormat
+ import androidx.annotation.VisibleForTesting
+ import androidx.compose.foundation.layout.PaddingValues
+ import androidx.compose.runtime.Composable
+@@ -35,7 +30,6 @@
+ import androidx.compose.ui.Modifier
+ import androidx.compose.ui.graphics.Color
+ import androidx.compose.ui.graphics.StrokeCap
+-import androidx.compose.ui.platform.LocalContext
+ import androidx.compose.ui.text.intl.Locale
+ import androidx.compose.ui.unit.LayoutDirection
+ import androidx.compose.ui.unit.TextUnit
+@@ -57,7 +51,6 @@
+ import androidx.wear.compose.material3.TimeTextDefaults.timeTextStyle
+ import androidx.wear.compose.materialcore.currentTimeMillis
+ import androidx.wear.compose.materialcore.is24HourFormat
+-import java.util.Calendar
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.channels.awaitClose
+ import kotlinx.coroutines.flow.callbackFlow
+@@ -161,10 +154,10 @@
+      */
+     @Composable
+     public fun timeFormat(): String {
+-        val format = if (is24HourFormat()) TimeFormat24Hours else TimeFormat12Hours
+-        return DateFormat.getBestDateTimePattern(Locale.current.platformLocale, format)
+-            .replace("a", "")
+-            .trim()
++        // Upstream asks Android for the locale's best pattern for "Hm"/"hm" and strips the
++        // am/pm marker out of it. `platformTimePattern` answers the same question without a
++        // locale database; see its TODO about the separator.
++        return ee.schimke.wearcmp.port.platformTimePattern(is24HourFormat())
+     }
+ 
+     /**
+@@ -249,38 +242,13 @@
+     @Composable public fun currentTime(): String
+ }
+ 
+-internal class DefaultTimeSource(val timeFormat: String) : TimeSource {
+-    @Composable
+-    override fun currentTime(): String = currentTime({ currentTimeMillis() }, timeFormat).value
+-}
+-
+-@Composable
+-@VisibleForTesting
+-internal fun currentTime(time: () -> Long, timeFormat: String): State<String> {
+-    val timeText = remember {
+-        mutableStateOf(formatTime(Calendar.getInstance(), time(), timeFormat))
+-    }
+-
+-    val context = LocalContext.current
+-    remember(context) {
+-            callbackFlow<Unit> {
+-                    val receiver =
+-                        TimeBroadcastReceiver(
+-                            // Either time or timezone changed, or we got the tick sent every
+-                            // minute.
+-                            onChange = {
+-                                timeText.value =
+-                                    formatTime(Calendar.getInstance(), time(), timeFormat)
+-                            }
+-                        )
+-                    receiver.register(context)
+-                    awaitClose { receiver.unregister(context) }
+-                }
+-                .flowOn(Dispatchers.Main)
+-        }
+-        .collectAsState(Unit)
+-    return timeText
+-}
++/*
++ * `DefaultTimeSource`, `currentTime` and the `TimeBroadcastReceiver` and `formatTime` that sat at
++ * the end of this file are replaced by `src/commonPort/.../TimeText.kt`: they were
++ * `java.util.Calendar`, `android.text.format.DateFormat`, and a broadcast receiver listening for
++ * ACTION_TIME_TICK. `TimeSource` itself — upstream's interface, above — is untouched, and is the
++ * seam a host overrides to drive the clock itself.
++ */
+ 
+ /** An extension function, which converts [PaddingValues] into [ArcPaddingValues]. */
+ private fun PaddingValues.toArcPadding() =
+@@ -301,35 +269,3 @@
+             angularDirection: CurvedDirection.Angular,
+         ) = calculateLeftPadding(layoutDirection)
+     }
+-
+-/** A [BroadcastReceiver] to receive time tick, time change, and time zone change events. */
+-private class TimeBroadcastReceiver(val onChange: () -> Unit) : BroadcastReceiver() {
+-    private var registered = false
+-
+-    override fun onReceive(context: Context, intent: Intent) {
+-        onChange()
+-    }
+-
+-    fun register(context: Context) {
+-        if (!registered) {
+-            val filter = IntentFilter()
+-            filter.addAction(Intent.ACTION_TIME_TICK)
+-            filter.addAction(Intent.ACTION_TIME_CHANGED)
+-            filter.addAction(Intent.ACTION_TIMEZONE_CHANGED)
+-            context.registerReceiver(this, filter)
+-            registered = true
+-        }
+-    }
+-
+-    fun unregister(context: Context) {
+-        if (registered) {
+-            context.unregisterReceiver(this)
+-            registered = false
+-        }
+-    }
+-}
+-
+-private fun formatTime(calendar: Calendar, currentTime: Long, timeFormat: String): String {
+-    calendar.timeInMillis = currentTime
+-    return DateFormat.format(timeFormat, calendar).toString()
+-}

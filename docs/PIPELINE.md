@@ -98,27 +98,58 @@ Three things can go wrong, and all three fail loudly:
 
 ## What is not ported, and what it would take
 
-### Curved text
+### Curved text is straight
 
-`BasicCurvedText` and `WarpedCurvedTextRenderer` in foundation, and everything downstream of them:
-`CurvedText`, `TimeText`, `ConfirmationDialog`, `OpenOnPhoneDialog`.
+Ported and drawing, but **not curved**. `basicCurvedText`, `curvedText`, `CurvedLayout` and
+`TimeText` all render; each run is measured with the real font, then drawn as a single straight
+line, rotated to the tangent of its arc and centred on it.
 
-Upstream lays a text run out with `android.text.StaticLayout`, shapes it to glyphs with
-`TextRunShaper`/`PositionedGlyphs`, and warps those glyphs around a `Path` measured with
-`PathMeasure`. Compose Multiplatform exposes no glyph-level shaping — `TextMeasurer` measures and
-draws, but will not hand back positioned glyphs — so this is an implementation rather than a seam.
+Where that is right and where it is wrong: the run and the arc agree exactly at the centre of the
+sweep and diverge towards its ends, by more the longer the run and the tighter the radius. The
+labels Wear actually curves — a time, a screen title, a button caption — read correctly. A run
+sweeping more than roughly a quarter turn will leave the band the layout allotted it.
 
-The tractable approximation is per-character: measure each character with `TextMeasurer`, place it
-at its angle around the arc, and rotate it. That is how most non-Android curved text works, it
-handles the Latin case the catalog needs, and it is wrong for scripts with contextual shaping. It
-would unblock five components.
+The measurement is faithful either way, which is the part that matters structurally: width, height
+and baseline are a real measurement of the real font, so the surrounding curved layout allots the
+right sweep and everything positioned relative to the text lands where it should.
+
+Why it is not curved: upstream shapes the run to glyphs with `android.text.TextRunShaper`, reads
+their positions out of `PositionedGlyphs`, and then either draws the run along a `Path` or warps
+each glyph's outline around one with a `PathIterator`
+(`WarpedCurvedTextRenderer`, still excluded). Compose Multiplatform publishes none of that:
+`TextMeasurer` will measure and draw a run but will not hand back positioned glyphs, and there is
+no path-drawing text API.
+
+The next step is per-character placement — measure each character, walk them around the arc at
+their own angles, rotate each to its own tangent. It is a real improvement for the Latin text the
+catalog draws, and still wrong for scripts whose glyphs change shape in context, which is exactly
+why upstream shapes the whole run first. The seam to change is
+`modules/wear-compose-foundation/src/commonPort/.../CurvedTextDelegate.kt`; nothing above it needs
+to know.
+
+### One-handed gestures
+
+The gesture API is ported — `OneHandedGestureManager` is an interface a host can implement, with
+`LocalOneHandedGestureManager` to provide it, minus the `android.view.View` that every upstream
+method took. What is not ported is the other half: `OneHandedGestureModifier` registers a gesture
+against the `View` under the composition, and the indicators draw their hints from animated vector
+drawables loaded out of `R`.
+
+So today nothing in the port calls the interface. Porting the modifier over it is the follow-up
+that makes it live, and everything above the modifier then works unchanged.
 
 ### Dates and times
 
-`DatePicker`, `TimePicker`, `TimeText`. `java.time` arithmetic maps cleanly onto `kotlinx-datetime`;
-what does not map is the locale-derived field order and 12/24-hour pattern that upstream gets from
+`DatePicker` and `TimePicker`. `java.time` arithmetic maps cleanly onto `kotlinx-datetime`; what
+does not map is the locale-derived field order and 12/24-hour pattern that upstream gets from
 `DateFormat.getBestDateTimePattern`. `Intl.DateTimeFormat().formatToParts()` answers the same
 question in a browser, which makes this a wasm-side seam rather than a blocker.
+
+`TimeText` IS ported: `platformLocalTime` splits an epoch into local clock fields per platform, the
+`SimpleDateFormat`-style pattern is formatted in common code, and the once-a-minute
+`ACTION_TIME_TICK` broadcast became a coroutine sleeping to the next minute boundary. Its one
+simplification is the pattern itself — `platformTimePattern` assumes a colon separator, and carries
+the TODO.
 
 ### Localisation
 

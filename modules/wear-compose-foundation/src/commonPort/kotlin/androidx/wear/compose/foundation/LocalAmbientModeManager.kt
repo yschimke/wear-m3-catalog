@@ -19,7 +19,6 @@ package androidx.wear.compose.foundation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.ProvidableCompositionLocal
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.isActive
@@ -34,11 +33,16 @@ import kotlinx.coroutines.isActive
  * state, and inventing one would be worse than not having it: a component that dimmed itself
  * because a tab lost focus would be wrong in a way that is hard to notice.
  *
- * So the API is kept, and the answer is always [AmbientMode.Interactive]. `withAmbientTick`
- * suspends forever rather than returning, which makes `AmbientTickEffect`'s loop park instead of
- * spinning — the loop is only entered in ambient mode anyway, which off-Android never happens.
- * A host that IS portraying ambient mode provides its own manager through
- * [LocalAmbientModeManager], which is exactly what upstream expects of a test.
+ * So what is kept is the INTERFACE — [AmbientModeManager], unchanged from upstream, because a
+ * browser host portraying a watch in its low-power state is a thing the UI builder genuinely wants
+ * to do, and it can only do it if there is something to implement. The port never implements it
+ * for real: [rememberAmbientModeManager] hands back whatever the host provided through
+ * [LocalAmbientModeManager], and only falls back to [InteractiveAmbientModeManager] — always
+ * [AmbientMode.Interactive], never ticking — when nothing was provided.
+ *
+ * That fallback's `withAmbientTick` suspends forever rather than returning, so `AmbientTickEffect`'s
+ * loop parks instead of spinning. The loop is only entered in ambient mode anyway, which without a
+ * host-provided manager never happens.
  */
 
 /**
@@ -51,13 +55,16 @@ public val LocalAmbientModeManager: ProvidableCompositionLocal<AmbientModeManage
     }
 
 /**
- * Remembers an [AmbientModeManager]. Off-Android there is no ambient state, so the manager
- * reports [AmbientMode.Interactive] for the life of the composition.
+ * Remembers an [AmbientModeManager].
+ *
+ * Upstream builds one over the Wear ambient service and ties it to the hosting Activity's
+ * lifecycle. Here it resolves the host's manager from [LocalAmbientModeManager], falling back to
+ * [InteractiveAmbientModeManager] when there is none — so a host opts in by providing the local
+ * once, above everything, rather than by replacing every call site.
  */
 @Composable
-public fun rememberAmbientModeManager(): AmbientModeManager = remember {
-    InteractiveOnlyAmbientModeManager
-}
+public fun rememberAmbientModeManager(): AmbientModeManager =
+    LocalAmbientModeManager.current ?: InteractiveAmbientModeManager
 
 public interface AmbientModeManager {
 
@@ -83,7 +90,12 @@ public fun AmbientModeManager.AmbientTickEffect(block: () -> Unit) {
     }
 }
 
-private object InteractiveOnlyAmbientModeManager : AmbientModeManager {
+/**
+ * The fallback [AmbientModeManager]: the display is always interactive and no ambient tick ever
+ * arrives. Public so a host can name it — to say explicitly that it is not portraying ambient
+ * mode, or to delegate to it for the parts it does not implement.
+ */
+public object InteractiveAmbientModeManager : AmbientModeManager {
     override val currentAmbientMode: AmbientMode = AmbientMode.Interactive
 
     override suspend fun withAmbientTick(block: () -> Unit) {
