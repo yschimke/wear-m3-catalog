@@ -193,8 +193,9 @@ pickers ask rather than as Android's API:
 | This number, in the locale's own digits | `String.format(locale, …)` | `Intl.NumberFormat` |
 | The two day-period words | `DateTimeFormatter.ofPattern("a")` | `formatToParts` dayPeriod |
 
-Both implementations read the same CLDR data through different doors, so neither is a table this
-port maintains.
+Both implementations read the same CLDR data through different doors, so neither of those five is a
+table this port maintains. Two things below are — `TimePatterns.kt` here and `PluralRules.kt` under
+Localisation — and in both cases because the platform exposes no way to ask the question at all.
 
 `TimePicker`'s field pattern is localised too, and by the same route: `getBestDateTimePattern` is
 ICU's `DateTimePatternGenerator`, so `TimePatterns.kt` carries ICU's own answers for the 86 shipped
