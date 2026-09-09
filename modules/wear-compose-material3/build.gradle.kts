@@ -7,6 +7,10 @@ kotlin {
   sourceSets {
     named("skikoMain").dependencies { api(libs.skiko) }
 
+    // The port's own tests. They run on the JVM because that is the fast target; everything they
+    // cover is common code.
+    jvmTest.dependencies { implementation(kotlin("test")) }
+
     commonMain.dependencies {
       api(project(":wear-compose-foundation"))
       api(project(":wear-compose-material-core"))

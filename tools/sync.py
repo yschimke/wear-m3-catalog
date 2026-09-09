@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import io
 import json
 import pathlib
@@ -28,6 +29,19 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 # from Android resources that do not exist off-Android, and the rest is packaging.
 DROP_SUFFIXES = (".java", ".md")
 DROP_DIRS = ("META-INF/",)
+
+# `values-fr`, `values-pt-rBR`, `values-b+sr+Latn`, `values-zh-rHK` — and nothing else: a
+# qualifier like `v34` or `night` is a different configuration of the same language.
+LOCALE_QUALIFIER = re.compile(r"[a-z]{2,3}(?:-r[A-Z]{2})?|b\+[A-Za-z+]+")
+
+
+def language_tag(qualifier: str | None) -> str:
+    """The Android resource qualifier as a BCP 47 tag, which is what a runtime locale reports."""
+    if qualifier is None:
+        return ""
+    if qualifier.startswith("b+"):
+        return "-".join(qualifier[2:].split("+"))
+    return qualifier.replace("-r", "-")
 
 
 def fetch(url: str) -> bytes:
@@ -77,11 +91,22 @@ def sync_artifact(config: dict, entry: dict, dest_root: pathlib.Path) -> dict:
         # there rather than re-typing them into Kotlin where they would drift.
         aar_url = f"{base}/{artifact}-{version}.aar"
         print(f"  fetching {aar_url}")
+        resource_dir = dest / "resources"
+        resource_dir.mkdir(parents=True, exist_ok=True)
         with zipfile.ZipFile(io.BytesIO(fetch(aar_url))) as aar:
-            values = aar.read("res/values/values.xml")
-        (dest / "resources.xml").write_bytes(values)
-        resources = values.decode().count("<string ") + values.decode().count("<plurals ")
-        print(f"    {resources} string/plural resources -> upstream/{artifact}/resources.xml")
+            for name in aar.namelist():
+                match = re.fullmatch(r"res/values(?:-([^/]+))?/values(?:-[^/]+)?\.xml", name)
+                if not match:
+                    continue
+                qualifier = match.group(1)
+                # Locale qualifiers only. `res/` also carries density and API-level buckets, and
+                # a `values-v34` is a different API level of the same language, not another one.
+                if qualifier is not None and not LOCALE_QUALIFIER.fullmatch(qualifier):
+                    continue
+                tag = language_tag(qualifier)
+                (resource_dir / f"{tag or 'default'}.xml").write_bytes(aar.read(name))
+                resources += 1
+        print(f"    {resources} locales -> upstream/{artifact}/resources/")
 
     print(f"    {kept} Kotlin files -> upstream/{artifact}")
     return {

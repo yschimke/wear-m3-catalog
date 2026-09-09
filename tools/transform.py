@@ -155,61 +155,121 @@ def apply_patches(module_dir: pathlib.Path, patch_dir: pathlib.Path) -> list[str
     return applied
 
 
-def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package: str) -> int:
-    """Turn the AAR's `res/values/values.xml` into a Kotlin lookup table.
+def android_text(value: str) -> str:
+    """Undo the encoding an Android string resource carries, as aapt would at build time.
 
-    Android resolves `R.string.x` through the resource table an APK is built with. Off-Android
-    there is no such table, so the strings become what they always were underneath: a map from
-    resource name to text, generated so that an upstream wording change arrives with the next sync
-    instead of being re-typed here.
+    Two conventions, both load-bearing in the AAR's translations. A value wrapped in double quotes
+    is quoted so its leading and trailing whitespace survives, and the quotes are not part of the
+    text: French's "fermer" is the word, not the word in quotes. And a backslash escapes the
+    character after it for the XML parser, which is how an apostrophe and a newline get in.
     """
-    resources = source_root / "resources.xml"
-    if not resources.is_file():
+    text = value
+    if len(text) >= 2 and text.startswith('"') and text.endswith('"'):
+        text = text[1:-1]
+    out = []
+    index = 0
+    while index < len(text):
+        char = text[index]
+        if char == "\\" and index + 1 < len(text):
+            following = text[index + 1]
+            out.append({"n": "\n", "t": "\t"}.get(following, following))
+            index += 2
+            continue
+        out.append(char)
+        index += 1
+    return "".join(out)
+
+
+def kotlin_string(value: str) -> str:
+    text = android_text(value)
+    escaped = text
+    for old, replacement in (
+        ("\\", "\\\\"),
+        ('"', '\\"'),
+        ("$", "\\$"),
+        ("\n", "\\n"),
+        ("\t", "\\t"),
+    ):
+        escaped = escaped.replace(old, replacement)
+    return '"' + escaped + '"'
+
+
+def kotlin_map(entries: dict, indent: int) -> list[str]:
+    """Render a (possibly nested) dict as a Kotlin `mapOf(...)`, ktfmt-shaped."""
+    pad = " " * indent
+    lines = [f"{pad}mapOf("]
+    for key, value in entries.items():
+        if isinstance(value, dict):
+            lines.append(f'{pad}    {kotlin_string(key)} to')
+            lines += kotlin_map(value, indent + 8)
+            lines[-1] += ","
+        else:
+            lines.append(f"{pad}    {kotlin_string(key)} to {kotlin_string(value)},")
+    lines.append(f"{pad})")
+    return lines
+
+
+def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package: str) -> int:
+    """Turn the AAR's `res/values*` into Kotlin lookup tables, one per locale.
+
+    Android resolves `R.string.x` through the resource table an APK is built with, choosing the
+    locale at runtime. Off-Android there is no such table, so the strings become what they always
+    were underneath: maps from resource name to text, generated so that an upstream wording or
+    translation change arrives with the next sync rather than by hand.
+
+    Every locale the AAR ships is generated, not just the default. These strings are what a screen
+    reader announces, and announcing them in English to someone using their watch in Arabic is a
+    defect rather than a simplification.
+    """
+    resources = source_root / "resources"
+    if not resources.is_dir():
         return 0
 
-    root = xml.etree.ElementTree.fromstring(resources.read_text())
-    strings = {node.get("name"): "".join(node.itertext()) for node in root.findall("string")}
-    plurals = {
-        node.get("name"): {item.get("quantity"): "".join(item.itertext()) for item in node}
-        for node in root.findall("plurals")
-    }
+    def read(path: pathlib.Path) -> tuple[dict, dict]:
+        root = xml.etree.ElementTree.fromstring(path.read_text())
+        strings = {node.get("name"): "".join(node.itertext()) for node in root.findall("string")}
+        plurals = {
+            node.get("name"): {item.get("quantity"): "".join(item.itertext()) for item in node}
+            for node in root.findall("plurals")
+        }
+        return dict(sorted(strings.items())), dict(sorted(plurals.items()))
 
-    def literal(value: str) -> str:
-        escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("$", "\\$")
-        # aapt escapes an apostrophe for the XML parser; the text itself does not carry the slash.
-        return '"' + escaped.replace("\\'", "'") + '"'
+    default_strings, default_plurals = read(resources / "default.xml")
+    translated = {
+        path.stem: read(path) for path in sorted(resources.glob("*.xml")) if path.stem != "default"
+    }
 
     lines = [
         BANNER.rstrip("\n"),
-        "// Source: the `res/values/values.xml` of the AAR pinned in upstream.json.",
+        "// Source: the `res/values*` of the AAR pinned in upstream.json.",
         "",
         f"package {package}.internal",
         "",
-        "/** Every `<string>` in the upstream resource table, by resource name. */",
+        "/** Every `<string>` of the default locale, by resource name. */",
         "internal val GeneratedStrings: Map<String, String> =",
-        "    mapOf(",
-    ]
-    for name, value in sorted(strings.items()):
-        lines.append(f"        \"{name}\" to {literal(value)},")
-    lines += [
-        "    )",
+        *kotlin_map(default_strings, 4),
         "",
-        "/** Every `<plurals>`, by resource name and then by quantity keyword. */",
+        "/** Every `<plurals>` of the default locale, by resource name then CLDR quantity keyword. */",
         "internal val GeneratedPlurals: Map<String, Map<String, String>> =",
-        "    mapOf(",
+        *kotlin_map(default_plurals, 4),
+        "",
+        "/**",
+        " * The translations, by BCP 47 language tag. A tag that is absent falls back to",
+        " * [GeneratedStrings] — the AAR's default locale, which is English.",
+        " */",
+        "internal val GeneratedLocalizedStrings: Map<String, Map<String, String>> =",
+        *kotlin_map({tag: strings for tag, (strings, _) in translated.items()}, 4),
+        "",
+        "/** The translated plurals, by language tag, then resource name, then quantity keyword. */",
+        "internal val GeneratedLocalizedPlurals: Map<String, Map<String, Map<String, String>>> =",
+        *kotlin_map({tag: plurals for tag, (_, plurals) in translated.items()}, 4),
+        "",
     ]
-    for name, quantities in sorted(plurals.items()):
-        lines.append(f"        \"{name}\" to")
-        lines.append("            mapOf(")
-        for quantity, value in sorted(quantities.items()):
-            lines.append(f"                \"{quantity}\" to {literal(value)},")
-        lines.append("            ),")
-    lines += ["    )", ""]
 
     target = common / package.replace(".", "/") / "internal" / "GeneratedResources.kt"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text("\n".join(lines))
-    return len(strings) + len(plurals)
+    return len(default_strings) + len(default_plurals) + len(translated)
 
 
 def transform_module(config: dict, rules: dict, entry: dict) -> dict:

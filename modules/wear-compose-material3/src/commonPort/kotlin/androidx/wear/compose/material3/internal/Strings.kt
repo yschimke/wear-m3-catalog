@@ -19,6 +19,7 @@ package androidx.wear.compose.material3.internal
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.text.intl.Locale
 import kotlin.jvm.JvmInline
 
 /*
@@ -35,35 +36,55 @@ import kotlin.jvm.JvmInline
  * mapping is not derivable — `wear_m3c_slider_decrease_content_description` is
  * `SliderDecreaseIconContentDescription`, and no rule produces that.
  *
- * Localisation is the known gap: the AAR ships 80 more locales and the port takes only the
- * default. See docs/PIPELINE.md -> Localisation.
+ * Localised: every locale the AAR ships is generated, and the text is chosen against the
+ * composition's own `Locale.current`. What is NOT reproduced is Android's full resource
+ * resolution — no script or region fallback chains beyond the two steps in [localeCandidates],
+ * and no per-language plural rules (see [Plurals.text]).
  */
 
 @Composable
 @ReadOnlyComposable
-internal fun getString(string: Strings): String = string.text
+internal fun getString(string: Strings): String = string.textIn(Locale.current)
 
 @Composable
 @ReadOnlyComposable
 internal fun getString(string: Strings, vararg formatArgs: Any): String =
-    string.text.formatResource(formatArgs)
+    string.textIn(Locale.current).formatResource(formatArgs)
 
 @Composable
 @ReadOnlyComposable
-internal fun getPlurals(plurals: Plurals, quantity: Int): String = plurals.text(quantity)
+internal fun getPlurals(plurals: Plurals, quantity: Int): String =
+    plurals.textIn(Locale.current, quantity)
 
 @Composable
 @ReadOnlyComposable
 internal fun getPlurals(plurals: Plurals, quantity: Int, vararg formatArgs: Any): String =
-    plurals.text(quantity).formatResource(formatArgs)
+    plurals.textIn(Locale.current, quantity).formatResource(formatArgs)
+
+/**
+ * The tags to try, most specific first: `pt-BR` before `pt`, as Android resolves `values-pt-rBR`
+ * before `values-pt`. A tag matching neither falls through to the default locale.
+ */
+private fun localeCandidates(locale: Locale): List<String> {
+    val language = locale.language
+    val region = locale.region
+    return if (region.isEmpty()) listOf(language) else listOf("$language-$region", language)
+}
 
 @JvmInline
 @Immutable
 internal value class Strings(val resourceName: String) {
-    val text: String
-        // Falling back to the resource name rather than throwing: a missing string should show up
-        // as an odd content description in an accessibility tree, not as a crash in a watch face.
-        get() = GeneratedStrings[resourceName] ?: resourceName
+    fun textIn(locale: Locale): String {
+        for (tag in localeCandidates(locale)) {
+            GeneratedLocalizedStrings[tag]?.get(resourceName)?.let {
+                return it
+            }
+        }
+        // Falling back to the default locale, and then to the resource name rather than throwing:
+        // a missing string should show up as an odd content description in an accessibility tree,
+        // not as a crash in a watch face.
+        return GeneratedStrings[resourceName] ?: resourceName
+    }
 
     companion object {
         inline val TimePickerHour
@@ -141,13 +162,25 @@ internal value class Strings(val resourceName: String) {
 @Immutable
 internal value class Plurals(val resourceName: String) {
     /**
-     * Android picks the plural form with ICU rules per locale. Only the default locale is present
-     * (see the file header), and English distinguishes exactly one from everything else, so that
-     * is the rule applied — `other` is the fallback for any quantity a resource does not name.
+     * TODO: the QUANTITY rule is English's, in every language. Android picks the CLDR plural
+     * category for the locale — Polish has `few` and `many`, Arabic has six categories — and this
+     * asks only whether the quantity is one, then falls back to `other` when the translation has
+     * no form under the keyword it chose.
+     *
+     * So the text is in the right language and the grammar can be wrong for a quantity other than
+     * one. The three plurals in this library all count hours, minutes and seconds in a time
+     * picker; the fix is a CLDR rule table, which is a table rather than a decision, and it is
+     * worth having before anyone leans on the picker in a Slavic or Semitic language.
      */
-    fun text(quantity: Int): String {
-        val forms = GeneratedPlurals[resourceName] ?: return resourceName
+    fun textIn(locale: Locale, quantity: Int): String {
         val keyword = if (quantity == 1) "one" else "other"
+        for (tag in localeCandidates(locale)) {
+            val forms = GeneratedLocalizedPlurals[tag]?.get(resourceName) ?: continue
+            (forms[keyword] ?: forms["other"])?.let {
+                return it
+            }
+        }
+        val forms = GeneratedPlurals[resourceName] ?: return resourceName
         return forms[keyword] ?: forms["other"] ?: resourceName
     }
 
@@ -164,9 +197,13 @@ internal value class Plurals(val resourceName: String) {
 }
 
 /**
- * The subset of `String.format` the Wear resources actually use: `%d` and `%s`, positionally, plus
- * `%%`. Kotlin common has no `String.format`, and pulling one in for three call sites would be a
- * bigger dependency than the substitution it performs.
+ * The subset of `String.format` the Wear resources actually use, which is more than it looks:
+ * `%s` and `%d`, and the POSITIONAL forms `%1$s` and `%2$d` that the translations rely on — the
+ * date picker's content description is `"%1$s, %2$d"`, and several translations reorder the two.
+ * `%%` is a literal percent. Anything else is passed through unchanged rather than guessed at.
+ *
+ * Kotlin common has no `String.format`, and pulling one in for three call sites would be a bigger
+ * dependency than the substitution it performs.
  */
 private fun String.formatResource(args: Array<out Any>): String {
     val out = StringBuilder(length)
@@ -179,13 +216,38 @@ private fun String.formatResource(args: Array<out Any>): String {
             index++
             continue
         }
-        when (val specifier = this[index + 1]) {
+
+        // `%<n>$` selects an argument explicitly; without it they are taken in order.
+        var cursor = index + 1
+        var explicit = -1
+        var digits = cursor
+        while (digits < length && this[digits].isDigit()) digits++
+        if (digits > cursor && digits < length && this[digits] == '$') {
+            explicit = substring(cursor, digits).toInt() - 1
+            cursor = digits + 1
+        }
+        if (cursor >= length) {
+            out.append(char)
+            index++
+            continue
+        }
+
+        when (val conversion = this[cursor]) {
             '%' -> out.append('%')
             'd',
-            's' -> out.append(args.getOrNull(next++)?.toString() ?: "")
-            else -> out.append('%').append(specifier)
+            's' -> {
+                val argument = if (explicit >= 0) explicit else next++
+                out.append(args.getOrNull(argument)?.toString() ?: "")
+            }
+            else -> out.append(substring(index, cursor + 1))
         }
-        index += 2
+        index = cursor + 1
     }
     return out.toString()
 }
+
+/**
+ * The formatter, reachable from tests. `formatResource` is private to this file because nothing
+ * else should call it; the tests are the exception, and this is cheaper than widening it.
+ */
+internal fun formatForTest(text: String, args: Array<out Any>): String = text.formatResource(args)
