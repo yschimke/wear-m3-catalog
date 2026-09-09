@@ -22,7 +22,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
-import ee.schimke.wearcmp.port.platformTouchExplorationEnabled
+import ee.schimke.wearcmp.port.LocalTouchExplorationEnabled
 
 /*
  * Replaces the generated `TouchExplorationStateProvider.kt`, which is excluded in
@@ -34,8 +34,9 @@ import ee.schimke.wearcmp.port.platformTouchExplorationEnabled
  * the module compiles against — `LocalTouchExplorationStateProvider` and `touchExplorationState()`
  * — and it is stable, so it is restated here in full and left alone.
  *
- * Behaviour off-Android: always `false`. See `platformTouchExplorationEnabled` for why that is the
- * honest answer rather than a stub, and how a host that knows better says so.
+ * The state itself comes from `LocalTouchExplorationEnabled` in `:port-runtime`, which is public
+ * and is the knob a host uses — upstream's own provider interface is `internal`, so it is not one
+ * a caller outside this module could reach.
  */
 
 /**
@@ -52,11 +53,12 @@ internal fun interface TouchExplorationStateProvider {
     @Composable public fun touchExplorationState(): State<Boolean>
 }
 
-/** The default implementation, which asks the platform once. */
+/** The default implementation, which reads the host-facing seam. */
 internal class DefaultTouchExplorationStateProvider : TouchExplorationStateProvider {
     @Composable
-    override fun touchExplorationState(): State<Boolean> = remember {
-        mutableStateOf(platformTouchExplorationEnabled())
+    override fun touchExplorationState(): State<Boolean> {
+        val enabled = LocalTouchExplorationEnabled.current
+        return remember(enabled) { mutableStateOf(enabled) }
     }
 }
 

@@ -21,6 +21,12 @@ subprojects {
 
   extensions.configure<PublishingExtension> {
     repositories {
+      // A self-contained Maven repository under the root build directory. `publishToBuildDir`
+      // fills it, and CI pushes it to the `wear-compose-cmp-maven` branch, which is then a real
+      // Maven repository served over raw.githubusercontent with no credentials — the form a wasm
+      // consumer can actually resolve from. Everything else here needs a token.
+      maven(rootProject.layout.buildDirectory.dir("maven")) { name = "BuildDir" }
+
       // GitHub Packages, when the environment carries credentials for it. Absent those — a local
       // build, a fork's CI — publishing still works to mavenLocal, which is what the UI builder
       // consumes while this is pre-release.
@@ -76,3 +82,15 @@ subprojects {
     }
   }
 }
+
+
+// One task to produce the whole repository, so CI (and a local check of what CI would publish)
+// does not have to know the publication names.
+tasks.register("publishToBuildDir") {
+  group = "publishing"
+  description = "Publish every module into build/maven — a self-contained Maven repository."
+  dependsOn(subprojects.map { "${it.path}:publishAllPublicationsToBuildDirRepository" })
+}
+
+// CI reads the version from here rather than re-deriving it from upstream.json in shell.
+tasks.register("printPortVersion") { doLast { println(portVersion) } }

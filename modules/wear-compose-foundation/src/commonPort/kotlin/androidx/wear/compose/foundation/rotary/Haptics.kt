@@ -19,8 +19,10 @@ package androidx.wear.compose.foundation.rotary
 import androidx.compose.foundation.gestures.ScrollableState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import ee.schimke.wearcmp.port.LocalRotaryHapticFeedback
+import ee.schimke.wearcmp.port.NoRotaryHapticFeedback
+import ee.schimke.wearcmp.port.RotaryHapticFeedback
 import ee.schimke.wearcmp.port.RotaryHapticKind
-import ee.schimke.wearcmp.port.platformPerformRotaryHaptic
 
 /*
  * Replaces the generated `rotary/Haptics.kt`, which is excluded in `transform-rules.json`.
@@ -52,18 +54,23 @@ internal interface RotaryHapticHandler {
 internal fun rememberRotaryHapticHandler(
     scrollableState: ScrollableState,
     hapticsEnabled: Boolean,
-): RotaryHapticHandler = remember(hapticsEnabled) {
-    if (hapticsEnabled) PlatformRotaryHapticHandler else DisabledRotaryHapticHandler
+): RotaryHapticHandler {
+    // `LocalRotaryHapticFeedback` is the public seam — upstream's own RotaryHapticHandler is
+    // internal, so a host could not otherwise reach it. `hapticsEnabled` is still the component's
+    // own switch and still wins: a component that asks for no haptics gets none.
+    val feedback = if (hapticsEnabled) LocalRotaryHapticFeedback.current else NoRotaryHapticFeedback
+    return remember(feedback) { SeamRotaryHapticHandler(feedback) }
 }
 
-private object PlatformRotaryHapticHandler : RotaryHapticHandler {
+private class SeamRotaryHapticHandler(private val feedback: RotaryHapticFeedback) :
+    RotaryHapticHandler {
     override fun handleScrollHaptic(
         timestamp: Long,
         deltaInPixels: Float,
         inputDeviceId: Int,
         axis: Int,
     ) {
-        platformPerformRotaryHaptic(RotaryHapticKind.ScrollTick)
+        feedback.performRotaryHaptic(RotaryHapticKind.ScrollTick)
     }
 
     override fun handleSnapHaptic(
@@ -72,28 +79,10 @@ private object PlatformRotaryHapticHandler : RotaryHapticHandler {
         inputDeviceId: Int,
         axis: Int,
     ) {
-        platformPerformRotaryHaptic(RotaryHapticKind.ScrollItemFocus)
+        feedback.performRotaryHaptic(RotaryHapticKind.ScrollItemFocus)
     }
 
     override fun handleLimitHaptic(isStart: Boolean, inputDeviceId: Int, axis: Int) {
-        platformPerformRotaryHaptic(RotaryHapticKind.ScrollLimit)
+        feedback.performRotaryHaptic(RotaryHapticKind.ScrollLimit)
     }
-}
-
-private object DisabledRotaryHapticHandler : RotaryHapticHandler {
-    override fun handleScrollHaptic(
-        timestamp: Long,
-        deltaInPixels: Float,
-        inputDeviceId: Int,
-        axis: Int,
-    ) {}
-
-    override fun handleSnapHaptic(
-        timestamp: Long,
-        deltaInPixels: Float,
-        inputDeviceId: Int,
-        axis: Int,
-    ) {}
-
-    override fun handleLimitHaptic(isStart: Boolean, inputDeviceId: Int, axis: Int) {}
 }
