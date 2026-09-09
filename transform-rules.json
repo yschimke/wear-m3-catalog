@@ -82,10 +82,10 @@
     "java.util.concurrent.atomic.AtomicInteger": "ee.schimke.wearcmp.port.AtomicInteger",
     "android.util.Log": "ee.schimke.wearcmp.port.Log",
     "androidx.compose.ui.platform.LocalConfiguration": "ee.schimke.wearcmp.port.LocalWearDeviceConfiguration",
-    "java.time.LocalDate": "kotlinx.datetime.LocalDate",
-    "java.time.LocalTime": "kotlinx.datetime.LocalTime",
-    "LocalDate.of(": "LocalDate(",
-    "LocalTime.of(": "LocalTime(",
+    "java.time.LocalDate": "ee.schimke.wearcmp.port.LocalDate",
+    "java.time.LocalTime": "ee.schimke.wearcmp.port.LocalTime",
+    "LocalDate.of(": "portLocalDate(",
+    "LocalTime.of(": "portLocalTime(",
     "LocalConfiguration": "LocalWearDeviceConfiguration",
     "Integer.MAX_VALUE": "Int.MAX_VALUE",
     "Integer.MIN_VALUE": "Int.MIN_VALUE",
@@ -129,13 +129,33 @@
   ],
   "rewritePatterns": [
     {
-      "$comment": "kotlinx-datetime renamed these two date properties. A negative lookahead on `(` is what keeps the rule off `DatePickerState.monthValue(index)`, which is a METHOD with the same name and no relation to the date type — the literal rule this replaced rewrote it into nonsense that happened to compile a little further before failing.",
+      "$comment": "The picker date fields. `LocalDate`/`LocalTime` are `expect class`es actualised by a typealias — `java.time` on the JVM, `kotlinx-datetime` on wasm — which keeps upstream's published signature intact on the JVM but leaves the type memberless in common code, so every field read goes through a `port`-prefixed extension. The receiver names are pinned deliberately: `.second` also means `Pair.second` in ButtonGroup.kt, and the negative lookahead on `(` keeps `.monthValue` off `DatePickerState.monthValue(index)`, a METHOD with the same name and no relation to the date type — the literal rule that predated it rewrote that into nonsense which compiled a little further before failing. A pinned rule that stops matching because upstream renamed a variable fails the build with an unresolved reference, the same loud failure a patch gives.",
+      "pattern": "\\b(minDate|maxDate|initialDate)\\.year\\b",
+      "replacement": "\\1.portYear"
+    },
+    {
       "pattern": "\\.monthValue\\b(?!\\()",
-      "replacement": ".month.number"
+      "replacement": ".portMonthNumber"
     },
     {
       "pattern": "\\.dayOfMonth\\b(?!\\()",
-      "replacement": ".day"
+      "replacement": ".portDayOfMonth"
+    },
+    {
+      "pattern": "\\.lengthOfMonth\\(\\)",
+      "replacement": ".portLengthOfMonth()"
+    },
+    {
+      "pattern": "\\binitialTime\\.hour\\b",
+      "replacement": "initialTime.portHour"
+    },
+    {
+      "pattern": "\\binitialTime\\.minute\\b",
+      "replacement": "initialTime.portMinute"
+    },
+    {
+      "pattern": "\\binitialTime\\.second\\b",
+      "replacement": "initialTime.portSecond"
     },
     {
       "pattern": "Font\\(\\s*DeviceFontFamilyName\\(([^)]*)\\.name\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*[^,]*,\\s*\\)\\s*\\.toFontFamily\\(\\)",
@@ -153,8 +173,15 @@
     "file; the value is the import added, in sorted position, when it is missing."
   ],
   "ensureImports": {
-    "\\.month\\.number": "kotlinx.datetime.number",
-    "\\.lengthOfMonth\\(\\)": "ee.schimke.wearcmp.port.lengthOfMonth",
+    "\\.portYear\\b": "ee.schimke.wearcmp.port.portYear",
+    "\\.portMonthNumber\\b": "ee.schimke.wearcmp.port.portMonthNumber",
+    "\\.portDayOfMonth\\b": "ee.schimke.wearcmp.port.portDayOfMonth",
+    "\\.portLengthOfMonth\\(\\)": "ee.schimke.wearcmp.port.portLengthOfMonth",
+    "\\.portHour\\b": "ee.schimke.wearcmp.port.portHour",
+    "\\.portMinute\\b": "ee.schimke.wearcmp.port.portMinute",
+    "\\.portSecond\\b": "ee.schimke.wearcmp.port.portSecond",
+    "\\bportLocalDate\\(": "ee.schimke.wearcmp.port.portLocalDate",
+    "\\bportLocalTime\\(": "ee.schimke.wearcmp.port.portLocalTime",
     "deviceFontFamily\\(": "ee.schimke.wearcmp.port.deviceFontFamily",
     "\\.removeIf": "ee.schimke.wearcmp.port.removeIf",
     "\\.computeIfAbsent": "ee.schimke.wearcmp.port.computeIfAbsent",

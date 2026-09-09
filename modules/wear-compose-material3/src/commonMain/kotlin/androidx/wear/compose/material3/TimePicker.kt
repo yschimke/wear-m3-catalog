@@ -65,6 +65,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Density
@@ -86,9 +87,12 @@ import androidx.wear.compose.material3.internal.getString
 import androidx.wear.compose.material3.tokens.TimePickerTokens
 import androidx.wear.compose.materialcore.is24HourFormat
 import androidx.wear.compose.materialcore.isLargeScreen
-import androidx.compose.ui.text.intl.Locale
+import ee.schimke.wearcmp.port.LocalTime
 import ee.schimke.wearcmp.port.PlatformDateTimeFormat
-import kotlinx.datetime.LocalTime
+import ee.schimke.wearcmp.port.portHour
+import ee.schimke.wearcmp.port.portLocalTime
+import ee.schimke.wearcmp.port.portMinute
+import ee.schimke.wearcmp.port.portSecond
 import kotlin.jvm.JvmInline
 
 /**
@@ -183,13 +187,13 @@ public fun TimePicker(
             else ->
                 rememberPickerState(
                     initialNumberOfOptions = 24,
-                    initiallySelectedIndex = initialTime.hour - localeConfig.hourValueOffset,
+                    initiallySelectedIndex = initialTime.portHour - localeConfig.hourValueOffset,
                 )
         }
     val minuteState =
         rememberPickerState(
             initialNumberOfOptions = 60,
-            initiallySelectedIndex = initialTime.minute,
+            initiallySelectedIndex = initialTime.portMinute,
         )
     val secondState =
         when (timePickerType) {
@@ -197,7 +201,7 @@ public fun TimePicker(
             TimePickerType.MinutesSeconds ->
                 rememberPickerState(
                     initialNumberOfOptions = 60,
-                    initiallySelectedIndex = initialTime.second,
+                    initiallySelectedIndex = initialTime.portSecond,
                 )
             else -> null
         }
@@ -342,7 +346,7 @@ public fun TimePicker(
             EdgeButton(
                 onClick = {
                     val timeWithoutPeriod =
-                        LocalTime(
+                        portLocalTime(
                             hourState?.run { selectedOptionIndex + localeConfig.hourValueOffset }
                                 ?: 0,
                             minuteState.selectedOptionIndex,
@@ -1451,11 +1455,11 @@ private val SeparatorWidth = 12.dp
  */
 
 /** `ChronoField.CLOCK_HOUR_OF_AMPM`: the hour as a clock face shows it, 12 rather than 0. */
-private fun LocalTime.clockHourOfAmPm(): Int = if (hour % 12 == 0) 12 else hour % 12
+private fun LocalTime.clockHourOfAmPm(): Int = if (portHour % 12 == 0) 12 else portHour % 12
 
 /** `ChronoField.AMPM_OF_DAY`: 0 before noon, 1 after. */
-private fun LocalTime.amPmOfDay(): Int = if (hour < 12) 0 else 1
+private fun LocalTime.amPmOfDay(): Int = if (portHour < 12) 0 else 1
 
 /** `LocalTime.with(ChronoField.AMPM_OF_DAY, half)`: 0 moves the hour into the morning, 1 after noon. */
 private fun LocalTime.withAmPmOfDay(half: Int): LocalTime =
-    LocalTime(hour % 12 + half * 12, minute, second)
+    portLocalTime(portHour % 12 + half * 12, portMinute, portSecond)

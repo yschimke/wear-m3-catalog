@@ -53,6 +53,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.semantics.focused
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -65,14 +66,17 @@ import androidx.wear.compose.material3.internal.formatTemplate
 import androidx.wear.compose.material3.internal.getString
 import androidx.wear.compose.material3.tokens.DatePickerTokens
 import androidx.wear.compose.materialcore.isLargeScreen
-import ee.schimke.wearcmp.port.lengthOfMonth
-import androidx.compose.ui.text.intl.Locale
+import ee.schimke.wearcmp.port.LocalDate
 import ee.schimke.wearcmp.port.MonthNameStyle
 import ee.schimke.wearcmp.port.PlatformDateTimeFormat
-import kotlinx.datetime.LocalDate
+import ee.schimke.wearcmp.port.compareTo
+import ee.schimke.wearcmp.port.portDayOfMonth
+import ee.schimke.wearcmp.port.portLengthOfMonth
+import ee.schimke.wearcmp.port.portLocalDate
+import ee.schimke.wearcmp.port.portMonthNumber
+import ee.schimke.wearcmp.port.portYear
 import kotlin.jvm.JvmInline
 import kotlin.math.max
-import kotlinx.datetime.number
 
 /**
  * Full screen [DatePicker] with day, month, year.
@@ -519,7 +523,7 @@ public fun DatePicker(
                     selectedIndex?.let { selectedIndex ->
                         if (selectedIndex >= 2) {
                             val pickedDate =
-                                LocalDate(
+                                portLocalDate(
                                     datePickerState.selectedYear,
                                     datePickerState.selectedMonth,
                                     datePickerState.selectedDay,
@@ -796,7 +800,10 @@ private fun DatePickerType.toDatePickerOptions() =
 
 private fun verifyDates(date: LocalDate, minDate: LocalDate, maxDate: LocalDate) {
     require(maxDate >= minDate) { "maxDate should be greater than or equal to minDate" }
-    require(date in minDate..maxDate) { "date should lie between minDate and maxDate" }
+    // `date in minDate..maxDate` needs `Comparable<LocalDate>`, which `java.time.LocalDate` does not
+    // declare — it is `Comparable<ChronoLocalDate>` — so the seam supplies `compareTo` as an
+    // operator extension instead and the range check is spelled out. Same test, same message.
+    require(date >= minDate && date <= maxDate) { "date should lie between minDate and maxDate" }
 }
 
 /*
@@ -812,26 +819,26 @@ private class DatePickerState(
     initialDateMaxYear: LocalDate?,
 ) {
     // Year range 1900 - 2100 was suggested in b/277885199
-    private val minDate = initialDateMinYear ?: LocalDate(1900, 1, 1)
-    private val maxDate = initialDateMaxYear ?: LocalDate(2100, 12, 31)
+    private val minDate = initialDateMinYear ?: portLocalDate(1900, 1, 1)
+    private val maxDate = initialDateMaxYear ?: portLocalDate(2100, 12, 31)
 
     val yearState =
         PickerState(
-            initialNumberOfOptions = (maxDate.year - minDate.year + 1),
-            initiallySelectedIndex = initialDate.year - minDate.year,
+            initialNumberOfOptions = (maxDate.portYear - minDate.portYear + 1),
+            initiallySelectedIndex = initialDate.portYear - minDate.portYear,
             shouldRepeatOptions = false,
         )
 
     val monthState: PickerState =
         PickerState(
             initialNumberOfOptions = 12,
-            initiallySelectedIndex = initialDate.month.number - 1,
+            initiallySelectedIndex = initialDate.portMonthNumber - 1,
         )
 
     val dayState =
         PickerState(
-            initialNumberOfOptions = initialDate.lengthOfMonth(),
-            initiallySelectedIndex = initialDate.day - 1,
+            initialNumberOfOptions = initialDate.portLengthOfMonth(),
+            initiallySelectedIndex = initialDate.portDayOfMonth - 1,
         )
 
     val selectedYear: Int
@@ -843,25 +850,25 @@ private class DatePickerState(
     val selectedDay: Int
         get() = dayValue(dayState.selectedOptionIndex)
 
-    fun yearValue(yearOptionIndex: Int): Int = yearOptionIndex + minDate.year
+    fun yearValue(yearOptionIndex: Int): Int = yearOptionIndex + minDate.portYear
 
     fun monthValue(monthOptionIndex: Int): Int = monthOptionIndex + 1
 
     fun dayValue(dayOptionIndex: Int): Int = dayOptionIndex + 1
 
     val isMinYearSelected: Boolean
-        get() = minDate.year == selectedYear
+        get() = minDate.portYear == selectedYear
 
     val isMaxYearSelected: Boolean
-        get() = maxDate.year == selectedYear
+        get() = maxDate.portYear == selectedYear
 
     private val isMinMonthSelected: Boolean
-        get() = isMinYearSelected && selectedMonth == minDate.month.number
+        get() = isMinYearSelected && selectedMonth == minDate.portMonthNumber
 
     private val isMaxMonthSelected: Boolean
-        get() = isMaxYearSelected && selectedMonth == maxDate.month.number
+        get() = isMaxYearSelected && selectedMonth == maxDate.portMonthNumber
 
-    fun isYearValid(year: Int) = year >= minDate.year && year <= maxDate.year
+    fun isYearValid(year: Int) = year >= minDate.portYear && year <= maxDate.portYear
 
     val isSelectedMonthValid
         get() = isMonthValid(selectedMonth)
@@ -869,8 +876,8 @@ private class DatePickerState(
     fun isMonthValid(month: Int): Boolean =
         when {
             !isYearValid(selectedYear) -> false
-            isMinYearSelected && month < minDate.month.number -> false
-            isMaxYearSelected && month > maxDate.month.number -> false
+            isMinYearSelected && month < minDate.portMonthNumber -> false
+            isMaxYearSelected && month > maxDate.portMonthNumber -> false
             else -> true
         }
 
@@ -880,13 +887,13 @@ private class DatePickerState(
     fun isDayValid(day: Int): Boolean =
         when {
             !isSelectedMonthValid -> false
-            isMinMonthSelected && day < minDate.day -> false
-            isMaxMonthSelected && day > maxDate.day -> false
+            isMinMonthSelected && day < minDate.portDayOfMonth -> false
+            isMaxMonthSelected && day > maxDate.portDayOfMonth -> false
             else -> true
         }
 
     private fun lengthOfMonth(year: Int, month: Int): Int =
-        LocalDate(year, month, 1).lengthOfMonth()
+        portLocalDate(year, month, 1).portLengthOfMonth()
 
     /**
      * Adjusts the month options and scrolls to the appropriate month when the selected year
@@ -897,8 +904,8 @@ private class DatePickerState(
         when {
             isMinYearSelected -> {
                 val scrollToMonth =
-                    if (minDate.month.number - selectedMonth <= selectedMonth) {
-                        minDate.month.number
+                    if (minDate.portMonthNumber - selectedMonth <= selectedMonth) {
+                        minDate.portMonthNumber
                     } else {
                         12
                     }
@@ -906,8 +913,8 @@ private class DatePickerState(
             }
             isMaxYearSelected -> {
                 val scrollToMonth =
-                    if (selectedMonth - maxDate.month.number <= 12 - selectedMonth) {
-                        maxDate.month.number
+                    if (selectedMonth - maxDate.portMonthNumber <= 12 - selectedMonth) {
+                        maxDate.portMonthNumber
                     } else {
                         1
                     }
@@ -925,15 +932,15 @@ private class DatePickerState(
         val scrollToDay =
             when {
                 !isSelectedDayValid && isMinMonthSelected -> {
-                    if (minDate.day - selectedDay <= selectedDay) {
-                        minDate.day
+                    if (minDate.portDayOfMonth - selectedDay <= selectedDay) {
+                        minDate.portDayOfMonth
                     } else {
                         updatedNumberOfOptions
                     }
                 }
                 !isSelectedDayValid && isMaxMonthSelected -> {
-                    if (selectedDay - maxDate.day <= updatedNumberOfOptions - selectedDay) {
-                        maxDate.day
+                    if (selectedDay - maxDate.portDayOfMonth <= updatedNumberOfOptions - selectedDay) {
+                        maxDate.portDayOfMonth
                     } else {
                         1
                     }
