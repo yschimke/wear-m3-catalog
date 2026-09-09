@@ -31,7 +31,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: agent/wear-compose-cmp
+          ref: wear-compose-cmp
 
       - uses: actions/setup-java@v5
         with:
@@ -115,6 +115,6 @@ jobs:
 
           gh pr create --repo "${{ github.repository }}" \
             --head "$branch" \
-            --base agent/wear-compose-cmp \
+            --base wear-compose-cmp \
             --title "feat: sync AndroidX Wear Compose $version" \
             --body-file pr-body.md

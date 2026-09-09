@@ -2,9 +2,11 @@ name: Build
 
 on:
   push:
-    branches: [agent/wear-compose-cmp]
+    # `wear-compose-cmp` is this line of work's trunk — the empty root commit the port is based on
+    # — and `agent/…` are the branches that land on it. `main` is a different project.
+    branches: [wear-compose-cmp, "agent/**"]
   pull_request:
-    branches: [agent/wear-compose-cmp]
+    branches: [wear-compose-cmp]
   workflow_dispatch:
 
 jobs:

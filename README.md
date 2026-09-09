@@ -131,8 +131,11 @@ every run. Changes go in `transform-rules.json` (mechanical, survives upstream c
 `patches/` (surgical, cut by `tools/make_patch.py`). How to choose, and what to do when a patch
 stops applying: [`docs/PIPELINE.md`](docs/PIPELINE.md).
 
-## Why this branch has no history
+## Why this line has no history
 
-`agent/wear-compose-cmp` starts from an empty tree on purpose. It shares no files with
-`wear-m3-catalog`'s `main` — different build, different sources, different lifecycle — and starting
-it as an orphan branch says so, rather than presenting 470 vendored files as a change to a catalog.
+`wear-compose-cmp` — this line's trunk — starts from an empty root commit on purpose. It shares no
+files with `wear-m3-catalog`'s `main`: different build, different sources, different lifecycle, and
+starting it empty says so rather than presenting 470 vendored files as a change to a catalog.
+
+Work lands on it through `agent/…` branches and pull requests, the same as anywhere else. `main` is
+never the base.

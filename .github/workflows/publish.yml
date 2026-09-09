@@ -13,7 +13,9 @@ name: Publish
 
 on:
   push:
-    branches: [agent/wear-compose-cmp]
+    # The trunk only. A working branch that has not been reviewed yet must not be able to move
+    # what a consumer resolves.
+    branches: [wear-compose-cmp]
   workflow_dispatch:
 
 concurrency:
