@@ -491,7 +491,7 @@ internal class EdgeButtonShape(private val helper: ShapeHelper) : Shape {
 
                     // We use an ellipsis function as a function of t, this is the point at which we
                     // will transition between circle and ellipsis.
-                    val ellipsisCutAngle = finalFadeProgress * t1Factor * Math.PI.toFloat() / 2
+                    val ellipsisCutAngle = finalFadeProgress * t1Factor * kotlin.math.PI.toFloat() / 2
 
                     // Distance from the center of the circle to the transition point
                     val epDist =

@@ -19,7 +19,7 @@
 package androidx.wear.compose.material3
 
 import androidx.annotation.VisibleForTesting
-import androidx.core.graphics.ColorUtils
+import ee.schimke.wearcmp.port.ColorUtils
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -260,7 +260,7 @@ internal class Cam(
             val alpha = c / sqrt(j / 100.0).toFloat()
             val s = 50.0f * sqrt(((alpha * frame.c) / (frame.aw + 4.0f)))
 
-            val hueRadians = h * Math.PI.toFloat() / 180.0f
+            val hueRadians = h * kotlin.math.PI.toFloat() / 180.0f
             val jstar = (1.0f + 100.0f * 0.007f) * j / (1.0f + 0.007f * j)
             val mstar = 1.0f / 0.0228f * ln(1.0 + 0.0228 * m).toFloat()
             val astar = mstar * cos(hueRadians.toDouble()).toFloat()
@@ -336,7 +336,7 @@ internal class Cam(
                 )
             }
 
-            if (chroma < 1.0 || Math.round(lstar) <= 0.0 || Math.round(lstar) >= 100.0) {
+            if (chroma < 1.0 || ee.schimke.wearcmp.port.round(lstar) <= 0.0 || ee.schimke.wearcmp.port.round(lstar) >= 100.0) {
                 return CamUtils.intFromLstar(lstar)
             }
 
@@ -403,7 +403,6 @@ internal class Cam(
         // L*a*b* color space.
         //
         // Returns null if no J could be found that generated a color with L* `lstar`.
-        @Nullable
         private fun findCamByJ(hue: Float, chroma: Float, lstar: Float): Cam? {
             var low = 0.0f
             var high = 100.0f
@@ -769,7 +768,7 @@ internal object CamUtils {
             } else {
                 1.055 * normalized.pow(1.0 / 2.4) - 0.055
             }
-        return clampInt(0, 255, Math.round(delinearized * 255.0).toInt())
+        return clampInt(0, 255, ee.schimke.wearcmp.port.round(delinearized * 255.0).toInt())
     }
 
     /**
@@ -1196,7 +1195,7 @@ internal object HctSolver {
      * @return A coterminal angle between 0 and 2pi.
      */
     private fun sanitizeRadians(angle: Double): Double {
-        return (angle + Math.PI * 8) % (Math.PI * 2)
+        return (angle + kotlin.math.PI * 8) % (kotlin.math.PI * 2)
     }
 
     /**
@@ -1553,7 +1552,7 @@ internal object HctSolver {
             return CamUtils.argbFromLstar(lstar)
         }
         hueDegreesPrime = sanitizeDegreesDouble(hueDegreesPrime)
-        val hueRadians = Math.toRadians(hueDegreesPrime)
+        val hueRadians = ee.schimke.wearcmp.port.toRadians(hueDegreesPrime)
         val y: Double = CamUtils.yFromLstar(lstar)
         val exactAnswer = findResultByJ(hueRadians, chroma, y)
         if (exactAnswer != 0) {
@@ -1579,9 +1578,9 @@ internal object HctSolver {
 
 // These extension functions are manually copied from androidx.core.graphics.Color
 // - required to construct errorDim color via SetLuminance in Wear Compose DynamicColorScheme
-private inline val @receiver:ColorInt Int.red: Int
+private inline val  Int.red: Int
     get() = (this shr 16) and 0xff
-private inline val @receiver:ColorInt Int.green: Int
+private inline val  Int.green: Int
     get() = (this shr 8) and 0xff
-private inline val @receiver:ColorInt Int.blue: Int
+private inline val  Int.blue: Int
     get() = this and 0xff

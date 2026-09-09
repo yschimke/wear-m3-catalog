@@ -19,9 +19,11 @@
 package androidx.wear.compose.foundation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 
 @Composable
 internal fun isRoundDevice(): Boolean {
-    return LocalWearDeviceConfiguration.current.isScreenRound
+    val configuration = LocalWearDeviceConfiguration.current
+    return remember(configuration) { configuration.isScreenRound }
 }

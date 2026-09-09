@@ -55,7 +55,7 @@ import androidx.compose.ui.node.currentValueOf
 import androidx.compose.ui.node.invalidateDraw
 import androidx.compose.ui.node.observeReads
 import androidx.compose.ui.platform.InspectorInfo
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.Dp
@@ -466,7 +466,7 @@ private class PlaceholderShimmerModifierNode(
 
     override fun onGloballyPositioned(coordinates: LayoutCoordinates) {
         offset = coordinates.positionInRoot()
-        val config = currentValueOf(LocalConfiguration)
+        val config = currentValueOf(LocalWearDeviceConfiguration)
         maxScreenDimensionDp = Dp(max(config.screenHeightDp, config.screenWidthDp).toFloat())
     }
 

@@ -16,8 +16,6 @@
 
 package ee.schimke.wearcmp.port
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 
 /**
@@ -42,6 +40,9 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * @param screenHeightDp upstream `Configuration.screenHeightDp`.
  * @param isLeftyModeEnabled upstream `Settings.System.USER_ROTATION == ROTATION_180`.
  * @param is24HourFormat upstream `DateFormat.is24HourFormat(context)`.
+ * @param wristOrientation upstream's `Settings.Global "wear_wrist_orientation_mode"` — which
+ *   wrist the watch is on and which way round, which is what puts the rotating side button on the
+ *   left or the right and mirrors the components that align to it.
  * @param isLowResRotaryInput upstream's `PackageManager.hasSystemFeature(
  *   "android.hardware.rotaryencoder.lowres")` — true for a notched bezel, false for a crown or a
  *   rotating side button. It changes the fling timeframe rotary scrolling uses, so a host
@@ -54,6 +55,7 @@ public class WearDeviceConfiguration(
     public val isLeftyModeEnabled: Boolean = false,
     public val is24HourFormat: Boolean = true,
     public val isLowResRotaryInput: Boolean = false,
+    public val wristOrientation: WearWristOrientation = WearWristOrientation.LeftWristRotation0,
 ) {
     public companion object {
         /**
@@ -62,6 +64,18 @@ public class WearDeviceConfiguration(
          */
         public const val DEFAULT_SCREEN_DP: Int = 192
     }
+}
+
+/** The four values of `Settings.Global "wear_wrist_orientation_mode"`, in its own order. */
+public enum class WearWristOrientation {
+    /** Left wrist, screen unrotated. The side button is on the right. Android's default. */
+    LeftWristRotation0,
+    /** Left wrist, screen rotated 180°. The side button is on the left. */
+    LeftWristRotation180,
+    /** Right wrist, screen unrotated. */
+    RightWristRotation0,
+    /** Right wrist, screen rotated 180°. */
+    RightWristRotation180,
 }
 
 /**
@@ -90,9 +104,3 @@ public expect fun platformWearDeviceConfiguration(): WearDeviceConfiguration
  */
 @OptIn(kotlin.time.ExperimentalTime::class)
 public fun platformCurrentTimeMillis(): Long = kotlin.time.Clock.System.now().toEpochMilliseconds()
-
-/** Convenience for the generated sources, which read the configuration in composable position. */
-@Composable
-@ReadOnlyComposable
-public fun currentWearDeviceConfiguration(): WearDeviceConfiguration =
-    LocalWearDeviceConfiguration.current

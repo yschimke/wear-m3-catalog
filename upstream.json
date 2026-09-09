@@ -11,6 +11,11 @@
     "at all (`git ls-remote --tags` returns nothing), so a git checkout could only ever be pinned to",
     "a commit sha, which is not the thing that 'updates when a release happens'.",
     "",
+    "`resources: true` additionally takes `res/values/values.xml` out of the AAR — the English",
+    "accessibility strings, which are content the components genuinely need and which a sources",
+    "jar does not carry. Only the default locale: the AAR has 80 more, and wiring those up is a",
+    "follow-up, noted in docs/PIPELINE.md.",
+    "",
     "Everything the jar carries that is not Kotlin source is dropped by `tools/sync.py`: R.java,",
     "META-INF and the documentation markdown. Tests, samples, benchmarks and integration tests are",
     "not in a sources jar to begin with, which is the second reason to prefer it."
@@ -18,6 +23,14 @@
   "group": "androidx.wear.compose",
   "repository": "https://dl.google.com/dl/android/maven2",
   "version": "1.7.0-beta02",
+
+  "$portRevisionComment": [
+    "Bumped when THIS repository changes what it publishes for an unchanged upstream version — a",
+    "new patch, a rule, a seam. The published version is `<version>-cmp<portRevision>`, so a",
+    "consumer can tell 1.7.0-beta02-cmp01 from 1.7.0-beta02-cmp02 and Gradle orders them.",
+    "Reset to 1 whenever `version` moves."
+  ],
+  "portRevision": 1,
   "artifacts": [
     {
       "artifact": "compose-material-core",
@@ -32,7 +45,8 @@
     {
       "artifact": "compose-material3",
       "module": "wear-compose-material3",
-      "package": "androidx.wear.compose.material3"
+      "package": "androidx.wear.compose.material3",
+      "resources": true
     }
   ],
   "$artifactsNotSynced": {

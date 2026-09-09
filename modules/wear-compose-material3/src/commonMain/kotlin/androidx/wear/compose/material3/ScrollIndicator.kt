@@ -56,7 +56,7 @@ import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
@@ -486,7 +486,7 @@ internal fun IndicatorImpl(
     rsbSide: Boolean = true,
     positionAnimationSpec: AnimationSpec<Float> = ScrollIndicatorDefaults.PositionAnimationSpec,
 ) {
-    val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
+    val screenWidthDp = LocalWearDeviceConfiguration.current.screenWidthDp.dp
     val currentDensity = LocalDensity.current.density
     val indicatorHeightPx = currentDensity * indicatorHeight.value
     val diameterPx = currentDensity * screenWidthDp.value

@@ -1,27 +1,32 @@
 pluginManagement {
   repositories {
     gradlePluginPortal()
+    google()
     if (providers.gradleProperty("centralMirror").orNull == "true") {
       maven("https://maven-central.storage-download.googleapis.com/maven2")
     }
     mavenCentral()
-    google()
   }
 }
 
 dependencyResolutionManagement {
   repositories {
-    // Maven Central, optionally through Google's read-only GCS mirror of it. Central rate-limits
-    // shared egress IPs hard (HTTP 429 on a cold cache), which makes a first build from a sandbox
-    // or a shared runner fail on resolution rather than on anything real. `-PcentralMirror=true`
-    // puts the mirror in front; it serves identical bytes, and the default stays Central itself.
+    // Google first: every androidx.* coordinate lives there and nowhere else, and Gradle DISABLES
+    // a repository for the rest of the build after one transport failure — so a Central hiccup
+    // while it walks past looking for an AndroidX artifact fails the build on a coordinate Central
+    // was never going to have.
+    google()
+
+    // Central, optionally through Google's read-only GCS mirror of it. Central rate-limits shared
+    // egress IPs hard (HTTP 429 on a cold cache), which makes a first build from a sandbox or a
+    // shared runner fail on resolution rather than on anything real. `-PcentralMirror=true` puts
+    // the mirror in front; it serves identical bytes, and the default stays Central itself.
     if (providers.gradleProperty("centralMirror").orNull == "true") {
       maven("https://maven-central.storage-download.googleapis.com/maven2") {
         name = "GoogleCentralMirror"
       }
     }
     mavenCentral()
-    google()
   }
 }
 

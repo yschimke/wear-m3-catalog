@@ -59,7 +59,10 @@ import androidx.compose.ui.graphics.graphicsLayer
 @Composable
 public fun AppScaffold(
     modifier: Modifier = Modifier,
-    timeText: @Composable () -> Unit = { TimeText() },
+    // Upstream defaults to `{ TimeText() }`, which is not ported yet — it formats the time with
+    // java.util.Calendar and draws it with curved text. Empty by default rather than absent from
+    // the signature, so a host can pass its own clock and every other argument stays put.
+    timeText: @Composable () -> Unit = {},
     containerColor: Color = MaterialTheme.colorScheme.background,
     contentColor: Color = contentColorFor(containerColor),
     content: @Composable BoxScope.() -> Unit,

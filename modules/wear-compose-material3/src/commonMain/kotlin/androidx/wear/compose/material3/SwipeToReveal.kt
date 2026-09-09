@@ -97,7 +97,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.layout.positionOnScreen
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -320,7 +320,7 @@ public fun SwipeToReveal(
     var allowSwipe by remember { mutableStateOf(true) }
 
     val screenWidthPx =
-        with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+        with(LocalDensity.current) { LocalWearDeviceConfiguration.current.screenWidthDp.dp.toPx() }
     val anchorWidthPx =
         with(LocalDensity.current) {
             if (secondaryAction == null) {
@@ -1919,7 +1919,7 @@ private fun <T> DraggableAnchors<T>.computeTarget(
 
 @OptIn(ExperimentalWearComposeMaterial3Api::class)
 private fun performHapticFeedback(hapticFeedback: HapticFeedback, revealState: RevealState) {
-    val currentTime = System.currentTimeMillis()
+    val currentTime = ee.schimke.wearcmp.port.platformCurrentTimeMillis()
     val shouldPerformHaptics =
         !WearComposeMaterial3Flags.isSwipeToRevealDualFlingThresholdEnabled ||
             (currentTime > revealState.lastHapticFeedbackTime + HAPTIC_DEBOUNCING_TIME)

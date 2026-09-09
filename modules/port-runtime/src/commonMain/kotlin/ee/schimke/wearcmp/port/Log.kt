@@ -35,8 +35,19 @@ public object Log {
 
     public fun e(tag: String, message: String): Int = print("E", tag, message)
 
-    private fun print(level: String, tag: String, message: String): Int {
-        println("$level/$tag: $message")
+    // The four-argument forms: Android's overloads take a trailing Throwable.
+    public fun v(tag: String, message: String, error: Throwable?): Int = print("V", tag, message, error)
+
+    public fun d(tag: String, message: String, error: Throwable?): Int = print("D", tag, message, error)
+
+    public fun i(tag: String, message: String, error: Throwable?): Int = print("I", tag, message, error)
+
+    public fun w(tag: String, message: String, error: Throwable?): Int = print("W", tag, message, error)
+
+    public fun e(tag: String, message: String, error: Throwable?): Int = print("E", tag, message, error)
+
+    private fun print(level: String, tag: String, message: String, error: Throwable? = null): Int {
+        println("$level/$tag: $message" + (error?.let { " ${it.stackTraceToString()}" } ?: ""))
         return 0
     }
 }

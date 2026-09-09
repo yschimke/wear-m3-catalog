@@ -340,7 +340,9 @@ internal val DefaultLineHeightStyle =
  */
 internal val DefaultTextStyle =
     TextStyle.Default.copy(
-        platformStyle = PlatformTextStyle(includeFontPadding = DefaultIncludeFontPadding),
+        // `includeFontPadding` is Android's legacy top/bottom font padding, and the only field
+        // `PlatformTextStyle` has there. Off-Android there is nothing to switch off — the extra
+        // padding never existed — so the whole platform style goes with it.
         lineHeightStyle = DefaultLineHeightStyle,
         textMotion = TextMotion.Animated,
         fontFeatureSettings = "pnum",

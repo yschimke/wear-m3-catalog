@@ -64,6 +64,10 @@ public class AtomicInteger(initialValue: Int = 0) {
 
     public fun getAndAdd(delta: Int): Int = delegate.fetchAndAdd(delta)
 
+    public fun decrementAndGet(): Int = delegate.addAndFetch(-1)
+
+    public fun getAndDecrement(): Int = delegate.fetchAndAdd(-1)
+
     public fun compareAndSet(expect: Int, update: Int): Boolean =
         delegate.compareAndSet(expect, update)
 

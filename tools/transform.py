@@ -28,6 +28,7 @@ import pathlib
 import re
 import shutil
 import subprocess
+import xml.etree.ElementTree
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -102,6 +103,12 @@ def rewrite(text: str, rules: dict) -> str:
         text = re.sub(rf"^import {re.escape(fqn)}\n", "", text, flags=re.M)
     for name in rules["dropAnnotations"]:
         text = strip_annotation(text, name)
+    for rule in rules["rewritePatterns"]:
+        # A regex layer, for the shapes a literal rename cannot reach. Used sparingly: a pattern
+        # that stops matching fails the build at the next sync rather than silently doing nothing,
+        # which is the same failure mode as a patch and the reason to prefer a literal rule when
+        # one will do.
+        text = re.sub(rule["pattern"], rule["replacement"], text, flags=re.S)
     for old, new in rules["rewriteReferences"].items():
         # Textual, not import-only: AndroidX writes `java.util.concurrent.atomic.AtomicReference`
         # inline in at least one file, and an import-only rule would silently miss it. The word
@@ -147,6 +154,63 @@ def apply_patches(module_dir: pathlib.Path, patch_dir: pathlib.Path) -> list[str
     return applied
 
 
+def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package: str) -> int:
+    """Turn the AAR's `res/values/values.xml` into a Kotlin lookup table.
+
+    Android resolves `R.string.x` through the resource table an APK is built with. Off-Android
+    there is no such table, so the strings become what they always were underneath: a map from
+    resource name to text, generated so that an upstream wording change arrives with the next sync
+    instead of being re-typed here.
+    """
+    resources = source_root / "resources.xml"
+    if not resources.is_file():
+        return 0
+
+    root = xml.etree.ElementTree.fromstring(resources.read_text())
+    strings = {node.get("name"): "".join(node.itertext()) for node in root.findall("string")}
+    plurals = {
+        node.get("name"): {item.get("quantity"): "".join(item.itertext()) for item in node}
+        for node in root.findall("plurals")
+    }
+
+    def literal(value: str) -> str:
+        escaped = value.replace("\\", "\\\\").replace('"', '\\"').replace("$", "\\$")
+        # aapt escapes an apostrophe for the XML parser; the text itself does not carry the slash.
+        return '"' + escaped.replace("\\'", "'") + '"'
+
+    lines = [
+        BANNER.rstrip("\n"),
+        "// Source: the `res/values/values.xml` of the AAR pinned in upstream.json.",
+        "",
+        f"package {package}.internal",
+        "",
+        "/** Every `<string>` in the upstream resource table, by resource name. */",
+        "internal val GeneratedStrings: Map<String, String> =",
+        "    mapOf(",
+    ]
+    for name, value in sorted(strings.items()):
+        lines.append(f"        \"{name}\" to {literal(value)},")
+    lines += [
+        "    )",
+        "",
+        "/** Every `<plurals>`, by resource name and then by quantity keyword. */",
+        "internal val GeneratedPlurals: Map<String, Map<String, String>> =",
+        "    mapOf(",
+    ]
+    for name, quantities in sorted(plurals.items()):
+        lines.append(f"        \"{name}\" to")
+        lines.append("            mapOf(")
+        for quantity, value in sorted(quantities.items()):
+            lines.append(f"                \"{quantity}\" to {literal(value)},")
+        lines.append("            ),")
+    lines += ["    )", ""]
+
+    target = common / package.replace(".", "/") / "internal" / "GeneratedResources.kt"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text("\n".join(lines))
+    return len(strings) + len(plurals)
+
+
 def transform_module(config: dict, rules: dict, entry: dict) -> dict:
     artifact, module = entry["artifact"], entry["module"]
     source_root = ROOT / "upstream" / artifact
@@ -170,6 +234,7 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
         target.write_text(text)
         copied += 1
 
+    resources = generate_resources(source_root, common, entry["package"])
     applied = apply_patches(module_dir, ROOT / "patches" / module)
 
     for generated in sorted(common.rglob("*.kt")):
@@ -180,6 +245,7 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
     print(
         f"  {module}: {copied} files, {len(skipped)} excluded, "
         f"{len(applied)} patches, {len(offenders)} still Android-bound"
+        + (f", {resources} resources" if resources else "")
     )
     return {
         "module": module,

@@ -39,13 +39,11 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.window.DialogProperties
-import androidx.compose.ui.window.DialogWindowProvider
 import androidx.wear.compose.foundation.LocalReduceMotion
 import androidx.wear.compose.foundation.rememberSwipeToDismissBoxState
 import androidx.wear.compose.material3.MotionScheme.Companion.standard
@@ -98,7 +96,7 @@ public fun Dialog(
     val isReduceMotionEnabled = LocalReduceMotion.current
 
     val screenWidthPx =
-        with(LocalDensity.current) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
+        with(LocalDensity.current) { LocalWearDeviceConfiguration.current.screenWidthDp.dp.toPx() }
 
     if (!isReduceMotionEnabled) {
         LaunchedEffect(Unit) {
@@ -132,10 +130,11 @@ public fun Dialog(
             properties = properties,
         ) {
             // Disable System dialog animations
-            val view = LocalView.current
-            val dialogWindowProvider = view.parent as DialogWindowProvider
-            dialogWindowProvider.window.setWindowAnimations(android.R.style.Animation)
-            dialogWindowProvider.window.setDimAmount(0f)
+            // Upstream reaches through the composition to the Android Dialog's own Window to
+            // turn off the platform's window animation and scrim: this dialog animates itself,
+            // and the two would otherwise compose into a double fade. Off-Android there is no
+            // platform window under the dialog and so nothing to switch off — CMP's Dialog draws
+            // into the same composition, undimmed and unanimated.
 
             val contentAlpha by animateContentAlpha(transition)
             val scale by animateDialogScale(transition)

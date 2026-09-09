@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
@@ -192,7 +192,7 @@ internal fun PageIndicatorImpl(
     val layoutDirection = LocalLayoutDirection.current
     val edgePadding = PaddingDefaults.edgePadding
 
-    val pagesOnScreen = Integer.min(MaxNumberOfIndicators, state.pageCount)
+    val pagesOnScreen = minOf(MaxNumberOfIndicators, state.pageCount)
     val pagesState =
         remember(state.pageCount) {
             PagesState(
@@ -214,7 +214,7 @@ internal fun PageIndicatorImpl(
             height = if (isHorizontal) horizontalHeight else horizontalWidth,
         )
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val screenWidth = LocalWearDeviceConfiguration.current.screenWidthDp.dp
 
     Canvas(modifier = modifier.padding(edgePadding).size(boundsSize)) {
         val screenWidthPx = screenWidth.toPx()

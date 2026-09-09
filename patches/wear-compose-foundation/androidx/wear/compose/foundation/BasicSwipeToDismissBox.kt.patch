@@ -16,31 +16,6 @@
  import androidx.compose.runtime.Composable
  import androidx.compose.runtime.CompositionLocalProvider
  import androidx.compose.runtime.LaunchedEffect
-@@ -57,7 +55,6 @@
- import androidx.compose.ui.input.pointer.PointerInputScope
- import androidx.compose.ui.input.pointer.changedToUp
- import androidx.compose.ui.input.pointer.pointerInput
--import androidx.compose.ui.platform.LocalConfiguration
- import androidx.compose.ui.platform.LocalDensity
- import androidx.compose.ui.platform.debugInspectorInfo
- import androidx.compose.ui.unit.Dp
-@@ -65,6 +62,7 @@
- import androidx.compose.ui.unit.dp
- import androidx.compose.ui.util.fastForEach
- import androidx.compose.ui.util.lerp
-+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
- import kotlin.math.max
- import kotlinx.coroutines.coroutineScope
- import kotlinx.coroutines.isActive
-@@ -117,7 +115,7 @@
-     content: @Composable BoxScope.(isBackground: Boolean) -> Unit,
- ) {
-     val density = LocalDensity.current
--    val maxWidthPx = with(density) { LocalConfiguration.current.screenWidthDp.dp.toPx() }
-+    val maxWidthPx = with(density) { LocalWearDeviceConfiguration.current.screenWidthDp.dp.toPx() }
-     SideEffect {
-         val anchors =
-             mapOf(SwipeToDismissValue.Default to 0f, SwipeToDismissValue.Dismissed to maxWidthPx)
 @@ -129,13 +127,10 @@
          modifier =
              modifier

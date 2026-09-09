@@ -44,7 +44,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 import kotlinx.coroutines.delay
 
@@ -121,7 +120,7 @@ internal fun <T> FiniteAnimationSpec<T>.delayMillis(
     startDelayMillis: Long
 ): FiniteAnimationSpec<T> {
     require(startDelayMillis >= 0) { "startDelayMillis has to be positive. Was: $startDelayMillis" }
-    return WrappedAnimationSpec(this, 1f, TimeUnit.MILLISECONDS.toNanos(startDelayMillis))
+    return WrappedAnimationSpec(this, 1f, ee.schimke.wearcmp.port.millisToNanos(startDelayMillis))
 }
 
 private class WrappedAnimationSpec<T>(

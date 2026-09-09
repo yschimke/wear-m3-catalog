@@ -1,0 +1,82 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/material3/internal/LocalWristOrientation.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/material3/internal/LocalWristOrientation.kt
+@@ -18,19 +18,11 @@
+ 
+ package androidx.wear.compose.material3.internal
+ 
+-import android.content.ContentResolver
+-import android.database.ContentObserver
+-import android.net.Uri
+-import android.os.Looper
+-import android.provider.Settings
+-import ee.schimke.wearcmp.port.Log
+ import androidx.compose.runtime.CompositionLocal
+-import androidx.compose.runtime.MutableState
+ import androidx.compose.runtime.ProvidableCompositionLocal
+ import androidx.compose.runtime.compositionLocalWithComputedDefaultOf
+-import androidx.compose.runtime.mutableStateOf
+-import androidx.compose.ui.platform.LocalContext
+-import androidx.core.os.HandlerCompat
++import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
++import ee.schimke.wearcmp.port.WearWristOrientation
+ 
+ internal enum class WristOrientation {
+     /**
+@@ -70,49 +62,15 @@
+  */
+ internal val LocalWristOrientation: ProvidableCompositionLocal<WristOrientation> =
+     compositionLocalWithComputedDefaultOf {
+-        if (cachedWristOrientation.value == null) {
+-            val applicationContext = LocalContext.currentValue.applicationContext
+-            val resolver = applicationContext.contentResolver
+-            cachedWristContentObserver =
+-                object : ContentObserver(HandlerCompat.createAsync(Looper.getMainLooper())) {
+-                    override fun onChange(selfChange: Boolean, uri: Uri?) {
+-                        cachedWristOrientation.value = getWristOrientation(resolver)
+-                    }
+-                }
+-            val isLeftWristUri = Settings.Global.getUriFor(WRIST_ORIENTATION_MODE)
+-            resolver.registerContentObserver(isLeftWristUri, false, cachedWristContentObserver!!)
+-            cachedWristOrientation.value = getWristOrientation(resolver)
++        // Upstream reads Settings.Global "wear_wrist_orientation_mode" through a ContentResolver
++        // and keeps it live with a ContentObserver. Off-Android the host is the one that knows
++        // which wrist it is portraying, and it says so through the device configuration.
++        when (LocalWearDeviceConfiguration.currentValue.wristOrientation) {
++            WearWristOrientation.LeftWristRotation0 -> WristOrientation.LEFT_WRIST_ROTATION_0
++            WearWristOrientation.LeftWristRotation180 -> WristOrientation.LEFT_WRIST_ROTATION_180
++            WearWristOrientation.RightWristRotation0 -> WristOrientation.RIGHT_WRIST_ROTATION_0
++            WearWristOrientation.RightWristRotation180 -> WristOrientation.RIGHT_WRIST_ROTATION_180
+         }
+-        cachedWristOrientation.value!!
+     }
+ 
+-private fun getWristOrientation(resolver: ContentResolver): WristOrientation {
+-    return try {
+-        /*
+-         * See framework's Settings.Global.Wearable#WRIST_ORIENTATION_MODE.
+-         * Valid values:
+-         * - LEFT_WRIST_ROTATION_0 = "0" (default),
+-         * - LEFT_WRIST_ROTATION_180 = "1",
+-         * - RIGHT_WRIST_ROTATION_0 = "2",
+-         * - RIGHT_WRIST_ROTATION_180 = "3"
+-         */
+-        val rotation = Settings.Global.getInt(resolver, WRIST_ORIENTATION_MODE, 0)
+-        when (rotation) {
+-            1 -> WristOrientation.LEFT_WRIST_ROTATION_180
+-            2 -> WristOrientation.RIGHT_WRIST_ROTATION_0
+-            3 -> WristOrientation.RIGHT_WRIST_ROTATION_180
+-            else -> WristOrientation.LEFT_WRIST_ROTATION_0
+-        }
+-    } catch (e: SecurityException) {
+-        Log.w(TAG, "Failed to fetch wrist orientation, using value: LEFT_WRIST_ROTATION_0", e)
+-        WristOrientation.LEFT_WRIST_ROTATION_0
+-    }
+-}
+-
+ internal const val TAG = "CompositionLocals"
+-// See framework's Settings.Global.Wearable#WRIST_ORIENTATION_MODE.
+-private const val WRIST_ORIENTATION_MODE = "wear_wrist_orientation_mode"
+-
+-private val cachedWristOrientation: MutableState<WristOrientation?> = mutableStateOf(null)
+-
+-private var cachedWristContentObserver: ContentObserver? = null

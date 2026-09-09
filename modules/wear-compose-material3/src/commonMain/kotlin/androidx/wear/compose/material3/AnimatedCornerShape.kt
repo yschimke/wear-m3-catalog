@@ -37,8 +37,8 @@ import androidx.compose.ui.geometry.toRect
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.unit.Density
+import ee.schimke.wearcmp.port.toComposePath
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.LayoutDirection.Ltr
 import androidx.compose.ui.util.lerp
@@ -46,7 +46,7 @@ import androidx.graphics.shapes.CornerRounding
 import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.rectangle
-import androidx.graphics.shapes.toPath
+import ee.schimke.wearcmp.port.computeIfAbsent
 
 /**
  * An implementation similar to RoundedCornerShape, but based on linear interpolation between a
@@ -152,7 +152,7 @@ internal class AnimatedMorphShape(
         }
 
         val path =
-            morph.toPath(progress()).asComposePath().apply {
+            morph.toComposePath(progress()).apply {
                 transform(Matrix().apply { scale(size.width, size.height) })
             }
 

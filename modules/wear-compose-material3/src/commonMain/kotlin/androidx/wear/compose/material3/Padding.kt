@@ -19,7 +19,7 @@
 package androidx.wear.compose.material3
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -41,7 +41,7 @@ internal object PaddingDefaults {
      */
     @Composable
     fun verticalContentPadding(): Dp {
-        val screenHeight = LocalConfiguration.current.screenHeightDp
+        val screenHeight = LocalWearDeviceConfiguration.current.screenHeightDp
         return ceilDp(screenHeight.dp * verticalContentPaddingPercentage / 100)
     }
 
@@ -57,7 +57,7 @@ internal object PaddingDefaults {
      */
     @Composable
     fun horizontalContentPadding(percentage: Float = horizontalContentPaddingPercentage): Dp {
-        val screenWidth = LocalConfiguration.current.screenWidthDp
+        val screenWidth = LocalWearDeviceConfiguration.current.screenWidthDp
         return ceilDp(screenWidth.dp * percentage / 100)
     }
 

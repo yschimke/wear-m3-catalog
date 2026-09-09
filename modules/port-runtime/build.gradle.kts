@@ -1,5 +1,9 @@
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
+  // For `LocalWearDeviceConfiguration` and the seams read from composition: a module that declares
+  // anything @Composable needs the Compose compiler, and the JVM backend crashes rather than
+  // reporting an error when it does not have it.
+  alias(libs.plugins.compose.compiler)
 }
 
 // The port's shared runtime: multiplatform stand-ins for the handful of Android and JDK types the
@@ -17,6 +21,8 @@ kotlin {
     commonMain.dependencies {
       api(libs.compose.runtime)
       api(libs.compose.ui)
+      // For the Morph -> Compose Path transcription in ShapePaths.kt.
+      api(libs.androidx.graphics.shapes)
     }
   }
 }

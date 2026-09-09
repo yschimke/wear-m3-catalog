@@ -7,8 +7,8 @@ Upstream: `androidx.wear.compose` **1.7.0-beta02**.
 | Module | In common | Excluded | Patches | Still Android-bound |
 | --- | ---: | ---: | ---: | ---: |
 | `wear-compose-material-core` | 17 | 0 | 1 | 0 |
-| `wear-compose-foundation` | 68 | 1 | 4 | 5 |
-| `wear-compose-material3` | 136 | 0 | 0 | 12 |
+| `wear-compose-foundation` | 64 | 5 | 4 | 0 |
+| `wear-compose-material3` | 114 | 22 | 7 | 0 |
 
 ## `wear-compose-material-core`
 
@@ -19,34 +19,36 @@ Fully ported: nothing excluded, nothing Android-bound.
 
 ### Excluded from `commonMain`
 
+- `androidx/wear/compose/foundation/BasicCurvedText.kt` — NOT YET PORTED. Curved text is laid out with android.graphics: StaticLayout for line breaking, TextRunShaper/PositionedGlyphs for per-glyph positions, and a Path + PathMeasure to bend the run around the bezel. Compose Multiplatform has no glyph-level shaping API, so this is a real implementation rather than a seam. See docs/PIPELINE.md -> Curved text.
+- `androidx/wear/compose/foundation/LocalAmbientModeManager.kt` — com.google.wear.services.ambient.AmbientManager, a Wear OS system service reached through the hosting Activity. Replaced by src/commonPort/.../LocalAmbientModeManager.kt, which keeps the API and always reports AmbientMode.Interactive.
 - `androidx/wear/compose/foundation/TouchExplorationStateProvider.kt` — 138 lines of AccessibilityManager listener plumbing around a one-method interface. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt, which keeps the interface and answers from `platformTouchExplorationEnabled()`.
-
-### Still importing an Android-only package
-
-Each of these needs a patch in [`patches/wear-compose-foundation/`](../patches/wear-compose-foundation) introducing an `expect` declaration, and an `actual` under `src/wasmJsMain`.
-
-- `androidx/wear/compose/foundation/BasicCurvedText.kt` — `android.graphics.Canvas`, `android.graphics.Paint`, `android.graphics.Paint.LINEAR_TEXT_FLAG`, `android.graphics.Paint.SUBPIXEL_TEXT_FLAG`, `android.graphics.Path`, `android.graphics.Typeface`, `android.os.Build`, `android.text.StaticLayout`, `android.text.TextPaint`, `android.text.TextUtils`
-- `androidx/wear/compose/foundation/LocalAmbientModeManager.kt` — `android.app.Activity`, `android.app.Application`, `android.os.Bundle`, `androidx.activity.compose.LocalActivity`, `com.google.wear.Sdk`, `com.google.wear.services.ambient.AmbientComponentState`, `com.google.wear.services.ambient.AmbientManager`, `com.google.wear.services.ambient.AmbientManager.AmbientComponentListener`, `com.google.wear.services.ambient.AmbientManager.ConfigurationDetails`, `com.google.wear.services.ambient.AmbientOptions`
-- `androidx/wear/compose/foundation/WarpedCurvedTextRenderer.kt` — `android.graphics.Canvas`, `android.graphics.Paint`, `android.graphics.Path`, `android.graphics.PathIterator`, `android.graphics.PathMeasure`, `android.icu.lang.UCharacter`, `android.icu.lang.UProperty`, `android.os.Build`, `android.text.GraphemeClusterSegmentFinder`, `android.text.TextDirectionHeuristics`, `android.text.TextPaint`, `androidx.core.text.TextDirectionHeuristicsCompat`
-- `androidx/wear/compose/foundation/rotary/Haptics.kt` — `android.content.Context`, `android.content.pm.PackageManager`, `android.os.Build`, `android.provider.Settings`, `android.view.InputDevice`, `android.view.ScrollFeedbackProvider`, `android.view.View`, `com.google.wear.input.WearHapticFeedbackConstants`
-- `androidx/wear/compose/foundation/rotary/RotaryScrollable.kt` — `android.os.Build`, `android.view.InputDevice`, `android.view.MotionEvent`, `android.view.ViewConfiguration`
+- `androidx/wear/compose/foundation/WarpedCurvedTextRenderer.kt` — NOT YET PORTED. The glyph-warping renderer behind BasicCurvedText; same blocker, same note.
+- `androidx/wear/compose/foundation/rotary/Haptics.kt` — 419 lines of Vibrator, VibrationEffect and a per-OEM constants table keyed off Build.MANUFACTURER. Replaced by src/commonPort/.../rotary/Haptics.kt, which keeps the RotaryHapticHandler seam over `platformPerformRotaryHaptic()` — navigator.vibrate on wasm.
 
 
 ## `wear-compose-material3`
 
-### Still importing an Android-only package
+### Excluded from `commonMain`
 
-Each of these needs a patch in [`patches/wear-compose-material3/`](../patches/wear-compose-material3) introducing an `expect` declaration, and an `actual` under `src/wasmJsMain`.
-
-- `androidx/wear/compose/material3/AnimatedText.kt` — `android.graphics.Canvas`, `android.graphics.Paint.FontMetrics`, `android.graphics.fonts.Font`, `android.graphics.fonts.FontVariationAxis`, `android.graphics.fonts.FontVariationAxis.toFontVariationSettings`, `android.graphics.text.PositionedGlyphs`, `android.graphics.text.TextRunShaper`, `android.text.TextDirectionHeuristic`, `android.text.TextDirectionHeuristics`, `android.text.TextPaint`, `android.text.TextShaper`, `android.util.LruCache`
-- `androidx/wear/compose/material3/AnimationSpecUtils.kt` — `java.util.concurrent.TimeUnit`
-- `androidx/wear/compose/material3/ColorAppearanceModel.kt` — `androidx.core.graphics.ColorUtils`
-- `androidx/wear/compose/material3/DatePicker.kt` — `android.os.Build`, `android.text.format.DateFormat`, `java.time.LocalDate`, `java.time.format.DateTimeFormatter`, `java.util.Locale`
-- `androidx/wear/compose/material3/DynamicColorScheme.kt` — `android.content.Context`, `android.os.Build`, `android.provider.Settings`
-- `androidx/wear/compose/material3/KeepScreenOn.kt` — `android.app.Activity`, `android.content.Context`, `android.content.ContextWrapper`, `android.view.WindowManager`
-- `androidx/wear/compose/material3/TimePicker.kt` — `android.content.Context`, `android.os.Build`, `android.text.format.DateFormat`, `java.time.LocalTime`, `java.time.format.DateTimeFormatter`, `java.time.temporal.ChronoField`, `java.util.Locale`
-- `androidx/wear/compose/material3/TimeText.kt` — `android.content.BroadcastReceiver`, `android.content.Context`, `android.content.Intent`, `android.content.IntentFilter`, `android.text.format.DateFormat`, `java.util.Calendar`
-- `androidx/wear/compose/material3/TouchExplorationStateProvider.kt` — `android.content.Context`, `android.view.accessibility.AccessibilityManager`, `android.view.accessibility.AccessibilityManager.AccessibilityStateChangeListener`, `android.view.accessibility.AccessibilityManager.TouchExplorationStateChangeListener`
-- `androidx/wear/compose/material3/internal/LocalWristOrientation.kt` — `android.content.ContentResolver`, `android.database.ContentObserver`, `android.net.Uri`, `android.os.Looper`, `android.provider.Settings`, `androidx.core.os.HandlerCompat`
-- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureManager.kt` — `android.content.Context`, `android.view.View`, `android.view.ViewGroup`, `androidx.core.content.ContextCompat`, `androidx.wear.utils.WearApiVersionHelper`, `com.google.wear.Sdk`, `com.google.wear.input.ForegroundGestureSubscriptionParams`, `com.google.wear.input.GestureEvent`, `com.google.wear.input.GestureInputManager`, `java.util.function.Consumer`
-- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt` — `android.view.View`
+- `androidx/wear/compose/material3/AnimatedText.kt` — NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` — per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.
+- `androidx/wear/compose/material3/ConfirmationDialog.kt` — NOT YET PORTED. Draws its label with curved text and its icon with an AnimatedImageVector loaded from R — an animated vector drawable, which is aapt output. Blocked on curved text and on an asset pipeline.
+- `androidx/wear/compose/material3/CurvedText.kt` — Blocked on curved text: every function here is a thin wrapper over foundation's `basicCurvedText`, which is not ported yet.
+- `androidx/wear/compose/material3/DatePicker.kt` — NOT YET PORTED. `java.time.LocalDate` plus `DateTimeFormatter` patterns obtained from Android's locale data. kotlinx-datetime covers the arithmetic; the locale-derived field order does not port directly. See docs/PIPELINE.md -> Dates and times.
+- `androidx/wear/compose/material3/KeepScreenOn.kt` — Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.
+- `androidx/wear/compose/material3/OpenOnPhoneDialog.kt` — NOT YET PORTED. Same two blockers as ConfirmationDialog.
+- `androidx/wear/compose/material3/TimePicker.kt` — NOT YET PORTED. Same as DatePicker: java.time plus locale-derived 12/24-hour patterns.
+- `androidx/wear/compose/material3/TimeText.kt` — NOT YET PORTED. Formats the current time with java.util.Calendar and draws it with curved text, so it is blocked on both open items.
+- `androidx/wear/compose/material3/TouchExplorationStateProvider.kt` — The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.
+- `androidx/wear/compose/material3/internal/Strings.kt` — 23 `Strings(R.string.…)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt — generated from the AAR's own values.xml.
+- `androidx/wear/compose/material3/onehandedgesture/LocalOneHandedGestureEnabled.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureAction.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureClickIndicator.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureConfiguration.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureDefaults.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureIndicatorCommon.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureIndicatorSize.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureManager.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGesturePageIndicator.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGesturePriority.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.
+- `androidx/wear/compose/material3/onehandedgesture/OneHandedGestureScrollIndicator.kt` — Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it — Button and Card only mention it in KDoc — so it is dropped whole rather than half-ported.

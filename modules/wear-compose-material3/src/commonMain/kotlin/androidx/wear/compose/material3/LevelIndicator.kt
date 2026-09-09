@@ -25,7 +25,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.tokens.ColorSchemeKeyTokens
@@ -64,7 +64,7 @@ public fun LevelIndicator(
     reverseDirection: Boolean = false,
 ) {
     val updatedValue by rememberUpdatedState(value)
-    val screenWidthDp = LocalConfiguration.current.screenWidthDp
+    val screenWidthDp = LocalWearDeviceConfiguration.current.screenWidthDp
     val paddingHorizontal = LevelIndicatorDefaults.edgePadding
     val radius = screenWidthDp / 2 - paddingHorizontal.value - strokeWidth.value / 2
     // Calculate indicator height based on a triangle of the top half of the sweep angle

@@ -69,6 +69,20 @@ def sync_artifact(config: dict, entry: dict, dest_root: pathlib.Path) -> dict:
             target.write_bytes(jar.read(name))
             kept += 1
 
+    resources = 0
+    if entry.get("resources"):
+        # The sources jar has no `res/`, and the accessibility strings the components read are
+        # real content: every content description on a slider, a switch and a dialog. They live in
+        # the AAR, as the merged `res/values/values.xml` aapt produces, so the port takes them from
+        # there rather than re-typing them into Kotlin where they would drift.
+        aar_url = f"{base}/{artifact}-{version}.aar"
+        print(f"  fetching {aar_url}")
+        with zipfile.ZipFile(io.BytesIO(fetch(aar_url))) as aar:
+            values = aar.read("res/values/values.xml")
+        (dest / "resources.xml").write_bytes(values)
+        resources = values.decode().count("<string ") + values.decode().count("<plurals ")
+        print(f"    {resources} string/plural resources -> upstream/{artifact}/resources.xml")
+
     print(f"    {kept} Kotlin files -> upstream/{artifact}")
     return {
         "artifact": artifact,
@@ -76,6 +90,7 @@ def sync_artifact(config: dict, entry: dict, dest_root: pathlib.Path) -> dict:
         "url": jar_url,
         "sha1": digest,
         "files": kept,
+        "resources": resources,
     }
 
 

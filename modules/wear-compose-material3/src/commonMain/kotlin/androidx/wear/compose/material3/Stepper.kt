@@ -43,7 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
-import androidx.compose.ui.platform.LocalConfiguration
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
@@ -484,4 +484,4 @@ internal val VerticalSpacing = 8.dp
 /** Vertical top/bottom padding. */
 @Composable
 internal fun verticalContentPadding(): Dp =
-    LocalConfiguration.current.screenHeightDp.dp * 5.2f / 100
+    LocalWearDeviceConfiguration.current.screenHeightDp.dp * 5.2f / 100

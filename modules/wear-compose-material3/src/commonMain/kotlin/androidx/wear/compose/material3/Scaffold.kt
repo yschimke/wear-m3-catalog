@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.util.fastForEach
 import androidx.wear.compose.foundation.ScrollInfoProvider
 import ee.schimke.wearcmp.port.AtomicInteger
+import ee.schimke.wearcmp.port.removeIf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged

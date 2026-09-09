@@ -1,6 +1,6 @@
 --- a/src/commonMain/kotlin/androidx/wear/compose/materialcore/Resources.kt
 +++ b/src/commonMain/kotlin/androidx/wear/compose/materialcore/Resources.kt
-@@ -18,17 +18,14 @@
+@@ -18,13 +18,9 @@
  
  package androidx.wear.compose.materialcore
  
@@ -9,26 +9,12 @@
  import androidx.annotation.RestrictTo
  import androidx.compose.runtime.Composable
 -import androidx.compose.runtime.remember
--import androidx.compose.ui.platform.LocalConfiguration
+ import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 -import androidx.compose.ui.platform.LocalContext
  import androidx.compose.ui.platform.LocalDensity
  import androidx.compose.ui.platform.LocalLayoutDirection
  import androidx.compose.ui.unit.LayoutDirection
- import androidx.compose.ui.unit.dp
-+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
-+import ee.schimke.wearcmp.port.platformCurrentTimeMillis
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
-@@ -40,51 +37,45 @@
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
- public fun isRoundDevice(): Boolean {
--    val configuration = LocalConfiguration.current
--    return configuration.isScreenRound
-+    return LocalWearDeviceConfiguration.current.isScreenRound
- }
- 
+@@ -47,19 +43,12 @@
  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
  @Composable
  public fun isLeftyModeEnabled(): Boolean {
@@ -49,37 +35,4 @@
 +public fun is24HourFormat(): Boolean = LocalWearDeviceConfiguration.current.is24HourFormat
  
  @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
--public fun currentTimeMillis(): Long = System.currentTimeMillis()
-+public fun currentTimeMillis(): Long = platformCurrentTimeMillis()
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
--public fun screenHeightDp(): Int = LocalConfiguration.current.screenHeightDp
-+public fun screenHeightDp(): Int = LocalWearDeviceConfiguration.current.screenHeightDp
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
- public fun screenHeightPx(): Int =
--    with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.roundToPx() }
-+    with(LocalDensity.current) {
-+        LocalWearDeviceConfiguration.current.screenHeightDp.dp.roundToPx()
-+    }
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
--public fun screenWidthDp(): Int = LocalConfiguration.current.screenWidthDp
-+public fun screenWidthDp(): Int = LocalWearDeviceConfiguration.current.screenWidthDp
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
- public fun isSmallScreen(): Boolean =
--    LocalConfiguration.current.screenWidthDp < LARGE_SCREEN_WIDTH_DP
-+    LocalWearDeviceConfiguration.current.screenWidthDp < LARGE_SCREEN_WIDTH_DP
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
- @Composable
- public fun isLargeScreen(): Boolean =
--    LocalConfiguration.current.screenWidthDp >= LARGE_SCREEN_WIDTH_DP
-+    LocalWearDeviceConfiguration.current.screenWidthDp >= LARGE_SCREEN_WIDTH_DP
- 
- @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP) public const val LARGE_SCREEN_WIDTH_DP: Int = 225
+ public fun currentTimeMillis(): Long = ee.schimke.wearcmp.port.platformCurrentTimeMillis()

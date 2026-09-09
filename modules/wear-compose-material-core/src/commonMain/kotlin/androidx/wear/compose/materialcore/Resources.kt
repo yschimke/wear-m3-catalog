@@ -20,12 +20,11 @@ package androidx.wear.compose.materialcore
 
 import androidx.annotation.RestrictTo
 import androidx.compose.runtime.Composable
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
-import ee.schimke.wearcmp.port.platformCurrentTimeMillis
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Composable
@@ -37,7 +36,8 @@ public fun isLayoutDirectionRtl(): Boolean {
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Composable
 public fun isRoundDevice(): Boolean {
-    return LocalWearDeviceConfiguration.current.isScreenRound
+    val configuration = LocalWearDeviceConfiguration.current
+    return configuration.isScreenRound
 }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -51,7 +51,7 @@ public fun isLeftyModeEnabled(): Boolean {
 public fun is24HourFormat(): Boolean = LocalWearDeviceConfiguration.current.is24HourFormat
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-public fun currentTimeMillis(): Long = platformCurrentTimeMillis()
+public fun currentTimeMillis(): Long = ee.schimke.wearcmp.port.platformCurrentTimeMillis()
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Composable
@@ -60,9 +60,7 @@ public fun screenHeightDp(): Int = LocalWearDeviceConfiguration.current.screenHe
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Composable
 public fun screenHeightPx(): Int =
-    with(LocalDensity.current) {
-        LocalWearDeviceConfiguration.current.screenHeightDp.dp.roundToPx()
-    }
+    with(LocalDensity.current) { LocalWearDeviceConfiguration.current.screenHeightDp.dp.roundToPx() }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 @Composable
