@@ -1,0 +1,38 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/materialcore/Resources.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/materialcore/Resources.kt
+@@ -18,13 +18,9 @@
+ 
+ package androidx.wear.compose.materialcore
+ 
+-import android.provider.Settings
+-import android.text.format.DateFormat
+ import androidx.annotation.RestrictTo
+ import androidx.compose.runtime.Composable
+-import androidx.compose.runtime.remember
+ import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
+-import androidx.compose.ui.platform.LocalContext
+ import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.platform.LocalLayoutDirection
+ import androidx.compose.ui.unit.LayoutDirection
+@@ -47,19 +43,12 @@
+ @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+ @Composable
+ public fun isLeftyModeEnabled(): Boolean {
+-    val context = LocalContext.current
+-    return remember(context) {
+-        Settings.System.getInt(
+-            context.contentResolver,
+-            Settings.System.USER_ROTATION,
+-            android.view.Surface.ROTATION_0,
+-        ) == android.view.Surface.ROTATION_180
+-    }
++    return LocalWearDeviceConfiguration.current.isLeftyModeEnabled
+ }
+ 
+ @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+ @Composable
+-public fun is24HourFormat(): Boolean = DateFormat.is24HourFormat(LocalContext.current)
++public fun is24HourFormat(): Boolean = LocalWearDeviceConfiguration.current.is24HourFormat
+ 
+ @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+ public fun currentTimeMillis(): Long = ee.schimke.wearcmp.port.platformCurrentTimeMillis()

@@ -1,0 +1,120 @@
+name: Upstream sync
+
+# The answer to "have it update when each release of AndroidX lands".
+#
+# Google Maven's `group-index.xml` is the release feed: it lists every published version of every
+# artifact in the group, so a poll against it is exact rather than a guess at a schedule. When a
+# version appears that all three ported artifacts have, this re-runs the whole pipeline against it
+# and opens a pull request carrying two diffs — what AndroidX changed (`upstream/`) and what that
+# meant here (`modules/`).
+#
+# It deliberately does NOT merge. A sync can change rendered output, break a patch, or widen the
+# Android surface, and all three want a human reading the diff.
+
+on:
+  schedule:
+    # Wear Compose releases land on Wednesdays, most weeks. Thursday morning UTC catches them
+    # without polling a static file four times a day.
+    - cron: "0 6 * * 4"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Pin this exact version instead of the newest published one"
+        required: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: agent/wear-compose-cmp
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Pick the version
+        id: pick
+        run: |
+          set -euo pipefail
+          if [ -n "${{ inputs.version }}" ]; then
+            current=$(python3 -c "import json;print(json.load(open('upstream.json'))['version'])")
+            sed -i "s/\"version\": \"$current\"/\"version\": \"${{ inputs.version }}\"/" upstream.json
+            sed -i 's/"portRevision": [0-9]*/"portRevision": 1/' upstream.json
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          else
+            version=$(python3 tools/check_upstream.py --update)
+            echo "version=$version" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Sync and regenerate
+        if: steps.pick.outputs.version != ''
+        run: scripts/sync-upstream.sh
+
+      # The build is the check that the port still holds. A patch that stopped applying has already
+      # failed the step above; this catches an upstream change that compiles nowhere off-Android.
+      - name: Assemble
+        if: steps.pick.outputs.version != ''
+        run: ./gradlew assemble
+
+      - name: Open a pull request
+        if: steps.pick.outputs.version != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          version="${{ steps.pick.outputs.version }}"
+          branch="agent/upstream-$version"
+
+          if git diff --quiet; then
+            echo "nothing changed"
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -qm "feat: sync AndroidX Wear Compose $version"
+
+          # Force-pushed: the branch is machine-generated from the pin and never carries anyone's
+          # work, so re-running the sync updates the open PR in place.
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            "HEAD:$branch"
+
+          if [ -n "$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq '.[].number')" ]; then
+            echo "a PR for $branch is already open — updated in place"
+            exit 0
+          fi
+
+          {
+            echo "AndroidX Wear Compose **$version** is published, and the port regenerates against it."
+            echo
+            echo 'Two diffs to read, in this order:'
+            echo
+            echo '- `upstream/` — what AndroidX changed. Vendored verbatim from the release'"'"'s sources jar.'
+            echo '- `modules/` — what that meant here, after the rules in `transform-rules.json` and the'
+            echo '  patches in `patches/`. Generated output; do not edit it in review.'
+            echo
+            echo 'The build passed, so every patch still applied and the result still compiles for wasmJs'
+            echo 'and the JVM. What to check by eye is `docs/ANDROID_SURFACE.md`: if the Android surface'
+            echo 'grew, a new file needs a rule, a shim, a patch or an exclusion.'
+            echo
+            echo '```'
+            git --no-pager diff --stat HEAD~1..HEAD -- docs upstream.json
+            echo '```'
+            echo
+            echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } > pr-body.md
+
+          gh pr create --repo "${{ github.repository }}" \
+            --head "$branch" \
+            --base agent/wear-compose-cmp \
+            --title "feat: sync AndroidX Wear Compose $version" \
+            --body-file pr-body.md

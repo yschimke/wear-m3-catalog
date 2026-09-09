@@ -1,0 +1,189 @@
+{
+  "$comment": [
+    "The mechanical half of the port. Everything expressible as 'do this to every file' lives",
+    "here; everything that needs judgement lives in `patches/` as a real diff.",
+    "",
+    "The split matters because this runs again on every AndroidX release. A rule survives an",
+    "upstream refactor; a patch does not, and a patch that stops applying is a build failure that",
+    "names the file a human has to look at. So anything that CAN be a rule is a rule."
+  ],
+
+  "$androidOnlyPrefixesComment": [
+    "Import prefixes with no Kotlin/Wasm implementation. `tools/transform.py` reports every file",
+    "still importing one of these after the patches have applied — that report is the worklist.",
+    "",
+    "Deliberately ABSENT, because they already publish wasmJs targets and need no porting at all:",
+    "androidx.annotation, androidx.collection, androidx.graphics.shapes (all three have a",
+    "*-wasm-js artifact on Google Maven), and every androidx.compose.* package, which is what",
+    "Compose Multiplatform republishes. That is why 26 of 222 files need work and not all 222."
+  ],
+  "androidOnlyPrefixes": [
+    "android.",
+    "com.google.wear.",
+    "androidx.core.",
+    "androidx.activity.",
+    "androidx.wear.utils.",
+    "java.",
+    "javax."
+  ],
+
+  "$dropAnnotationsComment": [
+    "Android build-tooling annotations. They carry no runtime meaning, and their absence changes",
+    "nothing about what the code does — but their import does not resolve off-Android."
+  ],
+  "dropAnnotations": [
+    "SuppressLint",
+    "ColorInt",
+    "ColorRes",
+    "StringRes",
+    "PluralsRes",
+    "Nullable",
+    "SuppressWarnings",
+    "JvmDefaultWithCompatibility",
+    "RequiresApi",
+    "RequiresPermission",
+    "DoNotInline",
+    "ChecksSdkIntAtLeast"
+  ],
+  "dropImports": [
+    "android.annotation.SuppressLint",
+    "androidx.annotation.RequiresApi",
+    "androidx.annotation.RequiresPermission",
+    "androidx.annotation.DoNotInline",
+    "androidx.annotation.ChecksSdkIntAtLeast",
+    "androidx.annotation.Nullable",
+    "androidx.annotation.ColorInt",
+    "androidx.annotation.ColorRes",
+    "androidx.annotation.StringRes",
+    "androidx.annotation.PluralsRes",
+    "androidx.compose.material.icons.materialIcon",
+    "androidx.compose.material.icons.materialPath",
+    "java.util.concurrent.TimeUnit",
+    "androidx.graphics.shapes.toPath",
+    "androidx.compose.ui.text.font.DeviceFontFamilyName"
+  ],
+
+  "$dropImportsMaterialIconsComment": [
+    "The last two are not Android-only, they are CMP-missing: `material-icons-core` was deprecated",
+    "and then dropped from Compose Multiplatform, so `materialIcon`/`materialPath` have nowhere to",
+    "come from. They are re-declared under the SAME NAMES in the same package, by",
+    "`modules/wear-compose-material-core/src/commonPort/.../MaterialIconBuilders.kt`, which is why",
+    "dropping the import is the entire port: the generated call sites do not change, so",
+    "RangeDefaults.kt carries no patch to re-cut when upstream edits it."
+  ],
+
+  "$rewriteReferencesComment": [
+    "One-for-one moves where Compose Multiplatform publishes the same declaration under another",
+    "package. `androidx.activity.compose.BackHandler` is the load-bearing one: CMP 1.8 lifted",
+    "back handling into `androidx.compose.ui.backhandler`, so the call sites need no edit at all."
+  ],
+  "rewriteReferences": {
+    "java.util.concurrent.atomic.AtomicReference": "ee.schimke.wearcmp.port.AtomicReference",
+    "java.util.concurrent.atomic.AtomicInteger": "ee.schimke.wearcmp.port.AtomicInteger",
+    "android.util.Log": "ee.schimke.wearcmp.port.Log",
+    "androidx.compose.ui.platform.LocalConfiguration": "ee.schimke.wearcmp.port.LocalWearDeviceConfiguration",
+    "LocalConfiguration": "LocalWearDeviceConfiguration",
+    "Integer.MAX_VALUE": "Int.MAX_VALUE",
+    "Integer.MIN_VALUE": "Int.MIN_VALUE",
+    "Integer.min(": "minOf(",
+    "Integer.max(": "maxOf(",
+    "Math.PI": "kotlin.math.PI",
+    "Math.abs(": "kotlin.math.abs(",
+    "Math.toRadians(": "ee.schimke.wearcmp.port.toRadians(",
+    "Math.round(": "ee.schimke.wearcmp.port.round(",
+    "System.currentTimeMillis()": "ee.schimke.wearcmp.port.platformCurrentTimeMillis()",
+    "System.identityHashCode": "ee.schimke.wearcmp.port.identityHashCode",
+    "TimeUnit.MILLISECONDS.toNanos": "ee.schimke.wearcmp.port.millisToNanos",
+    "androidx.core.util.Predicate": "ee.schimke.wearcmp.port.Predicate",
+    "androidx.core.graphics.ColorUtils": "ee.schimke.wearcmp.port.ColorUtils",
+    "javaClass != other?.javaClass": "this::class != other?.let { it::class }",
+    "javaClass.hashCode()": "this::class.hashCode()",
+    "androidx.activity.compose.BackHandler": "androidx.compose.ui.backhandler.BackHandler",
+    "androidx.activity.compose.PredictiveBackHandler": "androidx.compose.ui.backhandler.PredictiveBackHandler"
+  },
+
+  "$rewritePatternsComment": [
+    "The one construct that needs a regex: the Wear type scale declares its arc fonts as",
+    "`Font(DeviceFontFamilyName(\"roboto-flex\"), weight, variationSettings).toFontFamily()`.",
+    "`DeviceFontFamilyName` asks the Android font provider for a font installed on the device by",
+    "name, and there is no equivalent anywhere else — a browser has web fonts and generic families,",
+    "not a queryable system font table. So the whole expression collapses to the generic sans-serif",
+    "family, and the variable-font axis settings go with it (see AnimatedText in the exclusions).",
+    "",
+    "It is a rule and not a patch because TypographyTokens.kt is itself generated upstream and",
+    "carries eleven identical copies of the expression; a patch would have to be re-cut every time",
+    "the type scale moves."
+  ],
+  "rewritePatterns": [
+    {
+      "pattern": "Font\\(\\s*DeviceFontFamilyName\\([^\\n]*\\),\\s*weight = [^\\n]*,\\s*variationSettings =\\s*[^,]*,\\s*\\)\\s*\\.toFontFamily\\(\\)",
+      "replacement": "FontFamily.SansSerif"
+    },
+    {
+      "pattern": "DeviceFontFamilyName\\(\"[^\"]*\"\\)",
+      "replacement": "FontFamily.SansSerif"
+    }
+  ],
+
+  "$ensureImportsComment": [
+    "Declarations the Kotlin/JVM compiler default-imports and AndroidX therefore never imports.",
+    "In common code they need an import like anything else. The key is a regex looked for in the",
+    "file; the value is the import added, in sorted position, when it is missing."
+  ],
+  "ensureImports": {
+    "FontFamily\\.SansSerif": "androidx.compose.ui.text.font.FontFamily",
+    "\\.removeIf": "ee.schimke.wearcmp.port.removeIf",
+    "\\.computeIfAbsent": "ee.schimke.wearcmp.port.computeIfAbsent",
+    "@JvmInline": "kotlin.jvm.JvmInline",
+    "@JvmField": "kotlin.jvm.JvmField",
+    "@JvmName": "kotlin.jvm.JvmName",
+    "@JvmStatic": "kotlin.jvm.JvmStatic",
+    "@JvmOverloads": "kotlin.jvm.JvmOverloads"
+  },
+
+  "modules": {
+    "wear-compose-material-core": { "exclude": {} },
+    "wear-compose-foundation": {
+      "$excludeComment": [
+        "Files dropped from the generated commonMain because a patch would be the wrong tool — the",
+        "Android body is most of the file, and a patch deleting most of a file has to be re-cut",
+        "every time any of it moves. Each one is replaced, name for name, by a hand-written file",
+        "under `src/commonPort/kotlin` that restates the API the rest of the module compiles",
+        "against. Nothing is silently missing: `docs/ANDROID_SURFACE.md` lists every entry."
+      ],
+      "exclude": {
+        "androidx/wear/compose/foundation/rotary/Haptics.kt": "419 lines of Vibrator, VibrationEffect and a per-OEM constants table keyed off Build.MANUFACTURER. Replaced by src/commonPort/.../rotary/Haptics.kt, which keeps the RotaryHapticHandler seam over `platformPerformRotaryHaptic()` — navigator.vibrate on wasm.",
+        "androidx/wear/compose/foundation/LocalAmbientModeManager.kt": "com.google.wear.services.ambient.AmbientManager, a Wear OS system service reached through the hosting Activity. Replaced by src/commonPort/.../LocalAmbientModeManager.kt, which keeps the API and always reports AmbientMode.Interactive.",
+        "androidx/wear/compose/foundation/BasicCurvedText.kt": "NOT YET PORTED. Curved text is laid out with android.graphics: StaticLayout for line breaking, TextRunShaper/PositionedGlyphs for per-glyph positions, and a Path + PathMeasure to bend the run around the bezel. Compose Multiplatform has no glyph-level shaping API, so this is a real implementation rather than a seam. See docs/PIPELINE.md -> Curved text.",
+        "androidx/wear/compose/foundation/WarpedCurvedTextRenderer.kt": "NOT YET PORTED. The glyph-warping renderer behind BasicCurvedText; same blocker, same note.",
+        "androidx/wear/compose/foundation/TouchExplorationStateProvider.kt": "138 lines of AccessibilityManager listener plumbing around a one-method interface. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt, which keeps the interface and answers from `platformTouchExplorationEnabled()`."
+      }
+    },
+    "wear-compose-material3": {
+      "exclude": {
+        "androidx/wear/compose/material3/AnimatedText.kt": "NOT YET PORTED. Animates a variable font's weight axis through `android.graphics.fonts.Font`, `FontVariationAxis` and `TextRunShaper` \u2014 per-glyph shaping with no Compose Multiplatform equivalent. Same blocker as curved text.",
+        "androidx/wear/compose/material3/ConfirmationDialog.kt": "NOT YET PORTED. Draws its label with curved text and its icon with an AnimatedImageVector loaded from R — an animated vector drawable, which is aapt output. Blocked on curved text and on an asset pipeline.",
+        "androidx/wear/compose/material3/OpenOnPhoneDialog.kt": "NOT YET PORTED. Same two blockers as ConfirmationDialog.",
+        "androidx/wear/compose/material3/KeepScreenOn.kt": "Sets FLAG_KEEP_SCREEN_ON on the hosting Activity's window. Replaced by src/commonPort/.../KeepScreenOn.kt, which keeps the composable and holds a Screen Wake Lock on the web instead.",
+        "androidx/wear/compose/material3/CurvedText.kt": "Blocked on curved text: every function here is a thin wrapper over foundation's `basicCurvedText`, which is not ported yet.",
+        "androidx/wear/compose/material3/DatePicker.kt": "NOT YET PORTED. `java.time.LocalDate` plus `DateTimeFormatter` patterns obtained from Android's locale data. kotlinx-datetime covers the arithmetic; the locale-derived field order does not port directly. See docs/PIPELINE.md -> Dates and times.",
+        "androidx/wear/compose/material3/TimePicker.kt": "NOT YET PORTED. Same as DatePicker: java.time plus locale-derived 12/24-hour patterns.",
+        "androidx/wear/compose/material3/TimeText.kt": "NOT YET PORTED. Formats the current time with java.util.Calendar and draws it with curved text, so it is blocked on both open items.",
+        "androidx/wear/compose/material3/TouchExplorationStateProvider.kt": "The material3 copy of the same AccessibilityManager plumbing foundation carries. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt.",
+        "androidx/wear/compose/material3/internal/Strings.kt": "23 `Strings(R.string.\u2026)` constants resolved through aapt's generated R class. Replaced by src/commonPort/.../internal/Strings.kt, which keeps the API and reads the text out of GeneratedResources.kt \u2014 generated from the AAR's own values.xml.",
+        "androidx/wear/compose/material3/onehandedgesture/LocalOneHandedGestureEnabled.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureAction.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureClickIndicator.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureConfiguration.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureDefaults.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureIndicatorCommon.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureIndicatorSize.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureManager.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureModifier.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGesturePageIndicator.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGesturePriority.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported.",
+        "androidx/wear/compose/material3/onehandedgesture/OneHandedGestureScrollIndicator.kt": "Part of the one-handed-gesture surface: `com.google.wear.input.GestureInputManager` (a Wear OS system service) plus animated vector drawables loaded from `R`, which is aapt output. Nothing outside the package depends on it \u2014 Button and Card only mention it in KDoc \u2014 so it is dropped whole rather than half-ported."
+      }
+    }
+  }
+}
