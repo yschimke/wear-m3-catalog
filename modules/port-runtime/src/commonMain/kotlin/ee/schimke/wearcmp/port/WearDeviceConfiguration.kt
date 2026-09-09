@@ -42,6 +42,10 @@ import androidx.compose.runtime.staticCompositionLocalOf
  * @param screenHeightDp upstream `Configuration.screenHeightDp`.
  * @param isLeftyModeEnabled upstream `Settings.System.USER_ROTATION == ROTATION_180`.
  * @param is24HourFormat upstream `DateFormat.is24HourFormat(context)`.
+ * @param isLowResRotaryInput upstream's `PackageManager.hasSystemFeature(
+ *   "android.hardware.rotaryencoder.lowres")` — true for a notched bezel, false for a crown or a
+ *   rotating side button. It changes the fling timeframe rotary scrolling uses, so a host
+ *   portraying a bezel watch should say so. A mouse wheel behaves like a crown, hence the default.
  */
 public class WearDeviceConfiguration(
     public val isScreenRound: Boolean = true,
@@ -49,6 +53,7 @@ public class WearDeviceConfiguration(
     public val screenHeightDp: Int = DEFAULT_SCREEN_DP,
     public val isLeftyModeEnabled: Boolean = false,
     public val is24HourFormat: Boolean = true,
+    public val isLowResRotaryInput: Boolean = false,
 ) {
     public companion object {
         /**

@@ -1,0 +1,135 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/foundation/rotary/RotaryScrollable.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/foundation/rotary/RotaryScrollable.kt
+@@ -18,10 +18,6 @@
+ 
+ package androidx.wear.compose.foundation.rotary
+ 
+-import android.os.Build
+-import android.view.InputDevice
+-import android.view.MotionEvent
+-import android.view.ViewConfiguration
+ import androidx.annotation.FloatRange
+ import androidx.compose.animation.core.AnimationState
+ import androidx.compose.animation.core.CubicBezierEasing
+@@ -55,12 +51,12 @@
+ import androidx.compose.ui.node.DelegatingNode
+ import androidx.compose.ui.node.ModifierNodeElement
+ import androidx.compose.ui.platform.InspectorInfo
+-import androidx.compose.ui.platform.LocalContext
+ import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.platform.debugInspectorInfo
+ import androidx.compose.ui.unit.Dp
+ import androidx.compose.ui.unit.Velocity
+ import androidx.compose.ui.unit.dp
++import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
+ import androidx.compose.ui.util.fastSumBy
+ import androidx.compose.ui.util.lerp
+ import androidx.wear.compose.foundation.lazy.ScalingLazyColumn
+@@ -299,7 +295,7 @@
+         hapticFeedbackEnabled: Boolean = true,
+     ): RotaryScrollableBehavior {
+         val isLowRes = isLowResInput()
+-        val viewConfiguration = ViewConfiguration.get(LocalContext.current)
++        val viewConfiguration = RotaryViewConfiguration()
+         val rotaryHaptics: RotaryHapticHandler =
+             rememberRotaryHapticHandler(scrollableState, hapticFeedbackEnabled)
+ 
+@@ -562,12 +558,16 @@
+         }
+     }
+ 
+-    /** Returns whether the input is Low-res (a bezel) or high-res (a crown/rsb). */
++    /**
++     * Returns whether the input is Low-res (a bezel) or high-res (a crown/rsb).
++     *
++     * Upstream asks the package manager for `android.hardware.rotaryencoder.lowres`. Off-Android
++     * the host is the one that knows what it is portraying, so it says so through the device
++     * configuration; a mouse wheel is high-res, which is the default.
++     */
+     @Composable
+     private fun isLowResInput(): Boolean =
+-        LocalContext.current.packageManager.hasSystemFeature(
+-            "android.hardware.rotaryencoder.lowres"
+-        )
++        LocalWearDeviceConfiguration.current.isLowResRotaryInput
+ 
+     // These values represent the timeframe for a fling event. A bigger value is assigned
+     // to low-res input due to the lower frequency of low-res rotary events.
+@@ -823,7 +823,7 @@
+     rotaryHaptics: RotaryHapticHandler,
+     flingBehavior: FlingBehavior? = null,
+     isLowRes: Boolean,
+-    viewConfiguration: ViewConfiguration,
++    viewConfiguration: RotaryViewConfiguration,
+ ): RotaryScrollableBehavior {
+ 
+     fun rotaryFlingHandler(inputDeviceId: Int, initialTimestamp: Long) =
+@@ -1193,7 +1193,7 @@
+     private val scrollableState: ScrollableState,
+     private val flingBehavior: FlingBehavior,
+     private val flingTimeframe: Long,
+-    viewConfiguration: ViewConfiguration,
++    viewConfiguration: RotaryViewConfiguration,
+     inputDeviceId: Int,
+     initialTimestamp: Long,
+ ) {
+@@ -1218,19 +1218,17 @@
+     private var flingTimestamp: Long = 0
+ 
+     init {
+-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+-            minFlingSpeed =
+-                viewConfiguration
+-                    .getScaledMinimumFlingVelocity(inputDeviceId, AxisScroll, RotaryInputSource)
+-                    .toFloat()
+-            maxFlingSpeed =
+-                viewConfiguration
+-                    .getScaledMaximumFlingVelocity(inputDeviceId, AxisScroll, RotaryInputSource)
+-                    .toFloat()
+-        } else {
+-            minFlingSpeed = viewConfiguration.scaledMinimumFlingVelocity.toFloat()
+-            maxFlingSpeed = viewConfiguration.scaledMaximumFlingVelocity.toFloat()
+-        }
++        // Upstream picks the per-input-device limits on API 34+ and the global ones below it.
++        // RotaryViewConfiguration answers both the same way, so the version check is gone rather
++        // than resolved one way: there is no older platform here to be compatible with.
++        minFlingSpeed =
++            viewConfiguration
++                .getScaledMinimumFlingVelocity(inputDeviceId, AxisScroll, RotaryInputSource)
++                .toFloat()
++        maxFlingSpeed =
++            viewConfiguration
++                .getScaledMaximumFlingVelocity(inputDeviceId, AxisScroll, RotaryInputSource)
++                .toFloat()
+ 
+         startFlingTracking(initialTimestamp)
+     }
+@@ -1785,7 +1783,11 @@
+                         // TODO(b/397650406): Implement a more efficient way to reverse the scroll
+                         // direction
+                         delta = deltaInPixels * if (reverseDirection) -1f else 1f,
+-                        inputDeviceId = event.inputDeviceId,
++                        // Compose Multiplatform's RotaryScrollEvent carries no input device id —
++                        // it is an Android MotionEvent concept. Nothing downstream distinguishes
++                        // devices any more (see RotaryViewConfiguration), so 0 stands for "the
++                        // one rotary input this host has".
++                        inputDeviceId = 0,
+                         orientation = orientation,
+                     )
+                 }
+@@ -1874,9 +1876,12 @@
+ private val ScrollableState.atTheEdge
+     get() = !canScrollForward || !canScrollBackward
+ 
+-private const val AxisScroll = MotionEvent.AXIS_SCROLL
+-
+-private const val RotaryInputSource = InputDevice.SOURCE_ROTARY_ENCODER
++// `MotionEvent.AXIS_SCROLL` and `InputDevice.SOURCE_ROTARY_ENCODER`. They are only ever passed to
++// RotaryViewConfiguration, which ignores them, but they are kept rather than deleted so the call
++// sites stay identical to upstream's and the patch stays small.
++private const val AxisScroll = 26
++
++private const val RotaryInputSource = 0x00400000
+ 
+ private const val EdgeVisibilityThreshold = 0.3f
+ private const val SnapVisibilityThreshold = 0.1f

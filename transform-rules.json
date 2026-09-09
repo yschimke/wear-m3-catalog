@@ -104,6 +104,10 @@
         "against. Nothing is silently missing: `docs/ANDROID_SURFACE.md` lists every entry."
       ],
       "exclude": {
+        "androidx/wear/compose/foundation/rotary/Haptics.kt": "419 lines of Vibrator, VibrationEffect and a per-OEM constants table keyed off Build.MANUFACTURER. Replaced by src/commonPort/.../rotary/Haptics.kt, which keeps the RotaryHapticHandler seam over `platformPerformRotaryHaptic()` — navigator.vibrate on wasm.",
+        "androidx/wear/compose/foundation/LocalAmbientModeManager.kt": "com.google.wear.services.ambient.AmbientManager, a Wear OS system service reached through the hosting Activity. Replaced by src/commonPort/.../LocalAmbientModeManager.kt, which keeps the API and always reports AmbientMode.Interactive.",
+        "androidx/wear/compose/foundation/BasicCurvedText.kt": "NOT YET PORTED. Curved text is laid out with android.graphics: StaticLayout for line breaking, TextRunShaper/PositionedGlyphs for per-glyph positions, and a Path + PathMeasure to bend the run around the bezel. Compose Multiplatform has no glyph-level shaping API, so this is a real implementation rather than a seam. See docs/PIPELINE.md -> Curved text.",
+        "androidx/wear/compose/foundation/WarpedCurvedTextRenderer.kt": "NOT YET PORTED. The glyph-warping renderer behind BasicCurvedText; same blocker, same note.",
         "androidx/wear/compose/foundation/TouchExplorationStateProvider.kt": "138 lines of AccessibilityManager listener plumbing around a one-method interface. Replaced by src/commonPort/.../TouchExplorationStateProvider.kt, which keeps the interface and answers from `platformTouchExplorationEnabled()`."
       }
     },
