@@ -70,6 +70,32 @@ dependencyResolutionManagement {
         }
       }
     }
+
+    // ── The Compose Multiplatform port of Wear Compose, PINNED AND GROUP-FENCED ──────────────────
+    // `ee.schimke.wearcmp` is `androidx.wear.compose` run through a source transform
+    // (`tools/transform.py` in the port's own tree) and republished for JVM and wasmJs under the
+    // ORIGINAL `androidx.wear.compose.*` package names. `:catalog-cmp` compiles `:catalog`'s
+    // sources against it; `:catalog` itself keeps the real AAR and stays the oracle. Why that is
+    // safe rather than a lookalike, and what the two lanes are for: docs/CMP_PORT.md.
+    //
+    // Served out of a branch of THIS repository laid out as a Maven repository, so there is no
+    // hosting to run. Pinned to the COMMIT rather than the branch name on purpose: a branch is
+    // mutable and `1.7.0-beta02-cmp01` is not, so tracking `wear-compose-cmp-maven` would let the
+    // bytes behind a fixed version string change under a green build. Repoint it deliberately, the
+    // way `remote-snapshot-pin` is repointed.
+    //
+    // The `content` filter is what makes this safe rather than merely narrow. A settings-level
+    // repository is visible to every project, and `:catalog` must never resolve a Wear class from
+    // anywhere but Google Maven — its whole value is being the AAR's render. This repository can
+    // only ever answer for `ee.schimke.wearcmp`, a group `:catalog` does not ask for, so the
+    // isolation holds by construction rather than by reviewers remembering it. Same reasoning as
+    // the androidx.dev lane above, and deliberately the same shape.
+    maven(
+      "https://raw.githubusercontent.com/yschimke/wear-m3-catalog/6ebbc7df1a3381f616f45d0c42006f2d1078dafe/"
+    ) {
+      name = "wearComposeCmpPort"
+      content { includeGroup("ee.schimke.wearcmp") }
+    }
   }
 }
 
@@ -82,3 +108,9 @@ include(":catalog")
 // compileSdk 37 with no Compose BOM, and that must not reach `:catalog`. See
 // remote-catalog/build.gradle.kts.
 include(":remote-catalog")
+
+// The same `:catalog` sources compiled against the Compose Multiplatform port of Wear Compose
+// Material 3 instead of the Android AAR — one target, `jvm()`, rendered by the desktop renderer.
+// It owns no catalog sources of its own: it srcDirs `:catalog`'s, which is what makes the two lanes
+// a comparison rather than a fork. docs/CMP_PORT.md.
+include(":catalog-cmp")

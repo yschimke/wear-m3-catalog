@@ -7,6 +7,36 @@ agp = "9.4.0"
 wear-compose = "1.7.0-beta02"
 wear-tooling-preview = "1.0.0"
 
+# ── The Compose Multiplatform port of Wear Compose, for `:catalog-cmp` only ─────────────────────
+# `ee.schimke.wearcmp` is `androidx.wear.compose` source-transformed and republished for JVM and
+# wasmJs under the original `androidx.wear.compose.*` package names, so the SAME sources compile
+# against either. The suffix is the base it was generated from: `1.7.0-beta02-cmp01` is
+# `wear-compose = 1.7.0-beta02` plus the port's own revision.
+#
+# THE TWO MOVE TOGETHER, and `CmpPortVersionTest` fails the build when they stop agreeing. The port
+# is only meaningful as a stand-in for the exact AAR it was generated from: a `:catalog` on
+# 1.7.0-beta03 rendered beside a `:catalog-cmp` on a `-beta02` port would report library-version
+# skew as a port defect, or hide a real one. Bump both, in one commit, or neither.
+wearcmp = "1.7.0-beta02-cmp01"
+
+# Compose Multiplatform, which is what `:catalog-cmp` actually draws with — the port is compiled
+# against 1.12.0 and its POMs pin that line. Nothing here reaches `:catalog`, which is on the
+# Android Compose BOM above.
+compose-multiplatform = "1.12.0"
+
+# `material-icons-extended` is FROZEN on the 1.7.x line and does not follow the Compose
+# Multiplatform version above — JetBrains stopped republishing it per release when AndroidX
+# deprecated the extended set, so `org.jetbrains.compose.material:material-icons-extended:1.12.0`
+# does not exist. Same pin the phone-side sibling carries.
+compose-material-icons-multiplatform = "1.7.3"
+
+# Multiplatform Material 3, pinned FORWARD of the Compose Multiplatform line above for exactly the
+# reason `compose-material3` is pinned forward of the Android BOM: `MaterialShapes` and
+# `RoundedPolygon.toShape()` are the expressive shape surface, and the stable 1.12.0 material3 does
+# not publish them (`ExperimentalMaterial3ExpressiveApi` is not even public there). The phone-side
+# sibling carries the same pin for the same page.
+compose-multiplatform-material3 = "1.12.0-alpha03"
+
 # The mobile Compose BOM supplies `androidx.compose.ui`, the preview tooling and — see
 # `catalog/build.gradle.kts` — `androidx.compose.material3.MaterialShapes`, which is where the 35
 # shapes on the kit's Shapes page actually live. Wear Compose has no shape library of its own.
@@ -161,6 +191,14 @@ compose-material3 = { module = "androidx.compose.material3:material3", version.r
 wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", version.ref = "wear-compose" }
 wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wear-compose" }
 wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
+
+# `:catalog-cmp` only — see the `wearcmp` version note. Same package names as the three entries
+# above, a different group: that is the whole trick, and why no import in `:catalog` moves.
+wearcmp-material3 = { module = "ee.schimke.wearcmp:wear-compose-material3", version.ref = "wearcmp" }
+wearcmp-foundation = { module = "ee.schimke.wearcmp:wear-compose-foundation", version.ref = "wearcmp" }
+compose-multiplatform-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-multiplatform-material3" }
+compose-multiplatform-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
+compose-multiplatform-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose-material-icons-multiplatform" }
 wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wear-tooling-preview" }
 
 composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewCore" }
@@ -232,5 +270,6 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 composePreview = { id = "ee.schimke.composeai.preview", version.ref = "composePreviewPlugin" }
 ktfmt = { id = "com.ncorti.ktfmt.gradle", version.ref = "ktfmt" }
