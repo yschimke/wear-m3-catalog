@@ -1,0 +1,158 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../port-runtime/1.7.0-beta02-cmp04/port-runtime-1.7.0-beta02-cmp04.module",
+    "group": "ee.schimke.wearcmp",
+    "module": "port-runtime",
+    "version": "1.7.0-beta02-cmp04",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "androidx.graphics",
+          "module": "graphics-shapes",
+          "version": {
+            "requires": "1.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "port-runtime-jvm-1.7.0-beta02-cmp04.jar",
+          "url": "port-runtime-jvm-1.7.0-beta02-cmp04.jar",
+          "size": 46087,
+          "sha512": "6aa59d4a7779ae4ecda626009f852c56911e6fe44e17ed783ec6d833924482ff4bf8907d128a9f169504cba6f5f9fb3ce68191396522fde195b7e27d05cadb87",
+          "sha256": "d5e229f40e08cd2778ee9d400b4a74977db98b699cb28fb927bfb422ca395ff5",
+          "sha1": "fbdd0426e07762c1e3f781f021d232c0d70125a9",
+          "md5": "3f6df19d16419a162b272abea8053a5c"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "androidx.graphics",
+          "module": "graphics-shapes",
+          "version": {
+            "requires": "1.1.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "port-runtime-jvm-1.7.0-beta02-cmp04.jar",
+          "url": "port-runtime-jvm-1.7.0-beta02-cmp04.jar",
+          "size": 46087,
+          "sha512": "6aa59d4a7779ae4ecda626009f852c56911e6fe44e17ed783ec6d833924482ff4bf8907d128a9f169504cba6f5f9fb3ce68191396522fde195b7e27d05cadb87",
+          "sha256": "d5e229f40e08cd2778ee9d400b4a74977db98b699cb28fb927bfb422ca395ff5",
+          "sha1": "fbdd0426e07762c1e3f781f021d232c0d70125a9",
+          "md5": "3f6df19d16419a162b272abea8053a5c"
+        }
+      ]
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "port-runtime-jvm-1.7.0-beta02-cmp04-sources.jar",
+          "url": "port-runtime-jvm-1.7.0-beta02-cmp04-sources.jar",
+          "size": 32653,
+          "sha512": "fad2bcc25056ad8eb9bcdca75bba46569d4ef7def0dd11758a68989dd177aab215a601de4c927b0de263df17c77dce5a3d485aa810a50386b18cd518b6881af5",
+          "sha256": "be74ca872e97c807fd367f5fd35a6a21d98ffdc232f29f20694d403f3a33c50d",
+          "sha1": "515e0ffc099994c6d04df9566241de9eb2503cea",
+          "md5": "16f092a4565eb4afc952070cf30e2d15"
+        }
+      ]
+    }
+  ]
+}

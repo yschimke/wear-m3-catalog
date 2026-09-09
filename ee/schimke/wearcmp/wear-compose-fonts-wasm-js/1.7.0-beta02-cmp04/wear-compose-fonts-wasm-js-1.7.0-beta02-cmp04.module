@@ -1,0 +1,116 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../wear-compose-fonts/1.7.0-beta02-cmp04/wear-compose-fonts-1.7.0-beta02-cmp04.module",
+    "group": "ee.schimke.wearcmp",
+    "module": "wear-compose-fonts",
+    "version": "1.7.0-beta02-cmp04",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp04"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-fonts-wasm-js-1.7.0-beta02-cmp04.klib",
+          "url": "wear-compose-fonts-wasm-js-1.7.0-beta02-cmp04.klib",
+          "size": 5340,
+          "sha512": "57215537883b39de85753b48d756c990d7f64b54c97ea849b75638539cbd07303cf659f64466ceca8227c013fb4a4b4e89ca0fcf34f5b2608ae98a91eac30223",
+          "sha256": "934313bf0c5fe65e1dd2893fdf886e1b6b4b02e8ce6710fb875d3172e66162d2",
+          "sha1": "ad34e2a7edbb0818efd591f4aae9f64b15916f61",
+          "md5": "69cf3f4c7be6dfdab3de677b1d0ea8c7"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp04"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-fonts-wasm-js-1.7.0-beta02-cmp04.klib",
+          "url": "wear-compose-fonts-wasm-js-1.7.0-beta02-cmp04.klib",
+          "size": 5340,
+          "sha512": "57215537883b39de85753b48d756c990d7f64b54c97ea849b75638539cbd07303cf659f64466ceca8227c013fb4a4b4e89ca0fcf34f5b2608ae98a91eac30223",
+          "sha256": "934313bf0c5fe65e1dd2893fdf886e1b6b4b02e8ce6710fb875d3172e66162d2",
+          "sha1": "ad34e2a7edbb0818efd591f4aae9f64b15916f61",
+          "md5": "69cf3f4c7be6dfdab3de677b1d0ea8c7"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "files": [
+        {
+          "name": "wear-compose-fonts-wasm-js-1.7.0-beta02-cmp04-sources.jar",
+          "url": "wear-compose-fonts-wasm-js-1.7.0-beta02-cmp04-sources.jar",
+          "size": 3024,
+          "sha512": "0c2e7eb5901c3042a52ed46dbb6a49f991064ffde2c0a1ab25c85d5ac49cb39ef6353cb3b76a2787564a2ab9a289dc2733dd9fe65dd534386c53f70fef16e84c",
+          "sha256": "613fd5ff0226387f1a26f3d2035ebcd631fa84a3cc1c05a9f20dd9605de9b7d4",
+          "sha1": "45a700be4aeb4e23d1bc9e6a17364861132bfdb8",
+          "md5": "86a5002e0e754c853d38773ceac61303"
+        }
+      ]
+    }
+  ]
+}
