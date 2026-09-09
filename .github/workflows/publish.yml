@@ -79,6 +79,11 @@ jobs:
       - name: Already published
         if: steps.state.outputs.published == 'true' && !inputs.republish
         run: |
+          # An annotation as well as the summary: a skip is indistinguishable from a successful
+          # publish in the Actions list otherwise, and that is exactly how #398 and #400 went
+          # unpublished for a day. `build.yml` now fails a pull request that would cause this, so
+          # reaching here means either a republish or a trunk push that changed nothing published.
+          echo "::notice title=Nothing published::${{ steps.state.outputs.version }} is already on the Maven branch; every publishing step was skipped."
           {
             echo "### ${{ steps.state.outputs.version }} is already published"
             echo

@@ -14,6 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          # `check-port-revision.sh` diffs against the base branch, which a depth-1 checkout has no
+          # merge base for.
+          fetch-depth: 0
 
       - uses: actions/setup-java@v5
         with:
@@ -26,6 +30,15 @@ jobs:
       # reviewer can read `modules/` as output rather than having to trust it.
       - name: Generated sources are up to date
         run: scripts/check-generated.sh
+
+      # A change to what a consumer resolves must change the version they resolve, or publish.yml
+      # skips it and the release silently does not happen. Pull requests only: on the trunk the
+      # comparison has already been made, and the merge commit's own parent is the base.
+      - name: A published change bumps the version
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
+          .github/scripts/check-port-revision.sh FETCH_HEAD
 
       # `assemble`, not `build`: see AGENTS.md -> Conventions.
       - name: Assemble

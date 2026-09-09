@@ -45,6 +45,22 @@ Never `claude/…`, `codex/…`, or any other agent prefix. If a session hands y
 
 `fix:`, `feat:`, `docs:`, `ci:`, …
 
+### A published change bumps `portRevision`
+
+The published version is `<upstream>-cmp<portRevision>` from `upstream.json`, and it is
+**immutable**: the publish workflow skips a version already on the Maven branch, and GitHub Packages
+rejects a re-upload with 409 whatever we would prefer. So changing what a consumer resolves without
+bumping `portRevision` does not fail — it merges green and is then silently never published.
+
+That is not hypothetical. #398 and #400 both landed without a bump, and for about a day the
+published `cmp02` — built from #394 — was what consumers got.
+
+[`check-port-revision.sh`](.github/scripts/check-port-revision.sh) fails a pull request whose diff
+touches a published path (`modules/**` minus the test source sets, the root build files, the version
+catalog) without moving the version string. Run it locally with
+`.github/scripts/check-port-revision.sh`. Test-only and docs-only changes pass: they reach no
+artifact.
+
 ## Conventions
 
 - **No formatter is wired up, deliberately.** The generated sources arrive already ktfmt-formatted
@@ -59,7 +75,3 @@ Never `claude/…`, `codex/…`, or any other agent prefix. If a session hands y
   downloads a karma tarball from `codeload.github.com` at configuration time. There are no tests to
   run yet; when there are, that comes back.
 - **`-PcentralMirror=true`** if Maven Central rate-limits the runner (HTTP 429 on a cold cache).
-- **Bump `portRevision` in `upstream.json` when you change what is published for an unchanged
-  AndroidX version.** The published version is `<upstream>-cmp<portRevision>` and is immutable: the
-  publish workflow skips a version already on the Maven branch, and GitHub Packages rejects a
-  re-upload with 409 whatever we would prefer.
