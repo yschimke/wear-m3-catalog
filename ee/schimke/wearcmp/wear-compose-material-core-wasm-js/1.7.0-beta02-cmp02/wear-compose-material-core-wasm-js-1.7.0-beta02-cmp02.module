@@ -1,0 +1,179 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../wear-compose-material-core/1.7.0-beta02-cmp02/wear-compose-material-core-1.7.0-beta02-cmp02.module",
+    "group": "ee.schimke.wearcmp",
+    "module": "wear-compose-material-core",
+    "version": "1.7.0-beta02-cmp02",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp02"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-material-core-wasm-js-1.7.0-beta02-cmp02.klib",
+          "url": "wear-compose-material-core-wasm-js-1.7.0-beta02-cmp02.klib",
+          "size": 164031,
+          "sha512": "a3646c9c45a8f9c389f79497fd78d82db0fc8691f349313ad15aa9b1e91b3492fc7ed01175d69174101cf61c7824d492373617edd25208726f76e88ef61a2956",
+          "sha256": "19b107d1dd6cea31b1aa5779a2877790a0e1b057499839380384afbd5211c6ff",
+          "sha1": "0d2f5106751c6a55497c70ddd07a2845ca18b175",
+          "md5": "c941f5b4fcdcebfb8937bcf8acf88141"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp02"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "androidx.annotation",
+          "module": "annotation",
+          "version": {
+            "requires": "1.10.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-material-core-wasm-js-1.7.0-beta02-cmp02.klib",
+          "url": "wear-compose-material-core-wasm-js-1.7.0-beta02-cmp02.klib",
+          "size": 164031,
+          "sha512": "a3646c9c45a8f9c389f79497fd78d82db0fc8691f349313ad15aa9b1e91b3492fc7ed01175d69174101cf61c7824d492373617edd25208726f76e88ef61a2956",
+          "sha256": "19b107d1dd6cea31b1aa5779a2877790a0e1b057499839380384afbd5211c6ff",
+          "sha1": "0d2f5106751c6a55497c70ddd07a2845ca18b175",
+          "md5": "c941f5b4fcdcebfb8937bcf8acf88141"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "files": [
+        {
+          "name": "wear-compose-material-core-wasm-js-1.7.0-beta02-cmp02-sources.jar",
+          "url": "wear-compose-material-core-wasm-js-1.7.0-beta02-cmp02-sources.jar",
+          "size": 48338,
+          "sha512": "185063932bb08524c40dc8517181bf0754a70fd4d41815a57100471b611325f4b9cf42a9bd103546746747bb1bcb93116fcacee8b7e6f81151fcda3886361dbc",
+          "sha256": "2f22352dc0b54fcbf1c0b2d18adaa1bab3a7a8ba5ced0e48a015198ce2872558",
+          "sha1": "4ec79edf21306035e00a82b7b5dd61108071b17f",
+          "md5": "7f15f5bb6797e63aefdf6ec096c18d17"
+        }
+      ]
+    }
+  ]
+}
