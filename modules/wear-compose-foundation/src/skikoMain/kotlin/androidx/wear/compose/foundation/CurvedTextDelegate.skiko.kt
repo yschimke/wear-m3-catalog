@@ -210,10 +210,18 @@ internal actual class CurvedTextDelegate {
 
             // How much of the run fits in the sweep the parent allowed. `Visible` overflows on
             // purpose; the others cut, and Ellipsis buys room for the ellipsis first.
+            //
+            // Compared in PIXELS, with a pixel of tolerance, rather than in radians: a run that
+            // exactly fills the sweep it was given has a width and an allowance that agree only to
+            // the last bits of a float, and a strict comparison there would cut its final glyph.
+            //
+            // A run that overflows by more than that really is too long — `curvedText` caps its
+            // sweep at `CurvedTextDefaults.MaxSweepAngle` (70°) by default, and anything past it is
+            // clipped or ellipsized here exactly as it is on Android.
             val available = parentSweepRadians * measureRadius
-            val fits = this.sweepRadians <= parentSweepRadians + 0.001f
             val drawn =
-                if (fits || overflow == TextOverflow.Visible) DrawnRun(glyphs, advances)
+                if (textWidth <= available + 1f || overflow == TextOverflow.Visible)
+                    DrawnRun(glyphs, advances)
                 else truncate(font, available, overflow == TextOverflow.Ellipsis)
             if (drawn.glyphs.isEmpty()) return
 
