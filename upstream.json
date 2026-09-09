@@ -1,0 +1,43 @@
+{
+  "$comment": [
+    "The pinned upstream. `scripts/sync-upstream.sh` reads this file and nothing else, so a",
+    "release bump is a one-line edit here followed by `scripts/regenerate.sh`.",
+    "",
+    "The source is the per-release `-sources.jar` on Google Maven, NOT a checkout of",
+    "github.com/androidx/androidx. Both carry the same `src/main`, but the sources jar is the",
+    "artifact of a RELEASE: it is ~1 MB rather than a 5 GB monorepo, it is addressed by the exact",
+    "version string the catalog already depends on, and `group-index.xml` beside it is a ready-made",
+    "release feed for `.github/workflows/upstream-sync.yml`. androidx-main carries no release tags",
+    "at all (`git ls-remote --tags` returns nothing), so a git checkout could only ever be pinned to",
+    "a commit sha, which is not the thing that 'updates when a release happens'.",
+    "",
+    "Everything the jar carries that is not Kotlin source is dropped by `tools/sync.py`: R.java,",
+    "META-INF and the documentation markdown. Tests, samples, benchmarks and integration tests are",
+    "not in a sources jar to begin with, which is the second reason to prefer it."
+  ],
+  "group": "androidx.wear.compose",
+  "repository": "https://dl.google.com/dl/android/maven2",
+  "version": "1.7.0-beta02",
+  "artifacts": [
+    {
+      "artifact": "compose-material-core",
+      "module": "wear-compose-material-core",
+      "package": "androidx.wear.compose.materialcore"
+    },
+    {
+      "artifact": "compose-foundation",
+      "module": "wear-compose-foundation",
+      "package": "androidx.wear.compose.foundation"
+    },
+    {
+      "artifact": "compose-material3",
+      "module": "wear-compose-material3",
+      "package": "androidx.wear.compose.material3"
+    }
+  ],
+  "$artifactsNotSynced": {
+    "compose-navigation": "Wraps androidx.navigation's Android NavHost. The ui-builder renders components, not navigation graphs, so it buys nothing on wasm and drags in a second expect/actual surface.",
+    "compose-material": "Superseded by material3 for the kit this repository reproduces.",
+    "compose-ui-tooling": "Android-only tooling; a wasm host has no ComposeViewAdapter."
+  }
+}

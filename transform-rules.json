@@ -1,0 +1,82 @@
+{
+  "$comment": [
+    "The mechanical half of the port. Everything expressible as 'do this to every file' lives",
+    "here; everything that needs judgement lives in `patches/` as a real diff.",
+    "",
+    "The split matters because this runs again on every AndroidX release. A rule survives an",
+    "upstream refactor; a patch does not, and a patch that stops applying is a build failure that",
+    "names the file a human has to look at. So anything that CAN be a rule is a rule."
+  ],
+
+  "$androidOnlyPrefixesComment": [
+    "Import prefixes with no Kotlin/Wasm implementation. `tools/transform.py` reports every file",
+    "still importing one of these after the patches have applied — that report is the worklist.",
+    "",
+    "Deliberately ABSENT, because they already publish wasmJs targets and need no porting at all:",
+    "androidx.annotation, androidx.collection, androidx.graphics.shapes (all three have a",
+    "*-wasm-js artifact on Google Maven), and every androidx.compose.* package, which is what",
+    "Compose Multiplatform republishes. That is why 26 of 222 files need work and not all 222."
+  ],
+  "androidOnlyPrefixes": [
+    "android.",
+    "com.google.wear.",
+    "androidx.core.",
+    "androidx.activity.",
+    "androidx.wear.utils.",
+    "java.",
+    "javax."
+  ],
+
+  "$dropAnnotationsComment": [
+    "Android build-tooling annotations. They carry no runtime meaning, and their absence changes",
+    "nothing about what the code does — but their import does not resolve off-Android."
+  ],
+  "dropAnnotations": [
+    "SuppressLint",
+    "RequiresApi",
+    "RequiresPermission",
+    "DoNotInline",
+    "ChecksSdkIntAtLeast"
+  ],
+  "dropImports": [
+    "android.annotation.SuppressLint",
+    "androidx.annotation.RequiresApi",
+    "androidx.annotation.RequiresPermission",
+    "androidx.annotation.DoNotInline",
+    "androidx.annotation.ChecksSdkIntAtLeast",
+    "androidx.annotation.Nullable",
+    "androidx.annotation.ColorInt",
+    "androidx.annotation.ColorRes",
+    "androidx.annotation.StringRes",
+    "androidx.annotation.PluralsRes",
+    "androidx.compose.material.icons.materialIcon",
+    "androidx.compose.material.icons.materialPath"
+  ],
+
+  "$dropImportsMaterialIconsComment": [
+    "The last two are not Android-only, they are CMP-missing: `material-icons-core` was deprecated",
+    "and then dropped from Compose Multiplatform, so `materialIcon`/`materialPath` have nowhere to",
+    "come from. They are re-declared under the SAME NAMES in the same package, by",
+    "`modules/wear-compose-material-core/src/commonPort/.../MaterialIconBuilders.kt`, which is why",
+    "dropping the import is the entire port: the generated call sites do not change, so",
+    "RangeDefaults.kt carries no patch to re-cut when upstream edits it."
+  ],
+
+  "$rewriteImportsComment": [
+    "One-for-one moves where Compose Multiplatform publishes the same declaration under another",
+    "package. `androidx.activity.compose.BackHandler` is the load-bearing one: CMP 1.8 lifted",
+    "back handling into `androidx.compose.ui.backhandler`, so the call sites need no edit at all."
+  ],
+  "rewriteImports": {
+    "java.util.concurrent.atomic.AtomicReference": "ee.schimke.wearcmp.port.AtomicReference",
+    "java.util.concurrent.atomic.AtomicInteger": "ee.schimke.wearcmp.port.AtomicInteger",
+    "androidx.activity.compose.BackHandler": "androidx.compose.ui.backhandler.BackHandler",
+    "androidx.activity.compose.PredictiveBackHandler": "androidx.compose.ui.backhandler.PredictiveBackHandler"
+  },
+
+  "modules": {
+    "wear-compose-material-core": { "exclude": {} },
+    "wear-compose-foundation": { "exclude": {} },
+    "wear-compose-material3": { "exclude": {} }
+  }
+}
