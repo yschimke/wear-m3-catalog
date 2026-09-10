@@ -275,6 +275,15 @@ dependencies {
 
   debugImplementation(libs.compose.ui.tooling.prerelease)
 
+  testImplementation(libs.composeai.ui.builder.export)
   testImplementation(libs.junit)
   testImplementation(libs.truth)
+}
+
+// `-PwriteGolden=true` rewrites the checked-in generated widget from the exporter instead of
+// asserting against it — the same shape as compose-preview-server's `-PuiBuilderGoldens=write`.
+// A golden nobody can regenerate is one people hand-edit, and a hand-edited generated file is a
+// claim about a generator that stopped being true.
+tasks.withType<Test>().configureEach {
+  systemProperty("writeGolden", providers.gradleProperty("writeGolden").getOrElse("false"))
 }
