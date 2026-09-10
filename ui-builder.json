@@ -11,7 +11,7 @@
     "record": {
         "file": "components.json",
         "schemaVersion": 2,
-        "components": 78
+        "components": 80
     },
     "statusSemantics": {
         "platform": "wear",
@@ -42,8 +42,23 @@
                 "Horologist"
             ],
             "components": {
-                "wear-m3/alert-dialog": {
+                "wear-m3/confirm-button": {
                     "group": "Dialogs"
+                },
+                "wear-m3/dismiss-button": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/edge-button": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/alert-dialog-content": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/animated-text": {
+                    "group": "Text"
+                },
+                "wear-m3/app-scaffold": {
+                    "group": "Fast scrolling"
                 },
                 "wear-m3/arc-progress-indicator": {
                     "group": "Progress indicators"
@@ -51,19 +66,19 @@
                 "wear-m3/button-group": {
                     "group": "Buttons"
                 },
-                "wear-m3/filled": {
+                "wear-m3/button": {
                     "group": "Buttons"
                 },
-                "wear-m3/child": {
+                "wear-m3/child-button": {
                     "group": "Buttons"
                 },
-                "wear-m3/compact": {
+                "wear-m3/compact-button": {
                     "group": "Buttons"
                 },
-                "wear-m3/tonal": {
+                "wear-m3/filled-tonal-button": {
                     "group": "Buttons"
                 },
-                "wear-m3/outlined": {
+                "wear-m3/outlined-button": {
                     "group": "Buttons"
                 },
                 "wear-m3/app-card": {
@@ -72,35 +87,50 @@
                 "wear-m3/card": {
                     "group": "Cards"
                 },
+                "wear-m3/outlined-card": {
+                    "group": "Cards"
+                },
                 "wear-m3/title-card": {
                     "group": "Cards"
                 },
                 "wear-m3/checkbox-button": {
                     "group": "Selection buttons"
                 },
-                "wear-m3/loading": {
+                "wear-m3/split-checkbox-button": {
+                    "group": "Selection buttons"
+                },
+                "wear-m3/circular-progress-indicator": {
                     "group": "Buttons"
                 },
-                "wear-m3/generic": {
+                "wear-m3/confirmation-dialog-content": {
                     "group": "Dialogs"
                 },
-                "wear-m3/failure": {
+                "wear-m3/failure-confirmation-dialog-content": {
                     "group": "Dialogs"
                 },
-                "wear-m3/success": {
+                "wear-m3/success-confirmation-dialog-content": {
                     "group": "Dialogs"
                 },
                 "wear-m3/date-picker": {
                     "group": "Pickers"
                 },
-                "wear-m3/edge-button": {
-                    "group": "Edge-hugging buttons"
-                },
                 "wear-m3/fading-expanding-label": {
                     "group": "Text"
                 },
-                "wear-m3/standard": {
+                "wear-m3/filled-icon-button": {
                     "group": "Icon buttons"
+                },
+                "wear-m3/filled-tonal-icon-button": {
+                    "group": "Icon buttons"
+                },
+                "wear-m3/icon-button": {
+                    "group": "Icon buttons"
+                },
+                "wear-m3/outlined-icon-button": {
+                    "group": "Icon buttons"
+                },
+                "wear-m3/icon": {
+                    "group": "Dialogs"
                 },
                 "wear-m3/icon-toggle-button": {
                     "group": "Toggle buttons"
@@ -108,28 +138,40 @@
                 "wear-m3/level-indicator": {
                     "group": "Position indicators"
                 },
-                "wear-m3/stepper": {
+                "wear-m3/stepper-level-indicator": {
                     "group": "Sliders and steppers"
                 },
                 "wear-m3/linear-progress-indicator": {
                     "group": "Progress indicators"
                 },
-                "wear-m3/fast-scrolling-transforming-lazy-column": {
+                "wear-m3/list-header": {
                     "group": "Fast scrolling"
                 },
                 "wear-m3/list-sub-header": {
                     "group": "Text"
                 },
-                "wear-m3/open-on-phone-dialog": {
+                "wear-m3/open-on-phone-dialog-content": {
                     "group": "Dialogs"
                 },
-                "wear-m3/horizontal": {
+                "wear-m3/horizontal-page-indicator": {
                     "group": "Position indicators"
                 },
-                "wear-m3/vertical": {
+                "wear-m3/vertical-page-indicator": {
                     "group": "Position indicators"
+                },
+                "wear-m3/animated-page": {
+                    "group": "Pagers"
+                },
+                "wear-m3/horizontal-pager-scaffold": {
+                    "group": "Pagers"
+                },
+                "wear-m3/vertical-pager-scaffold": {
+                    "group": "Pagers"
                 },
                 "wear-m3/picker-group": {
+                    "group": "Pickers"
+                },
+                "wear-m3/picker-group-item": {
                     "group": "Pickers"
                 },
                 "wear-m3/picker": {
@@ -138,26 +180,53 @@
                 "wear-m3/radio-button": {
                     "group": "Selection buttons"
                 },
+                "wear-m3/split-radio-button": {
+                    "group": "Selection buttons"
+                },
+                "wear-m3/screen-scaffold": {
+                    "group": "Fast scrolling"
+                },
                 "wear-m3/scroll-indicator": {
                     "group": "Position indicators"
                 },
                 "wear-m3/segmented-circular-progress-indicator": {
                     "group": "Progress indicators"
                 },
+                "wear-m3/decrease-icon": {
+                    "group": "Sliders and steppers"
+                },
+                "wear-m3/increase-icon": {
+                    "group": "Sliders and steppers"
+                },
                 "wear-m3/slider": {
+                    "group": "Sliders and steppers"
+                },
+                "wear-m3/stepper": {
                     "group": "Sliders and steppers"
                 },
                 "wear-m3/swipe-to-dismiss-box": {
                     "group": "Swipe to dismiss"
                 },
-                "wear-m3/button": {
+                "wear-m3/swipe-to-reveal": {
                     "group": "Swipe to reveal"
+                },
+                "wear-m3/primary-action-button": {
+                    "group": "Swipe to reveal"
+                },
+                "wear-m3/secondary-action-button": {
+                    "group": "Swipe to reveal"
+                },
+                "wear-m3/split-switch-button": {
+                    "group": "Selection buttons"
                 },
                 "wear-m3/switch-button": {
                     "group": "Selection buttons"
                 },
                 "wear-m3/text-button": {
                     "group": "Icon buttons"
+                },
+                "wear-m3/text": {
+                    "group": "Dialogs"
                 },
                 "wear-m3/text-toggle-button": {
                     "group": "Toggle buttons"
@@ -166,24 +235,39 @@
                     "group": "Pickers"
                 },
                 "wear-m3/time-text": {
-                    "group": "Text"
+                    "group": "Fast scrolling"
                 },
                 "wear-m3/one-handed-gesture-click-indicator": {
+                    "group": "One-handed gestures"
+                },
+                "wear-m3/one-handed-gesture-horizontal-page-indicator": {
+                    "group": "One-handed gestures"
+                },
+                "wear-m3/one-handed-gesture-vertical-page-indicator": {
                     "group": "One-handed gestures"
                 },
                 "wear-m3/one-handed-gesture-scroll-indicator": {
                     "group": "One-handed gestures"
                 },
-                "wear-m3/animated-text": {
+                "wear-m3/edge-button-sticker": {
+                    "group": "Edge-hugging buttons"
+                },
+                "wear-m3/full-screen-sticker": {
+                    "group": "Dialogs"
+                },
+                "wear-m3/screen-sticker": {
+                    "group": "Fast scrolling"
+                },
+                "wear-m3/sticker": {
                     "group": "Text"
                 },
-                "wear-m3/circular-progress-indicator": {
+                "wear-m3/transparent-screen-sticker": {
                     "group": "Progress indicators"
                 },
-                "wear-m3/scaffold": {
+                "wear-m3/wear-screen": {
                     "group": "Lists and screens"
                 },
-                "wear-m3/control-buttons": {
+                "wear-m3/media-row-sticker": {
                     "group": "Media controls"
                 }
             }
@@ -241,6 +325,7 @@
                 "displayName": "Screen",
                 "group": "Layout",
                 "canvas": "frame/round-screen",
+                "traits": [],
                 "slots": {
                     "content": {
                         "required": true,
@@ -258,168 +343,1398 @@
                         "role": "overlay"
                     }
                 },
-                "properties": []
+                "properties": [],
+                "modifierCapabilities": null
             },
             "wear-m3/transforming-lazy-column": {
                 "role": "list",
                 "displayName": "Scrolling list",
                 "group": "Layout",
                 "canvas": "placeholder",
+                "traits": [],
                 "slots": {
                     "items": {
                         "required": true,
                         "role": "list-item"
                     }
                 },
-                "properties": []
+                "properties": [],
+                "modifierCapabilities": null
             }
         },
-        "components": {}
+        "components": {
+            "wear-m3/confirm-button": {
+                "record": "catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/dismiss-button": {
+                "record": "catalog/androidx.wear.compose.material3.AlertDialogDefaults.DismissButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/edge-button": {
+                "record": "catalog/androidx.wear.compose.material3.AlertDialogDefaults.EdgeButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/alert-dialog-content": {
+                "record": "catalog/androidx.wear.compose.material3.AlertDialogKt.AlertDialogContent",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/animated-text": {
+                "record": "catalog/androidx.wear.compose.material3.AnimatedTextKt.AnimatedText",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/app-scaffold": {
+                "record": "catalog/androidx.wear.compose.material3.AppScaffoldKt.AppScaffold",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/arc-progress-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.ArcProgressIndicatorKt.ArcProgressIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/button-group": {
+                "record": "catalog/androidx.wear.compose.material3.ButtonGroupKt.ButtonGroup",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/button": {
+                "record": "catalog/androidx.wear.compose.material3.ButtonKt.Button",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/child-button": {
+                "record": "catalog/androidx.wear.compose.material3.ButtonKt.ChildButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/compact-button": {
+                "record": "catalog/androidx.wear.compose.material3.ButtonKt.CompactButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/filled-tonal-button": {
+                "record": "catalog/androidx.wear.compose.material3.ButtonKt.FilledTonalButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/outlined-button": {
+                "record": "catalog/androidx.wear.compose.material3.ButtonKt.OutlinedButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/app-card": {
+                "record": "catalog/androidx.wear.compose.material3.CardKt.AppCard",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/card": {
+                "record": "catalog/androidx.wear.compose.material3.CardKt.Card",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/outlined-card": {
+                "record": "catalog/androidx.wear.compose.material3.CardKt.OutlinedCard",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/title-card": {
+                "record": "catalog/androidx.wear.compose.material3.CardKt.TitleCard",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/checkbox-button": {
+                "record": "catalog/androidx.wear.compose.material3.CheckboxButtonKt.CheckboxButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/split-checkbox-button": {
+                "record": "catalog/androidx.wear.compose.material3.CheckboxButtonKt.SplitCheckboxButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/circular-progress-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.CircularProgressIndicatorKt.CircularProgressIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/confirmation-dialog-content": {
+                "record": "catalog/androidx.wear.compose.material3.ConfirmationDialogKt.ConfirmationDialogContent",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/failure-confirmation-dialog-content": {
+                "record": "catalog/androidx.wear.compose.material3.ConfirmationDialogKt.FailureConfirmationDialogContent",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/success-confirmation-dialog-content": {
+                "record": "catalog/androidx.wear.compose.material3.ConfirmationDialogKt.SuccessConfirmationDialogContent",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/date-picker": {
+                "record": "catalog/androidx.wear.compose.material3.DatePickerKt.DatePicker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/fading-expanding-label": {
+                "record": "catalog/androidx.wear.compose.material3.FadingExpandingLabelKt.FadingExpandingLabel",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/filled-icon-button": {
+                "record": "catalog/androidx.wear.compose.material3.IconButtonKt.FilledIconButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/filled-tonal-icon-button": {
+                "record": "catalog/androidx.wear.compose.material3.IconButtonKt.FilledTonalIconButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/icon-button": {
+                "record": "catalog/androidx.wear.compose.material3.IconButtonKt.IconButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/outlined-icon-button": {
+                "record": "catalog/androidx.wear.compose.material3.IconButtonKt.OutlinedIconButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/icon": {
+                "record": "catalog/androidx.wear.compose.material3.IconKt.Icon",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/icon-toggle-button": {
+                "record": "catalog/androidx.wear.compose.material3.IconToggleButtonKt.IconToggleButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/level-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.LevelIndicatorKt.LevelIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/stepper-level-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.LevelIndicatorKt.StepperLevelIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/linear-progress-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.LinearProgressIndicatorKt.LinearProgressIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/list-header": {
+                "record": "catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/list-sub-header": {
+                "record": "catalog/androidx.wear.compose.material3.ListHeaderKt.ListSubHeader",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/open-on-phone-dialog-content": {
+                "record": "catalog/androidx.wear.compose.material3.OpenOnPhoneDialogKt.OpenOnPhoneDialogContent",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/horizontal-page-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/vertical-page-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.PageIndicatorKt.VerticalPageIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/animated-page": {
+                "record": "catalog/androidx.wear.compose.material3.PagerScaffoldKt.AnimatedPage",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/horizontal-pager-scaffold": {
+                "record": "catalog/androidx.wear.compose.material3.PagerScaffoldKt.HorizontalPagerScaffold",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/vertical-pager-scaffold": {
+                "record": "catalog/androidx.wear.compose.material3.PagerScaffoldKt.VerticalPagerScaffold",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/picker-group": {
+                "record": "catalog/androidx.wear.compose.material3.PickerGroupKt.PickerGroup",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/picker-group-item": {
+                "record": "catalog/androidx.wear.compose.material3.PickerGroupScope.PickerGroupItem",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/picker": {
+                "record": "catalog/androidx.wear.compose.material3.PickerKt.Picker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/radio-button": {
+                "record": "catalog/androidx.wear.compose.material3.RadioButtonKt.RadioButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/split-radio-button": {
+                "record": "catalog/androidx.wear.compose.material3.RadioButtonKt.SplitRadioButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/screen-scaffold": {
+                "record": "catalog/androidx.wear.compose.material3.ScreenScaffoldKt.ScreenScaffold",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/scroll-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.ScrollIndicatorKt.ScrollIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/segmented-circular-progress-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.SegmentedCircularProgressIndicatorKt.SegmentedCircularProgressIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/decrease-icon": {
+                "record": "catalog/androidx.wear.compose.material3.SliderDefaults.DecreaseIcon",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/increase-icon": {
+                "record": "catalog/androidx.wear.compose.material3.SliderDefaults.IncreaseIcon",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/slider": {
+                "record": "catalog/androidx.wear.compose.material3.SliderKt.Slider",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/stepper": {
+                "record": "catalog/androidx.wear.compose.material3.StepperKt.Stepper",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/swipe-to-dismiss-box": {
+                "record": "catalog/androidx.wear.compose.material3.SwipeToDismissBoxKt.SwipeToDismissBox",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/swipe-to-reveal": {
+                "record": "catalog/androidx.wear.compose.material3.SwipeToRevealKt.SwipeToReveal",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/primary-action-button": {
+                "record": "catalog/androidx.wear.compose.material3.SwipeToRevealScope.PrimaryActionButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/secondary-action-button": {
+                "record": "catalog/androidx.wear.compose.material3.SwipeToRevealScope.SecondaryActionButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/split-switch-button": {
+                "record": "catalog/androidx.wear.compose.material3.SwitchButtonKt.SplitSwitchButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/switch-button": {
+                "record": "catalog/androidx.wear.compose.material3.SwitchButtonKt.SwitchButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/text-button": {
+                "record": "catalog/androidx.wear.compose.material3.TextButtonKt.TextButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/text": {
+                "record": "catalog/androidx.wear.compose.material3.TextKt.Text",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/text-toggle-button": {
+                "record": "catalog/androidx.wear.compose.material3.TextToggleButtonKt.TextToggleButton",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/time-picker": {
+                "record": "catalog/androidx.wear.compose.material3.TimePickerKt.TimePicker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/time-text": {
+                "record": "catalog/androidx.wear.compose.material3.TimeTextKt.TimeText",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/one-handed-gesture-click-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGestureClickIndicatorKt.OneHandedGestureClickIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/one-handed-gesture-horizontal-page-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorKt.OneHandedGestureHorizontalPageIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/one-handed-gesture-vertical-page-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorKt.OneHandedGestureVerticalPageIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/one-handed-gesture-scroll-indicator": {
+                "record": "catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGestureScrollIndicatorKt.OneHandedGestureScrollIndicator",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/animated-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.AnimatedSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/edge-button-screen": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.EdgeButtonScreen",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/edge-button-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.EdgeButtonSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/full-screen-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.FullScreenSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/screen-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.ScreenSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.Sticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/transparent-screen-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.TransparentScreenSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/wear-screen": {
+                "record": "catalog/ee.schimke.wearm3catalog.sections.ListsKt.WearScreen",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            },
+            "wear-m3/media-row-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaRowSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
+            }
+        }
     },
     "diagnostics": [
         {
-            "code": "component.id.collision",
-            "subject": "wear-m3/alert-dialog",
-            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.AlertDialogDefaults.DismissButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/alert-dialog",
-            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.AlertDialogDefaults.EdgeButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/alert-dialog",
-            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.AlertDialogKt.AlertDialogContent. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/outlined",
-            "message": "'wear-m3/outlined' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.OutlinedButton and catalog/androidx.wear.compose.material3.CardKt.OutlinedCard. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/checkbox-button",
-            "message": "'wear-m3/checkbox-button' is claimed by both catalog/androidx.wear.compose.material3.CheckboxButtonKt.CheckboxButton and catalog/androidx.wear.compose.material3.CheckboxButtonKt.SplitCheckboxButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/filled",
-            "message": "'wear-m3/filled' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.Button and catalog/androidx.wear.compose.material3.IconButtonKt.FilledIconButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/tonal",
-            "message": "'wear-m3/tonal' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.FilledTonalButton and catalog/androidx.wear.compose.material3.IconButtonKt.FilledTonalIconButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/outlined",
-            "message": "'wear-m3/outlined' is claimed by both catalog/androidx.wear.compose.material3.ButtonKt.OutlinedButton and catalog/androidx.wear.compose.material3.IconButtonKt.OutlinedIconButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/alert-dialog",
-            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.IconKt.Icon. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/open-on-phone-dialog",
-            "message": "'wear-m3/open-on-phone-dialog' is claimed by both catalog/androidx.wear.compose.material3.OpenOnPhoneDialogDefaults.Icon and catalog/androidx.wear.compose.material3.OpenOnPhoneDialogKt.OpenOnPhoneDialogContent. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/horizontal",
-            "message": "'wear-m3/horizontal' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator and catalog/androidx.wear.compose.material3.PagerScaffoldKt.AnimatedPage. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/horizontal",
-            "message": "'wear-m3/horizontal' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator and catalog/androidx.wear.compose.material3.PagerScaffoldKt.HorizontalPagerScaffold. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/vertical",
-            "message": "'wear-m3/vertical' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.VerticalPageIndicator and catalog/androidx.wear.compose.material3.PagerScaffoldKt.VerticalPagerScaffold. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/picker-group",
-            "message": "'wear-m3/picker-group' is claimed by both catalog/androidx.wear.compose.material3.PickerGroupKt.PickerGroup and catalog/androidx.wear.compose.material3.PickerGroupScope.PickerGroupItem. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/radio-button",
-            "message": "'wear-m3/radio-button' is claimed by both catalog/androidx.wear.compose.material3.RadioButtonKt.RadioButton and catalog/androidx.wear.compose.material3.RadioButtonKt.SplitRadioButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/fast-scrolling-transforming-lazy-column",
-            "message": "'wear-m3/fast-scrolling-transforming-lazy-column' is claimed by both catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader and catalog/androidx.wear.compose.material3.ScreenScaffoldKt.ScreenScaffold. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/slider",
-            "message": "'wear-m3/slider' is claimed by both catalog/androidx.wear.compose.material3.SliderDefaults.DecreaseIcon and catalog/androidx.wear.compose.material3.SliderDefaults.IncreaseIcon. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/slider",
-            "message": "'wear-m3/slider' is claimed by both catalog/androidx.wear.compose.material3.SliderDefaults.DecreaseIcon and catalog/androidx.wear.compose.material3.SliderKt.Slider. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/stepper",
-            "message": "'wear-m3/stepper' is claimed by both catalog/androidx.wear.compose.material3.LevelIndicatorKt.StepperLevelIndicator and catalog/androidx.wear.compose.material3.StepperKt.Stepper. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/button",
-            "message": "'wear-m3/button' is claimed by both catalog/androidx.wear.compose.material3.SwipeToRevealKt.SwipeToReveal and catalog/androidx.wear.compose.material3.SwipeToRevealScope.PrimaryActionButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/button",
-            "message": "'wear-m3/button' is claimed by both catalog/androidx.wear.compose.material3.SwipeToRevealKt.SwipeToReveal and catalog/androidx.wear.compose.material3.SwipeToRevealScope.SecondaryActionButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/switch-button",
-            "message": "'wear-m3/switch-button' is claimed by both catalog/androidx.wear.compose.material3.SwitchButtonKt.SplitSwitchButton and catalog/androidx.wear.compose.material3.SwitchButtonKt.SwitchButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/alert-dialog",
-            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/androidx.wear.compose.material3.TextKt.Text. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/horizontal",
-            "message": "'wear-m3/horizontal' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.HorizontalPageIndicator and catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorKt.OneHandedGestureHorizontalPageIndicator. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/vertical",
-            "message": "'wear-m3/vertical' is claimed by both catalog/androidx.wear.compose.material3.PageIndicatorKt.VerticalPageIndicator and catalog/androidx.wear.compose.material3.onehandedgesture.OneHandedGesturePageIndicatorKt.OneHandedGestureVerticalPageIndicator. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+            "code": "policy.builtin.shadowsRecord",
+            "subject": "wear-m3/screen-scaffold",
+            "message": "declared as a builtin, but a record component already publishes under this id. A builtin is for a component with no call site; this one has one, so put its policy on the sticker with @BuilderComponent instead."
         },
         {
             "code": "component.id.collision",
             "subject": "wear-m3/edge-button",
-            "message": "'wear-m3/edge-button' is claimed by both catalog/androidx.wear.compose.material3.EdgeButtonKt.EdgeButton and catalog/ee.schimke.wearm3catalog.CatalogThemeKt.EdgeButtonSticker. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+            "message": "'wear-m3/edge-button' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.EdgeButton and catalog/androidx.wear.compose.material3.EdgeButtonKt.EdgeButton. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
         },
         {
             "code": "component.id.collision",
-            "subject": "wear-m3/alert-dialog",
-            "message": "'wear-m3/alert-dialog' is claimed by both catalog/androidx.wear.compose.material3.AlertDialogDefaults.ConfirmButton and catalog/ee.schimke.wearm3catalog.CatalogThemeKt.FullScreenSticker. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
-        },
-        {
-            "code": "component.id.collision",
-            "subject": "wear-m3/fast-scrolling-transforming-lazy-column",
-            "message": "'wear-m3/fast-scrolling-transforming-lazy-column' is claimed by both catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader and catalog/ee.schimke.wearm3catalog.CatalogThemeKt.ScreenSticker. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
+            "subject": "wear-m3/icon",
+            "message": "'wear-m3/icon' is claimed by both catalog/androidx.wear.compose.material3.IconKt.Icon and catalog/androidx.wear.compose.material3.OpenOnPhoneDialogDefaults.Icon. The first wins; give one of them an explicit @BuilderComponent(id = …), because a saved design stores this string and cannot be told which component it meant."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/alert-dialog",
+            "subject": "wear-m3/confirm-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/dismiss-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/edge-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/alert-dialog-content",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/animated-text",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/app-scaffold",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -434,27 +1749,27 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/filled",
+            "subject": "wear-m3/button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/child",
+            "subject": "wear-m3/child-button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/compact",
+            "subject": "wear-m3/compact-button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/tonal",
+            "subject": "wear-m3/filled-tonal-button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/outlined",
+            "subject": "wear-m3/outlined-button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -469,6 +1784,11 @@
         },
         {
             "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/outlined-card",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
             "subject": "wear-m3/title-card",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
@@ -479,22 +1799,27 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/loading",
+            "subject": "wear-m3/split-checkbox-button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/generic",
+            "subject": "wear-m3/circular-progress-indicator",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/failure",
+            "subject": "wear-m3/confirmation-dialog-content",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/success",
+            "subject": "wear-m3/failure-confirmation-dialog-content",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/success-confirmation-dialog-content",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -504,17 +1829,32 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/edge-button",
-            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
-        },
-        {
-            "code": "component.canvas.unclaimed",
             "subject": "wear-m3/fading-expanding-label",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/standard",
+            "subject": "wear-m3/filled-icon-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/filled-tonal-icon-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/icon-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/outlined-icon-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/icon",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -529,7 +1869,7 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/stepper",
+            "subject": "wear-m3/stepper-level-indicator",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -539,7 +1879,7 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/fast-scrolling-transforming-lazy-column",
+            "subject": "wear-m3/list-header",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -549,22 +1889,42 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/open-on-phone-dialog",
+            "subject": "wear-m3/open-on-phone-dialog-content",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/horizontal",
+            "subject": "wear-m3/horizontal-page-indicator",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/vertical",
+            "subject": "wear-m3/vertical-page-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/animated-page",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/horizontal-pager-scaffold",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/vertical-pager-scaffold",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
             "subject": "wear-m3/picker-group",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/picker-group-item",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -579,6 +1939,16 @@
         },
         {
             "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/split-radio-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/screen-scaffold",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
             "subject": "wear-m3/scroll-indicator",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
@@ -589,7 +1959,22 @@
         },
         {
             "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/decrease-icon",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/increase-icon",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
             "subject": "wear-m3/slider",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/stepper",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -599,7 +1984,22 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/button",
+            "subject": "wear-m3/swipe-to-reveal",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/primary-action-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/secondary-action-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/split-switch-button",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -610,6 +2010,11 @@
         {
             "code": "component.canvas.unclaimed",
             "subject": "wear-m3/text-button",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/text",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
@@ -634,6 +2039,16 @@
         },
         {
             "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/one-handed-gesture-horizontal-page-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/one-handed-gesture-vertical-page-indicator",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
             "subject": "wear-m3/one-handed-gesture-scroll-indicator",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
@@ -649,22 +2064,37 @@
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/animated-text",
+            "subject": "wear-m3/edge-button-sticker",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/circular-progress-indicator",
+            "subject": "wear-m3/full-screen-sticker",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/scaffold",
+            "subject": "wear-m3/screen-sticker",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         },
         {
             "code": "component.canvas.unclaimed",
-            "subject": "wear-m3/control-buttons",
+            "subject": "wear-m3/sticker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/transparent-screen-sticker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/wear-screen",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/media-row-sticker",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         }
     ]

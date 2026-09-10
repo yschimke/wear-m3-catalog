@@ -771,6 +771,653 @@
             "androidxOptIns": []
         },
         {
+            "canonicalId": "catalog/androidx.wear.compose.material3.AnimatedTextKt.AnimatedText",
+            "componentIds": [
+                "AnimatedText"
+            ],
+            "symbol": {
+                "jvmOwner": "androidx.wear.compose.material3.AnimatedTextKt",
+                "callable": "androidx.wear.compose.material3.AnimatedText",
+                "name": "AnimatedText",
+                "origin": "LIBRARY",
+                "jvmName": "AnimatedText",
+                "descriptor": "(Ljava/lang/String;Landroidx/wear/compose/material3/AnimatedTextFontRegistry;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Landroidx/compose/ui/Alignment;Landroidx/compose/runtime/Composer;II)V",
+                "sourceFile": null,
+                "docs": "unavailable",
+                "receiver": null
+            },
+            "parameters": [
+                {
+                    "name": "text",
+                    "type": "String",
+                    "typeFqn": "kotlin.String",
+                    "hasDefault": false,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "fontRegistry",
+                    "type": "AnimatedTextFontRegistry",
+                    "typeFqn": "androidx.wear.compose.material3.AnimatedTextFontRegistry",
+                    "hasDefault": false,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "progressFraction",
+                    "type": "() -> Float",
+                    "typeFqn": "kotlin.Function0",
+                    "hasDefault": false,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": "kotlin.Float"
+                },
+                {
+                    "name": "modifier",
+                    "type": "Modifier",
+                    "typeFqn": "androidx.compose.ui.Modifier",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "contentAlignment",
+                    "type": "Alignment",
+                    "typeFqn": "androidx.compose.ui.Alignment",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                }
+            ],
+            "slots": [],
+            "bindings": [
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.AnimatedTextMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.AnimatedNumeral",
+                    "componentId": "AnimatedText",
+                    "group": "Text"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.AnimatedNumeral_VARIANT_midway",
+                    "componentId": "AnimatedText",
+                    "group": "Text"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.AnimatedNumeral_VARIANT_start",
+                    "componentId": "AnimatedText",
+                    "group": "Text"
+                }
+            ],
+            "code": {
+                "call": null,
+                "imports": [],
+                "refusedReason": "no placeholder can be written for required parameter `fontRegistry: AnimatedTextFontRegistry`",
+                "requiredOptIns": [],
+                "androidxOptIns": []
+            },
+            "signatureKnown": true,
+            "callableFromAnotherFile": true,
+            "hasTypeParameters": false,
+            "hasContextReceivers": false,
+            "overloadsCollided": false,
+            "builder": null,
+            "requiredOptIns": [],
+            "androidxOptIns": []
+        },
+        {
+            "canonicalId": "catalog/androidx.wear.compose.material3.AppScaffoldKt.AppScaffold",
+            "componentIds": [
+                "FastScrollingTransformingLazyColumn",
+                "Media/PlayerScreen",
+                "Pager/Horizontal",
+                "Pager/Vertical",
+                "Scaffold",
+                "TransformingLazyColumn"
+            ],
+            "symbol": {
+                "jvmOwner": "androidx.wear.compose.material3.AppScaffoldKt",
+                "callable": "androidx.wear.compose.material3.AppScaffold",
+                "name": "AppScaffold",
+                "origin": "LIBRARY",
+                "jvmName": "AppScaffold-t6yy7ic",
+                "descriptor": "(Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;JJLkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V",
+                "sourceFile": null,
+                "docs": "unavailable",
+                "receiver": null
+            },
+            "parameters": [
+                {
+                    "name": "modifier",
+                    "type": "Modifier",
+                    "typeFqn": "androidx.compose.ui.Modifier",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "timeText",
+                    "type": "() -> Unit",
+                    "typeFqn": "kotlin.Function0",
+                    "hasDefault": true,
+                    "composableSlot": true,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": "kotlin.Unit"
+                },
+                {
+                    "name": "containerColor",
+                    "type": "Color",
+                    "typeFqn": "androidx.compose.ui.graphics.Color",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "contentColor",
+                    "type": "Color",
+                    "typeFqn": "androidx.compose.ui.graphics.Color",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "content",
+                    "type": "BoxScope.() -> Unit",
+                    "typeFqn": "kotlin.Function1",
+                    "hasDefault": false,
+                    "composableSlot": true,
+                    "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": "kotlin.Unit"
+                }
+            ],
+            "slots": [
+                {
+                    "name": "timeText",
+                    "required": false,
+                    "receiverScope": null
+                },
+                {
+                    "name": "content",
+                    "required": true,
+                    "receiverScope": "androidx.compose.foundation.layout.BoxScope"
+                }
+            ],
+            "bindings": [
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_192dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_204dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_216dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_225dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_240dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_192dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_204dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_216dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_225dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_240dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_192dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_192dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_204dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_204dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_216dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_216dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_225dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_225dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_240dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_240dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.EdgeButtonRevealMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PagerTransitionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderButtonMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderCardMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderIconButtonMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.VerticalPagerTransitionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                }
+            ],
+            "code": {
+                "call": "AppScaffold(content = {})",
+                "imports": [
+                    "androidx.wear.compose.material3.AppScaffold"
+                ],
+                "refusedReason": null,
+                "requiredOptIns": [],
+                "androidxOptIns": []
+            },
+            "signatureKnown": true,
+            "callableFromAnotherFile": true,
+            "hasTypeParameters": false,
+            "hasContextReceivers": false,
+            "overloadsCollided": false,
+            "builder": null,
+            "requiredOptIns": [],
+            "androidxOptIns": []
+        },
+        {
             "canonicalId": "catalog/androidx.wear.compose.material3.ArcProgressIndicatorKt.ArcProgressIndicator",
             "componentIds": [
                 "ArcProgressIndicator"
@@ -1493,6 +2140,11 @@
                     "group": "Fast scrolling"
                 },
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.ButtonGroupExpansionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.FadingExpandingLabelMotion",
                     "componentId": null,
                     "group": null
@@ -1885,7 +2537,11 @@
         {
             "canonicalId": "catalog/androidx.wear.compose.material3.ButtonKt.CompactButton",
             "componentIds": [
-                "Button/Compact"
+                "Button/Compact",
+                "OneHandedGestureClickIndicator",
+                "OneHandedGesturePageIndicator/Horizontal",
+                "OneHandedGesturePageIndicator/Vertical",
+                "OneHandedGestureScrollIndicator"
             ],
             "symbol": {
                 "jvmOwner": "androidx.wear.compose.material3.ButtonKt",
@@ -2231,6 +2887,176 @@
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton_VARIANT_tonal-text-only-disabled",
                     "componentId": "Button/Compact",
                     "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator",
+                    "componentId": "OneHandedGestureClickIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_dismiss",
+                    "componentId": "OneHandedGestureClickIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureClickIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_small-indicator",
+                    "componentId": "OneHandedGestureClickIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_192dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_192dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_204dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_204dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_216dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_216dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_225dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_225dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_240dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_240dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_192dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_192dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_204dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_204dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_216dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_216dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_225dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_225dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_240dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_240dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_192dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_192dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_204dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_204dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_216dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_216dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_225dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_225dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_240dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_240dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
                 }
             ],
             "code": {
@@ -3349,6 +4175,11 @@
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderCardMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.SwipeToRevealMotion",
                     "componentId": null,
                     "group": null
                 },
@@ -7739,13 +8570,26 @@
             "componentIds": [
                 "AlertDialog",
                 "AppCard",
+                "Button/Child",
                 "Button/Compact",
+                "Button/Filled",
+                "Button/FilledVariant",
                 "Button/Loading",
+                "Button/Outlined",
+                "Button/Tonal",
+                "ConfirmationDialog/Generic",
                 "EdgeButton",
+                "IconButton/Filled",
+                "IconButton/FilledVariant",
+                "IconButton/Outlined",
+                "IconButton/Standard",
+                "IconButton/Tonal",
                 "IconToggleButton",
                 "ListSubHeader",
                 "Slider",
-                "Stepper"
+                "Stepper",
+                "SwipeToReveal/Button",
+                "SwipeToReveal/Card"
             ],
             "symbol": {
                 "jvmOwner": "androidx.wear.compose.material3.IconKt",
@@ -7814,6 +8658,56 @@
             ],
             "slots": [],
             "bindings": [
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-large",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_left",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_left-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton",
                     "componentId": "Button/Compact",
@@ -7965,6 +8859,106 @@
                     "group": "Buttons"
                 },
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-large",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_left",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_left-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-large",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_left",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_left-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton",
                     "componentId": "Button/Loading",
                     "group": "Buttons"
@@ -8052,6 +9046,106 @@
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_outlined-icon-large-disabled",
                     "componentId": "Button/Loading",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-large",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_left",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_left-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-large",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_left",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_left-disabled",
+                    "componentId": "Button/Tonal",
                     "group": "Buttons"
                 },
                 {
@@ -8212,6 +9306,56 @@
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.AlertDialogSticker_240dp_VARIANT_no-buttons",
                     "componentId": "AlertDialog",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_192dp",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_192dp_VARIANT_no-text",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_204dp",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_204dp_VARIANT_no-text",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_216dp",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_216dp_VARIANT_no-text",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_225dp",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_225dp_VARIANT_no-text",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_240dp",
+                    "componentId": "ConfirmationDialog/Generic",
+                    "group": "Dialogs"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.DialogsKt.GenericConfirmation_240dp_VARIANT_no-text",
+                    "componentId": "ConfirmationDialog/Generic",
                     "group": "Dialogs"
                 },
                 {
@@ -8535,6 +9679,206 @@
                     "group": "Edge-hugging buttons"
                 },
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_disabled",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_extra-small",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_extra-small-disabled",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_large",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_large-disabled",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_small",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledIconAction_VARIANT_small-disabled",
+                    "componentId": "IconButton/Filled",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_disabled",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_extra-small",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_extra-small-disabled",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_large",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_large-disabled",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_small",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.FilledVariantIconAction_VARIANT_small-disabled",
+                    "componentId": "IconButton/FilledVariant",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_disabled",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_extra-small",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_extra-small-disabled",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_large",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_large-disabled",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_small",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.OutlinedIconAction_VARIANT_small-disabled",
+                    "componentId": "IconButton/Outlined",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_disabled",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_extra-small",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_extra-small-disabled",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_large",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_large-disabled",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_small",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.StandardIconAction_VARIANT_small-disabled",
+                    "componentId": "IconButton/Standard",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_disabled",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_extra-small",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_extra-small-disabled",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_large",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_large-disabled",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_small",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.IconButtonsKt.TonalIconAction_VARIANT_small-disabled",
+                    "componentId": "IconButton/Tonal",
+                    "group": "Icon buttons"
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderButtonMotion",
                     "componentId": null,
                     "group": null
@@ -8546,6 +9890,16 @@
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderIconButtonMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.SwipeToRevealMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.ToggleButtonShapeMotion",
                     "componentId": null,
                     "group": null
                 },
@@ -8928,6 +10282,106 @@
                     "previewId": "ee.schimke.wearm3catalog.sections.SlidersKt.ValueStepper_240dp_VARIANT_no-button-fill-disabled",
                     "componentId": "Stepper",
                     "group": "Sliders and steppers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_204dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_204dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_216dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_216dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_225dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_225dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_240dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_240dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_204dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_204dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_216dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_216dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_225dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_225dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_240dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_240dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListSubHeading",
@@ -10211,6 +11665,11 @@
                     "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_240dp_VARIANT_no-scroll-indicator",
                     "componentId": "Scaffold",
                     "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.EdgeButtonRevealMotion",
+                    "componentId": null,
+                    "group": null
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.ListHeading",
@@ -13605,8 +15064,8 @@
                 "callable": "androidx.wear.compose.material3.ScreenScaffold",
                 "name": "ScreenScaffold",
                 "origin": "LIBRARY",
-                "jvmName": "ScreenScaffold",
-                "descriptor": "(Landroidx/wear/compose/foundation/lazy/ScalingLazyListState;Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/layout/PaddingValues;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/OverscrollEffect;Lkotlin/jvm/functions/Function4;Landroidx/compose/runtime/Composer;II)V",
+                "jvmName": null,
+                "descriptor": null,
                 "sourceFile": null,
                 "docs": "unavailable",
                 "receiver": null
@@ -13624,6 +15083,19 @@
                     "noArgFactory": "androidx.wear.compose.foundation.lazy.rememberScalingLazyListState",
                     "scopeDslReceiver": null,
                     "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "edgeButton",
+                    "type": "BoxScope.() -> Unit",
+                    "typeFqn": "kotlin.Function1",
+                    "hasDefault": false,
+                    "composableSlot": true,
+                    "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": "kotlin.Unit"
                 },
                 {
                     "name": "modifier",
@@ -13678,6 +15150,19 @@
                     "lambdaReturnTypeFqn": "kotlin.Unit"
                 },
                 {
+                    "name": "edgeButtonSpacing",
+                    "type": "Dp",
+                    "typeFqn": "androidx.compose.ui.unit.Dp",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
                     "name": "overscrollEffect",
                     "type": "OverscrollEffect?",
                     "typeFqn": "androidx.compose.foundation.OverscrollEffect",
@@ -13705,6 +15190,11 @@
                 }
             ],
             "slots": [
+                {
+                    "name": "edgeButton",
+                    "required": true,
+                    "receiverScope": "androidx.compose.foundation.layout.BoxScope"
+                },
                 {
                     "name": "timeText",
                     "required": false,
@@ -13821,15 +15311,17 @@
                     "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_240dp_VARIANT_no-scroll-indicator",
                     "componentId": "Scaffold",
                     "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.EdgeButtonRevealMotion",
+                    "componentId": null,
+                    "group": null
                 }
             ],
             "code": {
-                "call": "ScreenScaffold(scrollState = rememberScalingLazyListState(), content = {})",
-                "imports": [
-                    "androidx.wear.compose.material3.ScreenScaffold",
-                    "androidx.wear.compose.foundation.lazy.rememberScalingLazyListState"
-                ],
-                "refusedReason": null,
+                "call": null,
+                "imports": [],
+                "refusedReason": "overloads collided under this canonical id, so no single call site identifies one",
                 "requiredOptIns": [],
                 "androidxOptIns": []
             },
@@ -13837,7 +15329,7 @@
             "callableFromAnotherFile": true,
             "hasTypeParameters": false,
             "hasContextReceivers": false,
-            "overloadsCollided": false,
+            "overloadsCollided": true,
             "builder": null,
             "requiredOptIns": [],
             "androidxOptIns": []
@@ -13869,7 +15361,7 @@
                     "composableSlotReceiver": null,
                     "nullable": false,
                     "noArgConstructible": false,
-                    "noArgFactory": null,
+                    "noArgFactory": "androidx.compose.foundation.rememberScrollState",
                     "scopeDslReceiver": null,
                     "lambdaReturnTypeFqn": null
                 },
@@ -14030,9 +15522,12 @@
                 }
             ],
             "code": {
-                "call": null,
-                "imports": [],
-                "refusedReason": "no placeholder can be written for required parameter `state: ScrollState`",
+                "call": "ScrollIndicator(state = rememberScrollState())",
+                "imports": [
+                    "androidx.wear.compose.material3.ScrollIndicator",
+                    "androidx.compose.foundation.rememberScrollState"
+                ],
+                "refusedReason": null,
                 "requiredOptIns": [],
                 "androidxOptIns": []
             },
@@ -16948,6 +18443,11 @@
             ],
             "bindings": [
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.SwipeToRevealMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp",
                     "componentId": "SwipeToReveal/Button",
                     "group": "Swipe to reveal"
@@ -18144,9 +19644,14 @@
             "componentIds": [
                 "AlertDialog",
                 "AppCard",
+                "Button/Child",
                 "Button/Compact",
+                "Button/Filled",
+                "Button/FilledVariant",
                 "Button/ImageBackground",
                 "Button/Loading",
+                "Button/Outlined",
+                "Button/Tonal",
                 "ButtonGroup",
                 "Card",
                 "Card/Outlined",
@@ -18156,11 +19661,19 @@
                 "ListHeader",
                 "ListSubHeader",
                 "OneHandedGestureClickIndicator",
+                "OneHandedGesturePageIndicator/Horizontal",
+                "OneHandedGesturePageIndicator/Vertical",
+                "OneHandedGestureScrollIndicator",
+                "Pager/Horizontal",
+                "Pager/Vertical",
+                "Picker",
                 "PickerGroup",
                 "RadioButton",
                 "Scaffold",
                 "Stepper",
                 "SwipeToDismissBox",
+                "SwipeToReveal/Button",
+                "SwipeToReveal/Card",
                 "SwitchButton",
                 "Text/Body",
                 "Text/Caption",
@@ -18416,6 +19929,56 @@
                     "group": "Buttons"
                 },
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-large",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_left",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ChildLabelButton_VARIANT_left-disabled",
+                    "componentId": "Button/Child",
+                    "group": "Buttons"
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.CompactActionButton",
                     "componentId": "Button/Compact",
                     "group": "Buttons"
@@ -18566,6 +20129,106 @@
                     "group": "Buttons"
                 },
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-large",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_left",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledButton_VARIANT_left-disabled",
+                    "componentId": "Button/Filled",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-large",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_left",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.FilledVariantButton_VARIANT_left-disabled",
+                    "componentId": "Button/FilledVariant",
+                    "group": "Buttons"
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.ImageBackgroundButton",
                     "componentId": "Button/ImageBackground",
                     "group": "Buttons"
@@ -18673,6 +20336,106 @@
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.LoadingButton_VARIANT_outlined-icon-large-disabled",
                     "componentId": "Button/Loading",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-large",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_left",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.OutlineButton_VARIANT_left-disabled",
+                    "componentId": "Button/Outlined",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-extra-large",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-extra-large-disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-large",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_icon-large-disabled",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_left",
+                    "componentId": "Button/Tonal",
+                    "group": "Buttons"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ButtonsKt.TonalButton_VARIANT_left-disabled",
+                    "componentId": "Button/Tonal",
                     "group": "Buttons"
                 },
                 {
@@ -19556,12 +21319,47 @@
                     "group": "Lists and screens"
                 },
                 {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.ButtonGroupExpansionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.EdgeButtonRevealMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.GestureHintMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PagerTransitionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
                     "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderButtonMotion",
                     "componentId": null,
                     "group": null
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PlaceholderCardMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.SwipeToRevealMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.SwitchTransitionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.VerticalPagerTransitionMotion",
                     "componentId": null,
                     "group": null
                 },
@@ -19584,6 +21382,331 @@
                     "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureClickIndicator_VARIANT_small-indicator",
                     "componentId": "OneHandedGestureClickIndicator",
                     "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_192dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_192dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_204dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_204dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_216dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_216dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_225dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_225dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_240dp",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureHorizontalPages_240dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Horizontal",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_192dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_192dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_204dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_204dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_216dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_216dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_225dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_225dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_240dp",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureScrollIndicator_240dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGestureScrollIndicator",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_192dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_192dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_204dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_204dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_216dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_216dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_225dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_225dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_240dp",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.OneHandedGesturesKt.GestureVerticalPages_240dp_VARIANT_gestures-off",
+                    "componentId": "OneHandedGesturePageIndicator/Vertical",
+                    "group": "One-handed gestures"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.PickerColumns_192dp",
@@ -19708,6 +21831,31 @@
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.PickerColumns_240dp_VARIANT_two-columns",
                     "componentId": "PickerGroup",
+                    "group": "Pickers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_192dp",
+                    "componentId": "Picker",
+                    "group": "Pickers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_204dp",
+                    "componentId": "Picker",
+                    "group": "Pickers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_216dp",
+                    "componentId": "Picker",
+                    "group": "Pickers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_225dp",
+                    "componentId": "Picker",
+                    "group": "Pickers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PickersKt.SingleColumnPicker_240dp",
+                    "componentId": "Picker",
                     "group": "Pickers"
                 },
                 {
@@ -20079,6 +22227,106 @@
                     "previewId": "ee.schimke.wearm3catalog.sections.SwipeToDismissKt.DismissableScreen_240dp_VARIANT_dismissed",
                     "componentId": "SwipeToDismissBox",
                     "group": "Swipe to dismiss"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_192dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_204dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_204dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_216dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_216dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_225dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_225dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_240dp",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealButton_240dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Button",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_192dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_204dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_204dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_216dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_216dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_225dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_225dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_240dp",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.SwipeToRevealKt.SwipeToRevealCard_240dp_VARIANT_two-actions",
+                    "componentId": "SwipeToReveal/Card",
+                    "group": "Swipe to reveal"
                 },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.BodyText",
@@ -20619,7 +22867,13 @@
         {
             "canonicalId": "catalog/androidx.wear.compose.material3.TimeTextKt.TimeText",
             "componentIds": [
-                "TimeText"
+                "FastScrollingTransformingLazyColumn",
+                "Media/PlayerScreen",
+                "Pager/Horizontal",
+                "Pager/Vertical",
+                "Scaffold",
+                "TimeText",
+                "TransformingLazyColumn"
             ],
             "symbol": {
                 "jvmOwner": "androidx.wear.compose.material3.TimeTextKt",
@@ -20727,6 +22981,396 @@
             ],
             "slots": [],
             "bindings": [
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_192dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_204dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_216dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_225dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.FastScrollingKt.FastScrollingList_240dp",
+                    "componentId": "FastScrollingTransformingLazyColumn",
+                    "group": "Fast scrolling"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_192dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_204dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_216dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_225dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearList_240dp",
+                    "componentId": "TransformingLazyColumn",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_192dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_192dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_204dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_204dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_216dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_216dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_225dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_225dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_240dp",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.ListsKt.WearScaffold_240dp_VARIANT_no-scroll-indicator",
+                    "componentId": "Scaffold",
+                    "group": "Lists and screens"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_192dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_204dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_216dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_225dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_ambient",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_loading",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaPlayerScreen_240dp_VARIANT_nothing-playing",
+                    "componentId": "Media/PlayerScreen",
+                    "group": "Media controls"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.EdgeButtonRevealMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.PagerTransitionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.MotionKt.VerticalPagerTransitionMotion",
+                    "componentId": null,
+                    "group": null
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_192dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_204dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_216dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_225dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_first-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_last-page",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.HorizontalPagerScreen_240dp_VARIANT_two-pages",
+                    "componentId": "Pager/Horizontal",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_192dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_204dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_216dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_225dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp_VARIANT_first-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.sections.PagersKt.VerticalPagerScreen_240dp_VARIANT_last-page",
+                    "componentId": "Pager/Vertical",
+                    "group": "Pagers"
+                },
                 {
                     "previewId": "ee.schimke.wearm3catalog.sections.TextComponentsKt.FixedTimeText_192dp",
                     "componentId": "TimeText",
