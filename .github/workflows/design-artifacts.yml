@@ -305,6 +305,11 @@ jobs:
       # than being silently tolerant.
       rc-cmp-wasm-lane: true
       rc-cmp-wasm-allowlist: .github/ci/remote-m3-cmp-wasm-allowlist.json
+      # This is a strict maximum across ~650 browser navigations, so the reusable workflow's 5 s
+      # default turns one hosted-runner scheduling pause into a failed catalog publish. Three
+      # consecutive runs named three different rows at 8.4-9.6 s while every document rendered;
+      # keep the gate, but use the same 10 s ceiling as the cold first frame for this large corpus.
+      rc-cmp-wasm-max-warm-first-frame-ms: 10000
 
       # The other three players. These were NOT on: the line above used to claim the embedded
       # (Robolectric) and cmp-jvm lanes were "on by default in the reusable workflow and need no
