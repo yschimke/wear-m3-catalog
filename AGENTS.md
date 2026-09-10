@@ -57,7 +57,9 @@ published `cmp02` — built from #394 — was what consumers got.
 
 [`check-port-revision.sh`](.github/scripts/check-port-revision.sh) fails a pull request whose diff
 touches a published path (`modules/**` minus the test source sets, the root build files, the version
-catalog) without moving the version string. Run it locally with
+catalog) without moving the version string — and, for an unchanged upstream release, without moving
+it **up**: a `portRevision` that stays put or goes backwards names a version that is very likely
+already published, which the publish job skips just as silently. Run it locally with
 `.github/scripts/check-port-revision.sh`. Test-only and docs-only changes pass: they reach no
 artifact.
 

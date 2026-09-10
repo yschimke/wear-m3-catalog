@@ -14,7 +14,9 @@
 # "Build the repository tree", "Publish to GitHub Packages" and "Push the Maven tree" were skipped.
 #
 # So this is the other half of that gate: if the diff touches anything that ends up in an artifact,
-# the version string has to move.
+# the version string has to move — and, for an unchanged upstream release, it has to move UP.
+# Merely differing is not enough: a `portRevision` that goes backwards names a version that is very
+# likely already published, which publish.yml skips exactly as silently as no bump at all.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 
@@ -51,31 +53,60 @@ if [ -z "$changed" ]; then
   exit 0
 fi
 
-version_at() {
-  # `<version>-cmp<portRevision>`, the same string build.gradle.kts computes. Read with python
-  # rather than jq, which the runner does not necessarily have.
+upstream_at() {
+  # `<version> <portRevision>` from one ref. Read with python rather than jq, which the runner does
+  # not necessarily have.
   git show "$1:upstream.json" | python3 -c '
 import json, sys
 u = json.load(sys.stdin)
-print("%s-cmp%02d" % (u["version"], int(u["portRevision"])))
+print("%s %d" % (u["version"], int(u["portRevision"])))
 '
 }
 
-before=$(version_at "$base")
-after=$(version_at HEAD)
+version_string() { printf "%s-cmp%02d" "$1" "$2"; }
 
-if [ "$before" = "$after" ]; then
+read -r before_version before_revision <<<"$(upstream_at "$base")"
+read -r after_version after_revision <<<"$(upstream_at HEAD)"
+
+before=$(version_string "$before_version" "$before_revision")
+after=$(version_string "$after_version" "$after_revision")
+
+fail_header() {
   echo
-  echo "FAIL: this changes what a consumer resolves, but not the version they resolve."
+  echo "FAIL: $1"
   echo
-  echo "  published version, unchanged: $after"
+  echo "  base: $before"
+  echo "  head: $after"
   echo
   echo "Changed under a published path:"
   echo "$changed" | sed 's/^/  /'
   echo
-  echo "Bump \`portRevision\` in upstream.json. A published version is immutable, so publish.yml"
-  echo "will SKIP this change rather than fail on it — the cost of getting this wrong is a release"
-  echo "that silently does not happen, which is why it is a check and not a convention."
+}
+
+if [ "$before_version" != "$after_version" ]; then
+  # The upstream release moved, so the version string moved with it whatever the revision does.
+  # `portRevision` resets to 1 for a new upstream (upstream.json says so), but a second change to
+  # an already-published new upstream legitimately arrives at 2 — and from THIS branch's base that
+  # still reads as a version change. So the reset is reported, not enforced.
+  echo "OK: $before -> $after (upstream release moved)"
+  exit 0
+fi
+
+# Same upstream release, so `portRevision` alone decides the version — and it has to go UP, not
+# merely differ. A DECREASE is the dangerous case this catches: it names a version that is very
+# likely already published, and publish.yml skips a published version silently. Two branches cut
+# from the same base bumping to the same number is the other: whichever merges second changes the
+# port under a version string that is already out.
+if [ "$after_revision" -le "$before_revision" ]; then
+  if [ "$after_revision" -eq "$before_revision" ]; then
+    fail_header "this changes what a consumer resolves, but not the version they resolve."
+  else
+    fail_header "portRevision went BACKWARDS ($before_revision -> $after_revision)."
+  fi
+  echo "Set \`portRevision\` in upstream.json above $before_revision. A published version is"
+  echo "immutable, so publish.yml will SKIP this change rather than fail on it — the cost of"
+  echo "getting this wrong is a release that silently does not happen, which is why it is a check"
+  echo "and not a convention."
   exit 1
 fi
 
