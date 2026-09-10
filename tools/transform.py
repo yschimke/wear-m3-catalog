@@ -345,16 +345,24 @@ ANDROID_NAMESPACE = 'xmlns:android="http://schemas.android.com/apk/res/android"'
 
 
 def generate_drawables(
-    source_root: pathlib.Path, module_dir: pathlib.Path, excluded: dict
+    source_root: pathlib.Path,
+    module_dir: pathlib.Path,
+    excluded: dict,
+    common: pathlib.Path,
+    package: str,
 ) -> int:
     """Copy the AAR's vector drawables into the module's Compose resources.
 
     Compose Multiplatform's resource pipeline parses Android `<vector>` XML on every target,
     including wasm, so these are upstream's own artwork rather than a redrawing of it.
 
-    An `<animated-vector>` is frozen at its last frame — see [freeze_animated_vector], and the TODO
-    on the components that draw one. `@android:color/…` is substituted, because the parser resolves
-    no reference it cannot see.
+    An `<animated-vector>` is still written out frozen at its last frame — see
+    [freeze_animated_vector] — so a component that draws one WITHOUT the animation gets the right
+    still, which is what every component did before the animation existed. The motion is emitted
+    alongside it as data, by [vector_animation_tracks], and applied at draw time as a
+    `VectorConfig` override; a drawable whose motion this generator cannot express emits no tracks
+    and simply stays frozen. `@android:color/…` is substituted, because the parser resolves no
+    reference it cannot see.
     """
     drawables = source_root / "drawables"
     if not drawables.is_dir():
@@ -364,6 +372,8 @@ def generate_drawables(
     if destination.exists():
         shutil.rmtree(destination)
     destination.mkdir(parents=True, exist_ok=True)
+
+    animations: dict = {}
 
     header = "<!-- Generated from AndroidX Wear Compose by tools/transform.py — DO NOT EDIT. -->\n"
     written = 0
@@ -391,7 +401,156 @@ def generate_drawables(
 
         (destination / source.name).write_text(header + vector)
         written += 1
+
+        if "<animated-vector" in text:
+            tracks = vector_animation_tracks(text)
+            if tracks:
+                animations[source.stem] = tracks
+
+    write_vector_animations(animations, common, package)
     return written
+
+
+# The `android:propertyName`s an `<objectAnimator>` can carry that map onto a
+# `VectorProperty<Float>` in compose-ui. Everything else — `pathData`, `fillColor`, `strokeColor` —
+# animates a type this generator does not express, and a drawable using one stays frozen.
+ANIMATABLE_FLOAT_PROPERTIES = {
+    "trimPathStart": "TrimPathStart",
+    "trimPathEnd": "TrimPathEnd",
+    "trimPathOffset": "TrimPathOffset",
+    "rotation": "Rotation",
+    "scaleX": "ScaleX",
+    "scaleY": "ScaleY",
+    "translateX": "TranslateX",
+    "translateY": "TranslateY",
+    "pivotX": "PivotX",
+    "pivotY": "PivotY",
+    "fillAlpha": "FillAlpha",
+    "strokeAlpha": "StrokeAlpha",
+    "strokeWidth": "StrokeLineWidth",
+}
+
+# The exporter puts a `time_group` target in every one of these files, carrying a ~10 s no-op
+# translateX purely to hold the timeline open. It is not artwork and animating it would stretch
+# every drawable to ten seconds.
+TIMELINE_KEEPER = "time_group"
+
+
+def cubic_easing(path_data: str) -> str | None:
+    """An `<pathInterpolator>`'s `pathData` as a Compose `CubicBezierEasing`.
+
+    Android writes the easing curve as an SVG path from (0,0) to (1,1) whose two control points are
+    the four numbers Compose wants — `M 0.0,0.0 c0.2,0 0,1 1.0,1.0` is `CubicBezierEasing(0.2, 0,
+    0, 1)`. Only that shape is recognised; anything else returns None and the caller falls back to
+    the linear default rather than guessing at a curve.
+    """
+    match = re.fullmatch(
+        r"\s*[Mm]\s*0(?:\.0*)?\s*,\s*0(?:\.0*)?\s*c\s*"
+        r"([-\d.]+)\s*,\s*([-\d.]+)\s+([-\d.]+)\s*,\s*([-\d.]+)\s+"
+        r"1(?:\.0*)?\s*,\s*1(?:\.0*)?\s*",
+        path_data.strip(),
+    )
+    if not match:
+        return None
+    a, b, c, d = (float(g) for g in match.groups())
+    return f"CubicBezierEasing({a}f, {b}f, {c}f, {d}f)"
+
+
+def vector_animation_tracks(text: str) -> list | None:
+    """The float tracks of an `<animated-vector>`, or None if it animates something else.
+
+    Returning None is the honest answer rather than a partial one: a drawable whose motion is a
+    `pathData` morph would otherwise animate its trims and hold its shape still, which reads as a
+    bug rather than as a missing feature. Those stay frozen at the last frame.
+    """
+    # Elements are unqualified here; only the ATTRIBUTES carry the android namespace.
+    android = "{http://schemas.android.com/apk/res/android}"
+    document = xml.etree.ElementTree.fromstring(text)
+    tracks = []
+    for target in document.iter("target"):
+        name = target.get(android + "name")
+        if name == TIMELINE_KEEPER:
+            continue
+        segments = []
+        for animator in target.iter("objectAnimator"):
+            prop = animator.get(android + "propertyName")
+            if prop not in ANIMATABLE_FLOAT_PROPERTIES:
+                return None
+            easing = "LinearEasing"
+            for interpolator in animator.iter("pathInterpolator"):
+                derived = cubic_easing(interpolator.get(android + "pathData", ""))
+                if derived:
+                    easing = derived
+            segments.append(
+                {
+                    "property": ANIMATABLE_FLOAT_PROPERTIES[prop],
+                    "start": int(float(animator.get(android + "startOffset", "0"))),
+                    "duration": int(float(animator.get(android + "duration", "0"))),
+                    "from": float(animator.get(android + "valueFrom", "0")),
+                    "to": float(animator.get(android + "valueTo", "0")),
+                    "easing": easing,
+                }
+            )
+        if segments:
+            tracks.append({"target": name, "segments": segments})
+    return tracks or None
+
+
+
+def write_vector_animations(animations: dict, common: pathlib.Path, package: str) -> None:
+    """Emit the animated drawables' motion as Kotlin.
+
+    The shape is deliberately data rather than code: a list of tracks, each a target name and the
+    segments that move one of its float properties. `AnimatedVectorPainter` in `commonPort` is what
+    turns that into a running animation, so an upstream retiming arrives with the next sync and
+    nothing here has to be re-reasoned about.
+    """
+    target = common / package.replace(".", "/") / "internal" / "GeneratedVectorAnimations.kt"
+    target.parent.mkdir(parents=True, exist_ok=True)
+
+    lines = [
+        BANNER.rstrip("\n"),
+        f"package {package}.internal",
+        "",
+        "import androidx.compose.animation.core.CubicBezierEasing",
+        "import androidx.compose.animation.core.LinearEasing",
+        "",
+        "/**",
+        " * The motion of each animated vector drawable, keyed by drawable name.",
+        " *",
+        " * A drawable absent from this map is one whose `<animated-vector>` moves something this",
+        " * generator does not express — a `pathData` morph, most of them — and is drawn as the still",
+        " * it has always been.",
+        " */",
+        "internal val GeneratedVectorAnimations: Map<String, List<VectorAnimationTrack>> =",
+        "    mapOf(",
+    ]
+    for name, tracks in sorted(animations.items()):
+        lines.append(f'        "{name}" to')
+        lines.append("            listOf(")
+        for track in tracks:
+            lines.append("                VectorAnimationTrack(")
+            lines.append(f'                    targetName = "{track["target"]}",')
+            lines.append("                    segments =")
+            lines.append("                        listOf(")
+            for segment in track["segments"]:
+                lines.append("                            VectorAnimationSegment(")
+                lines.append(
+                    f"                                property = VectorAnimatedProperty."
+                    f"{segment['property']},"
+                )
+                lines.append(f"                                startOffsetMillis = {segment['start']},")
+                lines.append(f"                                durationMillis = {segment['duration']},")
+                lines.append(f"                                from = {segment['from']}f,")
+                lines.append(f"                                to = {segment['to']}f,")
+                lines.append(f"                                easing = {segment['easing']},")
+                lines.append("                            ),")
+            lines.append("                        ),")
+            lines.append("                ),")
+        lines.append("            ),")
+    lines.append("    )")
+    lines.append("")
+    target.write_text("\n".join(lines))
 
 
 def transform_module(config: dict, rules: dict, entry: dict) -> dict:
@@ -419,7 +578,11 @@ def transform_module(config: dict, rules: dict, entry: dict) -> dict:
 
     resources = generate_resources(source_root, common, entry["package"])
     drawables = generate_drawables(
-        source_root, module_dir, rules["modules"].get(module, {}).get("excludeDrawables", {})
+        source_root,
+        module_dir,
+        rules["modules"].get(module, {}).get("excludeDrawables", {}),
+        common,
+        entry["package"],
     )
     applied = apply_patches(module_dir, ROOT / "patches" / module)
 

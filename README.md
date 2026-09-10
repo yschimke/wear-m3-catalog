@@ -68,7 +68,7 @@ dependencyResolutionManagement {
 kotlin {
     wasmJs { browser() }
     sourceSets.commonMain.dependencies {
-        implementation("ee.schimke.wearcmp:wear-compose-material3:1.7.0-beta02-cmp06")
+        implementation("ee.schimke.wearcmp:wear-compose-material3:1.7.0-beta02-cmp07")
     }
 }
 ```

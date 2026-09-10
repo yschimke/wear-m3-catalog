@@ -70,6 +70,8 @@ import androidx.wear.compose.foundation.CurvedScope
 import androidx.wear.compose.foundation.CurvedTextStyle
 import androidx.wear.compose.foundation.LocalReduceMotion
 import androidx.wear.compose.foundation.padding
+import androidx.wear.compose.material3.internal.GeneratedVectorAnimations
+import androidx.wear.compose.material3.internal.rememberAnimatedVectorPainter
 import androidx.wear.compose.material3.tokens.ColorSchemeKeyTokens
 import androidx.wear.compose.material3.tokens.MotionTokens.DurationShort2
 import androidx.wear.compose.material3.tokens.MotionTokens.DurationShort3
@@ -624,16 +626,23 @@ public object ConfirmationDialogDefaults {
      */
     @Composable
     public fun SuccessIcon(modifier: Modifier = Modifier) {
-        // TODO: THE ICON DOES NOT ANIMATE. Upstream draws an AnimatedVectorDrawable — the check
-        //  mark draws itself on, the failure icon shakes. Compose Multiplatform publishes the AVD
-        //  model (AnimatedImageVector, ObjectAnimator, Keyframe) but neither the parser that reads
-        //  the XML nor `rememberAnimatedVectorPainter` that plays it, on any target but Android.
-        //  So this draws the artwork the animation animates — the real upstream vector, parsed by
-        //  Compose's own resource pipeline — at its final state.
         val image = vectorResource(Res.drawable.wear_m3c_check_animation)
+        var atEnd by remember { mutableStateOf(false) }
+        val reduceMotionEnabled = LocalReduceMotion.current
+
+        LaunchedEffect(Unit) {
+            animatedDelay(IconDelay, reduceMotionEnabled)
+            atEnd = true
+        }
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
             Icon(
-                painter = rememberVectorPainter(image),
+                painter =
+                    rememberAnimatedVectorPainter(
+                        image = image,
+                        tracks = GeneratedVectorAnimations.getValue("wear_m3c_check_animation"),
+                        atEnd = atEnd,
+                        reduceMotion = reduceMotionEnabled,
+                    ),
                 contentDescription = null,
                 modifier = modifier.size(IconSize),
             )
@@ -648,12 +657,6 @@ public object ConfirmationDialogDefaults {
      */
     @Composable
     public fun ConnectionFailureIcon(modifier: Modifier = Modifier) {
-        // TODO: THE ICON DOES NOT ANIMATE. Upstream draws an AnimatedVectorDrawable — the check
-        //  mark draws itself on, the failure icon shakes. Compose Multiplatform publishes the AVD
-        //  model (AnimatedImageVector, ObjectAnimator, Keyframe) but neither the parser that reads
-        //  the XML nor `rememberAnimatedVectorPainter` that plays it, on any target but Android.
-        //  So this draws the artwork the animation animates — the real upstream vector, parsed by
-        //  Compose's own resource pipeline — at its final state.
         val image = vectorResource(Res.drawable.wear_m3c_failure_animation)
         var atEnd by remember { mutableStateOf(false) }
         val reduceMotionEnabled = LocalReduceMotion.current
@@ -663,7 +666,13 @@ public object ConfirmationDialogDefaults {
             atEnd = true
         }
         Icon(
-            painter = rememberVectorPainter(image),
+            painter =
+                rememberAnimatedVectorPainter(
+                    image = image,
+                    tracks = GeneratedVectorAnimations.getValue("wear_m3c_failure_animation"),
+                    atEnd = atEnd,
+                    reduceMotion = reduceMotionEnabled,
+                ),
             contentDescription = null,
             modifier = modifier.size(IconSize),
         )
