@@ -171,12 +171,13 @@ private fun wearTypography(display: FontFamily, body: FontFamily): Typography {
  * The typography the **stock** (un-themed) sticker frame runs under: the Wear scale, re-pointed at
  * the vendored variable [RobotoFlex].
  *
- * Wear Material 3 ships `TypefaceTokens.Brand = FontFamily.SansSerif`, so the stock roles resolve
- * to whatever the platform calls sans-serif. On a watch that is Roboto Flex as a device font and
- * the scale's `wght` / `wdth` land on it; under the renderer it is a static system face and every
- * one of those axes is dropped. The catalog was therefore publishing the expressive scale rendered
- * without its expressive axes — most of this sheet, since the default theme is what a sticker uses
- * unless a `@WearThemeCatalog` provider says otherwise.
+ * Wear Material 3 ships `TypefaceTokens.Brand = DeviceFontFamilyName("roboto-flex")` — it asks the
+ * PLATFORM for a family by that exact name. On a watch the system has one and the scale's `wght` /
+ * `wdth` land on it. The Robolectric runtime does not: its font directory ships static
+ * `Roboto-Regular` … `Roboto-Black` and no `roboto-flex` family at all, so the request cannot
+ * resolve, Compose falls back, and every one of those axes is dropped. The catalog was therefore
+ * publishing the expressive scale rendered without its expressive axes — most of this sheet, since
+ * the default theme is what a sticker uses unless a `@WearThemeCatalog` provider says otherwise.
  *
  * Naming the face explicitly fixes that, and only that: [wearTypography] copies each role, so every
  * size, line height, tracking and per-role `fontVariationSettings` the library set is preserved
