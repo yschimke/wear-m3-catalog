@@ -320,8 +320,14 @@ public object OpenOnPhoneDialogDefaults {
      */
     @Composable
     public fun Icon(modifier: Modifier = Modifier) {
-        // TODO: THE ICON DOES NOT ANIMATE — see ConfirmationDialog.SuccessIcon for why. This
-        //  draws the artwork the animation animates, at its final state.
+        // TODO: THE ICON DOES NOT ANIMATE, and it is the only dialog icon that still does not.
+        //  The check mark and the failure icon animate now — their motion is `trimPathEnd`, a
+        //  float, which `rememberAnimatedVectorPainter` drives through a `VectorConfig`. This one
+        //  morphs `pathData`: the phone outline is interpolated between two different paths, and
+        //  nothing interpolates a `List<PathNode>` for us. AVD guarantees the keyframes share a
+        //  command structure, so it is a per-control-point lerp and not research — it is simply
+        //  not written. `tools/transform.py` emits no tracks for a drawable it cannot express, so
+        //  this draws the artwork at its final state exactly as before.
         val image = vectorResource(Res.drawable.wear_m3c_open_on_phone_animation)
         var atEnd by remember { mutableStateOf(false) }
         val reduceMotionEnabled = LocalReduceMotion.current

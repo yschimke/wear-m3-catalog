@@ -239,26 +239,47 @@ What is still not Android's behaviour is **resource resolution**: `localeCandida
 the AAR ships needs more than the two steps, so this has not bitten; a locale that did would fall
 through to the default resources rather than to a near neighbour.
 
-### Animated vector drawables do not animate
+### Animated vector drawables: two of three animate
 
-`ConfirmationDialog` and `OpenOnPhoneDialog` draw their icons with `AnimatedVectorDrawable`s: the
-check mark draws itself on, the phone icon animates. Both components are ported and both icons are
-upstream's own artwork, parsed by Compose Multiplatform's resource pipeline — which reads Android
-`<vector>` XML on every target, wasm included. What is missing is the animation.
+`ConfirmationDialog` and `OpenOnPhoneDialog` draw their icons with `AnimatedVectorDrawable`s. The
+check mark and the failure icon **animate**; the open-on-phone icon does not yet.
 
-Compose Multiplatform publishes the AVD *model* — `AnimatedImageVector`, `ObjectAnimator`,
-`Keyframe`, `AnimatorSet` are all in the wasm klib — but not the `androidx.compose.animation
-.graphics.res` package that parses the XML into one, and not `rememberAnimatedVectorPainter` that
-plays it. Those are Android-only.
+The reason the first two now work is that the capability was never really missing — it was being
+looked for in the wrong library. On Android the whole job is `animatedVectorResource` plus
+`rememberAnimatedVectorPainter`, both in the `res/` package of `compose-animation-graphics`, which
+publishes for Android only. Compose Multiplatform *does* publish that library's model and animator
+vocabulary, but it is a dead end twice over: no XML inflation, and `AnimatedImageVector.targets` is
+`internal`, so a painter written outside that module can construct one and never read its targets
+back.
 
-So `tools/transform.py` freezes each AVD at its **last frame**: it reads every `<target>`'s
-animators for the value they end on and writes that onto the named element. Without that step the
-extracted vector is the animation's *first* frame, and for a drawing animation the first frame is
-blank — the check mark's path carries `trimPathEnd="0"`. A rendered preview caught exactly that.
+Everything actually needed is public in **compose-ui**:
 
-Two ways forward, if the animation matters: implement the painter over the model CMP already ships
-(the subset in use is `trimPathEnd`, `translate`, `scale`, `alpha` and `pathData`), or wait for
-Compose Multiplatform to publish `animatedVectorResource` off-Android.
+```
+RenderVectorGroup(root: VectorGroup, configs: Map<String, VectorConfig>)
+VectorConfig                       // one method: getOrDefault(VectorProperty<T>, T)
+VectorProperty.TrimPathEnd, .Rotation, .TranslateX, … all sixteen
+```
+
+`RenderVectorGroup` is exactly what Android's own painter calls underneath. So the port implements
+the one-method interface, drives it from a single `Animatable` counting milliseconds, and renders
+the group with the overrides applied — **no new dependency at all**.
+
+The motion is generated, not transcribed. `tools/transform.py` reads each `<animated-vector>`'s
+`<objectAnimator>`s into `GeneratedVectorAnimations.kt` — target, property, start offset, duration,
+endpoints, and the `<pathInterpolator>` curve translated to a `CubicBezierEasing` — so an upstream
+retiming arrives with the next sync. Two details it gets right and a transcription would not: the
+`time_group` target every one of these files carries is a ~10 s no-op holding the timeline open, not
+artwork, and is dropped; and the start offsets are real, which is what makes two of the failure
+icon's four strokes wait 100 ms before drawing.
+
+The generator refuses what it cannot express rather than approximating it. `open_on_phone` and both
+gesture indicators morph `pathData`, so they emit **no** tracks and stay frozen at their last frame
+— a drawable that animated its trims while holding its shape still would read as a bug rather than
+as a missing feature. Finishing that one means interpolating between two `List<PathNode>`, which AVD
+guarantees are structurally compatible; it is a per-control-point lerp, not research.
+
+The frozen still is still written out for every drawable, animated or not, so a component that draws
+one without the animation gets the same artwork it always did.
 
 ### Dynamic colour and one-handed gestures
 
