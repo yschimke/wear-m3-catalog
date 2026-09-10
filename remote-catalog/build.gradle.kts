@@ -276,6 +276,9 @@ dependencies {
   debugImplementation(libs.compose.ui.tooling.prerelease)
 
   testImplementation(libs.composeai.ui.builder.export)
+  // `RemoteDocumentJsonExportTest` — the gate on this sheet's `documents/` export. Test-only: the
+  // stickers are drawn by the creation DSL and rasterised by the player, and neither reads JSON.
+  testImplementation(libs.composeai.remotecompose.json)
   testImplementation(libs.junit)
   testImplementation(libs.truth)
 }

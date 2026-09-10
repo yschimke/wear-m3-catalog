@@ -320,6 +320,23 @@ jobs:
       # cannot cost this catalog a delivery.
       rc-embedded-lane: true
       rc-embedded-jvm-lane: true
+      # PUBLISH THE DOCUMENTS THEMSELVES, as text, beside the pixels.
+      #
+      # This sheet's delivery branch carries baked PNGs and — inside the bundle — the `.rc`
+      # documents that drew them, and BOTH are unreadable to a review. The PNG shows that a sticker
+      # moved; the bytes show nothing at all. So the question this repo asks constantly of its
+      # Remote rendition — did the component change, or did the player draw it differently — has
+      # had no answer on the branch, only in a rendered comparison that cannot separate a moved
+      # padding from a different antialiasing pass.
+      #
+      # `documents/<id>.rc.json` is the operation stream as text, which `git diff` on the delivery
+      # branch reads directly. It matters more here than it would on `:catalog`, and only this sheet
+      # can use it at all: `:catalog` draws with Wear Compose and ships no `.rc`, so the input is a
+      # no-op there by construction rather than by choice.
+      #
+      # Enrichment, not a gate — unlike `rc-cmp-wasm-lane` above. A document the CLI cannot inflate
+      # drops its file and names itself; the sheet still publishes.
+      rc-document-json: true
       commit-user-name: Yuri Schimke
       commit-user-email: yuri@schimke.ee
       # 90 rather than 60 since the three player lanes above went on. Measured on run 164, the last
