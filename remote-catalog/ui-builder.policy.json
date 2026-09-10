@@ -54,12 +54,16 @@
   },
 
   "menu": {
-    "$comment": "This catalog's own @CatalogComponent(group = …) vocabulary. Widget Container and Scaffold templates lead because a Remote design starts from a container: everything else goes inside one.",
+    "$comment": "This catalog's own @CatalogComponent(group = …) vocabulary. Widget Container and Scaffold templates lead because a Remote design starts from a container: everything else goes inside one. Selection buttons, Edge-hugging buttons, Sliders and Steppers are declared only in src/snapshot/kotlin and were missing from this list, so under the snapshot lane the builder appended them after every ordered group and sorted them alphabetically - the order a person saw was not the one stated here.",
     "groupOrder": [
       "Widget Container",
       "Scaffold templates",
       "Containment",
       "Buttons",
+      "Selection buttons",
+      "Edge-hugging buttons",
+      "Sliders",
+      "Steppers",
       "Text",
       "Iconography",
       "Communication",
