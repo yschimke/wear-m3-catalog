@@ -118,14 +118,16 @@
     "falls back to sans-serif when the host does not have it.",
     "",
     "That turns `TypefaceTokens.Brand` from a NAME into a FontFamily, which is why the type scale",
-    "needs the second rule: `Font(DeviceFontFamilyName(TypeScaleTokens.ArcLargeFont.name), …)",
-    ".toFontFamily()` collapses to `TypeScaleTokens.ArcLargeFont`, the family it already is. The",
-    "variable-font axis settings are dropped with the wrapper: Skia can clone a typeface with axis",
-    "values set, and wiring that up is a follow-up rather than a blocker.",
+    "needs the other rule: `Font(DeviceFontFamilyName(TypeScaleTokens.ArcLargeFont.name), …)",
+    ".toFontFamily()` collapses to `TypeScaleTokens.ArcLargeFont.withFontVariation(…)` — the family",
+    "it already is, carrying the axis settings the wrapper named. Dropping them was the earlier",
+    "behaviour and it drew every role at Roboto Flex's default width; `withFontVariation` clones",
+    "the resolved typeface with the axes set, which is what Skia offers in place of the Android",
+    "font provider's own variable-font support.",
     "",
     "It is a rule and not a patch because TypographyTokens.kt is itself generated upstream and",
-    "carries eleven identical copies of the expression; a patch would have to be re-cut every time",
-    "the type scale moves."
+    "carries twenty-one identical copies of the expression; a patch would have to be re-cut every",
+    "time the type scale moves."
   ],
   "rewritePatterns": [
     {
