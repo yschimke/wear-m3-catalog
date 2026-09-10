@@ -235,6 +235,12 @@ activity-compose = { module = "androidx.activity:activity-compose", version.ref 
 #                                   `remote-player-compose`.
 composeai-remotecompose-connector = { module = "ee.schimke.composeai:data-remotecompose-connector", version.ref = "composePreviewDaemon" }
 composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-runtime", version.ref = "composePreviewCore" }
+# The Remote Compose JSON codec, for `RemoteDocumentJsonExportTest`. On `composePreviewCore` with
+# `wear-preview-runtime` above because both ship on the compose-ai-tools line — and this one has to
+# match the CLI the delivery workflow runs, which `cli-version: catalog` resolves from
+# `composePreviewPlugin`, so a skew between them would mean this module gating the sheet's export
+# with a different projector than the one that produces it.
+composeai-remotecompose-json = { module = "ee.schimke.composeai:remotecompose-json", version.ref = "composePreviewCore" }
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 composeai-ui-builder-export = { module = "ee.schimke.composeai:compose-preview-ui-builder-export", version.ref = "composePreviewServer" }
 
