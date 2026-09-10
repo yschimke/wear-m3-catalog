@@ -1,0 +1,200 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../wear-compose-foundation/1.7.0-beta02-cmp07/wear-compose-foundation-1.7.0-beta02-cmp07.module",
+    "group": "ee.schimke.wearcmp",
+    "module": "wear-compose-foundation",
+    "version": "1.7.0-beta02-cmp07",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp07"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-foundation-jvm-1.7.0-beta02-cmp07.jar",
+          "url": "wear-compose-foundation-jvm-1.7.0-beta02-cmp07.jar",
+          "size": 938836,
+          "sha512": "7a8f3a82f46a960582601d93949688e9e27043e48cfbe645efca25073781aa15090bf5be2b79b00d2506f35e771058a4c88f2440023380026ee7541a84e9ba78",
+          "sha256": "a0ac2abf6e15af14bc1cc95a541d9defb8da44ac43df3359330816e15f579e4a",
+          "sha1": "4e56c364409a4b4056a7ee1c627b38a0fd233fcf",
+          "md5": "84f886399c82406fde86faeeef75cee3"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp07"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        },
+        {
+          "group": "androidx.annotation",
+          "module": "annotation",
+          "version": {
+            "requires": "1.10.0"
+          }
+        },
+        {
+          "group": "androidx.collection",
+          "module": "collection",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-foundation-jvm-1.7.0-beta02-cmp07.jar",
+          "url": "wear-compose-foundation-jvm-1.7.0-beta02-cmp07.jar",
+          "size": 938836,
+          "sha512": "7a8f3a82f46a960582601d93949688e9e27043e48cfbe645efca25073781aa15090bf5be2b79b00d2506f35e771058a4c88f2440023380026ee7541a84e9ba78",
+          "sha256": "a0ac2abf6e15af14bc1cc95a541d9defb8da44ac43df3359330816e15f579e4a",
+          "sha1": "4e56c364409a4b4056a7ee1c627b38a0fd233fcf",
+          "md5": "84f886399c82406fde86faeeef75cee3"
+        }
+      ]
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "files": [
+        {
+          "name": "wear-compose-foundation-jvm-1.7.0-beta02-cmp07-sources.jar",
+          "url": "wear-compose-foundation-jvm-1.7.0-beta02-cmp07-sources.jar",
+          "size": 226262,
+          "sha512": "df64233a376755fa5ffcb0fb93b5da3ec7804f9f850c126837903001afb9fb465dd7fda91640c4ee51cb3a1c8fe86778e96f4c986b968979f009adce34f0b1b8",
+          "sha256": "b0925b2cd3f7cdc8717b93dca927a075d1da5376a82f78456a478b05f0770b4b",
+          "sha1": "3356141e07cda430c1be8e5aed93e4cc6384615f",
+          "md5": "aa6ce0d143f02ea756298443f96d1f9f"
+        }
+      ]
+    }
+  ]
+}
