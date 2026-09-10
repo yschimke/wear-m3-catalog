@@ -1,0 +1,38 @@
+--- a/src/commonMain/kotlin/androidx/wear/compose/material3/onehandedgesture/OneHandedGestureScrollIndicator.kt
++++ b/src/commonMain/kotlin/androidx/wear/compose/material3/onehandedgesture/OneHandedGestureScrollIndicator.kt
+@@ -20,7 +20,6 @@
+ 
+ import androidx.compose.animation.core.Animatable
+ import androidx.compose.animation.core.AnimationSpec
+-import androidx.compose.animation.graphics.res.rememberAnimatedVectorPainter
+ import androidx.compose.foundation.gestures.ScrollableState
+ import androidx.compose.foundation.layout.Box
+ import androidx.compose.foundation.layout.Row
+@@ -42,7 +41,9 @@
+ import androidx.compose.ui.graphics.graphicsLayer
+ import androidx.compose.ui.platform.LocalDensity
+ import androidx.compose.ui.platform.LocalLayoutDirection
+-import androidx.compose.ui.res.painterResource
++import ee.schimke.wearcmp.material3.resources.Res
++import ee.schimke.wearcmp.material3.resources.wear_one_handed_gesture_indicator_pointer_background
++import org.jetbrains.compose.resources.painterResource
+ import androidx.compose.ui.unit.DpSize
+ import androidx.compose.ui.unit.LayoutDirection
+ import androidx.compose.ui.unit.dp
+@@ -53,7 +54,6 @@
+ import androidx.wear.compose.material3.IndicatorImpl
+ import androidx.wear.compose.material3.IndicatorState
+ import androidx.wear.compose.material3.OffsetOverscrollEffect
+-import androidx.wear.compose.material3.R
+ import androidx.wear.compose.material3.ScalingLazyColumnStateAdapter
+ import androidx.wear.compose.material3.ScrollIndicatorColors
+ import androidx.wear.compose.material3.ScrollIndicatorDefaults
+@@ -373,7 +373,7 @@
+     val isRtl = (LocalLayoutDirection.current == LayoutDirection.Rtl)
+     val density = LocalDensity.current
+     val backgroundPainter =
+-        painterResource(R.drawable.wear_one_handed_gesture_indicator_pointer_background)
++        painterResource(Res.drawable.wear_one_handed_gesture_indicator_pointer_background)
+     val backgroundSize =
+         remember(density) {
+             with(density) {

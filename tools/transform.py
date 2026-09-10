@@ -435,6 +435,21 @@ ANIMATABLE_FLOAT_PROPERTIES = {
 # every drawable to ten seconds.
 TIMELINE_KEEPER = "time_group"
 
+# The one non-float property this generator does express: a `pathData` morph, which the runtime
+# interpolates control point by control point.
+PATH_PROPERTY = "pathData"
+
+
+def path_commands_match(start: str, end: str) -> bool:
+    """Whether two path strings are the same sequence of commands, so a per-point lerp is defined.
+
+    AVD requires it of a `pathData` animation and the exporter honours it; this is the check that
+    the requirement actually held, because the alternative to noticing here is a drawable that
+    interpolates two shapes into a third that is neither.
+    """
+    letters = re.compile(r"[A-Za-z]")
+    return bool(start) and bool(end) and letters.findall(start) == letters.findall(end)
+
 
 def cubic_easing(path_data: str) -> str | None:
     """An `<pathInterpolator>`'s `pathData` as a Compose `CubicBezierEasing`.
@@ -457,44 +472,85 @@ def cubic_easing(path_data: str) -> str | None:
 
 
 def vector_animation_tracks(text: str) -> list | None:
-    """The float tracks of an `<animated-vector>`, or None if it animates something else.
+    """The tracks of an `<animated-vector>`, or None if it animates something else.
 
-    Returning None is the honest answer rather than a partial one: a drawable whose motion is a
-    `pathData` morph would otherwise animate its trims and hold its shape still, which reads as a
-    bug rather than as a missing feature. Those stay frozen at the last frame.
+    Two kinds come out: float segments, which move a `VectorProperty<Float>`, and path segments,
+    which morph `pathData` between two path strings. Anything else — a `fillColor` or
+    `strokeColor` animation — still returns None for the whole drawable, which is the honest answer
+    rather than a partial one: animating a drawable's trims while holding its colour still reads as
+    a bug rather than as a missing feature. Those stay frozen at the last frame.
     """
     # Elements are unqualified here; only the ATTRIBUTES carry the android namespace.
     android = "{http://schemas.android.com/apk/res/android}"
     document = xml.etree.ElementTree.fromstring(text)
     tracks = []
+    by_name: dict = {}
     for target in document.iter("target"):
         name = target.get(android + "name")
         if name == TIMELINE_KEEPER:
             continue
         segments = []
+        path_segments = []
         for animator in target.iter("objectAnimator"):
             prop = animator.get(android + "propertyName")
-            if prop not in ANIMATABLE_FLOAT_PROPERTIES:
+            if prop != PATH_PROPERTY and prop not in ANIMATABLE_FLOAT_PROPERTIES:
                 return None
             easing = "LinearEasing"
             for interpolator in animator.iter("pathInterpolator"):
                 derived = cubic_easing(interpolator.get(android + "pathData", ""))
                 if derived:
                     easing = derived
-            segments.append(
-                {
-                    "property": ANIMATABLE_FLOAT_PROPERTIES[prop],
-                    "start": int(float(animator.get(android + "startOffset", "0"))),
-                    "duration": int(float(animator.get(android + "duration", "0"))),
-                    "from": float(animator.get(android + "valueFrom", "0")),
-                    "to": float(animator.get(android + "valueTo", "0")),
-                    "easing": easing,
-                }
-            )
-        if segments:
-            tracks.append({"target": name, "segments": segments})
+            common_fields = {
+                "start": int(float(animator.get(android + "startOffset", "0"))),
+                "duration": int(float(animator.get(android + "duration", "0"))),
+                "easing": easing,
+            }
+            if prop == PATH_PROPERTY:
+                start_path = animator.get(android + "valueFrom", "")
+                end_path = animator.get(android + "valueTo", "")
+                # A morph the runtime cannot interpolate is not a morph. Both sides have to be the
+                # same sequence of commands — which is what AVD guarantees and what the exporter
+                # produces — so a pair that is not is refused here rather than drawn wrong.
+                if not path_commands_match(start_path, end_path):
+                    return None
+                path_segments.append(
+                    dict(common_fields, **{"from": start_path, "to": end_path})
+                )
+            else:
+                segments.append(
+                    dict(
+                        common_fields,
+                        **{
+                            "property": ANIMATABLE_FLOAT_PROPERTIES[prop],
+                            "from": float(animator.get(android + "valueFrom", "0")),
+                            "to": float(animator.get(android + "valueTo", "0")),
+                        },
+                    )
+                )
+        if segments or path_segments:
+            # The exporter emits SEVERAL <target> elements for one element when it animates more
+            # than one kind of property — the same name twice, once for its floats and once for its
+            # path. They are one track: the painter keys its overrides by name, so two entries for
+            # one name would silently drop whichever came first.
+            merged = by_name.get(name)
+            if merged is None:
+                merged = {"target": name, "segments": [], "pathSegments": []}
+                by_name[name] = merged
+                tracks.append(merged)
+            merged["segments"].extend(segments)
+            merged["pathSegments"].extend(path_segments)
     return tracks or None
 
+
+
+def kotlin_path_literal(value: str) -> str:
+    """A path string as a Kotlin string literal.
+
+    Not `kotlin_string`: that one runs the value through `android_text` first, which is right for a
+    resource string and wrong for path data — this is markup the vector parser reads back verbatim.
+    """
+    escaped = value.strip().replace("\\", "\\\\").replace('"', '\\"').replace("$", "\\$")
+    return '"' + escaped + '"'
 
 
 def write_vector_animations(animations: dict, common: pathlib.Path, package: str) -> None:
@@ -519,8 +575,8 @@ def write_vector_animations(animations: dict, common: pathlib.Path, package: str
         " * The motion of each animated vector drawable, keyed by drawable name.",
         " *",
         " * A drawable absent from this map is one whose `<animated-vector>` moves something this",
-        " * generator does not express — a `pathData` morph, most of them — and is drawn as the still",
-        " * it has always been.",
+        " * generator does not express — a `fillColor` or `strokeColor` animation — and is drawn as",
+        " * the still it has always been.",
         " */",
         "internal val GeneratedVectorAnimations: Map<String, List<VectorAnimationTrack>> =",
         "    mapOf(",
@@ -546,6 +602,26 @@ def write_vector_animations(animations: dict, common: pathlib.Path, package: str
                 lines.append(f"                                easing = {segment['easing']},")
                 lines.append("                            ),")
             lines.append("                        ),")
+            if track["pathSegments"]:
+                lines.append("                    pathSegments =")
+                lines.append("                        listOf(")
+                for segment in track["pathSegments"]:
+                    lines.append("                            VectorPathSegment(")
+                    lines.append(
+                        f"                                startOffsetMillis = {segment['start']},"
+                    )
+                    lines.append(
+                        f"                                durationMillis = {segment['duration']},"
+                    )
+                    lines.append(
+                        f"                                from = {kotlin_path_literal(segment['from'])},"
+                    )
+                    lines.append(
+                        f"                                to = {kotlin_path_literal(segment['to'])},"
+                    )
+                    lines.append(f"                                easing = {segment['easing']},")
+                    lines.append("                            ),")
+                lines.append("                        ),")
             lines.append("                ),")
         lines.append("            ),")
     lines.append("    )")
