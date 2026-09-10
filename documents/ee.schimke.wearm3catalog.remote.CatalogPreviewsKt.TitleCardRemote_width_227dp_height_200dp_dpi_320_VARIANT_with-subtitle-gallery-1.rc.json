@@ -1,0 +1,915 @@
+{
+    "header": {
+        "version": "1.1.0",
+        "width": 454,
+        "height": 400,
+        "contentDescription": "",
+        "profiles": 512,
+        "densityAtGeneration": 2.0,
+        "byteLength": 2189
+    },
+    "operations": [
+        {
+            "$unserialized": "Header",
+            "text": "HEADER v1.1.0\n  DOC_WIDTH 454\n  DOC_HEIGHT 400\n  DOC_DENSITY_AT_GENERATION 2.0\n  DOC_CONTENT_DESCRIPTION \n  DOC_PROFILES 512\n  DENSITY_BEHAVIOR 0"
+        },
+        {
+            "$tags": [
+                "COMPONENT"
+            ],
+            "type": "RootLayoutComponent",
+            "id": -2,
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0,
+            "visibility": "VISIBLE",
+            "list": [
+                {
+                    "$tags": [
+                        "LAYOUT_COMPONENT"
+                    ],
+                    "type": "BOX",
+                    "id": -3,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "width": 0.0,
+                    "height": 0.0,
+                    "visibility": "VISIBLE",
+                    "list": [
+                        {
+                            "type": "ComponentValue",
+                            "valueId": 42,
+                            "componentValueType": "WIDTH",
+                            "componentId": -3
+                        },
+                        {
+                            "type": "ComponentValue",
+                            "valueId": 43,
+                            "componentValueType": "HEIGHT",
+                            "componentId": -3
+                        },
+                        {
+                            "type": "IntegerConstant",
+                            "id": 44,
+                            "value": 0
+                        },
+                        {
+                            "$tags": [
+                                "EXPRESSION"
+                            ],
+                            "type": "IntegerExpression",
+                            "id": 45,
+                            "mask": 5,
+                            "srcValues": [
+                                44,
+                                1,
+                                65537
+                            ],
+                            "srcValuesMask": 5
+                        },
+                        {
+                            "$tags": [
+                                "MODIFIER"
+                            ],
+                            "type": "ComponentModifiers",
+                            "modifiers": [
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "WidthModifierOperation",
+                                    "width": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "dimensionModifierType": "FILL"
+                                },
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "HeightModifierOperation",
+                                    "height": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "dimensionModifierType": "FILL"
+                                }
+                            ]
+                        },
+                        {
+                            "$tags": [
+                                "LAYOUT_COMPONENT"
+                            ],
+                            "type": "COLUMN",
+                            "id": -5,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "width": 172.0,
+                            "height": 64.0,
+                            "visibility": "VISIBLE",
+                            "list": [
+                                {
+                                    "type": "TextData",
+                                    "textId": 76,
+                                    "text": "Subtitle"
+                                },
+                                {
+                                    "type": "ColorConstant",
+                                    "color": "0xffffdcc2",
+                                    "colorId": 77
+                                },
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "ComponentModifiers",
+                                    "modifiers": [
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "WidthModifierOperation",
+                                            "width": [
+                                                172.0,
+                                                172.0
+                                            ],
+                                            "dimensionModifierType": "EXACT_DP"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "WidthModifierOperation",
+                                            "width": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "dimensionModifierType": "FILL"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "HeightInModifierOperation",
+                                            "min": [
+                                                64.0,
+                                                64.0
+                                            ],
+                                            "max": [
+                                                3.4028235E38,
+                                                3.4028235E38
+                                            ]
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "HeightModifierOperation",
+                                            "height": [
+                                                1.0,
+                                                1.0
+                                            ],
+                                            "dimensionModifierType": "WRAP"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "DrawContentOperation"
+                                        },
+                                        {
+                                            "topStart": [
+                                                52.0,
+                                                52.0
+                                            ],
+                                            "topEnd": [
+                                                52.0,
+                                                52.0
+                                            ],
+                                            "bottomStart": [
+                                                52.0,
+                                                52.0
+                                            ],
+                                            "bottomEnd": [
+                                                52.0,
+                                                52.0
+                                            ],
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "RoundedClipRectModifierOperation",
+                                            "width": 0.0,
+                                            "height": 0.0
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "ClickModifierOperation"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER",
+                                                "A11Y"
+                                            ],
+                                            "type": "CoreSemantics",
+                                            "contentDescriptionId": 0,
+                                            "role": "BUTTON",
+                                            "textId": 0,
+                                            "stateDescriptionId": 0,
+                                            "enabled": true,
+                                            "mode": "SET",
+                                            "clickable": false
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "PaddingModifierOperation",
+                                            "left": 24.0,
+                                            "top": 24.0,
+                                            "right": 24.0,
+                                            "bottom": 24.0
+                                        }
+                                    ]
+                                },
+                                {
+                                    "$tags": [
+                                        "LAYOUT_COMPONENT"
+                                    ],
+                                    "type": "ROW",
+                                    "id": -7,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "width": 0.0,
+                                    "height": 0.0,
+                                    "visibility": "VISIBLE",
+                                    "list": [
+                                        {
+                                            "type": "TextData",
+                                            "textId": 68,
+                                            "text": "XXm"
+                                        },
+                                        {
+                                            "type": "ColorConstant",
+                                            "color": "0xffcac4d0",
+                                            "colorId": 69
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "ComponentModifiers",
+                                            "modifiers": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "WidthModifierOperation",
+                                                    "width": [
+                                                        1.0,
+                                                        1.0
+                                                    ],
+                                                    "dimensionModifierType": "FILL"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "$tags": [
+                                                "LAYOUT_COMPONENT"
+                                            ],
+                                            "type": "ROW",
+                                            "id": -9,
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "width": 0.0,
+                                            "height": 0.0,
+                                            "visibility": "VISIBLE",
+                                            "list": [
+                                                {
+                                                    "type": "TextData",
+                                                    "textId": 56,
+                                                    "text": "Title card title text lorem ipsum dolor sit amet ("
+                                                },
+                                                {
+                                                    "type": "TextFromFloat",
+                                                    "textId": 57,
+                                                    "value": [
+                                                        "@44",
+                                                        "@44"
+                                                    ],
+                                                    "digitsBefore": 255,
+                                                    "digitsAfter": 0,
+                                                    "flags": 533
+                                                },
+                                                {
+                                                    "type": "TextMerge",
+                                                    "id": 58,
+                                                    "leftId": 56,
+                                                    "rightId": 57
+                                                },
+                                                {
+                                                    "type": "TextData",
+                                                    "textId": 59,
+                                                    "text": ")"
+                                                },
+                                                {
+                                                    "type": "TextMerge",
+                                                    "id": 60,
+                                                    "leftId": 58,
+                                                    "rightId": 59
+                                                },
+                                                {
+                                                    "type": "TextData",
+                                                    "textId": 61,
+                                                    "text": "Title card title text lorem ipsum dolor sit amet"
+                                                },
+                                                {
+                                                    "type": "IdListData",
+                                                    "id": 2097194,
+                                                    "ids": [
+                                                        "[I@3a52dba3"
+                                                    ]
+                                                },
+                                                {
+                                                    "$tags": [
+                                                        "EXPRESSION"
+                                                    ],
+                                                    "type": "IntegerExpression",
+                                                    "id": 62,
+                                                    "mask": 0,
+                                                    "srcValues": [
+                                                        0
+                                                    ],
+                                                    "srcValuesMask": 0
+                                                },
+                                                {
+                                                    "$tags": [
+                                                        "EXPRESSION"
+                                                    ],
+                                                    "type": "IntegerExpression",
+                                                    "id": 63,
+                                                    "mask": 60,
+                                                    "srcValues": [
+                                                        1,
+                                                        0,
+                                                        44,
+                                                        62,
+                                                        65538,
+                                                        65558
+                                                    ],
+                                                    "srcValuesMask": 60
+                                                },
+                                                {
+                                                    "type": "TextLookupInt",
+                                                    "textId": 64,
+                                                    "dataSetId": 2097194,
+                                                    "indexId": [
+                                                        63.0,
+                                                        63.0
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "ColorConstant",
+                                                    "color": "0xfff6edff",
+                                                    "colorId": 65
+                                                },
+                                                {
+                                                    "type": "TextData",
+                                                    "textId": 66,
+                                                    "text": "google:Roboto Flex"
+                                                },
+                                                {
+                                                    "type": "TextData",
+                                                    "textId": 67,
+                                                    "text": "pnum"
+                                                },
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "ComponentModifiers",
+                                                    "modifiers": [
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "WidthModifierOperation",
+                                                            "width": [
+                                                                1.0,
+                                                                1.0
+                                                            ],
+                                                            "dimensionModifierType": "WEIGHT"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "$tags": [
+                                                        "LAYOUT_COMPONENT"
+                                                    ],
+                                                    "type": "CORE_TEXT",
+                                                    "id": -11,
+                                                    "x": 0.0,
+                                                    "y": 0.0,
+                                                    "width": 0.0,
+                                                    "height": 0.0,
+                                                    "visibility": "VISIBLE",
+                                                    "list": [
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "ComponentModifiers",
+                                                            "modifiers": []
+                                                        }
+                                                    ],
+                                                    "paddingLeft": 0.0,
+                                                    "paddingRight": 0.0,
+                                                    "paddingTop": 0.0,
+                                                    "paddingBottom": 0.0,
+                                                    "textId": 64,
+                                                    "flags": 0,
+                                                    "color": [
+                                                        -1.6777216E7,
+                                                        -1.0
+                                                    ],
+                                                    "fontSize": [
+                                                        32.0,
+                                                        32.0
+                                                    ],
+                                                    "fontStyle": 0,
+                                                    "fontWeight": 550.0,
+                                                    "fontFamilyId": 66,
+                                                    "textAlign": 1
+                                                }
+                                            ],
+                                            "paddingLeft": 0.0,
+                                            "paddingRight": 0.0,
+                                            "paddingTop": 0.0,
+                                            "paddingBottom": 0.0,
+                                            "verticalPositioning": "TOP",
+                                            "horizontalPositioning": "START",
+                                            "spacedBy": 0.0
+                                        },
+                                        {
+                                            "$tags": [
+                                                "LAYOUT_COMPONENT"
+                                            ],
+                                            "type": "BOX",
+                                            "id": -13,
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "width": 4.0,
+                                            "height": 0.0,
+                                            "visibility": "VISIBLE",
+                                            "list": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "ComponentModifiers",
+                                                    "modifiers": [
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "WidthModifierOperation",
+                                                            "width": [
+                                                                4.0,
+                                                                4.0
+                                                            ],
+                                                            "dimensionModifierType": "EXACT_DP"
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "paddingLeft": 0.0,
+                                            "paddingRight": 0.0,
+                                            "paddingTop": 0.0,
+                                            "paddingBottom": 0.0,
+                                            "verticalPositioning": "TOP",
+                                            "horizontalPositioning": "START"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "LAYOUT_COMPONENT"
+                                            ],
+                                            "type": "CORE_TEXT",
+                                            "id": -15,
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "width": 0.0,
+                                            "height": 0.0,
+                                            "visibility": "VISIBLE",
+                                            "list": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "ComponentModifiers",
+                                                    "modifiers": []
+                                                }
+                                            ],
+                                            "paddingLeft": 0.0,
+                                            "paddingRight": 0.0,
+                                            "paddingTop": 0.0,
+                                            "paddingBottom": 0.0,
+                                            "textId": 68,
+                                            "flags": 0,
+                                            "color": [
+                                                -1.6777216E7,
+                                                -1.0
+                                            ],
+                                            "fontSize": [
+                                                28.0,
+                                                28.0
+                                            ],
+                                            "fontStyle": 0,
+                                            "fontWeight": 450.0,
+                                            "fontFamilyId": 66,
+                                            "textAlign": 1
+                                        }
+                                    ],
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
+                                    "paddingTop": 0.0,
+                                    "paddingBottom": 0.0,
+                                    "verticalPositioning": "TOP",
+                                    "horizontalPositioning": "START",
+                                    "spacedBy": 0.0
+                                },
+                                {
+                                    "$tags": [
+                                        "LAYOUT_COMPONENT"
+                                    ],
+                                    "type": "BOX",
+                                    "id": -17,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "width": 0.0,
+                                    "height": 2.0,
+                                    "visibility": "VISIBLE",
+                                    "list": [
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "ComponentModifiers",
+                                            "modifiers": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "HeightModifierOperation",
+                                                    "height": [
+                                                        2.0,
+                                                        2.0
+                                                    ],
+                                                    "dimensionModifierType": "EXACT_DP"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
+                                    "paddingTop": 0.0,
+                                    "paddingBottom": 0.0,
+                                    "verticalPositioning": "TOP",
+                                    "horizontalPositioning": "START"
+                                },
+                                {
+                                    "$tags": [
+                                        "LAYOUT_COMPONENT"
+                                    ],
+                                    "type": "ROW",
+                                    "id": -19,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "width": 148.0,
+                                    "height": 64.0,
+                                    "visibility": "VISIBLE",
+                                    "list": [
+                                        {
+                                            "type": "BitmapData",
+                                            "imageId": 70,
+                                            "imageWidth": 8,
+                                            "imageHeight": 8,
+                                            "imageType": "TYPE_PNG_8888",
+                                            "encoding": "ENCODING_INLINE"
+                                        },
+                                        {
+                                            "type": "ComponentValue",
+                                            "valueId": 71,
+                                            "componentValueType": "WIDTH",
+                                            "componentId": -19
+                                        },
+                                        {
+                                            "type": "ComponentValue",
+                                            "valueId": 72,
+                                            "componentValueType": "HEIGHT",
+                                            "componentId": -19
+                                        },
+                                        {
+                                            "type": "BitmapData",
+                                            "imageId": 73,
+                                            "imageWidth": 8,
+                                            "imageHeight": 8,
+                                            "imageType": "TYPE_PNG_8888",
+                                            "encoding": "ENCODING_INLINE"
+                                        },
+                                        {
+                                            "type": "ComponentValue",
+                                            "valueId": 74,
+                                            "componentValueType": "WIDTH",
+                                            "componentId": -19
+                                        },
+                                        {
+                                            "type": "ComponentValue",
+                                            "valueId": 75,
+                                            "componentValueType": "HEIGHT",
+                                            "componentId": -19
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "ComponentModifiers",
+                                            "modifiers": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "WidthModifierOperation",
+                                                    "width": [
+                                                        148.0,
+                                                        148.0
+                                                    ],
+                                                    "dimensionModifierType": "EXACT_DP"
+                                                },
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "HeightModifierOperation",
+                                                    "height": [
+                                                        64.0,
+                                                        64.0
+                                                    ],
+                                                    "dimensionModifierType": "EXACT_DP"
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "$tags": [
+                                                "LAYOUT_COMPONENT"
+                                            ],
+                                            "type": "IMAGE_LAYOUT",
+                                            "id": -21,
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "width": 86.0,
+                                            "height": 64.0,
+                                            "visibility": "VISIBLE",
+                                            "list": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "ComponentModifiers",
+                                                    "modifiers": [
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "WidthModifierOperation",
+                                                            "width": [
+                                                                86.0,
+                                                                86.0
+                                                            ],
+                                                            "dimensionModifierType": "EXACT_DP"
+                                                        },
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "HeightModifierOperation",
+                                                            "height": [
+                                                                64.0,
+                                                                64.0
+                                                            ],
+                                                            "dimensionModifierType": "EXACT_DP"
+                                                        },
+                                                        {
+                                                            "topStart": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "topEnd": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "bottomStart": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "bottomEnd": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "RoundedClipRectModifierOperation",
+                                                            "width": 0.0,
+                                                            "height": 0.0
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "paddingLeft": 0.0,
+                                            "paddingRight": 0.0,
+                                            "paddingTop": 0.0,
+                                            "paddingBottom": 0.0
+                                        },
+                                        {
+                                            "$tags": [
+                                                "LAYOUT_COMPONENT"
+                                            ],
+                                            "type": "IMAGE_LAYOUT",
+                                            "id": -22,
+                                            "x": 0.0,
+                                            "y": 0.0,
+                                            "width": 58.0,
+                                            "height": 64.0,
+                                            "visibility": "VISIBLE",
+                                            "list": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "ComponentModifiers",
+                                                    "modifiers": [
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "WidthModifierOperation",
+                                                            "width": [
+                                                                58.0,
+                                                                58.0
+                                                            ],
+                                                            "dimensionModifierType": "EXACT_DP"
+                                                        },
+                                                        {
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "HeightModifierOperation",
+                                                            "height": [
+                                                                64.0,
+                                                                64.0
+                                                            ],
+                                                            "dimensionModifierType": "EXACT_DP"
+                                                        },
+                                                        {
+                                                            "topStart": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "topEnd": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "bottomStart": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "bottomEnd": [
+                                                                28.0,
+                                                                28.0
+                                                            ],
+                                                            "$tags": [
+                                                                "MODIFIER"
+                                                            ],
+                                                            "type": "RoundedClipRectModifierOperation",
+                                                            "width": 0.0,
+                                                            "height": 0.0
+                                                        }
+                                                    ]
+                                                }
+                                            ],
+                                            "paddingLeft": 0.0,
+                                            "paddingRight": 0.0,
+                                            "paddingTop": 0.0,
+                                            "paddingBottom": 0.0
+                                        }
+                                    ],
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
+                                    "paddingTop": 0.0,
+                                    "paddingBottom": 0.0,
+                                    "verticalPositioning": "TOP",
+                                    "horizontalPositioning": "START",
+                                    "spacedBy": 8.0
+                                },
+                                {
+                                    "$tags": [
+                                        "LAYOUT_COMPONENT"
+                                    ],
+                                    "type": "BOX",
+                                    "id": -23,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "width": 0.0,
+                                    "height": 6.0,
+                                    "visibility": "VISIBLE",
+                                    "list": [
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "ComponentModifiers",
+                                            "modifiers": [
+                                                {
+                                                    "$tags": [
+                                                        "MODIFIER"
+                                                    ],
+                                                    "type": "HeightModifierOperation",
+                                                    "height": [
+                                                        6.0,
+                                                        6.0
+                                                    ],
+                                                    "dimensionModifierType": "EXACT_DP"
+                                                }
+                                            ]
+                                        }
+                                    ],
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
+                                    "paddingTop": 0.0,
+                                    "paddingBottom": 0.0,
+                                    "verticalPositioning": "TOP",
+                                    "horizontalPositioning": "START"
+                                },
+                                {
+                                    "$tags": [
+                                        "LAYOUT_COMPONENT"
+                                    ],
+                                    "type": "CORE_TEXT",
+                                    "id": -25,
+                                    "x": 0.0,
+                                    "y": 0.0,
+                                    "width": 0.0,
+                                    "height": 0.0,
+                                    "visibility": "VISIBLE",
+                                    "list": [
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "ComponentModifiers",
+                                            "modifiers": []
+                                        }
+                                    ],
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
+                                    "paddingTop": 0.0,
+                                    "paddingBottom": 0.0,
+                                    "textId": 76,
+                                    "flags": 0,
+                                    "color": [
+                                        -1.6777216E7,
+                                        -1.0
+                                    ],
+                                    "fontSize": [
+                                        30.0,
+                                        30.0
+                                    ],
+                                    "fontStyle": 0,
+                                    "fontWeight": 500.0,
+                                    "fontFamilyId": 66,
+                                    "textAlign": 1
+                                }
+                            ],
+                            "paddingLeft": 24.0,
+                            "paddingRight": 24.0,
+                            "paddingTop": 24.0,
+                            "paddingBottom": 24.0,
+                            "verticalPositioning": "TOP",
+                            "horizontalPositioning": "START",
+                            "spacedBy": 0.0
+                        }
+                    ],
+                    "paddingLeft": 0.0,
+                    "paddingRight": 0.0,
+                    "paddingTop": 0.0,
+                    "paddingBottom": 0.0,
+                    "verticalPositioning": "CENTER",
+                    "horizontalPositioning": "CENTER"
+                }
+            ]
+        }
+    ]
+}

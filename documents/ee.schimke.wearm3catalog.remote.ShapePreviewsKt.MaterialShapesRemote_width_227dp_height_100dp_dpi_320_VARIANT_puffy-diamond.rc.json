@@ -1,0 +1,477 @@
+{
+    "header": {
+        "version": "1.1.0",
+        "width": 454,
+        "height": 200,
+        "contentDescription": "",
+        "profiles": 512,
+        "densityAtGeneration": 2.0,
+        "byteLength": 1383
+    },
+    "operations": [
+        {
+            "$unserialized": "Header",
+            "text": "HEADER v1.1.0\n  DOC_WIDTH 454\n  DOC_HEIGHT 200\n  DOC_DENSITY_AT_GENERATION 2.0\n  DOC_CONTENT_DESCRIPTION \n  DOC_PROFILES 512\n  DENSITY_BEHAVIOR 0"
+        },
+        {
+            "$tags": [
+                "COMPONENT"
+            ],
+            "type": "RootLayoutComponent",
+            "id": -2,
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0,
+            "visibility": "VISIBLE",
+            "list": [
+                {
+                    "$tags": [
+                        "LAYOUT_COMPONENT"
+                    ],
+                    "type": "BOX",
+                    "id": -3,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "width": 0.0,
+                    "height": 0.0,
+                    "visibility": "VISIBLE",
+                    "list": [
+                        {
+                            "$tags": [
+                                "MODIFIER"
+                            ],
+                            "type": "ComponentModifiers",
+                            "modifiers": [
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "WidthModifierOperation",
+                                    "width": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "dimensionModifierType": "FILL"
+                                },
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "HeightModifierOperation",
+                                    "height": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "dimensionModifierType": "FILL"
+                                }
+                            ]
+                        },
+                        {
+                            "$tags": [
+                                "LAYOUT_COMPONENT"
+                            ],
+                            "type": "CANVAS",
+                            "id": -5,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "width": 72.0,
+                            "height": 72.0,
+                            "visibility": "VISIBLE",
+                            "list": [
+                                {
+                                    "type": "ComponentValue",
+                                    "valueId": 42,
+                                    "componentValueType": "WIDTH",
+                                    "componentId": -5
+                                },
+                                {
+                                    "type": "ComponentValue",
+                                    "valueId": 43,
+                                    "componentValueType": "HEIGHT",
+                                    "componentId": -5
+                                },
+                                {
+                                    "type": "MatrixSave"
+                                },
+                                {
+                                    "scaleX": [
+                                        "@42",
+                                        "@42"
+                                    ],
+                                    "scaleY": [
+                                        "@43",
+                                        "@43"
+                                    ],
+                                    "pivotX": [
+                                        "NaN",
+                                        "NaN"
+                                    ],
+                                    "pivotY": [
+                                        "NaN",
+                                        "NaN"
+                                    ],
+                                    "type": "MatrixScale"
+                                },
+                                {
+                                    "type": "ColorConstant",
+                                    "color": "0xffd0bcff",
+                                    "colorId": 44
+                                },
+                                {
+                                    "type": "NamedVariable",
+                                    "varId": 44,
+                                    "varName": "USER:WearM3.primaryDim",
+                                    "varType": "COLOR_TYPE"
+                                },
+                                {
+                                    "type": "PaintData",
+                                    "paintBundle": {
+                                        "type": "PaintBundle",
+                                        "operations": [
+                                            "{type=ColorId, id=44}",
+                                            "{type=StrokeWidth, width={type=Value, value=0.0}}",
+                                            "{type=StrokeCap, cap=0}",
+                                            "{type=StrokeJoin, strokeJoin=0}",
+                                            "{type=Style, style=0}",
+                                            "{type=TextSize, size={type=Value, value=12.0}}",
+                                            "{type=FontFamily, fontFamily=0}",
+                                            "{type=FontWeight, weight=400.0}",
+                                            "{type=TypeFace, italic=false}",
+                                            "{type=ClearColorFilter}",
+                                            "{type=BlendMode, mode=SRC_OVER}",
+                                            "{type=FilterBitmap, enabled=true}",
+                                            "{type=Shader, id=0}"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "PathData",
+                                    "id": 45,
+                                    "path": [
+                                        "@10",
+                                        0.77894926,
+                                        0.22105066,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.8125624,
+                                        0.25466374,
+                                        0.8300485,
+                                        0.3044038,
+                                        0.81802547,
+                                        0.3568888,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.81801695,
+                                        0.35692582,
+                                        0.81800854,
+                                        0.3569629,
+                                        0.818,
+                                        0.35699996,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.8231876,
+                                        0.35628733,
+                                        0.8283752,
+                                        0.35557476,
+                                        0.83356285,
+                                        0.35486224,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.92157155,
+                                        0.3427731,
+                                        1.0,
+                                        0.41116485,
+                                        1.0,
+                                        0.49999997,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        1.0,
+                                        0.5888351,
+                                        0.9215715,
+                                        0.65722686,
+                                        0.83356285,
+                                        0.6451378,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.8283752,
+                                        0.64442515,
+                                        0.82318765,
+                                        0.6437126,
+                                        0.818,
+                                        0.643,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.8180085,
+                                        0.6430371,
+                                        0.818017,
+                                        0.64307415,
+                                        0.8180255,
+                                        0.6431112,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.84207153,
+                                        0.7480812,
+                                        0.7480812,
+                                        0.84207153,
+                                        0.6431112,
+                                        0.81802547,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.64307415,
+                                        0.81801695,
+                                        0.6430371,
+                                        0.81800854,
+                                        0.643,
+                                        0.818,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.6437126,
+                                        0.8231876,
+                                        0.64442515,
+                                        0.8283752,
+                                        0.6451377,
+                                        0.83356285,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.65722686,
+                                        0.92157155,
+                                        0.5888351,
+                                        1.0,
+                                        0.49999997,
+                                        1.0,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.41116488,
+                                        1.0,
+                                        0.3427731,
+                                        0.9215715,
+                                        0.3548622,
+                                        0.83356285,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.3555748,
+                                        0.8283752,
+                                        0.3562874,
+                                        0.82318765,
+                                        0.35699996,
+                                        0.818,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.35696286,
+                                        0.81800854,
+                                        0.35692576,
+                                        0.818017,
+                                        0.35688868,
+                                        0.8180255,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.25191876,
+                                        0.84207153,
+                                        0.15792844,
+                                        0.7480812,
+                                        0.18197438,
+                                        0.6431113,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.18198289,
+                                        0.64307415,
+                                        0.1819914,
+                                        0.643037,
+                                        0.1819999,
+                                        0.6429999,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.17681234,
+                                        0.6437124,
+                                        0.1716248,
+                                        0.64442503,
+                                        0.16643724,
+                                        0.6451376,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.07842854,
+                                        0.65722674,
+                                        0.0,
+                                        0.58883494,
+                                        3.170385E-9,
+                                        0.4999998,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        3.931346E-8,
+                                        0.41116473,
+                                        0.078428514,
+                                        0.342773,
+                                        0.16643716,
+                                        0.35486206,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.17162476,
+                                        0.35557464,
+                                        0.17681237,
+                                        0.35628727,
+                                        0.18199997,
+                                        0.35699984,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.18199147,
+                                        0.35696277,
+                                        0.18198298,
+                                        0.3569257,
+                                        0.1819745,
+                                        0.35688868,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.15792856,
+                                        0.25191876,
+                                        0.25191888,
+                                        0.15792844,
+                                        0.3568888,
+                                        0.18197441,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.35692587,
+                                        0.1819829,
+                                        0.35696295,
+                                        0.1819914,
+                                        0.35700002,
+                                        0.18199989,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.35628745,
+                                        0.17681232,
+                                        0.35557488,
+                                        0.17162476,
+                                        0.3548623,
+                                        0.16643721,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.34277317,
+                                        0.0784285,
+                                        0.41116497,
+                                        0.0,
+                                        0.5000001,
+                                        0.0,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.58883524,
+                                        0.0,
+                                        0.6572271,
+                                        0.078428544,
+                                        0.64513785,
+                                        0.16643727,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.6444253,
+                                        0.17162482,
+                                        0.6437127,
+                                        0.1768124,
+                                        0.6430001,
+                                        0.18199995,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.6430371,
+                                        0.18199146,
+                                        0.64307415,
+                                        0.181983,
+                                        0.64311117,
+                                        0.18197453,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.6955961,
+                                        0.16995151,
+                                        0.74533623,
+                                        0.1874376,
+                                        0.77894926,
+                                        0.22105066,
+                                        "@15"
+                                    ]
+                                },
+                                {
+                                    "type": "DrawPath",
+                                    "id": 45,
+                                    "start": 0.0,
+                                    "end": 1.0
+                                },
+                                {
+                                    "type": "MatrixRestore"
+                                },
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "ComponentModifiers",
+                                    "modifiers": [
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "WidthModifierOperation",
+                                            "width": [
+                                                72.0,
+                                                72.0
+                                            ],
+                                            "dimensionModifierType": "EXACT_DP"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "HeightModifierOperation",
+                                            "height": [
+                                                72.0,
+                                                72.0
+                                            ],
+                                            "dimensionModifierType": "EXACT_DP"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "paddingLeft": 0.0,
+                            "paddingRight": 0.0,
+                            "paddingTop": 0.0,
+                            "paddingBottom": 0.0,
+                            "verticalPositioning": "NONE",
+                            "horizontalPositioning": "NONE"
+                        }
+                    ],
+                    "paddingLeft": 0.0,
+                    "paddingRight": 0.0,
+                    "paddingTop": 0.0,
+                    "paddingBottom": 0.0,
+                    "verticalPositioning": "CENTER",
+                    "horizontalPositioning": "CENTER"
+                }
+            ]
+        }
+    ]
+}

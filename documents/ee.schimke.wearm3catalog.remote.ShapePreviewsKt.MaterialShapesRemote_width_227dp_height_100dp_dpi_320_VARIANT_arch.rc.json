@@ -1,0 +1,288 @@
+{
+    "header": {
+        "version": "1.1.0",
+        "width": 454,
+        "height": 200,
+        "contentDescription": "",
+        "profiles": 512,
+        "densityAtGeneration": 2.0,
+        "byteLength": 627
+    },
+    "operations": [
+        {
+            "$unserialized": "Header",
+            "text": "HEADER v1.1.0\n  DOC_WIDTH 454\n  DOC_HEIGHT 200\n  DOC_DENSITY_AT_GENERATION 2.0\n  DOC_CONTENT_DESCRIPTION \n  DOC_PROFILES 512\n  DENSITY_BEHAVIOR 0"
+        },
+        {
+            "$tags": [
+                "COMPONENT"
+            ],
+            "type": "RootLayoutComponent",
+            "id": -2,
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0,
+            "visibility": "VISIBLE",
+            "list": [
+                {
+                    "$tags": [
+                        "LAYOUT_COMPONENT"
+                    ],
+                    "type": "BOX",
+                    "id": -3,
+                    "x": 0.0,
+                    "y": 0.0,
+                    "width": 0.0,
+                    "height": 0.0,
+                    "visibility": "VISIBLE",
+                    "list": [
+                        {
+                            "$tags": [
+                                "MODIFIER"
+                            ],
+                            "type": "ComponentModifiers",
+                            "modifiers": [
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "WidthModifierOperation",
+                                    "width": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "dimensionModifierType": "FILL"
+                                },
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "HeightModifierOperation",
+                                    "height": [
+                                        1.0,
+                                        1.0
+                                    ],
+                                    "dimensionModifierType": "FILL"
+                                }
+                            ]
+                        },
+                        {
+                            "$tags": [
+                                "LAYOUT_COMPONENT"
+                            ],
+                            "type": "CANVAS",
+                            "id": -5,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "width": 72.0,
+                            "height": 72.0,
+                            "visibility": "VISIBLE",
+                            "list": [
+                                {
+                                    "type": "ComponentValue",
+                                    "valueId": 42,
+                                    "componentValueType": "WIDTH",
+                                    "componentId": -5
+                                },
+                                {
+                                    "type": "ComponentValue",
+                                    "valueId": 43,
+                                    "componentValueType": "HEIGHT",
+                                    "componentId": -5
+                                },
+                                {
+                                    "type": "MatrixSave"
+                                },
+                                {
+                                    "scaleX": [
+                                        "@42",
+                                        "@42"
+                                    ],
+                                    "scaleY": [
+                                        "@43",
+                                        "@43"
+                                    ],
+                                    "pivotX": [
+                                        "NaN",
+                                        "NaN"
+                                    ],
+                                    "pivotY": [
+                                        "NaN",
+                                        "NaN"
+                                    ],
+                                    "type": "MatrixScale"
+                                },
+                                {
+                                    "type": "ColorConstant",
+                                    "color": "0xffd0bcff",
+                                    "colorId": 44
+                                },
+                                {
+                                    "type": "NamedVariable",
+                                    "varId": 44,
+                                    "varName": "USER:WearM3.primaryDim",
+                                    "varType": "COLOR_TYPE"
+                                },
+                                {
+                                    "type": "PaintData",
+                                    "paintBundle": {
+                                        "type": "PaintBundle",
+                                        "operations": [
+                                            "{type=ColorId, id=44}",
+                                            "{type=StrokeWidth, width={type=Value, value=0.0}}",
+                                            "{type=StrokeCap, cap=0}",
+                                            "{type=StrokeJoin, strokeJoin=0}",
+                                            "{type=Style, style=0}",
+                                            "{type=TextSize, size={type=Value, value=12.0}}",
+                                            "{type=FontFamily, fontFamily=0}",
+                                            "{type=FontWeight, weight=400.0}",
+                                            "{type=TypeFace, italic=false}",
+                                            "{type=ClearColorFilter}",
+                                            "{type=BlendMode, mode=SRC_OVER}",
+                                            "{type=FilterBitmap, enabled=true}",
+                                            "{type=Shader, id=0}"
+                                        ]
+                                    }
+                                },
+                                {
+                                    "type": "PathData",
+                                    "id": 45,
+                                    "path": [
+                                        "@10",
+                                        0.14644665,
+                                        0.1464466,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.23692884,
+                                        0.05596439,
+                                        0.36192882,
+                                        -2.1073424E-8,
+                                        0.5,
+                                        0.0,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.7761423,
+                                        0.0,
+                                        1.0,
+                                        0.22385772,
+                                        0.99999994,
+                                        0.50000006,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.99999994,
+                                        0.61952627,
+                                        1.0,
+                                        0.7390524,
+                                        1.0,
+                                        0.8585787,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.99999994,
+                                        0.93668354,
+                                        0.93668354,
+                                        1.0,
+                                        0.8585787,
+                                        1.0,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.61952615,
+                                        0.99999994,
+                                        0.38047376,
+                                        1.0,
+                                        0.14142135,
+                                        0.99999994,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.063316494,
+                                        0.99999994,
+                                        0.0,
+                                        0.93668336,
+                                        0.0,
+                                        0.8585785,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        0.0,
+                                        0.7390524,
+                                        4.2146848E-8,
+                                        0.61952615,
+                                        0.0,
+                                        0.49999997,
+                                        "@14",
+                                        0.0,
+                                        0.0,
+                                        2.1073424E-8,
+                                        0.3619288,
+                                        0.055964436,
+                                        0.23692879,
+                                        0.14644665,
+                                        0.1464466,
+                                        "@15"
+                                    ]
+                                },
+                                {
+                                    "type": "DrawPath",
+                                    "id": 45,
+                                    "start": 0.0,
+                                    "end": 1.0
+                                },
+                                {
+                                    "type": "MatrixRestore"
+                                },
+                                {
+                                    "$tags": [
+                                        "MODIFIER"
+                                    ],
+                                    "type": "ComponentModifiers",
+                                    "modifiers": [
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "WidthModifierOperation",
+                                            "width": [
+                                                72.0,
+                                                72.0
+                                            ],
+                                            "dimensionModifierType": "EXACT_DP"
+                                        },
+                                        {
+                                            "$tags": [
+                                                "MODIFIER"
+                                            ],
+                                            "type": "HeightModifierOperation",
+                                            "height": [
+                                                72.0,
+                                                72.0
+                                            ],
+                                            "dimensionModifierType": "EXACT_DP"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "paddingLeft": 0.0,
+                            "paddingRight": 0.0,
+                            "paddingTop": 0.0,
+                            "paddingBottom": 0.0,
+                            "verticalPositioning": "NONE",
+                            "horizontalPositioning": "NONE"
+                        }
+                    ],
+                    "paddingLeft": 0.0,
+                    "paddingRight": 0.0,
+                    "paddingTop": 0.0,
+                    "paddingBottom": 0.0,
+                    "verticalPositioning": "CENTER",
+                    "horizontalPositioning": "CENTER"
+                }
+            ]
+        }
+    ]
+}
