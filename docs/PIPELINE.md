@@ -98,34 +98,24 @@ Three things can go wrong, and all three fail loudly:
 
 ## What is not ported, and what it would take
 
-### Curved text is straight
+### Curved text is curved
 
-Ported and drawing, but **not curved**. `basicCurvedText`, `curvedText`, `CurvedLayout` and
-`TimeText` all render; each run is measured with the real font, then drawn as a single straight
-line, rotated to the tangent of its arc and centred on it.
+This entry described straight text drawn on a tangent, and had been out of date since the Skia
+port landed: `basicCurvedText`, `curvedText`, `CurvedLayout` and `TimeText` place **each glyph
+individually around the arc**, at its own angle and rotation.
 
-Where that is right and where it is wrong: the run and the arc agree exactly at the centre of the
-sweep and diverge towards its ends, by more the longer the run and the tighter the radius. The
-labels Wear actually curves — a time, a screen title, a button caption — read correctly. A run
-sweeping more than roughly a quarter turn will leave the band the layout allotted it.
+What made it possible is that Skia is reachable from both published targets — `skikoMain` sits
+above `jvm` and `wasmJs` — and Skia has exactly the two things Compose does not expose:
+`Font.getStringGlyphs` for glyph ids and advances, and `TextBlobBuilder.appendRunRSXform` for
+placing each one under its own rotation and translation. The delegate is
+`modules/wear-compose-foundation/src/skikoMain/.../CurvedTextDelegate.skiko.kt`.
 
-The measurement is faithful either way, which is the part that matters structurally: width, height
-and baseline are a real measurement of the real font, so the surrounding curved layout allots the
-right sweep and everything positioned relative to the text lands where it should.
-
-Why it is not curved: upstream shapes the run to glyphs with `android.text.TextRunShaper`, reads
-their positions out of `PositionedGlyphs`, and then either draws the run along a `Path` or warps
-each glyph's outline around one with a `PathIterator`
-(`WarpedCurvedTextRenderer`, still excluded). Compose Multiplatform publishes none of that:
-`TextMeasurer` will measure and draw a run but will not hand back positioned glyphs, and there is
-no path-drawing text API.
-
-The next step is per-character placement — measure each character, walk them around the arc at
-their own angles, rotate each to its own tangent. It is a real improvement for the Latin text the
-catalog draws, and still wrong for scripts whose glyphs change shape in context, which is exactly
-why upstream shapes the whole run first. The seam to change is
-`modules/wear-compose-foundation/src/commonPort/.../CurvedTextDelegate.kt`; nothing above it needs
-to know.
+What is still not ported is `WarpedCurvedTextRenderer`, the renderer that **warps each glyph's
+outline** around the arc rather than rotating it as a rigid stamp. Upstream picks between the two,
+and the one implemented here is the fallback it uses below API 34 — a shipped configuration, not a
+shortcut. The difference shows at large text on a tight radius. Skia can do that too
+(`Font.getPath`, and `PathVerb` matches Android's `PathIterator` verb for verb, CONIC included);
+`CurvedTextStyle.warpOffset` is in the public surface and currently observed by nothing.
 
 ### One-handed gestures
 

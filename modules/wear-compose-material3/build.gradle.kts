@@ -26,6 +26,10 @@ kotlin {
       // detach a Modifier.Node in, which is the whole thing under test.
       @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
       implementation(compose.uiTest)
+      // The font-variation tests measure real glyph advances, so they need a real variable font —
+      // the bundled Roboto Flex — and Skia's native library, which arrives with the desktop
+      // artifact. Test-only: nothing in the published module depends on either.
+      implementation(project(":wear-compose-fonts"))
       implementation(compose.desktop.currentOs)
     }
 
