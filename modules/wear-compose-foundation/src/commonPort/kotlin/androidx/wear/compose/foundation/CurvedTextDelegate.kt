@@ -60,7 +60,7 @@ internal expect class CurvedTextDelegate() {
         warpOffset: CurvedTextStyle.WarpOffset,
     )
 
-    /** Zero here: the warping renderer this offset belongs to is not ported. */
+    /** Distance from the baseline to the line the warped run is measured against. */
     fun getMeasureOffset(): Float
 
     fun DrawScope.doDraw(

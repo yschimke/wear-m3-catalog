@@ -110,12 +110,44 @@ above `jvm` and `wasmJs` — and Skia has exactly the two things Compose does no
 placing each one under its own rotation and translation. The delegate is
 `modules/wear-compose-foundation/src/skikoMain/.../CurvedTextDelegate.skiko.kt`.
 
-What is still not ported is `WarpedCurvedTextRenderer`, the renderer that **warps each glyph's
-outline** around the arc rather than rotating it as a rigid stamp. Upstream picks between the two,
-and the one implemented here is the fallback it uses below API 34 — a shipped configuration, not a
-shortcut. The difference shows at large text on a tight radius. Skia can do that too
-(`Font.getPath`, and `PathVerb` matches Android's `PathIterator` verb for verb, CONIC included);
-`CurvedTextStyle.warpOffset` is in the public surface and currently observed by nothing.
+`WarpedCurvedTextRenderer` — the renderer that **warps each glyph's outline** around the arc rather
+than rotating it as a rigid stamp — is ported too, and `CurvedTextStyle.warpOffset` now drives it.
+Upstream picks between the two renderers; the `RSXform` one above is the fallback it uses below API
+34, and the warping one is what it draws on a modern device.
+
+The mapping is upstream's, point for point: a glyph's x becomes an angle (arc length over radius),
+its y becomes a radius, and every segment is converted to a cubic first so the four control points
+can be carried through one function. What made it possible is that Skia hands over the outlines
+Compose will not — `Font.getPath(glyph)` — and its `PathVerb` matches Android's `PathIterator` verb
+for verb. `CircleWarper.skiko.kt` is the mapping and `CurvedTextDelegate.drawWarped` drives it; the
+arithmetic is unit-tested against the properties that define it (a vertical stroke's two ends land
+on one radius, an anticlockwise run mirrors, the ends of a curved segment stay on the arc).
+
+### Animated text
+
+`AnimatedText` animates a variable font along its axes and its size — the component behind a
+watch face's shrinking clock. Upstream builds it out of three Android APIs, all of them API 31+:
+`android.graphics.fonts.Font` built from named `FontVariationAxis`es, `TextRunShaper`/`TextShaper`
+for per-glyph positions, and `Canvas.drawGlyphs` to put them down. Compose Multiplatform exposes
+none of the three, which is why this file was the last of the text surface to be ported.
+
+Skia has all three, and the port is the same algorithm rather than a re-imagining of it: shape the
+string twice, once with the font at the start of the animation and once with the font at the end,
+then every frame draw each glyph at the interpolated position in a font whose axes are interpolated
+to match. `Typeface.makeClone(FontVariation[])` builds the font, `Shaper.shapeLine` shapes it —
+HarfBuzz, as `TextShaper` is — and `TextBlobBuilder.appendRunPos` draws the frame.
+
+Two upstream details survive: the cache is keyed by the fraction SNAPPED to 0.016 (60 fonts for a
+one-second animation, not one per frame), and the axis interpolation is unclamped, so an
+overshooting spring keeps driving the axis past 1f, which is what the public doc promises. One does
+not: upstream shapes the text once purely to pull the typeface back out of the result, with a
+comment wondering whether there is another way — on Skia the resolver returns the typeface, so
+there is.
+
+The public API is unchanged and hand-written in `commonPort/.../AnimatedText.kt`, over the seam in
+`commonPort/.../internal/AnimatedTextRenderer.kt`; only the shaping and drawing are platform code.
+The tests measure advances rather than absence of exceptions, because a font that silently ignored
+its axes would pass anything weaker.
 
 ### One-handed gestures
 
