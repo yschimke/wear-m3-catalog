@@ -25,6 +25,16 @@ if ! git rev-parse --verify --quiet "$base" >/dev/null; then
   exit 2
 fi
 
+# `base...HEAD` needs a merge base, and a SHALLOW clone of either side may not have one — the
+# failure is a bare `fatal: no merge base` and exit 128, which reads like a broken check rather
+# than a missing fetch. Say what it actually is.
+if ! git merge-base "$base" HEAD >/dev/null 2>&1; then
+  echo "check-port-revision: no merge base between '$base' and HEAD." >&2
+  echo "  Both sides need enough history to find one — fetch the base WITHOUT --depth, and" >&2
+  echo "  check out the branch with fetch-depth: 0." >&2
+  exit 2
+fi
+
 # What lands in a published artifact. Test source sets are deliberately absent: a test is compiled
 # into no publication, so changing one changes nothing a consumer resolves.
 changed=$(git diff --name-only "$base...HEAD" -- \
