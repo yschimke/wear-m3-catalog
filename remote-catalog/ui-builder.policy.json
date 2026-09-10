@@ -79,6 +79,37 @@
 
   "$comment_builtins": "Two, and only because the record cannot carry them. The widget container is the Glance Wear HOST frame — the squircle the launcher draws around a widget, not a `remote-material3` component — so `WidgetContainerPreviews.kt` recreates it through `androidx.glance.wear`'s `WearWidgetPreview` wrapper and there is no component call for a record to find. That is exactly what a builtin is for: \"it has no call site, so there is nothing to discover and no sticker to annotate\". It matters more than two components' worth: this catalog's own policy says a Remote design starts from a container and everything else goes inside one, and the builder's record-free export routes on the ROOT component id — so a published catalog without these is one whose designs cannot be rooted. They were the blocker in https://github.com/yschimke/compose-preview-server/issues/674. `canvas: widget-container` is this catalog CLAIMING an adapter rather than a name anything validates: the Wasm canvas draws both by component id (UiBuilderRenderer's WearWidgetContainerScaffold), and a catalog claiming none would publish \"not drawn on the canvas\" about something the canvas draws. `remote-m3/lottie` is NOT here though the same argument reaches it — an asset player, no component call. It needs a shelf this catalog does not have (the frozen catalog files it under `Content`, a builder shelf), and inventing one is a catalog decision rather than a transcription. `remote-compose/document` stays out for the older reason: it is a BUILTIN OF THE BUILDER (https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_REMOTE_COMPOSE.md), and declaring it here would be this catalog claiming to own the builder's vocabulary.",
 
+  "$comment_components": "Where a component sits on the shelf when the id it derives from does not say. One id per SYMBOL means a component lands on whichever catalog id sorts first: RemoteText is drawn by 29 stickers and arrived under Containment via AppCard, leaving the Text shelf empty. These place the six that were filed somewhere a person would not look, and exclude the one that is not a component.",
+  "components": {
+    "remote-m3/remote-text": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteTextKt.RemoteText",
+      "group": "Text"
+    },
+    "remote-m3/remote-icon": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteIconKt.RemoteIcon",
+      "group": "Iconography"
+    },
+    "remote-m3/remote-horizontal-page-indicator": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemotePageIndicatorKt.RemoteHorizontalPageIndicator",
+      "group": "Position indicators"
+    },
+    "remote-m3/remote-vertical-page-indicator": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemotePageIndicatorKt.RemoteVerticalPageIndicator",
+      "group": "Position indicators"
+    },
+    "remote-m3/remote-circular-progress-indicator": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteCircularProgressIndicatorKt.RemoteCircularProgressIndicator",
+      "group": "Communication"
+    },
+    "remote-m3/remote-text-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteTextButtonKt.RemoteTextButton",
+      "group": "Buttons"
+    },
+    "remote-m3/remote-sticker": {
+      "record": "remote-catalog/ee.schimke.wearm3catalog.remote.CatalogThemeKt.RemoteSticker",
+      "excluded": "the catalog's own preview frame, not a Remote Compose component: every sticker is drawn inside one and nobody places one in a design."
+    }
+  },
   "builtins": {
     "remote-m3/widget-container-small": {
       "role": "screen-root",
