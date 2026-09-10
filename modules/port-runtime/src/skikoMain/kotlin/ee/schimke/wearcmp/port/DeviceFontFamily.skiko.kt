@@ -5,6 +5,9 @@ import androidx.compose.ui.text.font.FontVariation
 import org.jetbrains.skia.FontVariation as SkiaFontVariation
 import org.jetbrains.skia.FontMgr
 import org.jetbrains.skia.FontStyle
+import androidx.compose.ui.text.font.FontStyle as ComposeFontStyle
+import androidx.compose.ui.text.font.FontSynthesis
+import androidx.compose.ui.text.font.FontWeight
 
 /**
  * Three places are asked, in order, and the first that answers wins:
@@ -76,3 +79,42 @@ public fun skiaTypefaceForFamily(family: FontFamily?): org.jetbrains.skia.Typefa
     typefaces[family]
 
 private val typefaces = mutableMapOf<FontFamily, org.jetbrains.skia.Typeface>()
+
+/**
+ * The Skia typeface Compose would draw [fontFamily] with, resolved the way this port's own text
+ * drawing needs it: as a typeface rather than as a paragraph style.
+ *
+ * Three places are asked, in order. A family this port built — the Wear type scale's `roboto-flex`,
+ * or anything else registered with [WearFonts] — hands its typeface straight back; that is the case
+ * that matters and it has to come first, because Compose wraps a loaded typeface in a platform type
+ * it will not unwrap. Anything else goes through Compose's own resolver, so a caller's own font,
+ * including one loaded from resources, is honoured exactly as it is for straight text. A host that
+ * has neither falls back to the platform's default face at the requested weight, which draws the
+ * text in the wrong face rather than not at all — and null only if the host has no fonts at all,
+ * which Skia itself reads as "the default face".
+ *
+ * Port-internal despite being public: the callers are in other modules.
+ */
+public fun resolveSkiaTypeface(
+    fontFamily: FontFamily?,
+    fontWeight: FontWeight?,
+    fontStyle: ComposeFontStyle?,
+    fontSynthesis: FontSynthesis?,
+    resolver: FontFamily.Resolver,
+): org.jetbrains.skia.Typeface? =
+    skiaTypefaceForFamily(fontFamily)
+        ?: runCatching {
+                resolver
+                    .resolve(
+                        fontFamily,
+                        fontWeight ?: FontWeight.Normal,
+                        fontStyle ?: ComposeFontStyle.Normal,
+                        fontSynthesis ?: FontSynthesis.All,
+                    )
+                    .value as? org.jetbrains.skia.Typeface
+            }
+            .getOrNull()
+        ?: FontMgr.default.legacyMakeTypeface(
+            "",
+            if ((fontWeight?.weight ?: 400) >= 600) FontStyle.BOLD else FontStyle.NORMAL,
+        )
