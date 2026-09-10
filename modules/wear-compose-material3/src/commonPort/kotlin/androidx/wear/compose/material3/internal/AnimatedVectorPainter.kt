@@ -28,6 +28,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.PathNode
+import androidx.compose.ui.graphics.vector.addPathNodes
 import androidx.compose.ui.graphics.vector.RenderVectorGroup
 import androidx.compose.ui.graphics.vector.VectorConfig
 import androidx.compose.ui.graphics.vector.VectorProperty
@@ -91,17 +93,40 @@ internal data class VectorAnimationSegment(
     val easing: Easing = LinearEasing,
 )
 
+/**
+ * One `<objectAnimator>` on `pathData`: a shape morphing from [from] to [to].
+ *
+ * The two path strings are the same sequence of commands — AVD requires it, the exporter honours
+ * it, and `tools/transform.py` refuses the drawable when it does not hold — so the morph is a lerp
+ * of the control points, one for one. Parsed lazily and once: a path string is a few hundred
+ * characters and every frame would otherwise re-parse both ends.
+ */
+internal class VectorPathSegment(
+    val startOffsetMillis: Int,
+    val durationMillis: Int,
+    val from: String,
+    val to: String,
+    val easing: Easing = LinearEasing,
+) {
+    internal val fromNodes: List<PathNode> by lazy(LazyThreadSafetyMode.NONE) { addPathNodes(from) }
+    internal val toNodes: List<PathNode> by lazy(LazyThreadSafetyMode.NONE) { addPathNodes(to) }
+}
+
 /** Everything animating one named element of the drawable. */
 internal data class VectorAnimationTrack(
     val targetName: String,
     val segments: List<VectorAnimationSegment>,
+    val pathSegments: List<VectorPathSegment> = emptyList(),
 )
 
 /** The last moment at which anything moves. */
 internal val List<VectorAnimationTrack>.totalDurationMillis: Int
     get() =
         maxOfOrNull { track ->
-            track.segments.maxOfOrNull { it.startOffsetMillis + it.durationMillis } ?: 0
+            maxOf(
+                track.segments.maxOfOrNull { it.startOffsetMillis + it.durationMillis } ?: 0,
+                track.pathSegments.maxOfOrNull { it.startOffsetMillis + it.durationMillis } ?: 0,
+            )
         } ?: 0
 
 /**
@@ -133,6 +158,155 @@ internal fun VectorAnimationTrack.valueOf(
     return value
 }
 
+/**
+ * The shape this track holds at [elapsedMillis], or null when it morphs nothing.
+ *
+ * Same windowing as the float segments: before a morph starts it is the `from` shape, after it ends
+ * the `to` shape, and the interpolation runs only in between. Both endpoints are returned as the
+ * PARSED node list rather than re-interpolated, so a drawable sitting at either end costs nothing.
+ */
+internal fun VectorAnimationTrack.pathAt(elapsedMillis: Float): List<PathNode>? {
+    var value: List<PathNode>? = null
+    for (segment in pathSegments) {
+        val start = segment.startOffsetMillis.toFloat()
+        val end = start + segment.durationMillis
+        value =
+            when {
+                elapsedMillis <= start -> value ?: segment.fromNodes
+                elapsedMillis >= end -> segment.toNodes
+                else -> {
+                    val fraction = segment.easing.transform((elapsedMillis - start) / (end - start))
+                    lerpPathNodes(segment.fromNodes, segment.toNodes, fraction)
+                }
+            }
+    }
+    return value
+}
+
+/**
+ * [from] and [to] interpolated control point by control point.
+ *
+ * A pair whose commands do not line up is not interpolable at all, and there is nothing sensible to
+ * draw between two different shapes — so it snaps at the half-way point rather than emitting a
+ * shape that is neither. The generator refuses such a pair up front, which is where the problem is
+ * cheap to see; this is the runtime's half of the same rule.
+ */
+internal fun lerpPathNodes(
+    from: List<PathNode>,
+    to: List<PathNode>,
+    fraction: Float,
+): List<PathNode> {
+    if (from.size != to.size) return if (fraction < 0.5f) from else to
+    return List(from.size) { index ->
+        val start = from[index]
+        val end = to[index]
+        lerpPathNode(start, end, fraction) ?: (if (fraction < 0.5f) start else end)
+    }
+}
+
+private fun lerp(start: Float, stop: Float, fraction: Float) = start + (stop - start) * fraction
+
+/** One node, or null when the two are different commands and no interpolation is defined. */
+private fun lerpPathNode(from: PathNode, to: PathNode, fraction: Float): PathNode? =
+    when {
+        from is PathNode.MoveTo && to is PathNode.MoveTo ->
+            PathNode.MoveTo(lerp(from.x, to.x, fraction), lerp(from.y, to.y, fraction))
+        from is PathNode.RelativeMoveTo && to is PathNode.RelativeMoveTo ->
+            PathNode.RelativeMoveTo(lerp(from.dx, to.dx, fraction), lerp(from.dy, to.dy, fraction))
+        from is PathNode.LineTo && to is PathNode.LineTo ->
+            PathNode.LineTo(lerp(from.x, to.x, fraction), lerp(from.y, to.y, fraction))
+        from is PathNode.RelativeLineTo && to is PathNode.RelativeLineTo ->
+            PathNode.RelativeLineTo(lerp(from.dx, to.dx, fraction), lerp(from.dy, to.dy, fraction))
+        from is PathNode.HorizontalTo && to is PathNode.HorizontalTo ->
+            PathNode.HorizontalTo(lerp(from.x, to.x, fraction))
+        from is PathNode.RelativeHorizontalTo && to is PathNode.RelativeHorizontalTo ->
+            PathNode.RelativeHorizontalTo(lerp(from.dx, to.dx, fraction))
+        from is PathNode.VerticalTo && to is PathNode.VerticalTo ->
+            PathNode.VerticalTo(lerp(from.y, to.y, fraction))
+        from is PathNode.RelativeVerticalTo && to is PathNode.RelativeVerticalTo ->
+            PathNode.RelativeVerticalTo(lerp(from.dy, to.dy, fraction))
+        from is PathNode.CurveTo && to is PathNode.CurveTo ->
+            PathNode.CurveTo(
+                lerp(from.x1, to.x1, fraction),
+                lerp(from.y1, to.y1, fraction),
+                lerp(from.x2, to.x2, fraction),
+                lerp(from.y2, to.y2, fraction),
+                lerp(from.x3, to.x3, fraction),
+                lerp(from.y3, to.y3, fraction),
+            )
+        from is PathNode.RelativeCurveTo && to is PathNode.RelativeCurveTo ->
+            PathNode.RelativeCurveTo(
+                lerp(from.dx1, to.dx1, fraction),
+                lerp(from.dy1, to.dy1, fraction),
+                lerp(from.dx2, to.dx2, fraction),
+                lerp(from.dy2, to.dy2, fraction),
+                lerp(from.dx3, to.dx3, fraction),
+                lerp(from.dy3, to.dy3, fraction),
+            )
+        from is PathNode.ReflectiveCurveTo && to is PathNode.ReflectiveCurveTo ->
+            PathNode.ReflectiveCurveTo(
+                lerp(from.x1, to.x1, fraction),
+                lerp(from.y1, to.y1, fraction),
+                lerp(from.x2, to.x2, fraction),
+                lerp(from.y2, to.y2, fraction),
+            )
+        from is PathNode.RelativeReflectiveCurveTo && to is PathNode.RelativeReflectiveCurveTo ->
+            PathNode.RelativeReflectiveCurveTo(
+                lerp(from.dx1, to.dx1, fraction),
+                lerp(from.dy1, to.dy1, fraction),
+                lerp(from.dx2, to.dx2, fraction),
+                lerp(from.dy2, to.dy2, fraction),
+            )
+        from is PathNode.QuadTo && to is PathNode.QuadTo ->
+            PathNode.QuadTo(
+                lerp(from.x1, to.x1, fraction),
+                lerp(from.y1, to.y1, fraction),
+                lerp(from.x2, to.x2, fraction),
+                lerp(from.y2, to.y2, fraction),
+            )
+        from is PathNode.RelativeQuadTo && to is PathNode.RelativeQuadTo ->
+            PathNode.RelativeQuadTo(
+                lerp(from.dx1, to.dx1, fraction),
+                lerp(from.dy1, to.dy1, fraction),
+                lerp(from.dx2, to.dx2, fraction),
+                lerp(from.dy2, to.dy2, fraction),
+            )
+        from is PathNode.ReflectiveQuadTo && to is PathNode.ReflectiveQuadTo ->
+            PathNode.ReflectiveQuadTo(
+                lerp(from.x, to.x, fraction),
+                lerp(from.y, to.y, fraction),
+            )
+        from is PathNode.RelativeReflectiveQuadTo && to is PathNode.RelativeReflectiveQuadTo ->
+            PathNode.RelativeReflectiveQuadTo(
+                lerp(from.dx, to.dx, fraction),
+                lerp(from.dy, to.dy, fraction),
+            )
+        from is PathNode.ArcTo && to is PathNode.ArcTo ->
+            PathNode.ArcTo(
+                lerp(from.horizontalEllipseRadius, to.horizontalEllipseRadius, fraction),
+                lerp(from.verticalEllipseRadius, to.verticalEllipseRadius, fraction),
+                lerp(from.theta, to.theta, fraction),
+                // Flags are not numbers to interpolate: an arc is large or it is not. The start
+                // value holds until the end of the segment, which is what Android does too.
+                from.isMoreThanHalf,
+                from.isPositiveArc,
+                lerp(from.arcStartX, to.arcStartX, fraction),
+                lerp(from.arcStartY, to.arcStartY, fraction),
+            )
+        from is PathNode.RelativeArcTo && to is PathNode.RelativeArcTo ->
+            PathNode.RelativeArcTo(
+                lerp(from.horizontalEllipseRadius, to.horizontalEllipseRadius, fraction),
+                lerp(from.verticalEllipseRadius, to.verticalEllipseRadius, fraction),
+                lerp(from.theta, to.theta, fraction),
+                from.isMoreThanHalf,
+                from.isPositiveArc,
+                lerp(from.arcStartDx, to.arcStartDx, fraction),
+                lerp(from.arcStartDy, to.arcStartDy, fraction),
+            )
+        from is PathNode.Close && to is PathNode.Close -> PathNode.Close
+        else -> null
+    }
+
 /** [VectorConfig] over one track, reading whatever the clock currently says. */
 private class TrackVectorConfig(
     private val track: VectorAnimationTrack,
@@ -156,8 +330,10 @@ private class TrackVectorConfig(
                 is VectorProperty.FillAlpha -> VectorAnimatedProperty.FillAlpha
                 is VectorProperty.StrokeAlpha -> VectorAnimatedProperty.StrokeAlpha
                 is VectorProperty.StrokeLineWidth -> VectorAnimatedProperty.StrokeLineWidth
-                // PathData, Fill and Stroke animate a type the generator never emits; the drawable
-                // keeps whatever the artwork declares.
+                is VectorProperty.PathData ->
+                    return (track.pathAt(elapsedMillis.value) as? T) ?: defaultValue
+                // Fill and Stroke animate a type the generator never emits; the drawable keeps
+                // whatever the artwork declares.
                 else -> return defaultValue
             }
         return (track.valueOf(animated, elapsedMillis.value) as? T) ?: defaultValue

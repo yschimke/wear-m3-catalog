@@ -140,10 +140,19 @@ class AnimatedVectorPainterTest {
         assertTrue(at100.toSet().size > 1, "expected a stagger, got $at100")
     }
 
-    /** A drawable whose motion the generator cannot express must be absent, not half-emitted. */
+    /**
+     * A drawable with no `<animated-vector>` at all must be absent, not half-emitted.
+     *
+     * `wear_m3c_error` is a plain `<vector>` — a still with nothing to run. The open-on-phone icon
+     * used to be here too, as a drawable the generator could not express; it morphs `pathData`,
+     * which the generator now emits and the painter interpolates, so it is a track like any other.
+     */
     @Test
-    fun theUnexpressibleDrawablesAreAbsent() {
-        assertTrue("wear_m3c_open_on_phone_animation" !in GeneratedVectorAnimations)
+    fun aStillWithNoAnimationIsAbsent() {
         assertTrue("wear_m3c_error" !in GeneratedVectorAnimations)
+        assertTrue(
+            "wear_m3c_open_on_phone_animation" in GeneratedVectorAnimations,
+            "the open-on-phone icon animates now",
+        )
     }
 }

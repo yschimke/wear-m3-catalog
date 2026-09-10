@@ -153,9 +153,8 @@ its axes would pass anything weaker.
 
 The gesture API is ported — `OneHandedGestureManager` is an interface a host can implement, with
 `LocalOneHandedGestureManager` to provide it, minus the `android.view.View` that every upstream
-method took. What is not ported is the other half: `OneHandedGestureModifier` registers a gesture
-against the `View` under the composition, and the indicators draw their hints from animated vector
-drawables loaded out of `R`.
+method took. So are both halves that used to be missing: the modifier that registers a gesture, and
+the hint indicators that show the wearer what to do.
 
 `OneHandedGestureModifier` is ported now, so the interface is live rather than dead code. Its whole
 Android surface was one import and one read — `currentValueOf(LocalView)`, passed to the manager to
@@ -168,8 +167,23 @@ for changing a registration in place. Here it takes the handle, whose old config
 and has a default that unregisters and registers again — so a host implements two methods and is
 done, and overrides the third only if re-registering would cost it a round trip.
 
-What is still not ported is the hint indicators, which draw from animated vector drawables loaded
-from `R`. A host gets working gestures; it does not get the built-in visual hint.
+The three hint INDICATORS — click, page and scroll — are ported too, and they were blocked on the
+artwork rather than on the gestures. Their drawables morph `pathData`: the hand opens and closes,
+which is the whole point of the hint, and the AVD generator refused them outright rather than
+animating their trims while holding the shape still. It expresses that motion now — a `pathData`
+animator becomes a pair of path strings, and `AnimatedVectorPainter` interpolates them control
+point by control point, snapping rather than blending if the two shapes ever disagree in their
+commands (the generator refuses such a pair up front, so they do not).
+
+Three members had to join the manager interface for the indicators to work at all —
+`registerGestureIndicator`, `getRegisteredGestureIndicator`, `notifyIndicatorShown` — because an
+indicator asks the manager how long its own animation runs. The first two have default
+implementations over per-manager bookkeeping, so a host still implements only gestures; the third
+does nothing off Android, where upstream tells the Wear input service that a hint was seen so it
+can eventually stop asking for it.
+
+The one thing a host still supplies is the gesture detection itself. Everything the wearer sees is
+the port's.
 
 ### Dates and times
 
@@ -271,12 +285,12 @@ What is still not Android's behaviour is **resource resolution**: `localeCandida
 the AAR ships needs more than the two steps, so this has not bitten; a locale that did would fall
 through to the default resources rather than to a near neighbour.
 
-### Animated vector drawables: two of three animate
+### Animated vector drawables: all of them animate
 
-`ConfirmationDialog` and `OpenOnPhoneDialog` draw their icons with `AnimatedVectorDrawable`s. The
-check mark and the failure icon **animate**; the open-on-phone icon does not yet.
+`ConfirmationDialog` and `OpenOnPhoneDialog` draw their icons with `AnimatedVectorDrawable`s, and
+the one-handed-gesture indicators draw their hints from two more. All of them **animate**.
 
-The reason the first two now work is that the capability was never really missing — it was being
+The reason they work is that the capability was never really missing — it was being
 looked for in the wrong library. On Android the whole job is `animatedVectorResource` plus
 `rememberAnimatedVectorPainter`, both in the `res/` package of `compose-animation-graphics`, which
 publishes for Android only. Compose Multiplatform *does* publish that library's model and animator
@@ -304,20 +318,28 @@ retiming arrives with the next sync. Two details it gets right and a transcripti
 artwork, and is dropped; and the start offsets are real, which is what makes two of the failure
 icon's four strokes wait 100 ms before drawing.
 
-The generator refuses what it cannot express rather than approximating it. `open_on_phone` and both
-gesture indicators morph `pathData`, so they emit **no** tracks and stay frozen at their last frame
-— a drawable that animated its trims while holding its shape still would read as a bug rather than
-as a missing feature. Finishing that one means interpolating between two `List<PathNode>`, which AVD
-guarantees are structurally compatible; it is a per-control-point lerp, not research.
+The generator refuses what it cannot express rather than approximating it — a drawable that
+animated its trims while holding its shape still would read as a bug rather than as a missing
+feature. What it now expresses includes `pathData`: `open_on_phone` and both gesture indicators
+morph their shapes, and the runtime interpolates between the two `List<PathNode>`s that AVD
+guarantees are structurally compatible. The refusal that remains is a `fillColor` or `strokeColor`
+animation, which nothing in this artwork uses.
 
 The frozen still is still written out for every drawable, animated or not, so a component that draws
 one without the animation gets the same artwork it always did.
 
-### Dynamic colour and one-handed gestures
+Two kinds of motion reach the painter. A float — `trimPathEnd`, a translation, an alpha — moves a
+`VectorProperty<Float>`, which is what the check mark and the failure icon are made of. A
+`pathData` morph replaces the shape itself, which is what the open-on-phone icon and both gesture
+hints are made of: the generator emits the two path strings and the painter interpolates their
+control points, one for one, having refused the pair up front if the two are not the same sequence
+of commands. AVD guarantees they are; the check is there because the cost of it not holding is a
+shape belonging to neither end.
 
-Neither has an off-Android meaning. Dynamic colour reads the wearer's watch-face palette out of
-platform resources; the one-handed-gesture surface is a Wear system service plus animated vector
-drawables. Both stay excluded on purpose rather than as a backlog item.
+### Dynamic colour
+
+It has no off-Android meaning: it reads the wearer's watch-face palette out of platform resources.
+It stays excluded on purpose rather than as a backlog item.
 
 ## Why the sources come from Google Maven and not the monorepo
 

@@ -21,6 +21,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.unit.IntSize
+import kotlin.time.Duration
 
 /*
  * Replaces the generated `onehandedgesture/OneHandedGestureManager.kt`, which is excluded in
@@ -43,8 +44,12 @@ import androidx.compose.ui.unit.IntSize
  * knows how to detect its own gestures — a browser, a test — implements this, provides it through
  * [LocalOneHandedGestureManager], and every component above it works unchanged.
  *
- * What is still not ported is the hint INDICATORS, which draw from animated vector drawables. A
- * host gets working gestures from this; it does not get the built-in visual hint.
+ * The hint INDICATORS are ported too, and they need three more members than gestures do — the
+ * bookkeeping that lets an indicator find out how long its own animation is meant to run. Upstream
+ * keeps that in a map inside its manager implementation; here it has a default implementation, so a
+ * host implements gestures and gets indicator bookkeeping for free. Only `notifyIndicatorShown`
+ * genuinely wants a host: on Android it tells the system service a hint was seen, which is how the
+ * platform stops showing it forever, and off Android there is nobody to tell.
  */
 
 /** Registers and delivers Wear's one-handed gestures — a wrist turn, a double pinch. */
@@ -114,9 +119,63 @@ public interface OneHandedGestureManager {
     /** Stop delivering a gesture registered by [registerGesture]. */
     public fun unregisterGesture(registration: GestureRegistration)
 
+    /**
+     * Record how the indicator for [gestureConfiguration] is drawn and how long it runs.
+     *
+     * Registering the same configuration twice with different values is a programming error, as it
+     * is upstream: two indicators for one gesture would each believe their own timing.
+     */
+    public fun registerGestureIndicator(
+        gestureConfiguration: OneHandedGestureConfiguration,
+        isFloating: Boolean,
+        duration: Duration,
+    ) {
+        val registered = RegisteredIndicator(isFloating, duration)
+        val current = indicatorRegistry(this).getOrPut(gestureConfiguration) { registered }
+        require(current == registered) {
+            "Incompatible Gesture Indicators registered for the same " +
+                "OneHandedGestureConfiguration - see $gestureConfiguration"
+        }
+    }
+
+    /** What [registerGestureIndicator] recorded for [gestureConfiguration], if anything. */
+    public fun getRegisteredGestureIndicator(
+        gestureConfiguration: OneHandedGestureConfiguration
+    ): RegisteredIndicator? = indicatorRegistry(this)[gestureConfiguration]
+
+    /**
+     * A hint indicator has just been shown to the wearer.
+     *
+     * Upstream forwards this to the Wear input service, which counts how often a hint has been
+     * presented and eventually stops asking for it. Nothing off Android is keeping that count, so
+     * the default does nothing; a host that has somewhere to put it overrides this.
+     */
+    public fun notifyIndicatorShown(gestureConfiguration: OneHandedGestureConfiguration) {}
+
     /** What a registration is; opaque, and owned by the implementation. */
     public interface GestureRegistration
 }
+
+/** How one gesture's hint indicator is drawn. Upstream's own data class, made public here. */
+public data class RegisteredIndicator(val isFloating: Boolean, val duration: Duration)
+
+/**
+ * Per-manager indicator bookkeeping, kept beside the interface because an interface cannot hold
+ * state and this is not something a host should have to reimplement.
+ *
+ * Keyed by manager IDENTITY rather than shared globally: two managers in one process — a test's and
+ * a host's — register indicators for the same configurations and must not see each other's.
+ */
+private val indicators =
+    mutableMapOf<
+        OneHandedGestureManager,
+        MutableMap<OneHandedGestureConfiguration, RegisteredIndicator>,
+    >()
+
+private fun indicatorRegistry(
+    manager: OneHandedGestureManager
+): MutableMap<OneHandedGestureConfiguration, RegisteredIndicator> =
+    indicators.getOrPut(manager) { mutableMapOf() }
 
 /**
  * The fallback manager: registers nothing and fires nothing. Public so a host can name it — to say

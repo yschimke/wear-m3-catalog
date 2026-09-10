@@ -10,13 +10,14 @@
  import androidx.compose.foundation.background
  import androidx.compose.foundation.focusable
  import androidx.compose.foundation.layout.Box
-@@ -51,8 +48,13 @@
+@@ -51,8 +48,14 @@
  import androidx.compose.ui.graphics.SolidColor
  import androidx.compose.ui.graphics.graphicsLayer
  import androidx.compose.ui.graphics.takeOrElse
-+import androidx.compose.ui.graphics.vector.rememberVectorPainter
++import androidx.wear.compose.material3.internal.GeneratedVectorAnimations
 +import androidx.wear.compose.material3.internal.Strings
 +import androidx.wear.compose.material3.internal.getString
++import androidx.wear.compose.material3.internal.rememberAnimatedVectorPainter
 +import ee.schimke.wearcmp.material3.resources.Res
 +import ee.schimke.wearcmp.material3.resources.wear_m3c_open_on_phone_animation
 +import org.jetbrains.compose.resources.vectorResource
@@ -25,7 +26,7 @@
  import androidx.compose.ui.semantics.clearAndSetSemantics
  import androidx.compose.ui.unit.Dp
  import androidx.compose.ui.unit.coerceAtLeast
-@@ -307,7 +309,8 @@
+@@ -307,7 +310,8 @@
  
      /** The default message for an [OpenOnPhoneDialog]. */
      public val text: String
@@ -35,30 +36,32 @@
  
      /**
       * A default composable used in [OpenOnPhoneDialog] that displays an open on phone icon with an
-@@ -317,8 +320,15 @@
+@@ -317,8 +321,10 @@
       */
      @Composable
      public fun Icon(modifier: Modifier = Modifier) {
 -        val animation =
 -            AnimatedImageVector.animatedVectorResource(R.drawable.wear_m3c_open_on_phone_animation)
-+        // TODO: THE ICON DOES NOT ANIMATE, and it is the only dialog icon that still does not.
-+        //  The check mark and the failure icon animate now — their motion is `trimPathEnd`, a
-+        //  float, which `rememberAnimatedVectorPainter` drives through a `VectorConfig`. This one
-+        //  morphs `pathData`: the phone outline is interpolated between two different paths, and
-+        //  nothing interpolates a `List<PathNode>` for us. AVD guarantees the keyframes share a
-+        //  command structure, so it is a per-control-point lerp and not research — it is simply
-+        //  not written. `tools/transform.py` emits no tracks for a drawable it cannot express, so
-+        //  this draws the artwork at its final state exactly as before.
++        // This one morphs `pathData` — the phone outline is interpolated between two different
++        // paths — where the check mark and the failure icon move a float. Both are generated the
++        // same way now, and the painter interpolates the shapes control point by control point.
 +        val image = vectorResource(Res.drawable.wear_m3c_open_on_phone_animation)
          var atEnd by remember { mutableStateOf(false) }
          val reduceMotionEnabled = LocalReduceMotion.current
  
-@@ -328,7 +338,7 @@
+@@ -328,7 +334,14 @@
              atEnd = true
          }
          Icon(
 -            painter = rememberAnimatedVectorPainter(animation, atEnd),
-+            painter = rememberVectorPainter(image),
++            painter =
++                rememberAnimatedVectorPainter(
++                    image = image,
++                    tracks =
++                        GeneratedVectorAnimations.getValue("wear_m3c_open_on_phone_animation"),
++                    atEnd = atEnd,
++                    reduceMotion = reduceMotionEnabled,
++                ),
              contentDescription = null,
              modifier = modifier.size(IconSize),
          )
