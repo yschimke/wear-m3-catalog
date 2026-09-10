@@ -77,7 +77,128 @@
     ]
   },
 
-  "$comment_builtins": "None. Every component this catalog offers a builder has a real call site in a real sticker, so it is in the component record and its policy belongs on the sticker. `remote-compose/document` — the typed embed a Remote design carries — is a BUILTIN OF THE BUILDER rather than of any catalog (https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_REMOTE_COMPOSE.md), and declaring it here would be this catalog claiming to own the builder's vocabulary.",
+  "$comment_builtins": "Two, and only because the record cannot carry them. The widget container is the Glance Wear HOST frame — the squircle the launcher draws around a widget, not a `remote-material3` component — so `WidgetContainerPreviews.kt` recreates it through `androidx.glance.wear`'s `WearWidgetPreview` wrapper and there is no component call for a record to find. That is exactly what a builtin is for: \"it has no call site, so there is nothing to discover and no sticker to annotate\". It matters more than two components' worth: this catalog's own policy says a Remote design starts from a container and everything else goes inside one, and the builder's record-free export routes on the ROOT component id — so a published catalog without these is one whose designs cannot be rooted. They were the blocker in https://github.com/yschimke/compose-preview-server/issues/674. `canvas: widget-container` is this catalog CLAIMING an adapter rather than a name anything validates: the Wasm canvas draws both by component id (UiBuilderRenderer's WearWidgetContainerScaffold), and a catalog claiming none would publish \"not drawn on the canvas\" about something the canvas draws. `remote-m3/lottie` is NOT here though the same argument reaches it — an asset player, no component call. It needs a shelf this catalog does not have (the frozen catalog files it under `Content`, a builder shelf), and inventing one is a catalog decision rather than a transcription. `remote-compose/document` stays out for the older reason: it is a BUILTIN OF THE BUILDER (https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_REMOTE_COMPOSE.md), and declaring it here would be this catalog claiming to own the builder's vocabulary.",
+
+  "builtins": {
+    "remote-m3/widget-container-small": {
+      "role": "screen-root",
+      "displayName": "Wear widget · Small (216×76dp)",
+      "group": "Widget Container",
+      "canvas": "widget-container",
+      "traits": [
+        "ScreenContent",
+        "WearWidgetHost",
+        "RemoteContentHost"
+      ],
+      "slots": {
+        "background": {
+          "acceptedRoles": [
+            "Leaf"
+          ],
+          "acceptedTraits": [
+            "DrawLayer",
+            "ImageContent"
+          ]
+        },
+        "content": {
+          "acceptedRoles": [
+            "Scaffold",
+            "Container",
+            "Leaf"
+          ],
+          "acceptedTraits": [
+            "AnyContent"
+          ]
+        }
+      },
+      "properties": [
+        {
+          "name": "background",
+          "jsonType": "string",
+          "required": false,
+          "notes": "The widget's own background, painted by the host as the rounded rect. Defaults to #FF272430, the colour WearWidgetContainer applies to a widget that declares none."
+        },
+        {
+          "name": "horizontalPaddingDp",
+          "jsonType": "number",
+          "required": false,
+          "notes": "WearWidgetParams.horizontalPaddingDp; 8 in every shipped preview spec."
+        },
+        {
+          "name": "verticalPaddingDp",
+          "jsonType": "number",
+          "required": false,
+          "notes": "WearWidgetParams.verticalPaddingDp; 8 in every shipped preview spec."
+        },
+        {
+          "name": "cornerRadiusDp",
+          "jsonType": "number",
+          "required": false,
+          "notes": "WearWidgetParams.cornerRadiusDp: 26 squircle, 999 round, 0 rectangular. The host draws this radius behind the content rather than clipping to it."
+        }
+      ],
+      "modifierCapabilities": []
+    },
+    "remote-m3/widget-container-large": {
+      "role": "screen-root",
+      "displayName": "Wear widget · Large (216×124dp)",
+      "group": "Widget Container",
+      "canvas": "widget-container",
+      "traits": [
+        "ScreenContent",
+        "WearWidgetHost",
+        "RemoteContentHost"
+      ],
+      "slots": {
+        "background": {
+          "acceptedRoles": [
+            "Leaf"
+          ],
+          "acceptedTraits": [
+            "DrawLayer",
+            "ImageContent"
+          ]
+        },
+        "content": {
+          "acceptedRoles": [
+            "Scaffold",
+            "Container",
+            "Leaf"
+          ],
+          "acceptedTraits": [
+            "AnyContent"
+          ]
+        }
+      },
+      "properties": [
+        {
+          "name": "background",
+          "jsonType": "string",
+          "required": false,
+          "notes": "The widget's own background, painted by the host as the rounded rect. Defaults to #FF272430, the colour WearWidgetContainer applies to a widget that declares none."
+        },
+        {
+          "name": "horizontalPaddingDp",
+          "jsonType": "number",
+          "required": false,
+          "notes": "WearWidgetParams.horizontalPaddingDp; 8 in every shipped preview spec."
+        },
+        {
+          "name": "verticalPaddingDp",
+          "jsonType": "number",
+          "required": false,
+          "notes": "WearWidgetParams.verticalPaddingDp; 8 in every shipped preview spec."
+        },
+        {
+          "name": "cornerRadiusDp",
+          "jsonType": "number",
+          "required": false,
+          "notes": "WearWidgetParams.cornerRadiusDp: 26 squircle, 999 round, 0 rectangular. The host draws this radius behind the content rather than clipping to it."
+        }
+      ],
+      "modifierCapabilities": []
+    }
+  },
 
   "$comment_code": "No `code` block yet, so the export stays `record`. A Remote widget is written in the creation DSL rather than in Compose, which is a `code.language` and a set of structural templates — and both arrive with the template engine, not ahead of it. Until then the export prints call sites from the record, which is what it already does."
 }
