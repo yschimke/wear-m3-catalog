@@ -1,0 +1,211 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "ee.schimke.wearcmp",
+    "module": "wear-compose-foundation",
+    "version": "1.7.0-beta02-cmp09",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp09"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-foundation-metadata-1.7.0-beta02-cmp09.jar",
+          "url": "wear-compose-foundation-1.7.0-beta02-cmp09.jar",
+          "size": 88808,
+          "sha512": "e267dac45d95c146c91d407fea2bd20bb7bbc51a91aa85b14afb03db7e64b0d467a39648798cfd782d0ad92385aaeb89b8bb66052bb957f4f32583b50dc49771",
+          "sha256": "d21f93f4e674ef56a6e4c6fd1783d3e8296258a72fc5dd94d631c4ccf146e9b9",
+          "sha1": "1021e17e461265fc0ab2220e6f42059c6571cef8",
+          "md5": "f0cde4c1347ac4660a88aca53ec0c1a4"
+        }
+      ]
+    },
+    {
+      "name": "metadataSourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "files": [
+        {
+          "name": "wear-compose-foundation-kotlin-1.7.0-beta02-cmp09-sources.jar",
+          "url": "wear-compose-foundation-1.7.0-beta02-cmp09-sources.jar",
+          "size": 230384,
+          "sha512": "5822349a94f1a6957eb5fd994b07952dcc5748f1e677a58bd5c8b1317ca3253119b9cf034ffdd435fc25b76e5bfa691902904f0da8c1bd5657f4ebf879c041e3",
+          "sha256": "eaa7d5d3ad47397afa25f9f4f84f6de89a219528c09e0be94c593160681e129c",
+          "sha1": "67a5196a6fc60b08e1ceefe097163b608f5aff47",
+          "md5": "880d1675fd647d3e8ea0c88faf2a5f11"
+        }
+      ]
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../wear-compose-foundation-jvm/1.7.0-beta02-cmp09/wear-compose-foundation-jvm-1.7.0-beta02-cmp09.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-foundation-jvm",
+        "version": "1.7.0-beta02-cmp09"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../wear-compose-foundation-jvm/1.7.0-beta02-cmp09/wear-compose-foundation-jvm-1.7.0-beta02-cmp09.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-foundation-jvm",
+        "version": "1.7.0-beta02-cmp09"
+      }
+    },
+    {
+      "name": "jvmSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "standard-jvm",
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../wear-compose-foundation-jvm/1.7.0-beta02-cmp09/wear-compose-foundation-jvm-1.7.0-beta02-cmp09.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-foundation-jvm",
+        "version": "1.7.0-beta02-cmp09"
+      }
+    },
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-foundation-wasm-js/1.7.0-beta02-cmp09/wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-foundation-wasm-js",
+        "version": "1.7.0-beta02-cmp09"
+      }
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-foundation-wasm-js/1.7.0-beta02-cmp09/wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-foundation-wasm-js",
+        "version": "1.7.0-beta02-cmp09"
+      }
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "available-at": {
+        "url": "../../wear-compose-foundation-wasm-js/1.7.0-beta02-cmp09/wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.module",
+        "group": "ee.schimke.wearcmp",
+        "module": "wear-compose-foundation-wasm-js",
+        "version": "1.7.0-beta02-cmp09"
+      }
+    }
+  ]
+}

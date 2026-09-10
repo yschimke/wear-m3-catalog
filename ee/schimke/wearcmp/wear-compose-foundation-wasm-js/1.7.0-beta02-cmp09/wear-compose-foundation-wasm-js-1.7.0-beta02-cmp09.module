@@ -1,0 +1,200 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../wear-compose-foundation/1.7.0-beta02-cmp09/wear-compose-foundation-1.7.0-beta02-cmp09.module",
+    "group": "ee.schimke.wearcmp",
+    "module": "wear-compose-foundation",
+    "version": "1.7.0-beta02-cmp09",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "wasmJsApiElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp09"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.klib",
+          "url": "wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.klib",
+          "size": 815782,
+          "sha512": "90d8c72c49959c01420f86eb2598b48d294f086e3a63f854730d9031526c430d74ff399495eaee864a4b97bfc432a5d5af1ea7a614b1eb674b47071d01c5d957",
+          "sha256": "33854528b7afa74d6d7c7d069c24a9a33b2313ed18f593c96301dca2d2ac9ea4",
+          "sha1": "dfff96d5eb19632f91dedfcb3e565efc6465e13b",
+          "md5": "b9fd535914a16cecf19fa7c8ccf699be"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsRuntimeElements-published",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.compose.runtime",
+          "module": "runtime",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.foundation",
+          "module": "foundation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.ui",
+          "module": "ui",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.compose.animation",
+          "module": "animation",
+          "version": {
+            "requires": "1.12.0"
+          }
+        },
+        {
+          "group": "ee.schimke.wearcmp",
+          "module": "port-runtime",
+          "version": {
+            "requires": "1.7.0-beta02-cmp09"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.skiko",
+          "module": "skiko",
+          "version": {
+            "requires": "0.150.1"
+          }
+        },
+        {
+          "group": "androidx.annotation",
+          "module": "annotation",
+          "version": {
+            "requires": "1.10.0"
+          }
+        },
+        {
+          "group": "androidx.collection",
+          "module": "collection",
+          "version": {
+            "requires": "1.6.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.klib",
+          "url": "wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09.klib",
+          "size": 815782,
+          "sha512": "90d8c72c49959c01420f86eb2598b48d294f086e3a63f854730d9031526c430d74ff399495eaee864a4b97bfc432a5d5af1ea7a614b1eb674b47071d01c5d957",
+          "sha256": "33854528b7afa74d6d7c7d069c24a9a33b2313ed18f593c96301dca2d2ac9ea4",
+          "sha1": "dfff96d5eb19632f91dedfcb3e565efc6465e13b",
+          "md5": "b9fd535914a16cecf19fa7c8ccf699be"
+        }
+      ]
+    },
+    {
+      "name": "wasmJsSourcesElements-published",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.jvm.environment": "non-jvm",
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.platform.type": "wasm",
+        "org.jetbrains.kotlin.wasm.target": "js"
+      },
+      "files": [
+        {
+          "name": "wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09-sources.jar",
+          "url": "wear-compose-foundation-wasm-js-1.7.0-beta02-cmp09-sources.jar",
+          "size": 230384,
+          "sha512": "5822349a94f1a6957eb5fd994b07952dcc5748f1e677a58bd5c8b1317ca3253119b9cf034ffdd435fc25b76e5bfa691902904f0da8c1bd5657f4ebf879c041e3",
+          "sha256": "eaa7d5d3ad47397afa25f9f4f84f6de89a219528c09e0be94c593160681e129c",
+          "sha1": "67a5196a6fc60b08e1ceefe097163b608f5aff47",
+          "md5": "880d1675fd647d3e8ea0c88faf2a5f11"
+        }
+      ]
+    }
+  ]
+}
