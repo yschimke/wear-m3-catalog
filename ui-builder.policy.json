@@ -1,15 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/yschimke/compose-ai-tools/main/scripts/design-artifacts/ui-builder.policy.schema.json",
   "$comment": "Catalog-level UI builder policy for :catalog, beside its cover sheet. PER-COMPONENT policy is NOT here — it is @BuilderComponent beside @CatalogComponent on the sticker, so a component is never renamed in two places; this file carries only what belongs to no component. The knowledge it moves used to live in Kotlin inside the preview server (ProductionUiBuilderRuntime.wearM3Catalog, UiBuilderRenderer's Wear constants), which meant a fourth catalog cost a release of a repository that has never seen this one's components. The contract: https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md — what this repository owes it: https://github.com/yschimke/compose-ai-tools/blob/main/docs/design/UI_BUILDER_CATALOG_POLICY.md. Nothing reads this file yet: it is authored so it can be proved equivalent to what the server synthesises today, BEFORE the server changes a reader.",
-
   "schema": "compose-ui-builder-policy/v1",
-
   "$comment_catalogId": "The one place this catalog's two names show. The delivery system is `wear-m3-catalog` (catalog.spec.json), but the builder — and every design ever saved against it — has known this catalog as `wear-m3`, and a design document stores that string in every node. So the builder id is declared rather than defaulted from `system`. It is also why the server's `--ui-builder-native-catalog wear-m3=wear-m3-catalog` mapping cannot go away with the rest of that flag: the contract's 'a builder catalog is a served catalog' holds by construction for the sibling :remote-catalog, whose system IS `remote-m3`, and by declaration here.",
   "catalogId": "wear-m3",
-
   "platform": "wear",
   "platformLabel": "Wear",
-
   "previewSurfaces": {
     "wasm": {
       "fidelity": "approximate",
@@ -21,7 +17,6 @@
       "reason": "The generated Kotlin compiled against this module's own classpath and rendered under Robolectric: the same lane that produces this catalog's stickers."
     }
   },
-
   "frame": {
     "adapter": "frame/round-screen",
     "$comment_seedDevice": "The first entry of catalog.spec.json's breakpoints table, named explicitly rather than defaulted: a new design opening at a size this catalog does not document would be drawn against padding nobody measured.",
@@ -29,37 +24,62 @@
     "geometry": {
       "$comment": "WRITTEN BY A TEST, NEVER BY HAND. catalog/src/test/kotlin/ee/schimke/wearm3catalog/ScreenScaffoldContentPaddingTest.kt composes the real ScreenScaffold over a real TransformingLazyColumn at each round size, reads the padding Wear Compose computes, and asserts this block equals its measurement. Editing these numbers is a failing test, which is the entire reason the block lives in this repository: the preview server carried a transcribed copy, and a number copied out of a render goes stale silently. ONLY WHAT THAT PROBE MEASURES IS HERE. The frame's corner radius, its sampled colours and its clock geometry are still constants in the server's renderer, sampled from this catalog's stitched capture; they move here when a probe measures them, and until then this catalog does not claim numbers it has not taken.",
       "contentPadding": [
-        { "screenDp": 192, "horizontalDp": 10, "verticalDp": 20 },
-        { "screenDp": 227, "horizontalDp": 12, "verticalDp": 23 },
-        { "screenDp": 240, "horizontalDp": 13, "verticalDp": 24 }
+        {
+          "screenDp": 192,
+          "horizontalDp": 10,
+          "verticalDp": 20
+        },
+        {
+          "screenDp": 227,
+          "horizontalDp": 12,
+          "verticalDp": 23
+        },
+        {
+          "screenDp": 240,
+          "horizontalDp": 13,
+          "verticalDp": 24
+        }
       ]
     }
   },
-
   "$comment_builtins": "The only components this file may declare, and the reason the restriction exists: a builtin has no call site, so it cannot be in the component record and there is no sticker to annotate. Each names the structural role that writes it. Everything else this catalog offers a builder comes from the record, with @BuilderComponent on the sticker for whatever the signature cannot say.",
   "builtins": {
     "wear-m3/screen-scaffold": {
       "role": "screen-root",
       "displayName": "Screen",
-      "group": "Layout",
+      "group": "Lists and screens",
       "canvas": "frame/round-screen",
       "slots": {
-        "content": { "required": true, "role": "list" },
-        "edgeButton": { "acceptedTraits": ["Action"] },
-        "overlays": { "acceptedTraits": ["Overlay"], "role": "overlay" }
+        "content": {
+          "required": true,
+          "role": "list"
+        },
+        "edgeButton": {
+          "acceptedTraits": [
+            "Action"
+          ]
+        },
+        "overlays": {
+          "acceptedTraits": [
+            "Overlay"
+          ],
+          "role": "overlay"
+        }
       }
     },
     "wear-m3/transforming-lazy-column": {
       "role": "list",
       "displayName": "Scrolling list",
-      "group": "Layout",
+      "group": "Lists and screens",
       "canvas": "placeholder",
       "slots": {
-        "items": { "required": true, "role": "list-item" }
+        "items": {
+          "required": true,
+          "role": "list-item"
+        }
       }
     }
   },
-
   "colorTokens": {
     "$comment": "The theme roles a colour property or a background modifier may name — the vocabulary, not the values. A Wear design resolves these against Wear Material 3's own scheme, which is why the sampled colours the canvas draws the frame with are a separate question and still live in the server's renderer until a probe here measures them. The list itself is Material 3's, which Wear Material 3 shares: a design that names `onSurfaceVariant` means the same role on both, and on a watch it happens to be a warm #FFDCC2 rather than the grey a phone puts there.",
     "roles": [
@@ -79,24 +99,50 @@
       "transparent"
     ]
   },
-
   "menu": {
-    "$comment": "This catalog's own @file:CatalogGroup(section = …) vocabulary, ordered as a person reaches for it rather than alphabetically. A group a component names that this list omits sorts after the ones it lists, so adding a section in code does not make its components vanish from the panel.",
+    "$comment": "This catalog's own @file:CatalogGroup(section = …) vocabulary, ordered as a person reaches for it rather than alphabetically. A group a component names that this list omits sorts after the ones it lists, so adding a section in code does not make its components vanish from the panel. THAT FALLBACK WAS DOING ALL THE WORK: this list used to name Layout, Navigation, Actions, Selection, Containment, Communication, Motion, Styles and Horologist — a vocabulary the stickers stopped using — so 72 of 76 components landed in groups it did not name and the builder alphabetised them after nine EMPTY shelves. The order now names the groups the components actually carry; `ui-builder-equivalence.sh` is what re-checks that, and remote-m3 has a test for it (`the menu order covers the groups the shelf actually uses`) that this catalog still lacks.",
     "groupOrder": [
-      "Layout",
-      "Navigation",
-      "Actions",
-      "Selection",
+      "Lists and screens",
+      "Fast scrolling",
+      "Cards",
+      "Dialogs",
+      "Buttons",
+      "Icon buttons",
+      "Edge-hugging buttons",
+      "Toggle buttons",
+      "Selection buttons",
+      "Sliders and steppers",
+      "Pickers",
       "Text",
-      "Containment",
-      "Communication",
-      "Motion",
-      "Styles",
-      "Horologist"
+      "Iconography",
+      "Progress indicators",
+      "Position indicators",
+      "Pagers",
+      "Swipe to dismiss",
+      "Swipe to reveal",
+      "One-handed gestures",
+      "Sign-in",
+      "Media controls"
     ]
   },
-
   "$comment_code": "No `code` block yet, so the export stays `record`: a call site printed per node from the component record. The structural half of a Wear screen — ScreenScaffold's scroll state having to be the same object the TransformingLazyColumn inside it holds, SurfaceTransformation only being writable inside `item { }`, a dialog being a sibling of the scaffold rather than a child — is what the templates are for, and they arrive with the template engine rather than ahead of it. Templates declared before anything can run them would publish structure nobody has compiled, which is the one thing this contract is meant to stop.",
-
-  "$comment_templates": "No template designs listed yet, for the same reason: the seed documents are Kotlin builders in the preview server today and move onto this catalog's delivery branch as `ui-builder/designs/*.json` in the same step."
+  "$comment_templates": "No template designs listed yet, for the same reason: the seed documents are Kotlin builders in the preview server today and move onto this catalog's delivery branch as `ui-builder/designs/*.json` in the same step.",
+  "$comment_components": "Shelves stated here rather than derived. A component's group comes from the sticker that draws it, and where ONE symbol is drawn by many stickers the generator takes the alphabetically-first one — so `Text`, drawn by 39 stickers, was shelved under `AlertDialog`'s group and appeared on Dialogs. Stating the group is the sanctioned per-component fix; the alternative is a heuristic nobody can predict. Only the components whose derived shelf is WRONG are listed: `Button` and `Card` are derived from a collision too and happen to land correctly, and deriving a right answer is not a reason to restate it here.",
+  "components": {
+    "wear-m3/text": {
+      "record": "catalog/androidx.wear.compose.material3.TextKt.Text",
+      "$comment": "39 stickers draw Text; the first alphabetically is AlertDialog, so it shelved on Dialogs.",
+      "group": "Text"
+    },
+    "wear-m3/icon": {
+      "record": "catalog/androidx.wear.compose.material3.IconKt.Icon",
+      "$comment": "22 stickers draw Icon; same AlertDialog collision, same wrong shelf.",
+      "group": "Iconography"
+    },
+    "wear-m3/list-header": {
+      "record": "catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader",
+      "$comment": "4 stickers; first is FastScrollingTransformingLazyColumn, which is where it went.",
+      "group": "Lists and screens"
+    }
+  }
 }
