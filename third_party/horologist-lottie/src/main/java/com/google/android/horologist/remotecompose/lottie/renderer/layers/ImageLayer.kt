@@ -151,7 +151,7 @@ internal fun ImageLayer(
   matteContext: MatteContext? = null,
   layerVisibility: RemoteFloat = 1f.rf,
 ) {
-  if (layer.hidden == true) {
+  if (layer.hidden?.constantValue == true) {
     return
   }
 

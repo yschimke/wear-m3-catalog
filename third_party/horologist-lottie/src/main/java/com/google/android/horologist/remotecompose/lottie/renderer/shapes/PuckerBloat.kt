@@ -36,7 +36,7 @@ internal fun evaluatePuckerBloat(
   puckerBloat: PuckerBloat,
   animationSettings: LottieSettings,
 ): List<RemoteShape> {
-  if (puckerBloat.hidden == true || shapes.isEmpty()) return shapes
+  if (puckerBloat.hidden?.constantValue == true || shapes.isEmpty()) return shapes
 
   val amount = animateScalar(puckerBloat.amount, animationSettings).constantValueOrNull ?: 0f
   if (amount == 0f) return shapes

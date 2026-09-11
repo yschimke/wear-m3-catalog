@@ -33,7 +33,7 @@ import com.google.android.horologist.remotecompose.lottie.format.layer.PrecompLa
 @Composable
 @RemoteComposable
 internal fun PrecompLayer(layer: PrecompLayer, transformStack: List<Transform> = emptyList()) {
-  if (layer.hidden == true) {
+  if (layer.hidden?.constantValue == true) {
     return
   }
 

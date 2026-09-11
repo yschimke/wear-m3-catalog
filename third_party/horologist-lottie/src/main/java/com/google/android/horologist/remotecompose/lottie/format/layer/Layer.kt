@@ -18,6 +18,9 @@ package com.google.android.horologist.remotecompose.lottie.format.layer
 
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.grouping.Transform
 import com.google.android.horologist.remotecompose.lottie.format.mask.Mask
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteFloat
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -27,39 +30,54 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
-import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.floatOrNull
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 /**
- * A layer in a Lottie animation composition.
+ * Base class for all Lottie animation layers conforming to
+ * [Visual Layer](https://lottie.github.io/lottie-spec/1.0.1/specs/layers/#visual-layer).
  *
- * Layers are independent visual, temporal, and spatial nodes in an animation.
+ * Layers are independent visual, temporal, and spatial nodes arranged in a compositing tree.
+ *
+ * Essential Invariants:
+ * - Discriminator: Partitioned by integer [type] ([Layer
+ *   Type](https://lottie.github.io/lottie-spec/1.0.1/specs/layers/#layer-types)).
+ * - Parenting Hierarchy: Child layer transforms are concatenated with their parent's current
+ *   transformation matrix: CTM(child) = CTM(parent) * Transform(child).
+ * - Timeline Visibility Window: A layer is active on frame t when ip <= t < op.
+ * - Hidden Layers: [hidden] (hd) suppresses direct rendering while retaining participation in
+ *   parenting and track matte hierarchies.
  */
 @Serializable(with = LayerSerializer::class)
 internal sealed class Layer {
   abstract val name: String?
-  abstract val hidden: Boolean?
+  abstract val hidden: SerializableBoolean
   abstract val type: LayerType
   abstract val index: Int?
   abstract val parent: Int?
-  abstract val startFrame: Float?
-  abstract val endFrame: Float?
-  abstract val startTime: Float?
-  abstract val timeStretch: Float?
+  abstract val startFrame: SerializableRemoteFloat
+  abstract val endFrame: SerializableRemoteFloat
   abstract val transform: Transform?
-  abstract val autoOrient: Int?
-  abstract val blendMode: BlendMode?
-  abstract val matteMode: MatteMode?
+  abstract val autoOrient: SerializableRemoteBoolean
+  abstract val matteMode: MatteMode
   abstract val matteParent: Int?
-  abstract val matteTarget: Int?
-  abstract val is3d: Int?
-  abstract val masksProperties: List<Mask>
+  abstract val masks: List<Mask>?
+  open val startTime: Float? = 0f
+  open val timeStretch: Float? = 1f
+  open val blendMode: BlendMode? = BlendMode.Normal
+  open val matteTarget: Int? = 0
+  open val is3d: Int? = 0
+  open val masksProperties: List<Mask>
+    get() = masks.orEmpty()
 }
 
+/**
+ * Canonical layer types defined in the
+ * [Lottie Specification](https://lottie.github.io/lottie-spec/1.0.1/specs/layers/#layer-types).
+ */
 @Serializable(with = LayerTypeSerializer::class)
 internal enum class LayerType(val value: Int) {
   Precomposition(0),
@@ -72,14 +90,28 @@ internal enum class LayerType(val value: Int) {
   Unknown(-1);
 
   companion object {
-    fun fromValueOrNull(value: Int): LayerType? = entries.firstOrNull { it.value == value }
+    fun fromValueOrNull(value: Int): LayerType? {
+      return entries.firstOrNull { it.value == value }
+    }
   }
 }
 
+/**
+ * Polymorphic serializer for [Layer] discriminating on the integer "ty" field per
+ * [Layer Type](https://lottie.github.io/lottie-spec/1.0.1/specs/layers/#layer-types).
+ *
+ * Contract:
+ * - Deserialization Preconditions: [element] must be a [JsonObject].
+ * - Deserialization Postconditions:
+ *     - Selects [SolidColorLayer.serializer] when "ty" is 1.
+ *     - Selects [NullLayer.serializer] when "ty" is 3.
+ *     - Selects [ShapeLayer.serializer] when "ty" is 4.
+ *     - Falls back to [NullLayer.serializer] for unrecognized, missing, or unsupported layer types,
+ *       preserving transform parenting chains without crashing animation decoding.
+ */
 internal object LayerSerializer : JsonContentPolymorphicSerializer<Layer>(Layer::class) {
   override fun selectDeserializer(element: JsonElement): DeserializationStrategy<Layer> {
-    val tyPrimitive = element.jsonObject["ty"]?.jsonPrimitive
-    val ty = tyPrimitive?.intOrNull ?: tyPrimitive?.floatOrNull?.toInt()
+    val ty = element.jsonObject["ty"]?.jsonPrimitive?.intOrNull
     return when (ty) {
       LayerType.Precomposition.value -> PrecompLayer.serializer()
       LayerType.Solid.value -> SolidColorLayer.serializer()
@@ -92,25 +124,14 @@ internal object LayerSerializer : JsonContentPolymorphicSerializer<Layer>(Layer:
   }
 }
 
+/** Serializer for [LayerType] enum. */
 internal object LayerTypeSerializer : KSerializer<LayerType> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("LayerType", PrimitiveKind.INT)
 
   override fun deserialize(decoder: Decoder): LayerType {
-    return try {
-      val jsonDecoder = decoder as? JsonDecoder
-      if (jsonDecoder != null) {
-        val element = jsonDecoder.decodeJsonElement()
-        val intVal =
-          element.jsonPrimitive.intOrNull ?: element.jsonPrimitive.floatOrNull?.toInt() ?: -1
-        LayerType.fromValueOrNull(intVal) ?: LayerType.Unknown
-      } else {
-        val value = decoder.decodeInt()
-        LayerType.fromValueOrNull(value) ?: LayerType.Unknown
-      }
-    } catch (e: Exception) {
-      LayerType.Unknown
-    }
+    val value = decoder.decodeInt()
+    return LayerType.fromValueOrNull(value) ?: LayerType.Unknown
   }
 
   override fun serialize(encoder: Encoder, value: LayerType) {

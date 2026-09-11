@@ -24,7 +24,6 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemotePaint
-import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -49,7 +48,9 @@ internal fun SolidColorLayer(
   matteContext: MatteContext? = null,
   layerVisibility: RemoteFloat = 1f.rf,
 ) {
-  if (layer.solidWidth <= 0f || layer.solidHeight <= 0f) {
+  val solidWidth = layer.solidWidth.constantValue.toFloat()
+  val solidHeight = layer.solidHeight.constantValue.toFloat()
+  if (solidWidth <= 0f || solidHeight <= 0f) {
     return
   }
 
@@ -62,16 +63,16 @@ internal fun SolidColorLayer(
       animateScalar(it, animationSettings) / 100f
     } ?: 1f.rf) * layerVisibility
 
-  val color = parseHexColor(layer.solidColor)
-  val paint = RemotePaint { this.color = color.rc.copy(alpha = color.rc.alpha * layerOpacity) }
+  val color = layer.solidColor
+  val paint = RemotePaint { this.color = color.copy(alpha = color.alpha * layerOpacity) }
 
   val path =
     RemotePath().apply {
       reset()
       moveTo(0f, 0f)
-      lineTo(layer.solidWidth, 0f)
-      lineTo(layer.solidWidth, layer.solidHeight)
-      lineTo(0f, layer.solidHeight)
+      lineTo(solidWidth, 0f)
+      lineTo(solidWidth, solidHeight)
+      lineTo(0f, solidHeight)
       close()
     }
 

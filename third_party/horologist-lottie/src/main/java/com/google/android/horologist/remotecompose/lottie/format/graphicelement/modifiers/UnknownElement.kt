@@ -16,8 +16,10 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers
 
+import androidx.compose.remote.creation.compose.state.rb
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.GraphicElement
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -25,7 +27,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class UnknownElement(
   @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
+  @SerialName("hd") override val hidden: SerializableBoolean? = false.rb,
   @SerialName("ty") override val type: ShapeType = ShapeType.Unknown,
   @SerialName("ix") override val index: Int? = null,
   @SerialName("mn") override val matchName: String? = null,

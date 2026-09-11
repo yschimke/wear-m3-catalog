@@ -155,9 +155,10 @@ internal fun gatherShapes(
   var currentGeometries = mutableListOf<RepeatedShapeInstance>()
   var currentGroups = mutableListOf<Group>()
   val activeTrimPath: TrimPath? =
-    shapes.filterIsInstance<TrimPath>().firstOrNull { it.hidden != true } ?: parentTrimPath
+    shapes.filterIsInstance<TrimPath>().firstOrNull { it.hidden?.constantValue != true }
+      ?: parentTrimPath
   val activeRoundedCorners: RoundedCorners? =
-    shapes.filterIsInstance<RoundedCorners>().firstOrNull { it.hidden != true }
+    shapes.filterIsInstance<RoundedCorners>().firstOrNull { it.hidden?.constantValue != true }
       ?: parentRoundedCorners
   var hasEmittedStyle = false
 
@@ -170,41 +171,41 @@ internal fun gatherShapes(
         // Handled via activeRoundedCorners
       }
       is Repeater -> {
-        if (shape.hidden != true && currentGeometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && currentGeometries.isNotEmpty()) {
           val baseShapes = currentGeometries.map { it.shape }
           currentGeometries = evaluateRepeater(baseShapes, shape, animationSettings).toMutableList()
         }
       }
       is MergePaths -> {
-        if (shape.hidden != true && currentGeometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && currentGeometries.isNotEmpty()) {
           val baseShapes = currentGeometries.map { it.shape }
           val mergedShapes = evaluateMergePaths(baseShapes, shape, animationSettings)
           currentGeometries = mergedShapes.map { RepeatedShapeInstance(it) }.toMutableList()
         }
       }
       is ZigZag -> {
-        if (shape.hidden != true && currentGeometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && currentGeometries.isNotEmpty()) {
           val baseShapes = currentGeometries.map { it.shape }
           val modified = evaluateZigZag(baseShapes, shape, animationSettings)
           currentGeometries = modified.map { RepeatedShapeInstance(it) }.toMutableList()
         }
       }
       is PuckerBloat -> {
-        if (shape.hidden != true && currentGeometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && currentGeometries.isNotEmpty()) {
           val baseShapes = currentGeometries.map { it.shape }
           val modified = evaluatePuckerBloat(baseShapes, shape, animationSettings)
           currentGeometries = modified.map { RepeatedShapeInstance(it) }.toMutableList()
         }
       }
       is Twist -> {
-        if (shape.hidden != true && currentGeometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && currentGeometries.isNotEmpty()) {
           val baseShapes = currentGeometries.map { it.shape }
           val modified = evaluateTwist(baseShapes, shape, animationSettings)
           currentGeometries = modified.map { RepeatedShapeInstance(it) }.toMutableList()
         }
       }
       is OffsetPath -> {
-        if (shape.hidden != true && currentGeometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && currentGeometries.isNotEmpty()) {
           val baseShapes = currentGeometries.map { it.shape }
           val modified = evaluateOffsetPath(baseShapes, shape, animationSettings)
           currentGeometries = modified.map { RepeatedShapeInstance(it) }.toMutableList()
@@ -244,7 +245,7 @@ internal fun gatherShapes(
         currentGroups.add(shape)
       }
       is Fill -> {
-        if (shape.hidden != true) {
+        if (shape.hidden?.constantValue != true) {
           val fill = fill(shape, animationSettings)
           emitStyledShapes(
             shapeGroups,
@@ -259,7 +260,7 @@ internal fun gatherShapes(
         }
       }
       is Stroke -> {
-        if (shape.hidden != true) {
+        if (shape.hidden?.constantValue != true) {
           val stroke = stroke(shape, animationSettings)
           emitStyledShapes(
             shapeGroups,
@@ -274,7 +275,7 @@ internal fun gatherShapes(
         }
       }
       is GradientFill -> {
-        if (shape.hidden != true) {
+        if (shape.hidden?.constantValue != true) {
           val gradientFill = gradientFill(shape, animationSettings)
           emitStyledShapes(
             shapeGroups,
@@ -289,7 +290,7 @@ internal fun gatherShapes(
         }
       }
       is GradientStroke -> {
-        if (shape.hidden != true) {
+        if (shape.hidden?.constantValue != true) {
           val gradientStroke = gradientStroke(shape, animationSettings)
           emitStyledShapes(
             shapeGroups,
@@ -397,11 +398,12 @@ private fun evaluateGroupGeometries(
   parentTrimPath: TrimPath? = null,
   parentRoundedCorners: RoundedCorners? = null,
 ): List<RemoteShape> {
-  if (group.hidden == true) return emptyList()
+  if (group.hidden?.constantValue == true) return emptyList()
   val activeTrimPath =
-    group.shapes.filterIsInstance<TrimPath>().firstOrNull { it.hidden != true } ?: parentTrimPath
+    group.shapes.filterIsInstance<TrimPath>().firstOrNull { it.hidden?.constantValue != true }
+      ?: parentTrimPath
   val activeRoundedCorners =
-    group.shapes.filterIsInstance<RoundedCorners>().firstOrNull { it.hidden != true }
+    group.shapes.filterIsInstance<RoundedCorners>().firstOrNull { it.hidden?.constantValue != true }
       ?: parentRoundedCorners
   val groupTransform = group.shapes.filterIsInstance<Transform>().firstOrNull()
   var geometries = mutableListOf<RemoteShape>()
@@ -428,33 +430,33 @@ private fun evaluateGroupGeometries(
         geometries.addAll(nestedGeometries)
       }
       is Repeater -> {
-        if (shape.hidden != true && geometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && geometries.isNotEmpty()) {
           geometries =
             evaluateRepeater(geometries, shape, animationSettings).map { it.shape }.toMutableList()
         }
       }
       is MergePaths -> {
-        if (shape.hidden != true && geometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && geometries.isNotEmpty()) {
           geometries = evaluateMergePaths(geometries, shape, animationSettings).toMutableList()
         }
       }
       is ZigZag -> {
-        if (shape.hidden != true && geometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && geometries.isNotEmpty()) {
           geometries = evaluateZigZag(geometries, shape, animationSettings).toMutableList()
         }
       }
       is PuckerBloat -> {
-        if (shape.hidden != true && geometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && geometries.isNotEmpty()) {
           geometries = evaluatePuckerBloat(geometries, shape, animationSettings).toMutableList()
         }
       }
       is Twist -> {
-        if (shape.hidden != true && geometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && geometries.isNotEmpty()) {
           geometries = evaluateTwist(geometries, shape, animationSettings).toMutableList()
         }
       }
       is OffsetPath -> {
-        if (shape.hidden != true && geometries.isNotEmpty()) {
+        if (shape.hidden?.constantValue != true && geometries.isNotEmpty()) {
           geometries = evaluateOffsetPath(geometries, shape, animationSettings).toMutableList()
         }
       }
@@ -475,7 +477,7 @@ private fun group(
   parentRoundedCorners: RoundedCorners? = null,
   inheritedStyle: RemoteStyle? = null,
 ): RemoteGroup? {
-  if (group.hidden == true) {
+  if (group.hidden?.constantValue == true) {
     return null
   }
 
@@ -499,7 +501,7 @@ private fun group(
 private fun fill(fill: Fill, animationSettings: LottieSettings): RemoteFill {
   val fillColor = animateColor(fill.color, animationSettings)
   val opacity = animateScalar(fill.opacity, animationSettings)
-  return RemoteFill(fillColor, opacity, fill.fillRule)
+  return RemoteFill(fillColor, opacity, fill.fillRule ?: FillRule.NonZero)
 }
 
 @SuppressLint("RestrictedApi")
@@ -508,7 +510,8 @@ private fun stroke(stroke: Stroke, animationSettings: LottieSettings): RemoteStr
   val strokeWidth = animateScalar(stroke.strokeWidth, animationSettings)
   val opacity = animateScalar(stroke.opacity, animationSettings)
   val miterLimit =
-    stroke.miterLimit?.let { animateScalar(it, animationSettings) } ?: stroke.miterLimitNumeric?.rf
+    stroke.miterLimitAnimatable?.let { animateScalar(it, animationSettings) }
+      ?: stroke.miterLimit.rf
   val dashPattern = createDashPathEffect(stroke.dashes, animationSettings)
   return RemoteStroke(
     strokeColor = strokeColor,
@@ -536,7 +539,7 @@ private fun gradientFill(
     endPoint = endPoint,
     gradientType = fill.gradientType,
     opacity = opacity,
-    fillRule = fill.fillRule,
+    fillRule = fill.fillRule ?: FillRule.NonZero,
   )
 }
 
@@ -550,7 +553,9 @@ private fun gradientStroke(
   val gradient = animateGradient(stroke.colors, animationSettings)
   val opacity = animateScalar(stroke.opacity, animationSettings)
   val strokeWidth = animateScalar(stroke.strokeWidth, animationSettings)
-  val miterLimit = stroke.miterLimit?.let { animateScalar(it, animationSettings) }
+  val miterLimit =
+    stroke.miterLimitAnimatable?.let { animateScalar(it, animationSettings) }
+      ?: stroke.miterLimit.rf
   val dashPattern = createDashPathEffect(stroke.dashes, animationSettings)
   return RemoteGradientStroke(
     gradient = gradient,
@@ -646,9 +651,12 @@ internal fun applyMatteClip(
       val rcPath = RemotePath()
       rcPath.reset()
       rcPath.moveTo(0f, 0f)
-      rcPath.lineTo(matteLayer.solidWidth, 0f)
-      rcPath.lineTo(matteLayer.solidWidth, matteLayer.solidHeight)
-      rcPath.lineTo(0f, matteLayer.solidHeight)
+      rcPath.lineTo(matteLayer.solidWidth.constantValue.toFloat(), 0f)
+      rcPath.lineTo(
+        matteLayer.solidWidth.constantValue.toFloat(),
+        matteLayer.solidHeight.constantValue.toFloat(),
+      )
+      rcPath.lineTo(0f, matteLayer.solidHeight.constantValue.toFloat())
       rcPath.close()
       canvas.clipPath(rcPath, clipOp)
     }
@@ -656,7 +664,7 @@ internal fun applyMatteClip(
       val asset = animationSettings.assets[matteLayer.refId] as? PrecompAsset
       if (asset != null) {
         for (childLayer in asset.layers) {
-          if (childLayer.hidden == true) continue
+          if (childLayer.hidden?.constantValue == true) continue
           if (childLayer is ShapeLayer) {
             val childTransforms = childLayer.transform?.let { listOf(it) } ?: emptyList()
             for (t in childTransforms) {
@@ -678,9 +686,12 @@ internal fun applyMatteClip(
               RemotePath().apply {
                 reset()
                 moveTo(0f, 0f)
-                lineTo(childLayer.solidWidth, 0f)
-                lineTo(childLayer.solidWidth, childLayer.solidHeight)
-                lineTo(0f, childLayer.solidHeight)
+                lineTo(childLayer.solidWidth.constantValue.toFloat(), 0f)
+                lineTo(
+                  childLayer.solidWidth.constantValue.toFloat(),
+                  childLayer.solidHeight.constantValue.toFloat(),
+                )
+                lineTo(0f, childLayer.solidHeight.constantValue.toFloat())
                 close()
               }
             canvas.clipPath(rcPath, clipOp)
@@ -707,7 +718,7 @@ private fun clipShapes(
   clipOp: ClipOp = ClipOp.Intersect,
 ) {
   for (shape in shapes) {
-    if (shape.hidden == true) continue
+    if (shape.hidden?.constantValue == true) continue
     when (shape) {
       is Rectangle -> {
         val lottiePath = evaluateRectangle(shape, animationSettings)

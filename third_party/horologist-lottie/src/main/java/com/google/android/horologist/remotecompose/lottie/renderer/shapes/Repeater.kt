@@ -52,7 +52,7 @@ internal fun evaluateRepeater(
   repeater: Repeater,
   animationSettings: LottieSettings,
 ): List<RepeatedShapeInstance> {
-  if (repeater.hidden == true || shapes.isEmpty()) {
+  if (repeater.hidden?.constantValue == true || shapes.isEmpty()) {
     return shapes.map { RepeatedShapeInstance(it) }
   }
 
@@ -65,13 +65,8 @@ internal fun evaluateRepeater(
 
   val repeaterTransform = repeater.transform
   val startOpacity =
-    repeaterTransform?.startOpacity?.let { animateScalar(it, animationSettings) }
-      ?: repeaterTransform?.opacity?.let { animateScalar(it, animationSettings) }
-      ?: 100f.rf
-  val endOpacity =
-    repeaterTransform?.endOpacity?.let { animateScalar(it, animationSettings) }
-      ?: repeaterTransform?.opacity?.let { animateScalar(it, animationSettings) }
-      ?: 100f.rf
+    repeaterTransform?.opacity?.let { animateScalar(it, animationSettings) } ?: 100f.rf
+  val endOpacity = startOpacity
 
   val copyIndices =
     if (repeater.composite == CompositeMode.Below) {

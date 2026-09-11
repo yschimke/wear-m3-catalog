@@ -56,7 +56,7 @@ internal fun evaluatePolyStar(
   trimPath: TrimPath? = null,
   roundedCorners: RoundedCorners? = null,
 ): RemoteLottiePath? {
-  if (star.hidden == true) return null
+  if (star.hidden?.constantValue == true) return null
 
   val pos = animatePosition(star.position, animationSettings)
   val posX = pos.x.constantValueOrNull ?: 0f
@@ -66,7 +66,7 @@ internal fun evaluatePolyStar(
   val rotation = animateScalar(star.rotation, animationSettings).constantValueOrNull ?: 0f
   val outerRadius = animateScalar(star.outerRadius, animationSettings).constantValueOrNull ?: 0f
   val outerRoundedness =
-    (animateScalar(star.outerRoundedness, animationSettings).constantValueOrNull ?: 0f) / 100f
+    (animateScalar(star.outerRoundness, animationSettings).constantValueOrNull ?: 0f) / 100f
 
   val subpath =
     when (star.starType) {
@@ -74,7 +74,7 @@ internal fun evaluatePolyStar(
         val innerRadius =
           star.innerRadius?.let { animateScalar(it, animationSettings).constantValueOrNull } ?: 0f
         val innerRoundedness =
-          (star.innerRoundedness?.let { animateScalar(it, animationSettings).constantValueOrNull }
+          (star.innerRoundness?.let { animateScalar(it, animationSettings).constantValueOrNull }
             ?: 0f) / 100f
         createStarBezier(
           points = points,
@@ -99,8 +99,8 @@ internal fun evaluatePolyStar(
       }
     }
 
-  val hasTrim = trimPath != null && trimPath.hidden != true
-  val hasRounding = roundedCorners != null && roundedCorners.hidden != true
+  val hasTrim = trimPath != null && trimPath.hidden?.constantValue != true
+  val hasRounding = roundedCorners != null && roundedCorners.hidden?.constantValue != true
   if (hasTrim || hasRounding) {
     val bezierValue =
       BezierValue(

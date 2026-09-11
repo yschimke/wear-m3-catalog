@@ -16,13 +16,10 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.styles
 
-import androidx.compose.remote.creation.compose.state.rc
-import androidx.compose.ui.graphics.Color
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseColorProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
-import com.google.android.horologist.remotecompose.lottie.format.properties.StaticColorProperty
-import com.google.android.horologist.remotecompose.lottie.format.properties.StaticScalarProperty
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -36,25 +33,60 @@ import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
 
-/** Solid stroke style */
+/**
+ * Shape Element representing a solid stroke outline, conforming to
+ * [Lottie Stroke](https://lottie.github.io/lottie-spec/latest/specs/shapes/#stroke) and
+ * [Base Stroke](https://lottie.github.io/lottie-spec/latest/specs/shapes/#base-stroke).
+ *
+ * Essential Invariants:
+ * - Scoping: Outlines all preceding shape curves within the current group scope.
+ * - Stacking Order: Evaluated in bottom-to-top order when combined with sibling fills or strokes.
+ * - Discriminator: type is strictly [ShapeType.Stroke] ("st").
+ *
+ * Schema Specification:
+ * - Required Fields: "ty" (const "st"), "c" (Color), "w" (Stroke width), "o" (Opacity).
+ * - Optional Fields with Schema Defaults:
+ *     - "lc": Line cap (schema default: 2 -> [LineCap.Round]).
+ *     - "lj": Line join (schema default: 2 -> [LineJoin.Round]).
+ *     - "ml": Numeric miter limit (schema default: 0 -> 0f).
+ * - Optional Fields without Schema Defaults:
+ *     - "nm": Human-readable name (default: null).
+ *     - "hd": Hidden boolean flag (default: null).
+ *     - "ml2": Animatable miter limit (default: null).
+ *     - "d": Dash pattern array (default: null).
+ *
+ * @property name Human-readable element name.
+ * @property hidden When true, suppresses rendering of this stroke.
+ * @property type Shape type discriminator, strictly [ShapeType.Stroke].
+ * @property opacity Animatable stroke opacity on [0.0, 100.0]. Required in schema.
+ * @property color Animatable solid RGBA stroke color. Required in schema.
+ * @property strokeWidth Animatable stroke width. Required in schema.
+ * @property lineCap Style at the end of stroked lines. Defaults to [LineCap.Round] per schema.
+ * @property lineJoin Style at sharp corners of stroked lines. Defaults to [LineJoin.Round] per
+ *   schema.
+ * @property miterLimit Maximum miter limit before beveling. Defaults to 0f per schema.
+ * @property miterLimitAnimatable Animatable scalar alternative to miterLimit.
+ * @property dashes Optional list of dash segments, gaps, and offsets.
+ */
 @Serializable
 internal data class Stroke(
-  @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
+  @SerialName("nm") override val name: String? = null,
+  @SerialName("hd") override val hidden: SerializableBoolean? = null,
   @SerialName("ty") override val type: ShapeType = ShapeType.Stroke,
-  @SerialName("ix") override val index: Int? = null,
-  @SerialName("mn") override val matchName: String? = null,
-  @SerialName("cix") override val propertyIndex: Int? = null,
-  @SerialName("o") override val opacity: BaseScalarProperty = StaticScalarProperty(value = 100f),
-  @SerialName("c") val color: BaseColorProperty = StaticColorProperty(value = Color.Black.rc),
-  @SerialName("w") val strokeWidth: BaseScalarProperty = StaticScalarProperty(value = 1f),
+  @SerialName("o") override val opacity: BaseScalarProperty,
+  @SerialName("c") val color: BaseColorProperty,
+  @SerialName("w") val strokeWidth: BaseScalarProperty,
   @SerialName("lc") val lineCap: LineCap = LineCap.Round,
   @SerialName("lj") val lineJoin: LineJoin = LineJoin.Round,
-  @SerialName("ml") val miterLimit: BaseScalarProperty? = null,
-  @SerialName("ml2") val miterLimitNumeric: Float? = null,
+  @SerialName("ml") val miterLimit: Float = 0f,
+  @SerialName("ml2") val miterLimitAnimatable: BaseScalarProperty? = null,
   @SerialName("d") val dashes: List<StrokeDash>? = null,
 ) : ShapeStyle
 
+/**
+ * Style at the end of a stroked line, conforming to
+ * [Lottie Line Cap](https://lottie.github.io/lottie-spec/latest/specs/constants/#line-cap).
+ */
 @Serializable(with = LineCapSerializer::class)
 internal enum class LineCap(val value: Int) {
   Butt(1),
@@ -62,10 +94,14 @@ internal enum class LineCap(val value: Int) {
   Square(3);
 
   companion object {
-    fun fromValueOrNull(value: Int): LineCap? = values().firstOrNull { it.value == value }
+    fun fromValueOrNull(value: Int): LineCap? = entries.firstOrNull { it.value == value }
   }
 }
 
+/**
+ * Serializer for [LineCap] supporting integer and float primitives with fallback to
+ * [LineCap.Round].
+ */
 internal object LineCapSerializer : KSerializer<LineCap> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("LineCap", PrimitiveKind.INT)
@@ -92,6 +128,10 @@ internal object LineCapSerializer : KSerializer<LineCap> {
   }
 }
 
+/**
+ * Style at a sharp corner of a stroked line, conforming to
+ * [Lottie Line Join](https://lottie.github.io/lottie-spec/latest/specs/constants/#line-join).
+ */
 @Serializable(with = LineJoinSerializer::class)
 internal enum class LineJoin(val value: Int) {
   Miter(1),
@@ -99,10 +139,14 @@ internal enum class LineJoin(val value: Int) {
   Bevel(3);
 
   companion object {
-    fun fromValueOrNull(value: Int): LineJoin? = values().firstOrNull { it.value == value }
+    fun fromValueOrNull(value: Int): LineJoin? = entries.firstOrNull { it.value == value }
   }
 }
 
+/**
+ * Serializer for [LineJoin] supporting integer and float primitives with fallback to
+ * [LineJoin.Round].
+ */
 internal object LineJoinSerializer : KSerializer<LineJoin> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("LineJoin", PrimitiveKind.INT)
@@ -129,9 +173,32 @@ internal object LineJoinSerializer : KSerializer<LineJoin> {
   }
 }
 
+/**
+ * An item describing the dash pattern in a stroked path, conforming to
+ * [Lottie Stroke Dash](https://lottie.github.io/lottie-spec/latest/specs/shapes/#stroke-dash).
+ *
+ * @property name Human-readable name inherited from Visual Object.
+ * @property type Type of dash item. Defaults to [StrokeDashType.Dash] per schema.
+ * @property length Length of the dash or gap segment.
+ */
 @Serializable
 internal data class StrokeDash(
   @SerialName("nm") val name: String? = null,
-  @SerialName("n") val dashType: String? = null,
-  @SerialName("v") val value: BaseScalarProperty? = null,
+  @SerialName("n") val type: StrokeDashType = StrokeDashType.Dash,
+  @SerialName("v") val length: BaseScalarProperty? = null,
 )
+
+/**
+ * Type of a dash item in a stroked line, conforming to
+ * [Lottie Stroke Dash Type](https://lottie.github.io/lottie-spec/latest/specs/constants/#stroke-dash-type).
+ */
+@Serializable
+internal enum class StrokeDashType(val value: String) {
+  @SerialName("d") Dash("d"),
+  @SerialName("g") Gap("g"),
+  @SerialName("o") Offset("o");
+
+  companion object {
+    fun fromValueOrNull(value: String): StrokeDashType? = entries.firstOrNull { it.value == value }
+  }
+}

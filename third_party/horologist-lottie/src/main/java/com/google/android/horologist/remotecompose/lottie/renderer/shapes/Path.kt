@@ -31,7 +31,7 @@ internal fun evaluatePath(
   trimPath: TrimPath? = null,
   roundedCorners: RoundedCorners? = null,
 ): RemoteLottiePath? {
-  if (lottiePath.hidden == true) return null
+  if (lottiePath.hidden?.constantValue == true) return null
 
   val path = evaluatePathGeometry(lottiePath.shape, trimPath, roundedCorners, animationSettings)
   return RemoteLottiePath(path)

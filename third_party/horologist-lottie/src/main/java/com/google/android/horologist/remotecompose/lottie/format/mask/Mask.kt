@@ -16,8 +16,11 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.mask
 
+import androidx.compose.remote.creation.compose.state.rb
+import androidx.compose.remote.creation.compose.state.rf
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseBezierProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
+import com.google.android.horologist.remotecompose.lottie.format.properties.StaticScalarProperty
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -31,31 +34,39 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonPrimitive
 
 /**
- * A layer mask in a Lottie composition.
+ * A layer mask in a Lottie composition conforming to
+ * [Mask](https://lottie.github.io/lottie-spec/1.0.1/specs/helpers/#mask).
  *
- * Masks define clipping paths and boolean visibility operations applied to a layer.
+ * Masks define clipping paths and boolean compositing visibility operations applied to a layer.
+ *
+ * Essential Invariants:
+ * - [mode]: Determines the boolean operation combining this mask with others ([MaskMode]).
+ * - [path]: Animatable Bézier curve shape of the mask outline (`pt`).
+ * - [opacity]: Animatable scalar transparency factor (0-100%) (`o`), defaults to 100%.
  */
 @Serializable
 internal data class Mask(
-  @SerialName("nm") val name: String? = "",
-  @SerialName("mode") val mode: MaskMode = MaskMode.Add,
-  @SerialName("pt") val path: BaseBezierProperty? = null,
-  @SerialName("o") val opacity: BaseScalarProperty? = null,
+  @SerialName("mode") val mode: MaskMode = MaskMode.Intersect,
   @SerialName("inv") val inverted: Boolean = false,
-  @SerialName("x") val expand: BaseScalarProperty? = null,
+  @SerialName("pt") val path: BaseBezierProperty? = null,
+  @SerialName("o")
+  val opacity: BaseScalarProperty = StaticScalarProperty(animated = false.rb, value = 100f.rf),
 )
 
-/** Mask mode indicating how the mask path combines with other masks and clips the layer. */
+/**
+ * Mask mode indicating how the mask path combines with other masks conforming to
+ * [Mask Mode](https://lottie.github.io/lottie-spec/1.0.1/specs/constants/#mask-mode).
+ */
 @Serializable(with = MaskModeSerializer::class)
 internal enum class MaskMode(val value: String) {
+  None("n"),
   Add("a"),
   Subtract("s"),
   Intersect("i"),
+  Difference("d"),
   Lighten("l"),
-  Darken("d"),
-  Difference("f"),
-  None("n"),
-  Unknown("");
+  Darken("f"),
+  Unknown("unknown");
 
   companion object {
     fun fromValueOrNull(value: String): MaskMode? = entries.firstOrNull {
@@ -64,6 +75,7 @@ internal enum class MaskMode(val value: String) {
   }
 }
 
+/** Serializer for [MaskMode] mapping string codes to [MaskMode] instances. */
 internal object MaskModeSerializer : KSerializer<MaskMode> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("MaskMode", PrimitiveKind.STRING)
@@ -73,13 +85,13 @@ internal object MaskModeSerializer : KSerializer<MaskMode> {
       val jsonDecoder = decoder as? JsonDecoder
       val value =
         if (jsonDecoder != null) {
-          jsonDecoder.decodeJsonElement().jsonPrimitive.contentOrNull ?: "a"
+          jsonDecoder.decodeJsonElement().jsonPrimitive.contentOrNull ?: "i"
         } else {
           decoder.decodeString()
         }
-      MaskMode.fromValueOrNull(value) ?: MaskMode.Add
+      MaskMode.fromValueOrNull(value) ?: MaskMode.Intersect
     } catch (_: Exception) {
-      MaskMode.Add
+      MaskMode.Intersect
     }
   }
 

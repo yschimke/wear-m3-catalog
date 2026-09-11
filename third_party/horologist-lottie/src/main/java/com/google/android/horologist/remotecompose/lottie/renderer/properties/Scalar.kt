@@ -29,82 +29,17 @@ import com.google.android.horologist.remotecompose.lottie.renderer.lookupValueIn
 import com.google.android.horologist.remotecompose.lottie.renderer.scalarLinearEasingIn
 import com.google.android.horologist.remotecompose.lottie.renderer.scalarLinearEasingOut
 
-internal data class ScalarAnimationSegment(val startFrame: Float, val value: RemoteFloat)
+internal data class AnimationSegment(val startFrame: Float, val value: RemoteFloat)
 
 /**
- * Animates a scalar property.
+ * Support keyframed animations (and delayed start animations) by chaining multiple animations
+ * together.
  *
- * Takes a [BaseScalarProperty] (either static or animated) and resolves it to a [RemoteFloat].
- * Supports keyframed transitions with cubic Bézier easing curves, hold keyframes, and delayed
- * starts.
+ * This recursively builds up a chain of IFELSE operations to select the correct RemoteFloat
+ * representing the current segment of the animation.
  */
 @SuppressLint("RestrictedApi")
-internal fun animateScalar(
-  scalar: BaseScalarProperty,
-  animationSettings: LottieSettings,
-): RemoteFloat {
-  return when (scalar) {
-    is StaticScalarProperty -> scalar.value.rf
-    is AnimatedScalarProperty -> {
-      if (scalar.keyframes.isEmpty()) {
-        return 0f.rf
-      }
-      if (scalar.keyframes.size == 1) {
-        return scalar.keyframes[0].value.rf
-      }
-
-      val animationSegments = mutableListOf<ScalarAnimationSegment>()
-
-      val firstKeyframe = scalar.keyframes[0]
-      if (firstKeyframe.frame != 0f) {
-        animationSegments.add(
-          ScalarAnimationSegment(startFrame = 0f, value = firstKeyframe.value.rf)
-        )
-      }
-
-      for (i in 0 until scalar.keyframes.size - 1) {
-        val startKeyframe = scalar.keyframes[i]
-        val endKeyframe = scalar.keyframes[i + 1]
-        val duration = endKeyframe.frame - startKeyframe.frame
-        val frameInAnimation = animationSettings.currentFrame - startKeyframe.frame
-
-        val segmentValue =
-          if (startKeyframe.hold || duration <= 0f) {
-            selectIfLt(frameInAnimation, duration.rf, startKeyframe.value.rf, endKeyframe.value.rf)
-          } else {
-            val outTangent = startKeyframe.outTangent ?: scalarLinearEasingOut
-            val inTangent = startKeyframe.inTangent ?: scalarLinearEasingIn
-
-            val progress =
-              lookupValueInBezier(
-                outTangent.x,
-                outTangent.y,
-                inTangent.x,
-                inTangent.y,
-                duration,
-                frameInAnimation,
-              )
-
-            lerp(startKeyframe.value.rf, endKeyframe.value.rf, progress)
-          }
-
-        animationSegments.add(ScalarAnimationSegment(startKeyframe.frame, segmentValue))
-      }
-
-      chainScalarAnimation(animationSegments, animationSettings.currentFrame)
-    }
-  }
-}
-
-/**
- * Support keyframed scalar animations (and delayed start animations) by chaining multiple animation
- * segments together across timeline thresholds.
- */
-@SuppressLint("RestrictedApi")
-private fun chainScalarAnimation(
-  segments: List<ScalarAnimationSegment>,
-  frame: RemoteFloat,
-): RemoteFloat {
+internal fun chainAnimation(segments: List<AnimationSegment>, frame: RemoteFloat): RemoteFloat {
   if (segments.size == 1) {
     return segments[0].value
   }
@@ -113,6 +48,65 @@ private fun chainScalarAnimation(
     frame,
     segments[1].startFrame.rf,
     segments[0].value,
-    chainScalarAnimation(segments.subList(1, segments.size), frame),
+    chainAnimation(segments.subList(1, segments.size), frame),
   )
+}
+
+/**
+ * Animates a scalar property.
+ *
+ * Take a BaseScalarProperty (either animated or static) and convert it to a RemoteFloat. If the
+ * scalar is animated, the RemoteFloat will change based on the animation specified in the Lottie
+ * Scalar Property.
+ */
+@SuppressLint("RestrictedApi")
+internal fun animateScalar(
+  scalar: BaseScalarProperty,
+  animationSettings: LottieSettings,
+): RemoteFloat {
+  return when (scalar) {
+    is StaticScalarProperty -> scalar.value
+    is AnimatedScalarProperty -> {
+      if (scalar.keyframes.isEmpty()) {
+        return 0f.rf
+      }
+      if (scalar.keyframes.size == 1) {
+        return scalar.keyframes[0].value
+      }
+
+      val animationSegments = mutableListOf<AnimationSegment>()
+
+      val firstKeyframe = scalar.keyframes[0]
+      if (firstKeyframe.frame.constantValue != 0f) {
+        animationSegments.add(AnimationSegment(0f, firstKeyframe.value))
+      }
+
+      for (i in 0 until scalar.keyframes.size - 1) {
+        val startKeyframe = scalar.keyframes[i]
+        val endKeyframe = scalar.keyframes[i + 1]
+        val duration = endKeyframe.frame.constantValue - startKeyframe.frame.constantValue
+        val frameInAnimation = animationSettings.currentFrame - startKeyframe.frame
+
+        val outTangent = startKeyframe.outTangent ?: scalarLinearEasingOut
+        val inTangent = startKeyframe.inTangent ?: scalarLinearEasingIn
+
+        val currentBezierValue =
+          lookupValueInBezier(
+            outTangent.x,
+            outTangent.y,
+            inTangent.x,
+            inTangent.y,
+            duration,
+            frameInAnimation,
+          )
+
+        val startValue = startKeyframe.value
+        val endValue = endKeyframe.value
+        val segmentValue = lerp(startValue, endValue, currentBezierValue)
+        animationSegments.add(AnimationSegment(startKeyframe.frame.constantValue, segmentValue))
+      }
+
+      chainAnimation(animationSegments, animationSettings.currentFrame)
+    }
+  }
 }

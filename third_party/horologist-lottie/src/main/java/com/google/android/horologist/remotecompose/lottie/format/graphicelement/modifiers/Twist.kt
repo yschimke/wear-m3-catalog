@@ -16,11 +16,15 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers
 
+import androidx.compose.remote.creation.compose.state.rb
+import androidx.compose.remote.creation.compose.state.rf
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
 import com.google.android.horologist.remotecompose.lottie.format.properties.BasePositionProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.StaticPositionProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.StaticScalarProperty
+import com.google.android.horologist.remotecompose.lottie.format.values.Point
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -28,11 +32,12 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class Twist(
   @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
+  @SerialName("hd") override val hidden: SerializableBoolean? = false.rb,
   @SerialName("ty") override val type: ShapeType = ShapeType.Twist,
   @SerialName("ix") override val index: Int? = null,
   @SerialName("mn") override val matchName: String? = null,
   @SerialName("cix") override val propertyIndex: Int? = null,
-  @SerialName("a") val angle: BaseScalarProperty = StaticScalarProperty(value = 0f),
-  @SerialName("c") val center: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
+  @SerialName("a") val angle: BaseScalarProperty = StaticScalarProperty(value = 0f.rf),
+  @SerialName("c")
+  val center: BasePositionProperty = StaticPositionProperty(value = Point(0f.rf, 0f.rf)),
 ) : ShapeModifier

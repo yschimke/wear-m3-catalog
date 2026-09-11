@@ -16,9 +16,13 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.properties
 
+import androidx.compose.remote.creation.compose.state.rb
 import com.google.android.horologist.remotecompose.lottie.format.values.GradientValue
 import com.google.android.horologist.remotecompose.lottie.format.values.GradientValueSerializer
-import com.google.android.horologist.remotecompose.lottie.format.values.parseGradientValueElement
+import com.google.android.horologist.remotecompose.lottie.format.values.KeyframeEasing
+import com.google.android.horologist.remotecompose.lottie.format.values.ScalarKeyframeEasingSerializer
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteBoolean
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
@@ -47,14 +51,15 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 
 /**
- * Base class for all Lottie gradient properties.
+ * Base class for all Lottie animatable gradient properties conforming to
+ * [Gradient Property](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#gradient-property).
  *
- * Unifies static constant gradients ([StaticGradientProperty]) and keyframed dynamic animations
- * ([AnimatedGradientProperty]) under a shared contract for the AST and renderer pipeline.
+ * Unifies static constant gradients ([StaticGradientProperty]) and keyframed animations
+ * ([AnimatedGradientProperty]) under a shared contract.
  */
 @Serializable(with = BaseGradientPropertySerializer::class)
 internal sealed class BaseGradientProperty {
-  abstract val animated: Boolean
+  abstract val animated: SerializableRemoteBoolean
   abstract val slotId: String?
 }
 
@@ -62,8 +67,9 @@ internal sealed class BaseGradientProperty {
 @Serializable(with = StaticGradientPropertySerializer::class)
 internal data class StaticGradientProperty(
   @SerialName("sid") override val slotId: String? = null,
-  override val animated: Boolean = false,
-  @SerialName("k") val value: GradientValue = GradientValue(),
+  @SerialName("p") val numberOfColors: Int? = null,
+  @SerialName("a") override val animated: SerializableRemoteBoolean = false.rb,
+  @SerialName("k") val value: GradientValue,
 ) : BaseGradientProperty()
 
 /** An animated gradient property with keyframes. */
@@ -71,22 +77,25 @@ internal data class StaticGradientProperty(
 internal data class AnimatedGradientProperty(
   @SerialName("sid") override val slotId: String? = null,
   @SerialName("p") val numberOfColors: Int? = null,
-  @SerialName("a") val animatedInt: Int = 1,
-  @SerialName("k") val keyframes: List<GradientPropertyKeyframe> = emptyList(),
-) : BaseGradientProperty() {
-  override val animated: Boolean
-    get() = animatedInt == 1
-}
+  @SerialName("a") override val animated: SerializableRemoteBoolean = true.rb,
+  @SerialName("k") val keyframes: List<GradientKeyframe> = emptyList(),
+) : BaseGradientProperty()
 
 /** A single keyframe for an animated gradient property. */
-@Serializable(with = GradientPropertyKeyframeSerializer::class)
-internal data class GradientPropertyKeyframe(
-  @SerialName("t") val frame: Float = 0f,
-  @SerialName("h") val hold: Boolean = false,
-  @SerialName("i") val inTangent: ScalarKeyframeEasing? = null,
-  @SerialName("o") val outTangent: ScalarKeyframeEasing? = null,
-  @SerialName("s") val value: List<GradientValue> = emptyList(),
-)
+@Serializable(with = GradientKeyframeSerializer::class)
+internal data class GradientKeyframe(
+  @SerialName("t") val time: Float = 0f,
+  @SerialName("h") val hold: SerializableBoolean? = null,
+  @SerialName("i") val inTangent: KeyframeEasing? = null,
+  @SerialName("o") val outTangent: KeyframeEasing? = null,
+  @SerialName("s") val startValue: List<GradientValue> = emptyList(),
+) {
+  val frame: Float
+    get() = time
+
+  val value: List<GradientValue>
+    get() = startValue
+}
 
 /** Polymorphic serializer for [BaseGradientProperty] based on "a" field. */
 internal object BaseGradientPropertySerializer :
@@ -108,7 +117,8 @@ internal object StaticGradientPropertySerializer : KSerializer<StaticGradientPro
   override val descriptor: SerialDescriptor =
     buildClassSerialDescriptor("StaticGradientProperty") {
       element<String?>("sid", isOptional = true)
-      element<Boolean>("animated", isOptional = true)
+      element<Int?>("p", isOptional = true)
+      element<SerializableRemoteBoolean>("animated", isOptional = true)
       element<GradientValue>("k")
     }
 
@@ -118,24 +128,52 @@ internal object StaticGradientPropertySerializer : KSerializer<StaticGradientPro
     return when (element) {
       is JsonObject -> {
         val slotId = element["sid"]?.jsonPrimitive?.contentOrNull
-        val kElem = element["k"]
         val p = element["p"]?.jsonPrimitive?.intOrNull
+        val kElem = element["k"]
+        val count = p ?: 0
         val gradientValue =
-          if (kElem != null) {
-            val parsed = parseGradientValueElement(kElem)
-            if (p != null && p > 0 && parsed.numberOfColors == 0) {
-              parsed.copy(numberOfColors = p)
-            } else {
-              parsed
+          when (kElem) {
+            is JsonArray -> {
+              val stopCount =
+                if (count > 0) count
+                else if (kElem.size >= 4 && kElem.size % 4 == 0) kElem.size / 4 else 0
+              jsonDecoder.json.decodeFromJsonElement(GradientValueSerializer(stopCount), kElem)
             }
-          } else {
-            parseGradientValueElement(element)
+            is JsonObject -> {
+              val innerP = kElem["p"]?.jsonPrimitive?.intOrNull ?: count
+              val innerK = kElem["k"]?.jsonArray ?: JsonArray(emptyList())
+              val stopCount =
+                if (innerP > 0) innerP
+                else if (innerK.size >= 4 && innerK.size % 4 == 0) innerK.size / 4 else 0
+              jsonDecoder.json.decodeFromJsonElement(GradientValueSerializer(stopCount), innerK)
+            }
+            else -> GradientValue(emptyList(), emptyList())
           }
-        StaticGradientProperty(slotId = slotId, animated = false, value = gradientValue)
+        StaticGradientProperty(
+          slotId = slotId,
+          numberOfColors = p,
+          animated = false.rb,
+          value = gradientValue,
+        )
+      }
+      is JsonArray -> {
+        val stopCount = if (element.size >= 4 && element.size % 4 == 0) element.size / 4 else 0
+        val gradientValue =
+          jsonDecoder.json.decodeFromJsonElement(GradientValueSerializer(stopCount), element)
+        StaticGradientProperty(
+          slotId = null,
+          numberOfColors = stopCount,
+          animated = false.rb,
+          value = gradientValue,
+        )
       }
       else -> {
-        val gradientValue = parseGradientValueElement(element)
-        StaticGradientProperty(slotId = null, animated = false, value = gradientValue)
+        StaticGradientProperty(
+          slotId = null,
+          numberOfColors = null,
+          animated = false.rb,
+          value = GradientValue(emptyList(), emptyList()),
+        )
       }
     }
   }
@@ -145,8 +183,15 @@ internal object StaticGradientPropertySerializer : KSerializer<StaticGradientPro
     jsonEncoder.encodeJsonElement(
       buildJsonObject {
         value.slotId?.let { put("sid", it) }
+        value.numberOfColors?.let { put("p", it) }
         put("a", 0)
-        put("k", jsonEncoder.json.encodeToJsonElement(GradientValueSerializer, value.value))
+        put(
+          "k",
+          jsonEncoder.json.encodeToJsonElement(
+            GradientValueSerializer(value.value.colorStops.size),
+            value.value,
+          ),
+        )
       }
     )
   }
@@ -159,7 +204,7 @@ internal object AnimatedGradientPropertySerializer : KSerializer<AnimatedGradien
       element<String?>("sid", isOptional = true)
       element<Int?>("p", isOptional = true)
       element<Int>("a")
-      element<List<GradientPropertyKeyframe>>("k")
+      element<List<GradientKeyframe>>("k")
     }
 
   override fun deserialize(decoder: Decoder): AnimatedGradientProperty {
@@ -167,26 +212,15 @@ internal object AnimatedGradientPropertySerializer : KSerializer<AnimatedGradien
     val obj = jsonDecoder.decodeJsonElement().jsonObject
     val slotId = obj["sid"]?.jsonPrimitive?.contentOrNull
     val numberOfColors = obj["p"]?.jsonPrimitive?.intOrNull
-    val animatedInt = obj["a"]?.jsonPrimitive?.intOrNull ?: 1
+    val p = numberOfColors ?: 0
     val keyframesArray = obj["k"]?.jsonArray
     val keyframes =
-      keyframesArray?.map { element ->
-        val kf = jsonDecoder.json.decodeFromJsonElement(GradientPropertyKeyframeSerializer, element)
-        if (numberOfColors != null && numberOfColors > 0) {
-          kf.copy(
-            value =
-              kf.value.map { gv ->
-                if (gv.numberOfColors == 0) gv.copy(numberOfColors = numberOfColors) else gv
-              }
-          )
-        } else {
-          kf
-        }
-      } ?: emptyList()
+      keyframesArray?.map { element -> deserializeGradientKeyframe(jsonDecoder, element, p) }
+        ?: emptyList()
     return AnimatedGradientProperty(
       slotId = slotId,
       numberOfColors = numberOfColors,
-      animatedInt = animatedInt,
+      animated = true.rb,
       keyframes = keyframes,
     )
   }
@@ -197,11 +231,11 @@ internal object AnimatedGradientPropertySerializer : KSerializer<AnimatedGradien
       buildJsonObject {
         value.slotId?.let { put("sid", it) }
         value.numberOfColors?.let { put("p", it) }
-        put("a", value.animatedInt)
+        put("a", 1)
         put(
           "k",
           jsonEncoder.json.encodeToJsonElement(
-            ListSerializer(GradientPropertyKeyframeSerializer),
+            ListSerializer(GradientKeyframeSerializer),
             value.keyframes,
           ),
         )
@@ -210,70 +244,98 @@ internal object AnimatedGradientPropertySerializer : KSerializer<AnimatedGradien
   }
 }
 
-/** Serializer for [GradientPropertyKeyframe] handling timing, easing, and gradient values. */
-internal object GradientPropertyKeyframeSerializer : KSerializer<GradientPropertyKeyframe> {
+private fun deserializeGradientKeyframe(
+  jsonDecoder: JsonDecoder,
+  element: JsonElement,
+  colorStopCount: Int,
+): GradientKeyframe {
+  val obj = element.jsonObject
+  val frame = obj["t"]?.jsonPrimitive?.floatOrNull ?: 0f
+  val hold =
+    when (val h = obj["h"]) {
+      is JsonPrimitive -> (h.booleanOrNull ?: ((h.intOrNull ?: 0) == 1)).rb
+      else -> null
+    }
+  val inTangent =
+    obj["i"]?.let { jsonDecoder.json.decodeFromJsonElement(ScalarKeyframeEasingSerializer, it) }
+  val outTangent =
+    obj["o"]?.let { jsonDecoder.json.decodeFromJsonElement(ScalarKeyframeEasingSerializer, it) }
+  val sElem = obj["s"]
+  val startValue =
+    when (sElem) {
+      is JsonArray -> {
+        if (sElem.isNotEmpty() && sElem.first() is JsonPrimitive) {
+          val count =
+            if (colorStopCount > 0) colorStopCount
+            else if (sElem.size >= 4 && sElem.size % 4 == 0) sElem.size / 4 else 0
+          listOf(jsonDecoder.json.decodeFromJsonElement(GradientValueSerializer(count), sElem))
+        } else {
+          sElem.map { inner ->
+            val innerArr = inner.jsonArray
+            val count =
+              if (colorStopCount > 0) colorStopCount
+              else if (innerArr.size >= 4 && innerArr.size % 4 == 0) innerArr.size / 4 else 0
+            jsonDecoder.json.decodeFromJsonElement(GradientValueSerializer(count), inner)
+          }
+        }
+      }
+      is JsonObject -> {
+        val innerArr = sElem["k"]?.jsonArray ?: JsonArray(emptyList())
+        val count =
+          if (colorStopCount > 0) colorStopCount
+          else if (innerArr.size >= 4 && innerArr.size % 4 == 0) innerArr.size / 4 else 0
+        listOf(jsonDecoder.json.decodeFromJsonElement(GradientValueSerializer(count), innerArr))
+      }
+      else -> emptyList()
+    }
+
+  return GradientKeyframe(
+    time = frame,
+    hold = hold,
+    inTangent = inTangent,
+    outTangent = outTangent,
+    startValue = startValue,
+  )
+}
+
+/** Serializer for [GradientKeyframe] handling timing, easing, and gradient values. */
+internal object GradientKeyframeSerializer : KSerializer<GradientKeyframe> {
   override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("GradientPropertyKeyframe") {
+    buildClassSerialDescriptor("GradientKeyframe") {
       element<Float>("t", isOptional = true)
-      element<Boolean>("h", isOptional = true)
-      element<ScalarKeyframeEasing?>("i", isOptional = true)
-      element<ScalarKeyframeEasing?>("o", isOptional = true)
+      element<SerializableBoolean?>("h", isOptional = true)
+      element<KeyframeEasing?>("i", isOptional = true)
+      element<KeyframeEasing?>("o", isOptional = true)
       element<List<GradientValue>>("s", isOptional = true)
     }
 
-  override fun deserialize(decoder: Decoder): GradientPropertyKeyframe {
+  override fun deserialize(decoder: Decoder): GradientKeyframe {
     val jsonDecoder = decoder as JsonDecoder
-    val obj = jsonDecoder.decodeJsonElement().jsonObject
-
-    val frame = obj["t"]?.jsonPrimitive?.floatOrNull ?: 0f
-    val hold =
-      when (val hElem = obj["h"]) {
-        is JsonPrimitive -> hElem.booleanOrNull ?: ((hElem.intOrNull ?: 0) == 1)
-        else -> false
-      }
-    val inTangent =
-      obj["i"]?.let { jsonDecoder.json.decodeFromJsonElement(ScalarKeyframeEasingSerializer, it) }
-    val outTangent =
-      obj["o"]?.let { jsonDecoder.json.decodeFromJsonElement(ScalarKeyframeEasingSerializer, it) }
-    val sElem = obj["s"]
-    val value =
-      when (sElem) {
-        is JsonArray -> {
-          if (sElem.isNotEmpty() && sElem.first() is JsonPrimitive) {
-            listOf(parseGradientValueElement(sElem))
-          } else {
-            sElem.map { parseGradientValueElement(it) }
-          }
-        }
-        is JsonObject -> listOf(parseGradientValueElement(sElem))
-        else -> emptyList()
-      }
-
-    return GradientPropertyKeyframe(
-      frame = frame,
-      hold = hold,
-      inTangent = inTangent,
-      outTangent = outTangent,
-      value = value,
-    )
+    return deserializeGradientKeyframe(jsonDecoder, jsonDecoder.decodeJsonElement(), 0)
   }
 
-  override fun serialize(encoder: Encoder, value: GradientPropertyKeyframe) {
+  override fun serialize(encoder: Encoder, value: GradientKeyframe) {
     val jsonEncoder = encoder as JsonEncoder
     jsonEncoder.encodeJsonElement(
       buildJsonObject {
-        put("t", value.frame)
-        if (value.hold) put("h", 1)
+        put("t", value.time)
+        value.hold?.let { put("h", if (it.constantValue) 1 else 0) }
         value.inTangent?.let {
           put("i", jsonEncoder.json.encodeToJsonElement(ScalarKeyframeEasingSerializer, it))
         }
         value.outTangent?.let {
           put("o", jsonEncoder.json.encodeToJsonElement(ScalarKeyframeEasingSerializer, it))
         }
-        put(
-          "s",
-          jsonEncoder.json.encodeToJsonElement(ListSerializer(GradientValueSerializer), value.value),
-        )
+        if (value.startValue.isNotEmpty()) {
+          val first = value.startValue.first()
+          put(
+            "s",
+            jsonEncoder.json.encodeToJsonElement(
+              GradientValueSerializer(first.colorStops.size),
+              first,
+            ),
+          )
+        }
       }
     )
   }

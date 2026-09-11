@@ -16,9 +16,12 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers
 
+import androidx.compose.remote.creation.compose.state.rb
+import androidx.compose.remote.creation.compose.state.rf
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.StaticScalarProperty
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -36,13 +39,13 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable
 internal data class ZigZag(
   @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
+  @SerialName("hd") override val hidden: SerializableBoolean? = false.rb,
   @SerialName("ty") override val type: ShapeType = ShapeType.ZigZag,
   @SerialName("ix") override val index: Int? = null,
   @SerialName("mn") override val matchName: String? = null,
   @SerialName("cix") override val propertyIndex: Int? = null,
-  @SerialName("s") val size: BaseScalarProperty = StaticScalarProperty(value = 0f),
-  @SerialName("r") val ridgesPerSegment: BaseScalarProperty = StaticScalarProperty(value = 0f),
+  @SerialName("s") val size: BaseScalarProperty = StaticScalarProperty(value = 0f.rf),
+  @SerialName("r") val ridgesPerSegment: BaseScalarProperty = StaticScalarProperty(value = 0f.rf),
   @SerialName("pt") val pointType: ZigZagType = ZigZagType.Corner,
 ) : ShapeModifier
 

@@ -41,7 +41,7 @@ internal fun evaluateTwist(
   twist: Twist,
   animationSettings: LottieSettings,
 ): List<RemoteShape> {
-  if (twist.hidden == true || shapes.isEmpty()) return shapes
+  if (twist.hidden?.constantValue == true || shapes.isEmpty()) return shapes
 
   val angle = animateScalar(twist.angle, animationSettings).constantValueOrNull ?: 0f
   val center = animatePosition(twist.center, animationSettings)

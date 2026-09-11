@@ -36,6 +36,7 @@ import com.google.android.horologist.remotecompose.lottie.format.graphicelement.
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.styles.GradientStroke
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.styles.NoStyle
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.styles.Stroke
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -54,31 +55,36 @@ import kotlinx.serialization.json.jsonPrimitive
  * A graphic element in a Lottie animation.
  *
  * Graphic elements are the building blocks of a Lottie animation. They can be shapes (which get
- * rendered to screen), styles (which control the look of shapes - e.g. the fill color), grouping
- * mechanisms (including transforms), or modifiers.
+ * rendered to screen), styles (which control the look of shapes - e.g. the fill color), or grouping
+ * mechanisms (including transforms).
  */
 @Serializable(with = GraphicElementSerializer::class)
 internal interface GraphicElement {
   val name: String?
-  val hidden: Boolean?
+  val hidden: SerializableBoolean?
   val type: ShapeType
   val index: Int?
+    get() = null
+
   val matchName: String?
+    get() = null
+
   val propertyIndex: Int?
+    get() = null
 }
 
 @Serializable(with = ShapeTypeSerializer::class)
 internal enum class ShapeType(val value: String) {
-  Path("sh"),
-  Rectangle("rc"),
   Ellipse("el"),
-  PolyStar("sr"),
-  Group("gr"),
-  Transform("tr"),
   Fill("fl"),
-  Stroke("st"),
   GradientFill("gf"),
   GradientStroke("gs"),
+  Group("gr"),
+  Path("sh"),
+  PolyStar("sr"),
+  Rectangle("rc"),
+  Stroke("st"),
+  Transform("tr"),
   NoStyle("no"),
   TrimPath("tm"),
   Repeater("rp"),
@@ -91,7 +97,9 @@ internal enum class ShapeType(val value: String) {
   Unknown("unknown");
 
   companion object {
-    fun fromValueOrNull(value: String): ShapeType? = values().firstOrNull { it.value == value }
+    fun fromValueOrNull(value: String): ShapeType? {
+      return values().firstOrNull { it.value == value }
+    }
   }
 }
 
@@ -101,15 +109,15 @@ internal object GraphicElementSerializer :
     val ty = element.jsonObject["ty"]?.jsonPrimitive?.contentOrNull
     return when (ty) {
       ShapeType.Path.value -> Path.serializer()
-      ShapeType.Rectangle.value -> Rectangle.serializer()
-      ShapeType.Ellipse.value -> Ellipse.serializer()
-      ShapeType.PolyStar.value -> PolyStar.serializer()
       ShapeType.Group.value -> Group.serializer()
       ShapeType.Transform.value -> Transform.serializer()
       ShapeType.Fill.value -> Fill.serializer()
       ShapeType.Stroke.value -> Stroke.serializer()
       ShapeType.GradientFill.value -> GradientFill.serializer()
       ShapeType.GradientStroke.value -> GradientStroke.serializer()
+      ShapeType.Rectangle.value -> Rectangle.serializer()
+      ShapeType.Ellipse.value -> Ellipse.serializer()
+      ShapeType.PolyStar.value -> PolyStar.serializer()
       ShapeType.NoStyle.value -> NoStyle.serializer()
       ShapeType.TrimPath.value -> TrimPath.serializer()
       ShapeType.Repeater.value -> Repeater.serializer()
@@ -129,12 +137,8 @@ internal object ShapeTypeSerializer : KSerializer<ShapeType> {
     PrimitiveSerialDescriptor("ShapeType", PrimitiveKind.STRING)
 
   override fun deserialize(decoder: Decoder): ShapeType {
-    return try {
-      val value = decoder.decodeString()
-      ShapeType.fromValueOrNull(value) ?: ShapeType.Unknown
-    } catch (e: Exception) {
-      ShapeType.Unknown
-    }
+    val value = decoder.decodeString()
+    return ShapeType.fromValueOrNull(value) ?: ShapeType.Unknown
   }
 
   override fun serialize(encoder: Encoder, value: ShapeType) {

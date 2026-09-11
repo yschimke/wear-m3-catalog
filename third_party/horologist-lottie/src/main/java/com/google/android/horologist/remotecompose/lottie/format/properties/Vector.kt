@@ -16,268 +16,139 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.properties
 
+import androidx.compose.remote.creation.compose.state.rb
+import com.google.android.horologist.remotecompose.lottie.format.values.KeyframeEasing
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteFloat
 import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.descriptors.element
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
-import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.add
-import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.buildJsonArray
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.put
 
 /**
- * Base class for all Lottie vector properties (e.g. scale, size).
+ * Base class for all Lottie animatable vector properties conforming to
+ * [Vector Property](https://lottie.github.io/lottie-spec/dev/specs/properties/#vector-property).
  *
- * Unifies static constant vectors ([StaticVectorProperty]) and keyframed dynamic animations
- * ([AnimatedVectorProperty]) under a shared contract for the AST and renderer pipeline.
+ * Vector properties represent multidimensional numerical arrays (such as layer scale factors,
+ * parametric shape dimensions, or transform anchors).
+ *
+ * Essential Invariants:
+ * - The property is partitioned into two mutually exclusive branches identified by the
+ *   integer-boolean discriminator [animated]:
+ *     - `0` (`false.rb`): [StaticVectorProperty], holding a constant list of numerical components.
+ *     - `1` (`true.rb`): [AnimatedVectorProperty], holding a sequence of keyframes over time.
+ * - [slotId]: Optional slot identifier (`sid`) enabling runtime value replacement via Lottie slots.
  */
 @Serializable(with = BaseVectorPropertySerializer::class)
 internal sealed class BaseVectorProperty {
-  abstract val animated: Boolean
+  abstract val animated: SerializableRemoteBoolean
   abstract val slotId: String?
 }
 
-/** A static vector property holding a list of [Float]s. */
-@Serializable(with = StaticVectorPropertySerializer::class)
+/**
+ * Conforms to
+ * [Vector Property](https://lottie.github.io/lottie-spec/dev/specs/properties/#vector-property)
+ * (Not animated branch):
+ * - Required Fields: `"a"` (const 0), `"k"` (array of numbers).
+ * - Optional Fields: `"sid"` (slot identifier, default null).
+ *
+ * Invariants:
+ * - [animated] is guaranteed to represent integer `0` (`false.rb`).
+ * - [value] contains the ordered list of vector components as [SerializableRemoteFloat].
+ */
+@Serializable
 internal data class StaticVectorProperty(
   @SerialName("sid") override val slotId: String? = null,
-  override val animated: Boolean = false,
-  @SerialName("k") val value: List<Float>,
+  @SerialName("a") override val animated: SerializableRemoteBoolean,
+  @SerialName("k") val value: List<SerializableRemoteFloat>,
 ) : BaseVectorProperty()
 
-/** An animated vector property with keyframes. */
-@Serializable(with = AnimatedVectorPropertySerializer::class)
+/**
+ * Conforms to
+ * [Vector Property](https://lottie.github.io/lottie-spec/dev/specs/properties/#vector-property)
+ * (Animated branch):
+ * - Required Fields: `"a"` (const 1), `"k"` (array of vector keyframes).
+ * - Optional Fields: `"sid"` (slot identifier, default null).
+ *
+ * Invariants:
+ * - [animated] is guaranteed to represent integer `1` (`true.rb`).
+ * - [keyframes] defines the temporal evolution of the vector across animation frames.
+ */
+@Serializable
 internal data class AnimatedVectorProperty(
   @SerialName("sid") override val slotId: String? = null,
-  @SerialName("a") val animatedInt: Int = 1,
+  @SerialName("a") override val animated: SerializableRemoteBoolean,
   @SerialName("k") val keyframes: List<VectorPropertyKeyframe>,
-) : BaseVectorProperty() {
-  override val animated: Boolean
-    get() = animatedInt == 1
-}
+) : BaseVectorProperty()
 
-/** A single keyframe for an animated vector property. */
-@Serializable(with = VectorPropertyKeyframeSerializer::class)
+/**
+ * A single vector keyframe conforming to
+ * [Vector Keyframe](https://lottie.github.io/lottie-spec/dev/specs/properties/#vector-keyframe).
+ *
+ * Defines the vector value and optional easing interpolation parameters at a specific timeline
+ * frame.
+ *
+ * Schema Specification:
+ * - Required Fields: `"t"` (start frame), `"s"` (value array).
+ * - Optional Fields with Schema Default: `"h"` (hold interpolation flag, default: 0 -> `false.rb`).
+ * - Optional Fields without Schema Default: `"i"` (incoming tangent), `"o"` (outgoing tangent).
+ *
+ * Invariants:
+ * - [frame]: Timeline time in frames at which this keyframe takes effect.
+ * - [value]: Multidimensional vector components active at [frame].
+ * - [hold]: When `1` (`true.rb`), the value is held constant until the next keyframe without
+ *   interpolation.
+ * - [inTangent], [outTangent]: Optional cubic Bézier easing curve handles conforming to
+ *   [Easing Handle](https://lottie.github.io/lottie-spec/dev/specs/properties/#easing-handle).
+ *   These are null under any of the following canonical Lottie conditions:
+ *     1. Easing handles are omitted from the JSON payload, in which case default linear
+ *        interpolation applies.
+ *     2. Hold interpolation is active ([hold] is `true.rb`), making easing curves inapplicable.
+ *     3. The keyframe is the final (terminal) keyframe in an animation sequence, having no
+ *        subsequent interval to interpolate towards.
+ */
+@Serializable
 internal data class VectorPropertyKeyframe(
-  @SerialName("t") val frame: Float = 0f,
-  @SerialName("h") val hold: Boolean = false,
+  @SerialName("t") val frame: SerializableRemoteFloat,
+  @SerialName("s") val value: List<SerializableRemoteFloat>,
+  @SerialName("h") val hold: SerializableRemoteBoolean = false.rb,
   @SerialName("i") val inTangent: KeyframeEasing? = null,
   @SerialName("o") val outTangent: KeyframeEasing? = null,
-  @SerialName("s") val value: List<Float> = emptyList(),
 )
 
-/** Polymorphic serializer for [BaseVectorProperty] based on "a" field. */
+/**
+ * Polymorphic serializer for [BaseVectorProperty] discriminating between static and animated
+ * variants based on the Lottie schema `"a"` field ([Integer
+ * Boolean](https://lottie.github.io/lottie-spec/dev/specs/values/#int-boolean)).
+ *
+ * Contract:
+ * - Preconditions: [element] must be a [JsonObject].
+ * - Postconditions:
+ *     - Selects [AnimatedVectorProperty.serializer] when `"a"` is integer `1`.
+ *     - Selects [StaticVectorProperty.serializer] when `"a"` is integer `0`.
+ * - Exceptions:
+ *     - Throws [SerializationException] if [element] is not a [JsonObject].
+ *     - Throws [SerializationException] if `"a"` is missing.
+ *     - Throws [SerializationException] if `"a"` is neither `0` nor `1`.
+ */
 internal object BaseVectorPropertySerializer :
   JsonContentPolymorphicSerializer<BaseVectorProperty>(BaseVectorProperty::class) {
   override fun selectDeserializer(
     element: JsonElement
   ): DeserializationStrategy<BaseVectorProperty> {
-    val animated = element is JsonObject && element["a"]?.jsonPrimitive?.intOrNull == 1
-    return if (animated) {
-      AnimatedVectorPropertySerializer
-    } else {
-      StaticVectorPropertySerializer
+    val obj = element as? JsonObject ?: throw SerializationException("Expected JSON object")
+    val animated = obj["a"]?.jsonPrimitive?.intOrNull
+    return when (animated) {
+      1 -> AnimatedVectorProperty.serializer()
+      0 -> StaticVectorProperty.serializer()
+      null ->
+        throw SerializationException("Vector property missing required 'a' field per Lottie schema")
+      else -> throw SerializationException("Field 'a' must be 0 or 1, but was $animated")
     }
-  }
-}
-
-/**
- * Helper to parse a vector (list of floats) from a [JsonElement], supporting primitive numbers,
- * float arrays, nested float arrays, and nested objects.
- */
-internal fun parseVectorElement(element: JsonElement?): List<Float> {
-  return when (element) {
-    null -> emptyList()
-    is JsonPrimitive -> element.floatOrNull?.let { listOf(it) } ?: emptyList()
-    is JsonArray -> {
-      if (element.isEmpty()) {
-        emptyList()
-      } else if (element.first() is JsonArray) {
-        parseVectorElement(element.first())
-      } else {
-        element.mapNotNull { it.jsonPrimitive.floatOrNull }
-      }
-    }
-    is JsonObject -> {
-      element["k"]?.let { parseVectorElement(it) }
-        ?: element["s"]?.let { parseVectorElement(it) }
-        ?: emptyList()
-    }
-  }
-}
-
-/**
- * Serializer for [StaticVectorProperty] supporting numbers, arrays, nested arrays, and slot IDs.
- */
-internal object StaticVectorPropertySerializer : KSerializer<StaticVectorProperty> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("StaticVectorProperty") {
-      element<String?>("sid", isOptional = true)
-      element<Boolean>("animated", isOptional = true)
-      element<List<Float>>("k")
-    }
-
-  override fun deserialize(decoder: Decoder): StaticVectorProperty {
-    val jsonDecoder = decoder as JsonDecoder
-    val element = jsonDecoder.decodeJsonElement()
-    return when (element) {
-      is JsonObject -> {
-        val slotId = element["sid"]?.jsonPrimitive?.contentOrNull
-        val kElem = element["k"]
-        val vector = if (kElem != null) parseVectorElement(kElem) else parseVectorElement(element)
-        StaticVectorProperty(slotId = slotId, animated = false, value = vector)
-      }
-      is JsonArray -> {
-        val vector = parseVectorElement(element)
-        StaticVectorProperty(slotId = null, animated = false, value = vector)
-      }
-      is JsonPrimitive -> {
-        val vector = parseVectorElement(element)
-        StaticVectorProperty(slotId = null, animated = false, value = vector)
-      }
-    }
-  }
-
-  override fun serialize(encoder: Encoder, value: StaticVectorProperty) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        value.slotId?.let { put("sid", it) }
-        put("a", 0)
-        put(
-          "k",
-          buildJsonArray {
-            for (v in value.value) {
-              add(JsonPrimitive(v))
-            }
-          },
-        )
-      }
-    )
-  }
-}
-
-/** Serializer for [AnimatedVectorProperty] supporting keyframed vector animations and slot IDs. */
-internal object AnimatedVectorPropertySerializer : KSerializer<AnimatedVectorProperty> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("AnimatedVectorProperty") {
-      element<String?>("sid", isOptional = true)
-      element<Int>("a")
-      element<List<VectorPropertyKeyframe>>("k")
-    }
-
-  override fun deserialize(decoder: Decoder): AnimatedVectorProperty {
-    val jsonDecoder = decoder as JsonDecoder
-    val obj = jsonDecoder.decodeJsonElement().jsonObject
-    val slotId = obj["sid"]?.jsonPrimitive?.contentOrNull
-    val animatedInt = obj["a"]?.jsonPrimitive?.intOrNull ?: 1
-    val keyframesArray = obj["k"]?.jsonArray
-    val keyframes =
-      keyframesArray?.map { element ->
-        jsonDecoder.json.decodeFromJsonElement(VectorPropertyKeyframeSerializer, element)
-      } ?: emptyList()
-    return AnimatedVectorProperty(slotId = slotId, animatedInt = animatedInt, keyframes = keyframes)
-  }
-
-  override fun serialize(encoder: Encoder, value: AnimatedVectorProperty) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        value.slotId?.let { put("sid", it) }
-        put("a", value.animatedInt)
-        put(
-          "k",
-          jsonEncoder.json.encodeToJsonElement(
-            ListSerializer(VectorPropertyKeyframeSerializer),
-            value.keyframes,
-          ),
-        )
-      }
-    )
-  }
-}
-
-/**
- * Serializer for [VectorPropertyKeyframe] handling keyframe timing, easing, hold flag, and vector
- * value.
- */
-internal object VectorPropertyKeyframeSerializer : KSerializer<VectorPropertyKeyframe> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("VectorPropertyKeyframe") {
-      element<Float>("t", isOptional = true)
-      element<Boolean>("h", isOptional = true)
-      element<KeyframeEasing?>("i", isOptional = true)
-      element<KeyframeEasing?>("o", isOptional = true)
-      element<List<Float>>("s", isOptional = true)
-    }
-
-  override fun deserialize(decoder: Decoder): VectorPropertyKeyframe {
-    val jsonDecoder = decoder as JsonDecoder
-    val obj = jsonDecoder.decodeJsonElement().jsonObject
-
-    val frame = obj["t"]?.jsonPrimitive?.floatOrNull ?: 0f
-    val hold =
-      when (val hElem = obj["h"]) {
-        is JsonPrimitive -> hElem.booleanOrNull ?: ((hElem.intOrNull ?: 0) == 1)
-        else -> false
-      }
-    val inTangent =
-      obj["i"]?.let { jsonDecoder.json.decodeFromJsonElement(KeyframeEasingSerializer, it) }
-    val outTangent =
-      obj["o"]?.let { jsonDecoder.json.decodeFromJsonElement(KeyframeEasingSerializer, it) }
-    val sElem = obj["s"]
-    val value = parseVectorElement(sElem)
-
-    return VectorPropertyKeyframe(
-      frame = frame,
-      hold = hold,
-      inTangent = inTangent,
-      outTangent = outTangent,
-      value = value,
-    )
-  }
-
-  override fun serialize(encoder: Encoder, value: VectorPropertyKeyframe) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        put("t", value.frame)
-        if (value.hold) put("h", 1)
-        value.inTangent?.let {
-          put("i", jsonEncoder.json.encodeToJsonElement(KeyframeEasingSerializer, it))
-        }
-        value.outTangent?.let {
-          put("o", jsonEncoder.json.encodeToJsonElement(KeyframeEasingSerializer, it))
-        }
-        put(
-          "s",
-          buildJsonArray {
-            for (v in value.value) {
-              add(JsonPrimitive(v))
-            }
-          },
-        )
-      }
-    )
   }
 }

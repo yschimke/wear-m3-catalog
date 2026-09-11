@@ -42,7 +42,7 @@ internal fun evaluateRectangle(
   trimPath: TrimPath? = null,
   roundedCorners: RoundedCorners? = null,
 ): RemoteLottiePath? {
-  if (rect.hidden == true) return null
+  if (rect.hidden?.constantValue == true) return null
 
   val pos = animatePosition(rect.position, animationSettings)
   val size = animateVector(rect.size, animationSettings)
@@ -51,7 +51,7 @@ internal fun evaluateRectangle(
   val halfWidth = width / 2f
   val halfHeight = height / 2f
 
-  val cornerRadius = animateScalar(rect.cornerRadius, animationSettings)
+  val cornerRadius = rect.cornerRadius?.let { animateScalar(it, animationSettings) } ?: 0f.rf
   val maxRadius = min(halfWidth, halfHeight)
   val clampedR = clamp(cornerRadius, 0f.rf, maxRadius)
   val kr = clampedR * RECTANGLE_CORNER_RADIUS_CONTROL_POINT_CONSTANT
@@ -99,8 +99,8 @@ internal fun evaluateRectangle(
       vertices = vertices,
     )
 
-  val hasTrim = trimPath != null && trimPath.hidden != true
-  val hasRounding = roundedCorners != null && roundedCorners.hidden != true
+  val hasTrim = trimPath != null && trimPath.hidden?.constantValue != true
+  val hasRounding = roundedCorners != null && roundedCorners.hidden?.constantValue != true
   if (hasTrim || hasRounding) {
     val bezierValue =
       BezierValue(

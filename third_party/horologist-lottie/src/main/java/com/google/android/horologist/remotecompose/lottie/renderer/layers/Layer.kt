@@ -93,12 +93,12 @@ internal fun Layer(
   transform: Transform? = null,
   matteContext: MatteContext? = null,
 ) {
-  if (layer.hidden == true) {
+  if (layer.hidden?.constantValue == true) {
     return
   }
 
-  val startFrame = layer.startFrame ?: 0f
-  val endFrame = layer.endFrame ?: Float.MAX_VALUE
+  val startFrame = layer.startFrame.constantValue
+  val endFrame = layer.endFrame.constantValue
   val parentSettings = LocalAnimationSettings.current
   val compositionEndFrame = parentSettings.endFrame
 

@@ -28,11 +28,11 @@ import com.google.android.horologist.remotecompose.lottie.LottieSettings
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers.MergeMode
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers.MergePaths
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.styles.FillRule
+import com.google.android.horologist.remotecompose.lottie.format.values.Point
 import com.google.android.horologist.remotecompose.lottie.renderer.RemoteCompiledPath
 import com.google.android.horologist.remotecompose.lottie.renderer.RemoteGroup
 import com.google.android.horologist.remotecompose.lottie.renderer.RemoteLottiePath
 import com.google.android.horologist.remotecompose.lottie.renderer.RemoteShape
-import com.google.android.horologist.remotecompose.lottie.renderer.properties.Point
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.RemoteBezierValue
 import kotlin.math.abs
 
@@ -47,7 +47,7 @@ internal fun evaluateMergePaths(
   mergePaths: MergePaths,
   animationSettings: LottieSettings,
 ): List<RemoteShape> {
-  if (mergePaths.hidden == true || shapes.size <= 1) {
+  if (mergePaths.hidden?.constantValue == true || shapes.size <= 1) {
     return shapes
   }
 

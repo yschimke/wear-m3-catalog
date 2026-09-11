@@ -74,7 +74,7 @@ internal fun roundBezierValue(subpath: BezierValue, radius: Float): BezierValue 
             subpath.vertices[i - 1].getOrElse(0) { 0f },
             subpath.vertices[i - 1].getOrElse(1) { 0f },
           )
-        subpath.closed ->
+        subpath.closed.constantValue ->
           Point(
             subpath.vertices[count - 1].getOrElse(0) { 0f },
             subpath.vertices[count - 1].getOrElse(1) { 0f },
@@ -89,7 +89,7 @@ internal fun roundBezierValue(subpath: BezierValue, radius: Float): BezierValue 
             subpath.vertices[i + 1].getOrElse(0) { 0f },
             subpath.vertices[i + 1].getOrElse(1) { 0f },
           )
-        subpath.closed ->
+        subpath.closed.constantValue ->
           Point(subpath.vertices[0].getOrElse(0) { 0f }, subpath.vertices[0].getOrElse(1) { 0f })
         else -> null
       }
@@ -140,7 +140,7 @@ internal fun roundBezierValue(subpath: BezierValue, radius: Float): BezierValue 
   }
 
   return BezierValue(
-    closed = subpath.closed,
+    closed = subpath.closed.constantValue,
     inTangents = newInTangents,
     outTangents = newOutTangents,
     vertices = newVertices,
@@ -158,8 +158,8 @@ internal fun evaluatePathGeometry(
   roundedCorners: RoundedCorners?,
   animationSettings: LottieSettings,
 ): List<RemoteBezierValue> {
-  val hasRounding = roundedCorners != null && roundedCorners.hidden != true
-  val hasTrim = trimPath != null && trimPath.hidden != true
+  val hasRounding = roundedCorners != null && roundedCorners.hidden?.constantValue != true
+  val hasTrim = trimPath != null && trimPath.hidden?.constantValue != true
 
   if (!hasRounding && !hasTrim) {
     return animateBezier(bezierProperty, animationSettings)
@@ -195,16 +195,22 @@ internal fun evaluatePathGeometry(
 
   val keyframeTimes = mutableSetOf<Float>()
   (roundedCorners.radius as? AnimatedScalarProperty)?.keyframes?.forEach {
-    keyframeTimes.add(it.frame)
+    keyframeTimes.add(it.frame.constantValue)
   }
   if (hasTrim) {
     (trimPath!!.start as? AnimatedScalarProperty)?.keyframes?.forEach {
-      keyframeTimes.add(it.frame)
+      keyframeTimes.add(it.frame.constantValue)
     }
-    (trimPath.end as? AnimatedScalarProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
-    (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
+    (trimPath.end as? AnimatedScalarProperty)?.keyframes?.forEach {
+      keyframeTimes.add(it.frame.constantValue)
+    }
+    (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.forEach {
+      keyframeTimes.add(it.frame.constantValue)
+    }
   }
-  (bezierProperty as? AnimatedBezierProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
+  (bezierProperty as? AnimatedBezierProperty)?.keyframes?.forEach {
+    keyframeTimes.add(it.frame.constantValue)
+  }
 
   if (keyframeTimes.isEmpty()) {
     val r = sampleScalar(roundedCorners.radius, 0f)
@@ -275,21 +281,29 @@ internal fun evaluatePathGeometry(
       )
     } else {
       val primaryScalarKf =
-        (roundedCorners.radius as? AnimatedScalarProperty)?.keyframes?.firstOrNull { it.frame == f }
+        (roundedCorners.radius as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
+          it.frame.constantValue == f
+        }
           ?: if (hasTrim) {
-            (trimPath!!.start as? AnimatedScalarProperty)?.keyframes?.firstOrNull { it.frame == f }
-              ?: (trimPath.end as? AnimatedScalarProperty)?.keyframes?.firstOrNull { it.frame == f }
+            (trimPath!!.start as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
+              it.frame.constantValue == f
+            }
+              ?: (trimPath.end as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
+                it.frame.constantValue == f
+              }
               ?: (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
-                it.frame == f
+                it.frame.constantValue == f
               }
           } else null
 
       val bezierKf =
-        (bezierProperty as? AnimatedBezierProperty)?.keyframes?.firstOrNull { it.frame == f }
+        (bezierProperty as? AnimatedBezierProperty)?.keyframes?.firstOrNull {
+          it.frame.constantValue == f
+        }
 
       val inTangent = primaryScalarKf?.inTangent ?: bezierKf?.inTangent
       val outTangent = primaryScalarKf?.outTangent ?: bezierKf?.outTangent
-      val hold = primaryScalarKf?.hold ?: bezierKf?.hold ?: false
+      val hold = primaryScalarKf?.hold?.constantValue ?: bezierKf?.hold?.constantValue ?: false
 
       keyframes.add(
         BezierPropertyKeyframe(

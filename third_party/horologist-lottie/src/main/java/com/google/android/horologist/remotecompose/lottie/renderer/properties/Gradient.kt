@@ -90,7 +90,7 @@ internal fun animateGradient(
         val endGradient = endKeyframe.value.firstOrNull() ?: startGradient
 
         val segmentValues =
-          if (startKeyframe.hold) {
+          if (startKeyframe.hold?.constantValue == true) {
             startGradient.values.mapIndexed { index, startCoord ->
               val endCoord = endGradient.values.getOrElse(index) { startCoord }
               selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)

@@ -11,17 +11,20 @@ read a `.rc` document can play the animation, which is exactly what a Wear widge
 
 ## Upstream
 
-- Repository: <https://github.com/MarkYav/horologist> — a FORK of
+- Repository: <https://github.com/yschimke/horologist> — a FORK of
   <https://github.com/google/horologist>, not upstream `main`
 - Path: `remotecompose/lottie`
-- Commit: `580de49412c761e9802e86be993dcf20799e99b0` (`prepear-for-merge`)
+- Commit: `2417e6e6799dac28b29520823e87d88980430817` (`lottie-testing`)
 - License: Apache-2.0 (see the per-file headers, kept verbatim)
 
-**Pinned to a fork branch, deliberately, and that is the thing to re-check first.**
-`prepear-for-merge` is the branch preparing this module for merge into `google/horologist`, and it
-is well ahead of the `main` snapshot this copy started from (`5a5e0cda`, 40 files): it adds asset,
-mask and shape-modifier support. When it lands upstream, re-pin to the merge commit on
-`google/horologist` and this entry becomes ordinary.
+**Pinned to a fork branch, deliberately, and that is the thing to re-check first.** This copy
+has moved twice as the module was worked on upstream — `google/horologist@5a5e0cda` (`main`, 40
+files) to `MarkYav/horologist@580de494` (`prepear-for-merge`, 81 files, adding asset, mask and
+shape-modifier support) to this one. When the work lands in `google/horologist`, re-pin to the
+merge commit there and this entry becomes ordinary.
+
+Because the pin is a moving branch rather than a tag, `diff -r` against it is only meaningful at
+the commit named above. Re-clone at that exact SHA before concluding the copy has drifted.
 
 Horologist publishes no artifact for this module — it carries no `maven-publishing` plugin, and
 nothing under `com.google.android.horologist:horologist-remotecompose-*` exists on Maven Central.
@@ -50,7 +53,7 @@ improvement worth keeping — see *Local modifications*, which is deliberately a
 
 ## What is vendored
 
-`src/main/` only — 81 Kotlin files, ~11.8k lines, in two halves:
+`src/main/` only — 87 Kotlin files, ~12.2k lines, in two halves:
 
 | Package | What it is |
 | --- | --- |

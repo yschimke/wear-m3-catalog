@@ -168,7 +168,7 @@ internal fun BezierValue.toCubicSegments(): List<CubicSegment> {
   val count = vertices.size
   if (count < 2) return emptyList()
 
-  val maxIndex = if (closed) count else count - 1
+  val maxIndex = if (closed.constantValue) count else count - 1
   val segments = mutableListOf<CubicSegment>()
 
   for (i in 0 until maxIndex) {
@@ -393,34 +393,35 @@ internal fun trimBezierValue(
 /** Samples a [BaseScalarProperty] at a given animation [frame]. */
 internal fun sampleScalar(scalar: BaseScalarProperty, frame: Float): Float {
   return when (scalar) {
-    is StaticScalarProperty -> scalar.value
+    is StaticScalarProperty -> scalar.value.constantValue
     is AnimatedScalarProperty -> {
       if (scalar.keyframes.isEmpty()) return 0f
-      if (scalar.keyframes.size == 1) return scalar.keyframes[0].value
+      if (scalar.keyframes.size == 1) return scalar.keyframes[0].value.constantValue
       val first = scalar.keyframes[0]
-      if (frame <= first.frame) return first.value
+      if (frame <= first.frame.constantValue) return first.value.constantValue
       val last = scalar.keyframes.last()
-      if (frame >= last.frame) return last.value
+      if (frame >= last.frame.constantValue) return last.value.constantValue
       for (i in 0 until scalar.keyframes.size - 1) {
         val k0 = scalar.keyframes[i]
         val k1 = scalar.keyframes[i + 1]
-        if (frame in k0.frame..k1.frame) {
-          if (k0.hold) return k0.value
-          val duration = k1.frame - k0.frame
-          if (duration <= 0.0001f) return k1.value
-          val fraction = (frame - k0.frame) / duration
+        if (frame in k0.frame.constantValue..k1.frame.constantValue) {
+          if (k0.hold.constantValue) return k0.value.constantValue
+          val duration = k1.frame.constantValue - k0.frame.constantValue
+          if (duration <= 0.0001f) return k1.value.constantValue
+          val fraction = (frame - k0.frame.constantValue) / duration
           val easing =
             CubicBezierEasing(
-              k0.outTangent?.x ?: 0f,
-              k0.outTangent?.y ?: 0f,
-              k0.inTangent?.x ?: 1f,
-              k0.inTangent?.y ?: 1f,
+              k0.outTangent?.x?.constantValue ?: 0f,
+              k0.outTangent?.y?.constantValue ?: 0f,
+              k0.inTangent?.x?.constantValue ?: 1f,
+              k0.inTangent?.y?.constantValue ?: 1f,
             )
           val progress = easing.transform(fraction)
-          return k0.value + (k1.value - k0.value) * progress
+          return k0.value.constantValue +
+            (k1.value.constantValue - k0.value.constantValue) * progress
         }
       }
-      last.value
+      last.value.constantValue
     }
   }
 }
@@ -433,23 +434,23 @@ internal fun sampleBezier(bezier: BaseBezierProperty, frame: Float): List<Bezier
       if (bezier.keyframes.isEmpty()) return emptyList()
       if (bezier.keyframes.size == 1) return bezier.keyframes[0].value
       val first = bezier.keyframes[0]
-      if (frame <= first.frame) return first.value
+      if (frame <= first.frame.constantValue) return first.value
       val last = bezier.keyframes.last()
-      if (frame >= last.frame) return last.value
+      if (frame >= last.frame.constantValue) return last.value
       for (i in 0 until bezier.keyframes.size - 1) {
         val k0 = bezier.keyframes[i]
         val k1 = bezier.keyframes[i + 1]
-        if (frame in k0.frame..k1.frame) {
-          if (k0.hold) return k0.value
-          val duration = k1.frame - k0.frame
+        if (frame in k0.frame.constantValue..k1.frame.constantValue) {
+          if (k0.hold.constantValue) return k0.value
+          val duration = k1.frame.constantValue - k0.frame.constantValue
           if (duration <= 0.0001f) return k1.value
-          val fraction = (frame - k0.frame) / duration
+          val fraction = (frame - k0.frame.constantValue) / duration
           val easing =
             CubicBezierEasing(
-              k0.outTangent?.x ?: 0f,
-              k0.outTangent?.y ?: 0f,
-              k0.inTangent?.x ?: 1f,
-              k0.inTangent?.y ?: 1f,
+              k0.outTangent?.x?.constantValue ?: 0f,
+              k0.outTangent?.y?.constantValue ?: 0f,
+              k0.inTangent?.x?.constantValue ?: 1f,
+              k0.inTangent?.y?.constantValue ?: 1f,
             )
           val progress = easing.transform(fraction)
           return k0.value.mapIndexed { idx, sub0 ->
@@ -466,7 +467,7 @@ internal fun sampleBezier(bezier: BaseBezierProperty, frame: Float): List<Bezier
 /** Linearly interpolates between two [BezierValue]s with matching vertex topology. */
 internal fun lerpBezierValue(b0: BezierValue, b1: BezierValue, t: Float): BezierValue {
   return BezierValue(
-    closed = b0.closed,
+    closed = b0.closed.constantValue,
     vertices =
       b0.vertices.mapIndexed { v, pt0 ->
         val pt1 = b1.vertices.getOrNull(v) ?: pt0
@@ -504,7 +505,7 @@ internal fun evaluateTrimmedBezier(
   trimPath: TrimPath?,
   animationSettings: LottieSettings,
 ): List<RemoteBezierValue> {
-  if (trimPath == null || trimPath.hidden == true) {
+  if (trimPath == null || trimPath.hidden?.constantValue == true) {
     return animateBezier(bezierProperty, animationSettings)
   }
 
@@ -514,19 +515,27 @@ internal fun evaluateTrimmedBezier(
       trimPath.offset is AnimatedScalarProperty
 
   if (!isTrimAnimated && bezierProperty is StaticBezierProperty) {
-    val s = (trimPath.start as StaticScalarProperty).value / 100f
-    val e = (trimPath.end as StaticScalarProperty).value / 100f
-    val o = (trimPath.offset as StaticScalarProperty).value / 360f
+    val s = (trimPath.start as StaticScalarProperty).value.constantValue / 100f
+    val e = (trimPath.end as StaticScalarProperty).value.constantValue / 100f
+    val o = (trimPath.offset as StaticScalarProperty).value.constantValue / 360f
     val trimmed = trimBezierValue(bezierProperty.value, s, e, o, keepStructureIfDegenerate = false)
     return trimmed.map { it.toRemote() }
   }
 
   // Collect keyframe timestamps
   val keyframeTimes = mutableSetOf<Float>()
-  (trimPath.start as? AnimatedScalarProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
-  (trimPath.end as? AnimatedScalarProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
-  (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
-  (bezierProperty as? AnimatedBezierProperty)?.keyframes?.forEach { keyframeTimes.add(it.frame) }
+  (trimPath.start as? AnimatedScalarProperty)?.keyframes?.forEach {
+    keyframeTimes.add(it.frame.constantValue)
+  }
+  (trimPath.end as? AnimatedScalarProperty)?.keyframes?.forEach {
+    keyframeTimes.add(it.frame.constantValue)
+  }
+  (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.forEach {
+    keyframeTimes.add(it.frame.constantValue)
+  }
+  (bezierProperty as? AnimatedBezierProperty)?.keyframes?.forEach {
+    keyframeTimes.add(it.frame.constantValue)
+  }
 
   if (keyframeTimes.isEmpty()) {
     // Both static or single keyframe
@@ -588,16 +597,25 @@ internal fun evaluateTrimmedBezier(
       )
     } else {
       val primaryScalarKeyframe =
-        (trimPath.start as? AnimatedScalarProperty)?.keyframes?.firstOrNull { it.frame == f }
-          ?: (trimPath.end as? AnimatedScalarProperty)?.keyframes?.firstOrNull { it.frame == f }
-          ?: (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.firstOrNull { it.frame == f }
+        (trimPath.start as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
+          it.frame.constantValue == f
+        }
+          ?: (trimPath.end as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
+            it.frame.constantValue == f
+          }
+          ?: (trimPath.offset as? AnimatedScalarProperty)?.keyframes?.firstOrNull {
+            it.frame.constantValue == f
+          }
 
       val bezierKf =
-        (bezierProperty as? AnimatedBezierProperty)?.keyframes?.firstOrNull { it.frame == f }
+        (bezierProperty as? AnimatedBezierProperty)?.keyframes?.firstOrNull {
+          it.frame.constantValue == f
+        }
 
       val inTangent = primaryScalarKeyframe?.inTangent ?: bezierKf?.inTangent
       val outTangent = primaryScalarKeyframe?.outTangent ?: bezierKf?.outTangent
-      val hold = primaryScalarKeyframe?.hold ?: bezierKf?.hold ?: false
+      val hold =
+        primaryScalarKeyframe?.hold?.constantValue ?: bezierKf?.hold?.constantValue ?: false
 
       keyframes.add(
         BezierPropertyKeyframe(

@@ -43,7 +43,7 @@ import com.google.android.horologist.remotecompose.lottie.format.graphicelement.
 import com.google.android.horologist.remotecompose.lottie.format.properties.AnimatedScalarProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.StaticScalarProperty
-import com.google.android.horologist.remotecompose.lottie.renderer.properties.Point
+import com.google.android.horologist.remotecompose.lottie.format.values.Point
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.RemoteGradientValue
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.animateScalar
 
@@ -194,9 +194,9 @@ internal fun createDashPathEffect(
   var phase = 0f
 
   for (dash in dashes) {
-    val property = dash.value ?: continue
+    val property = dash.length ?: continue
     val value = resolveScalarFloat(property, animationSettings)
-    val type = dash.dashType?.lowercase() ?: dash.name?.lowercase()
+    val type = dash.type.value
     if (type == "o" || type == "offset" || type?.startsWith("o") == true) {
       phase = value
     } else {
@@ -227,8 +227,8 @@ private fun resolveScalarFloat(
   val constVal = rf.constantValueOrNull
   if (constVal != null) return constVal
   return when (property) {
-    is StaticScalarProperty -> property.value
-    is AnimatedScalarProperty -> property.keyframes.firstOrNull()?.value ?: 0f
+    is StaticScalarProperty -> property.value.constantValue
+    is AnimatedScalarProperty -> property.keyframes.firstOrNull()?.value?.constantValue ?: 0f
   }
 }
 

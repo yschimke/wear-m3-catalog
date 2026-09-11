@@ -40,7 +40,7 @@ internal fun evaluateEllipse(
   trimPath: TrimPath? = null,
   roundedCorners: RoundedCorners? = null,
 ): RemoteLottiePath? {
-  if (el.hidden == true) return null
+  if (el.hidden?.constantValue == true) return null
 
   val pos = animatePosition(el.position, animationSettings)
   val size = animateVector(el.size, animationSettings)
@@ -92,8 +92,8 @@ internal fun evaluateEllipse(
       vertices = vertices,
     )
 
-  val hasTrim = trimPath != null && trimPath.hidden != true
-  val hasRounding = roundedCorners != null && roundedCorners.hidden != true
+  val hasTrim = trimPath != null && trimPath.hidden?.constantValue != true
+  val hasRounding = roundedCorners != null && roundedCorners.hidden?.constantValue != true
   if (hasTrim || hasRounding) {
     val bezierValue =
       BezierValue(

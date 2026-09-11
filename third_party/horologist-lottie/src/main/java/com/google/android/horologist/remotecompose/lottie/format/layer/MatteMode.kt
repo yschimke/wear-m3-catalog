@@ -28,7 +28,17 @@ import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
 
-/** Track matte mode for layer compositing. */
+/**
+ * Track matte mode for layer compositing conforming to
+ * [Matte Mode](https://lottie.github.io/lottie-spec/1.0.1/specs/constants/#matte-mode).
+ *
+ * Defines how a layer is masked or composited against the layer immediately above it in the stack:
+ * - `0` ([Normal]): No matte clipping applied.
+ * - `1` ([Alpha]): Uses the alpha channel of the matte layer.
+ * - `2` ([InvertedAlpha]): Uses the inverse of the alpha channel.
+ * - `3` ([Luma]): Uses the luminance/brightness of the matte layer.
+ * - `4` ([InvertedLuma]): Uses the inverse of the luminance.
+ */
 @Serializable(with = MatteModeSerializer::class)
 internal enum class MatteMode(val value: Int) {
   Normal(0),
@@ -42,6 +52,7 @@ internal enum class MatteMode(val value: Int) {
   }
 }
 
+/** Serializer for [MatteMode] discriminating on the integer matte mode value. */
 internal object MatteModeSerializer : KSerializer<MatteMode> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("MatteMode", PrimitiveKind.INT)
@@ -58,7 +69,7 @@ internal object MatteModeSerializer : KSerializer<MatteMode> {
         val value = decoder.decodeInt()
         MatteMode.fromValueOrNull(value) ?: MatteMode.Normal
       }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
       MatteMode.Normal
     }
   }

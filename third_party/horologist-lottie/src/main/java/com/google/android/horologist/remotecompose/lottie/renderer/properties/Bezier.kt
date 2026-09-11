@@ -41,10 +41,10 @@ internal data class BezierAnimationSegment(val startFrame: Float, val value: Rem
 
 internal fun BezierValue.toRemote(): RemoteBezierValue {
   return RemoteBezierValue(
-    closed = closed,
-    inTangents = inTangents.map { point -> point.map { it.rf } },
-    outTangents = outTangents.map { point -> point.map { it.rf } },
-    vertices = vertices.map { point -> point.map { it.rf } },
+    closed = closed.constantValue,
+    inTangents = inTangents.map { point -> listOf(point.x, point.y) },
+    outTangents = outTangents.map { point -> listOf(point.x, point.y) },
+    vertices = vertices.map { point -> listOf(point.x, point.y) },
   )
 }
 
@@ -80,42 +80,42 @@ internal fun animateBezier(
         val animationSegments = mutableListOf<BezierAnimationSegment>()
         val firstSubpath = firstKeyframe.value[subpathIndex]
 
-        if (firstKeyframe.frame != 0f) {
+        if (firstKeyframe.frame.constantValue != 0f) {
           animationSegments.add(BezierAnimationSegment(0f, firstSubpath.toRemote()))
         }
 
         for (i in 0 until path.keyframes.size - 1) {
           val startKeyframe = path.keyframes[i]
           val endKeyframe = path.keyframes[i + 1]
-          val duration = endKeyframe.frame - startKeyframe.frame
+          val duration = endKeyframe.frame.constantValue - startKeyframe.frame.constantValue
           val frameInAnimation = animationSettings.currentFrame - startKeyframe.frame
 
           val startSubpath = startKeyframe.value.getOrElse(subpathIndex) { firstSubpath }
           val endSubpath = endKeyframe.value.getOrElse(subpathIndex) { startSubpath }
 
           val segmentValue =
-            if (startKeyframe.hold) {
+            if (startKeyframe.hold.constantValue) {
               RemoteBezierValue(
-                closed = startSubpath.closed,
+                closed = startSubpath.closed.constantValue,
                 inTangents =
                   startSubpath.inTangents.mapIndexed { v, point ->
-                    point.mapIndexed { c, startCoord ->
+                    listOf(point.x, point.y).mapIndexed { c, startCoord ->
                       val endCoord = endSubpath.inTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
-                      selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)
+                      selectIfLt(frameInAnimation, duration.rf, startCoord, endCoord)
                     }
                   },
                 outTangents =
                   startSubpath.outTangents.mapIndexed { v, point ->
-                    point.mapIndexed { c, startCoord ->
+                    listOf(point.x, point.y).mapIndexed { c, startCoord ->
                       val endCoord = endSubpath.outTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
-                      selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)
+                      selectIfLt(frameInAnimation, duration.rf, startCoord, endCoord)
                     }
                   },
                 vertices =
                   startSubpath.vertices.mapIndexed { v, point ->
-                    point.mapIndexed { c, startCoord ->
+                    listOf(point.x, point.y).mapIndexed { c, startCoord ->
                       val endCoord = endSubpath.vertices.getOrNull(v)?.getOrNull(c) ?: startCoord
-                      selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)
+                      selectIfLt(frameInAnimation, duration.rf, startCoord, endCoord)
                     }
                   },
               )
@@ -125,41 +125,43 @@ internal fun animateBezier(
 
               val currentBezierValue =
                 lookupValueInBezier(
-                  outTangent.x,
-                  outTangent.y,
-                  inTangent.x,
-                  inTangent.y,
+                  outTangent.x.constantValue,
+                  outTangent.y.constantValue,
+                  inTangent.x.constantValue,
+                  inTangent.y.constantValue,
                   duration,
                   frameInAnimation,
                 )
 
               RemoteBezierValue(
-                closed = startSubpath.closed,
+                closed = startSubpath.closed.constantValue,
                 inTangents =
                   startSubpath.inTangents.mapIndexed { v, point ->
-                    point.mapIndexed { c, startCoord ->
+                    listOf(point.x, point.y).mapIndexed { c, startCoord ->
                       val endCoord = endSubpath.inTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
-                      lerp(startCoord.rf, endCoord.rf, currentBezierValue)
+                      lerp(startCoord, endCoord, currentBezierValue)
                     }
                   },
                 outTangents =
                   startSubpath.outTangents.mapIndexed { v, point ->
-                    point.mapIndexed { c, startCoord ->
+                    listOf(point.x, point.y).mapIndexed { c, startCoord ->
                       val endCoord = endSubpath.outTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
-                      lerp(startCoord.rf, endCoord.rf, currentBezierValue)
+                      lerp(startCoord, endCoord, currentBezierValue)
                     }
                   },
                 vertices =
                   startSubpath.vertices.mapIndexed { v, point ->
-                    point.mapIndexed { c, startCoord ->
+                    listOf(point.x, point.y).mapIndexed { c, startCoord ->
                       val endCoord = endSubpath.vertices.getOrNull(v)?.getOrNull(c) ?: startCoord
-                      lerp(startCoord.rf, endCoord.rf, currentBezierValue)
+                      lerp(startCoord, endCoord, currentBezierValue)
                     }
                   },
               )
             }
 
-          animationSegments.add(BezierAnimationSegment(startKeyframe.frame, segmentValue))
+          animationSegments.add(
+            BezierAnimationSegment(startKeyframe.frame.constantValue, segmentValue)
+          )
         }
 
         chainBezierAnimation(animationSegments, animationSettings.currentFrame)

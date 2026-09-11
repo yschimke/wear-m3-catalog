@@ -16,8 +16,13 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.layer
 
+import androidx.compose.remote.creation.compose.state.rb
+import androidx.compose.remote.creation.compose.state.rf
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.grouping.Transform
 import com.google.android.horologist.remotecompose.lottie.format.mask.Mask
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteFloat
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -36,22 +41,22 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable
 internal data class TextLayer(
   @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
+  @SerialName("hd") override val hidden: SerializableBoolean = false.rb,
   @SerialName("ty") override val type: LayerType = LayerType.Text,
   @SerialName("ind") override val index: Int? = null,
   @SerialName("parent") override val parent: Int? = null,
-  @SerialName("ip") override val startFrame: Float? = null,
-  @SerialName("op") override val endFrame: Float? = null,
+  @SerialName("ip") override val startFrame: SerializableRemoteFloat = 0f.rf,
+  @SerialName("op") override val endFrame: SerializableRemoteFloat = Float.MAX_VALUE.rf,
   @SerialName("st") override val startTime: Float? = 0f,
   @SerialName("sr") override val timeStretch: Float? = 1f,
   @SerialName("ks") override val transform: Transform? = null,
-  @SerialName("ao") override val autoOrient: Int? = 0,
+  @SerialName("ao") override val autoOrient: SerializableRemoteBoolean = false.rb,
   @SerialName("bm") override val blendMode: BlendMode? = BlendMode.Normal,
-  @SerialName("tt") override val matteMode: MatteMode? = MatteMode.Normal,
+  @SerialName("tt") override val matteMode: MatteMode = MatteMode.Normal,
   @SerialName("tp") override val matteParent: Int? = null,
   @SerialName("td") override val matteTarget: Int? = 0,
   @SerialName("ddd") override val is3d: Int? = 0,
-  @SerialName("masksProperties") override val masksProperties: List<Mask> = emptyList(),
+  @SerialName("masksProperties") override val masks: List<Mask>? = null,
   @SerialName("t") val text: TextData? = null,
 ) : Layer()
 

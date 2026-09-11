@@ -16,376 +16,157 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.properties
 
+import androidx.compose.remote.creation.compose.state.rb
+import com.google.android.horologist.remotecompose.lottie.format.values.KeyframeEasing
+import com.google.android.horologist.remotecompose.lottie.format.values.Point
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteBoolean
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableRemoteFloat
 import kotlinx.serialization.DeserializationStrategy
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.descriptors.buildClassSerialDescriptor
-import kotlinx.serialization.descriptors.element
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.JsonContentPolymorphicSerializer
-import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonElement
-import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.add
-import kotlinx.serialization.json.booleanOrNull
-import kotlinx.serialization.json.buildJsonArray
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.intOrNull
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import kotlinx.serialization.json.put
 
 /**
- * Base class for all Lottie position properties.
+ * Base class for all Lottie animatable position properties conforming to
+ * [Position Property](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#position-property).
  *
- * Unifies static constant positions ([StaticPositionProperty]), keyframed dynamic animations
- * ([AnimatedPositionProperty]), and split dimensional positions ([SplitPositionProperty]) under a
- * shared contract for the AST and renderer pipeline.
+ * Position properties represent multidimensional spatial coordinates (such as layer translation,
+ * anchor point, or parametric shape positions).
+ *
+ * Essential Invariants:
+ * - The property is partitioned into two mutually exclusive branches identified by the
+ *   integer-boolean discriminator [animated]:
+ *     - `0` (`false.rb`): [StaticPositionProperty], holding constant coordinate vector components.
+ *     - `1` (`true.rb`): [AnimatedPositionProperty], holding a chronological sequence of spatial
+ *       keyframes.
+ * - [slotId]: Optional slot identifier (`sid`) enabling runtime value replacement via Lottie slots.
  */
 @Serializable(with = BasePositionPropertySerializer::class)
 internal sealed class BasePositionProperty {
-  abstract val animated: Boolean
+  abstract val animated: SerializableRemoteBoolean
   abstract val slotId: String?
 }
 
-/** A static position property holding a list of [Float]s (e.g., [x, y] or [x, y, z]). */
-@Serializable(with = StaticPositionPropertySerializer::class)
+/**
+ * Conforms to
+ * [Position Property](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#position-property)
+ * (Not animated branch):
+ * - Required Fields: `"a"` (const 0), `"k"` (array of numbers with at least 2 coordinates).
+ * - Optional Fields: `"sid"` (slot identifier, default null).
+ *
+ * Invariants:
+ * - [animated] is guaranteed to represent integer `0` (`false.rb`).
+ * - [value] contains 2D coordinates [Point]. Coordinate parsing requires at least two numerical
+ *   components ([Point.x] and [Point.y]), discarding any additional dimensions per Lottie's 2D
+ *   canvas model.
+ */
+@Serializable
 internal data class StaticPositionProperty(
   @SerialName("sid") override val slotId: String? = null,
-  override val animated: Boolean = false,
-  @SerialName("k") val value: List<Float>,
+  @SerialName("a") override val animated: SerializableRemoteBoolean = false.rb,
+  @SerialName("k") val value: Point,
 ) : BasePositionProperty()
 
-/** An animated position property with multi-dimensional keyframes. */
-@Serializable(with = AnimatedPositionPropertySerializer::class)
+/**
+ * Conforms to
+ * [Position Property](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#position-property)
+ * (Animated branch):
+ * - Required Fields: `"a"` (const 1), `"k"` (array of position keyframes).
+ * - Optional Fields: `"sid"` (slot identifier, default null).
+ *
+ * Invariants:
+ * - [animated] is guaranteed to represent integer `1` (`true.rb`).
+ * - [keyframes] defines the spatial and temporal evolution of position coordinates over animation
+ *   frames.
+ */
+@Serializable
 internal data class AnimatedPositionProperty(
   @SerialName("sid") override val slotId: String? = null,
-  @SerialName("a") val animatedInt: Int = 1,
+  @SerialName("a") override val animated: SerializableRemoteBoolean = true.rb,
   @SerialName("k") val keyframes: List<PositionPropertyKeyframe>,
-) : BasePositionProperty() {
-  override val animated: Boolean
-    get() = animatedInt == 1
-}
+) : BasePositionProperty()
 
 /**
- * A split position property where individual X, Y, and optional Z coordinates are animated
- * separately using scalar properties.
+ * A single position keyframe conforming to
+ * [Position Keyframe](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#position-keyframe).
+ *
+ * Defines the 2D coordinate value and optional easing interpolation parameters at a specific
+ * timeline frame.
+ *
+ * Schema Specification:
+ * - Required Fields: `"t"` (start frame), `"s"` (value array of coordinates).
+ * - Optional Fields with Schema Default: `"h"` (hold interpolation flag, default: 0 -> `false.rb`).
+ * - Optional Fields without Schema Default:
+ *     - `"i"` (incoming temporal tangent handle)
+ *     - `"o"` (outgoing temporal tangent handle)
+ *     - `"ti"` (incoming spatial tangent)
+ *     - `"to"` (outgoing spatial tangent)
+ *
+ * Invariants:
+ * - [frame]: Timeline time in frames at which this keyframe takes effect.
+ * - [value]: 2D coordinate position [Point] active at [frame]. Coordinate parsing requires at least
+ *   two numerical components ([Point.x] and [Point.y]), discarding any additional dimensions per
+ *   Lottie's 2D canvas model.
+ * - [hold]: When `1` (`true.rb`), the position is held constant until the next keyframe without
+ *   interpolation.
+ * - [inTangent], [outTangent]: Optional cubic Bézier temporal easing handles conforming to
+ *   [Easing Handle](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#easing-handle).
+ *   These are null under any of the following canonical Lottie conditions:
+ *     1. Easing handles are omitted from the JSON payload, in which case default linear
+ *        interpolation applies.
+ *     2. Hold interpolation is active ([hold] is `true.rb`), making easing curves inapplicable.
+ *     3. The keyframe is the final (terminal) keyframe in an animation sequence, having no
+ *        subsequent interval to interpolate towards.
+ * - [inSpatialTangent], [outSpatialTangent]: Optional spatial Bézier control point coordinates for
+ *   curved motion paths conforming to
+ *   [Position Keyframe](https://lottie.github.io/lottie-spec/1.0.1/specs/properties/#position-keyframe).
  */
-@Serializable(with = SplitPositionPropertySerializer::class)
-internal data class SplitPositionProperty(
-  @SerialName("sid") override val slotId: String? = null,
-  @SerialName("s") val split: Boolean = true,
-  @SerialName("x") val x: BaseScalarProperty = StaticScalarProperty(value = 0f),
-  @SerialName("y") val y: BaseScalarProperty = StaticScalarProperty(value = 0f),
-  @SerialName("z") val z: BaseScalarProperty? = null,
-) : BasePositionProperty() {
-  override val animated: Boolean
-    get() = x.animated || y.animated || (z?.animated ?: false)
-}
-
-/** A single keyframe for an animated position property with optional spatial tangents. */
-@Serializable(with = PositionPropertyKeyframeSerializer::class)
+@Serializable
 internal data class PositionPropertyKeyframe(
-  @SerialName("t") val frame: Float = 0f,
-  @SerialName("h") val hold: Boolean = false,
+  @SerialName("t") val frame: SerializableRemoteFloat,
+  @SerialName("s") val value: Point,
+  @SerialName("h") val hold: SerializableRemoteBoolean = false.rb,
   @SerialName("i") val inTangent: KeyframeEasing? = null,
   @SerialName("o") val outTangent: KeyframeEasing? = null,
-  @SerialName("s") val value: List<Float> = emptyList(),
-  @SerialName("ti") val spatialInTangent: List<Float>? = null,
-  @SerialName("to") val spatialOutTangent: List<Float>? = null,
+  @SerialName("ti") val inSpatialTangent: Point? = null,
+  @SerialName("to") val outSpatialTangent: Point? = null,
 )
 
-/** Polymorphic serializer for [BasePositionProperty] based on "s" and "a" fields. */
+/**
+ * Polymorphic serializer for [BasePositionProperty] discriminating between static and animated
+ * variants based on the Lottie schema `"a"` field ([Integer
+ * Boolean](https://lottie.github.io/lottie-spec/1.0.1/specs/values/#int-boolean)).
+ *
+ * Contract:
+ * - Preconditions: [element] must be a [JsonObject].
+ * - Postconditions:
+ *     - Selects [AnimatedPositionProperty.serializer] when `"a"` is integer `1`.
+ *     - Selects [StaticPositionProperty.serializer] when `"a"` is integer `0`.
+ * - Exceptions:
+ *     - Throws [SerializationException] if [element] is not a [JsonObject].
+ *     - Throws [SerializationException] if `"a"` is missing.
+ *     - Throws [SerializationException] if `"a"` is neither `0` nor `1`.
+ */
 internal object BasePositionPropertySerializer :
   JsonContentPolymorphicSerializer<BasePositionProperty>(BasePositionProperty::class) {
   override fun selectDeserializer(
     element: JsonElement
   ): DeserializationStrategy<BasePositionProperty> {
-    if (element is JsonObject) {
-      val isSplit =
-        element["s"]?.let { sElem ->
-          (sElem as? JsonPrimitive)?.booleanOrNull ?: ((sElem as? JsonPrimitive)?.intOrNull == 1)
-        } ?: false
-      if (isSplit) {
-        return SplitPositionPropertySerializer
-      }
-      val animated = element["a"]?.jsonPrimitive?.intOrNull == 1
-      if (animated) {
-        return AnimatedPositionPropertySerializer
-      }
-    }
-    return StaticPositionPropertySerializer
-  }
-}
-
-/**
- * Helper to parse a position coordinate list from a [JsonElement], supporting primitive numbers,
- * float arrays, nested float arrays, and nested objects.
- */
-internal fun parsePositionVectorElement(element: JsonElement?): List<Float> {
-  return when (element) {
-    null -> emptyList()
-    is JsonPrimitive -> element.floatOrNull?.let { listOf(it) } ?: emptyList()
-    is JsonArray -> {
-      if (element.isEmpty()) {
-        emptyList()
-      } else if (element.first() is JsonArray) {
-        parsePositionVectorElement(element.first())
-      } else {
-        element.mapNotNull { it.jsonPrimitive.floatOrNull }
-      }
-    }
-    is JsonObject -> {
-      element["k"]?.let { parsePositionVectorElement(it) }
-        ?: element["s"]?.let { parsePositionVectorElement(it) }
-        ?: emptyList()
-    }
-  }
-}
-
-/**
- * Serializer for [StaticPositionProperty] supporting numbers, arrays, nested arrays, and slot IDs.
- */
-internal object StaticPositionPropertySerializer : KSerializer<StaticPositionProperty> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("StaticPositionProperty") {
-      element<String?>("sid", isOptional = true)
-      element<Boolean>("animated", isOptional = true)
-      element<List<Float>>("k")
-    }
-
-  override fun deserialize(decoder: Decoder): StaticPositionProperty {
-    val jsonDecoder = decoder as JsonDecoder
-    val element = jsonDecoder.decodeJsonElement()
-    return when (element) {
-      is JsonObject -> {
-        val slotId = element["sid"]?.jsonPrimitive?.contentOrNull
-        val kElem = element["k"]
-        val vector =
-          if (kElem != null) parsePositionVectorElement(kElem)
-          else parsePositionVectorElement(element)
-        StaticPositionProperty(slotId = slotId, animated = false, value = vector)
-      }
-      is JsonArray -> {
-        val vector = parsePositionVectorElement(element)
-        StaticPositionProperty(slotId = null, animated = false, value = vector)
-      }
-      is JsonPrimitive -> {
-        val vector = parsePositionVectorElement(element)
-        StaticPositionProperty(slotId = null, animated = false, value = vector)
-      }
-    }
-  }
-
-  override fun serialize(encoder: Encoder, value: StaticPositionProperty) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        value.slotId?.let { put("sid", it) }
-        put("a", 0)
-        put(
-          "k",
-          buildJsonArray {
-            for (v in value.value) {
-              add(JsonPrimitive(v))
-            }
-          },
+    val obj = element as? JsonObject ?: throw SerializationException("Expected JSON object")
+    val animated = obj["a"]?.jsonPrimitive?.intOrNull
+    return when (animated) {
+      1 -> AnimatedPositionProperty.serializer()
+      0 -> StaticPositionProperty.serializer()
+      null ->
+        throw SerializationException(
+          "Position property missing required 'a' field per Lottie schema"
         )
-      }
-    )
-  }
-}
-
-/**
- * Serializer for [AnimatedPositionProperty] supporting keyframed position animations and slot IDs.
- */
-internal object AnimatedPositionPropertySerializer : KSerializer<AnimatedPositionProperty> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("AnimatedPositionProperty") {
-      element<String?>("sid", isOptional = true)
-      element<Int>("a")
-      element<List<PositionPropertyKeyframe>>("k")
+      else -> throw SerializationException("Field 'a' must be 0 or 1, but was $animated")
     }
-
-  override fun deserialize(decoder: Decoder): AnimatedPositionProperty {
-    val jsonDecoder = decoder as JsonDecoder
-    val obj = jsonDecoder.decodeJsonElement().jsonObject
-    val slotId = obj["sid"]?.jsonPrimitive?.contentOrNull
-    val animatedInt = obj["a"]?.jsonPrimitive?.intOrNull ?: 1
-    val keyframesArray = obj["k"]?.jsonArray
-    val keyframes =
-      keyframesArray?.map { element ->
-        jsonDecoder.json.decodeFromJsonElement(PositionPropertyKeyframeSerializer, element)
-      } ?: emptyList()
-    return AnimatedPositionProperty(
-      slotId = slotId,
-      animatedInt = animatedInt,
-      keyframes = keyframes,
-    )
-  }
-
-  override fun serialize(encoder: Encoder, value: AnimatedPositionProperty) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        value.slotId?.let { put("sid", it) }
-        put("a", value.animatedInt)
-        put(
-          "k",
-          jsonEncoder.json.encodeToJsonElement(
-            ListSerializer(PositionPropertyKeyframeSerializer),
-            value.keyframes,
-          ),
-        )
-      }
-    )
-  }
-}
-
-/** Serializer for [SplitPositionProperty] supporting x, y, z scalar properties and slot IDs. */
-internal object SplitPositionPropertySerializer : KSerializer<SplitPositionProperty> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("SplitPositionProperty") {
-      element<String?>("sid", isOptional = true)
-      element<Boolean>("s", isOptional = true)
-      element<BaseScalarProperty>("x", isOptional = true)
-      element<BaseScalarProperty>("y", isOptional = true)
-      element<BaseScalarProperty?>("z", isOptional = true)
-    }
-
-  override fun deserialize(decoder: Decoder): SplitPositionProperty {
-    val jsonDecoder = decoder as JsonDecoder
-    val obj = jsonDecoder.decodeJsonElement().jsonObject
-    val slotId = obj["sid"]?.jsonPrimitive?.contentOrNull
-    val split =
-      obj["s"]?.let { sElem ->
-        (sElem as? JsonPrimitive)?.booleanOrNull ?: ((sElem as? JsonPrimitive)?.intOrNull == 1)
-      } ?: true
-    val x =
-      obj["x"]?.let { jsonDecoder.json.decodeFromJsonElement(BaseScalarPropertySerializer, it) }
-        ?: StaticScalarProperty(value = 0f)
-    val y =
-      obj["y"]?.let { jsonDecoder.json.decodeFromJsonElement(BaseScalarPropertySerializer, it) }
-        ?: StaticScalarProperty(value = 0f)
-    val z =
-      obj["z"]?.let { jsonDecoder.json.decodeFromJsonElement(BaseScalarPropertySerializer, it) }
-
-    return SplitPositionProperty(slotId = slotId, split = split, x = x, y = y, z = z)
-  }
-
-  override fun serialize(encoder: Encoder, value: SplitPositionProperty) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        value.slotId?.let { put("sid", it) }
-        put("s", value.split)
-        put("x", jsonEncoder.json.encodeToJsonElement(BaseScalarPropertySerializer, value.x))
-        put("y", jsonEncoder.json.encodeToJsonElement(BaseScalarPropertySerializer, value.y))
-        value.z?.let {
-          put("z", jsonEncoder.json.encodeToJsonElement(BaseScalarPropertySerializer, it))
-        }
-      }
-    )
-  }
-}
-
-/**
- * Serializer for [PositionPropertyKeyframe] handling keyframe timing, easing, hold flag, position
- * value, and spatial tangents.
- */
-internal object PositionPropertyKeyframeSerializer : KSerializer<PositionPropertyKeyframe> {
-  override val descriptor: SerialDescriptor =
-    buildClassSerialDescriptor("PositionPropertyKeyframe") {
-      element<Float>("t", isOptional = true)
-      element<Boolean>("h", isOptional = true)
-      element<KeyframeEasing?>("i", isOptional = true)
-      element<KeyframeEasing?>("o", isOptional = true)
-      element<List<Float>>("s", isOptional = true)
-      element<List<Float>?>("ti", isOptional = true)
-      element<List<Float>?>("to", isOptional = true)
-    }
-
-  override fun deserialize(decoder: Decoder): PositionPropertyKeyframe {
-    val jsonDecoder = decoder as JsonDecoder
-    val obj = jsonDecoder.decodeJsonElement().jsonObject
-
-    val frame = obj["t"]?.jsonPrimitive?.floatOrNull ?: 0f
-    val hold =
-      when (val hElem = obj["h"]) {
-        is JsonPrimitive -> hElem.booleanOrNull ?: ((hElem.intOrNull ?: 0) == 1)
-        else -> false
-      }
-    val inTangent =
-      obj["i"]?.let { jsonDecoder.json.decodeFromJsonElement(KeyframeEasingSerializer, it) }
-    val outTangent =
-      obj["o"]?.let { jsonDecoder.json.decodeFromJsonElement(KeyframeEasingSerializer, it) }
-    val sElem = obj["s"]
-    val value = parsePositionVectorElement(sElem)
-    val spatialInTangent = obj["ti"]?.let { parsePositionVectorElement(it) }
-    val spatialOutTangent = obj["to"]?.let { parsePositionVectorElement(it) }
-
-    return PositionPropertyKeyframe(
-      frame = frame,
-      hold = hold,
-      inTangent = inTangent,
-      outTangent = outTangent,
-      value = value,
-      spatialInTangent = spatialInTangent,
-      spatialOutTangent = spatialOutTangent,
-    )
-  }
-
-  override fun serialize(encoder: Encoder, value: PositionPropertyKeyframe) {
-    val jsonEncoder = encoder as JsonEncoder
-    jsonEncoder.encodeJsonElement(
-      buildJsonObject {
-        put("t", value.frame)
-        if (value.hold) put("h", 1)
-        value.inTangent?.let {
-          put("i", jsonEncoder.json.encodeToJsonElement(KeyframeEasingSerializer, it))
-        }
-        value.outTangent?.let {
-          put("o", jsonEncoder.json.encodeToJsonElement(KeyframeEasingSerializer, it))
-        }
-        put(
-          "s",
-          buildJsonArray {
-            for (v in value.value) {
-              add(JsonPrimitive(v))
-            }
-          },
-        )
-        value.spatialInTangent?.let { tangents ->
-          put(
-            "ti",
-            buildJsonArray {
-              for (v in tangents) {
-                add(JsonPrimitive(v))
-              }
-            },
-          )
-        }
-        value.spatialOutTangent?.let { tangents ->
-          put(
-            "to",
-            buildJsonArray {
-              for (v in tangents) {
-                add(JsonPrimitive(v))
-              }
-            },
-          )
-        }
-      }
-    )
   }
 }

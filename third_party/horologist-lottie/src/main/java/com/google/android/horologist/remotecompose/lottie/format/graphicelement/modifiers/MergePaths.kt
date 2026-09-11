@@ -16,7 +16,9 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers
 
+import androidx.compose.remote.creation.compose.state.rb
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -34,7 +36,7 @@ import kotlinx.serialization.json.jsonPrimitive
 @Serializable
 internal data class MergePaths(
   @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
+  @SerialName("hd") override val hidden: SerializableBoolean? = false.rb,
   @SerialName("ty") override val type: ShapeType = ShapeType.MergePaths,
   @SerialName("ix") override val index: Int? = null,
   @SerialName("mn") override val matchName: String? = null,

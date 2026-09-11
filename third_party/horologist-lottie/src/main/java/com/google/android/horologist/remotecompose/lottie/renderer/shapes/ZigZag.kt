@@ -37,7 +37,7 @@ internal fun evaluateZigZag(
   zigZag: ZigZag,
   animationSettings: LottieSettings,
 ): List<RemoteShape> {
-  if (zigZag.hidden == true || shapes.isEmpty()) return shapes
+  if (zigZag.hidden?.constantValue == true || shapes.isEmpty()) return shapes
 
   val size = animateScalar(zigZag.size, animationSettings).constantValueOrNull ?: 0f
   val ridges = animateScalar(zigZag.ridgesPerSegment, animationSettings).constantValueOrNull ?: 0f

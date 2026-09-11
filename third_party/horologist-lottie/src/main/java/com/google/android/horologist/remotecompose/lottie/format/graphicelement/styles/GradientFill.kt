@@ -20,8 +20,7 @@ import com.google.android.horologist.remotecompose.lottie.format.graphicelement.
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseGradientProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BasePositionProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
-import com.google.android.horologist.remotecompose.lottie.format.properties.StaticPositionProperty
-import com.google.android.horologist.remotecompose.lottie.format.properties.StaticScalarProperty
+import com.google.android.horologist.remotecompose.lottie.format.values.SerializableBoolean
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -35,37 +34,24 @@ import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
 
-/** Gradient fill */
-@Serializable
-internal data class GradientFill(
-  @SerialName("nm") override val name: String? = "",
-  @SerialName("hd") override val hidden: Boolean? = false,
-  @SerialName("ty") override val type: ShapeType = ShapeType.GradientFill,
-  @SerialName("ix") override val index: Int? = null,
-  @SerialName("mn") override val matchName: String? = null,
-  @SerialName("cix") override val propertyIndex: Int? = null,
-  @SerialName("o") override val opacity: BaseScalarProperty = StaticScalarProperty(value = 100f),
-  @SerialName("t") val gradientType: GradientType = GradientType.Linear,
-  @SerialName("s")
-  val startPoint: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
-  @SerialName("e")
-  val endPoint: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
-  @SerialName("g") val colors: BaseGradientProperty,
-  @SerialName("r") val fillRule: FillRule = FillRule.NonZero,
-  @SerialName("h") val highlightLength: BaseScalarProperty? = null,
-  @SerialName("a") val highlightAngle: BaseScalarProperty? = null,
-) : ShapeStyle
-
+/**
+ * Type of a gradient, conforming to
+ * [Lottie Gradient Type](https://lottie.github.io/lottie-spec/latest/specs/constants/#gradient-type).
+ */
 @Serializable(with = GradientTypeSerializer::class)
 internal enum class GradientType(val value: Int) {
   Linear(1),
   Radial(2);
 
   companion object {
-    fun fromValueOrNull(value: Int): GradientType? = values().firstOrNull { it.value == value }
+    fun fromValueOrNull(value: Int): GradientType? = entries.firstOrNull { it.value == value }
   }
 }
 
+/**
+ * Serializer for [GradientType] supporting integer and float primitives with fallback to
+ * [GradientType.Linear].
+ */
 internal object GradientTypeSerializer : KSerializer<GradientType> {
   override val descriptor: SerialDescriptor =
     PrimitiveSerialDescriptor("GradientType", PrimitiveKind.INT)
@@ -91,3 +77,41 @@ internal object GradientTypeSerializer : KSerializer<GradientType> {
     encoder.encodeInt(value.value)
   }
 }
+
+/**
+ * Shape Element representing a gradient fill color, conforming to
+ * [Lottie Gradient Fill](https://lottie.github.io/lottie-spec/latest/specs/shapes/#gradient-fill)
+ * and [Base Gradient](https://lottie.github.io/lottie-spec/latest/specs/shapes/#base-gradient).
+ *
+ * Schema Specification:
+ * - Required Fields: "ty" (const "gf"), "o" (Opacity), "g" (Colors), "s" (Start point), "e" (End
+ *   point), "t" (Gradient type).
+ * - Optional Fields without Schema Defaults: "nm" (String), "hd" (Boolean), "r" (FillRule), "h"
+ *   (Highlight length), "a" (Highlight angle).
+ *
+ * @property name Human-readable element name.
+ * @property hidden When true, suppresses rendering of this fill.
+ * @property type Shape type discriminator, strictly [ShapeType.GradientFill].
+ * @property opacity Animatable fill opacity on [0.0, 100.0]. Required in schema.
+ * @property colors Gradient stops and color definitions. Required in schema.
+ * @property startPoint Starting point coordinate for the gradient. Required in schema.
+ * @property endPoint Ending point coordinate for the gradient. Required in schema.
+ * @property gradientType Type of gradient (linear or radial). Required in schema.
+ * @property fillRule Path winding rule for multi-path intersections.
+ * @property highlightLength Radial highlight length as a percentage between start and end points.
+ * @property highlightAngle Radial highlight angle in clockwise degrees.
+ */
+@Serializable
+internal data class GradientFill(
+  @SerialName("nm") override val name: String? = null,
+  @SerialName("hd") override val hidden: SerializableBoolean? = null,
+  @SerialName("ty") override val type: ShapeType = ShapeType.GradientFill,
+  @SerialName("o") override val opacity: BaseScalarProperty,
+  @SerialName("g") val colors: BaseGradientProperty,
+  @SerialName("s") val startPoint: BasePositionProperty,
+  @SerialName("e") val endPoint: BasePositionProperty,
+  @SerialName("t") val gradientType: GradientType,
+  @SerialName("r") val fillRule: FillRule? = null,
+  @SerialName("h") val highlightLength: BaseScalarProperty? = null,
+  @SerialName("a") val highlightAngle: BaseScalarProperty? = null,
+) : ShapeStyle

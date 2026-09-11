@@ -35,7 +35,7 @@ internal fun ShapeLayer(
   matteContext: MatteContext? = null,
   layerVisibility: RemoteFloat = 1f.rf,
 ) {
-  if (layer.hidden == true) {
+  if (layer.hidden?.constantValue == true) {
     return
   }
 
