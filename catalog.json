@@ -270,8 +270,7 @@
             "widthDp": 192,
             "heightDp": 192
           },
-          "density": 2,
-          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/auth-selectaccountscreen__ideal__default__192dp.svg"
+          "density": 2
         },
         {
           "variant": "ideal",
@@ -289,8 +288,7 @@
             "widthDp": 204,
             "heightDp": 204
           },
-          "density": 2,
-          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/auth-selectaccountscreen__ideal__default__204dp.svg"
+          "density": 2
         },
         {
           "variant": "ideal",
@@ -308,8 +306,7 @@
             "widthDp": 216,
             "heightDp": 216
           },
-          "density": 2,
-          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/auth-selectaccountscreen__ideal__default__216dp.svg"
+          "density": 2
         },
         {
           "variant": "ideal",
@@ -327,8 +324,7 @@
             "widthDp": 225,
             "heightDp": 225
           },
-          "density": 2,
-          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/auth-selectaccountscreen__ideal__default__225dp.svg"
+          "density": 2
         },
         {
           "variant": "ideal",
@@ -346,8 +342,7 @@
             "widthDp": 240,
             "heightDp": 240
           },
-          "density": 2,
-          "figmaSvg": "https://preview.coo.ee/wear-m3-catalog/render/auth-selectaccountscreen__ideal__default__240dp.svg"
+          "density": 2
         }
       ],
       "greenlines": [
@@ -416,7 +411,7 @@
           },
           "role": "Button",
           "padding": {
-            "start": 14,
+            "start": 12,
             "top": 6,
             "end": 14,
             "bottom": 6
@@ -432,7 +427,7 @@
           },
           "role": "Button",
           "padding": {
-            "start": 14,
+            "start": 12,
             "top": 6,
             "end": 14,
             "bottom": 6
@@ -447,7 +442,7 @@
       "wireframe": "wireframes/auth-selectaccountscreen.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 95,
+      "bodyLine": 104,
       "sourceDirectory": "catalog",
       "sourceFunction": "AuthSelectAccountScreen",
       "parameters": [
@@ -587,11 +582,11 @@
       "section": "Horologist",
       "group": "Sign-in",
       "caption": "What the sign-in flow shows while it is still deciding what to show.",
-      "noReference": "The kit's `Placeholder` sets cover the button, icon button and card; it publishes no placeholder SCREEN. This is the shimmer a sign-in shows while it works out who is already signed in on the phone.",
+      "noReference": "The kit's `Placeholder` sets cover the button, icon button and card; it publishes no placeholder SCREEN. This is the avatar-shaped placeholder a sign-in shows while it works out who is already signed in on the phone.",
       "wireframe": "wireframes/auth-signinplaceholderscreen.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 109,
+      "bodyLine": 123,
       "sourceDirectory": "catalog",
       "sourceFunction": "AuthSignInPlaceholderScreen",
       "parameters": [
@@ -710,7 +705,7 @@
       "wireframe": "wireframes/auth-signedinconfirmationdialog.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/sections/Auth.kt",
       "sourceModule": ":catalog",
-      "bodyLine": 122,
+      "bodyLine": 136,
       "sourceDirectory": "catalog",
       "sourceFunction": "AuthSignedInConfirmationDialog",
       "parameters": [
@@ -128773,7 +128768,7 @@
     "androidx.wear.compose:compose-material3"
   ],
   "renderer": "compose-preview 2.8.1",
-  "generatedAt": "2026-09-11T08:35:38.356Z",
+  "generatedAt": "2026-09-11T09:12:34.360Z",
   "display": {
     "surface": "dark",
     "hero": "Media/PlayerScreen"
