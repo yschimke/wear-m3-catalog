@@ -122,3 +122,13 @@ include(":remote-catalog")
 // package, and must not be formatted, linted or refactored with this repo's own code.
 // See docs/design/ANDROIDX_SAMPLES.md.
 include(":samples-catalog")
+
+// Horologist's Lottie -> Remote Compose COMPILER, vendored from a pinned upstream commit because
+// Horologist publishes no artifact for it. `:remote-catalog` is its only consumer and needs it
+// twice: to draw the `remote-m3/lottie` sticker, and to compile the exporter-generated widget
+// checked in beside it. Same rule as `:samples-catalog` — the vendored sources are upstream's
+// bytes under upstream's package, and must not be formatted, linted or refactored with this
+// repo's own code. See third_party/horologist-lottie/PROVENANCE.md.
+include(":third-party-horologist-lottie")
+
+project(":third-party-horologist-lottie").projectDir = file("third_party/horologist-lottie")

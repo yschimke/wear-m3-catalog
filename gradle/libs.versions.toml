@@ -149,6 +149,12 @@ horologist = "0.8.4-alpha"
 # beta line; this one deliberately is not, which is why the two are separate modules rather than
 # two source sets (see remote-catalog/build.gradle.kts).
 compose-remote = "1.0.0-alpha18"
+
+# `androidx.core:core` and kotlinx-serialization — needed only by the vendored Horologist Lottie
+# compiler in `third_party/horologist-lottie`, which reaches `MathUtils.clamp` on its scalar path
+# and decodes Lottie JSON with kotlinx.serialization. Upstream's own versions; see PROVENANCE.md.
+androidx-core = "1.19.0"
+kotlinx-serialization = "1.11.0"
 wear-compose-remote = "1.0.0-alpha10"
 glance-wear = "1.0.0-alpha17"
 
@@ -243,6 +249,16 @@ glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-tooling-prev
 # Compose UI at the prerelease line `:remote-catalog` needs, declared WITHOUT the BOM.
 compose-ui-tooling-preview-prerelease = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui-prerelease" }
 compose-ui-tooling-prerelease = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui-prerelease" }
+# The same prerelease line, for `third_party/horologist-lottie`. It is compiled into
+# `:remote-catalog`, which carries NO Compose BOM on purpose — pinning the vendored module to the
+# 2026.08.00 BOM instead would compile it against a different Compose than the module that links
+# it. `androidx-core` and kotlinx-serialization are its own: `MathUtils.clamp` on the scalar path,
+# and the Lottie JSON decoder.
+compose-ui-prerelease = { module = "androidx.compose.ui:ui", version.ref = "compose-ui-prerelease" }
+compose-runtime-prerelease = { module = "androidx.compose.runtime:runtime", version.ref = "compose-ui-prerelease" }
+compose-animation-core-prerelease = { module = "androidx.compose.animation:animation-core", version.ref = "compose-ui-prerelease" }
+androidx-core = { module = "androidx.core:core", version.ref = "androidx-core" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 # The SAME icon artifacts `:catalog` takes from the BOM, at the version the BOM maps them to — see
 # `compose-material-icons` above for why that equality is load-bearing rather than incidental.
 compose-material-icons-core-prerelease = { module = "androidx.compose.material:material-icons-core", version.ref = "compose-material-icons" }
@@ -280,6 +296,9 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+# `third_party/horologist-lottie` is the only Android LIBRARY here; everything else is an app.
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

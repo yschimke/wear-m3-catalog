@@ -176,6 +176,12 @@ dependencies {
   implementation(libs.compose.material.icons.core.prerelease)
   implementation(libs.compose.material.icons.extended.prerelease)
   implementation(libs.compose.remote.tooling.preview)
+  // Horologist's Lottie -> Remote Compose COMPILER, vendored because Horologist publishes no
+  // artifact for it (third_party/horologist-lottie/PROVENANCE.md). Needed twice: `LottiePreviews`
+  // draws the `remote-m3/lottie` sticker with it, and the exporter-generated widget checked in
+  // under `remote/generated/` writes `LottieAnimation(json = …)` for a design carrying a Lottie
+  // node — so this is also what makes that golden compile.
+  implementation(project(":third-party-horologist-lottie"))
   implementation(libs.compose.remote.creation)
   implementation(libs.compose.remote.creation.compose)
   implementation(libs.wear.compose.remote.material3)

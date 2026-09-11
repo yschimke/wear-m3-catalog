@@ -1,5 +1,9 @@
 plugins {
   alias(libs.plugins.android.application) apply false
+  // `third_party/horologist-lottie` is the one Android LIBRARY here; declared at the root so the
+  // plugin resolves once, like the application plugin above.
+  alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.kotlin.serialization) apply false
   alias(libs.plugins.compose.compiler) apply false
   alias(libs.plugins.composePreview) apply false
   alias(libs.plugins.ktfmt)
