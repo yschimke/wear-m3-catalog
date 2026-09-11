@@ -344,6 +344,15 @@ jobs:
       # first cut got wrong (a sample already ON the device must stay classified).
       - run: node --test scripts/samples-device-bound.test.mjs
 
+      # The samples sheet's own spec, and with it the BACK-LINK each sample carries to the kit
+      # component it is a call site for. The link names the kit family's first-declared cell, which
+      # is a convention rather than an accident — so what is worth holding here is that "first" is
+      # deterministic (sorted paths, then file order) and that a sample whose API the kit publishes
+      # no component for carries no link at all rather than an empty one. The `--check` gate below
+      # is the other half: reordering a kit section re-points every sample of that family, and shows
+      # up as a diff to review instead of drifting silently.
+      - run: node --test scripts/samples-spec.test.mjs
+
       # Both generated-and-committed samples artifacts, regenerated and diffed. The wrappers are
       # compiled sources and the spec is what design-artifacts.yml publishes, so either going stale
       # against the vendored tree publishes a catalog that does not match its own inventory.
