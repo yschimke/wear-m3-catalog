@@ -1,0 +1,69 @@
+Pin the TimePicker samples' clock.
+
+WHY: upstream seeds all four samples with `LocalTime.now()`, so each render carries the wall clock
+and the bytes change on the minute. The visual-diff bot then flags them on pull requests that do
+not touch this module — measured on yschimke/wear-m3-catalog#449, where three renders at ONE commit
+gave two hashes splitting on a minute boundary:
+
+    16:55:54Z  bd75b44745fdfac6300bff72a15c7008
+    16:56:08Z  bbdc6ba2d1aab162cde0242e550129ff
+    16:56:18Z  bbdc6ba2d1aab162cde0242e550129ff
+
+PINNED TO `:catalog`'s OWN INSTANT (00:00), not an arbitrary one. `sections/Pickers.kt` already
+pins its picker stickers there for this exact reason, and the compare page puts a sample beside its
+kit sticker — an instant is only worth pinning to the one the other side already pins to.
+
+A renderer limitation rather than an upstream bug: `LocalTime.now()` is right for a sample someone
+runs on a watch, and wrong for one captured as a still.
+
+diff --git a/TimePickerSample.kt b/TimePickerSample.kt
+index bea8000c..5c6d75ac 100644
+--- a/TimePickerSample.kt
++++ b/TimePickerSample.kt
+@@ -38,11 +38,18 @@ import java.time.LocalTime
+ import java.time.format.DateTimeFormatter
+ import java.time.format.FormatStyle
+ 
++// PATCHED for this catalog: upstream seeds each picker with `LocalTime.now()`, so the render
++// carries the wall clock and every sample below changes on the minute. Same defect and same fix
++// as `:catalog`'s own `sections/Pickers.kt`, pinned to the same instant it uses — the compare page
++// puts a sample beside its kit sticker, and an instant is only worth pinning to the one the other
++// side already pins to. See samples/patches/0001-pin-timepicker-clock.patch.
++private val CATALOG_PINNED_TIME: LocalTime = LocalTime.of(0, 0)
++
+ @Sampled
+ @Composable
+ fun TimePickerSample() {
+     var showTimePicker by remember { mutableStateOf(true) }
+-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
++    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
+     if (showTimePicker) {
+         TimePicker(
+             onTimePicked = {
+@@ -71,7 +78,7 @@ fun TimePickerSample() {
+ @Composable
+ fun TimePickerWithMinutesAndSecondsSample() {
+     var showTimePicker by remember { mutableStateOf(true) }
+-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
++    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
+     if (showTimePicker) {
+         TimePicker(
+             onTimePicked = {
+@@ -98,7 +105,7 @@ fun TimePickerWithMinutesAndSecondsSample() {
+ @Composable
+ fun TimePickerWithSecondsSample() {
+     var showTimePicker by remember { mutableStateOf(true) }
+-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
++    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
+     if (showTimePicker) {
+         TimePicker(
+             onTimePicked = {
+@@ -125,7 +132,7 @@ fun TimePickerWithSecondsSample() {
+ @Composable
+ fun TimePickerWith12HourClockSample() {
+     var showTimePicker by remember { mutableStateOf(true) }
+-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
++    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
+     if (showTimePicker) {
+         TimePicker(
+             onTimePicked = {

@@ -38,11 +38,18 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+// PATCHED for this catalog: upstream seeds each picker with `LocalTime.now()`, so the render
+// carries the wall clock and every sample below changes on the minute. Same defect and same fix
+// as `:catalog`'s own `sections/Pickers.kt`, pinned to the same instant it uses — the compare page
+// puts a sample beside its kit sticker, and an instant is only worth pinning to the one the other
+// side already pins to. See samples/patches/0001-pin-timepicker-clock.patch.
+private val CATALOG_PINNED_TIME: LocalTime = LocalTime.of(0, 0)
+
 @Sampled
 @Composable
 fun TimePickerSample() {
     var showTimePicker by remember { mutableStateOf(true) }
-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
+    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
     if (showTimePicker) {
         TimePicker(
             onTimePicked = {
@@ -71,7 +78,7 @@ fun TimePickerSample() {
 @Composable
 fun TimePickerWithMinutesAndSecondsSample() {
     var showTimePicker by remember { mutableStateOf(true) }
-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
+    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
     if (showTimePicker) {
         TimePicker(
             onTimePicked = {
@@ -98,7 +105,7 @@ fun TimePickerWithMinutesAndSecondsSample() {
 @Composable
 fun TimePickerWithSecondsSample() {
     var showTimePicker by remember { mutableStateOf(true) }
-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
+    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
     if (showTimePicker) {
         TimePicker(
             onTimePicked = {
@@ -125,7 +132,7 @@ fun TimePickerWithSecondsSample() {
 @Composable
 fun TimePickerWith12HourClockSample() {
     var showTimePicker by remember { mutableStateOf(true) }
-    var timePickerTime by remember { mutableStateOf(LocalTime.now()) }
+    var timePickerTime by remember { mutableStateOf(CATALOG_PINNED_TIME) }
     if (showTimePicker) {
         TimePicker(
             onTimePicked = {
