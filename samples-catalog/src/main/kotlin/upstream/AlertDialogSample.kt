@@ -47,7 +47,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 
 @Sampled
 @Composable
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 fun AlertDialogWithConfirmAndDismissSample() {
     var showDialog by remember { mutableStateOf(false) }
     Box(Modifier.fillMaxSize()) {
@@ -92,7 +96,11 @@ fun AlertDialogWithConfirmAndDismissSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun AlertDialogWithConfirmAndDismissTransformingContentSample() {
@@ -161,7 +169,11 @@ fun AlertDialogWithConfirmAndDismissTransformingContentSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun AlertDialogWithEdgeButtonSample() {
@@ -199,7 +211,11 @@ fun AlertDialogWithEdgeButtonSample() {
     )
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun AlertDialogWithEdgeButtonTransformingContentSample() {
@@ -238,7 +254,11 @@ fun AlertDialogWithEdgeButtonTransformingContentSample() {
     )
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun AlertDialogWithContentGroupsSample() {
@@ -303,7 +323,11 @@ fun AlertDialogWithContentGroupsSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun AlertDialogWithContentGroupsTransformingContentSample() {

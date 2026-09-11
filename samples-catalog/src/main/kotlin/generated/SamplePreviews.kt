@@ -25,7 +25,7 @@ fun AnimatedTextSampleButtonResponsePreview() = androidx.wear.compose.material3.
 @Composable
 fun AnimatedTextSampleSharedFontRegistryPreview() = androidx.wear.compose.material3.samples.AnimatedTextSampleSharedFontRegistry()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun AppCardContentWithOneHandedGestureSamplePreview() = androidx.wear.compose.material3.samples.AppCardContentWithOneHandedGestureSample()
 
@@ -45,7 +45,7 @@ fun AppCardWithImageSamplePreview() = androidx.wear.compose.material3.samples.Ap
 @Composable
 fun AutoCenteringPickerGroupPreview() = androidx.wear.compose.material3.samples.AutoCenteringPickerGroup()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun ButtonContentWithOneHandedGestureSamplePreview() = androidx.wear.compose.material3.samples.ButtonContentWithOneHandedGestureSample()
 
@@ -77,55 +77,55 @@ fun ChangedSliderSamplePreview() = androidx.wear.compose.material3.samples.Chang
 @Composable
 fun ChildButtonSamplePreview() = androidx.wear.compose.material3.samples.ChildButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun CircularProgressIndicatorCustomAnimationSamplePreview() = androidx.wear.compose.material3.samples.CircularProgressIndicatorCustomAnimationSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun CompactButtonContentWithOneHandedGestureSamplePreview() = androidx.wear.compose.material3.samples.CompactButtonContentWithOneHandedGestureSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun ConfirmationDialogSamplePreview() = androidx.wear.compose.material3.samples.ConfirmationDialogSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun CurvedTextBottomPreview() = androidx.wear.compose.material3.samples.CurvedTextBottom()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun CurvedTextTopPreview() = androidx.wear.compose.material3.samples.CurvedTextTop()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun DatePickerFutureOnlySamplePreview() = androidx.wear.compose.material3.samples.DatePickerFutureOnlySample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun DatePickerSamplePreview() = androidx.wear.compose.material3.samples.DatePickerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun DatePickerYearMonthDaySamplePreview() = androidx.wear.compose.material3.samples.DatePickerYearMonthDaySample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun DynamicColorSchemeSamplePreview() = androidx.wear.compose.material3.samples.DynamicColorSchemeSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun EdgeButtonSamplePreview() = androidx.wear.compose.material3.samples.EdgeButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun FadingExpandingLabelButtonSamplePreview() = androidx.wear.compose.material3.samples.FadingExpandingLabelButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun FailureConfirmationDialogSamplePreview() = androidx.wear.compose.material3.samples.FailureConfirmationDialogSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun FailureConfirmationDialogWithGenericFailureIconSamplePreview() = androidx.wear.compose.material3.samples.FailureConfirmationDialogWithGenericFailureIconSample()
 
@@ -161,7 +161,7 @@ fun FilledVariantIconButtonSamplePreview() = androidx.wear.compose.material3.sam
 @Composable
 fun FilledVariantTextButtonSamplePreview() = androidx.wear.compose.material3.samples.FilledVariantTextButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun FullScreenProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.FullScreenProgressIndicatorSample()
 
@@ -169,11 +169,11 @@ fun FullScreenProgressIndicatorSamplePreview() = androidx.wear.compose.material3
 @Composable
 fun IconButtonSamplePreview() = androidx.wear.compose.material3.samples.IconButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun IconToggleButtonSamplePreview() = androidx.wear.compose.material3.samples.IconToggleButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun IconToggleButtonVariantSamplePreview() = androidx.wear.compose.material3.samples.IconToggleButtonVariantSample()
 
@@ -181,11 +181,11 @@ fun IconToggleButtonVariantSamplePreview() = androidx.wear.compose.material3.sam
 @Composable
 fun ImageCardSamplePreview() = androidx.wear.compose.material3.samples.ImageCardSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun IndeterminateProgressArcSamplePreview() = androidx.wear.compose.material3.samples.IndeterminateProgressArcSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun IndeterminateProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.IndeterminateProgressIndicatorSample()
 
@@ -197,15 +197,15 @@ fun LargeFilledTonalTextButtonSamplePreview() = androidx.wear.compose.material3.
 @Composable
 fun LargeTextToggleButtonSamplePreview() = androidx.wear.compose.material3.samples.LargeTextToggleButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun LevelIndicatorSamplePreview() = androidx.wear.compose.material3.samples.LevelIndicatorSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun LongTextConfirmationDialogSamplePreview() = androidx.wear.compose.material3.samples.LongTextConfirmationDialogSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun MediaButtonProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.MediaButtonProgressIndicatorSample()
 
@@ -233,39 +233,39 @@ fun NonClickableTitleCardSamplePreview() = androidx.wear.compose.material3.sampl
 @Composable
 fun NonClickableTitleCardWithImageWithTimeAndTitleSamplePreview() = androidx.wear.compose.material3.samples.NonClickableTitleCardWithImageWithTimeAndTitleSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureButtonSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureDisableButtonSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureDisableButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureHorizontalPagerSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureHorizontalPagerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureScalingLazyColumnSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureScalingLazyColumnSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureScalingLazyColumnScrollToNextItemSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureScalingLazyColumnScrollToNextItemSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureTransformingLazyColumnSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureTransformingLazyColumnSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureTransformingLazyColumnScrollToNextItemSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureTransformingLazyColumnScrollToNextItemSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OneHandedGestureVerticalPagerSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureVerticalPagerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OpenOnPhoneDialogSamplePreview() = androidx.wear.compose.material3.samples.OpenOnPhoneDialogSample()
 
@@ -293,11 +293,11 @@ fun OutlinedTextButtonSamplePreview() = androidx.wear.compose.material3.samples.
 @Composable
 fun OutlinedTitleCardSamplePreview() = androidx.wear.compose.material3.samples.OutlinedTitleCardSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun OverflowProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.OverflowProgressIndicatorSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun PickerAnimateScrollToOptionPreview() = androidx.wear.compose.material3.samples.PickerAnimateScrollToOption()
 
@@ -309,15 +309,15 @@ fun PickerGroupSamplePreview() = androidx.wear.compose.material3.samples.PickerG
 @Composable
 fun PickerScrollToOptionPreview() = androidx.wear.compose.material3.samples.PickerScrollToOption()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun ScrollAwaySamplePreview() = androidx.wear.compose.material3.samples.ScrollAwaySample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SegmentedProgressIndicatorBinarySamplePreview() = androidx.wear.compose.material3.samples.SegmentedProgressIndicatorBinarySample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SegmentedProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.SegmentedProgressIndicatorSample()
 
@@ -337,7 +337,7 @@ fun SimpleFilledVariantButtonSamplePreview() = androidx.wear.compose.material3.s
 @Composable
 fun SimpleOutlinedButtonSamplePreview() = androidx.wear.compose.material3.samples.SimpleOutlinedButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SimplePickerPreview() = androidx.wear.compose.material3.samples.SimplePicker()
 
@@ -353,47 +353,47 @@ fun SliderSegmentedSamplePreview() = androidx.wear.compose.material3.samples.Sli
 @Composable
 fun SliderWithIntegerSamplePreview() = androidx.wear.compose.material3.samples.SliderWithIntegerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SmallSegmentedProgressIndicatorBinarySamplePreview() = androidx.wear.compose.material3.samples.SmallSegmentedProgressIndicatorBinarySample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SmallSegmentedProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.SmallSegmentedProgressIndicatorSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SmallValuesProgressIndicatorSamplePreview() = androidx.wear.compose.material3.samples.SmallValuesProgressIndicatorSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun StatefulSwipeToDismissBoxPreview() = androidx.wear.compose.material3.samples.StatefulSwipeToDismissBox()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun StepperSamplePreview() = androidx.wear.compose.material3.samples.StepperSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun StepperWithButtonSamplePreview() = androidx.wear.compose.material3.samples.StepperWithButtonSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun StepperWithIntegerSamplePreview() = androidx.wear.compose.material3.samples.StepperWithIntegerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun StepperWithRangeSemanticsSamplePreview() = androidx.wear.compose.material3.samples.StepperWithRangeSemanticsSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SuccessConfirmationDialogSamplePreview() = androidx.wear.compose.material3.samples.SuccessConfirmationDialogSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SwipeToRevealSamplePreview() = androidx.wear.compose.material3.samples.SwipeToRevealSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun SwipeToRevealSingleActionCardSamplePreview() = androidx.wear.compose.material3.samples.SwipeToRevealSingleActionCardSample()
 
@@ -417,35 +417,35 @@ fun TextToggleButtonSamplePreview() = androidx.wear.compose.material3.samples.Te
 @Composable
 fun TextToggleButtonVariantSamplePreview() = androidx.wear.compose.material3.samples.TextToggleButtonVariantSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimePickerSamplePreview() = androidx.wear.compose.material3.samples.TimePickerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimePickerWith12HourClockSamplePreview() = androidx.wear.compose.material3.samples.TimePickerWith12HourClockSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimePickerWithMinutesAndSecondsSamplePreview() = androidx.wear.compose.material3.samples.TimePickerWithMinutesAndSecondsSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimePickerWithSecondsSamplePreview() = androidx.wear.compose.material3.samples.TimePickerWithSecondsSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimeTextClockOnlyPreview() = androidx.wear.compose.material3.samples.TimeTextClockOnly()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimeTextWithStatusPreview() = androidx.wear.compose.material3.samples.TimeTextWithStatus()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TimeTextWithStatusEllipsizedPreview() = androidx.wear.compose.material3.samples.TimeTextWithStatusEllipsized()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun TitleCardContentWithOneHandedGestureSamplePreview() = androidx.wear.compose.material3.samples.TitleCardContentWithOneHandedGestureSample()
 
@@ -461,14 +461,14 @@ fun TitleCardWithImageWithTimeAndTitleSamplePreview() = androidx.wear.compose.ma
 @Composable
 fun TitleCardWithSubtitleAndTimeSamplePreview() = androidx.wear.compose.material3.samples.TitleCardWithSubtitleAndTimeSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun VerticalPageIndicatorWithPagerSamplePreview() = androidx.wear.compose.material3.samples.VerticalPageIndicatorWithPagerSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun VerticalPagerScaffoldSamplePreview() = androidx.wear.compose.material3.samples.VerticalPagerScaffoldSample()
 
-@Preview
+@Preview(device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", showBackground = true, backgroundColor = 0xFF000000)
 @Composable
 fun VerticalPagerScaffoldWithLowSensitivitySamplePreview() = androidx.wear.compose.material3.samples.VerticalPagerScaffoldWithLowSensitivitySample()

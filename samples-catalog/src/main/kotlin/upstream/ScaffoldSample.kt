@@ -40,7 +40,11 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun ScaffoldSample() {
@@ -81,7 +85,11 @@ fun ScaffoldSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Sampled
 @Composable
 fun ScaffoldWithTLCEdgeButtonSample() {

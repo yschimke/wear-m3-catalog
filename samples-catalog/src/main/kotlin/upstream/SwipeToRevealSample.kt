@@ -150,7 +150,11 @@ fun SwipeToRevealSingleActionCardSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 @Sampled
 fun SwipeToRevealWithTransformingLazyColumnSample() {
@@ -233,7 +237,11 @@ fun SwipeToRevealWithTransformingLazyColumnSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 @Sampled
 fun SwipeToRevealWithScalingLazyColumnSample() {
@@ -310,7 +318,11 @@ fun SwipeToRevealWithScalingLazyColumnSample() {
     }
 }
 
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 @Sampled
 fun SwipeToRevealNoPartialRevealWithScalingLazyColumnSample() {

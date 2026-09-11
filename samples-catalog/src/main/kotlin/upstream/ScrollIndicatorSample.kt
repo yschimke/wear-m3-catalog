@@ -36,7 +36,11 @@ import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TimeText
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun ScrollIndicatorWithTLCSample() {
     val scrollState = rememberTransformingLazyColumnState()

@@ -55,7 +55,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 import kotlinx.coroutines.delay
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun TransformingLazyColumnButtonsSample() {
     val state = rememberTransformingLazyColumnState()
@@ -83,7 +87,11 @@ fun TransformingLazyColumnButtonsSample() {
 }
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun TransformingLazyColumnMinimumVerticalContentPaddingSample() {
     val transformationSpec = rememberTransformationSpec()
@@ -168,7 +176,11 @@ fun TransformingLazyColumnMinimumVerticalContentPaddingSample() {
 }
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun TransformingLazyColumnFirstLayoutItemProviderSample() {
     val state = rememberTransformingLazyColumnState()
@@ -245,7 +257,11 @@ fun TransformingLazyColumnFirstLayoutItemProviderSample() {
 }
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun TransformingLazyColumnFirstVisibleItemLayoutItemProviderSample() {
     val transformationSpec = rememberTransformationSpec()
