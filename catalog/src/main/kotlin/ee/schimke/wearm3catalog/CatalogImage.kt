@@ -52,8 +52,9 @@ import androidx.compose.ui.graphics.painter.Painter
  * which a catalog whose delivery branch is diffed over time needs.
  *
  * **Use this only where the kit's cell is itself empty.** Where the kit draws real content — the
- * app avatar, media artwork — [CatalogArtwork] is the stand-in. Drawing a placeholder over a slot
- * the kit fills does not move the comparison closer; it disagrees differently.
+ * app avatar, media artwork — [CatalogArtwork] is the stand-in, and where the content is a PERSON —
+ * an account's avatar — [CatalogAvatar] is. Drawing a placeholder over a slot the kit fills does
+ * not move the comparison closer; it disagrees differently.
  *
  * It is sample *data*, not a substitute for the component: the sticker still calls the real
  * `Button` / `Card` overload that takes a `Painter`.
@@ -106,6 +107,9 @@ object CatalogImageWithFlatScrim : Painter() {
  * It is not a match for the kit's icon, and is not claimed as one — it is a stand-in that reads as
  * imagery. Closing that gap means drawing the avatar the kit actually draws, which is a separate
  * question from what an empty slot should hold.
+ *
+ * **It is imagery, not a person.** A gradient reads as album art and as an app glyph; it does not
+ * read as a face, and an account row's leading slot holds one. That slot takes [CatalogAvatar].
  */
 object CatalogArtwork : Painter() {
   override val intrinsicSize: Size = Size.Unspecified

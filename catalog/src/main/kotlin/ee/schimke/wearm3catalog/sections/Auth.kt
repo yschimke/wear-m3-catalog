@@ -82,15 +82,15 @@ fun AuthGuestModeButton(enabled: Boolean = true) = Sticker {
   )
 }
 
-// The avatar comes out SQUARE here and that is the component, not the seed:
-// `SelectAccountScreen` draws the account's `avatar` through a bare `Image` at
-// `ButtonDefaults.LargeIconSize` with no `clip`, where Wear's sign-in guidance — and the
-// confirmation dialog one screen later, which clips to its pill — draws it round. Every photo a
-// real app hands it lands square too. Published as it draws rather than rounded off in the seed:
-// a stand-in shaped to hide a library defect reports a component this repository cannot test
-// (AGENTS.md, "a cell whose API exists is drawn even when the library draws it wrong"). Upstream's
-// own screenshots miss it because its fixtures are pre-rounded PNGs; filed as
-// https://github.com/yschimke/wear-m3-catalog/issues/435, and this comment retires with it.
+// The avatar arrives here ALREADY MASKED, and that is the call site doing its job rather than the
+// component doing it. `SelectAccountScreen` draws the account's `avatar` through a bare `Image` at
+// `ButtonDefaults.LargeIconSize` with no `clip`, so an unmasked rectangle — which is what a
+// `CoilPaintable` over a real photo hands it — lands square. What the API gives a caller is the
+// PIXELS: `Paintable` returns any `Painter`, so `CatalogAvatar` clips itself to a circle before
+// the component ever sees it, exactly as Horologist's own pre-rounded PNG fixtures do. The
+// library's missing clip is reported at
+// https://github.com/yschimke/wear-m3-catalog/issues/435 rather than drawn, since publishing a
+// square here would report the seed's shape as the component's.
 @CatalogComponent(
   id = "Auth/SelectAccountScreen",
   noReference =

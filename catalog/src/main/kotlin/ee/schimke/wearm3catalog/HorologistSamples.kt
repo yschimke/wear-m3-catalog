@@ -60,7 +60,7 @@ object HorologistSamples {
     )
 
   /**
-   * The stand-in avatar, as the type Horologist takes.
+   * The stand-in avatars, as the type Horologist takes.
    *
    * `AccountUiModel.avatar` is a [Paintable] for the same reason the artwork is: production passes
    * a `CoilPaintable` resolving the account's photo through an `ImageLoader`, which a catalog
@@ -72,22 +72,34 @@ object HorologistSamples {
    * `ButtonDefaults.ContentPadding`, where an avatar draws an `Image` at `LargeIconSize` under
    * `ButtonWithLargeIconContentPadding` — a different row height, not just different ink.
    * `SignedInConfirmationDialog` centres a 32dp glyph in its 96dp pill, where an avatar fills the
-   * pill edge to edge at `ContentScale.FillBounds`. A catalog cell showing the fallback claims to
-   * draw the sign-in flow and draws its empty state.
+   * pill at `ContentScale.FillBounds`. A catalog cell showing the fallback claims to draw the
+   * sign-in flow and draws its empty state.
    *
-   * So the accounts carry one. [CatalogArtwork] is this repo's stand-in wherever the design fills a
-   * slot with real content rather than leaving it empty — the app avatar is the case its KDoc
-   * reasons from — and it is drawn rather than shipped for the licence reason stated there.
+   * So the accounts carry one each, and they carry a FACE — see [CatalogAvatar] for why the
+   * gradient that stands in for album art does not stand in for a person, why it is drawn rather
+   * than photographed, and why it masks itself into a circle before the component ever sees it.
    */
-  object Avatar : Paintable {
-    @Composable override fun rememberPainter(): Painter = CatalogArtwork
+  class Avatar(private val portrait: Painter) : Paintable {
+    @Composable override fun rememberPainter(): Painter = portrait
   }
 
-  /** The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this. */
+  /**
+   * The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this.
+   *
+   * Two different portraits, because telling two accounts apart is the row's entire job.
+   */
   val accounts: List<AccountUiModel> =
     listOf(
-      AccountUiModel(email = "maya@example.com", name = "Maya", avatar = Avatar),
-      AccountUiModel(email = "sam@example.com", name = "Sam", avatar = Avatar),
+      AccountUiModel(
+        email = "maya@example.com",
+        name = "Maya",
+        avatar = Avatar(CatalogAvatar.First),
+      ),
+      AccountUiModel(
+        email = "sam@example.com",
+        name = "Sam",
+        avatar = Avatar(CatalogAvatar.Second),
+      ),
     )
 
   /** The single account the signed-in confirmation greets. */
