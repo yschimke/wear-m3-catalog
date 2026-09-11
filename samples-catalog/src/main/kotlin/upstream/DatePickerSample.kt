@@ -38,11 +38,20 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
+// PATCHED for this catalog: upstream seeds each picker with `LocalDate.now()`, so the render
+// carries today's date and every sample below changes at midnight — including
+// `DatePickerFutureOnlySample`, whose `minValidDate` bound moves with it and greys out a different
+// set of wheel cells each day. Same defect and same fix as `:catalog`'s own `sections/Pickers.kt`,
+// pinned to the same instant it uses — the compare page puts a sample beside its kit sticker, and
+// an instant is only worth pinning to the one the other side already pins to.
+// See samples/patches/0002-pin-datepicker-clock.patch.
+private val CATALOG_PINNED_DATE: LocalDate = LocalDate.of(2026, 1, 1)
+
 @Sampled
 @Composable
 fun DatePickerSample() {
     var showDatePicker by remember { mutableStateOf(true) }
-    var datePickerDate by remember { mutableStateOf(LocalDate.now()) }
+    var datePickerDate by remember { mutableStateOf(CATALOG_PINNED_DATE) }
     val formatter =
         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
             .withLocale(LocalConfiguration.current.locales[0])
@@ -70,7 +79,7 @@ fun DatePickerSample() {
 @Composable
 fun DatePickerYearMonthDaySample() {
     var showDatePicker by remember { mutableStateOf(true) }
-    var datePickerDate by remember { mutableStateOf(LocalDate.now()) }
+    var datePickerDate by remember { mutableStateOf(CATALOG_PINNED_DATE) }
 
     val formatter =
         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
@@ -100,9 +109,9 @@ fun DatePickerYearMonthDaySample() {
 @Sampled
 @Composable
 fun DatePickerFutureOnlySample() {
-    val currentDate = LocalDate.now()
+    val currentDate = CATALOG_PINNED_DATE
     var showDatePicker by remember { mutableStateOf(true) }
-    var datePickerDate by remember { mutableStateOf(LocalDate.now()) }
+    var datePickerDate by remember { mutableStateOf(CATALOG_PINNED_DATE) }
     val formatter =
         DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
             .withLocale(LocalConfiguration.current.locales[0])

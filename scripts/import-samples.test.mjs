@@ -115,6 +115,29 @@ test("applyPatches is a no-op when there are no patches", () => {
   }
 });
 
+test("a patch that applies is applied, to an out dir outside the working tree", () => {
+  // The counterpart of the test below, and the one that was missing: with only a NEGATIVE test,
+  // `applyPatches` passed for years while being unable to apply anything at all. `--directory`
+  // rejected every absolute destination as an `invalid path`, and the only mode that exercised it
+  // — `--check`, which vendors into a mkdtemp — reported that as "upstream has moved under this
+  // patch". A tmpdir here rather than a fixture inside the repo, because outside the tree is
+  // exactly the case that broke.
+  const { root, manifest } = fakeUpstream({ "A.kt": "fun a() {}\n" });
+  const out = mkdtempSync(join(tmpdir(), "out-"));
+  const patches = mkdtempSync(join(tmpdir(), "patches-"));
+  writeFileSync(
+    join(patches, "0001-real.patch"),
+    "diff --git a/A.kt b/A.kt\n--- a/A.kt\n+++ b/A.kt\n@@ -1 +1 @@\n-fun a() {}\n+fun a() { pinned() }\n",
+  );
+  try {
+    vendor(root, manifest, out);
+    assert.deepEqual(applyPatches(out, patches), ["0001-real.patch"]);
+    assert.equal(readFileSync(join(out, "A.kt"), "utf8"), "fun a() { pinned() }\n");
+  } finally {
+    for (const d of [root, out, patches]) rmSync(d, { recursive: true, force: true });
+  }
+});
+
 test("a patch that does not apply throws, naming the patch and what to do", () => {
   // The load-bearing behaviour: upstream moving under a fix must FAIL, never silently drop the fix.
   const { root, manifest } = fakeUpstream({ "A.kt": "fun a() {}" });
