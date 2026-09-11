@@ -539,10 +539,15 @@ two origin checks, two body caps and two places to drift about what a grant mean
 ## Verifying a change
 
 ```sh
-./gradlew :catalog:assembleDebug :catalog:composePreviewDiscover \
+./gradlew :catalog:assemble :catalog:composePreviewDiscover \
+          :catalog-desktop:composePreviewDiscover \
           :remote-catalog:assembleDebug :remote-catalog:composePreviewDiscover \
           test ktfmtCheck
 ```
+
+`:catalog:assemble`, not `assembleDebug`: `:catalog` is a Kotlin Multiplatform module and has no
+`debug` application variant. `assemble` also covers its `desktop` target, which is the point — a
+shared body that reaches for something only Android has should fail here.
 
 `composePreviewDiscover` is the real contract: it turns the annotations into the published inventory. A
 component that compiles but is not discovered vanishes from the sheet silently.

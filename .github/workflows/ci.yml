@@ -66,6 +66,17 @@ jobs:
       # the drift can be caught.
       #
       # `--check` regenerates into a temp dir and diffs; it never writes the working tree.
+      # `:catalog-desktop` renders `:catalog`'s `commonMain` stickers on the CMP Desktop lane
+      # through `composePreviewSource`. `RenderAll`, not `composePreviewRender`: only the
+      # aggregate carries the missing-render gate, and the bare task writes a `.error.json` beside
+      # each preview it could not draw and still exits 0.
+      #
+      # This gate is what keeps the shared source honest in the way compiling cannot. The desktop
+      # TARGET already compiles in Assemble above; what only a render can catch is a body that
+      # compiles for both lanes and then draws nothing on one of them.
+      - name: Render the desktop sticker sheet
+        run: ./gradlew :catalog-desktop:composePreviewRenderAll --stacktrace
+
       - name: design-map.json is up to date
         run: scripts/design-map.sh --check
 
