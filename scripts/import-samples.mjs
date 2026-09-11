@@ -93,7 +93,19 @@ export function fetchUpstream(manifest, cache) {
       cache,
     ]);
     run("git", ["-C", cache, "sparse-checkout", "init", "--cone"]);
-    run("git", ["-C", cache, "sparse-checkout", "set", ...manifest.paths]);
+    // BOTH lists. `resourcePaths` is as much a subtree this import needs as `paths` is: leaving it
+    // out of the sparse set makes `vendorResources` find nothing to copy, and since that function
+    // clears its destination first, every committed drawable is deleted by a successful-looking
+    // import. Kept here rather than worked around there, because the cache not holding a subtree
+    // the manifest names is the actual defect.
+    run("git", [
+      "-C",
+      cache,
+      "sparse-checkout",
+      "set",
+      ...manifest.paths,
+      ...(manifest.resourcePaths ?? []),
+    ]);
     // The pinned commit may not be the shallow tip, so fetch it by id before checking it out.
     try {
       run("git", ["-C", cache, "fetch", "--depth", "1", "origin", manifest.ref]);
@@ -167,11 +179,22 @@ export function vendor(cache, manifest, out, skip = new Map()) {
 export function vendorResources(cache, manifest, out) {
   const paths = manifest.resourcePaths ?? [];
   if (paths.length === 0) return 0;
+  // Before deleting anything. The destination is CLEARED below so a resource dropped upstream
+  // disappears here too, which makes a missing source catastrophic rather than merely unhelpful:
+  // skipping it quietly wipes the committed drawables and reports success. A manifest naming a
+  // subtree the cache does not hold is a broken fetch, and the import has to stop.
+  const missing = paths.filter((path) => !existsSync(join(cache, path)));
+  if (missing.length > 0) {
+    throw new Error(
+      `the upstream checkout has no ${missing.join(", ")}. The manifest's resourcePaths must be ` +
+        `in the sparse-checkout set — see fetchUpstream. Refusing to clear ${out}, which would ` +
+        `delete the committed resources and report success.`,
+    );
+  }
   rmSync(out, { recursive: true, force: true });
   let copied = 0;
   for (const path of paths) {
     const from = join(cache, path);
-    if (!existsSync(from)) continue;
     cpSync(from, out, { recursive: true });
     const count = (dir) =>
       readdirSync(dir, { withFileTypes: true }).reduce(
@@ -189,6 +212,14 @@ export function vendorResources(cache, manifest, out) {
  * A patch that does not apply is an ERROR and not a warning: it means upstream changed under a fix
  * whose reason may or may not still hold, and the one thing that must not happen is the fix quietly
  * disappearing from the vendored tree while the patch file sits there looking authoritative.
+ *
+ * `--unsafe-paths` because [out] is regularly OUTSIDE the working tree: `--check` vendors into a
+ * `mkdtemp` to diff against the committed copy, and the documented way to cut a patch is
+ * `--out /tmp/...`. Without it `git apply --directory` rejects every absolute destination as an
+ * `invalid path`, which arrives here as "upstream has moved under this patch" — the one message
+ * that is certainly wrong, because the patch was never compared against anything. Harmless in the
+ * default case: writing outside the tree is the whole job of an importer whose output directory is
+ * a parameter.
  */
 export function applyPatches(out, dir = PATCH_DIR) {
   if (!existsSync(dir)) return [];
@@ -197,7 +228,7 @@ export function applyPatches(out, dir = PATCH_DIR) {
     .sort();
   for (const patch of patches) {
     try {
-      run("git", ["apply", "--directory", out, join(dir, patch)]);
+      run("git", ["apply", "--unsafe-paths", "--directory", out, join(dir, patch)]);
     } catch (error) {
       const detail = error.stderr?.toString().trim() || error.message;
       throw new Error(
