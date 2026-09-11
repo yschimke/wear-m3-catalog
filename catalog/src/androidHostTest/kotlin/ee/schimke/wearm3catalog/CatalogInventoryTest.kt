@@ -23,9 +23,19 @@ import org.junit.Test
  */
 class CatalogInventoryTest {
 
+  /**
+   * Every section file, across BOTH source sets.
+   *
+   * The catalog's sections live in `commonMain` except the four drawn with Horologist, which are
+   * Android-only and sit in `androidMain`. A scan of one source set would quietly stop covering the
+   * other — and these are coverage invariants, so a narrower scan reports success by looking at
+   * less. Listed explicitly rather than globbed from `src/` so a future `desktopMain` has to be
+   * added here deliberately.
+   */
   private val sections: List<File> =
-    File("src/main/kotlin/ee/schimke/wearm3catalog/sections")
-      .listFiles { f: File -> f.name.endsWith(".kt") }!!
+    listOf("commonMain", "androidMain")
+      .map { File("src/$it/kotlin/ee/schimke/wearm3catalog/sections") }
+      .flatMap { dir -> dir.listFiles { f: File -> f.name.endsWith(".kt") }?.toList().orEmpty() }
       .sortedBy { it.name }
 
   private val sources: List<Pair<File, String>> = sections.map { it to it.readText() }
@@ -215,7 +225,7 @@ class CatalogInventoryTest {
       )
     }
 
-    val themes = File("src/main/kotlin/ee/schimke/wearm3catalog/CatalogThemes.kt").readText()
+    val themes = File("src/commonMain/kotlin/ee/schimke/wearm3catalog/CatalogThemes.kt").readText()
     assertEquals(
       "every declared theme must keep its @WearThemeCatalog annotation, else it stops being " +
         "offered in the preview server's theme select and its specimen sheet stops being generated",

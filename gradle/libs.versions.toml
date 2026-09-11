@@ -12,6 +12,28 @@ wear-tooling-preview = "1.0.0"
 # shapes on the kit's Shapes page actually live. Wear Compose has no shape library of its own.
 compose-bom = "2026.08.00"
 
+# The CMP Wear port — Wear Compose Material 3 / Foundation recompiled for Compose Multiplatform,
+# published from this repository's `wear-compose-cmp-maven` branch (see `settings.gradle.kts` for
+# the group-fenced repository and why it is fenced). The suffix is the port revision, which the
+# port lane's CI requires to INCREASE rather than merely differ (#413), so a stale pin here is
+# visible as a number rather than as a silently different artifact at the same coordinate.
+#
+# `:catalog` resolves this in `commonMain` ONLY. Every `android` configuration substitutes it back
+# to `wear-compose` below, so the Robolectric renders — the published kit rendition — are drawn by
+# the real AndroidX library, not by the port.
+wearcmp-port = "1.7.0-beta02-cmp09"
+
+# Compose Multiplatform. `commonMain` compiles against the JetBrains runtime/foundation/ui, which
+# resolve to the androidx artifacts on the android target — same FQNs, so the port and the AARs are
+# interchangeable at the source level, which is what makes one set of component bodies possible.
+compose-multiplatform = "1.10.3"
+
+# CMP Material 3, pinned FORWARD of the `compose-multiplatform` line above for exactly the reason
+# `compose-material3` below is pinned forward of the BOM: `MaterialShapes` / `RoundedPolygon.toShape`
+# are expressive-experimental and land only on the 1.12.0-alpha line. The two pins are the same
+# decision expressed once per flavour and must move together.
+compose-multiplatform-material3 = "1.12.0-alpha03"
+
 # Mobile Material 3, pinned FORWARD of the BOM (which carries 1.4.0) solely for `MaterialShapes`
 # and `RoundedPolygon.toShape()` — the expressive shape library, added on the 1.5.0-alpha line and
 # the only published home of the 35 shapes the kit's Shapes page draws. The alpha's AAR metadata
@@ -180,6 +202,10 @@ composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotat
 composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewDaemon" }
 
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
+wearcmp-compose-material3 = { module = "ee.schimke.wearcmp:wear-compose-material3", version.ref = "wearcmp-port" }
+wearcmp-compose-foundation = { module = "ee.schimke.wearcmp:wear-compose-foundation", version.ref = "wearcmp-port" }
+compose-multiplatform-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-multiplatform-material3" }
+compose-multiplatform-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 
 # Horologist. Four artifacts, one per surface this catalog publishes, plus the model and image
 # types their APIs take as arguments:
@@ -250,6 +276,7 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 composePreview = { id = "ee.schimke.composeai.preview", version.ref = "composePreviewPlugin" }

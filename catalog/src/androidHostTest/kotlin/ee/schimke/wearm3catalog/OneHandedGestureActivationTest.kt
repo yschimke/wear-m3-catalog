@@ -30,7 +30,7 @@ class OneHandedGestureActivationTest {
   @get:Rule val rule = createComposeRule()
 
   private val source =
-    File("src/main/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt").readText()
+    File("src/commonMain/kotlin/ee/schimke/wearm3catalog/sections/OneHandedGestures.kt").readText()
 
   /**
    * THE BUG: `GestureHorizontalPages` and `GestureVerticalPages` drew an indicator for a gesture

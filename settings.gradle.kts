@@ -11,6 +11,32 @@ dependencyResolutionManagement {
     mavenCentral()
     google()
 
+    // ── The CMP Wear port, GROUP-FENCED ───────────────────────────────────────────────────────
+    // `ee.schimke.wearcmp:*` — Wear Compose Material 3 / Foundation compiled for Compose
+    // Multiplatform, published from this repository's own `wear-compose-cmp-maven` branch by the
+    // port lane on `wear-compose-cmp`. `:catalog` declares it in `commonMain` so the component
+    // bodies compile once for every target; the `android` configurations substitute it back to the
+    // real `androidx.wear.compose` AARs, so what the Robolectric lane renders — and what the
+    // published kit rendition therefore IS — stays the genuine library. See
+    // `catalog/build.gradle.kts` for that substitution.
+    //
+    // Fenced the same way and for the same reason as the snapshot lane below: a settings-level
+    // repository is visible to every project, so it is scoped to the one group it can legitimately
+    // answer for. `ee.schimke.wearcmp` is a coordinate namespace nothing else in this build or on
+    // Maven Central uses, so the filter is exact rather than a prefix guess — this repository can
+    // never satisfy a request for an `androidx.*` or `ee.schimke.composeai` artifact even by
+    // accident.
+    //
+    // Serving a build dependency from a git branch of the same repository is a real coupling, and
+    // it is deliberate: the port is this project's own artifact, versioned by `portRevision` and
+    // gated by the port lane's CI (#413 requires that revision to increase). The alternative —
+    // vendoring the port's sources into `:catalog` — would put a fork of Wear Compose in the
+    // catalog's history and lose that gate.
+    maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/") {
+      name = "wearComposeCmpPort"
+      content { includeGroup("ee.schimke.wearcmp") }
+    }
+
     // ── The androidx.dev snapshot lane, PINNED IN-TREE and GROUP-FENCED ───────────────────────
     // Selected by `.github/ci/remote-snapshot-pin` — one line, an androidx.dev build id or
     // `latest` — with `-PremoteSnapshot=<id>` as a per-invocation override and an empty or absent
