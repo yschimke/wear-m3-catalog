@@ -18,7 +18,12 @@ package com.google.android.horologist.remotecompose.lottie.renderer
 
 import android.annotation.SuppressLint
 import androidx.compose.remote.creation.compose.layout.RemoteCanvas
+import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemotePaint
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.selectIfLt
+import androidx.compose.remote.creation.compose.state.tan
+import androidx.compose.remote.creation.compose.state.toRad
 import com.google.android.horologist.remotecompose.lottie.LottieSettings
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.grouping.Transform
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.animatePosition
@@ -26,10 +31,28 @@ import com.google.android.horologist.remotecompose.lottie.renderer.properties.an
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.animateVector
 
 @SuppressLint("RestrictedApi")
+/** Clamps scale components symmetrically away from zero to avoid matrix inversion singularities. */
+internal fun clampScale(scale: RemoteFloat): RemoteFloat {
+  val posClamped = selectIfLt(scale, 0.0001f.rf, 0.0001f.rf, scale)
+  val negClamped = selectIfLt(scale, (-0.0001f).rf, scale, (-0.0001f).rf)
+  return selectIfLt(scale, 0f.rf, negClamped, posClamped)
+}
+
+@SuppressLint("RestrictedApi")
+/**
+ * Calculates the inverse scale factor, guarding against division-by-zero singularities when scale
+ * is zero or near zero.
+ */
+internal fun computeInverseScale(scale: RemoteFloat): RemoteFloat {
+  val clamped = clampScale(scale)
+  return 1f.rf / clamped
+}
+
+@SuppressLint("RestrictedApi")
 /** Applies a transform described by a Lottie [Transform] object to the RemoteCanvas. */
 internal fun transform(
   transform: Transform,
-  paint: RemotePaint,
+  paint: RemotePaint? = null,
   animationSettings: LottieSettings,
   canvas: RemoteCanvas,
 ) {
@@ -42,11 +65,60 @@ internal fun transform(
 
   val scaleX = scale[0] / 100f
   val scaleY = scale[1] / 100f
+  val safeScaleX = clampScale(scaleX)
+  val safeScaleY = clampScale(scaleY)
 
   canvas.translate(translation.x, translation.y)
   canvas.rotate(rotation)
-  canvas.scale(scaleX, scaleY)
+
+  val skew = transform.skew?.let { animateScalar(it, animationSettings) }
+  val skewAxis = transform.skewAxis?.let { animateScalar(it, animationSettings) }
+  if (skew != null) {
+    val axis = skewAxis ?: 0f.rf
+    canvas.rotate(90f.rf - axis)
+    canvas.internalCanvas.skew(0f.rf, tan(toRad(skew)))
+    canvas.rotate(axis - 90f.rf)
+  }
+
+  canvas.scale(safeScaleX, safeScaleY)
   canvas.translate(-anchorPoint.x, -anchorPoint.y)
 
-  paint.color = paint.color.copy(alpha = opacity / 100f)
+  paint?.let { it.color = it.color.copy(alpha = opacity / 100f) }
+}
+
+@SuppressLint("RestrictedApi")
+/**
+ * Inverts the transform operations described by a Lottie [Transform] object on the RemoteCanvas.
+ */
+internal fun inverseTransform(
+  transform: Transform,
+  animationSettings: LottieSettings,
+  canvas: RemoteCanvas,
+) {
+  val rotation = animateScalar(transform.rotation, animationSettings)
+  val translation = animatePosition(transform.positionTranslation, animationSettings)
+  val anchorPoint = animatePosition(transform.anchorPoint, animationSettings)
+
+  val scale = animateVector(transform.scale, animationSettings)
+
+  val scaleX = scale[0] / 100f
+  val scaleY = scale[1] / 100f
+
+  val invScaleX = computeInverseScale(scaleX)
+  val invScaleY = computeInverseScale(scaleY)
+
+  canvas.translate(anchorPoint.x, anchorPoint.y)
+  canvas.scale(invScaleX, invScaleY)
+
+  val skew = transform.skew?.let { animateScalar(it, animationSettings) }
+  val skewAxis = transform.skewAxis?.let { animateScalar(it, animationSettings) }
+  if (skew != null) {
+    val axis = skewAxis ?: 0f.rf
+    canvas.rotate(90f.rf - axis)
+    canvas.internalCanvas.skew(0f.rf, -tan(toRad(skew)))
+    canvas.rotate(axis - 90f.rf)
+  }
+
+  canvas.rotate(-rotation)
+  canvas.translate(-translation.x, -translation.y)
 }

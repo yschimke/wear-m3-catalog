@@ -16,7 +16,6 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.geometry
 
-import com.google.android.horologist.remotecompose.lottie.format.graphicelement.GraphicElement
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
 import com.google.android.horologist.remotecompose.lottie.format.properties.BasePositionProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseVectorProperty
@@ -31,9 +30,11 @@ internal data class Ellipse(
   @SerialName("nm") override val name: String? = "",
   @SerialName("hd") override val hidden: Boolean? = false,
   @SerialName("ty") override val type: ShapeType = ShapeType.Ellipse,
-  @SerialName("d") val direction: Int? = null,
+  @SerialName("ix") override val index: Int? = null,
+  @SerialName("mn") override val matchName: String? = null,
+  @SerialName("cix") override val propertyIndex: Int? = null,
+  @SerialName("d") override val direction: Int? = null,
   @SerialName("p")
-  val position: BasePositionProperty = StaticPositionProperty(value = floatArrayOf(0f, 0f)),
-  @SerialName("s")
-  val size: BaseVectorProperty = StaticVectorProperty(value = floatArrayOf(0f, 0f)),
-) : GraphicElement
+  val position: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
+  @SerialName("s") val size: BaseVectorProperty = StaticVectorProperty(value = listOf(0f, 0f)),
+) : GeometryShape

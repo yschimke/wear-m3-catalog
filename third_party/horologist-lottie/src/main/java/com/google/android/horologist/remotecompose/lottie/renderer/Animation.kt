@@ -21,6 +21,9 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteFloatArray
 import androidx.compose.remote.creation.compose.state.clamp
+import androidx.compose.remote.creation.compose.state.floor
+import androidx.compose.remote.creation.compose.state.lerp
+import androidx.compose.remote.creation.compose.state.min
 import androidx.compose.remote.creation.compose.state.rf
 import com.google.android.horologist.remotecompose.lottie.format.properties.ScalarKeyframeEasing
 
@@ -33,6 +36,9 @@ internal fun lookupValueInBezier(
   duration: Float,
   frame: RemoteFloat,
 ): RemoteFloat {
+  if (duration <= 0f) {
+    return 0f.rf
+  }
   // TODO implement using Remote Compose expressions to avoid a Compose UI impl
   val easing = CubicBezierEasing(a, b, c, d)
   val frameAnimationValues = mutableListOf<Float>()
@@ -42,9 +48,18 @@ internal fun lookupValueInBezier(
   }
 
   val remoteFrameAnimationValues = RemoteFloatArray(frameAnimationValues.map { it.rf })
-  val clampedFrame = clamp(value = frame, min = 0.rf, max = (frameAnimationValues.size - 1).rf)
+  val maxIndex = (frameAnimationValues.size - 1).toFloat()
+  val maxIndexRf = maxIndex.rf
+  val clampedFrame = clamp(value = frame, min = 0.rf, max = maxIndexRf)
 
-  return remoteFrameAnimationValues[clampedFrame]
+  val floorIndex = floor(clampedFrame)
+  val ceilIndex = min(floorIndex + 1.rf, maxIndexRf)
+  val fraction = clampedFrame - floorIndex
+
+  val startValue = remoteFrameAnimationValues[floorIndex]
+  val endValue = remoteFrameAnimationValues[ceilIndex]
+
+  return lerp(startValue, endValue, fraction)
 }
 
 internal val scalarLinearEasingOut = ScalarKeyframeEasing(x = 0f, 0f)

@@ -17,83 +17,107 @@
 package com.google.android.horologist.remotecompose.lottie.renderer.shapes
 
 import android.annotation.SuppressLint
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.state.clamp
+import androidx.compose.remote.creation.compose.state.min
+import androidx.compose.remote.creation.compose.state.rf
 import com.google.android.horologist.remotecompose.lottie.LottieSettings
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.geometry.Rectangle
+import com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers.RoundedCorners
+import com.google.android.horologist.remotecompose.lottie.format.graphicelement.modifiers.TrimPath
+import com.google.android.horologist.remotecompose.lottie.format.properties.StaticBezierProperty
+import com.google.android.horologist.remotecompose.lottie.format.values.BezierValue
 import com.google.android.horologist.remotecompose.lottie.renderer.RemoteLottiePath
+import com.google.android.horologist.remotecompose.lottie.renderer.properties.RemoteBezierValue
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.animatePosition
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.animateScalar
 import com.google.android.horologist.remotecompose.lottie.renderer.properties.animateVector
 
-/** Evaluates a Lottie [Rectangle] into a [RemoteLottiePath]. */
+private const val RECTANGLE_CORNER_RADIUS_CONTROL_POINT_CONSTANT = 0.55228475f
+
+/** Evaluates a Lottie [Rectangle] parametric shape into a [RemoteLottiePath]. */
 @SuppressLint("RestrictedApi")
-internal fun rectangle(rect: Rectangle, animationSettings: LottieSettings): RemoteLottiePath? {
+internal fun evaluateRectangle(
+  rect: Rectangle,
+  animationSettings: LottieSettings,
+  trimPath: TrimPath? = null,
+  roundedCorners: RoundedCorners? = null,
+): RemoteLottiePath? {
   if (rect.hidden == true) return null
 
   val pos = animatePosition(rect.position, animationSettings)
-  val posX = pos.x.constantValueOrNull ?: 0f
-  val posY = pos.y.constantValueOrNull ?: 0f
-
   val size = animateVector(rect.size, animationSettings)
-  val width = size.getOrNull(0)?.constantValueOrNull ?: 0f
-  val height = size.getOrNull(1)?.constantValueOrNull ?: 0f
+  val width = size.getOrElse(0) { 0f.rf }
+  val height = size.getOrElse(1) { 0f.rf }
   val halfWidth = width / 2f
   val halfHeight = height / 2f
 
-  val cornerRadius = animateScalar(rect.cornerRadius, animationSettings).constantValueOrNull ?: 0f
-  val maxRadius = minOf(halfWidth, halfHeight)
-  val r = cornerRadius.coerceIn(0f, maxRadius)
+  val cornerRadius = animateScalar(rect.cornerRadius, animationSettings)
+  val maxRadius = min(halfWidth, halfHeight)
+  val clampedR = clamp(cornerRadius, 0f.rf, maxRadius)
+  val kr = clampedR * RECTANGLE_CORNER_RADIUS_CONTROL_POINT_CONSTANT
+  val rr = clampedR
 
-  val rcPath = RemotePath()
-  rcPath.reset()
+  val vertices =
+    listOf(
+      listOf(pos.x + halfWidth, pos.y - halfHeight + rr),
+      listOf(pos.x + halfWidth, pos.y + halfHeight - rr),
+      listOf(pos.x + halfWidth - rr, pos.y + halfHeight),
+      listOf(pos.x - halfWidth + rr, pos.y + halfHeight),
+      listOf(pos.x - halfWidth, pos.y + halfHeight - rr),
+      listOf(pos.x - halfWidth, pos.y - halfHeight + rr),
+      listOf(pos.x - halfWidth + rr, pos.y - halfHeight),
+      listOf(pos.x + halfWidth - rr, pos.y - halfHeight),
+    )
+  val inTangents =
+    listOf(
+      listOf(0f.rf, -kr),
+      listOf(0f.rf, 0f.rf),
+      listOf(kr, 0f.rf),
+      listOf(0f.rf, 0f.rf),
+      listOf(0f.rf, kr),
+      listOf(0f.rf, 0f.rf),
+      listOf(-kr, 0f.rf),
+      listOf(0f.rf, 0f.rf),
+    )
+  val outTangents =
+    listOf(
+      listOf(0f.rf, 0f.rf),
+      listOf(0f.rf, kr),
+      listOf(0f.rf, 0f.rf),
+      listOf(-kr, 0f.rf),
+      listOf(0f.rf, 0f.rf),
+      listOf(0f.rf, -kr),
+      listOf(0f.rf, 0f.rf),
+      listOf(kr, 0f.rf),
+    )
 
-  if (r == 0f) {
-    rcPath.moveTo(posX + halfWidth, posY - halfHeight)
-    rcPath.lineTo(posX + halfWidth, posY + halfHeight)
-    rcPath.lineTo(posX - halfWidth, posY + halfHeight)
-    rcPath.lineTo(posX - halfWidth, posY - halfHeight)
-    rcPath.close()
-  } else {
-    val k = r * 0.55228475f
-    rcPath.moveTo(posX + halfWidth, posY - halfHeight + r)
-    rcPath.lineTo(posX + halfWidth, posY + halfHeight - r)
-    rcPath.cubicTo(
-      posX + halfWidth,
-      posY + halfHeight - r + k,
-      posX + halfWidth - r + k,
-      posY + halfHeight,
-      posX + halfWidth - r,
-      posY + halfHeight,
+  val remoteBezier =
+    RemoteBezierValue(
+      closed = true,
+      inTangents = inTangents,
+      outTangents = outTangents,
+      vertices = vertices,
     )
-    rcPath.lineTo(posX - halfWidth + r, posY + halfHeight)
-    rcPath.cubicTo(
-      posX - halfWidth + r - k,
-      posY + halfHeight,
-      posX - halfWidth,
-      posY + halfHeight - r + k,
-      posX - halfWidth,
-      posY + halfHeight - r,
-    )
-    rcPath.lineTo(posX - halfWidth, posY - halfHeight + r)
-    rcPath.cubicTo(
-      posX - halfWidth,
-      posY - halfHeight + r - k,
-      posX - halfWidth + r - k,
-      posY - halfHeight,
-      posX - halfWidth + r,
-      posY - halfHeight,
-    )
-    rcPath.lineTo(posX + halfWidth - r, posY - halfHeight)
-    rcPath.cubicTo(
-      posX + halfWidth - r + k,
-      posY - halfHeight,
-      posX + halfWidth,
-      posY - halfHeight + r - k,
-      posX + halfWidth,
-      posY - halfHeight + r,
-    )
-    rcPath.close()
+
+  val hasTrim = trimPath != null && trimPath.hidden != true
+  val hasRounding = roundedCorners != null && roundedCorners.hidden != true
+  if (hasTrim || hasRounding) {
+    val bezierValue =
+      BezierValue(
+        closed = remoteBezier.closed,
+        vertices = remoteBezier.vertices.map { pt -> pt.map { it.constantValueOrNull ?: 0f } },
+        inTangents = remoteBezier.inTangents.map { pt -> pt.map { it.constantValueOrNull ?: 0f } },
+        outTangents = remoteBezier.outTangents.map { pt -> pt.map { it.constantValueOrNull ?: 0f } },
+      )
+    val evaluated =
+      evaluatePathGeometry(
+        StaticBezierProperty(value = bezierValue),
+        trimPath,
+        roundedCorners,
+        animationSettings,
+      )
+    return RemoteLottiePath(evaluated)
   }
 
-  return RemoteLottiePath(rcPath)
+  return RemoteLottiePath(listOf(remoteBezier))
 }

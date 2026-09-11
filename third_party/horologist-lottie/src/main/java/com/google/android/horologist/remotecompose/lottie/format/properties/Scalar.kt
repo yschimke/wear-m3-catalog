@@ -33,7 +33,9 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.add
 import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.floatOrNull
@@ -86,6 +88,27 @@ internal data class ScalarPropertyKeyframe(
 
 @Serializable(with = ScalarKeyframeEasingSerializer::class)
 internal data class ScalarKeyframeEasing(val x: Float, val y: Float)
+
+/** Multi-dimensional or scalar keyframe easing curve control point tangents. */
+@Serializable(with = KeyframeEasingSerializer::class)
+internal data class KeyframeEasing(
+  val x: List<Float> = emptyList(),
+  val y: List<Float> = emptyList(),
+) {
+  constructor(xScalar: Float, yScalar: Float) : this(listOf(xScalar), listOf(yScalar))
+
+  val xScalar: Float
+    get() = x.firstOrNull() ?: 0f
+
+  val yScalar: Float
+    get() = y.firstOrNull() ?: 0f
+
+  fun getTangent(dimensionIndex: Int): ScalarKeyframeEasing {
+    val tx = x.getOrNull(dimensionIndex) ?: x.firstOrNull() ?: 0f
+    val ty = y.getOrNull(dimensionIndex) ?: y.firstOrNull() ?: 0f
+    return ScalarKeyframeEasing(tx, ty)
+  }
+}
 
 /** Polymorphic serializer for [BaseScalarProperty] based on "a" field. */
 internal object BaseScalarPropertySerializer :
@@ -292,6 +315,84 @@ internal object ScalarKeyframeEasingSerializer : KSerializer<ScalarKeyframeEasin
       buildJsonObject {
         put("x", value.x)
         put("y", value.y)
+      }
+    )
+  }
+}
+
+/**
+ * Helper to parse a list of tangent floats from a [JsonElement], supporting primitives, float
+ * arrays, and nested arrays.
+ */
+internal fun parseTangentValues(element: JsonElement?): List<Float> {
+  return when (element) {
+    null -> emptyList()
+    is JsonPrimitive -> element.floatOrNull?.let { listOf(it) } ?: emptyList()
+    is JsonArray -> {
+      if (element.isEmpty()) {
+        emptyList()
+      } else if (element.first() is JsonArray) {
+        parseTangentValues(element.first())
+      } else {
+        element.mapNotNull { it.jsonPrimitive.floatOrNull }
+      }
+    }
+    is JsonObject -> {
+      element["k"]?.let { parseTangentValues(it) } ?: emptyList()
+    }
+  }
+}
+
+/**
+ * Serializer for [KeyframeEasing] handling numbers, arrays, and objects with x/y float or array
+ * fields.
+ */
+internal object KeyframeEasingSerializer : KSerializer<KeyframeEasing> {
+  override val descriptor: SerialDescriptor =
+    buildClassSerialDescriptor("KeyframeEasing") {
+      element<List<Float>>("x")
+      element<List<Float>>("y")
+    }
+
+  override fun deserialize(decoder: Decoder): KeyframeEasing {
+    val jsonDecoder = decoder as JsonDecoder
+    return when (val element = jsonDecoder.decodeJsonElement()) {
+      is JsonObject -> {
+        val xList = parseTangentValues(element["x"])
+        val yList = parseTangentValues(element["y"])
+        KeyframeEasing(x = xList, y = yList)
+      }
+      is JsonArray -> {
+        val values = parseTangentValues(element)
+        KeyframeEasing(x = values, y = values)
+      }
+      is JsonPrimitive -> {
+        val v = element.floatOrNull ?: 0f
+        KeyframeEasing(x = listOf(v), y = listOf(v))
+      }
+    }
+  }
+
+  override fun serialize(encoder: Encoder, value: KeyframeEasing) {
+    val jsonEncoder = encoder as JsonEncoder
+    jsonEncoder.encodeJsonElement(
+      buildJsonObject {
+        put(
+          "x",
+          buildJsonArray {
+            for (v in value.x) {
+              add(JsonPrimitive(v))
+            }
+          },
+        )
+        put(
+          "y",
+          buildJsonArray {
+            for (v in value.y) {
+              add(JsonPrimitive(v))
+            }
+          },
+        )
       }
     )
   }

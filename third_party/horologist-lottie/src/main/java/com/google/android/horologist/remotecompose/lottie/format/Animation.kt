@@ -18,6 +18,7 @@ package com.google.android.horologist.remotecompose.lottie.format
 
 import android.content.Context
 import androidx.annotation.RawRes
+import com.google.android.horologist.remotecompose.lottie.format.asset.Asset
 import com.google.android.horologist.remotecompose.lottie.format.layer.Layer
 import java.io.InputStream
 import kotlinx.serialization.SerialName
@@ -28,12 +29,16 @@ import kotlinx.serialization.Serializable
 internal data class Animation(
   @SerialName("nm") val name: String? = null,
   @SerialName("v") val version: String? = "5.9.6",
-  @SerialName("fr") val frameRate: Int,
-  @SerialName("ip") val startFrame: Int,
-  @SerialName("op") val endFrame: Int,
-  @SerialName("w") val width: Int,
-  @SerialName("h") val height: Int,
-  @SerialName("layers") val layers: List<Layer>,
+  @SerialName("fr") val frameRate: Float = 30f,
+  @SerialName("ip") val startFrame: Float = 0f,
+  @SerialName("op") val endFrame: Float = 0f,
+  @SerialName("w") val width: Int = 0,
+  @SerialName("h") val height: Int = 0,
+  @SerialName("assets") val assets: List<Asset> = emptyList(),
+  @SerialName("layers") val layers: List<Layer> = emptyList(),
+  @SerialName("markers") val markers: List<Marker> = emptyList(),
+  @SerialName("fonts") val fonts: FontList? = null,
+  @SerialName("chars") val chars: List<FontChar> = emptyList(),
 ) {
   companion object {
     /** Decodes an [Animation] from a JSON string using [LottieDecoder]. */
@@ -46,3 +51,35 @@ internal data class Animation(
     fun load(@RawRes rawRes: Int, context: Context): Animation = LottieDecoder.load(rawRes, context)
   }
 }
+
+/** Container for the fonts list in a Lottie composition. */
+@Serializable internal data class FontList(@SerialName("list") val list: List<Font> = emptyList())
+
+/** A font definition in a Lottie composition. */
+@Serializable
+internal data class Font(
+  @SerialName("fName") val name: String = "",
+  @SerialName("fFamily") val family: String = "",
+  @SerialName("fStyle") val style: String = "",
+  @SerialName("ascent") val ascent: Float? = null,
+)
+
+/** A vector character glyph definition in a Lottie composition. */
+@Serializable
+internal data class FontChar(
+  @SerialName("ch") val character: String = "",
+  @SerialName("fFamily") val family: String = "",
+  @SerialName("style") val style: String = "",
+  @SerialName("size") val size: Float = 0f,
+  @SerialName("w") val width: Float = 0f,
+  @SerialName("data") val shapeData: FontShapeData? = null,
+)
+
+/** Shape data container for a character glyph. */
+@Serializable
+internal data class FontShapeData(
+  @SerialName("shapes")
+  val shapes:
+    List<com.google.android.horologist.remotecompose.lottie.format.graphicelement.GraphicElement> =
+    emptyList()
+)

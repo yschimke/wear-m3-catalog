@@ -26,11 +26,10 @@ import com.google.android.horologist.remotecompose.lottie.format.properties.Stat
  * example, a fill color can reference a slot ID, which can be resolved to a color provided by the
  * application to enable dynamic theming.
  */
-class SlotMap(colors: Map<String, Int>) {
-  private val colorSlots: Map<String, StaticColorProperty> =
-    colors.mapValues { (slotId, colorInt) ->
-      StaticColorProperty(slotId = slotId, colorInt = colorInt)
-    }
+class SlotMap(colors: Map<String, RemoteColor>) {
+  private val colorSlots: Map<String, StaticColorProperty> = colors.mapValues { (slotId, color) ->
+    StaticColorProperty(slotId = slotId, value = color)
+  }
 
   fun getColor(slotId: String): RemoteColor? {
     val prop = colorSlots[slotId] ?: return null

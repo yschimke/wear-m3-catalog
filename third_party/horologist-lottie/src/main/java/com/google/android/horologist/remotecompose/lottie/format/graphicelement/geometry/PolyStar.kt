@@ -16,7 +16,6 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.geometry
 
-import com.google.android.horologist.remotecompose.lottie.format.graphicelement.GraphicElement
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
 import com.google.android.horologist.remotecompose.lottie.format.properties.BasePositionProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseScalarProperty
@@ -30,6 +29,10 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.JsonDecoder
+import kotlinx.serialization.json.floatOrNull
+import kotlinx.serialization.json.intOrNull
+import kotlinx.serialization.json.jsonPrimitive
 
 /** A polystar (star or regular polygon) parametric shape. */
 @Serializable
@@ -37,17 +40,20 @@ internal data class PolyStar(
   @SerialName("nm") override val name: String? = "",
   @SerialName("hd") override val hidden: Boolean? = false,
   @SerialName("ty") override val type: ShapeType = ShapeType.PolyStar,
+  @SerialName("ix") override val index: Int? = null,
+  @SerialName("mn") override val matchName: String? = null,
+  @SerialName("cix") override val propertyIndex: Int? = null,
+  @SerialName("d") override val direction: Int? = null,
   @SerialName("sy") val starType: PolyStarType = PolyStarType.Star,
   @SerialName("pt") val points: BaseScalarProperty = StaticScalarProperty(value = 5f),
   @SerialName("p")
-  val position: BasePositionProperty = StaticPositionProperty(value = floatArrayOf(0f, 0f)),
+  val position: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
   @SerialName("r") val rotation: BaseScalarProperty = StaticScalarProperty(value = 0f),
   @SerialName("or") val outerRadius: BaseScalarProperty = StaticScalarProperty(value = 0f),
   @SerialName("os") val outerRoundedness: BaseScalarProperty = StaticScalarProperty(value = 0f),
   @SerialName("ir") val innerRadius: BaseScalarProperty? = null,
   @SerialName("is") val innerRoundedness: BaseScalarProperty? = null,
-  @SerialName("d") val direction: Int? = null,
-) : GraphicElement
+) : GeometryShape
 
 @Serializable(with = PolyStarTypeSerializer::class)
 internal enum class PolyStarType(val value: Int) {
@@ -55,9 +61,7 @@ internal enum class PolyStarType(val value: Int) {
   Polygon(2);
 
   companion object {
-    fun fromValueOrNull(value: Int): PolyStarType? {
-      return values().firstOrNull { it.value == value }
-    }
+    fun fromValueOrNull(value: Int): PolyStarType? = values().firstOrNull { it.value == value }
   }
 }
 
@@ -66,8 +70,20 @@ internal object PolyStarTypeSerializer : KSerializer<PolyStarType> {
     PrimitiveSerialDescriptor("PolyStarType", PrimitiveKind.INT)
 
   override fun deserialize(decoder: Decoder): PolyStarType {
-    val value = decoder.decodeInt()
-    return PolyStarType.fromValueOrNull(value) ?: PolyStarType.Star
+    return try {
+      val jsonDecoder = decoder as? JsonDecoder
+      if (jsonDecoder != null) {
+        val element = jsonDecoder.decodeJsonElement()
+        val intVal =
+          element.jsonPrimitive.intOrNull ?: element.jsonPrimitive.floatOrNull?.toInt() ?: 1
+        PolyStarType.fromValueOrNull(intVal) ?: PolyStarType.Star
+      } else {
+        val value = decoder.decodeInt()
+        PolyStarType.fromValueOrNull(value) ?: PolyStarType.Star
+      }
+    } catch (e: Exception) {
+      PolyStarType.Star
+    }
   }
 
   override fun serialize(encoder: Encoder, value: PolyStarType) {

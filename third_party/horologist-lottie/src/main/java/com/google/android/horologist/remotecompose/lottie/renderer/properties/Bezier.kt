@@ -18,104 +18,195 @@ package com.google.android.horologist.remotecompose.lottie.renderer.properties
 
 import android.annotation.SuppressLint
 import androidx.compose.remote.creation.compose.state.RemoteFloat
+import androidx.compose.remote.creation.compose.state.lerp
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.compose.state.selectIfLt
 import com.google.android.horologist.remotecompose.lottie.LottieSettings
 import com.google.android.horologist.remotecompose.lottie.format.properties.AnimatedBezierProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseBezierProperty
 import com.google.android.horologist.remotecompose.lottie.format.properties.StaticBezierProperty
 import com.google.android.horologist.remotecompose.lottie.format.values.BezierValue
-import com.google.android.horologist.remotecompose.lottie.format.values.Point
 import com.google.android.horologist.remotecompose.lottie.renderer.lookupValueInBezier
 import com.google.android.horologist.remotecompose.lottie.renderer.scalarLinearEasingIn
 import com.google.android.horologist.remotecompose.lottie.renderer.scalarLinearEasingOut
 
+internal data class RemoteBezierValue(
+  val closed: Boolean,
+  val inTangents: List<List<RemoteFloat>>,
+  val outTangents: List<List<RemoteFloat>>,
+  val vertices: List<List<RemoteFloat>>,
+)
+
+internal data class BezierAnimationSegment(val startFrame: Float, val value: RemoteBezierValue)
+
+internal fun BezierValue.toRemote(): RemoteBezierValue {
+  return RemoteBezierValue(
+    closed = closed,
+    inTangents = inTangents.map { point -> point.map { it.rf } },
+    outTangents = outTangents.map { point -> point.map { it.rf } },
+    vertices = vertices.map { point -> point.map { it.rf } },
+  )
+}
+
 /**
- * Animates a bezier property.
+ * Animates a bezier (shape) property.
  *
- * Take a BaseBezierProperty (either animated or static) and convert it to a [BezierValue]. If the
- * bezier is animated, the [BezierValue] will change based on the animation specified in the Lottie
- * Bezier Property.
- *
- * This is used for path morphing, where either the vertices or control points of beziers used to
- * draw a shape are animated.
+ * Takes a [BaseBezierProperty] (either static or animated) and resolves it to a list of
+ * [RemoteBezierValue] subpaths. Supports keyframed transitions with cubic Bézier easing curves,
+ * hold keyframes, and delayed starts.
  */
 @SuppressLint("RestrictedApi")
 internal fun animateBezier(
   path: BaseBezierProperty,
   animationSettings: LottieSettings,
-): BezierValue {
-  return when (val p = path) {
-    is StaticBezierProperty -> {
-      return p.value
-    }
+): List<RemoteBezierValue> {
+  return when (path) {
+    is StaticBezierProperty -> listOf(path.value.toRemote())
     is AnimatedBezierProperty -> {
-      // TODO: Support delayed start & chained animations for bezier curves
-      if (p.keyframes.size == 1) {
-        return p.keyframes[0].value[0]
+      if (path.keyframes.isEmpty()) {
+        return emptyList()
+      }
+      if (path.keyframes.size == 1) {
+        return path.keyframes[0].value.map { it.toRemote() }
       }
 
-      val startKeyFrame = p.keyframes[0]
-      val endKeyFrame = p.keyframes[1]
-
-      if (startKeyFrame.frame != 0f) {
-        return p.keyframes[0].value[0]
+      val firstKeyframe = path.keyframes[0]
+      val subpathCount = firstKeyframe.value.size
+      if (subpathCount == 0) {
+        return emptyList()
       }
 
-      val duration = endKeyFrame.frame - startKeyFrame.frame
-      val frameInAnimation = animationSettings.currentFrame - startKeyFrame.frame
+      (0 until subpathCount).map { subpathIndex ->
+        val animationSegments = mutableListOf<BezierAnimationSegment>()
+        val firstSubpath = firstKeyframe.value[subpathIndex]
 
-      val outTangent = startKeyFrame.outTangent ?: scalarLinearEasingOut
-      val inTangent = startKeyFrame.inTangent ?: scalarLinearEasingIn
+        if (firstKeyframe.frame != 0f) {
+          animationSegments.add(BezierAnimationSegment(0f, firstSubpath.toRemote()))
+        }
 
-      val currentBezierValue =
-        lookupValueInBezier(
-          outTangent.x,
-          outTangent.y,
-          inTangent.x,
-          inTangent.y,
-          duration,
-          frameInAnimation,
-        )
+        for (i in 0 until path.keyframes.size - 1) {
+          val startKeyframe = path.keyframes[i]
+          val endKeyframe = path.keyframes[i + 1]
+          val duration = endKeyframe.frame - startKeyframe.frame
+          val frameInAnimation = animationSettings.currentFrame - startKeyframe.frame
 
-      // TODO: b/442404202 - Support multiple spline segments within a bezier (i.e.
-      // startKeyFrame.value.size > 1)
-      return BezierValue(
-        startKeyFrame.value[0].closed,
-        animatePoints(
-          startKeyFrame.value[0].inTangents,
-          endKeyFrame.value[0].inTangents,
-          currentBezierValue,
-          duration,
-          frameInAnimation,
-        ),
-        animatePoints(
-          startKeyFrame.value[0].outTangents,
-          endKeyFrame.value[0].outTangents,
-          currentBezierValue,
-          duration,
-          frameInAnimation,
-        ),
-        animatePoints(
-          startKeyFrame.value[0].vertices,
-          endKeyFrame.value[0].vertices,
-          currentBezierValue,
-          duration,
-          frameInAnimation,
-        ),
-      )
+          val startSubpath = startKeyframe.value.getOrElse(subpathIndex) { firstSubpath }
+          val endSubpath = endKeyframe.value.getOrElse(subpathIndex) { startSubpath }
+
+          val segmentValue =
+            if (startKeyframe.hold) {
+              RemoteBezierValue(
+                closed = startSubpath.closed,
+                inTangents =
+                  startSubpath.inTangents.mapIndexed { v, point ->
+                    point.mapIndexed { c, startCoord ->
+                      val endCoord = endSubpath.inTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
+                      selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)
+                    }
+                  },
+                outTangents =
+                  startSubpath.outTangents.mapIndexed { v, point ->
+                    point.mapIndexed { c, startCoord ->
+                      val endCoord = endSubpath.outTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
+                      selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)
+                    }
+                  },
+                vertices =
+                  startSubpath.vertices.mapIndexed { v, point ->
+                    point.mapIndexed { c, startCoord ->
+                      val endCoord = endSubpath.vertices.getOrNull(v)?.getOrNull(c) ?: startCoord
+                      selectIfLt(frameInAnimation, duration.rf, startCoord.rf, endCoord.rf)
+                    }
+                  },
+              )
+            } else {
+              val outTangent = startKeyframe.outTangent ?: scalarLinearEasingOut
+              val inTangent = startKeyframe.inTangent ?: scalarLinearEasingIn
+
+              val currentBezierValue =
+                lookupValueInBezier(
+                  outTangent.x,
+                  outTangent.y,
+                  inTangent.x,
+                  inTangent.y,
+                  duration,
+                  frameInAnimation,
+                )
+
+              RemoteBezierValue(
+                closed = startSubpath.closed,
+                inTangents =
+                  startSubpath.inTangents.mapIndexed { v, point ->
+                    point.mapIndexed { c, startCoord ->
+                      val endCoord = endSubpath.inTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
+                      lerp(startCoord.rf, endCoord.rf, currentBezierValue)
+                    }
+                  },
+                outTangents =
+                  startSubpath.outTangents.mapIndexed { v, point ->
+                    point.mapIndexed { c, startCoord ->
+                      val endCoord = endSubpath.outTangents.getOrNull(v)?.getOrNull(c) ?: startCoord
+                      lerp(startCoord.rf, endCoord.rf, currentBezierValue)
+                    }
+                  },
+                vertices =
+                  startSubpath.vertices.mapIndexed { v, point ->
+                    point.mapIndexed { c, startCoord ->
+                      val endCoord = endSubpath.vertices.getOrNull(v)?.getOrNull(c) ?: startCoord
+                      lerp(startCoord.rf, endCoord.rf, currentBezierValue)
+                    }
+                  },
+              )
+            }
+
+          animationSegments.add(BezierAnimationSegment(startKeyframe.frame, segmentValue))
+        }
+
+        chainBezierAnimation(animationSegments, animationSettings.currentFrame)
+      }
     }
   }
 }
 
-private fun animatePoints(
-  from: List<Point>,
-  to: List<Point>,
-  bezierValue: RemoteFloat,
-  duration: Float,
-  currentFrame: RemoteFloat,
-): List<Point> {
-  return from.mapIndexed { _index, point ->
-    // TODO: b/442404202 - Actually animate the path!
-    // calculateAnimationValue(point, to[index], bezierValue)
-    point
+/**
+ * Support keyframed bezier animations (and delayed start animations) by chaining multiple animation
+ * segments together across timeline thresholds.
+ */
+@SuppressLint("RestrictedApi")
+private fun chainBezierAnimation(
+  segments: List<BezierAnimationSegment>,
+  frame: RemoteFloat,
+): RemoteBezierValue {
+  if (segments.size == 1) {
+    return segments[0].value
   }
+
+  val firstSegment = segments[0]
+  val remainingChained = chainBezierAnimation(segments.subList(1, segments.size), frame)
+  val nextStartFrame = segments[1].startFrame.rf
+
+  return RemoteBezierValue(
+    closed = firstSegment.value.closed,
+    inTangents =
+      firstSegment.value.inTangents.mapIndexed { v, point ->
+        point.mapIndexed { c, coordVal ->
+          val remainingVal = remainingChained.inTangents.getOrNull(v)?.getOrNull(c) ?: coordVal
+          selectIfLt(frame, nextStartFrame, coordVal, remainingVal)
+        }
+      },
+    outTangents =
+      firstSegment.value.outTangents.mapIndexed { v, point ->
+        point.mapIndexed { c, coordVal ->
+          val remainingVal = remainingChained.outTangents.getOrNull(v)?.getOrNull(c) ?: coordVal
+          selectIfLt(frame, nextStartFrame, coordVal, remainingVal)
+        }
+      },
+    vertices =
+      firstSegment.value.vertices.mapIndexed { v, point ->
+        point.mapIndexed { c, coordVal ->
+          val remainingVal = remainingChained.vertices.getOrNull(v)?.getOrNull(c) ?: coordVal
+          selectIfLt(frame, nextStartFrame, coordVal, remainingVal)
+        }
+      },
+  )
 }

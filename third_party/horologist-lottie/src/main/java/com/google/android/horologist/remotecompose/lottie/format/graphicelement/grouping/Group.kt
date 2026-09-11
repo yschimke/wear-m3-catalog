@@ -27,6 +27,9 @@ internal data class Group(
   @SerialName("nm") override val name: String? = "",
   @SerialName("hd") override val hidden: Boolean? = false,
   @SerialName("ty") override val type: ShapeType = ShapeType.Group,
+  @SerialName("ix") override val index: Int? = null,
+  @SerialName("mn") override val matchName: String? = null,
+  @SerialName("cix") override val propertyIndex: Int? = null,
   @SerialName("np") val numberOfProperties: Int? = null,
-  @SerialName("it") val shapes: List<GraphicElement>,
+  @SerialName("it") val shapes: List<GraphicElement> = emptyList(),
 ) : GraphicElement

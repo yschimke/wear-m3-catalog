@@ -17,6 +17,7 @@
 package com.google.android.horologist.remotecompose.lottie.format.layer
 
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.grouping.Transform
+import com.google.android.horologist.remotecompose.lottie.format.mask.Mask
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -28,9 +29,18 @@ internal data class SolidColorLayer(
   @SerialName("ty") override val type: LayerType = LayerType.Solid,
   @SerialName("ind") override val index: Int? = null,
   @SerialName("parent") override val parent: Int? = null,
-  @SerialName("ip") override val startFrame: Int? = null,
-  @SerialName("op") override val endFrame: Int? = null,
+  @SerialName("ip") override val startFrame: Float? = null,
+  @SerialName("op") override val endFrame: Float? = null,
+  @SerialName("st") override val startTime: Float? = 0f,
+  @SerialName("sr") override val timeStretch: Float? = 1f,
   @SerialName("ks") override val transform: Transform? = null,
+  @SerialName("ao") override val autoOrient: Int? = 0,
+  @SerialName("bm") override val blendMode: BlendMode? = BlendMode.Normal,
+  @SerialName("tt") override val matteMode: MatteMode? = MatteMode.Normal,
+  @SerialName("tp") override val matteParent: Int? = null,
+  @SerialName("td") override val matteTarget: Int? = 0,
+  @SerialName("ddd") override val is3d: Int? = 0,
+  @SerialName("masksProperties") override val masksProperties: List<Mask> = emptyList(),
   @SerialName("sc") val solidColor: String = "#000000",
   @SerialName("sw") val solidWidth: Float = 0f,
   @SerialName("sh") val solidHeight: Float = 0f,

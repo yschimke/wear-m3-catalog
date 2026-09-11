@@ -11,10 +11,17 @@ read a `.rc` document can play the animation, which is exactly what a Wear widge
 
 ## Upstream
 
-- Repository: <https://github.com/google/horologist>
+- Repository: <https://github.com/MarkYav/horologist> — a FORK of
+  <https://github.com/google/horologist>, not upstream `main`
 - Path: `remotecompose/lottie`
-- Commit: `5a5e0cda24170f581711f8c678f028420d79dbfe` (`main`, 2026-09-04)
+- Commit: `580de49412c761e9802e86be993dcf20799e99b0` (`prepear-for-merge`)
 - License: Apache-2.0 (see the per-file headers, kept verbatim)
+
+**Pinned to a fork branch, deliberately, and that is the thing to re-check first.**
+`prepear-for-merge` is the branch preparing this module for merge into `google/horologist`, and it
+is well ahead of the `main` snapshot this copy started from (`5a5e0cda`, 40 files): it adds asset,
+mask and shape-modifier support. When it lands upstream, re-pin to the merge commit on
+`google/horologist` and this entry becomes ordinary.
 
 Horologist publishes no artifact for this module — it carries no `maven-publishing` plugin, and
 nothing under `com.google.android.horologist:horologist-remotecompose-*` exists on Maven Central.
@@ -43,7 +50,7 @@ improvement worth keeping — see *Local modifications*, which is deliberately a
 
 ## What is vendored
 
-`src/main/` only — 40 Kotlin files, ~3.6k lines, in two halves:
+`src/main/` only — 81 Kotlin files, ~11.8k lines, in two halves:
 
 | Package | What it is |
 | --- | --- |
@@ -80,11 +87,12 @@ notice verbatim. No header was rewritten, and no file was re-attributed.
 
 ## Local modifications
 
-**One line, and it is whitespace.** `format/graphicelement/geometry/Ellipse.kt` had a 101-column
-declaration that ktfmt in Google style wraps onto two lines. It was wrapped while the copy lived in
-`yschimke/rc-players`, whose formatter reached it, and it travelled here with the sources.
+**None.** The earlier copy carried one whitespace hunk in
+`format/graphicelement/geometry/Ellipse.kt`, wrapped by ktfmt while it lived in
+`yschimke/rc-players`. Re-vendoring from `prepear-for-merge` replaced `src/main/` wholesale, so
+`diff -r` against the pinned commit is now empty.
 
-It will acquire no more. This module excludes `src/main/` from ktfmt — the same rule
+It will stay that way. This module excludes `src/main/` from ktfmt — the same rule
 `:samples-catalog` applies to its `upstream/` directory, and the formatting counterpart of "a fix
 is a patch, never an edit" — so upstream's bytes stay upstream's. A behaviour fix belongs upstream,
 where the screenshot tests that can prove it live.

@@ -36,13 +36,18 @@ internal data class Transform(
   @SerialName("nm") override val name: String? = "",
   @SerialName("hd") override val hidden: Boolean? = false,
   @SerialName("ty") override val type: ShapeType = ShapeType.Transform,
+  @SerialName("ix") override val index: Int? = null,
+  @SerialName("mn") override val matchName: String? = null,
+  @SerialName("cix") override val propertyIndex: Int? = null,
   @SerialName("a")
-  val anchorPoint: BasePositionProperty = StaticPositionProperty(value = floatArrayOf(0f, 0f)),
+  val anchorPoint: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
   @SerialName("p")
-  val positionTranslation: BasePositionProperty =
-    StaticPositionProperty(value = floatArrayOf(0f, 0f)),
+  val positionTranslation: BasePositionProperty = StaticPositionProperty(value = listOf(0f, 0f)),
   @SerialName("r") val rotation: BaseScalarProperty = StaticScalarProperty(value = 0f),
-  @SerialName("s")
-  val scale: BaseVectorProperty = StaticVectorProperty(value = floatArrayOf(100f, 100f)),
+  @SerialName("s") val scale: BaseVectorProperty = StaticVectorProperty(value = listOf(100f, 100f)),
   @SerialName("o") val opacity: BaseScalarProperty = StaticScalarProperty(value = 100f),
+  @SerialName("sk") val skew: BaseScalarProperty? = null,
+  @SerialName("sa") val skewAxis: BaseScalarProperty? = null,
+  @SerialName("so") val startOpacity: BaseScalarProperty? = null,
+  @SerialName("eo") val endOpacity: BaseScalarProperty? = null,
 ) : GraphicElement

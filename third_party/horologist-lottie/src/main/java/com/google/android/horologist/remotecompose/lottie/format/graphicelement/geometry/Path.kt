@@ -16,9 +16,10 @@
 
 package com.google.android.horologist.remotecompose.lottie.format.graphicelement.geometry
 
-import com.google.android.horologist.remotecompose.lottie.format.graphicelement.GraphicElement
 import com.google.android.horologist.remotecompose.lottie.format.graphicelement.ShapeType
 import com.google.android.horologist.remotecompose.lottie.format.properties.BaseBezierProperty
+import com.google.android.horologist.remotecompose.lottie.format.properties.StaticBezierProperty
+import com.google.android.horologist.remotecompose.lottie.format.values.BezierValue
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -28,5 +29,9 @@ internal data class Path(
   @SerialName("nm") override val name: String? = "",
   @SerialName("hd") override val hidden: Boolean? = false,
   @SerialName("ty") override val type: ShapeType = ShapeType.Path,
-  @SerialName("ks") val shape: BaseBezierProperty,
-) : GraphicElement
+  @SerialName("ix") override val index: Int? = null,
+  @SerialName("mn") override val matchName: String? = null,
+  @SerialName("cix") override val propertyIndex: Int? = null,
+  @SerialName("d") override val direction: Int? = null,
+  @SerialName("ks") val shape: BaseBezierProperty = StaticBezierProperty(value = BezierValue()),
+) : GeometryShape
