@@ -30,7 +30,9 @@
  *  - a `@Sampled` function taking parameters is a helper a sample calls, not a call site anyone can
  *    render on its own;
  *  - a sample that already carries a preview annotation is left alone, or discovery would find the
- *    same composable twice and publish it twice.
+ *    same composable twice and publish it twice;
+ *  - a sample named in `samples/quarantine.json`'s `previews` list compiles but cannot RUN here, and
+ *    a wrapper for it would fail the whole render job rather than just itself.
  *
  * Refusing rather than guessing matters: a wrapper that does not compile fails the whole module,
  * and a wrapper that renders something meaningless is worse than a missing card.
@@ -39,10 +41,11 @@
  *     node scripts/samples-previews.mjs --check    # fail if the generated file is stale
  */
 
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const VENDORED = "samples-catalog/src/main/kotlin/upstream";
+const QUARANTINE = "samples/quarantine.json";
 const OUT = "samples-catalog/src/main/kotlin/generated/SamplePreviews.kt";
 const PACKAGE = "ee.schimke.wearm3catalog.samples";
 const UPSTREAM_PACKAGE = "androidx.wear.compose.material3.samples";
@@ -59,14 +62,32 @@ function kotlinSources(dir) {
 }
 
 /**
+ * The sample function names `samples/quarantine.json` declares unrenderable, mapped to their
+ * reasons.
+ *
+ * The per-FILE `samples` list is the importer's unit and is not read here: a file that does not
+ * compile never reaches this tree at all. This is the other failure mode — a sample that compiles
+ * and then throws at composition, where taking out its whole file would drop the eight siblings
+ * that render perfectly well.
+ */
+export function quarantinedPreviews(path = QUARANTINE) {
+  if (!existsSync(path)) return new Map();
+  const parsed = JSON.parse(readFileSync(path, "utf8"));
+  return new Map(
+    (parsed.previews ?? []).map((entry) => [entry.sample, entry.reason ?? "(no reason given)"]),
+  );
+}
+
+/**
  * Classify every `@Sampled` function in the vendored tree.
  *
- * @returns {{wrap: string[], hasPreview: string[], takesArguments: string[]}}
+ * @returns {{wrap: string[], hasPreview: string[], takesArguments: string[], quarantined: string[]}}
  */
-export function classifySamples(dir = VENDORED) {
+export function classifySamples(dir = VENDORED, skip = quarantinedPreviews()) {
   const wrap = [];
   const hasPreview = [];
   const takesArguments = [];
+  const quarantined = [];
   for (const file of kotlinSources(dir)) {
     const text = readFileSync(file, "utf8");
     // Annotations immediately preceding a `fun`, then its parameter list. The compiler's own rule,
@@ -77,6 +98,10 @@ export function classifySamples(dir = VENDORED) {
       if (!annotations.includes("@Composable")) continue;
       if (annotations.includes("@Preview")) {
         hasPreview.push(fn);
+        continue;
+      }
+      if (skip.has(fn)) {
+        quarantined.push(fn);
         continue;
       }
       if (parameters.trim() !== "") {
@@ -90,6 +115,7 @@ export function classifySamples(dir = VENDORED) {
     wrap: [...new Set(wrap)].sort(),
     hasPreview: [...new Set(hasPreview)].sort(),
     takesArguments: [...new Set(takesArguments)].sort(),
+    quarantined: [...new Set(quarantined)].sort(),
   };
 }
 
@@ -120,7 +146,8 @@ import androidx.compose.ui.tooling.preview.Preview
 }
 
 function main(argv) {
-  const { wrap, hasPreview, takesArguments } = classifySamples();
+  const skip = quarantinedPreviews();
+  const { wrap, hasPreview, takesArguments, quarantined } = classifySamples(VENDORED, skip);
   const source = renderPreviews(wrap);
 
   if (argv.includes("--check")) {
@@ -135,6 +162,9 @@ function main(argv) {
   writeFileSync(OUT, source);
   console.log(`${OUT}: ${wrap.length} wrapper(s) generated.`);
   console.log(`  ${hasPreview.length} sample(s) already carry @Preview upstream and are left alone.`);
+  for (const fn of quarantined) {
+    console.log(`  quarantined: ${fn} — ${skip.get(fn)}`);
+  }
   if (takesArguments.length > 0) {
     console.log(
       `  ${takesArguments.length} @Sampled function(s) take arguments and are not renderable on ` +

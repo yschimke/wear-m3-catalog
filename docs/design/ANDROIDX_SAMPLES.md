@@ -39,9 +39,29 @@ measurement has since changed them. The tooling landed **in the phone repo first
 the importer, the `@sample` reader and the pin are the same scripts with this repo's paths and
 version. The `related` field they feed is merged upstream (see "Linking" below).
 
-Not built yet, on either side: the `:samples-catalog` Gradle module and its generated `@Preview`
-wrappers, the design-artifacts job, the `catalogs.json` registration, and the server's "Samples"
-affordance.
+The `:samples-catalog` module and its generated `@Preview` wrappers are now built here too. What
+this repo renders today, measured rather than projected:
+
+| | Wear (this repo) | Phone (m3-catalog) |
+| --- | --- | --- |
+| Vendored files | 43 | 47 |
+| Compile errors | 0 | 0 |
+| Files quarantined (do not compile) | 0 | 8 |
+| Patches needed | 0 | 0 |
+| Samples already carrying `@Preview` upstream | 34 of 170 | 298 of 317 |
+| `@Preview` wrappers generated | 115 | 0 — none needed |
+| `@Sampled` functions taking arguments, refused | 20 | — |
+| Samples quarantined (compile, cannot run here) | 1 | 0 |
+| **Published components / groups** | **149 in 79** | **240 in 102** |
+
+The section above predicted "Wear should need *fewer* patches than the phone side": it needs zero,
+and zero file quarantines against the phone's eight, because everything here is already Android and
+there is no common/Android boundary to cross. It also predicted the wrapper stage would be
+unnecessary; that was right for the phone and wrong here, by a factor of the two teams' annotation
+habits rather than anything about the platforms. See "Transform" below.
+
+Not built yet, on either side: the design-artifacts job, the `catalogs.json` registration, and the
+server's "Samples" affordance.
 
 ## Acquisition: vendor a pinned subtree
 
@@ -123,24 +143,53 @@ shows an API-usage difference and not a rasteriser difference.
 
 Three mechanical stages, all idempotent and re-runnable, all producing reviewable diffs:
 
-1. **Rewrite.** Strip `@Sampled` / `androidx.annotation.Sampled` and normalise the preview imports
-   onto the ones this repo's stickers use.
-2. **Wrap.** Generate a `@Preview` + sticker wrapper per sample into a *separate generated file*, so
-   the vendored source stays byte-identical to upstream except for the recorded patches. This is
-   mechanical rather than clever because AndroidX enforces that a `@Sampled` function is a zero-arg
-   composable.
+1. ~~**Rewrite.** Strip `@Sampled` / `androidx.annotation.Sampled` and normalise the preview
+   imports.~~ **Dropped.** Stripping an annotation is an edit to every vendored file, which costs the
+   byte-identity the whole import contract rests on — a re-import would then diff against upstream
+   forever. `androidx.annotation.Sampled` turned out to be published in no artifact at all
+   (`annotation-sampled` 404s; it is in neither the KMP nor the `-jvm` jar), so the fix is a
+   four-line local shim in `samples-catalog/src/main/kotlin/shims/Sampled.kt` declaring the
+   annotation this repo's own compiler needs. Upstream's bytes are untouched.
+2. **Wrap.** `scripts/samples-previews.mjs` generates a `@Preview` wrapper per sample into a
+   *separate generated file* under this repo's own package, never inside `upstream/`.
+
+   **This stage was predicted unnecessary and is load-bearing here.** 298 of the phone corpus's 317
+   samples carry `@Preview` upstream, so that repo generates none. Wear carries it on **34 of 170**.
+   Without wrappers this catalog would publish a fifth of the corpus. The generator refuses two
+   cases rather than guessing: a `@Sampled` function taking parameters (20 of them — a helper a
+   sample calls, and a wrapper for it would not compile), and a sample already annotated upstream
+   (discovery would find the same composable twice).
 3. **Patch.** `samples/patches/*.patch`, applied by the importer after download, each carrying a
-   one-line reason.
+   one-line reason. **Zero needed** at the current pin.
 
-A sample that genuinely cannot be imported — it needs an Activity, a permission, a real
-`Context`, an ambient-mode callback — goes in `samples/quarantine.json` with a reason. A test fails
-when a patch stops applying cleanly **or when a quarantined sample becomes importable**, so the gap
-cannot silently rot into a permanent exclusion nobody revisits. That is the answer to "make small
-fixes when needed": a fix is a patch with a reason, never an untracked edit to a vendored file.
+`samples/quarantine.json` carries the declared, checked gaps, in **two units, because there are two
+failure modes** — a distinction the first draft did not have:
 
-Wear should need *fewer* patches than the phone side, not more — everything is Android already, so
-there is no common/Android boundary to cross. The likely quarantine cases are the samples that want
-real device services rather than the ones that want a different platform.
+- **`samples`** lists FILES that do not COMPILE. That is the importer's unit, so an entry takes the
+  file's whole sample set out of the catalog. Empty here; eight entries on the phone side.
+- **`previews`** lists individual SAMPLES that compile and then cannot RUN. The wrapper generator
+  skips those, which keeps the rest of their file. Needed because **one failed preview fails the
+  whole render job**, so a single unrenderable sample otherwise costs the catalog every picture in
+  it.
+
+Exactly one entry, and it is the one case in this import that really is unfixable rather than
+misconfigured: `OneHandedGestureButtonInAmbientSample` calls `rememberAmbientModeManager()`, whose
+`AmbientModeManagerImpl` constructor touches `com.google.wear.services.ambient.AmbientComponentState`
+— a Wear OS **system** API that upstream itself compiles against as `compileOnly` and that ships only
+in a watch's system image. There is nothing to add: `com.google.wear:wear-sdk` and
+`com.google.android.wearable:wear-sdk` both 404 on Google Maven, and no `wear-sdk.jar` exists under
+any installed Android SDK platform. Ambient mode is also a state no still frame can show. The other
+eight samples in `OneHandedGestureSamples.kt` render, which is exactly why the per-sample unit had to
+exist.
+
+**Everything else that looked like "this sample cannot work here" was configuration, every time.**
+The residue after each fix, in order: the recursive copy (a flat vendor silently dropped
+`samples/icons/`, 24 errors pointing at a directory nobody had noticed was missing); vendoring `res/`
+*and* setting the module `namespace` to `androidx.wear.compose.material3.samples` so `R` generates in
+upstream's package, 39 errors; `androidx.activity:activity-compose` for
+`LocalOnBackPressedDispatcherOwner`, 5 errors. Only after all three was there a single genuine
+device-API failure left. The lesson is the ordering: exhaust the missing-configuration explanations
+before believing a platform one.
 
 ## Mapping: the KDoc is the source of truth
 
@@ -246,12 +295,20 @@ is a generic input:
 - `cli-version: catalog` + `catalog-key: composePreviewPlugin`, as the two existing jobs do
 - **no** `desktop-render` — Robolectric, like `:catalog`
 - `split-per-preview: false`
-- no `render-shards` to begin with: ~170 base previews is small next to what forces sharding
+- no `render-shards` to begin with: 149 base previews is small next to what forces sharding
 
 The `changes` / `Scope` job gains a third output (`samples`), dirtied by `samples-catalog/**` and by
 the shared inputs that already dirty both others. Keep its fail-safe behaviour exactly as it is: no
 resolvable change set means render everything. Publishing a fresh bundle is never wrong; skipping a
 stale one is.
+
+Already wired in `ci.yml`, and independent of that job because none of it needs a render: the
+`@sample` reader's tests, the importer's tests, the wrapper generator's tests, and a
+regenerate-and-diff over both generated-and-committed artifacts
+(`samples-previews.mjs --check`, `samples-spec.mjs --check`). The two `--check` gates are the ones
+that matter day to day — the wrappers are compiled sources and the spec is what the
+design-artifacts job publishes, so either drifting from the vendored tree ships a catalog that does
+not match its own inventory.
 
 A weekly `samples-refresh.yml` re-runs the importer and opens a PR when the vendored tree or
 `sample-map.json` moves — the cadence `figma-pages.yml` and `design-parity-import.yml` already use,
@@ -285,7 +342,7 @@ only — and turn live rendering on as its own deliberate change.
 - **Version lockstep.** The samples ref and `wear-compose` move together or the module does not
   compile. That is the desired failure mode, but it does mean a Renovate bump of `wear-compose` will
   need the import re-run in the same PR rather than merging on its own.
-- **Render budget.** ~170 base previews before mode axes. Not a concern; it becomes one if samples
+- **Render budget.** 149 base previews before mode axes. Not a concern; it becomes one if samples
   grow variant matrices, which they should not — a sample has one right way to be drawn.
 
 ## Reproducing the evidence
