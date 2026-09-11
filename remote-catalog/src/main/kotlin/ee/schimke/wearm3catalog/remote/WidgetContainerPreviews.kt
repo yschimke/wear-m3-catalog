@@ -11,17 +11,23 @@ import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.glance.wear.WearWidgetBrush
+import androidx.glance.wear.WearWidgetDocument
 import androidx.glance.wear.core.ContainerInfo
 import androidx.glance.wear.core.WearWidgetParams
 import androidx.glance.wear.core.WidgetInstanceId
+import androidx.glance.wear.tooling.preview.WearWidgetPreview
 import androidx.glance.wear.verticalGradient
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
+import ee.schimke.composeai.data.render.IrSidecarChannel
 import ee.schimke.composeai.preview.CatalogComponent
-import ee.schimke.composeai.wear.preview.CapturingWearWidgetPreview
+import kotlinx.coroutines.runBlocking
 
 // ---------------------------------------------------------------------------
 // Widget container — the squircle frame the Wear widget host draws AROUND widget
@@ -49,14 +55,14 @@ import ee.schimke.composeai.wear.preview.CapturingWearWidgetPreview
 // player raster, so there is no named-value override here.
 //
 // They DO emit the encoded document, though: each sticker renders through
-// `:wear-preview-runtime`'s `CapturingWearWidgetPreview` rather than upstream's
-// `WearWidgetPreview`. Upstream captures the `RemoteDocument` internally and keeps
-// the bytes to itself (only the raster escapes), which left these stickers riding
-// the portable bundle as compiled `@Preview` bytecode. The wrapper captures the
-// same document and offers it to `IrSidecarChannel`, so the render lands a
+// `CapturingWearWidgetPreview` below rather than upstream's `WearWidgetPreview` directly.
+// Upstream captures the `RemoteDocument` internally and keeps the bytes to itself (only the raster
+// escapes), which left these stickers riding the portable bundle as compiled `@Preview` bytecode.
+// The wrapper captures the same document and offers it to `IrSidecarChannel`, so the render lands a
 // `<stem>.rc` next to the PNG and `BundlePreviewTask.resolvePreviewIr` packs it as
 // the sticker's IR — the widget travels as data, like every other Remote Compose
-// sticker in this sheet. Same wrapper `:samples:wear-widget` (yschimke/compose-ai-tools) uses.
+// sticker in this sheet. It is local while the AndroidX snapshot's new
+// `useSafeFallbackRendererVersion` parameter is newer than compose-ai-tools' published wrapper.
 //
 // No Wear M3 parallel: the container is a Glance Wear *host* frame, not a
 // `remote-material3` component.
@@ -97,6 +103,44 @@ private val largeWidgetParams =
     verticalPaddingDp = 8f,
     cornerRadiusDp = 26f,
   )
+
+/**
+ * Snapshot-compatible form of compose-ai-tools' widget capture wrapper.
+ *
+ * AndroidX added [WearWidgetPreview]'s `useSafeFallbackRendererVersion` parameter after the
+ * published wrapper was compiled. Calling the wrapper therefore links against the old JVM signature
+ * and fails at render time. Keep the sidecar capture here and call the new API directly until the
+ * wrapper release catches up.
+ */
+@Composable
+private fun CapturingWearWidgetPreview(
+  params: WearWidgetParams,
+  background: WearWidgetBrush = WearWidgetBrush,
+  content: @Composable @RemoteComposable () -> Unit,
+) {
+  val context = LocalContext.current
+  remember(params, background, content) {
+    try {
+      val raw = runBlocking {
+        WearWidgetDocument(background, content)
+          .captureRawContent(context, params, /* isInspectionMode= */ true)
+      }
+      IrSidecarChannel.offer(IrSidecarChannel.FORMAT_REMOTECOMPOSE, raw.rcDocument)
+    } catch (t: Throwable) {
+      System.err.println(
+        "CapturingWearWidgetPreview: failed to capture the widget's RemoteCompose document; " +
+          "this render will emit no .rc sidecar. Cause: $t"
+      )
+    }
+  }
+  WearWidgetPreview(
+    params = params,
+    modifier = Modifier,
+    background = background,
+    useSafeFallbackRendererVersion = true,
+    content = content,
+  )
+}
 
 // Fills the container's padded content slot and centres the given content in it.
 // `WearWidgetContainer` lays content out top-start; a real widget supplies its own

@@ -55,9 +55,9 @@ horologist = "0.8.4-alpha"
 # Nothing here reaches `:catalog`. That module is on the stable Compose BOM and the Wear Compose
 # beta line; this one deliberately is not, which is why the two are separate modules rather than
 # two source sets (see remote-catalog/build.gradle.kts).
-compose-remote = "1.0.0-alpha18"
-wear-compose-remote = "1.0.0-alpha10"
-glance-wear = "1.0.0-alpha17"
+compose-remote = "1.0.0-SNAPSHOT"
+wear-compose-remote = "1.0.0-SNAPSHOT"
+glance-wear = "1.0.0-SNAPSHOT"
 
 # Pre-release compose-ui for `:remote-catalog`. The alpha remote artifacts align with the Compose
 # 1.11+ line (1.11.0 is the first release shipping `PreviewWrapper`), so that module pins explicit
