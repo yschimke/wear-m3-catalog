@@ -1,4 +1,11 @@
 {
-  "$comment": "AndroidX Wear sample FILES this catalog cannot compile, each with the reason and the evidence. A declared, CHECKED gap -- scripts/import-samples.mjs skips these and re-running the import without an entry is what says whether it is still needed. Entries come from a real compile failure, never from a guess ahead of one. Quarantine is per FILE, the unit the importer copies, so a listed file takes its whole sample set out of the catalog -- prefer a patch wherever one is small enough to state.",
-  "samples": []
+  "$comment": "AndroidX Wear samples this catalog cannot render, each with the reason and the evidence. A declared, CHECKED gap -- re-running the import and the render without an entry is what says whether it is still needed. Entries come from a real failure, never from a guess ahead of one. Two units, because there are two failure modes. `samples` lists FILES that do not COMPILE; it is the unit scripts/import-samples.mjs copies, so a listed file takes its whole sample set out of the catalog -- prefer a patch wherever one is small enough to state. `previews` lists individual SAMPLES that compile but cannot RUN here; scripts/samples-previews.mjs generates no @Preview wrapper for them, which keeps the rest of their file in the catalog.",
+  "samples": [],
+  "previews": [
+    {
+      "sample": "OneHandedGestureButtonInAmbientSample",
+      "reason": "Calls rememberAmbientModeManager(), whose AmbientModeManagerImpl constructor touches com.google.wear.services.ambient.AmbientComponentState -- a Wear OS SYSTEM api that upstream itself compiles against as compileOnly and that ships only in a watch's system image. There is no artifact to add: com.google.wear:wear-sdk and com.google.android.wearable:wear-sdk both 404 on Google Maven, and no wear-sdk.jar exists under any Android SDK platform. Ambient mode is also a state no still frame can show. The other 8 samples in OneHandedGestureSamples.kt render, so this is a per-sample skip rather than a file quarantine.",
+      "evidence": "java.lang.NoClassDefFoundError: com/google/wear/services/ambient/AmbientComponentState at androidx.wear.compose.foundation.AmbientModeManagerImpl.<init>(LocalAmbientModeManager.kt:192) <- rememberAmbientModeManager(LocalAmbientModeManager.kt:87) <- OneHandedGestureButtonInAmbientSample(OneHandedGestureSamples.kt:121)"
+    }
+  ]
 }

@@ -306,6 +306,33 @@ jobs:
       # this is where this repo already runs `node --test` over its scripts.
       - run: node --test .github/scripts/fix-pr-body-markdown.test.mjs
 
+      # The @sample KDoc reader behind sample-map.json — the API-to-sample map the samples catalog
+      # groups by, and the fingerprint samples-drift.mjs compares the two corpora on. A line-based
+      # reader mis-attributes about 12% of the blocks carrying a `@sample`, so the scanner that
+      # replaces it is worth holding still. See docs/design/ANDROIDX_SAMPLES.md.
+      - run: node --test scripts/sample-map.test.mjs
+
+      # The vendoring importer. The load-bearing behaviour is that a patch which no longer applies
+      # FAILS the import rather than silently dropping the fix it carries, that a quarantined file
+      # is a declared and checked gap, and that a sample tree is copied as a PACKAGE — a flat copy
+      # left `samples/icons/` behind here and cost 24 compile errors.
+      - run: node --test scripts/import-samples.test.mjs
+
+      # The @Preview wrapper generator. Only 34 of the 170 Wear samples are annotated upstream, so
+      # 115 of this catalog's cards exist only because this script wrote them — and it must refuse
+      # to write one for a sample that takes arguments (would not compile) or one quarantined as
+      # unrenderable, because a single failed preview fails the whole render job.
+      - run: node --test scripts/samples-previews.test.mjs
+
+      # Both generated-and-committed samples artifacts, regenerated and diffed. The wrappers are
+      # compiled sources and the spec is what design-artifacts.yml publishes, so either going stale
+      # against the vendored tree publishes a catalog that does not match its own inventory.
+      - name: Regenerate the samples wrappers and spec
+        run: |
+          set -euo pipefail
+          node scripts/samples-previews.mjs --check
+          node scripts/samples-spec.mjs --check
+
       # The snapshot probe's decision logic — what makes `remote-snapshot-probe.yml` ping a human
       # or stay quiet. Pure and stdlib-only, so it runs beside the resolver test rather than
       # needing the probe's own Pillow/Android environment. A watchdog whose comparison silently

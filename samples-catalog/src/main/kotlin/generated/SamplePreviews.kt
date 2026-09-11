@@ -235,10 +235,6 @@ fun NonClickableTitleCardWithImageWithTimeAndTitleSamplePreview() = androidx.wea
 
 @Preview
 @Composable
-fun OneHandedGestureButtonInAmbientSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureButtonInAmbientSample()
-
-@Preview
-@Composable
 fun OneHandedGestureButtonSamplePreview() = androidx.wear.compose.material3.samples.OneHandedGestureButtonSample()
 
 @Preview
