@@ -68,6 +68,26 @@ composePreview {
   renderBeforeUnitTests.set(true)
 }
 
+// ── One font file, two lanes ───────────────────────────────────────────────────────────────────
+//
+// The variable Roboto Flex is committed ONCE, under `src/androidMain/res/font/`, because that is
+// where AGP has to find it to make `R.font.roboto_flex`. The desktop compilation cannot read an
+// Android resource, so the file is republished into the desktop source set's resources under a
+// package-shaped path — `ee/schimke/wearm3catalog/fonts/` rather than the jar root, so a
+// dependency of `:catalog-desktop` cannot collide with it.
+//
+// A second committed copy would have been three fewer lines and one more thing to forget: the two
+// lanes are compared sticker for sticker, and that comparison is only about the component if both
+// sides are drawing with the identical face.
+val desktopFontResources by
+  tasks.registering(Sync::class) {
+    description = "Republishes the vendored Roboto Flex onto the desktop compilation's classpath."
+    from(layout.projectDirectory.dir("src/androidMain/res/font")) {
+      into("ee/schimke/wearm3catalog/fonts")
+    }
+    into(layout.buildDirectory.dir("generated/desktopFontResources"))
+  }
+
 kotlin {
   // AGP 9 / KMP names this block `android { }` (it was `androidLibrary { }` in earlier previews).
   android {
@@ -209,6 +229,11 @@ kotlin {
       implementation(libs.horologist.compose.layout)
       implementation(libs.horologist.images.base)
     }
+
+    // The desktop lane draws with the SAME vendored variable Roboto Flex the Android lane does,
+    // read as a classpath resource — see `CatalogFonts.desktop.kt`. `desktopFontResources` above
+    // is what puts the one committed TTF there; this is the source set that consumes it.
+    getByName("desktopMain").resources.srcDir(desktopFontResources)
 
     getByName("androidHostTest").dependencies {
       implementation(libs.junit)

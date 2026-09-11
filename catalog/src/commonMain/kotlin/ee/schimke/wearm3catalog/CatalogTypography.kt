@@ -25,17 +25,59 @@ import androidx.wear.compose.material3.Typography
  *
  * `expect` because HOW a face is obtained is the one genuinely platform-bound thing here, and the
  * type scales below are not: the scale is arithmetic over a [FontFamily], identical everywhere. On
- * Android each family resolves through the GMS downloadable-font provider (Roboto Flex from the
- * vendored variable face) — see `CatalogFonts.android.kt` for why that split is not arbitrary.
- * Other targets fall back to the platform's own families, which is honest rather than silent: a
- * desktop render says "this is the scale, in the default face", not "this is Confetti Wear's face"
- * when it is not.
+ * Android three of the four resolve through the GMS downloadable-font provider — see
+ * `CatalogFonts.android.kt` for why that split is not arbitrary.
+ *
+ * [RobotoFlex] is the exception on BOTH targets, and it is the one that matters most: it is the
+ * face the STOCK Wear type scale is designed around, so it draws every un-themed sticker in the
+ * catalog rather than one theme's. It is vendored, and desktop reads the same committed file
+ * through a classpath resource — see [TypeScaleWeights].
+ *
+ * The other three still fall back to the platform's own families on desktop, which is honest rather
+ * than silent: a themed desktop render says "this is the scale, in the default face", not "this is
+ * Confetti Wear's face" when it is not. Vendoring them is a licensing question per face rather than
+ * a technical one — the provider serves them, this repository has not bought the right to
+ * redistribute them, and only the Roboto Flex bytes arrived here under the OFL.
  */
 /**
  * Roboto Flex — the display / title face of Confetti Wear's ship typography, AND the face the stock
  * Wear roles are designed around. Vendored and variable; see [TypeScaleWeights].
  */
 expect val RobotoFlex: FontFamily
+
+/**
+ * The weights the Wear Material 3 type scale asks for, and which every target that vendors the
+ * variable face registers a face at.
+ *
+ * `TypeScaleTokens` does not ask for `FontWeight.Normal` and `FontWeight.Medium`. It asks for
+ * `wght` **450, 500, 520, 550, 560, 580, 599, 650, 700, 750, 760 and 780** — twelve values on a
+ * continuous axis, paired with `wdth` 100 / 104 / 110 — and `TypographyTokens` puts each pair on
+ * its role as `fontVariationSettings`. Those are instructions to a VARIABLE font, and a static face
+ * ignores every one of them silently: the type scale is inert, and each role renders at whatever
+ * the nearest registered weight happens to be.
+ *
+ * That is what a downloadable provider gives you, and it cannot give anything else. Google Fonts
+ * serves Roboto Flex as a **static instance** — a single 88 KB file with no `fvar` table —
+ * whichever way it is asked. A single weight, an axis range and the full axis tuple all return the
+ * identical file, and the render cache shows the same thing from the other end:
+ * `roboto-flex-400.ttf` and `roboto-flex-500.ttf` are byte-for-byte the same font, so even the
+ * Medium roles were a synthesised emboldening of Regular.
+ *
+ * So the real variable face is committed once, under `catalog/src/androidMain/res/font/` (OFL,
+ * `licenses/RobotoFlex-OFL.txt`), with `fvar`, `gvar` and all thirteen axes, and BOTH lanes read
+ * that one file — Android as `R.font.roboto_flex`, desktop as a classpath resource the build
+ * republishes it as. The scale's `wght` and `wdth` land on a font that has them, which is what a
+ * watch does with its device font and what this catalog has been claiming to draw.
+ *
+ * A face is registered per token weight rather than the usual Normal/Medium pair. The matcher picks
+ * the nearest registered weight and Compose synthesises the rest of the difference; with a face at
+ * every value the scale names, there is nothing left to synthesise, and the `wght` baked into the
+ * matched face already agrees with the `fontVariationSettings` the role carries. Registering two
+ * faces and letting a 780 role resolve against a 400 one is how a variable font ends up looking
+ * like a faked bold.
+ */
+internal val TypeScaleWeights: List<Int> =
+  listOf(400, 450, 500, 520, 550, 560, 580, 599, 650, 700, 750, 760, 780)
 
 /** Inter — Confetti Wear's body / label face, hinted for small sizes on a round display. */
 expect val Inter: FontFamily

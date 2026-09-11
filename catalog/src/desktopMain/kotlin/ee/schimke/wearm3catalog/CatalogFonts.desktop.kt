@@ -1,21 +1,43 @@
 package ee.schimke.wearm3catalog
 
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.platform.Font
 
 // The desktop half of the catalog's typefaces.
 //
-// Every family falls back to a platform default. The Android faces are obtained through the GMS
-// downloadable-font provider and a vendored variable Roboto Flex under `res/font` — an Android
-// resource and an Android system service, neither of which exists here.
-//
-// This is deliberately a FALLBACK and not an attempt to reproduce the brand faces. The published
-// kit rendition is the Robolectric one, drawn with the real faces; what a desktop compilation is
-// for today is proving the component bodies are genuinely multiplatform. A desktop render shows
-// the type SCALE — every size, line height, tracking and per-role variation setting the library
-// sets, preserved by `wearTypography` — in the platform's own face, which is a true statement about
-// what it is. Bundling the OFL faces here would make it a truer picture and is a separate change.
+// [RobotoFlex] is the SAME committed variable face the Android lane draws with. The other three
+// fall back to a platform family: they are obtained on Android through the GMS
+// downloadable-font provider, which is an Android system service with no desktop equivalent, and
+// the bytes it serves are not this repository's to vendor. `CatalogTypography.kt` states which of
+// the two each family is and why.
 
-actual val RobotoFlex: FontFamily = FontFamily.Default
+/**
+ * The vendored variable Roboto Flex, read off the classpath.
+ *
+ * One file, two lanes: the TTF lives at `catalog/src/androidMain/res/font/roboto_flex.ttf`, where
+ * AGP needs it to be `R.font.roboto_flex`, and `catalog/build.gradle.kts` republishes that same
+ * file into the desktop compilation's resources. A second copy would be a second thing to bump when
+ * the face moves, and byte-identical faces are the only way a cross-lane comparison of a sticker is
+ * measuring the COMPONENT rather than the font.
+ *
+ * A face per token weight with the matching `wght` axis setting, exactly as the Android actual
+ * registers them and for the reason [TypeScaleWeights] gives. Compose Desktop resolves the axis on
+ * a resource font through the same `FontVariation.Settings` API, so the two lanes ask the face for
+ * the same instance rather than one of them silently taking the default.
+ */
+actual val RobotoFlex: FontFamily =
+  FontFamily(
+    TypeScaleWeights.map { weight ->
+      Font(
+        resource = "ee/schimke/wearm3catalog/fonts/roboto_flex.ttf",
+        weight = FontWeight(weight),
+        variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
+      )
+    }
+  )
 
 actual val Inter: FontFamily = FontFamily.SansSerif
 
