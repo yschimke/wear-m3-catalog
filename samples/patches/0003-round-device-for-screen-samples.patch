@@ -1,0 +1,410 @@
+Draw the screen-filling samples on a round watch.
+
+WHY: these 26 samples carry their own `@Preview` upstream, and a bare one is device-less — so the
+Wear retarget measures them against the 227dp watch screen with both axes wrapped, and each comes
+out a 227dp SQUARE. The other 60 screen-filling samples reach this repo through generated
+wrappers, which `scripts/samples-previews.mjs` gives the same device; this patch is only for the
+ones the generator cannot touch because upstream already annotated them.
+
+A square is wrong for a sample that fills the screen, in two ways that compound:
+
+  - it shows pixels a watch never draws. `ScaffoldSample`'s bottom row spans x=45..355 of 454,
+    where a round bezel exposes only x=149..305 at that height.
+  - `isRound` is LOAD-BEARING, not cosmetic. `androidx.wear.compose.foundation.ResourcesKt` calls
+    `Configuration.isScreenRound()`, so components branch on screen shape: a square canvas can lay
+    a sample out differently from the watch it ships on, which makes the published sticker a claim
+    about the API that the device would not honour.
+
+Only the screen-filling ones. A sample that is one component still renders device-less and crops to
+its own bounds — pinning those to a device is the regression the plugin's `retargetWearStickers`
+KDoc already records, where a `FilledButton` sticker "became a 454x454 watch canvas with the button
+adrift in the corner". Which samples are which is MEASURED off a render rather than inferred from
+the sources, by `scripts/samples-device-bound.mjs`; its header says why a static rule over the
+source is not good enough.
+
+The device is the 225dp round spec `:catalog` uses for one of its five full-screen breakpoints, and
+the black face is the same `@CatalogFullScreenModes` carries. ONE device rather than five: the kit
+sheet renders every screen size because it reproduces a kit cell at each, while a sample
+demonstrates how an API is called and says nothing about responsive behaviour.
+
+A renderer-context fix rather than an upstream bug: a bare `@Preview` is right for a sample read in
+Studio by someone who picks their own device, and under-specified for one captured as a still.
+
+diff --git a/AlertDialogSample.kt b/AlertDialogSample.kt
+index d30a8b8..cef5360 100644
+--- a/AlertDialogSample.kt
++++ b/AlertDialogSample.kt
+@@ -47,7 +47,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
+ 
+ @Sampled
+ @Composable
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ fun AlertDialogWithConfirmAndDismissSample() {
+     var showDialog by remember { mutableStateOf(false) }
+     Box(Modifier.fillMaxSize()) {
+@@ -92,7 +96,11 @@ fun AlertDialogWithConfirmAndDismissSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun AlertDialogWithConfirmAndDismissTransformingContentSample() {
+@@ -161,7 +169,11 @@ fun AlertDialogWithConfirmAndDismissTransformingContentSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun AlertDialogWithEdgeButtonSample() {
+@@ -199,7 +211,11 @@ fun AlertDialogWithEdgeButtonSample() {
+     )
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun AlertDialogWithEdgeButtonTransformingContentSample() {
+@@ -238,7 +254,11 @@ fun AlertDialogWithEdgeButtonTransformingContentSample() {
+     )
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun AlertDialogWithContentGroupsSample() {
+@@ -303,7 +323,11 @@ fun AlertDialogWithContentGroupsSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun AlertDialogWithContentGroupsTransformingContentSample() {
+diff --git a/ListHeaderSample.kt b/ListHeaderSample.kt
+index cdfd105..0627778 100644
+--- a/ListHeaderSample.kt
++++ b/ListHeaderSample.kt
+@@ -41,7 +41,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+ import androidx.wear.compose.material3.lazy.transformedHeight
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun ListHeaderSample() {
+     val transformationSpec = rememberTransformationSpec()
+diff --git a/RadioButtonSample.kt b/RadioButtonSample.kt
+index 30a4947..108a9a1 100644
+--- a/RadioButtonSample.kt
++++ b/RadioButtonSample.kt
+@@ -41,7 +41,11 @@ import androidx.wear.compose.material3.SplitRadioButton
+ import androidx.wear.compose.material3.Text
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun RadioButtonSample() {
+     Column(modifier = Modifier.selectableGroup().fillMaxSize()) {
+diff --git a/ScaffoldSample.kt b/ScaffoldSample.kt
+index 773a5ee..e585b1d 100644
+--- a/ScaffoldSample.kt
++++ b/ScaffoldSample.kt
+@@ -40,7 +40,11 @@ import androidx.wear.compose.material3.Text
+ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+ import androidx.wear.compose.material3.lazy.transformedHeight
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun ScaffoldSample() {
+@@ -81,7 +85,11 @@ fun ScaffoldSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Sampled
+ @Composable
+ fun ScaffoldWithTLCEdgeButtonSample() {
+diff --git a/ScrollIndicatorSample.kt b/ScrollIndicatorSample.kt
+index cecc770..470cdd7 100644
+--- a/ScrollIndicatorSample.kt
++++ b/ScrollIndicatorSample.kt
+@@ -36,7 +36,11 @@ import androidx.wear.compose.material3.Text
+ import androidx.wear.compose.material3.TimeText
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun ScrollIndicatorWithTLCSample() {
+     val scrollState = rememberTransformingLazyColumnState()
+diff --git a/SurfaceTransformationSample.kt b/SurfaceTransformationSample.kt
+index 390c2ef..c5a53f0 100644
+--- a/SurfaceTransformationSample.kt
++++ b/SurfaceTransformationSample.kt
+@@ -49,7 +49,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+ import androidx.wear.compose.material3.lazy.transformedHeight
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun SurfaceTransformationOnCustomComponent() {
+     @Composable
+@@ -96,7 +100,11 @@ fun SurfaceTransformationOnCustomComponent() {
+ }
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun SurfaceTransformationButtonSample() {
+     val transformationSpec =
+@@ -130,7 +138,11 @@ fun SurfaceTransformationButtonSample() {
+ }
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun SurfaceTransformationCardSample() {
+     val transformationSpec = rememberTransformationSpec()
+diff --git a/SwipeToRevealSample.kt b/SwipeToRevealSample.kt
+index aa74054..5444715 100644
+--- a/SwipeToRevealSample.kt
++++ b/SwipeToRevealSample.kt
+@@ -150,7 +150,11 @@ fun SwipeToRevealSingleActionCardSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ @Sampled
+ fun SwipeToRevealWithTransformingLazyColumnSample() {
+@@ -233,7 +237,11 @@ fun SwipeToRevealWithTransformingLazyColumnSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ @Sampled
+ fun SwipeToRevealWithScalingLazyColumnSample() {
+@@ -310,7 +318,11 @@ fun SwipeToRevealWithScalingLazyColumnSample() {
+     }
+ }
+ 
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ @Sampled
+ fun SwipeToRevealNoPartialRevealWithScalingLazyColumnSample() {
+diff --git a/TransformationSpecSample.kt b/TransformationSpecSample.kt
+index 5915235..f24a2ae 100644
+--- a/TransformationSpecSample.kt
++++ b/TransformationSpecSample.kt
+@@ -47,7 +47,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
+ 
+ @Composable
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ fun CustomTransformationSpecSample() {
+     val transformationSpec = rememberTransformationSpec()
+     val morphingTransformationSpec =
+@@ -92,7 +96,11 @@ fun CustomTransformationSpecSample() {
+ 
+ @Composable
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ fun CustomCompositingStrategyTransformationSpecSample() {
+     val transformationSpec = rememberTransformationSpec()
+ 
+@@ -145,7 +153,11 @@ fun CustomCompositingStrategyTransformationSpecSample() {
+ 
+ @Composable
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ fun ResponsiveTransformationSpecButtonSample() {
+     val transformationSpec =
+         rememberTransformationSpec(
+@@ -178,7 +190,11 @@ fun ResponsiveTransformationSpecButtonSample() {
+ 
+ @Composable
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ fun TransformationSpecButtonRowSample() {
+     // Use the spec derived from default small and large screen specs.
+     val transformationSpec = rememberTransformationSpec()
+diff --git a/TransformingLazyColumnNotificationsSample.kt b/TransformingLazyColumnNotificationsSample.kt
+index abd89d1..f5828d9 100644
+--- a/TransformingLazyColumnNotificationsSample.kt
++++ b/TransformingLazyColumnNotificationsSample.kt
+@@ -35,7 +35,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
+ import androidx.wear.compose.material3.lazy.transformedHeight
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun TransformingLazyColumnNotificationsSample() {
+     val state = rememberTransformingLazyColumnState()
+diff --git a/TransformingLazyColumnSample.kt b/TransformingLazyColumnSample.kt
+index cea1145..dc94465 100644
+--- a/TransformingLazyColumnSample.kt
++++ b/TransformingLazyColumnSample.kt
+@@ -55,7 +55,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
+ import kotlinx.coroutines.delay
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun TransformingLazyColumnButtonsSample() {
+     val state = rememberTransformingLazyColumnState()
+@@ -83,7 +87,11 @@ fun TransformingLazyColumnButtonsSample() {
+ }
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun TransformingLazyColumnMinimumVerticalContentPaddingSample() {
+     val transformationSpec = rememberTransformationSpec()
+@@ -168,7 +176,11 @@ fun TransformingLazyColumnMinimumVerticalContentPaddingSample() {
+ }
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun TransformingLazyColumnFirstLayoutItemProviderSample() {
+     val state = rememberTransformingLazyColumnState()
+@@ -245,7 +257,11 @@ fun TransformingLazyColumnFirstLayoutItemProviderSample() {
+ }
+ 
+ @Sampled
+-@Preview
++@Preview(
++    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
++    showBackground = true,
++    backgroundColor = 0xFF000000,
++)
+ @Composable
+ fun TransformingLazyColumnFirstVisibleItemLayoutItemProviderSample() {
+     val transformationSpec = rememberTransformationSpec()

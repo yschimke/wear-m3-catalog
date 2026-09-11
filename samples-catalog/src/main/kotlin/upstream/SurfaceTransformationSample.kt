@@ -49,7 +49,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun SurfaceTransformationOnCustomComponent() {
     @Composable
@@ -96,7 +100,11 @@ fun SurfaceTransformationOnCustomComponent() {
 }
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun SurfaceTransformationButtonSample() {
     val transformationSpec =
@@ -130,7 +138,11 @@ fun SurfaceTransformationButtonSample() {
 }
 
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 @Composable
 fun SurfaceTransformationCardSample() {
     val transformationSpec = rememberTransformationSpec()

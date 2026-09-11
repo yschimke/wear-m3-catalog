@@ -52,6 +52,8 @@ this repo renders today, measured rather than projected:
 | `@Preview` wrappers generated | 115 | 0 — none needed |
 | `@Sampled` functions taking arguments, refused | 20 | — |
 | Samples quarantined (compile, cannot run here) | 1 | 0 |
+| Patches | 3 | 0 |
+| Device-bound (round watch) / wrap-content | 86 / 63 | — |
 | **Published components / groups** | **149 in 79** | **240 in 102** |
 
 The section above predicted "Wear should need *fewer* patches than the phone side": it needs zero,
@@ -164,6 +166,43 @@ Three mechanical stages, all idempotent and re-runnable, all producing reviewabl
    (discovery would find the same composable twice).
 3. **Patch.** `samples/patches/*.patch`, applied by the importer after download, each carrying a
    one-line reason. **Zero needed** at the current pin.
+
+## Device-bound, or wrap-content
+
+A Wear sample is one of two things, and they want opposite treatment. A `ScreenScaffold`, a
+`TransformingLazyColumn`, a dialog or a pager **fills the watch screen**, so it belongs on a round
+device with a black face. A `FilledIconButton` is one component that should crop to its own bounds;
+pinning it to a device is the regression the plugin's own `retargetWearStickers` KDoc records, where
+a sticker "became a 454x454 watch canvas with the button adrift in the corner".
+
+**The square was wrong in two ways that compound**, which is why this was worth doing rather than
+leaving at the 227dp square the retarget produces:
+
+- it shows pixels a watch never draws — `ScaffoldSample`'s bottom row spans x=45..355 of 454, where
+  a round bezel exposes only x=149..305 at that height;
+- **`isRound` is load-bearing.** `androidx.wear.compose.foundation.ResourcesKt` calls
+  `Configuration.isScreenRound()`, so components branch on screen shape. A square canvas can lay a
+  sample out differently from the watch it ships on, which makes the published sticker a claim about
+  the API the device would not honour. That is the argument that decides it; the clipping alone
+  would be cosmetic.
+
+**The split is MEASURED, not inferred.** `scripts/samples-device-bound.mjs` reads it off a render:
+the retarget measures every device-less preview against the 227dp screen with both axes wrapped, so
+a PNG that came out the full sandbox in both directions is a composable that filled it — the
+definition rather than a proxy. A static rule over the sources was tried first and rejected on
+evidence: matching layout signals in the body reproduced all 86 with **zero false negatives but five
+false positives**, and each was a different kind of wrong (`PickerGroupSample` uses a `Picker` that
+does not fill the screen; `ButtonWithIconAndLabelAndPlaceholders` carries `fillMaxSize` on an element
+*inside* the button). Separating those means knowing which call is the root, i.e. parsing Kotlin, for
+a question the renderer answers exactly.
+
+86 of the 149 are device-bound. 60 reach the sheet through generated wrappers and get the device from
+the generator; the other 26 carry upstream's own `@Preview`, so they get it from
+`samples/patches/0003-round-device-for-screen-samples.patch`. One device (the 225dp round spec
+`:catalog` uses for one of its five breakpoints), not five: the kit sheet renders every screen size
+because it reproduces a kit cell at each, while a sample says nothing about responsive behaviour.
+
+Verified stable afterwards rather than assumed — two forced renders, all 150 PNGs byte-identical.
 
 `samples/quarantine.json` carries the declared, checked gaps, in **two units, because there are two
 failure modes** — a distinction the first draft did not have:
@@ -337,13 +376,25 @@ here.
 
 ## Serving on preview.coo.ee
 
-In `compose-preview-server`, `deploy/preview.coo.ee/catalogs.json`:
+**Revised: registered but HIDDEN, and surfaced on component pages.** The original plan below gave the
+samples their own front-page group. They are not a design system anyone browses top-down — they are
+the call sites for components the other sheets already publish, so the place a reader wants them is
+*on the component's own page*, the way motion previews already appear there. The front page stays the
+reference design systems.
+
+So: both entries registered with `attributionRepos: ["androidx/androidx"]` and hidden from the
+catalog listing, with the component-page surface following whatever mechanism motion previews use.
+That mechanism has not been read yet and this section should not guess at it; what is decided is the
+shape, not the wiring.
+
+Superseded, kept for the reasoning it carries:
 
 - two entries, `wear-m3-samples` and `m3-samples`, each with
   `attributionRepos: ["androidx/androidx"]` — the `android/compose-samples` entries are the precedent;
-- a new group (`androidx-samples`, heading `androidx/androidx samples`) rather than `design-systems`,
-  so the front page keeps the reference design systems at the top, which `design-systems`'
-  `priority: 100` exists to guarantee;
+- ~~a new group (`androidx-samples`, heading `androidx/androidx samples`) rather than
+  `design-systems`~~, so the front page keeps the reference design systems at the top, which
+  `design-systems`' `priority: 100` exists to guarantee — the hidden registration achieves the same
+  end more directly;
 - no `sites` entry — these want no hostname of their own.
 
 `producers.json` needs **no change**: this repo's `design-artifacts/*` is already trusted. That is

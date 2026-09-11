@@ -47,7 +47,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
 
 @Composable
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 fun CustomTransformationSpecSample() {
     val transformationSpec = rememberTransformationSpec()
     val morphingTransformationSpec =
@@ -92,7 +96,11 @@ fun CustomTransformationSpecSample() {
 
 @Composable
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 fun CustomCompositingStrategyTransformationSpecSample() {
     val transformationSpec = rememberTransformationSpec()
 
@@ -145,7 +153,11 @@ fun CustomCompositingStrategyTransformationSpecSample() {
 
 @Composable
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 fun ResponsiveTransformationSpecButtonSample() {
     val transformationSpec =
         rememberTransformationSpec(
@@ -178,7 +190,11 @@ fun ResponsiveTransformationSpecButtonSample() {
 
 @Composable
 @Sampled
-@Preview
+@Preview(
+    device = "spec:width=225dp,height=225dp,dpi=320,isRound=true",
+    showBackground = true,
+    backgroundColor = 0xFF000000,
+)
 fun TransformationSpecButtonRowSample() {
     // Use the spec derived from default small and large screen specs.
     val transformationSpec = rememberTransformationSpec()
