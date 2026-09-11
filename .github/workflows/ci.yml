@@ -28,8 +28,14 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
+      # `:catalog` is a Kotlin Multiplatform module, so it has no `debug` application variant and
+      # no `assembleDebug`: the KMP-Android plugin names its outputs after the target and
+      # compilation (`assembleAndroidMain`). `assemble` covers that AND the `desktop` target, which
+      # is the point of assembling it at all — a shared body that reaches for something only
+      # Android has must fail here rather than in the renderer. `:remote-catalog` is still an
+      # application and keeps `assembleDebug`.
       - name: Assemble
-        run: ./gradlew :catalog:assembleDebug :remote-catalog:assembleDebug --stacktrace
+        run: ./gradlew :catalog:assemble :remote-catalog:assembleDebug --stacktrace
 
       # Discovery is the real contract for a design catalog: it is what turns the
       # `@CatalogComponent` / `@CatalogVariant` / `@OverrideVariant` annotations into the published
