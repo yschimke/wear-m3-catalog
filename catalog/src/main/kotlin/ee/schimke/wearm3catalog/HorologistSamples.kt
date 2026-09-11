@@ -59,11 +59,35 @@ object HorologistSamples {
       position = (TRACK_DURATION_SECONDS * percent).toInt().seconds,
     )
 
+  /**
+   * The stand-in avatar, as the type Horologist takes.
+   *
+   * `AccountUiModel.avatar` is a [Paintable] for the same reason the artwork is: production passes
+   * a `CoilPaintable` resolving the account's photo through an `ImageLoader`, which a catalog
+   * render must not do.
+   *
+   * **Left null it is not merely blank — it publishes a different code path.** Both auth surfaces
+   * branch on it, and the `defaultAvatar` branch is the one for an account with no photo:
+   * `SelectAccountScreen` draws an `AccountCircle` glyph at `ButtonDefaults.IconSize` under
+   * `ButtonDefaults.ContentPadding`, where an avatar draws an `Image` at `LargeIconSize` under
+   * `ButtonWithLargeIconContentPadding` — a different row height, not just different ink.
+   * `SignedInConfirmationDialog` centres a 32dp glyph in its 96dp pill, where an avatar fills the
+   * pill edge to edge at `ContentScale.FillBounds`. A catalog cell showing the fallback claims to
+   * draw the sign-in flow and draws its empty state.
+   *
+   * So the accounts carry one. [CatalogArtwork] is this repo's stand-in wherever the design fills a
+   * slot with real content rather than leaving it empty — the app avatar is the case its KDoc
+   * reasons from — and it is drawn rather than shipped for the licence reason stated there.
+   */
+  object Avatar : Paintable {
+    @Composable override fun rememberPainter(): Painter = CatalogArtwork
+  }
+
   /** The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this. */
   val accounts: List<AccountUiModel> =
     listOf(
-      AccountUiModel(email = "maya@example.com", name = "Maya"),
-      AccountUiModel(email = "sam@example.com", name = "Sam"),
+      AccountUiModel(email = "maya@example.com", name = "Maya", avatar = Avatar),
+      AccountUiModel(email = "sam@example.com", name = "Sam", avatar = Avatar),
     )
 
   /** The single account the signed-in confirmation greets. */
