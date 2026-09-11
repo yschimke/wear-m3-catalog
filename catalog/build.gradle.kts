@@ -21,16 +21,18 @@
 // substitution invisible to the source. That is a property of the port, not a coincidence: it is
 // built by rewriting the AndroidX sources, not by re-authoring them.
 //
-// ── The six Android-only files ────────────────────────────────────────────────────────────────
+// ── The Android-only files ────────────────────────────────────────────────────────────────────
 //
 // `androidMain` holds what genuinely cannot leave Android: `HorologistSamples.kt` and the four
 // sections drawn with Horologist (`Auth`, `FastScrolling`, `MediaControls`, `Motion`), whose
-// artifacts are Android AARs with no multiplatform line, and `CatalogFonts.kt`, which resolves its
-// typefaces as DOWNLOADABLE Google fonts through `ui-text-google-fonts` — an Android-only provider
-// backed by a system font provider, not a library that could be ported.
+// artifacts are Android AARs with no multiplatform line.
 //
 // They render exactly as before. What they lose is only the ability to appear on a non-Android
 // tier, which is the honest cost of drawing them with Android-only libraries.
+//
+// `CatalogFonts.kt` used to be on that list, because it resolved its typefaces through the
+// Android-only GMS downloadable-font provider. It no longer is: all four faces are vendored under
+// `res/font` and the desktop lane reads the same files — see `One font file, two lanes` below.
 //
 // ── The inventory ─────────────────────────────────────────────────────────────────────────────
 //
@@ -70,10 +72,10 @@ composePreview {
 
 // ── One font file, two lanes ───────────────────────────────────────────────────────────────────
 //
-// The variable Roboto Flex is committed ONCE, under `src/androidMain/res/font/`, because that is
-// where AGP has to find it to make `R.font.roboto_flex`. The desktop compilation cannot read an
-// Android resource, so the file is republished into the desktop source set's resources under a
-// package-shaped path — `ee/schimke/wearm3catalog/fonts/` rather than the jar root, so a
+// The four variable faces are committed ONCE, under `src/androidMain/res/font/`, because that is
+// where AGP has to find them to make an `R.font` id. The desktop compilation cannot read an
+// Android resource, so the directory is republished into the desktop source set's resources under
+// a package-shaped path — `ee/schimke/wearm3catalog/fonts/` rather than the jar root, so a
 // dependency of `:catalog-desktop` cannot collide with it.
 //
 // A second committed copy would have been three fewer lines and one more thing to forget: the two
@@ -81,7 +83,8 @@ composePreview {
 // sides are drawing with the identical face.
 val desktopFontResources by
   tasks.registering(Sync::class) {
-    description = "Republishes the vendored Roboto Flex onto the desktop compilation's classpath."
+    description =
+      "Republishes the vendored variable faces onto the desktop compilation's classpath."
     from(layout.projectDirectory.dir("src/androidMain/res/font")) {
       into("ee/schimke/wearm3catalog/fonts")
     }
@@ -198,12 +201,6 @@ kotlin {
       implementation(libs.wear.compose.ui.tooling)
       implementation(libs.wear.tooling.preview)
 
-      // `ui-text-google-fonts` resolves `CatalogFonts.kt`'s typefaces — Roboto Flex, Inter,
-      // JetBrains Mono, Google Sans Flex — as DOWNLOADABLE Google fonts through an Android system
-      // font provider, so no TTF is vendored here. There is no multiplatform equivalent; that is
-      // why the file is in `androidMain`.
-      implementation(libs.compose.ui.text.google.fonts)
-
       // HOROLOGIST — the second library on the sheet, and the reason there is a `Horologist`
       // section.
       //
@@ -230,9 +227,9 @@ kotlin {
       implementation(libs.horologist.images.base)
     }
 
-    // The desktop lane draws with the SAME vendored variable Roboto Flex the Android lane does,
-    // read as a classpath resource — see `CatalogFonts.desktop.kt`. `desktopFontResources` above
-    // is what puts the one committed TTF there; this is the source set that consumes it.
+    // The desktop lane draws with the SAME vendored variable faces the Android lane does, read
+    // as classpath resources — see `CatalogFonts.desktop.kt`. `desktopFontResources` above is what
+    // puts the committed TTFs there; this is the source set that consumes them.
     getByName("desktopMain").resources.srcDir(desktopFontResources)
 
     getByName("androidHostTest").dependencies {

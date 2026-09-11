@@ -7,37 +7,31 @@ import androidx.wear.compose.material3.Typography
  * The typefaces the declared themes in `CatalogThemes.kt` are built from, and the Wear type scales
  * that pair them.
  *
- * Every face resolves as a **downloadable Google font** rather than a TTF vendored under
- * `res/font`, so this module ships no font bytes: on a device the request goes to Play Services,
- * and under the renderer's Robolectric harness `ShadowFontsContractCompat` intercepts it and
- * answers from the shared `~/.cache/composeai/fonts/` cache (fetched once from
- * `fonts.googleapis.com`). That is the same path Confetti Wear's own `FontFamilies.kt` takes, which
- * is what keeps a theme sticker here from drifting off the app it is reproducing.
+ * All four faces are **vendored variable TTFs** under `catalog/src/androidMain/res/font/`, each
+ * registered once per weight the scale names. They were downloadable Google fonts until the desktop
+ * lane needed them: on a device that request goes to Play Services, and under the renderer's
+ * Robolectric harness `ShadowFontsContractCompat` answers it from the shared
+ * `~/.cache/composeai/fonts/` cache. Both halves of that path are Android-only, and the file it
+ * caches is a static instance — see [TypeScaleWeights] for why that is the thing being fixed here
+ * rather than a detail of where the bytes come from.
  *
- * Two weights per family — Normal and Medium — because that is what the Wear type scale asks for
- * across its display / title / body / label roles. Registering a weight nothing requests costs
- * nothing (Compose resolves a face per typeface request, not per declaration); registering too few
- * costs a synthesised, visibly wrong emboldening.
+ * Confetti Wear's own `FontFamilies.kt` names the same four families, which is what keeps a theme
+ * sticker here from drifting off the app it is reproducing. Naming them is the part that matters;
+ * how they are obtained is this catalog's problem, not Confetti's.
  */
 
 /**
- * Roboto Flex, Inter, Google Sans Flex and JetBrains Mono, supplied by the platform.
+ * Roboto Flex, Inter, Google Sans Flex and JetBrains Mono.
  *
- * `expect` because HOW a face is obtained is the one genuinely platform-bound thing here, and the
- * type scales below are not: the scale is arithmetic over a [FontFamily], identical everywhere. On
- * Android three of the four resolve through the GMS downloadable-font provider — see
- * `CatalogFonts.android.kt` for why that split is not arbitrary.
+ * `expect` only because the two targets READ the same committed file differently — Android through
+ * an `R.font` id, desktop through a classpath resource. Nothing else about them is platform-bound:
+ * the scale is arithmetic over a [FontFamily], identical everywhere, and both actuals register the
+ * same thirteen weights off the same bytes.
  *
- * [RobotoFlex] is the exception on BOTH targets, and it is the one that matters most: it is the
- * face the STOCK Wear type scale is designed around, so it draws every un-themed sticker in the
- * catalog rather than one theme's. It is vendored, and desktop reads the same committed file
- * through a classpath resource — see [TypeScaleWeights].
- *
- * The other three still fall back to the platform's own families on desktop, which is honest rather
- * than silent: a themed desktop render says "this is the scale, in the default face", not "this is
- * Confetti Wear's face" when it is not. Vendoring them is a licensing question per face rather than
- * a technical one — the provider serves them, this repository has not bought the right to
- * redistribute them, and only the Roboto Flex bytes arrived here under the OFL.
+ * [RobotoFlex] is the one that reaches the most pixels: it is the face the STOCK Wear type scale is
+ * designed around, so it draws every un-themed sticker in the catalog. The other three reach pixels
+ * only through the `@WearThemeCatalog` entries in `CatalogThemes.kt` — Inter and JetBrains Mono on
+ * KotlinConf, Google Sans Flex on DevFest and on the type-only Wear M3 comparison.
  */
 /**
  * Roboto Flex — the display / title face of Confetti Wear's ship typography, AND the face the stock
@@ -46,8 +40,8 @@ import androidx.wear.compose.material3.Typography
 expect val RobotoFlex: FontFamily
 
 /**
- * The weights the Wear Material 3 type scale asks for, and which every target that vendors the
- * variable face registers a face at.
+ * The weights the Wear Material 3 type scale asks for, and which both targets register a face at,
+ * for all four families.
  *
  * `TypeScaleTokens` does not ask for `FontWeight.Normal` and `FontWeight.Medium`. It asks for
  * `wght` **450, 500, 520, 550, 560, 580, 599, 650, 700, 750, 760 and 780** — twelve values on a
@@ -57,17 +51,18 @@ expect val RobotoFlex: FontFamily
  * the nearest registered weight happens to be.
  *
  * That is what a downloadable provider gives you, and it cannot give anything else. Google Fonts
- * serves Roboto Flex as a **static instance** — a single 88 KB file with no `fvar` table —
+ * serves a **static instance** — Roboto Flex arrives as a single 88 KB file with no `fvar` table —
  * whichever way it is asked. A single weight, an axis range and the full axis tuple all return the
  * identical file, and the render cache shows the same thing from the other end:
  * `roboto-flex-400.ttf` and `roboto-flex-500.ttf` are byte-for-byte the same font, so even the
  * Medium roles were a synthesised emboldening of Regular.
  *
- * So the real variable face is committed once, under `catalog/src/androidMain/res/font/` (OFL,
- * `licenses/RobotoFlex-OFL.txt`), with `fvar`, `gvar` and all thirteen axes, and BOTH lanes read
- * that one file — Android as `R.font.roboto_flex`, desktop as a classpath resource the build
- * republishes it as. The scale's `wght` and `wdth` land on a font that has them, which is what a
- * watch does with its device font and what this catalog has been claiming to draw.
+ * So the real variable faces are committed under `catalog/src/androidMain/res/font/`, with `fvar`,
+ * `gvar` and their full axis sets, taken from the OFL sources in `google/fonts` rather than from
+ * the CSS API's instances — the licence beside each in `catalog/licenses/`. BOTH lanes read those
+ * same files: Android as an `R.font` id, desktop as a classpath resource the build republishes them
+ * as. The scale's `wght` and `wdth` land on a font that has them, which is what a watch does with
+ * its device font and what this catalog has been claiming to draw.
  *
  * A face is registered per token weight rather than the usual Normal/Medium pair. The matcher picks
  * the nearest registered weight and Compose synthesises the rest of the difference; with a face at
