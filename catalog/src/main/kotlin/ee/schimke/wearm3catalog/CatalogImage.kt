@@ -47,13 +47,18 @@ import androidx.compose.ui.graphics.painter.Painter
  *
  * ## Why drawn rather than shipped
  *
- * A committed photograph would be the only asset in the repository and would put a licence question
- * in front of every contributor. This weighs nothing and renders identically on every publish,
- * which a catalog whose delivery branch is diffed over time needs.
+ * A committed photograph would put a licence question in front of every contributor. This weighs
+ * nothing and renders identically on every publish, which a catalog whose delivery branch is diffed
+ * over time needs.
+ *
+ * That reasoning holds wherever the picture is a PLACEHOLDER, which is everything on this page. The
+ * one slot it does not cover is a human face — see [CatalogAvatar], which ships two CC0 photographs
+ * and records their licence in `docs/THIRD_PARTY_IMAGES.md`.
  *
  * **Use this only where the kit's cell is itself empty.** Where the kit draws real content — the
- * app avatar, media artwork — [CatalogArtwork] is the stand-in. Drawing a placeholder over a slot
- * the kit fills does not move the comparison closer; it disagrees differently.
+ * app avatar, media artwork — [CatalogArtwork] is the stand-in, and where the content is a PERSON —
+ * an account's avatar — [CatalogAvatar] is. Drawing a placeholder over a slot the kit fills does
+ * not move the comparison closer; it disagrees differently.
  *
  * It is sample *data*, not a substitute for the component: the sticker still calls the real
  * `Button` / `Card` overload that takes a `Painter`.
@@ -106,6 +111,9 @@ object CatalogImageWithFlatScrim : Painter() {
  * It is not a match for the kit's icon, and is not claimed as one — it is a stand-in that reads as
  * imagery. Closing that gap means drawing the avatar the kit actually draws, which is a separate
  * question from what an empty slot should hold.
+ *
+ * **It is imagery, not a person.** A gradient reads as album art and as an app glyph; it does not
+ * read as a face, and an account row's leading slot holds one. That slot takes [CatalogAvatar].
  */
 object CatalogArtwork : Painter() {
   override val intrinsicSize: Size = Size.Unspecified

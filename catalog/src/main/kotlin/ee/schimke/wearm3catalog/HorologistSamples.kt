@@ -60,11 +60,12 @@ object HorologistSamples {
     )
 
   /**
-   * The stand-in avatar, as the type Horologist takes.
+   * The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this.
    *
    * `AccountUiModel.avatar` is a [Paintable] for the same reason the artwork is: production passes
    * a `CoilPaintable` resolving the account's photo through an `ImageLoader`, which a catalog
-   * render must not do.
+   * render must not do. [CatalogAvatar] hands over the same SHAPE of thing — a real photograph,
+   * already masked — from a committed CC0 resource instead.
    *
    * **Left null it is not merely blank — it publishes a different code path.** Both auth surfaces
    * branch on it, and the `defaultAvatar` branch is the one for an account with no photo:
@@ -72,22 +73,24 @@ object HorologistSamples {
    * `ButtonDefaults.ContentPadding`, where an avatar draws an `Image` at `LargeIconSize` under
    * `ButtonWithLargeIconContentPadding` — a different row height, not just different ink.
    * `SignedInConfirmationDialog` centres a 32dp glyph in its 96dp pill, where an avatar fills the
-   * pill edge to edge at `ContentScale.FillBounds`. A catalog cell showing the fallback claims to
-   * draw the sign-in flow and draws its empty state.
+   * pill at `ContentScale.FillBounds`. A catalog cell showing the fallback claims to draw the
+   * sign-in flow and draws its empty state.
    *
-   * So the accounts carry one. [CatalogArtwork] is this repo's stand-in wherever the design fills a
-   * slot with real content rather than leaving it empty — the app avatar is the case its KDoc
-   * reasons from — and it is drawn rather than shipped for the licence reason stated there.
+   * Two different photographs, because telling two accounts apart is the row's entire job — and two
+   * that stay distinct at 32dp, not only at review size. See [CatalogAvatar].
    */
-  object Avatar : Paintable {
-    @Composable override fun rememberPainter(): Painter = CatalogArtwork
-  }
-
-  /** The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this. */
   val accounts: List<AccountUiModel> =
     listOf(
-      AccountUiModel(email = "maya@example.com", name = "Maya", avatar = Avatar),
-      AccountUiModel(email = "sam@example.com", name = "Sam", avatar = Avatar),
+      AccountUiModel(
+        email = "maya@example.com",
+        name = "Maya",
+        avatar = CatalogAvatar.First,
+      ),
+      AccountUiModel(
+        email = "sam@example.com",
+        name = "Sam",
+        avatar = CatalogAvatar.Second,
+      ),
     )
 
   /** The single account the signed-in confirmation greets. */
