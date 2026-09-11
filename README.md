@@ -3171,4 +3171,5 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `VerticalPageIndicatorWithPagerSamplePreview` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/samples-catalog/VerticalPageIndicatorWithPagerSamplePreview-ca77a883.png" width="150" /> |
 | `VerticalPagerScaffoldSamplePreview` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/samples-catalog/VerticalPagerScaffoldSamplePreview-55a19225.png" width="150" /> |
 | `VerticalPagerScaffoldWithLowSensitivitySamplePreview` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/samples-catalog/VerticalPagerScaffoldWithLowSensitivitySamplePreview-6b5f5d7d.png" width="150" /> |
+| `Material theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/samples-catalog/wearthemecatalog__Material.png" width="150" /> |
 
