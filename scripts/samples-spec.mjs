@@ -148,17 +148,19 @@ export function buildSpec(map, renderable) {
       library: ["androidx.wear.compose:compose-material3"],
       module: ":samples-catalog",
       modes: ["light", "dark"],
-      // The one thing an imported project cannot declare for itself. Without it every sample
-      // renders on Compose's fallback palette rather than the Material system the catalog beside it
-      // is drawn in, and the two would not be comparable.
-      themes: [
-        {
-          kind: "wrapper",
-          name: "Material",
-          wrapper: "MaterialTheme { content() }",
-          imports: ["androidx.wear.compose.material3.MaterialTheme"],
-        },
-      ],
+      // NO `themes[]`, deliberately, and it used to be here.
+      //
+      // The block is for "themes an IMPORTED project has but cannot declare for itself", and the
+      // reasoning was that the vendored sources are upstream's bytes and cannot carry an
+      // annotation. True of `upstream/`, false of the module: a file outside it is first-party
+      // code that survives the next import untouched. So the theme is declared where `:catalog`
+      // declares its own -- `samples-catalog/src/main/kotlin/themes/SamplesTheme.kt`, a
+      // `@WearThemeCatalog` provider -- and that file carries the full reasoning.
+      //
+      // Not a style preference: `generate-theme-catalogs.mjs` always emits the MOBILE
+      // `@ThemeCatalog`, whose specimen composes `androidx.compose.material3.MaterialTheme`. A
+      // Wear-only module has no such class, so the generated provider took the whole sheet down
+      // with a NoClassDefFoundError on the first publish.
       // The kit catalog these samples are the call sites for. Pairing lands on CANONICAL — samples
       // publish no kit node — which is the right reading: the kit cell beside how you call it.
       compareWith: { system: "wear-m3-catalog", spec: "../catalog.spec.json" },
