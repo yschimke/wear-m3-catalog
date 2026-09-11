@@ -24,9 +24,17 @@ class CatalogKitCoverageTest {
 
   private val root = File("..")
 
+  /**
+   * Every section file, across BOTH source sets — `commonMain` plus the four Horologist sections
+   * that are Android-only and live in `androidMain`. This is a COVERAGE test, so a scan that saw
+   * one source set would pass by looking at less; listed explicitly so a future source set has to
+   * be added here deliberately rather than silently missed.
+   */
   private val sources: List<String> =
-    File("src/main/kotlin/ee/schimke/wearm3catalog/sections")
-      .listFiles { f: File -> f.name.endsWith(".kt") }!!
+    listOf("commonMain", "androidMain")
+      .map { File("src/$it/kotlin/ee/schimke/wearm3catalog/sections") }
+      .flatMap { dir -> dir.listFiles { f: File -> f.name.endsWith(".kt") }?.toList().orEmpty() }
+      .sortedBy { it.name }
       .map { it.readText() }
 
   private val coverage = JSONObject(File(root, "kit-sets.json").readText())
