@@ -4,44 +4,32 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.googlefonts.Font
-import androidx.compose.ui.text.googlefonts.GoogleFont
 
 // The Android half of the catalog's typefaces: how a family is OBTAINED. The type scales built
-// from them are common — see `CatalogTypography.kt`.
+// from them are common — see `CatalogTypography.kt`, which is also where the reasoning behind the
+// per-weight registration lives.
 
 /**
- * The GMS Fonts provider every family below resolves through. The certificate array is deliberately
- * **empty**: the renderer's shadow short-circuits before signature verification, and this module is
- * only ever rendered, never shipped to a watch. Mirrors the Wear catalog sample in compose-ai-tools
- * rather than pulling in `play-services-base` for a signature nothing checks.
+ * A vendored variable face, registered once per weight the Wear type scale names.
+ *
+ * `resId` rather than a downloadable `GoogleFont`: see [TypeScaleWeights] for why every family
+ * here is vendored, which is the same reason Roboto Flex always was.
  */
-private val GoogleFontsProvider =
-  GoogleFont.Provider(
-    providerAuthority = "com.google.android.gms.fonts",
-    providerPackage = "com.google.android.gms",
-    certificates = R.array.com_google_android_gms_fonts_certs,
+private fun vendored(resId: Int): FontFamily =
+  FontFamily(
+    TypeScaleWeights.map { weight ->
+      Font(
+        resId = resId,
+        weight = FontWeight(weight),
+        variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
+      )
+    }
   )
 
-private fun downloadable(name: String): FontFamily {
-  val font = GoogleFont(name)
-  return FontFamily(
-    Font(googleFont = font, fontProvider = GoogleFontsProvider, weight = FontWeight.Normal),
-    Font(googleFont = font, fontProvider = GoogleFontsProvider, weight = FontWeight.Medium),
-  )
-}
+actual val RobotoFlex: FontFamily = vendored(R.font.roboto_flex)
 
-private fun flexFace(weight: Int): Font =
-  Font(
-    resId = R.font.roboto_flex,
-    weight = FontWeight(weight),
-    variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
-  )
+actual val Inter: FontFamily = vendored(R.font.inter)
 
-actual val RobotoFlex: FontFamily = FontFamily(TypeScaleWeights.map(::flexFace))
+actual val GoogleSansFlex: FontFamily = vendored(R.font.google_sans_flex)
 
-actual val Inter: FontFamily = downloadable("Inter")
-
-actual val GoogleSansFlex: FontFamily = downloadable("Google Sans Flex")
-
-actual val JetBrainsMono: FontFamily = downloadable("JetBrains Mono")
+actual val JetBrainsMono: FontFamily = vendored(R.font.jetbrains_mono)
