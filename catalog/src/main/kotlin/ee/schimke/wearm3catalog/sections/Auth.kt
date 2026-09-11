@@ -88,7 +88,9 @@ fun AuthGuestModeButton(enabled: Boolean = true) = Sticker {
 // confirmation dialog one screen later, which clips to its pill — draws it round. Every photo a
 // real app hands it lands square too. Published as it draws rather than rounded off in the seed:
 // a stand-in shaped to hide a library defect reports a component this repository cannot test
-// (AGENTS.md, "a cell whose API exists is drawn even when the library draws it wrong").
+// (AGENTS.md, "a cell whose API exists is drawn even when the library draws it wrong"). Upstream's
+// own screenshots miss it because its fixtures are pre-rounded PNGs; filed as
+// https://github.com/yschimke/wear-m3-catalog/issues/435, and this comment retires with it.
 @CatalogComponent(
   id = "Auth/SelectAccountScreen",
   noReference =
