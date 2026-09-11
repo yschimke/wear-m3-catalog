@@ -1,0 +1,14 @@
+{
+  "$comment": "The AndroidX Wear samples pin for :samples-catalog. See docs/design/ANDROIDX_SAMPLES.md. `ref` is a COMMIT SHA and never a branch, so a render is reproducible and an upstream bump is a reviewable diff. Unlike the phone repo there is NO version-derivation problem here: `:catalog` compiles against the real androidx.wear.compose artifact, so the pin is simply the commit matching the version in gradle/libs.versions.toml -- resolved by date from that artifact's POM Last-Modified, because the androidx GitHub mirror publishes no tags. Bumping `wear-compose` means re-resolving this ref in the same PR. `resourcePaths` carries the drawables the samples resolve `R.drawable.*` against -- meaningful here because this is an ANDROID module, unlike the phone catalog which renders through CMP desktop where no `R` class exists. `paths` is fetched with a blobless sparse clone (13 MB, not the multi-GB tree).",
+  "repo": "https://github.com/androidx/androidx",
+  "ref": "0f3f392efaf0e6ccd57962a76773a0b9d0a1c730",
+  "refDescription": "androidx-main as of 2026-08-26, the day androidx.wear.compose:compose-material3 1.7.0-beta02 was published.",
+  "paths": [
+    "wear/compose/compose-material3/samples/src/main/java/androidx/wear/compose/material3/samples"
+  ],
+  "artifactVersion": "1.7.0-beta02",
+  "artifactCoordinates": "androidx.wear.compose:compose-material3",
+  "resourcePaths": [
+    "wear/compose/compose-material3/samples/src/main/res"
+  ]
+}

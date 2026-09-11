@@ -6,6 +6,9 @@ agp = "9.4.0"
 # Wear Compose Material 3 — the library this catalog reproduces the kit against.
 wear-compose = "1.7.0-beta02"
 wear-tooling-preview = "1.0.0"
+# `LocalOnBackPressedDispatcherOwner`, which the one-handed-gesture samples read. Declared by
+# upstream's own samples build.gradle; this module needs it for the same reason.
+androidx-activity-compose = "1.9.3"
 
 # The mobile Compose BOM supplies `androidx.compose.ui`, the preview tooling and — see
 # `catalog/build.gradle.kts` — `androidx.compose.material3.MaterialShapes`, which is where the 35
@@ -197,6 +200,7 @@ wear-compose-material3 = { module = "androidx.wear.compose:compose-material3", v
 wear-compose-foundation = { module = "androidx.wear.compose:compose-foundation", version.ref = "wear-compose" }
 wear-compose-ui-tooling = { module = "androidx.wear.compose:compose-ui-tooling", version.ref = "wear-compose" }
 wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.ref = "wear-tooling-preview" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 
 composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewDaemon" }
 composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewDaemon" }
