@@ -274,6 +274,17 @@ jobs:
           node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
             --spec remote-catalog/catalog.spec.json --module-dir remote-catalog
 
+      # The samples sheet's spec is GENERATED, and `samples-spec.mjs --check` above already proves
+      # it matches the generator. That is a different question from whether it is CORRECT: the
+      # generator reads the vendored tree for renderable samples, so a spec entry naming a preview
+      # that does not exist would be a bug the regenerate-and-diff reproduces faithfully. This is
+      # the check that every `preview` it names resolves to a real `@Preview`, before
+      # design-artifacts.yml spends a runner discovering the same thing.
+      - name: validate-catalog-spec (samples)
+        run: |
+          node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
+            --spec samples-catalog/catalog.spec.json --module-dir samples-catalog
+
   pages:
     name: Figma page resolution
     runs-on: ubuntu-latest
