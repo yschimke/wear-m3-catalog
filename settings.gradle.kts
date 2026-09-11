@@ -8,6 +8,15 @@ pluginManagement {
 
 dependencyResolutionManagement {
   repositories {
+    // AndroidX snapshot build for the Remote Compose trio. Keep this build ID and the three
+    // 1.0.0-SNAPSHOT version refs in libs.versions.toml together so the artifacts cannot skew.
+    maven("https://androidx.dev/snapshots/builds/16323089/artifacts/repository") {
+      content {
+        includeGroupByRegex("androidx\\.compose\\.remote.*")
+        includeGroupByRegex("androidx\\.wear\\.compose\\.remote.*")
+        includeGroupByRegex("androidx\\.glance\\.wear.*")
+      }
+    }
     mavenCentral()
     google()
 
