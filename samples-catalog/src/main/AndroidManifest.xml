@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Preview-only module: no launcher activity, same as :catalog and :remote-catalog. -->
+<!-- Preview-only module: no launcher activity, same as :catalog and :remote-catalog.
+
+     `uses-feature android.hardware.type.watch` is not decoration here, and not a claim about
+     shipping. It is how `composePreviewDiscover` decides the module is Wear at all (it
+     substring-matches the merged manifest), and that decision gates the Wear sticker retarget.
+     Without it a device-less `@Preview` measures against the renderer's generic ~400dp phone
+     sandbox at Studio's 2.625x density instead of the 227dp watch screen at 2.0x, so a fill-width
+     Card renders 1050x168 and a fillMaxSize sample renders 1050x2100. Those are phone numbers. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-feature android:name="android.hardware.type.watch" />
     <application android:label="Wear M3 Samples Catalog" />
 </manifest>
