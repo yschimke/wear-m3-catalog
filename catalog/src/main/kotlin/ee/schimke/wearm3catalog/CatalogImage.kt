@@ -47,9 +47,13 @@ import androidx.compose.ui.graphics.painter.Painter
  *
  * ## Why drawn rather than shipped
  *
- * A committed photograph would be the only asset in the repository and would put a licence question
- * in front of every contributor. This weighs nothing and renders identically on every publish,
- * which a catalog whose delivery branch is diffed over time needs.
+ * A committed photograph would put a licence question in front of every contributor. This weighs
+ * nothing and renders identically on every publish, which a catalog whose delivery branch is diffed
+ * over time needs.
+ *
+ * That reasoning holds wherever the picture is a PLACEHOLDER, which is everything on this page. The
+ * one slot it does not cover is a human face — see [CatalogAvatar], which ships two CC0 photographs
+ * and records their licence in `docs/THIRD_PARTY_IMAGES.md`.
  *
  * **Use this only where the kit's cell is itself empty.** Where the kit draws real content — the
  * app avatar, media artwork — [CatalogArtwork] is the stand-in, and where the content is a PERSON —

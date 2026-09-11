@@ -60,11 +60,12 @@ object HorologistSamples {
     )
 
   /**
-   * The stand-in avatars, as the type Horologist takes.
+   * The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this.
    *
    * `AccountUiModel.avatar` is a [Paintable] for the same reason the artwork is: production passes
    * a `CoilPaintable` resolving the account's photo through an `ImageLoader`, which a catalog
-   * render must not do.
+   * render must not do. [CatalogAvatar] hands over the same SHAPE of thing — a real photograph,
+   * already masked — from a committed CC0 resource instead.
    *
    * **Left null it is not merely blank — it publishes a different code path.** Both auth surfaces
    * branch on it, and the `defaultAvatar` branch is the one for an account with no photo:
@@ -75,30 +76,20 @@ object HorologistSamples {
    * pill at `ContentScale.FillBounds`. A catalog cell showing the fallback claims to draw the
    * sign-in flow and draws its empty state.
    *
-   * So the accounts carry one each, and they carry a FACE — see [CatalogAvatar] for why the
-   * gradient that stands in for album art does not stand in for a person, why it is drawn rather
-   * than photographed, and why it masks itself into a circle before the component ever sees it.
-   */
-  class Avatar(private val portrait: Painter) : Paintable {
-    @Composable override fun rememberPainter(): Painter = portrait
-  }
-
-  /**
-   * The accounts `SelectAccountScreen` lists. Example.com, which is reserved for exactly this.
-   *
-   * Two different portraits, because telling two accounts apart is the row's entire job.
+   * Two different photographs, because telling two accounts apart is the row's entire job — and two
+   * that stay distinct at 32dp, not only at review size. See [CatalogAvatar].
    */
   val accounts: List<AccountUiModel> =
     listOf(
       AccountUiModel(
         email = "maya@example.com",
         name = "Maya",
-        avatar = Avatar(CatalogAvatar.First),
+        avatar = CatalogAvatar.First,
       ),
       AccountUiModel(
         email = "sam@example.com",
         name = "Sam",
-        avatar = Avatar(CatalogAvatar.Second),
+        avatar = CatalogAvatar.Second,
       ),
     )
 
