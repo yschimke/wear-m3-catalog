@@ -82,6 +82,15 @@ fun AuthGuestModeButton(enabled: Boolean = true) = Sticker {
   )
 }
 
+// The avatar comes out SQUARE here and that is the component, not the seed:
+// `SelectAccountScreen` draws the account's `avatar` through a bare `Image` at
+// `ButtonDefaults.LargeIconSize` with no `clip`, where Wear's sign-in guidance — and the
+// confirmation dialog one screen later, which clips to its pill — draws it round. Every photo a
+// real app hands it lands square too. Published as it draws rather than rounded off in the seed:
+// a stand-in shaped to hide a library defect reports a component this repository cannot test
+// (AGENTS.md, "a cell whose API exists is drawn even when the library draws it wrong"). Upstream's
+// own screenshots miss it because its fixtures are pre-rounded PNGs; filed as
+// https://github.com/yschimke/wear-m3-catalog/issues/435, and this comment retires with it.
 @CatalogComponent(
   id = "Auth/SelectAccountScreen",
   noReference =
@@ -96,12 +105,17 @@ fun AuthSelectAccountScreen() = FullScreenSticker {
   SelectAccountScreen(accounts = HorologistSamples.accounts, onAccountClicked = { _, _ -> })
 }
 
+// The grey disc this draws is NOT the missing-avatar fallback the other two auth cells used to
+// show, and there is no seed to give it: `SignInPlaceholderScreen` takes no account and paints a
+// 60dp circle at a hardcoded `0xFF3C4043`, off the theme. It is the avatar-shaped hole a sign-in
+// shows before it knows whose avatar goes there, which is the whole component. Its colour not
+// following the theme is upstream's to answer for, not a seed to fix here.
 @CatalogComponent(
   id = "Auth/SignInPlaceholderScreen",
   noReference =
     "The kit's `Placeholder` sets cover the button, icon button and card; it publishes no " +
-      "placeholder SCREEN. This is the shimmer a sign-in shows while it works out who is already " +
-      "signed in on the phone.",
+      "placeholder SCREEN. This is the avatar-shaped placeholder a sign-in shows while it works " +
+      "out who is already signed in on the phone.",
   caption = "What the sign-in flow shows while it is still deciding what to show.",
 )
 @CatalogFullScreenModes
