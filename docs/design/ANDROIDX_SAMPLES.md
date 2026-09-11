@@ -60,8 +60,11 @@ there is no common/Android boundary to cross. It also predicted the wrapper stag
 unnecessary; that was right for the phone and wrong here, by a factor of the two teams' annotation
 habits rather than anything about the platforms. See "Transform" below.
 
-Not built yet, on either side: the design-artifacts job, the `catalogs.json` registration, and the
-server's "Samples" affordance.
+The design-artifacts job is now built on both sides too — `wear-m3-samples` here and `m3-samples` in
+the phone repo, each with the `changes`/Scope job it needed.
+
+Not built yet, on either side: the `catalogs.json` registration on preview.coo.ee, the server's
+"Samples" affordance, and the weekly `samples-refresh.yml`.
 
 ## Acquisition: vendor a pinned subtree
 
@@ -288,19 +291,36 @@ it after `:samples-catalog` rather than against a fixture.
 
 ## The CI job
 
-A third `uses:` block against `design-artifacts-reusable.yml`. No forked pipeline; everything needed
-is a generic input:
+**Built.** A third `uses:` block against `design-artifacts-reusable.yml`. No forked pipeline;
+everything it needs was already a generic input:
 
 - `system: wear-m3-samples`, `spec: samples-catalog/catalog.spec.json`, `module: ':samples-catalog'`
 - `cli-version: catalog` + `catalog-key: composePreviewPlugin`, as the two existing jobs do
-- **no** `desktop-render` — Robolectric, like `:catalog`
-- `split-per-preview: false`
-- no `render-shards` to begin with: 149 base previews is small next to what forces sharding
+- `desktop-render: false` — Robolectric, like `:catalog`
+- `split-per-preview: false`, `render-shards: 1`: 149 base previews, one capture each, is small
+  next to what forces sharding
+- `publish-live-bundle: false` — see "Serving", below; it is the one input here meant to change
 
-The `changes` / `Scope` job gains a third output (`samples`), dirtied by `samples-catalog/**` and by
-the shared inputs that already dirty both others. Keep its fail-safe behaviour exactly as it is: no
-resolvable change set means render everything. Publishing a fresh bundle is never wrong; skipping a
-stale one is.
+The `changes` / `Scope` job gained its third output (`samples`), dirtied by `samples-catalog/**`,
+`samples/**`, `sample-map.json` and `scripts/samples-*.mjs`, plus the shared inputs that already
+dirty both others. Its fail-safe behaviour is unchanged: no resolvable change set means render
+everything. Publishing a fresh bundle is never wrong; skipping a stale one is.
+
+**One input is load-bearing and not obvious: `design-map-command`.** Leaving it empty means "use the
+committed map as-is", and the committed map at the repo root belongs to `:catalog` — so this sheet
+would publish `:catalog`'s Figma mappings under its own name, every handle naming a `catalog/src/…`
+file this module does not contain. That is the shape of
+[compose-ai-tools#4841](https://github.com/yschimke/compose-ai-tools/issues/4841), which is what
+taught the two callers beside it to pass the input at all. So the samples job passes a command that
+projects an **empty** map, and runs no Gradle to do it: with zero `@CatalogComponent` annotations in
+the module, a discover-then-project round trip spends minutes deriving that same empty map.
+
+Empty is the truthful answer rather than a placeholder. These are AndroidX's call sites, not a
+reproduction of a published kit, so no sample has a node to be scored against — which is also why
+the job carries no `figma_token`, no `reference-cache-branch` and no `reference-backdrop`: **the
+samples sheet has no design-parity lane at all.** The reusable workflow warns that the system "will
+publish 0% coverage"; 0% is correct, and a warning that says so beats a number borrowed from one of
+the sheets next door.
 
 Already wired in `ci.yml`, and independent of that job because none of it needs a render: the
 `@sample` reader's tests, the importer's tests, the wrapper generator's tests, and a
