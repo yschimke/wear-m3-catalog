@@ -90,6 +90,24 @@ dependencies {
   // `LocalOnBackPressedDispatcherOwner`, read by the one-handed-gesture samples. Upstream's own
   // samples build.gradle declares activity-compose for exactly this.
   implementation(libs.androidx.activity.compose)
+
+  // NOT used by any code in this module -- the vendored samples carry plain `@Preview`, and the
+  // inventory lives in `catalog.spec.json` rather than in `@CatalogComponent` annotations. It is
+  // here to pin a version that EXISTS.
+  //
+  // `catalog.spec.json` declares `themes`, so the design-artifacts lane runs
+  // `generate-theme-catalogs.mjs` over this module in its throwaway checkout. That generator
+  // appends `ee.schimke.composeai:preview-annotations:$(compose-preview --version)` -- the CLI's
+  // version, on the belief that "the two ship from one release". They no longer do:
+  // `preview-annotations` moved to the compose-preview-daemon line, so the CLI's 2.9.0 is a
+  // coordinate that 404s while the daemon's 3.4.1 is real. Declaring the daemon version here lets
+  // Gradle's newest-wins conflict resolution select it, and the injected 2.9.0 is never fetched.
+  //
+  // Reproduced by appending that exact line locally: without this, `debugRuntimeClasspath` reports
+  // `preview-annotations:2.9.0 FAILED`; with it, 2.9.0 -> 3.4.1 and resolution succeeds. The phone
+  // repo's samples module has carried this dependency from the start, which is the only reason
+  // `m3-samples` published and this sheet did not.
+  implementation(libs.composeai.preview.annotations)
 }
 
 // Two directories this module's formatter must not touch, for two different reasons.
