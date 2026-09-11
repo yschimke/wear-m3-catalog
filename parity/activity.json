@@ -1,0 +1,491 @@
+{
+  "schema": "compose-preview-activity/v1",
+  "generatedAt": "2026-09-11T17:50:43.846Z",
+  "windowDays": 30,
+  "code": {
+    "repo": "yschimke/wear-m3-catalog",
+    "ref": "main",
+    "events": [
+      {
+        "sha": "a0e8a88f56d0b9343c7c0919af0a4ee08fa024d4",
+        "subject": "fix(samples): declare the Wear theme in Kotlin, not in the spec (#451)",
+        "at": "2026-09-11T18:38:19+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "2168d8b4a965cfda242a763fae33e1959736395b",
+        "subject": "fix(samples): pin the AndroidX picker samples' clock (#450)",
+        "at": "2026-09-11T18:37:20+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "61f662670d8e8bf71729c27a3ff45f14b11953f4",
+        "subject": "fix(samples): pin preview-annotations to a version that exists (#448)",
+        "at": "2026-09-11T18:13:05+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "4ac0c9c5516ee8b68c38ac20962bc3d2bbe8a4b3",
+        "subject": "feat(catalog): vendor the remaining three variable faces from the OFL sources (#449)",
+        "at": "2026-09-11T18:11:24+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "cee2eedc50b0e9acd23efaaee9e73c0cc6de1233",
+        "subject": "fix(samples): declare the watch feature so the Wear retarget fires (#445)",
+        "at": "2026-09-11T17:18:11+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "8278885e1017f7bc794b22db9cacf9b541d648fc",
+        "subject": "feat(remote-catalog): bound a widget container's content slot to one child (#446)",
+        "at": "2026-09-11T17:16:10+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "d0c16bc2fc3ee6d1ab216bd0e5739b8d94e156cd",
+        "subject": "ci(samples): publish the wear-m3-samples catalog from design-artifacts (#443)",
+        "at": "2026-09-11T16:27:32+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "0f9d8dea8175c2dbe1f03b9e8c8eef4cc1af1c90",
+        "subject": "feat(catalog): draw the desktop lane with the vendored variable Roboto Flex (#444)",
+        "at": "2026-09-11T16:25:53+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "b8be0b3f2ed466784c0d874c78b5bd6a85c1f14a",
+        "subject": "fix(samples): skip the one Wear sample that needs the on-device Wear SDK (#442)",
+        "at": "2026-09-11T15:42:35+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "ca4156ad676c84990ca1355cbed4957c20bffaf7",
+        "subject": "feat(samples): render the AndroidX Wear samples as a catalog (#440)",
+        "at": "2026-09-11T15:17:10+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "41406a61f7319a590a0147a081003b89e8fc1860",
+        "subject": "feat(catalog-desktop): draw the same kit through Compose Multiplatform (#441)",
+        "at": "2026-09-11T15:16:13+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "00418fe479196894834c0ad89fe61252dac382fe",
+        "subject": "fix(deps): update compose-preview-daemon (#433)",
+        "at": "2026-09-11T13:48:22Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "ecd11d38a32ef0399088dc43b549738a64e1f798",
+        "subject": "fix(deps): update compose-ai-tools to v2.9.0 (#439)",
+        "at": "2026-09-11T12:56:57Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "b48756fe2c850b2fb3f4eb0449e684bb6ff37d5d",
+        "subject": "docs: correct the samples strategy where measurement changed it (#438)",
+        "at": "2026-09-11T13:45:12+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "5899d6020e387b5aabd06254d6b8d532426e5cf9",
+        "subject": "fix(deps): update compose-ai-tools (#432)",
+        "at": "2026-09-11T11:47:03Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "8bf7525d4ecb5b5bfde66e988d46caa3ed001925",
+        "subject": "refactor(catalog): build the kit from one multiplatform source set (#437)",
+        "at": "2026-09-11T11:57:43+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "7be2de731608a0f4bb976a149fbd97f66d95e59c",
+        "subject": "feat: seed the auth accounts with real CC0 photographs, masked at the call site (#436)",
+        "at": "2026-09-11T11:06:27+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "5c9000c04ff6e9055de39f858c09b96b5a78e4c6",
+        "subject": "fix: seed the Horologist auth accounts with an avatar (#434)",
+        "at": "2026-09-11T09:30:01+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "cb6e7d0a77d4679a7c97a3fdc5469055800bb7ab",
+        "subject": "docs: strategy for importing the AndroidX samples as a linked catalog (#430)",
+        "at": "2026-09-11T09:09:36+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "69df5e0a7bd546d29d8087301afd26d2a49769b5",
+        "subject": "fix(deps): update compose-ai-tools to v2.8.1 and compose-preview-daemon to v3.3.0 (#431)",
+        "at": "2026-09-11T09:09:10+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "c8d871fcbbfe9907d9286422540cdf3705d434c4",
+        "subject": "ci(remote-m3): stabilize warm-frame gate (#428)",
+        "at": "2026-09-10T23:58:55+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "a6b68b7ed4056a14e85b1297cfc3390c7e9e4a65",
+        "subject": "fix(deps): update compose-preview-daemon to v3.2.0 (#427)",
+        "at": "2026-09-10T22:49:38Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "f024d64d0f44ee474a810ddd45d11982c0421ef2",
+        "subject": "fix(deps): update compose-preview-daemon to v3.1.0 (#426)",
+        "at": "2026-09-10T21:59:39Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "bc03be1b95ea106572b07ff2f0e7100676fcafd4",
+        "subject": "feat(ui-builder): shelve the six components the derived id filed wrongly (#425)",
+        "at": "2026-09-10T21:23:35+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "25ca08cd834c1a2b200b3cad5bff10f8984c6c2d",
+        "subject": "chore(deps): update compose-ai-tools to v2.7.0 (#424)",
+        "at": "2026-09-10T20:07:27Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "fcecc9554b417ba61920531e7f9c5c4014553675",
+        "subject": "fix(deps): take composePreviewCore 2.7.0 for remotecompose-json (#423)",
+        "at": "2026-09-10T20:52:58+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "ee3605c94f035116b6d91210baafacff0df71737",
+        "subject": "feat(remote-catalog): export every sticker's document as JSON (#422)",
+        "at": "2026-09-10T20:45:04+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "023fc1926dac455b8d8a2df8ffd3ba2d7925d714",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:third-party-rc-embedded-player to v1.60.2 (#420)",
+        "at": "2026-09-10T10:50:53Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "13ca0016da616aab9f5145a27274c0dbc4e615d9",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:compose-preview-ui-builder-export to v3.23.0 (#419)",
+        "at": "2026-09-10T10:10:41Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "9de8e349a9107baae7fdd446b5cec5a20eb85083",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:data-preview-overrides-runtime to v3.0.3 (#418)",
+        "at": "2026-09-10T10:10:39Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "b99149ada6c247ec5aabed57f8c4a301bf8f9a3d",
+        "subject": "fix(deps): take compose-ai-tools 2.6.0 and compose-preview-daemon 3.0.1 (#417)",
+        "at": "2026-09-10T10:00:53+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "f68087c8ec41d7097062ad3d255d683852df0655",
+        "subject": "test(remote-catalog): compile what a design's actions have to become (#416)",
+        "at": "2026-09-10T09:15:56+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "a1db3735aa35fdfebc4e44ed52a196f89eeaab48",
+        "subject": "test(remote-catalog): compile the Kotlin a widget design generates (#414)",
+        "at": "2026-09-10T08:10:22+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "a92d5c215d34a47d6adb0287fa1a421dcb466dc7",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:wear-preview-runtime to v2.5.0 (#411)",
+        "at": "2026-09-10T07:05:43+01:00",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "1bc1ade0542d608384370efa3ac1998e876ff417",
+        "subject": "feat(remote-catalog): give a Remote design its root back, and order the shelves it sits on (#410)",
+        "at": "2026-09-10T07:03:34+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "e7070762dfa2c02e54125252353f94c08d3ca6bf",
+        "subject": "chore(deps): update dependency ee.schimke.composeai.preview to v2.5.0 (#409)",
+        "at": "2026-09-10T00:01:33Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "e4704290f994df4bbd16400c6b400458981efd07",
+        "subject": "chore(deps): update yschimke/compose-ai-tools action to v2.5.0 (#404)",
+        "at": "2026-09-09T23:13:30Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "f1b7d6cb5c174997b7e9d7c2b9d3151b2b6a47fa",
+        "subject": "fix(catalog): vendor variable Roboto Flex so the type scale's axes apply (#401)",
+        "at": "2026-09-09T23:31:15+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "fdcd189666bbe9b6e7a5fbb15b2a852ebcc94698",
+        "subject": "build: take preview-annotations and the data runtimes from compose-preview-daemon 3.0.0 (#399)",
+        "at": "2026-09-09T22:12:02+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "66963b079193937bb6afefe875a2d66088bda201",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:data-preview-overrides-runtime to v3 (#395)",
+        "at": "2026-09-09T20:01:48Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "8daf8561d8abbd08bc01be18d85ccb4faf0b4cf6",
+        "subject": "fix(deps): update compose-ai-tools to v2.4.1 (#388)",
+        "at": "2026-09-09T07:31:14Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "abe08a3b8c4c71b84bf8eef87f5f5db1f19b67b9",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:third-party-rc-embedded-player to v1.60.1 (#387)",
+        "at": "2026-09-09T07:11:33Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "da34275a89cbba960c6fc7c9a161b7d370556956",
+        "subject": "chore(deps): update yschimke/compose-ai-tools action to v2.4.1 (#375)",
+        "at": "2026-09-09T07:01:38Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "a42a52c945bcce5bf774f85900798af6e27a6301",
+        "subject": "docs: cut history and restatement from the docs and Motion.kt (#386)",
+        "at": "2026-09-09T07:51:58+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "acba7d49227e370e188bcfe11b3336fdbcf157e3",
+        "subject": "docs: tell reviewers how to check an attribution finding before filing it (#385)",
+        "at": "2026-09-09T07:03:38+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "5404dc5f028a3b50f3a1c8e5fe327ff8c0f31a92",
+        "subject": "chore(deps): move the preview line to 2.4.0 so the builder catalog is generated (#384)",
+        "at": "2026-09-09T06:57:48+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "13e507773357d729cdc141bed0d6753ee88abf77",
+        "subject": "feat: declare both catalogs to the UI builder, and publish the measured padding (#383)",
+        "at": "2026-09-09T05:31:22+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "7476958c38d83544032e590095d1db74d8763036",
+        "subject": "fix(deps): update dependency ee.schimke.composeai:third-party-rc-embedded-player to v1.60.0 (#382)",
+        "at": "2026-09-08T20:08:32Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "1c258f817053fd9a5f3a5a0030e043d304761038",
+        "subject": "test(remote): bisect RemoteTitleCard dropping its time slot under host density (#381)",
+        "at": "2026-09-08T20:57:47+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "056b439bc14f3996382334514f93cc4ea327e361",
+        "subject": "docs: refresh the component map against the published sheets (#379)",
+        "at": "2026-09-08T10:46:08+01:00",
+        "author": "github-actions[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "4fbf1688da166678ab4ab566731d901cbfeebf97",
+        "subject": "fix(remote): size IconRemote with a literal dp so it draws at 48dp (#380)",
+        "at": "2026-09-08T10:40:55+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "003dad4f5e7fae14a8e2b860ffc79bdf1bdf22d2",
+        "subject": "feat(remote-catalog): feature AppCard on the front door instead of Scaffold (#378)",
+        "at": "2026-09-08T10:39:01+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "3e4da48759dbd1b2c3f7a916da6a232360a1cc2a",
+        "subject": "test(remote): add density probes isolating the named-dp scaling bug (#377)",
+        "at": "2026-09-08T10:36:19+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "77943dd81ce9bfbfc26ce3a9520024752dcf9350",
+        "subject": "ci: allowlist the mirrored page-indicator rail against the CMP/Wasm gate (#376)",
+        "at": "2026-09-08T09:14:32+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "9b2bfb3aabb687054d1d7551d3ba435b65432add",
+        "subject": "chore(deps): bump compose-preview to 2.3.0 and rc-embedded-player to 1.59.4 (#373)",
+        "at": "2026-09-08T09:01:53+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "c6661b2664ca4598d6ac7c3b09095014d1cb0727",
+        "subject": "docs: refresh the component map against the published sheets (#371)",
+        "at": "2026-09-08T08:16:24+01:00",
+        "author": "github-actions[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "2ad4e98f978f2303899ccd5e789f180330cb74ab",
+        "subject": "feat: draw the kit's loading button, position rails and list headers on the Remote sheet (#372)",
+        "at": "2026-09-08T07:58:46+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "f06de04a14577e902ddf2040c0561c1860e950c6",
+        "subject": "feat(remote): draw the kit's 35 Shapes cells as RemoteDocument paths (#370)",
+        "at": "2026-09-08T06:57:26+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "9da62a9ec9a0580b7cb9713c86591fc128af3bf8",
+        "subject": "feat: draw the Remote stepper's level rail with the curved progress arc (#368)",
+        "at": "2026-09-08T01:14:32+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "a12794f7acc6bf46df1786c2d98b84730e3b481b",
+        "subject": "docs: record the arc hairline as fixed in the embedded player (#367)",
+        "at": "2026-09-08T01:07:30+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      }
+    ]
+  }
+}

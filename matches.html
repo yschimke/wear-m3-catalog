@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wear Material 3 Samples ↔ M3 Wear OS Apps Design Kit — component matches</title>
+<style>
+  :root { color-scheme: light dark; --bg:#0f0f10; --panel:#1b1b1d; --fg:#e8e8ea; --muted:#9b9ba1; --line:#2a2a2d;
+    --accent:#7dd87d; --warn:#e0c060; --link:#8ab4f8; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:var(--bg); color:var(--fg); }
+  header.top { padding:24px clamp(16px,4vw,40px); border-bottom:1px solid var(--line); }
+  header.top h1 { margin:0 0 6px; font-size:22px; }
+  header.top .subtitle { color:var(--muted); font-size:13px; display:flex; gap:16px; flex-wrap:wrap; }
+  header.top .arrow { color:var(--accent); }
+  header.top .note { margin-top:10px; color:var(--muted); font-size:12px; max-width:78ch; }
+  header.top code { background:var(--panel); padding:1px 6px; border-radius:5px; }
+  main { padding:8px clamp(16px,4vw,40px) 64px; }
+  table { border-collapse:collapse; width:100%; }
+  /* line-height is pinned, not inherited: the row offset below is arithmetic on these
+     exact numbers, and a heading whose height nobody can compute is a header rows hide
+     under. */
+  thead th { position:sticky; top:0; background:var(--bg); text-align:left; font-size:12px; color:var(--muted);
+    line-height:1.35; padding:10px 12px; border-bottom:1px solid var(--line); z-index:1; }
+  tbody tr.crow { border-bottom:1px solid var(--line); }
+  th.rowhead { text-align:left; font-weight:600; padding:12px; vertical-align:middle; width:22%; }
+  th.rowhead .cid { display:block; word-break:break-word; }
+  /* scroll-margin-top because thead th is sticky: without it a row jumped to from
+     its #c-slug anchor lands underneath the header and reads as the wrong row.
+
+     Derived, not guessed. It used to be a flat 44px — the height of a ONE-LINE
+     heading — and a heading wraps: the design-reference column's "M3 Wear OS Apps
+     Design Kit" does it at a narrow viewport, and the row then lands back under the
+     header, which is the failure this margin exists to prevent. So the reserve is
+     three heading lines, spelled as the arithmetic that produces it:
+     3 lines x 1.35 x 12px, + 10px padding top and bottom, + the 1px border.
+
+     Overshooting is free and undershooting is not — too much margin leaves a little
+     empty space above the row, too little hides the row — so this reserves more than
+     any current heading needs, on purpose. The page carries no script -- the
+     "fully static" test pins that -- so measuring the header at view time is not on
+     the table; keep these numbers in step with thead th above if either moves. */
+  tr.crow { scroll-margin-top:calc(3 * 1.35 * 12px + 21px); }
+  a.anchor { color:inherit; text-decoration:none; }
+  a.anchor:hover, a.anchor:focus-visible { text-decoration:underline; }
+  a.anchor::after { content:" #"; color:var(--muted); opacity:0; }
+  tr.crow:hover a.anchor::after, a.anchor:focus-visible::after { opacity:1; }
+  tr.crow:target { outline:2px solid var(--accent); outline-offset:-2px; }
+  th.rowhead .grp { display:block; margin-top:3px; font-weight:400; font-size:11px; color:var(--muted); }
+  td { padding:10px 12px; vertical-align:middle; }
+
+  .pv-embed { position:relative; display:inline-flex; flex-direction:column; gap:6px; text-decoration:none; color:inherit; }
+  .pv-frame { position:relative; display:inline-grid; place-items:center; min-width:120px; min-height:80px;
+    padding:10px; border-radius:10px; background-color:#161617; }
+  .pv-frame--checker { background-image:
+      linear-gradient(45deg,#202022 25%,transparent 25%),
+      linear-gradient(-45deg,#202022 25%,transparent 25%),
+      linear-gradient(45deg,transparent 75%,#202022 75%),
+      linear-gradient(-45deg,transparent 75%,#202022 75%);
+    background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0; }
+  .pv-frame--solid { background-color:#1b1b1d; }
+  .pv-frame--bare { background:none; padding:0; }
+  .pv-img { max-width:var(--pv-max-w,260px); max-height:var(--pv-max-h,200px); height:auto; display:block; }
+  .pv-missing { color:var(--muted); font-style:italic; font-size:12px; text-align:center; padding:0 8px; }
+  .pv-label { font-size:12px; color:var(--muted); }
+  .pv-live { position:absolute; top:6px; right:8px; font-size:11px; color:var(--link);
+    background:rgba(10,10,12,0.72); border-radius:6px; padding:1px 6px; opacity:0; transition:opacity .12s; pointer-events:none; }
+  a.pv-embed:hover .pv-live, a.pv-embed:focus-visible .pv-live { opacity:1; }
+  a.pv-embed:hover .pv-frame, a.pv-embed:focus-visible .pv-frame { outline:1px solid var(--link); outline-offset:1px; }
+  @media (max-width:640px){ .pv-img { max-width:min(var(--pv-max-w,260px),150px); } .pv-live { opacity:1; } }
+
+  .pv-missing code { background:var(--panel); padding:0 4px; border-radius:4px; font-style:normal; }
+  a.pv-open { font-size:11px; color:var(--link); text-decoration:none; }
+  a.pv-open:hover { text-decoration:underline; }
+  .rel code { font-size:12px; }
+  .badge { display:inline-block; margin-left:6px; font-size:10px; padding:0 6px; border-radius:999px;
+    background:rgba(224,192,96,0.12); color:var(--warn); border:1px solid var(--warn); }
+  section.solo { margin-top:36px; }
+  section.solo h2 { font-size:15px; border-bottom:1px solid var(--line); padding-bottom:6px; }
+  section.solo h2 span { color:var(--muted); font-weight:400; }
+  section.solo ul { list-style:none; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:6px 20px; }
+  section.solo li { padding:6px 0; border-bottom:1px solid var(--line); }
+  section.solo .cid { font-weight:600; }
+  section.solo .grp { color:var(--muted); font-size:11px; margin-left:8px; }
+  section.solo .cap { display:block; color:var(--muted); font-size:12px; }
+  @media (max-width:640px){ th.rowhead { width:auto; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <h1>Wear Material 3 Samples ↔ M3 Wear OS Apps Design Kit</h1>
+  <div class="subtitle"><span>Wear Material 3 Samples <span class="arrow">↔</span> M3 Wear OS Apps Design Kit</span><span>0 paired</span><span>0 rendered both sides</span></div>
+  <p class="note">Each row pairs a <strong>wear-m3-samples</strong> component with its declared
+  <strong>wear-m3-catalog</strong> parallel (the <code>parallel</code> field in the catalog spec). Both
+  renders are static thumbnails — the left from this branch, the right baked from the
+  <code>design-artifacts/wear-m3-catalog</code> branch — and each <strong>links to the live preview server</strong> on
+  click, where the component re-renders under other themes / locales / devices. A parallel that isn't
+  catalogued in wear-m3-catalog yet is flagged <span class="badge">unpaired</span>. Components with
+  no parallel on either side are listed below the table.</p>
+</header>
+<main>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Component</th>
+        <th scope="col">Wear Material 3 Samples</th>
+        <th scope="col">M3 Wear OS Apps Design Kit</th>
+        <th scope="col">Parallel</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <section class="solo"><h2>Only in wear-m3-samples <span>149</span></h2>
+       <ul><li><span class="cid">AlertDialog/AlertDialogWithConfirmAndDismissSample</span><span class="grp">AlertDialog</span><span class="cap">AlertDialogWithConfirmAndDismissSample — the sample `AlertDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AlertDialog/AlertDialogWithConfirmAndDismissTransformingContentSample</span><span class="grp">AlertDialog</span><span class="cap">AlertDialogWithConfirmAndDismissTransformingContentSample — the sample `AlertDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AlertDialog/AlertDialogWithContentGroupsSample</span><span class="grp">AlertDialog</span><span class="cap">AlertDialogWithContentGroupsSample — the sample `AlertDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AlertDialog/AlertDialogWithContentGroupsTransformingContentSample</span><span class="grp">AlertDialog</span><span class="cap">AlertDialogWithContentGroupsTransformingContentSample — the sample `AlertDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AlertDialog/AlertDialogWithEdgeButtonSample</span><span class="grp">AlertDialog</span><span class="cap">AlertDialogWithEdgeButtonSample — the sample `AlertDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AlertDialog/AlertDialogWithEdgeButtonTransformingContentSample</span><span class="grp">AlertDialog</span><span class="cap">AlertDialogWithEdgeButtonTransformingContentSample — the sample `AlertDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">animatedShapes/IconToggleButtonSample</span><span class="grp">animatedShapes</span><span class="cap">IconToggleButtonSample — the sample `animatedShapes`&#39;s KDoc points at.</span></li>
+<li><span class="cid">animatedShapes/TextButtonWithCornerAnimationSample</span><span class="grp">animatedShapes</span><span class="cap">TextButtonWithCornerAnimationSample — the sample `animatedShapes`&#39;s KDoc points at.</span></li>
+<li><span class="cid">animatedShapes/TextToggleButtonSample</span><span class="grp">animatedShapes</span><span class="cap">TextToggleButtonSample — the sample `animatedShapes`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AnimatedText/AnimatedTextSample</span><span class="grp">AnimatedText</span><span class="cap">AnimatedTextSample — the sample `AnimatedText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AnimatedText/AnimatedTextSampleButtonResponse</span><span class="grp">AnimatedText</span><span class="cap">AnimatedTextSampleButtonResponse — the sample `AnimatedText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AnimatedText/AnimatedTextSampleSharedFontRegistry</span><span class="grp">AnimatedText</span><span class="cap">AnimatedTextSampleSharedFontRegistry — the sample `AnimatedText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">animateScrollToOption/PickerAnimateScrollToOption</span><span class="grp">animateScrollToOption</span><span class="cap">PickerAnimateScrollToOption — the sample `animateScrollToOption`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppCard/AppCardSample</span><span class="grp">AppCard</span><span class="cap">AppCardSample — the sample `AppCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppCard/AppCardWithIconSample</span><span class="grp">AppCard</span><span class="cap">AppCardWithIconSample — the sample `AppCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppCard/AppCardWithImageSample</span><span class="grp">AppCard</span><span class="cap">AppCardWithImageSample — the sample `AppCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppCard/NonClickableAppCardSample</span><span class="grp">AppCard</span><span class="cap">NonClickableAppCardSample — the sample `AppCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppCard/OutlinedAppCardSample</span><span class="grp">AppCard</span><span class="cap">OutlinedAppCardSample — the sample `AppCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppCardContent/AppCardContentWithOneHandedGestureSample</span><span class="grp">AppCardContent</span><span class="cap">AppCardContentWithOneHandedGestureSample — the sample `AppCardContent`&#39;s KDoc points at.</span></li>
+<li><span class="cid">AppScaffold/ScaffoldSample</span><span class="grp">AppScaffold</span><span class="cap">ScaffoldSample — the sample `AppScaffold`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ArcProgressIndicator/IndeterminateProgressArcSample</span><span class="grp">ArcProgressIndicator</span><span class="cap">IndeterminateProgressArcSample — the sample `ArcProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Button/ButtonSample</span><span class="grp">Button</span><span class="cap">ButtonSample — the sample `Button`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ButtonGroup/ButtonGroupSample</span><span class="grp">ButtonGroup</span><span class="cap">ButtonGroupSample — the sample `ButtonGroup`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ButtonGroup/ButtonGroupThreeButtonsSample</span><span class="grp">ButtonGroup</span><span class="cap">ButtonGroupThreeButtonsSample — the sample `ButtonGroup`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Card/CardFillContentSample</span><span class="grp">Card</span><span class="cap">CardFillContentSample — the sample `Card`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Card/CardSample</span><span class="grp">Card</span><span class="cap">CardSample — the sample `Card`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Card/ImageCardSample</span><span class="grp">Card</span><span class="cap">ImageCardSample — the sample `Card`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Card/NonClickableCardSample</span><span class="grp">Card</span><span class="cap">NonClickableCardSample — the sample `Card`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Card/NonClickableImageCardSample</span><span class="grp">Card</span><span class="cap">NonClickableImageCardSample — the sample `Card`&#39;s KDoc points at.</span></li>
+<li><span class="cid">CheckboxButton/CheckboxButtonSample</span><span class="grp">CheckboxButton</span><span class="cap">CheckboxButtonSample — the sample `CheckboxButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ChildButton/ChildButtonSample</span><span class="grp">ChildButton</span><span class="cap">ChildButtonSample — the sample `ChildButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ChildButton/SimpleChildButtonSample</span><span class="grp">ChildButton</span><span class="cap">SimpleChildButtonSample — the sample `ChildButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">CircularProgressIndicator/FullScreenProgressIndicatorSample</span><span class="grp">CircularProgressIndicator</span><span class="cap">FullScreenProgressIndicatorSample — the sample `CircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">CircularProgressIndicator/IndeterminateProgressIndicatorSample</span><span class="grp">CircularProgressIndicator</span><span class="cap">IndeterminateProgressIndicatorSample — the sample `CircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">CircularProgressIndicator/MediaButtonProgressIndicatorSample</span><span class="grp">CircularProgressIndicator</span><span class="cap">MediaButtonProgressIndicatorSample — the sample `CircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">CircularProgressIndicator/OverflowProgressIndicatorSample</span><span class="grp">CircularProgressIndicator</span><span class="cap">OverflowProgressIndicatorSample — the sample `CircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">CircularProgressIndicator/SmallValuesProgressIndicatorSample</span><span class="grp">CircularProgressIndicator</span><span class="cap">SmallValuesProgressIndicatorSample — the sample `CircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ConfirmationDialog/ConfirmationDialogSample</span><span class="grp">ConfirmationDialog</span><span class="cap">ConfirmationDialogSample — the sample `ConfirmationDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ConfirmationDialog/LongTextConfirmationDialogSample</span><span class="grp">ConfirmationDialog</span><span class="cap">LongTextConfirmationDialogSample — the sample `ConfirmationDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Content/ButtonContentWithOneHandedGestureSample</span><span class="grp">Content</span><span class="cap">ButtonContentWithOneHandedGestureSample — the sample `Content`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Content/CompactButtonContentWithOneHandedGestureSample</span><span class="grp">Content</span><span class="cap">CompactButtonContentWithOneHandedGestureSample — the sample `Content`&#39;s KDoc points at.</span></li>
+<li><span class="cid">curvedText/CurvedTextBottom</span><span class="grp">curvedText</span><span class="cap">CurvedTextBottom — the sample `curvedText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">curvedText/CurvedTextTop</span><span class="grp">curvedText</span><span class="cap">CurvedTextTop — the sample `curvedText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">DatePicker/DatePickerFutureOnlySample</span><span class="grp">DatePicker</span><span class="cap">DatePickerFutureOnlySample — the sample `DatePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">DatePicker/DatePickerSample</span><span class="grp">DatePicker</span><span class="cap">DatePickerSample — the sample `DatePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">DatePicker/DatePickerYearMonthDaySample</span><span class="grp">DatePicker</span><span class="cap">DatePickerYearMonthDaySample — the sample `DatePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">drawCircularProgressIndicator/CircularProgressIndicatorCustomAnimationSample</span><span class="grp">drawCircularProgressIndicator</span><span class="cap">CircularProgressIndicatorCustomAnimationSample — the sample `drawCircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">dynamicColorScheme/DynamicColorSchemeSample</span><span class="grp">dynamicColorScheme</span><span class="cap">DynamicColorSchemeSample — the sample `dynamicColorScheme`&#39;s KDoc points at.</span></li>
+<li><span class="cid">EdgeButton/EdgeButtonSample</span><span class="grp">EdgeButton</span><span class="cap">EdgeButtonSample — the sample `EdgeButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">EdgeButton/ScaffoldWithTLCEdgeButtonSample</span><span class="grp">EdgeButton</span><span class="cap">ScaffoldWithTLCEdgeButtonSample — the sample `EdgeButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FadingExpandingLabel/FadingExpandingLabelButtonSample</span><span class="grp">FadingExpandingLabel</span><span class="cap">FadingExpandingLabelButtonSample — the sample `FadingExpandingLabel`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FailureConfirmationDialog/FailureConfirmationDialogSample</span><span class="grp">FailureConfirmationDialog</span><span class="cap">FailureConfirmationDialogSample — the sample `FailureConfirmationDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FailureConfirmationDialog/FailureConfirmationDialogWithGenericFailureIconSample</span><span class="grp">FailureConfirmationDialog</span><span class="cap">FailureConfirmationDialogWithGenericFailureIconSample — the sample `FailureConfirmationDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FilledIconButton/FilledIconButtonSample</span><span class="grp">FilledIconButton</span><span class="cap">FilledIconButtonSample — the sample `FilledIconButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">filledTextButtonColors/FilledTextButtonSample</span><span class="grp">filledTextButtonColors</span><span class="cap">FilledTextButtonSample — the sample `filledTextButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FilledTonalButton/FilledTonalButtonSample</span><span class="grp">FilledTonalButton</span><span class="cap">FilledTonalButtonSample — the sample `FilledTonalButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FilledTonalButton/SimpleFilledTonalButtonSample</span><span class="grp">FilledTonalButton</span><span class="cap">SimpleFilledTonalButtonSample — the sample `FilledTonalButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">FilledTonalIconButton/FilledTonalIconButtonSample</span><span class="grp">FilledTonalIconButton</span><span class="cap">FilledTonalIconButtonSample — the sample `FilledTonalIconButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">filledTonalTextButtonColors/FilledTonalTextButtonSample</span><span class="grp">filledTonalTextButtonColors</span><span class="cap">FilledTonalTextButtonSample — the sample `filledTonalTextButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">filledVariantButtonColors/FilledVariantButtonSample</span><span class="grp">filledVariantButtonColors</span><span class="cap">FilledVariantButtonSample — the sample `filledVariantButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">filledVariantButtonColors/SimpleFilledVariantButtonSample</span><span class="grp">filledVariantButtonColors</span><span class="cap">SimpleFilledVariantButtonSample — the sample `filledVariantButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">filledVariantIconButtonColors/FilledVariantIconButtonSample</span><span class="grp">filledVariantIconButtonColors</span><span class="cap">FilledVariantIconButtonSample — the sample `filledVariantIconButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">filledVariantTextButtonColors/FilledVariantTextButtonSample</span><span class="grp">filledVariantTextButtonColors</span><span class="cap">FilledVariantTextButtonSample — the sample `filledVariantTextButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">firstVisibleItemLayoutItemInfo/TransformingLazyColumnFirstVisibleItemLayoutItemProviderSample</span><span class="grp">firstVisibleItemLayoutItemInfo</span><span class="cap">TransformingLazyColumnFirstVisibleItemLayoutItemProviderSample — the sample `firstVisibleItemLayoutItemInfo`&#39;s KDoc points at.</span></li>
+<li><span class="cid">HighSnapPositionalThreshold/VerticalPagerScaffoldSample</span><span class="grp">HighSnapPositionalThreshold</span><span class="cap">VerticalPagerScaffoldSample — the sample `HighSnapPositionalThreshold`&#39;s KDoc points at.</span></li>
+<li><span class="cid">IconButton/IconButtonSample</span><span class="grp">IconButton</span><span class="cap">IconButtonSample — the sample `IconButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">IconToggleButton/IconToggleButtonVariantSample</span><span class="grp">IconToggleButton</span><span class="cap">IconToggleButtonVariantSample — the sample `IconToggleButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">layoutItemInfoOf/TransformingLazyColumnFirstLayoutItemProviderSample</span><span class="grp">layoutItemInfoOf</span><span class="cap">TransformingLazyColumnFirstLayoutItemProviderSample — the sample `layoutItemInfoOf`&#39;s KDoc points at.</span></li>
+<li><span class="cid">LevelIndicator/LevelIndicatorSample</span><span class="grp">LevelIndicator</span><span class="cap">LevelIndicatorSample — the sample `LevelIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ListHeader/ListHeaderSample</span><span class="grp">ListHeader</span><span class="cap">ListHeaderSample — the sample `ListHeader`&#39;s KDoc points at.</span></li>
+<li><span class="cid">LocalOneHandedGestureEnabled/OneHandedGestureDisableButtonSample</span><span class="grp">LocalOneHandedGestureEnabled</span><span class="cap">OneHandedGestureDisableButtonSample — the sample `LocalOneHandedGestureEnabled`&#39;s KDoc points at.</span></li>
+<li><span class="cid">LowSnapPositionalThreshold/VerticalPagerScaffoldWithLowSensitivitySample</span><span class="grp">LowSnapPositionalThreshold</span><span class="cap">VerticalPagerScaffoldWithLowSensitivitySample — the sample `LowSnapPositionalThreshold`&#39;s KDoc points at.</span></li>
+<li><span class="cid">minimumTopListContentPadding/TransformingLazyColumnMinimumVerticalContentPaddingSample</span><span class="grp">minimumTopListContentPadding</span><span class="cap">TransformingLazyColumnMinimumVerticalContentPaddingSample — the sample `minimumTopListContentPadding`&#39;s KDoc points at.</span></li>
+<li><span class="cid">minimumVerticalListContentPadding/TransformingLazyColumnButtonsSample</span><span class="grp">minimumVerticalListContentPadding</span><span class="cap">TransformingLazyColumnButtonsSample — the sample `minimumVerticalListContentPadding`&#39;s KDoc points at.</span></li>
+<li><span class="cid">oneHandedGesture/OneHandedGestureButtonSample</span><span class="grp">oneHandedGesture</span><span class="cap">OneHandedGestureButtonSample — the sample `oneHandedGesture`&#39;s KDoc points at.</span></li>
+<li><span class="cid">oneHandedGesture/OneHandedGestureHorizontalPagerSample</span><span class="grp">oneHandedGesture</span><span class="cap">OneHandedGestureHorizontalPagerSample — the sample `oneHandedGesture`&#39;s KDoc points at.</span></li>
+<li><span class="cid">oneHandedGesture/OneHandedGestureTransformingLazyColumnSample</span><span class="grp">oneHandedGesture</span><span class="cap">OneHandedGestureTransformingLazyColumnSample — the sample `oneHandedGesture`&#39;s KDoc points at.</span></li>
+<li><span class="cid">oneHandedGesture/OneHandedGestureVerticalPagerSample</span><span class="grp">oneHandedGesture</span><span class="cap">OneHandedGestureVerticalPagerSample — the sample `oneHandedGesture`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OneHandedGestureScrollIndicator/OneHandedGestureScalingLazyColumnSample</span><span class="grp">OneHandedGestureScrollIndicator</span><span class="cap">OneHandedGestureScalingLazyColumnSample — the sample `OneHandedGestureScrollIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OpenOnPhoneDialog/OpenOnPhoneDialogSample</span><span class="grp">OpenOnPhoneDialog</span><span class="cap">OpenOnPhoneDialogSample — the sample `OpenOnPhoneDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OutlinedButton/OutlinedButtonSample</span><span class="grp">OutlinedButton</span><span class="cap">OutlinedButtonSample — the sample `OutlinedButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OutlinedButton/SimpleOutlinedButtonSample</span><span class="grp">OutlinedButton</span><span class="cap">SimpleOutlinedButtonSample — the sample `OutlinedButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OutlinedCard/NonClickableOutlinedCardSample</span><span class="grp">OutlinedCard</span><span class="cap">NonClickableOutlinedCardSample — the sample `OutlinedCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OutlinedCard/OutlinedCardSample</span><span class="grp">OutlinedCard</span><span class="cap">OutlinedCardSample — the sample `OutlinedCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">OutlinedIconButton/OutlinedIconButtonSample</span><span class="grp">OutlinedIconButton</span><span class="cap">OutlinedIconButtonSample — the sample `OutlinedIconButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">outlinedTextButtonColors/OutlinedTextButtonSample</span><span class="grp">outlinedTextButtonColors</span><span class="cap">OutlinedTextButtonSample — the sample `outlinedTextButtonColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Picker/PickerGroupSample</span><span class="grp">Picker</span><span class="cap">PickerGroupSample — the sample `Picker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Picker/SimplePicker</span><span class="grp">Picker</span><span class="cap">SimplePicker — the sample `Picker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">PickerGroup/AutoCenteringPickerGroup</span><span class="grp">PickerGroup</span><span class="cap">AutoCenteringPickerGroup — the sample `PickerGroup`&#39;s KDoc points at.</span></li>
+<li><span class="cid">placeholder/ButtonWithIconAndLabelAndPlaceholders</span><span class="grp">placeholder</span><span class="cap">ButtonWithIconAndLabelAndPlaceholders — the sample `placeholder`&#39;s KDoc points at.</span></li>
+<li><span class="cid">placeholder/ButtonWithIconAndLabelCachedData</span><span class="grp">placeholder</span><span class="cap">ButtonWithIconAndLabelCachedData — the sample `placeholder`&#39;s KDoc points at.</span></li>
+<li><span class="cid">placeholderShimmer/TextPlaceholder</span><span class="grp">placeholderShimmer</span><span class="cap">TextPlaceholder — the sample `placeholderShimmer`&#39;s KDoc points at.</span></li>
+<li><span class="cid">RadioButton/RadioButtonSample</span><span class="grp">RadioButton</span><span class="cap">RadioButtonSample — the sample `RadioButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">rememberTransformationSpec/ResponsiveTransformationSpecButtonSample</span><span class="grp">rememberTransformationSpec</span><span class="cap">ResponsiveTransformationSpecButtonSample — the sample `rememberTransformationSpec`&#39;s KDoc points at.</span></li>
+<li><span class="cid">rememberTransformationSpec/TransformingLazyColumnNotificationsSample</span><span class="grp">rememberTransformationSpec</span><span class="cap">TransformingLazyColumnNotificationsSample — the sample `rememberTransformationSpec`&#39;s KDoc points at.</span></li>
+<li><span class="cid">scrollAway/ScrollAwaySample</span><span class="grp">scrollAway</span><span class="cap">ScrollAwaySample — the sample `scrollAway`&#39;s KDoc points at.</span></li>
+<li><span class="cid">scrollDownToNextItem/OneHandedGestureScalingLazyColumnScrollToNextItemSample</span><span class="grp">scrollDownToNextItem</span><span class="cap">OneHandedGestureScalingLazyColumnScrollToNextItemSample — the sample `scrollDownToNextItem`&#39;s KDoc points at.</span></li>
+<li><span class="cid">scrollDownToNextItem/OneHandedGestureTransformingLazyColumnScrollToNextItemSample</span><span class="grp">scrollDownToNextItem</span><span class="cap">OneHandedGestureTransformingLazyColumnScrollToNextItemSample — the sample `scrollDownToNextItem`&#39;s KDoc points at.</span></li>
+<li><span class="cid">ScrollIndicator/ScrollIndicatorWithTLCSample</span><span class="grp">ScrollIndicator</span><span class="cap">ScrollIndicatorWithTLCSample — the sample `ScrollIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">scrollToOption/PickerScrollToOption</span><span class="grp">scrollToOption</span><span class="cap">PickerScrollToOption — the sample `scrollToOption`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SegmentedCircularProgressIndicator/SegmentedProgressIndicatorBinarySample</span><span class="grp">SegmentedCircularProgressIndicator</span><span class="cap">SegmentedProgressIndicatorBinarySample — the sample `SegmentedCircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SegmentedCircularProgressIndicator/SegmentedProgressIndicatorSample</span><span class="grp">SegmentedCircularProgressIndicator</span><span class="cap">SegmentedProgressIndicatorSample — the sample `SegmentedCircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SegmentedCircularProgressIndicator/SmallSegmentedProgressIndicatorBinarySample</span><span class="grp">SegmentedCircularProgressIndicator</span><span class="cap">SmallSegmentedProgressIndicatorBinarySample — the sample `SegmentedCircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SegmentedCircularProgressIndicator/SmallSegmentedProgressIndicatorSample</span><span class="grp">SegmentedCircularProgressIndicator</span><span class="cap">SmallSegmentedProgressIndicatorSample — the sample `SegmentedCircularProgressIndicator`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Slider/SliderSample</span><span class="grp">Slider</span><span class="cap">SliderSample — the sample `Slider`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Slider/SliderSegmentedSample</span><span class="grp">Slider</span><span class="cap">SliderSegmentedSample — the sample `Slider`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Slider/SliderWithIntegerSample</span><span class="grp">Slider</span><span class="cap">SliderWithIntegerSample — the sample `Slider`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SplitCheckboxButton/SplitCheckboxButtonSample</span><span class="grp">SplitCheckboxButton</span><span class="cap">SplitCheckboxButtonSample — the sample `SplitCheckboxButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SplitRadioButton/SplitRadioButtonSample</span><span class="grp">SplitRadioButton</span><span class="cap">SplitRadioButtonSample — the sample `SplitRadioButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SplitSwitchButton/SplitSwitchButtonSample</span><span class="grp">SplitSwitchButton</span><span class="cap">SplitSwitchButtonSample — the sample `SplitSwitchButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Stepper/StepperSample</span><span class="grp">Stepper</span><span class="cap">StepperSample — the sample `Stepper`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Stepper/StepperWithButtonSample</span><span class="grp">Stepper</span><span class="cap">StepperWithButtonSample — the sample `Stepper`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Stepper/StepperWithIntegerSample</span><span class="grp">Stepper</span><span class="cap">StepperWithIntegerSample — the sample `Stepper`&#39;s KDoc points at.</span></li>
+<li><span class="cid">Stepper/StepperWithRangeSemanticsSample</span><span class="grp">Stepper</span><span class="cap">StepperWithRangeSemanticsSample — the sample `Stepper`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SuccessConfirmationDialog/SuccessConfirmationDialogSample</span><span class="grp">SuccessConfirmationDialog</span><span class="cap">SuccessConfirmationDialogSample — the sample `SuccessConfirmationDialog`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SurfaceTransformation/SurfaceTransformationButtonSample</span><span class="grp">SurfaceTransformation</span><span class="cap">SurfaceTransformationButtonSample — the sample `SurfaceTransformation`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SurfaceTransformation/SurfaceTransformationCardSample</span><span class="grp">SurfaceTransformation</span><span class="cap">SurfaceTransformationCardSample — the sample `SurfaceTransformation`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SurfaceTransformation/SurfaceTransformationOnCustomComponent</span><span class="grp">SurfaceTransformation</span><span class="cap">SurfaceTransformationOnCustomComponent — the sample `SurfaceTransformation`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwipeToDismissBox/StatefulSwipeToDismissBox</span><span class="grp">SwipeToDismissBox</span><span class="cap">StatefulSwipeToDismissBox — the sample `SwipeToDismissBox`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwipeToReveal/SwipeToRevealNoPartialRevealWithScalingLazyColumnSample</span><span class="grp">SwipeToReveal</span><span class="cap">SwipeToRevealNoPartialRevealWithScalingLazyColumnSample — the sample `SwipeToReveal`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwipeToReveal/SwipeToRevealSample</span><span class="grp">SwipeToReveal</span><span class="cap">SwipeToRevealSample — the sample `SwipeToReveal`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwipeToReveal/SwipeToRevealSingleActionCardSample</span><span class="grp">SwipeToReveal</span><span class="cap">SwipeToRevealSingleActionCardSample — the sample `SwipeToReveal`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwipeToReveal/SwipeToRevealWithScalingLazyColumnSample</span><span class="grp">SwipeToReveal</span><span class="cap">SwipeToRevealWithScalingLazyColumnSample — the sample `SwipeToReveal`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwipeToReveal/SwipeToRevealWithTransformingLazyColumnSample</span><span class="grp">SwipeToReveal</span><span class="cap">SwipeToRevealWithTransformingLazyColumnSample — the sample `SwipeToReveal`&#39;s KDoc points at.</span></li>
+<li><span class="cid">SwitchButton/SwitchButtonSample</span><span class="grp">SwitchButton</span><span class="cap">SwitchButtonSample — the sample `SwitchButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TextButton/LargeFilledTonalTextButtonSample</span><span class="grp">TextButton</span><span class="cap">LargeFilledTonalTextButtonSample — the sample `TextButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TextButton/TextButtonSample</span><span class="grp">TextButton</span><span class="cap">TextButtonSample — the sample `TextButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TextToggleButton/LargeTextToggleButtonSample</span><span class="grp">TextToggleButton</span><span class="cap">LargeTextToggleButtonSample — the sample `TextToggleButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TextToggleButton/TextToggleButtonVariantSample</span><span class="grp">TextToggleButton</span><span class="cap">TextToggleButtonVariantSample — the sample `TextToggleButton`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimePicker/TimePickerSample</span><span class="grp">TimePicker</span><span class="cap">TimePickerSample — the sample `TimePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimePicker/TimePickerWith12HourClockSample</span><span class="grp">TimePicker</span><span class="cap">TimePickerWith12HourClockSample — the sample `TimePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimePicker/TimePickerWithMinutesAndSecondsSample</span><span class="grp">TimePicker</span><span class="cap">TimePickerWithMinutesAndSecondsSample — the sample `TimePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimePicker/TimePickerWithSecondsSample</span><span class="grp">TimePicker</span><span class="cap">TimePickerWithSecondsSample — the sample `TimePicker`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimeText/TimeTextClockOnly</span><span class="grp">TimeText</span><span class="cap">TimeTextClockOnly — the sample `TimeText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimeText/TimeTextWithStatus</span><span class="grp">TimeText</span><span class="cap">TimeTextWithStatus — the sample `TimeText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TimeText/TimeTextWithStatusEllipsized</span><span class="grp">TimeText</span><span class="cap">TimeTextWithStatusEllipsized — the sample `TimeText`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/NonClickableTitleCardSample</span><span class="grp">TitleCard</span><span class="cap">NonClickableTitleCardSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/NonClickableTitleCardWithImageWithTimeAndTitleSample</span><span class="grp">TitleCard</span><span class="cap">NonClickableTitleCardWithImageWithTimeAndTitleSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/OutlinedTitleCardSample</span><span class="grp">TitleCard</span><span class="cap">OutlinedTitleCardSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/TitleCardSample</span><span class="grp">TitleCard</span><span class="cap">TitleCardSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/TitleCardWithImageWithTimeAndTitleSample</span><span class="grp">TitleCard</span><span class="cap">TitleCardWithImageWithTimeAndTitleSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/TitleCardWithMultipleImagesSample</span><span class="grp">TitleCard</span><span class="cap">TitleCardWithMultipleImagesSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCard/TitleCardWithSubtitleAndTimeSample</span><span class="grp">TitleCard</span><span class="cap">TitleCardWithSubtitleAndTimeSample — the sample `TitleCard`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TitleCardContent/TitleCardContentWithOneHandedGestureSample</span><span class="grp">TitleCardContent</span><span class="cap">TitleCardContentWithOneHandedGestureSample — the sample `TitleCardContent`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TransformationSpec/CustomCompositingStrategyTransformationSpecSample</span><span class="grp">TransformationSpec</span><span class="cap">CustomCompositingStrategyTransformationSpecSample — the sample `TransformationSpec`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TransformationSpec/CustomTransformationSpecSample</span><span class="grp">TransformationSpec</span><span class="cap">CustomTransformationSpecSample — the sample `TransformationSpec`&#39;s KDoc points at.</span></li>
+<li><span class="cid">TransformationSpec/TransformationSpecButtonRowSample</span><span class="grp">TransformationSpec</span><span class="cap">TransformationSpecButtonRowSample — the sample `TransformationSpec`&#39;s KDoc points at.</span></li>
+<li><span class="cid">variantSliderColors/ChangedSliderSample</span><span class="grp">variantSliderColors</span><span class="cap">ChangedSliderSample — the sample `variantSliderColors`&#39;s KDoc points at.</span></li>
+<li><span class="cid">VerticalPageIndicator/VerticalPageIndicatorWithPagerSample</span><span class="grp">VerticalPageIndicator</span><span class="cap">VerticalPageIndicatorWithPagerSample — the sample `VerticalPageIndicator`&#39;s KDoc points at.</span></li></ul></section>
+  <section class="solo"><h2>Only in wear-m3-catalog <span>79</span></h2>
+       <ul><li><span class="cid">Auth/SignInButton</span><span class="grp">Sign-in</span><span class="cap">The primary action of a sign-in prompt, with the account glyph Wear&#39;s flow expects.</span></li>
+<li><span class="cid">Auth/GuestModeButton</span><span class="grp">Sign-in</span><span class="cap">The way past the sign-in prompt: continue without an account.</span></li>
+<li><span class="cid">Auth/SelectAccountScreen</span><span class="grp">Sign-in</span><span class="cap">Pick which account to sign in with — avatar, name and address per row.</span></li>
+<li><span class="cid">Auth/SignInPlaceholderScreen</span><span class="grp">Sign-in</span><span class="cap">What the sign-in flow shows while it is still deciding what to show.</span></li>
+<li><span class="cid">Auth/SignedInConfirmationDialog</span><span class="grp">Sign-in</span><span class="cap">The end of the flow: who you signed in as, shown briefly and then dismissed.</span></li>
+<li><span class="cid">Button/Filled</span><span class="grp">Buttons</span><span class="cap">Highest emphasis; the screen&#39;s primary action.</span></li>
+<li><span class="cid">Button/FilledVariant</span><span class="grp">Buttons</span><span class="cap">The kit&#39;s highlighted style — a filled button in the variant palette.</span></li>
+<li><span class="cid">Button/Tonal</span><span class="grp">Buttons</span><span class="cap">Medium emphasis, on a tonal container.</span></li>
+<li><span class="cid">Button/Outlined</span><span class="grp">Buttons</span><span class="cap">Medium emphasis, drawn as an outline over the background.</span></li>
+<li><span class="cid">Button/Child</span><span class="grp">Buttons</span><span class="cap">Lowest emphasis; no container at all, for a button inside another surface.</span></li>
+<li><span class="cid">Button/Compact</span><span class="grp">Buttons</span><span class="cap">A short button for a dense screen, with the kit&#39;s content and style axes folded in.</span></li>
+<li><span class="cid">Button/ImageBackground</span><span class="grp">Buttons</span><span class="cap">A button over an image, with the scrim that keeps its label legible.</span></li>
+<li><span class="cid">Button/Loading</span><span class="grp">Buttons</span><span class="cap">A button waiting on the work it started — the kit&#39;s loading pattern.</span></li>
+<li><span class="cid">ButtonGroup</span><span class="grp">Buttons</span><span class="cap">Buttons that share a row and expand away from whichever one is pressed.</span></li>
+<li><span class="cid">Card</span><span class="grp">Cards</span><span class="cap">The plain container: one content slot, tonal by default. A no-`onClick` overload presents the same card without the tap.</span></li>
+<li><span class="cid">Card/Outlined</span><span class="grp">Cards</span><span class="cap">The kit&#39;s outline style — the same container drawn as a border.</span></li>
+<li><span class="cid">TitleCard</span><span class="grp">Cards</span><span class="cap">A card led by a title, with the kit&#39;s numbered layouts folded in as cells.</span></li>
+<li><span class="cid">AppCard</span><span class="grp">Cards</span><span class="cap">A card that names the app it came from — the shape a notification takes.</span></li>
+<li><span class="cid">AlertDialog</span><span class="grp">Dialogs</span><span class="cap">Interrupts to ask for a decision; the kit&#39;s button arrangements fold in as cells.</span></li>
+<li><span class="cid">OpenOnPhoneDialog</span><span class="grp">Dialogs</span><span class="cap">Hands the task to the paired phone, with the progress the wait needs.</span></li>
+<li><span class="cid">ConfirmationDialog/Success</span><span class="grp">Dialogs</span><span class="cap">It worked: the check drawn on the theme&#39;s success container, over curved copy.</span></li>
+<li><span class="cid">ConfirmationDialog/Failure</span><span class="grp">Dialogs</span><span class="cap">It did not: the same overlay in the failure palette, with the library&#39;s own glyph.</span></li>
+<li><span class="cid">ConfirmationDialog/Generic</span><span class="grp">Dialogs</span><span class="cap">The overlay an app brings its own glyph to, which is the icon slot this one takes.</span></li>
+<li><span class="cid">EdgeButton</span><span class="grp">Edge-hugging buttons</span><span class="cap">The screen-hugging confirm action, curved to the bottom edge of the display.</span></li>
+<li><span class="cid">FastScrollingTransformingLazyColumn</span><span class="grp">Fast scrolling</span><span class="cap">A long list that skims by section when the rotating bezel is spun hard, instead of crawling.</span></li>
+<li><span class="cid">IconButton/Filled</span><span class="grp">Icon buttons</span><span class="cap">Highest emphasis; an icon-only action.</span></li>
+<li><span class="cid">IconButton/FilledVariant</span><span class="grp">Icon buttons</span><span class="cap">The kit&#39;s highlighted style — a filled icon button in the variant palette.</span></li>
+<li><span class="cid">IconButton/Tonal</span><span class="grp">Icon buttons</span><span class="cap">Medium emphasis, on a tonal container.</span></li>
+<li><span class="cid">IconButton/Outlined</span><span class="grp">Icon buttons</span><span class="cap">Medium emphasis, drawn as an outline over the background.</span></li>
+<li><span class="cid">IconButton/Standard</span><span class="grp">Icon buttons</span><span class="cap">Lowest emphasis; the kit&#39;s child style, with no container at all.</span></li>
+<li><span class="cid">TextButton</span><span class="grp">Icon buttons</span><span class="cap">A short label as a round action, with the kit&#39;s style and size axes folded in.</span></li>
+<li><span class="cid">ScrollIndicator</span><span class="grp">Position indicators</span><span class="cap">Where the screen sits in a scroll, drawn against the right bezel.</span></li>
+<li><span class="cid">LevelIndicator</span><span class="grp">Position indicators</span><span class="cap">The value a rotating side button is setting, while it is being turned.</span></li>
+<li><span class="cid">PageIndicator/Horizontal</span><span class="grp">Position indicators</span><span class="cap">Which page of a horizontal pager is showing, along the bottom of the display.</span></li>
+<li><span class="cid">PageIndicator/Vertical</span><span class="grp">Position indicators</span><span class="cap">The same indicator for a vertical pager, drawn against the right bezel.</span></li>
+<li><span class="cid">TransformingLazyColumn</span><span class="grp">Lists and screens</span><span class="cap">The Wear list: rows scale and fade toward the edges of the round display.</span></li>
+<li><span class="cid">Scaffold</span><span class="grp">Lists and screens</span><span class="cap">The screen frame: curved clock, scroll position, and the bottom action, in their places.</span></li>
+<li><span class="cid">Media/PlayerScreen</span><span class="grp">Media controls</span><span class="cap">The media player, whole: track and artist above, transport controls across the middle, the output-device and overflow buttons below.</span></li>
+<li><span class="cid">Media/FooterButtons</span><span class="grp">Media controls</span><span class="cap">The player&#39;s footer: the output-device button with its volume badge, and the overflow. Two 44×32 compact buttons in the kit&#39;s two 68dp sections.</span></li>
+<li><span class="cid">Media/ControlButtons</span><span class="grp">Media controls</span><span class="cap">Previous, play/pause, next — the transport row. The track&#39;s progress ring is under the middle button&#39;s container rather than around it; see the note in this file.</span></li>
+<li><span class="cid">Media/PodcastControlButtons</span><span class="grp">Media controls</span><span class="cap">The spoken-word transport row: seek back and forward by a fixed increment.</span></li>
+<li><span class="cid">Media/PlayPauseProgressButton</span><span class="grp">Media controls</span><span class="cap">The middle button: play or pause. Its progress ring is drawn UNDER the filled container rather than around it, so the kit&#39;s `Progress=` does not read here — an upstream bug, not a seed. See the note in this file.</span></li>
+<li><span class="cid">Media/InfoDisplay</span><span class="grp">Media controls</span><span class="cap">Track and artist, marquee-scrolled when the title outruns the screen.</span></li>
+<li><span class="cid">Media/ShowPlaylistButton</span><span class="grp">Media controls</span><span class="cap">Jump to the playlist this track came from, with its artwork.</span></li>
+<li><span class="cid">OneHandedGestureClickIndicator</span><span class="grp">One-handed gestures</span><span class="cap">A button announcing that a double pinch will press it: the label steps aside for the glyph.</span></li>
+<li><span class="cid">OneHandedGestureScrollIndicator</span><span class="grp">One-handed gestures</span><span class="cap">The scroll rail growing a glyph: a pinch scrolls the list without the other hand.</span></li>
+<li><span class="cid">OneHandedGesturePageIndicator/Horizontal</span><span class="grp">One-handed gestures</span><span class="cap">The page dots with the pinch that advances them, along the bottom of the display.</span></li>
+<li><span class="cid">OneHandedGesturePageIndicator/Vertical</span><span class="grp">One-handed gestures</span><span class="cap">The same pinch-to-advance affordance for a vertical pager, against the right bezel.</span></li>
+<li><span class="cid">Pager/Horizontal</span><span class="grp">Pagers</span><span class="cap">Screens paged side to side, with the page dots the scaffold places along the bottom.</span></li>
+<li><span class="cid">Pager/Vertical</span><span class="grp">Pagers</span><span class="cap">The same paging up and down, with the dots on the right bezel instead.</span></li>
+<li><span class="cid">DatePicker</span><span class="grp">Pickers</span><span class="cap">Three wheels for a date, with the kit&#39;s field orderings folded in.</span></li>
+<li><span class="cid">TimePicker</span><span class="grp">Pickers</span><span class="cap">Wheels for a time, pinned to midnight; the kit&#39;s clock formats fold in as cells.</span></li>
+<li><span class="cid">Picker</span><span class="grp">Pickers</span><span class="cap">One wheel of options — the primitive the date and time pickers are built from.</span></li>
+<li><span class="cid">PickerGroup</span><span class="grp">Pickers</span><span class="cap">Several wheels side by side, with the focused one centred on the screen.</span></li>
+<li><span class="cid">Placeholder/Button</span><span class="grp">Placeholders</span><span class="cap">A button whose icon and labels have not arrived yet.</span></li>
+<li><span class="cid">Placeholder/IconButton</span><span class="grp">Placeholders</span><span class="cap">An icon button whose icon has not arrived yet.</span></li>
+<li><span class="cid">Placeholder/Card</span><span class="grp">Placeholders</span><span class="cap">A card whose icon and text have not arrived yet.</span></li>
+<li><span class="cid">CircularProgressIndicator</span><span class="grp">Progress indicators</span><span class="cap">A ring around the display edge, with the kit&#39;s progress and stroke axes folded in.</span></li>
+<li><span class="cid">SegmentedCircularProgressIndicator</span><span class="grp">Progress indicators</span><span class="cap">The same ring cut into segments, for progress through a countable set of steps.</span></li>
+<li><span class="cid">ArcProgressIndicator</span><span class="grp">Progress indicators</span><span class="cap">An indeterminate arc along the bezel, for a wait with no measurable progress.</span></li>
+<li><span class="cid">LinearProgressIndicator</span><span class="grp">Progress indicators</span><span class="cap">A straight track, for progress inside a component or a list row.</span></li>
+<li><span class="cid">CheckboxButton</span><span class="grp">Selection buttons</span><span class="cap">A labelled row that toggles a checkbox; for a set where any number may be chosen.</span></li>
+<li><span class="cid">SwitchButton</span><span class="grp">Selection buttons</span><span class="cap">A labelled row that flips a switch; for a setting that takes effect immediately.</span></li>
+<li><span class="cid">RadioButton</span><span class="grp">Selection buttons</span><span class="cap">A labelled row in a set where exactly one may be chosen.</span></li>
+<li><span class="cid">Shape/MaterialShapes</span><span class="grp">Shapes</span><span class="cap">The expressive shape library, with each named shape folded in as a variant.</span></li>
+<li><span class="cid">Slider</span><span class="grp">Sliders and steppers</span><span class="cap">A value across a fixed number of steps, with the kit&#39;s levels folded in as cells.</span></li>
+<li><span class="cid">Stepper</span><span class="grp">Sliders and steppers</span><span class="cap">A value moved a step at a time, between buttons at the top and bottom of the screen, with the level rail the kit draws beside them.</span></li>
+<li><span class="cid">SwipeToDismissBox</span><span class="grp">Swipe to dismiss</span><span class="cap">Wear&#39;s back gesture: the screen slides off to the right and uncovers what is behind it — not `SwipeToReveal`, which uncovers an item&#39;s actions and springs back.</span></li>
+<li><span class="cid">SwipeToReveal/Card</span><span class="grp">Swipe to reveal</span><span class="cap">A card swiped aside to show its actions.</span></li>
+<li><span class="cid">SwipeToReveal/Button</span><span class="grp">Swipe to reveal</span><span class="cap">The same gesture over a button rather than a card.</span></li>
+<li><span class="cid">ListHeader</span><span class="grp">Text</span><span class="cap">Titles the screen a list belongs to; the first thing above the list.</span></li>
+<li><span class="cid">ListSubHeader</span><span class="grp">Text</span><span class="cap">Divides a long list into named runs, without leaving the screen&#39;s title behind.</span></li>
+<li><span class="cid">Text/Body</span><span class="grp">Text</span><span class="cap">Running text at the `bodyMedium` role of the Wear type scale.</span></li>
+<li><span class="cid">Text/Caption</span><span class="grp">Text</span><span class="cap">Secondary text at the `labelSmall` role — a timestamp, a unit, a footnote.</span></li>
+<li><span class="cid">TimeText</span><span class="grp">Text</span><span class="cap">The curved status strip every Wear screen carries, pinned to a fixed time.</span></li>
+<li><span class="cid">FadingExpandingLabel</span><span class="grp">Text</span><span class="cap">A label that grows its container a line at a time, fading each new line in as it arrives.</span></li>
+<li><span class="cid">AnimatedText</span><span class="grp">Text</span><span class="cap">A numeral animated along a variable font&#39;s weight axis and between two sizes; the still is one frame of it.</span></li>
+<li><span class="cid">IconToggleButton</span><span class="grp">Toggle buttons</span><span class="cap">An icon that holds an on/off state, with the kit&#39;s size and state axes folded in.</span></li>
+<li><span class="cid">TextToggleButton</span><span class="grp">Toggle buttons</span><span class="cap">A short label that holds an on/off state.</span></li></ul></section>
+</main>
+</body>
+</html>
