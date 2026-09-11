@@ -6,7 +6,7 @@
         "contentDescription": "",
         "profiles": 512,
         "densityAtGeneration": 2.0,
-        "byteLength": 2120
+        "byteLength": 2268
     },
     "operations": [
         {
@@ -98,6 +98,59 @@
                             "height": 46.0,
                             "visibility": "VISIBLE",
                             "list": [
+                                {
+                                    "$tags": [
+                                        "EXPRESSION"
+                                    ],
+                                    "type": "FloatExpression",
+                                    "id": 64,
+                                    "srcValues": [
+                                        "@44",
+                                        4.0,
+                                        "@3211268",
+                                        "@44",
+                                        4.0,
+                                        "@3211268",
+                                        "@3211267",
+                                        "@44",
+                                        4.0,
+                                        "@3211268",
+                                        32.0,
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271",
+                                        "@44",
+                                        4.0,
+                                        "@3211268",
+                                        32.0,
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271",
+                                        "@3211267",
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271",
+                                        "@3211273",
+                                        37.0,
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271"
+                                    ],
+                                    "animation": null
+                                },
+                                {
+                                    "$tags": [
+                                        "EXPRESSION"
+                                    ],
+                                    "type": "FloatExpression",
+                                    "id": 65,
+                                    "srcValues": [
+                                        "@64",
+                                        2.0,
+                                        "@3211267"
+                                    ],
+                                    "animation": null
+                                },
                                 {
                                     "$tags": [
                                         "MODIFIER"
@@ -201,7 +254,7 @@
                                     "list": [
                                         {
                                             "type": "TextData",
-                                            "textId": 64,
+                                            "textId": 66,
                                             "text": "Done"
                                         },
                                         {
@@ -214,21 +267,24 @@
                                                     "$tags": [
                                                         "MODIFIER"
                                                     ],
-                                                    "type": "WidthModifierOperation",
-                                                    "width": [
-                                                        1.0,
-                                                        1.0
+                                                    "type": "WidthInModifierOperation",
+                                                    "min": [
+                                                        0.0,
+                                                        0.0
                                                     ],
-                                                    "dimensionModifierType": "FILL"
+                                                    "max": [
+                                                        0.0,
+                                                        "@65"
+                                                    ]
                                                 },
                                                 {
                                                     "$tags": [
                                                         "MODIFIER"
                                                     ],
                                                     "type": "PaddingModifierOperation",
-                                                    "left": 28.0,
+                                                    "left": 0.0,
                                                     "top": 12.0,
-                                                    "right": 28.0,
+                                                    "right": 0.0,
                                                     "bottom": 16.0
                                                 }
                                             ]
@@ -257,7 +313,7 @@
                                                                 "A11Y"
                                                             ],
                                                             "type": "CoreSemantics",
-                                                            "contentDescriptionId": 64,
+                                                            "contentDescriptionId": 66,
                                                             "role": "UNKNOWN",
                                                             "textId": 0,
                                                             "stateDescriptionId": 0,
@@ -303,13 +359,13 @@
                                                     "list": [
                                                         {
                                                             "type": "ComponentValue",
-                                                            "valueId": 65,
+                                                            "valueId": 67,
                                                             "componentValueType": "WIDTH",
                                                             "componentId": -11
                                                         },
                                                         {
                                                             "type": "ComponentValue",
-                                                            "valueId": 66,
+                                                            "valueId": 68,
                                                             "componentValueType": "HEIGHT",
                                                             "componentId": -11
                                                         },
@@ -321,9 +377,9 @@
                                                                 "EXPRESSION"
                                                             ],
                                                             "type": "FloatExpression",
-                                                            "id": 67,
+                                                            "id": 69,
                                                             "srcValues": [
-                                                                "@65",
+                                                                "@67",
                                                                 24.0,
                                                                 "@3211268"
                                                             ],
@@ -334,9 +390,9 @@
                                                                 "EXPRESSION"
                                                             ],
                                                             "type": "FloatExpression",
-                                                            "id": 68,
+                                                            "id": 70,
                                                             "srcValues": [
-                                                                "@66",
+                                                                "@68",
                                                                 24.0,
                                                                 "@3211268"
                                                             ],
@@ -344,12 +400,12 @@
                                                         },
                                                         {
                                                             "scaleX": [
-                                                                "@67",
-                                                                "@67"
+                                                                "@69",
+                                                                "@69"
                                                             ],
                                                             "scaleY": [
-                                                                "@68",
-                                                                "@68"
+                                                                "@70",
+                                                                "@70"
                                                             ],
                                                             "pivotX": [
                                                                 "NaN",
@@ -362,16 +418,13 @@
                                                             "type": "MatrixScale"
                                                         },
                                                         {
-                                                            "type": "MatrixSave"
-                                                        },
-                                                        {
                                                             "type": "ColorConstant",
                                                             "color": "0xff210f48",
-                                                            "colorId": 69
+                                                            "colorId": 71
                                                         },
                                                         {
                                                             "type": "NamedVariable",
-                                                            "varId": 69,
+                                                            "varId": 71,
                                                             "varName": "USER:WearM3.onPrimary",
                                                             "varType": "COLOR_TYPE"
                                                         },
@@ -389,7 +442,7 @@
                                                                     "{type=FontFamily, fontFamily=0}",
                                                                     "{type=FontWeight, weight=400.0}",
                                                                     "{type=TypeFace, italic=false}",
-                                                                    "{type=ColorFilterID, id=69, mode=SRC_IN}",
+                                                                    "{type=ColorFilterID, id=71, mode=SRC_IN}",
                                                                     "{type=BlendMode, mode=SRC_OVER}",
                                                                     "{type=FilterBitmap, enabled=true}",
                                                                     "{type=Shader, id=0}"
@@ -398,7 +451,7 @@
                                                         },
                                                         {
                                                             "type": "PathData",
-                                                            "id": 70,
+                                                            "id": 72,
                                                             "path": [
                                                                 "@10",
                                                                 9.0,
@@ -433,12 +486,9 @@
                                                         },
                                                         {
                                                             "type": "DrawPath",
-                                                            "id": 70,
+                                                            "id": 72,
                                                             "start": 0.0,
                                                             "end": 1.0
-                                                        },
-                                                        {
-                                                            "type": "MatrixRestore"
                                                         },
                                                         {
                                                             "type": "MatrixRestore"
@@ -499,8 +549,8 @@
                                             "horizontalPositioning": "START"
                                         }
                                     ],
-                                    "paddingLeft": 28.0,
-                                    "paddingRight": 28.0,
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
                                     "paddingTop": 12.0,
                                     "paddingBottom": 16.0,
                                     "verticalPositioning": "CENTER",

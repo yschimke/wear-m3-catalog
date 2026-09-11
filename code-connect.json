@@ -7,7 +7,7 @@
     "ref": "main",
     "module": ":remote-catalog"
   },
-  "generatedAt": "2026-09-11T21:48:00.931Z",
+  "generatedAt": "2026-09-11T22:31:43.130Z",
   "mappings": [
     {
       "componentId": "Button/Filled",
@@ -1627,31 +1627,166 @@
     {
       "componentId": "WidgetContainer/Small",
       "figmaLayerName": "WidgetContainer/Small",
-      "componentName": "WidgetContainerSmallRemote",
+      "componentName": "CapturingWearWidgetPreview",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "WidgetContainerSmallRemote",
+      "codeSnippet": "CapturingWearWidgetPreview(\n    params = TODO(\"WearWidgetParams\"),\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.CapturingWearWidgetPreview"
+      ],
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams",
+          "typeFqn": "androidx.glance.wear.core.WearWidgetParams",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "typeFqn": "androidx.glance.wear.WearWidgetBrush",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
       "figmaSvg": "figma/widgetcontainer-small.svg"
     },
     {
       "componentId": "WidgetContainer/Large",
       "figmaLayerName": "WidgetContainer/Large",
-      "componentName": "WidgetContainerLargeRemote",
+      "componentName": "CapturingWearWidgetPreview",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "WidgetContainerLargeRemote",
+      "codeSnippet": "CapturingWearWidgetPreview(\n    params = TODO(\"WearWidgetParams\"),\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.CapturingWearWidgetPreview"
+      ],
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams",
+          "typeFqn": "androidx.glance.wear.core.WearWidgetParams",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "typeFqn": "androidx.glance.wear.WearWidgetBrush",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
       "figmaSvg": "figma/widgetcontainer-large.svg"
     },
     {
       "componentId": "WidgetContainer/GradientBackground",
       "figmaLayerName": "WidgetContainer/GradientBackground",
-      "componentName": "WidgetContainerGradientRemote",
+      "componentName": "CapturingWearWidgetPreview",
       "source": "https://github.com/yschimke/wear-m3-catalog/blob/main/remote-catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "label": "Compose",
-      "confidence": "preview-fallback",
+      "confidence": "HIGH",
       "previewName": "WidgetContainerGradientRemote",
+      "codeSnippet": "CapturingWearWidgetPreview(\n    params = TODO(\"WearWidgetParams\"),\n    content = { },\n)",
+      "imports": [
+        "import ee.schimke.wearm3catalog.remote.CapturingWearWidgetPreview"
+      ],
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams",
+          "typeFqn": "androidx.glance.wear.core.WearWidgetParams",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "typeFqn": "androidx.glance.wear.WearWidgetBrush",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "typeFqn": "kotlin.Function0",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        }
+      ],
       "figmaSvg": "figma/widgetcontainer-gradientbackground.svg"
     }
   ]

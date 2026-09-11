@@ -6,7 +6,7 @@
         "contentDescription": "",
         "profiles": 512,
         "densityAtGeneration": 2.0,
-        "byteLength": 3360
+        "byteLength": 3356
     },
     "operations": [
         {
@@ -441,9 +441,6 @@
                                                             "type": "MatrixScale"
                                                         },
                                                         {
-                                                            "type": "MatrixSave"
-                                                        },
-                                                        {
                                                             "type": "ColorConstant",
                                                             "color": "0xfff6edff",
                                                             "colorId": 65
@@ -459,7 +456,7 @@
                                                             "paintBundle": {
                                                                 "type": "PaintBundle",
                                                                 "operations": [
-                                                                    "{type=Color, color=0xff000000}",
+                                                                    "{type=Color, color=0xffffffff}",
                                                                     "{type=StrokeWidth, width={type=Value, value=0.0}}",
                                                                     "{type=StrokeCap, cap=0}",
                                                                     "{type=StrokeJoin, strokeJoin=0}",
@@ -556,9 +553,6 @@
                                                             "id": 66,
                                                             "start": 0.0,
                                                             "end": 1.0
-                                                        },
-                                                        {
-                                                            "type": "MatrixRestore"
                                                         },
                                                         {
                                                             "type": "MatrixRestore"
@@ -1189,14 +1183,11 @@
                                                             "type": "MatrixScale"
                                                         },
                                                         {
-                                                            "type": "MatrixSave"
-                                                        },
-                                                        {
                                                             "type": "PaintData",
                                                             "paintBundle": {
                                                                 "type": "PaintBundle",
                                                                 "operations": [
-                                                                    "{type=Color, color=0xff000000}",
+                                                                    "{type=Color, color=0xffffffff}",
                                                                     "{type=StrokeWidth, width={type=Value, value=0.0}}",
                                                                     "{type=StrokeCap, cap=0}",
                                                                     "{type=StrokeJoin, strokeJoin=0}",
@@ -1379,9 +1370,6 @@
                                                             "id": 90,
                                                             "start": 0.0,
                                                             "end": 1.0
-                                                        },
-                                                        {
-                                                            "type": "MatrixRestore"
                                                         },
                                                         {
                                                             "type": "MatrixRestore"

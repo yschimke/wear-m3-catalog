@@ -14001,6 +14001,105 @@
             "builder": null,
             "requiredOptIns": [],
             "androidxOptIns": []
+        },
+        {
+            "canonicalId": "remote-catalog/ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.CapturingWearWidgetPreview",
+            "componentIds": [
+                "WidgetContainer/GradientBackground",
+                "WidgetContainer/Large",
+                "WidgetContainer/Small"
+            ],
+            "symbol": {
+                "jvmOwner": "ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt",
+                "callable": "ee.schimke.wearm3catalog.remote.CapturingWearWidgetPreview",
+                "name": "CapturingWearWidgetPreview",
+                "origin": "PROJECT",
+                "jvmName": "CapturingWearWidgetPreview",
+                "descriptor": "(Landroidx/glance/wear/core/WearWidgetParams;Landroidx/glance/wear/WearWidgetBrush;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V",
+                "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
+                "docs": "unavailable",
+                "receiver": null
+            },
+            "parameters": [
+                {
+                    "name": "params",
+                    "type": "WearWidgetParams",
+                    "typeFqn": "androidx.glance.wear.core.WearWidgetParams",
+                    "hasDefault": false,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "background",
+                    "type": "WearWidgetBrush",
+                    "typeFqn": "androidx.glance.wear.WearWidgetBrush",
+                    "hasDefault": true,
+                    "composableSlot": false,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": null
+                },
+                {
+                    "name": "content",
+                    "type": "() -> Unit",
+                    "typeFqn": "kotlin.Function0",
+                    "hasDefault": false,
+                    "composableSlot": true,
+                    "composableSlotReceiver": null,
+                    "nullable": false,
+                    "noArgConstructible": false,
+                    "noArgFactory": null,
+                    "scopeDslReceiver": null,
+                    "lambdaReturnTypeFqn": "kotlin.Unit"
+                }
+            ],
+            "slots": [
+                {
+                    "name": "content",
+                    "required": true,
+                    "receiverScope": null
+                }
+            ],
+            "bindings": [
+                {
+                    "previewId": "ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.WidgetContainerGradientRemote",
+                    "componentId": "WidgetContainer/GradientBackground",
+                    "group": "Widget Container"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.WidgetContainerLargeRemote",
+                    "componentId": "WidgetContainer/Large",
+                    "group": "Widget Container"
+                },
+                {
+                    "previewId": "ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.WidgetContainerSmallRemote",
+                    "componentId": "WidgetContainer/Small",
+                    "group": "Widget Container"
+                }
+            ],
+            "code": {
+                "call": null,
+                "imports": [],
+                "refusedReason": "not public or internal, so a generated file cannot call it",
+                "requiredOptIns": [],
+                "androidxOptIns": []
+            },
+            "signatureKnown": true,
+            "callableFromAnotherFile": false,
+            "hasTypeParameters": false,
+            "hasContextReceivers": false,
+            "overloadsCollided": false,
+            "builder": null,
+            "requiredOptIns": [],
+            "androidxOptIns": []
         }
     ],
     "builderOrphans": []

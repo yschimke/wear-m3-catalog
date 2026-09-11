@@ -6,7 +6,7 @@
         "contentDescription": "",
         "profiles": 512,
         "densityAtGeneration": 2.0,
-        "byteLength": 2154
+        "byteLength": 2302
     },
     "operations": [
         {
@@ -79,6 +79,59 @@
                             "height": 70.0,
                             "visibility": "VISIBLE",
                             "list": [
+                                {
+                                    "$tags": [
+                                        "EXPRESSION"
+                                    ],
+                                    "type": "FloatExpression",
+                                    "id": 68,
+                                    "srcValues": [
+                                        "@42",
+                                        4.0,
+                                        "@3211268",
+                                        "@42",
+                                        4.0,
+                                        "@3211268",
+                                        "@3211267",
+                                        "@42",
+                                        4.0,
+                                        "@3211268",
+                                        49.04,
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271",
+                                        "@42",
+                                        4.0,
+                                        "@3211268",
+                                        49.04,
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271",
+                                        "@3211267",
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271",
+                                        "@3211273",
+                                        43.96,
+                                        "@3211266",
+                                        0.0,
+                                        "@3211271"
+                                    ],
+                                    "animation": null
+                                },
+                                {
+                                    "$tags": [
+                                        "EXPRESSION"
+                                    ],
+                                    "type": "FloatExpression",
+                                    "id": 69,
+                                    "srcValues": [
+                                        "@68",
+                                        2.0,
+                                        "@3211267"
+                                    ],
+                                    "animation": null
+                                },
                                 {
                                     "$tags": [
                                         "MODIFIER"
@@ -176,7 +229,7 @@
                                     "list": [
                                         {
                                             "type": "TextData",
-                                            "textId": 68,
+                                            "textId": 70,
                                             "text": "Done"
                                         },
                                         {
@@ -189,21 +242,24 @@
                                                     "$tags": [
                                                         "MODIFIER"
                                                     ],
-                                                    "type": "WidthModifierOperation",
-                                                    "width": [
-                                                        1.0,
-                                                        1.0
+                                                    "type": "WidthInModifierOperation",
+                                                    "min": [
+                                                        0.0,
+                                                        0.0
                                                     ],
-                                                    "dimensionModifierType": "FILL"
+                                                    "max": [
+                                                        0.0,
+                                                        "@69"
+                                                    ]
                                                 },
                                                 {
                                                     "$tags": [
                                                         "MODIFIER"
                                                     ],
                                                     "type": "PaddingModifierOperation",
-                                                    "left": 28.0,
+                                                    "left": 0.0,
                                                     "top": 12.0,
-                                                    "right": 28.0,
+                                                    "right": 0.0,
                                                     "bottom": 16.0
                                                 }
                                             ]
@@ -232,7 +288,7 @@
                                                                 "A11Y"
                                                             ],
                                                             "type": "CoreSemantics",
-                                                            "contentDescriptionId": 68,
+                                                            "contentDescriptionId": 70,
                                                             "role": "UNKNOWN",
                                                             "textId": 0,
                                                             "stateDescriptionId": 0,
@@ -278,13 +334,13 @@
                                                     "list": [
                                                         {
                                                             "type": "ComponentValue",
-                                                            "valueId": 69,
+                                                            "valueId": 71,
                                                             "componentValueType": "WIDTH",
                                                             "componentId": -11
                                                         },
                                                         {
                                                             "type": "ComponentValue",
-                                                            "valueId": 70,
+                                                            "valueId": 72,
                                                             "componentValueType": "HEIGHT",
                                                             "componentId": -11
                                                         },
@@ -296,9 +352,9 @@
                                                                 "EXPRESSION"
                                                             ],
                                                             "type": "FloatExpression",
-                                                            "id": 71,
+                                                            "id": 73,
                                                             "srcValues": [
-                                                                "@69",
+                                                                "@71",
                                                                 24.0,
                                                                 "@3211268"
                                                             ],
@@ -309,9 +365,9 @@
                                                                 "EXPRESSION"
                                                             ],
                                                             "type": "FloatExpression",
-                                                            "id": 72,
+                                                            "id": 74,
                                                             "srcValues": [
-                                                                "@70",
+                                                                "@72",
                                                                 24.0,
                                                                 "@3211268"
                                                             ],
@@ -319,12 +375,12 @@
                                                         },
                                                         {
                                                             "scaleX": [
-                                                                "@71",
-                                                                "@71"
+                                                                "@73",
+                                                                "@73"
                                                             ],
                                                             "scaleY": [
-                                                                "@72",
-                                                                "@72"
+                                                                "@74",
+                                                                "@74"
                                                             ],
                                                             "pivotX": [
                                                                 "NaN",
@@ -337,14 +393,11 @@
                                                             "type": "MatrixScale"
                                                         },
                                                         {
-                                                            "type": "MatrixSave"
-                                                        },
-                                                        {
                                                             "$tags": [
                                                                 "EXPRESSION"
                                                             ],
                                                             "type": "FloatExpression",
-                                                            "id": 73,
+                                                            "id": 75,
                                                             "srcValues": [
                                                                 "@60",
                                                                 0.38,
@@ -354,11 +407,11 @@
                                                         },
                                                         {
                                                             "type": "ColorExpression",
-                                                            "id": 74,
+                                                            "id": 76,
                                                             "mode": "ARGB",
                                                             "a": [
-                                                                "@73",
-                                                                "@73"
+                                                                "@75",
+                                                                "@75"
                                                             ],
                                                             "r": [
                                                                 "@62",
@@ -387,7 +440,7 @@
                                                                     "{type=FontFamily, fontFamily=0}",
                                                                     "{type=FontWeight, weight=400.0}",
                                                                     "{type=TypeFace, italic=false}",
-                                                                    "{type=ColorFilterID, id=74, mode=SRC_IN}",
+                                                                    "{type=ColorFilterID, id=76, mode=SRC_IN}",
                                                                     "{type=BlendMode, mode=SRC_OVER}",
                                                                     "{type=FilterBitmap, enabled=true}",
                                                                     "{type=Shader, id=0}"
@@ -396,7 +449,7 @@
                                                         },
                                                         {
                                                             "type": "PathData",
-                                                            "id": 75,
+                                                            "id": 77,
                                                             "path": [
                                                                 "@10",
                                                                 9.0,
@@ -431,12 +484,9 @@
                                                         },
                                                         {
                                                             "type": "DrawPath",
-                                                            "id": 75,
+                                                            "id": 77,
                                                             "start": 0.0,
                                                             "end": 1.0
-                                                        },
-                                                        {
-                                                            "type": "MatrixRestore"
                                                         },
                                                         {
                                                             "type": "MatrixRestore"
@@ -497,8 +547,8 @@
                                             "horizontalPositioning": "START"
                                         }
                                     ],
-                                    "paddingLeft": 28.0,
-                                    "paddingRight": 28.0,
+                                    "paddingLeft": 0.0,
+                                    "paddingRight": 0.0,
                                     "paddingTop": 12.0,
                                     "paddingBottom": 16.0,
                                     "verticalPositioning": "CENTER",

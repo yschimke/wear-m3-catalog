@@ -11,7 +11,7 @@
     "record": {
         "file": "components.json",
         "schemaVersion": 2,
-        "components": 27
+        "components": 28
     },
     "statusSemantics": {
         "platform": "remote-compose",
@@ -127,6 +127,9 @@
                 },
                 "remote-m3/theme-specimen": {
                     "group": "Theme"
+                },
+                "remote-m3/capturing-wear-widget-preview": {
+                    "group": "Widget Container"
                 }
             }
         },
@@ -752,6 +755,23 @@
                 "propertyCapabilities": null,
                 "slotCapabilities": null,
                 "modifierCapabilities": null
+            },
+            "remote-m3/capturing-wear-widget-preview": {
+                "record": "remote-catalog/ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.CapturingWearWidgetPreview",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
             }
         }
     },
@@ -889,6 +909,11 @@
         {
             "code": "component.canvas.unclaimed",
             "subject": "remote-m3/theme-specimen",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "remote-m3/capturing-wear-widget-preview",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         }
     ]

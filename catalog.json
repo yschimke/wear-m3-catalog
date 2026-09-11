@@ -68159,9 +68159,25 @@
       "wireframe": "wireframes/widgetcontainer-small.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 144,
+      "bodyLine": 188,
       "sourceDirectory": "remote-catalog",
-      "sourceFunction": "WidgetContainerSmallRemote"
+      "sourceFunction": "WidgetContainerSmallRemote",
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams"
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     },
     {
       "componentId": "WidgetContainer/Large",
@@ -68186,9 +68202,25 @@
       "wireframe": "wireframes/widgetcontainer-large.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 163,
+      "bodyLine": 207,
       "sourceDirectory": "remote-catalog",
-      "sourceFunction": "WidgetContainerLargeRemote"
+      "sourceFunction": "WidgetContainerLargeRemote",
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams"
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     },
     {
       "componentId": "WidgetContainer/GradientBackground",
@@ -68213,9 +68245,25 @@
       "wireframe": "wireframes/widgetcontainer-gradientbackground.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 192,
+      "bodyLine": 236,
       "sourceDirectory": "remote-catalog",
-      "sourceFunction": "WidgetContainerGradientRemote"
+      "sourceFunction": "WidgetContainerGradientRemote",
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams"
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
     }
   ],
   "library": [
@@ -68224,7 +68272,7 @@
     "androidx.glance.wear:wear"
   ],
   "renderer": "compose-preview 2.10.0",
-  "generatedAt": "2026-09-11T21:47:48.574Z",
+  "generatedAt": "2026-09-11T22:31:30.812Z",
   "display": {
     "surface": "dark",
     "hero": "AppCard"
