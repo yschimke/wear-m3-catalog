@@ -65,8 +65,14 @@ const DEVICE_BOUND = "samples/device-bound.json";
 const ROUND_DEVICE =
   'device = "spec:width=225dp,height=225dp,dpi=320,isRound=true", ' +
   "showBackground = true, backgroundColor = 0xFF000000";
-const OUT = "samples-catalog/src/main/kotlin/generated/SamplePreviews.kt";
 const PACKAGE = "ee.schimke.wearm3catalog.samples";
+// Under the directories [PACKAGE] names, like any other Kotlin source and for the reason
+// `docs/design/ANDROIDX_SAMPLES.md` gives for the vendored tree: discovery resolves a preview back
+// to its file by asking which source path ENDS WITH the package-qualified path it reads off the
+// class. Emitted into a flat `generated/`, none did, and all 115 wrapper previews carried a
+// `sourceFile` naming no file in this repository — the Source panel answered `no-usage` and the
+// page's "source" link 404'd. Being generated changes nothing about where a Kotlin file lives.
+const OUT = `samples-catalog/src/main/kotlin/${PACKAGE.replace(/\./g, "/")}/SamplePreviews.kt`;
 const UPSTREAM_PACKAGE = "androidx.wear.compose.material3.samples";
 
 /** Every `.kt` file under [dir], recursively — the vendored tree has an `icons/` subpackage. */

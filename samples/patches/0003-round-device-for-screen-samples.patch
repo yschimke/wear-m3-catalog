@@ -30,10 +30,10 @@ demonstrates how an API is called and says nothing about responsive behaviour.
 A renderer-context fix rather than an upstream bug: a bare `@Preview` is right for a sample read in
 Studio by someone who picks their own device, and under-specified for one captured as a still.
 
-diff --git a/AlertDialogSample.kt b/AlertDialogSample.kt
+diff --git a/androidx/wear/compose/material3/samples/AlertDialogSample.kt b/androidx/wear/compose/material3/samples/AlertDialogSample.kt
 index d30a8b8..cef5360 100644
---- a/AlertDialogSample.kt
-+++ b/AlertDialogSample.kt
+--- a/androidx/wear/compose/material3/samples/AlertDialogSample.kt
++++ b/androidx/wear/compose/material3/samples/AlertDialogSample.kt
 @@ -47,7 +47,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
  
  @Sampled
@@ -112,10 +112,10 @@ index d30a8b8..cef5360 100644
  @Sampled
  @Composable
  fun AlertDialogWithContentGroupsTransformingContentSample() {
-diff --git a/ListHeaderSample.kt b/ListHeaderSample.kt
+diff --git a/androidx/wear/compose/material3/samples/ListHeaderSample.kt b/androidx/wear/compose/material3/samples/ListHeaderSample.kt
 index cdfd105..0627778 100644
---- a/ListHeaderSample.kt
-+++ b/ListHeaderSample.kt
+--- a/androidx/wear/compose/material3/samples/ListHeaderSample.kt
++++ b/androidx/wear/compose/material3/samples/ListHeaderSample.kt
 @@ -41,7 +41,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
  import androidx.wear.compose.material3.lazy.transformedHeight
  
@@ -129,10 +129,10 @@ index cdfd105..0627778 100644
  @Composable
  fun ListHeaderSample() {
      val transformationSpec = rememberTransformationSpec()
-diff --git a/RadioButtonSample.kt b/RadioButtonSample.kt
+diff --git a/androidx/wear/compose/material3/samples/RadioButtonSample.kt b/androidx/wear/compose/material3/samples/RadioButtonSample.kt
 index 30a4947..108a9a1 100644
---- a/RadioButtonSample.kt
-+++ b/RadioButtonSample.kt
+--- a/androidx/wear/compose/material3/samples/RadioButtonSample.kt
++++ b/androidx/wear/compose/material3/samples/RadioButtonSample.kt
 @@ -41,7 +41,11 @@ import androidx.wear.compose.material3.SplitRadioButton
  import androidx.wear.compose.material3.Text
  
@@ -146,10 +146,10 @@ index 30a4947..108a9a1 100644
  @Composable
  fun RadioButtonSample() {
      Column(modifier = Modifier.selectableGroup().fillMaxSize()) {
-diff --git a/ScaffoldSample.kt b/ScaffoldSample.kt
+diff --git a/androidx/wear/compose/material3/samples/ScaffoldSample.kt b/androidx/wear/compose/material3/samples/ScaffoldSample.kt
 index 773a5ee..e585b1d 100644
---- a/ScaffoldSample.kt
-+++ b/ScaffoldSample.kt
+--- a/androidx/wear/compose/material3/samples/ScaffoldSample.kt
++++ b/androidx/wear/compose/material3/samples/ScaffoldSample.kt
 @@ -40,7 +40,11 @@ import androidx.wear.compose.material3.Text
  import androidx.wear.compose.material3.lazy.rememberTransformationSpec
  import androidx.wear.compose.material3.lazy.transformedHeight
@@ -176,10 +176,10 @@ index 773a5ee..e585b1d 100644
  @Sampled
  @Composable
  fun ScaffoldWithTLCEdgeButtonSample() {
-diff --git a/ScrollIndicatorSample.kt b/ScrollIndicatorSample.kt
+diff --git a/androidx/wear/compose/material3/samples/ScrollIndicatorSample.kt b/androidx/wear/compose/material3/samples/ScrollIndicatorSample.kt
 index cecc770..470cdd7 100644
---- a/ScrollIndicatorSample.kt
-+++ b/ScrollIndicatorSample.kt
+--- a/androidx/wear/compose/material3/samples/ScrollIndicatorSample.kt
++++ b/androidx/wear/compose/material3/samples/ScrollIndicatorSample.kt
 @@ -36,7 +36,11 @@ import androidx.wear.compose.material3.Text
  import androidx.wear.compose.material3.TimeText
  
@@ -193,10 +193,10 @@ index cecc770..470cdd7 100644
  @Composable
  fun ScrollIndicatorWithTLCSample() {
      val scrollState = rememberTransformingLazyColumnState()
-diff --git a/SurfaceTransformationSample.kt b/SurfaceTransformationSample.kt
+diff --git a/androidx/wear/compose/material3/samples/SurfaceTransformationSample.kt b/androidx/wear/compose/material3/samples/SurfaceTransformationSample.kt
 index 390c2ef..c5a53f0 100644
---- a/SurfaceTransformationSample.kt
-+++ b/SurfaceTransformationSample.kt
+--- a/androidx/wear/compose/material3/samples/SurfaceTransformationSample.kt
++++ b/androidx/wear/compose/material3/samples/SurfaceTransformationSample.kt
 @@ -49,7 +49,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
  import androidx.wear.compose.material3.lazy.transformedHeight
  
@@ -236,10 +236,10 @@ index 390c2ef..c5a53f0 100644
  @Composable
  fun SurfaceTransformationCardSample() {
      val transformationSpec = rememberTransformationSpec()
-diff --git a/SwipeToRevealSample.kt b/SwipeToRevealSample.kt
+diff --git a/androidx/wear/compose/material3/samples/SwipeToRevealSample.kt b/androidx/wear/compose/material3/samples/SwipeToRevealSample.kt
 index aa74054..5444715 100644
---- a/SwipeToRevealSample.kt
-+++ b/SwipeToRevealSample.kt
+--- a/androidx/wear/compose/material3/samples/SwipeToRevealSample.kt
++++ b/androidx/wear/compose/material3/samples/SwipeToRevealSample.kt
 @@ -150,7 +150,11 @@ fun SwipeToRevealSingleActionCardSample() {
      }
  }
@@ -279,10 +279,10 @@ index aa74054..5444715 100644
  @Composable
  @Sampled
  fun SwipeToRevealNoPartialRevealWithScalingLazyColumnSample() {
-diff --git a/TransformationSpecSample.kt b/TransformationSpecSample.kt
+diff --git a/androidx/wear/compose/material3/samples/TransformationSpecSample.kt b/androidx/wear/compose/material3/samples/TransformationSpecSample.kt
 index 5915235..f24a2ae 100644
---- a/TransformationSpecSample.kt
-+++ b/TransformationSpecSample.kt
+--- a/androidx/wear/compose/material3/samples/TransformationSpecSample.kt
++++ b/androidx/wear/compose/material3/samples/TransformationSpecSample.kt
 @@ -47,7 +47,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
  
  @Composable
@@ -335,10 +335,10 @@ index 5915235..f24a2ae 100644
  fun TransformationSpecButtonRowSample() {
      // Use the spec derived from default small and large screen specs.
      val transformationSpec = rememberTransformationSpec()
-diff --git a/TransformingLazyColumnNotificationsSample.kt b/TransformingLazyColumnNotificationsSample.kt
+diff --git a/androidx/wear/compose/material3/samples/TransformingLazyColumnNotificationsSample.kt b/androidx/wear/compose/material3/samples/TransformingLazyColumnNotificationsSample.kt
 index abd89d1..f5828d9 100644
---- a/TransformingLazyColumnNotificationsSample.kt
-+++ b/TransformingLazyColumnNotificationsSample.kt
+--- a/androidx/wear/compose/material3/samples/TransformingLazyColumnNotificationsSample.kt
++++ b/androidx/wear/compose/material3/samples/TransformingLazyColumnNotificationsSample.kt
 @@ -35,7 +35,11 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
  import androidx.wear.compose.material3.lazy.transformedHeight
  
@@ -352,10 +352,10 @@ index abd89d1..f5828d9 100644
  @Composable
  fun TransformingLazyColumnNotificationsSample() {
      val state = rememberTransformingLazyColumnState()
-diff --git a/TransformingLazyColumnSample.kt b/TransformingLazyColumnSample.kt
+diff --git a/androidx/wear/compose/material3/samples/TransformingLazyColumnSample.kt b/androidx/wear/compose/material3/samples/TransformingLazyColumnSample.kt
 index cea1145..dc94465 100644
---- a/TransformingLazyColumnSample.kt
-+++ b/TransformingLazyColumnSample.kt
+--- a/androidx/wear/compose/material3/samples/TransformingLazyColumnSample.kt
++++ b/androidx/wear/compose/material3/samples/TransformingLazyColumnSample.kt
 @@ -55,7 +55,11 @@ import androidx.wear.compose.material3.lazy.transformedHeight
  import kotlinx.coroutines.delay
  

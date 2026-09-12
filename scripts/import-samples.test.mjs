@@ -4,12 +4,21 @@ import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "nod
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { applyPatches, quarantined, vendor, writeProvenance } from "./import-samples.mjs";
+import {
+  applyPatches,
+  packageDirOf,
+  quarantined,
+  vendor,
+  writeProvenance,
+} from "./import-samples.mjs";
+
+/** The package the fixture's samples declare — and so the directories they vendor into. */
+const PKG = "androidx/compose/material3/samples";
 
 /** A throwaway upstream checkout: `<root>/<path>/*.kt`. */
 function fakeUpstream(files) {
   const root = mkdtempSync(join(tmpdir(), "import-samples-test-"));
-  const path = "compose/material3/material3/samples/src/main/java/androidx/compose/material3/samples";
+  const path = `compose/material3/material3/samples/src/main/java/${PKG}`;
   mkdirSync(join(root, path), { recursive: true });
   for (const [name, text] of Object.entries(files)) {
     writeFileSync(join(root, path, name), text);
@@ -26,10 +35,10 @@ test("vendors every .kt file under the manifest's paths", () => {
   const out = mkdtempSync(join(tmpdir(), "out-"));
   try {
     const result = vendor(root, manifest, out);
-    assert.deepEqual(result.copied, ["ButtonSamples.kt", "CardSamples.kt"]);
+    assert.deepEqual(result.copied, [`${PKG}/ButtonSamples.kt`, `${PKG}/CardSamples.kt`]);
     assert.deepEqual(result.skipped, []);
     // Byte-identical: the vendored tree is upstream's bytes, never reformatted.
-    assert.equal(readFileSync(join(out, "ButtonSamples.kt"), "utf8"), "fun a() {}");
+    assert.equal(readFileSync(join(out, PKG, "ButtonSamples.kt"), "utf8"), "fun a() {}");
   } finally {
     rmSync(root, { recursive: true, force: true });
     rmSync(out, { recursive: true, force: true });
@@ -45,7 +54,9 @@ test("skips a quarantined file and reports it", () => {
   try {
     const skip = new Map([["NeedsActivitySamples.kt", "needs a real Activity"]]);
     const result = vendor(root, manifest, out, skip);
-    assert.deepEqual(result.copied, ["ButtonSamples.kt"]);
+    assert.deepEqual(result.copied, [`${PKG}/ButtonSamples.kt`]);
+    // Reported by NAME, not by path: quarantine.json names files, and the reader who wrote that
+    // entry should see back the string they wrote.
     assert.deepEqual(result.skipped, ["NeedsActivitySamples.kt"]);
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -58,9 +69,9 @@ test("vendoring is idempotent — a second run reproduces the tree exactly", () 
   const out = mkdtempSync(join(tmpdir(), "out-"));
   try {
     vendor(root, manifest, out);
-    const first = readFileSync(join(out, "A.kt"), "utf8");
+    const first = readFileSync(join(out, PKG, "A.kt"), "utf8");
     vendor(root, manifest, out);
-    assert.equal(readFileSync(join(out, "A.kt"), "utf8"), first);
+    assert.equal(readFileSync(join(out, PKG, "A.kt"), "utf8"), first);
   } finally {
     rmSync(root, { recursive: true, force: true });
     rmSync(out, { recursive: true, force: true });
@@ -76,7 +87,7 @@ test("vendoring clears a file that upstream no longer has", () => {
     mkdirSync(out, { recursive: true });
     writeFileSync(join(out, "Stale.kt"), "fun stale() {}");
     const result = vendor(root, manifest, out);
-    assert.deepEqual(result.copied, ["A.kt"]);
+    assert.deepEqual(result.copied, [`${PKG}/A.kt`]);
     assert.throws(() => readFileSync(join(out, "Stale.kt"), "utf8"));
   } finally {
     rmSync(root, { recursive: true, force: true });
@@ -127,12 +138,13 @@ test("a patch that applies is applied, to an out dir outside the working tree", 
   const patches = mkdtempSync(join(tmpdir(), "patches-"));
   writeFileSync(
     join(patches, "0001-real.patch"),
-    "diff --git a/A.kt b/A.kt\n--- a/A.kt\n+++ b/A.kt\n@@ -1 +1 @@\n-fun a() {}\n+fun a() { pinned() }\n",
+    `diff --git a/${PKG}/A.kt b/${PKG}/A.kt\n--- a/${PKG}/A.kt\n+++ b/${PKG}/A.kt\n` +
+      "@@ -1 +1 @@\n-fun a() {}\n+fun a() { pinned() }\n",
   );
   try {
     vendor(root, manifest, out);
     assert.deepEqual(applyPatches(out, patches), ["0001-real.patch"]);
-    assert.equal(readFileSync(join(out, "A.kt"), "utf8"), "fun a() { pinned() }\n");
+    assert.equal(readFileSync(join(out, PKG, "A.kt"), "utf8"), "fun a() { pinned() }\n");
   } finally {
     for (const d of [root, out, patches]) rmSync(d, { recursive: true, force: true });
   }
@@ -174,4 +186,33 @@ test("provenance records the ref, the artifact and what was skipped", () => {
     rmSync(root, { recursive: true, force: true });
     rmSync(out, { recursive: true, force: true });
   }
+});
+
+test("a sample vendors into the directories its package names", () => {
+  // The whole reason this shape is load-bearing. Discovery resolves a preview back to its file by
+  // asking which source path ENDS WITH the package-qualified path it reads off the class; vendored
+  // flat, nothing did, and every sample's `sourceFile` fell back to a string naming no file in the
+  // repository — a dead usage panel and a 404 on the page's "source" link.
+  const { root, manifest } = fakeUpstream({ "ButtonSamples.kt": "fun a() {}" });
+  const out = mkdtempSync(join(tmpdir(), "out-"));
+  try {
+    const [copied] = vendor(root, manifest, out).copied;
+    assert.equal(copied.endsWith("androidx/compose/material3/samples/ButtonSamples.kt"), true);
+  } finally {
+    for (const d of [root, out]) rmSync(d, { recursive: true, force: true });
+  }
+});
+
+test("the package directory is whatever follows the module's source root", () => {
+  assert.equal(
+    packageDirOf("wear/compose/compose-material3/samples/src/main/java/androidx/wear/x/samples"),
+    "androidx/wear/x/samples",
+  );
+  assert.equal(packageDirOf("a/b/src/main/kotlin/com/example"), "com/example");
+});
+
+test("a subtree under no source root keeps the flat shape", () => {
+  // Not a failure: a manifest may one day point at a directory that is not a module's source root,
+  // and vendoring it flat is better than guessing at a package it does not declare.
+  assert.equal(packageDirOf("some/loose/directory"), "");
 });

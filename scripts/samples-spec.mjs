@@ -38,7 +38,8 @@ import { join } from "node:path";
 
 const SAMPLE_MAP = "sample-map.json";
 const VENDORED = "samples-catalog/src/main/kotlin/upstream";
-const GENERATED = "samples-catalog/src/main/kotlin/generated/SamplePreviews.kt";
+const GENERATED =
+  "samples-catalog/src/main/kotlin/ee/schimke/wearm3catalog/samples/SamplePreviews.kt";
 const SPEC = "samples-catalog/catalog.spec.json";
 /** The kit catalog these samples are call sites for: the system name, and where its ids live. */
 const KIT_SYSTEM = "wear-m3-catalog";
@@ -249,7 +250,7 @@ export function buildSpec(map, renderable, firstCellByFamily = new Map()) {
       // reasoning was that the vendored sources are upstream's bytes and cannot carry an
       // annotation. True of `upstream/`, false of the module: a file outside it is first-party
       // code that survives the next import untouched. So the theme is declared where `:catalog`
-      // declares its own -- `samples-catalog/src/main/kotlin/themes/SamplesTheme.kt`, a
+      // declares its own -- `samples-catalog/src/main/kotlin/ee/schimke/wearm3catalog/samples/SamplesTheme.kt`, a
       // `@WearThemeCatalog` provider -- and that file carries the full reasoning.
       //
       // Not a style preference: `generate-theme-catalogs.mjs` always emits the MOBILE

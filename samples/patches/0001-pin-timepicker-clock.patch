@@ -16,10 +16,10 @@ kit sticker — an instant is only worth pinning to the one the other side alrea
 A renderer limitation rather than an upstream bug: `LocalTime.now()` is right for a sample someone
 runs on a watch, and wrong for one captured as a still.
 
-diff --git a/TimePickerSample.kt b/TimePickerSample.kt
+diff --git a/androidx/wear/compose/material3/samples/TimePickerSample.kt b/androidx/wear/compose/material3/samples/TimePickerSample.kt
 index bea8000c..5c6d75ac 100644
---- a/TimePickerSample.kt
-+++ b/TimePickerSample.kt
+--- a/androidx/wear/compose/material3/samples/TimePickerSample.kt
++++ b/androidx/wear/compose/material3/samples/TimePickerSample.kt
 @@ -38,11 +38,18 @@ import java.time.LocalTime
  import java.time.format.DateTimeFormatter
  import java.time.format.FormatStyle
