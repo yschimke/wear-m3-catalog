@@ -1,11 +1,27 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-12T09:58:51.230Z",
+  "generatedAt": "2026-09-12T10:35:47.071Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "11ac10daebf33ceb9a940377d2bc8e5ed55d1205",
+        "subject": "feat(samples): point each component's source at the sample, not the wrapper (#473)",
+        "at": "2026-09-12T11:20:40+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "c1aa59f017e57f13d1cb01668488a43147e69a0e",
+        "subject": "feat(samples): link the 25 APIs the kit spells differently (#472)",
+        "at": "2026-09-12T11:02:20+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "7ed232045621312af9fd9731a32a5bf8990e9c50",
         "subject": "feat(samples): publish a live bundle for the samples sheet (#471)",
@@ -467,22 +483,6 @@
         "subject": "build: take preview-annotations and the data runtimes from compose-preview-daemon 3.0.0 (#399)",
         "at": "2026-09-09T22:12:02+01:00",
         "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "66963b079193937bb6afefe875a2d66088bda201",
-        "subject": "fix(deps): update dependency ee.schimke.composeai:data-preview-overrides-runtime to v3 (#395)",
-        "at": "2026-09-09T20:01:48Z",
-        "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "8daf8561d8abbd08bc01be18d85ccb4faf0b4cf6",
-        "subject": "fix(deps): update compose-ai-tools to v2.4.1 (#388)",
-        "at": "2026-09-09T07:31:14Z",
-        "author": "renovate[bot]",
         "previewIds": [],
         "components": []
       }
