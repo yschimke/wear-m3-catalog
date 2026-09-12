@@ -1,11 +1,19 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-12T10:35:47.071Z",
+  "generatedAt": "2026-09-12T11:09:04.727Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "e447a2b9bd1871003d4afd057d547192de2b1a7a",
+        "subject": "fix(ui-builder): shelve CircularProgressIndicator and EdgeButton where they are declared (#474)",
+        "at": "2026-09-12T11:40:16+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "11ac10daebf33ceb9a940377d2bc8e5ed55d1205",
         "subject": "feat(samples): point each component's source at the sample, not the wrapper (#473)",
@@ -474,14 +482,6 @@
         "sha": "f1b7d6cb5c174997b7e9d7c2b9d3151b2b6a47fa",
         "subject": "fix(catalog): vendor variable Roboto Flex so the type scale's axes apply (#401)",
         "at": "2026-09-09T23:31:15+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "fdcd189666bbe9b6e7a5fbb15b2a852ebcc94698",
-        "subject": "build: take preview-annotations and the data runtimes from compose-preview-daemon 3.0.0 (#399)",
-        "at": "2026-09-09T22:12:02+01:00",
         "author": "Yuri Schimke",
         "previewIds": [],
         "components": []
