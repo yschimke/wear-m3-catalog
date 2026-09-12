@@ -143,6 +143,16 @@
       "record": "catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader",
       "$comment": "4 stickers; first is FastScrollingTransformingLazyColumn, which is where it went.",
       "group": "Lists and screens"
+    },
+    "wear-m3/circular-progress-indicator": {
+      "record": "catalog/androidx.wear.compose.material3.CircularProgressIndicatorKt.CircularProgressIndicator",
+      "$comment": "Same first-sticker-alphabetically collision as the three above. LoadingButton in sections/Buttons.kt draws a bare CircularProgressIndicator inside the Button/Loading sticker, and it sorts ahead of the ProgressIndicators.kt stickers, so the shelf came out Buttons — next to `button` and `child-button`, and away from arc-, linear- and segmented-circular-, which are the other three rings. ProgressIndicators.kt is where @CatalogComponent(id = \"CircularProgressIndicator\") actually declares it.",
+      "group": "Progress indicators"
+    },
+    "wear-m3/edge-button": {
+      "record": "catalog/androidx.wear.compose.material3.EdgeButtonKt.EdgeButton",
+      "$comment": "The same collision, but it bound the WRONG OVERLOAD as well as the wrong shelf, which is why this entry pins `record` and not just `group`. Two EdgeButtons are published: AlertDialogDefaults.EdgeButton, the one the dialog owns, and EdgeButtonKt.EdgeButton, the standalone component EdgeButtons.kt declares. AlertDialog sorts first, so `wear-m3/edge-button` resolved to the dialog's overload and shelved on Dialogs, leaving the standalone EdgeButton reachable under no id at all. Naming the record here rebinds the id to the component the catalog means by it and returns it to its own shelf.",
+      "group": "Edge-hugging buttons"
     }
   }
 }
