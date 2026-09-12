@@ -1,11 +1,19 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-11T23:40:42.814Z",
+  "generatedAt": "2026-09-12T05:55:40.026Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "3ca571b7a68462168dd0ccb7b2fffe3547bcb48e",
+        "subject": "feat(samples): link each sample back to the kit component it calls (#461)",
+        "at": "2026-09-12T06:48:52+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "3cb2caf66b060c02bdc03cf51456132a4c9fffc1",
         "subject": "fix(deps): update compose-ai-tools (#463)",
@@ -475,14 +483,6 @@
         "subject": "test(remote): bisect RemoteTitleCard dropping its time slot under host density (#381)",
         "at": "2026-09-08T20:57:47+01:00",
         "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "056b439bc14f3996382334514f93cc4ea327e361",
-        "subject": "docs: refresh the component map against the published sheets (#379)",
-        "at": "2026-09-08T10:46:08+01:00",
-        "author": "github-actions[bot]",
         "previewIds": [],
         "components": []
       }
