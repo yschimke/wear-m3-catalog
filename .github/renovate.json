@@ -105,10 +105,11 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "`compose-preview serve` and its render host, published from yschimke/compose-preview-server on a third version line independent of both the tools and the contracts. Same reasoning as the contracts rule above. The catalog does not resolve these coordinates today; the rule is here so that the day it does, the coordinate lands in its own PR rather than being swallowed by the compose-ai-tools group above it.",
+      "description": "`compose-preview serve` and its render host, published from yschimke/compose-preview-server on a third version line independent of both the tools and the contracts. Same reasoning as the contracts rule above. The catalog does not resolve these coordinates today; the rule is here so that the day it does, the coordinate lands in its own PR rather than being swallowed by the compose-ai-tools group above it. `compose-preview-ui-builder-export` is the coordinate this catalog DOES resolve, on its own `composePreviewServer` ref, and it was missing from the list \u2014 so it fell through to the broad compose-ai-tools rule above, the one thing every train rule here exists to prevent. The shared preset now names it too.",
       "matchPackageNames": [
         "ee.schimke.composeai:compose-preview-serve",
-        "ee.schimke.composeai:compose-preview-render-host"
+        "ee.schimke.composeai:compose-preview-render-host",
+        "ee.schimke.composeai:compose-preview-ui-builder-export"
       ],
       "groupName": "compose-preview-server",
       "schedule": [
