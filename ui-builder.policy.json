@@ -153,6 +153,42 @@
       "record": "catalog/androidx.wear.compose.material3.EdgeButtonKt.EdgeButton",
       "$comment": "The same collision, but it bound the WRONG OVERLOAD as well as the wrong shelf, which is why this entry pins `record` and not just `group`. Two EdgeButtons are published: AlertDialogDefaults.EdgeButton, the one the dialog owns, and EdgeButtonKt.EdgeButton, the standalone component EdgeButtons.kt declares. AlertDialog sorts first, so `wear-m3/edge-button` resolved to the dialog's overload and shelved on Dialogs, leaving the standalone EdgeButton reachable under no id at all. Naming the record here rebinds the id to the component the catalog means by it and returns it to its own shelf.",
       "group": "Edge-hugging buttons"
+    },
+    "wear-m3/sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.Sticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The bare frame — `CatalogMaterialTheme { Box { content() } }`. Published on `Text`."
+    },
+    "wear-m3/screen-sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.ScreenSticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The same frame inside an `AppScaffold` with a stubbed `TimeText`, so a sticker draws as a screen. Published on `Fast scrolling`."
+    },
+    "wear-m3/transparent-screen-sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.TransparentScreenSticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The screen frame without a background fill. Published on `Progress indicators`."
+    },
+    "wear-m3/full-screen-sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.FullScreenSticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The screen frame with the theme background filled. Published on `Sign-in`."
+    },
+    "wear-m3/edge-button-sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.EdgeButtonSticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The frame pinned to the 192dp base screen width, so an edge button draws at the width whose arc it is clipped to. Published on `Edge-hugging buttons`."
+    },
+    "wear-m3/animated-sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.AnimatedSticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The frame for a motion recording — an `AppScaffold` with the clock stubbed out. Already absent from the component menu; excluded so the record does not state it either."
+    },
+    "wear-m3/edge-button-screen": {
+      "record": "catalog/ee.schimke.wearm3catalog.CatalogThemeKt.EdgeButtonScreen",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The scrollable screen the edge-button reveal is recorded through. Its own KDoc says it is not a component frame: the kit publishes no screen cell for it. Already absent from the component menu; excluded so the record does not state it either."
+    },
+    "wear-m3/wear-screen": {
+      "record": "catalog/ee.schimke.wearm3catalog.sections.ListsKt.WearScreen",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The list sections' screen frame — `MaterialTheme` plus an `AppScaffold` with a stubbed `TimeText`. It sits in a file that carries a `@file:CatalogGroup`, which is the only reason it published on a plausible-looking shelf (`Lists and screens`) rather than a scattered one."
+    },
+    "wear-m3/media-row-sticker": {
+      "record": "catalog/ee.schimke.wearm3catalog.sections.MediaControlsKt.MediaRowSticker",
+      "excluded": "the catalog's own preview frame, not a Wear Material 3 component: every sticker is drawn inside one, the Design Kit publishes no node for it, and nobody places one in a design. Same exclusion, and the same reason, as `m3/sticker` in the sibling m3-catalog. The Media Controls row frame — a `Sticker` narrowed to the kit's 192dp base screen width and a fixed row height. Same as `wear-screen`: its file's `@file:CatalogGroup` is why it published on `Media controls` rather than a scattered shelf."
     }
   }
 }
