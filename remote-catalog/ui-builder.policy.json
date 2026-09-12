@@ -108,6 +108,11 @@
     "remote-m3/remote-sticker": {
       "record": "remote-catalog/ee.schimke.wearm3catalog.remote.CatalogThemeKt.RemoteSticker",
       "excluded": "the catalog's own preview frame, not a Remote Compose component: every sticker is drawn inside one and nobody places one in a design."
+    },
+
+    "remote-m3/capturing-wear-widget-preview": {
+      "record": "remote-catalog/ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.CapturingWearWidgetPreview",
+      "excluded": "a `private` capture wrapper, not a Remote Compose component: it exists only to hand the widget's encoded document to `IrSidecarChannel` so the render lands a `.rc` sidecar beside the PNG, and it is local at all only until AndroidX's `useSafeFallbackRendererVersion` reaches compose-ai-tools' published wrapper. Same exclusion, and the same reason, as `remote-m3/remote-sticker` above: nobody places a capture frame in a design. It published on the `Widget Container` shelf, beside the two widget-container builtins it wraps."
     }
   },
   "builtins": {
