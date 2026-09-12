@@ -126,7 +126,12 @@ jobs:
             echo 'samples=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          grep -qE '^(catalog/|catalog\.spec\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
+          # `ui-builder.policy.json` belongs here as well as in `push.paths` above: the paths list
+          # only decides whether the workflow STARTS, and this predicate decides whether the wear
+          # lane publishes. Listing it in one and not the other starts a run that skips the job it
+          # was started for. (`remote-catalog/ui-builder.policy.json` is already matched by the
+          # `remote-catalog/` prefix in the remote predicate below.)
+          grep -qE '^(catalog/|catalog\.spec\.json$|ui-builder\.policy\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
             echo 'wear=true' >> "$GITHUB_OUTPUT" || echo 'wear=false' >> "$GITHUB_OUTPUT"
           grep -qE '^(remote-catalog/|\.github/ci/remote-m3-cmp-wasm-allowlist\.json$)' <<<"$files" &&
             echo 'remote=true' >> "$GITHUB_OUTPUT" || echo 'remote=false' >> "$GITHUB_OUTPUT"
