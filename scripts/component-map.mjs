@@ -47,18 +47,87 @@ const SHEETS = [
   { module: "remote-catalog", branch: "remote-m3" },
 ];
 
-/** Every `.kt` under a module's main source set. */
+/**
+ * The two mutually exclusive lanes `remote-catalog` builds against, and the file that picks one.
+ *
+ * `settings.gradle.kts` and `remote-catalog/build.gradle.kts` both resolve the lane the same way
+ * and put exactly ONE of these source sets on the source path — never both, never neither. Walking
+ * both here would name components that the sheet does not draw, which is precisely the skew that
+ * made run #164 declare eleven snapshot-only cells with no sticker behind them.
+ *
+ * `-PremoteSnapshot=<id>` overrides the file for one Gradle invocation and is deliberately not
+ * mirrored: this script is run by `component-map.yml` with no arguments, and the render it is a
+ * record of went through the same reusable workflow with no way to pass one either. The pin file
+ * is what both of them see.
+ */
+const LANES = new Set(["released", "snapshot"]);
+const SNAPSHOT_PIN = ".github/ci/remote-snapshot-pin";
+
+function activeLane() {
+  const pin = fs.existsSync(SNAPSHOT_PIN) ? fs.readFileSync(SNAPSHOT_PIN, "utf8").trim() : "";
+  return pin ? "snapshot" : "released";
+}
+
+/**
+ * Every `.kt` in a module's production source sets.
+ *
+ * DISCOVERED, NOT LISTED. `catalog` was a single `src/main/kotlin` until #437 made it one
+ * multiplatform source set, and this script went on reading a directory that no longer existed —
+ * so every `Refresh component map` run failed for four days and the map went stale in silence,
+ * which is the exact failure the workflow exists to prevent. Reading whatever `src/<set>/kotlin`
+ * the module actually has means the next source set costs nothing.
+ *
+ * `CatalogInventoryTest` lists its two source sets explicitly and says why: it asserts COVERAGE,
+ * and a scan that silently widened would report success by looking at more. This is the opposite
+ * job — a RECORD of what the sheets publish — where a scan that silently narrows is the bug, so
+ * the two disagree on purpose.
+ *
+ * Two kinds of source set are filtered out rather than walked:
+ *
+ *   - TESTS. Defensively: today `catalog/src/androidHostTest` and `remote-catalog/src/test` only
+ *     MENTION `@CatalogComponent` (they parse it — see `CatalogInventoryTest`) and declare no id,
+ *     so nothing of theirs would have been picked up anyway. A fixture that did declare one would
+ *     put a component in the map that no sheet publishes.
+ *   - THE LANE NOT IN USE, per [LANES] above.
+ */
 function sources(module) {
-  const root = path.join(module, "src/main/kotlin");
+  const src = path.join(module, "src");
+  const lane = activeLane();
+  const roots = fs
+    .readdirSync(src, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .filter((name) => !/test/i.test(name))
+    .filter((name) => !LANES.has(name) || name === lane)
+    .map((name) => path.join(src, name, "kotlin"))
+    .filter((root) => fs.existsSync(root))
+    // Sorted, and so is each directory below, because two source sets can declare the same id and
+    // the last one read wins. Traversal order does not reach the tables — every one of them sorts
+    // by id — but it does decide which of a duplicate pair is described, and that should not come
+    // down to what order a filesystem happened to hand back.
+    .sort();
+  // LOUDLY, because discovery turns the old crash into a silent wrong answer. Reading a path that
+  // had moved raised ENOENT, which is at least a stack trace; reading whatever is there instead
+  // yields no annotations, drops every one of the module's components, and makes the next refresh
+  // read as a deletion rather than as a bug.
+  if (roots.length === 0) {
+    throw new Error(
+      `${module}: no production source root under ${src} — the module's layout has moved and ` +
+        `this script has to move with it.`,
+    );
+  }
   const out = [];
   const walk = (dir) => {
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const entries = fs
+      .readdirSync(dir, { withFileTypes: true })
+      .sort((a, b) => a.name.localeCompare(b.name));
+    for (const entry of entries) {
       const p = path.join(dir, entry.name);
       if (entry.isDirectory()) walk(p);
       else if (entry.name.endsWith(".kt")) out.push(p);
     }
   };
-  walk(root);
+  for (const root of roots) walk(root);
   return out;
 }
 
