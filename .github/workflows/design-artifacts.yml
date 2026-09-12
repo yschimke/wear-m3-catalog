@@ -69,6 +69,19 @@ on:
       - '.github/workflows/design-artifacts.yml'
   workflow_dispatch:
     inputs:
+      # WHICH lane to republish. A dispatch is the manual remedy for a lane the automatic path
+      # dropped, and re-rendering the other two to fix one costs 30-90 minutes of runner for
+      # nothing. `all` stays the default so the old behaviour is what you get by pressing the
+      # button.
+      lanes:
+        description: 'Which catalogs to republish.'
+        type: choice
+        default: all
+        options:
+          - all
+          - wear-m3-catalog
+          - remote-m3
+          - wear-m3-samples
       allow_incomplete:
         description: 'Publish even if some previews fail to render or lack semantics (use while tuning the spec).'
         type: boolean
@@ -77,9 +90,20 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: design-artifacts-${{ github.ref }}
-  cancel-in-progress: false
+# NO workflow-level group. Serialisation lives on the publish jobs below, one group per delivery
+# branch, because that is the only thing a group here was ever protecting: each lane force-pushes
+# its OWN `design-artifacts/<system>` branch, so two lanes can never race each other, and a single
+# global group made them queue as if they could.
+#
+# That is what lost #483. `cancel-in-progress: false` protects the run that is ALREADY RUNNING, not
+# the one waiting: GitHub keeps at most one pending run per group and a newly queued run cancels it.
+# #483's wear republish sat pending behind #480's render, #485 was queued, #483 was cancelled
+# without ever starting -- and #485 correctly declined to re-render the wear lane it had not
+# touched, so the sheet served superseded content until the Monday cron. Under per-lane groups #485
+# contributes no wear job at all, so it cannot evict one. See yschimke/compose-ai-tools#5438.
+#
+# `design-parity.yml` states the same rule for its own publisher: the group's real job is "keeping
+# two publishers off the same branch". Per-lane groups keep exactly that and drop the rest.
 
 jobs:
   # WHICH delivery branches does this push dirty?
@@ -108,8 +132,21 @@ jobs:
       - id: scope
         env:
           BEFORE: ${{ github.event.before }}
+          LANES: ${{ github.event_name == 'workflow_dispatch' && inputs.lanes || '' }}
         run: |
           set -euo pipefail
+          # A dispatch naming one lane republishes that lane and nothing else. `all`, a schedule and
+          # an unresolvable change set all still mean every lane -- publishing a fresh bundle is
+          # never wrong, skipping a stale one is.
+          if [ -n "$LANES" ] && [ "$LANES" != 'all' ]; then
+            [ "$LANES" = 'wear-m3-catalog' ] && echo 'wear=true' >> "$GITHUB_OUTPUT" ||
+              echo 'wear=false' >> "$GITHUB_OUTPUT"
+            [ "$LANES" = 'remote-m3' ] && echo 'remote=true' >> "$GITHUB_OUTPUT" ||
+              echo 'remote=false' >> "$GITHUB_OUTPUT"
+            [ "$LANES" = 'wear-m3-samples' ] && echo 'samples=true' >> "$GITHUB_OUTPUT" ||
+              echo 'samples=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [ "${{ github.event_name }}" != 'push' ] ||
              [ -z "$BEFORE" ] ||
              [ "$BEFORE" = '0000000000000000000000000000000000000000' ] ||
@@ -145,6 +182,11 @@ jobs:
     if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.wear == 'true' }}
     permissions:
       contents: write
+    # One publisher at a time per delivery branch -- this lane force-pushes
+    # `design-artifacts/wear-m3-catalog` and nothing else does.
+    concurrency:
+      group: design-artifacts-${{ github.ref }}-wear-m3-catalog
+      cancel-in-progress: false
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
     with:
       system: wear-m3-catalog
@@ -265,6 +307,11 @@ jobs:
     if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.remote == 'true' }}
     permissions:
       contents: write
+    # One publisher at a time per delivery branch -- this lane force-pushes
+    # `design-artifacts/remote-m3` and nothing else does.
+    concurrency:
+      group: design-artifacts-${{ github.ref }}-remote-m3
+      cancel-in-progress: false
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
     with:
       system: remote-m3
@@ -425,6 +472,11 @@ jobs:
     if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.samples == 'true' }}
     permissions:
       contents: write
+    # One publisher at a time per delivery branch -- this lane force-pushes
+    # `design-artifacts/wear-m3-samples` and nothing else does.
+    concurrency:
+      group: design-artifacts-${{ github.ref }}-wear-m3-samples
+      cancel-in-progress: false
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
     with:
       system: wear-m3-samples
