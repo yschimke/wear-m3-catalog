@@ -5,10 +5,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 import {
+  API_TO_KIT_COMPONENT,
   buildGroups,
   buildSpec,
   kitComponentFor,
-  kitFirstCellByFamily,
+  kitCellIndex,
   renderableSamples,
 } from "./samples-spec.mjs";
 
@@ -31,7 +32,7 @@ test("a family's FIRST declared cell is the one a sample links to", () => {
     "Buttons.kt": COMPONENT("Button/Filled") + COMPONENT("Button/Outlined"),
   });
   try {
-    assert.equal(kitFirstCellByFamily([root]).get("Button"), "Button/Filled");
+    assert.equal(kitCellIndex([root]).get("Button"), "Button/Filled");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -45,7 +46,7 @@ test("declaration order is file order, and files are walked in sorted path order
     "Aaa.kt": COMPONENT("Button/First"),
   });
   try {
-    assert.equal(kitFirstCellByFamily([root]).get("Button"), "Button/First");
+    assert.equal(kitCellIndex([root]).get("Button"), "Button/First");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -54,7 +55,7 @@ test("declaration order is file order, and files are walked in sorted path order
 test("an id with no slash is its own family and its own first cell", () => {
   const root = kitSources({ "Dialogs.kt": COMPONENT("AlertDialog") });
   try {
-    assert.equal(kitFirstCellByFamily([root]).get("AlertDialog"), "AlertDialog");
+    assert.equal(kitCellIndex([root]).get("AlertDialog"), "AlertDialog");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -66,7 +67,7 @@ test("a multi-line annotation with other fields still yields its id", () => {
     "Swipe.kt": COMPONENT("SwipeToReveal/Card", `,\n  reference = "figma:abc/1:2"`),
   });
   try {
-    assert.equal(kitFirstCellByFamily([root]).get("SwipeToReveal"), "SwipeToReveal/Card");
+    assert.equal(kitCellIndex([root]).get("SwipeToReveal"), "SwipeToReveal/Card");
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
@@ -139,5 +140,57 @@ test("samples are found under the package directories they are vendored into", (
     assert.deepEqual([...found.keys()], ["ButtonSample"]);
   } finally {
     rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("a cell id in the index maps to itself, so an override can name one directly", () => {
+  const root = kitSources({
+    "Buttons.kt": COMPONENT("Button/Filled") + COMPONENT("Button/Outlined"),
+  });
+  try {
+    const index = kitCellIndex([root]);
+    // Both granularities, from one walk: the family opens on its first cell, and each cell is
+    // addressable on its own.
+    assert.equal(index.get("Button"), "Button/Filled");
+    assert.equal(index.get("Button/Outlined"), "Button/Outlined");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("an override naming a cell links THAT cell, not its family's first", () => {
+  // The whole reason values may be cell ids. `OutlinedButton` mapped to the family `Button` would
+  // resolve to `Button/Filled` — a confidently wrong destination.
+  const index = new Map([
+    ["Button", "Button/Filled"],
+    ["Button/Outlined", "Button/Outlined"],
+  ]);
+  assert.equal(kitComponentFor("OutlinedButton", index), "Button/Outlined");
+});
+
+test("an override naming a family links the family's first cell", () => {
+  // The other shape, right where the kit publishes ONE cell for the whole API: first-cell and
+  // only-cell are then the same thing, and the family name says so more plainly than the id.
+  const index = new Map([["CheckboxButton", "CheckboxButton"]]);
+  assert.equal(kitComponentFor("SplitCheckboxButton", index), "CheckboxButton");
+});
+
+test("an override that resolves to nothing throws, naming the value", () => {
+  // A hand-written override reaching nothing is a typo or a renamed cell. An UNMAPPED api reaching
+  // nothing is the ordinary case, so the two must not fail the same way — this is the whole
+  // difference between the two branches of `kitComponentFor`.
+  assert.throws(
+    () => kitComponentFor("OutlinedButton", new Map([["Button", "Button/Filled"]])),
+    (error) =>
+      error.message.includes("OutlinedButton") && error.message.includes("Button/Outlined"),
+  );
+});
+
+test("every override in the shipped map resolves against the real kit", () => {
+  // The regression that matters on a rename: this is the test that turns a broken link into a red
+  // build rather than a `--check` diff nobody reads closely.
+  const index = kitCellIndex();
+  for (const [api, value] of API_TO_KIT_COMPONENT) {
+    assert.equal(typeof index.get(value), "string", `${api} -> ${value} resolves to no kit cell`);
   }
 });
