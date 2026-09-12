@@ -1,11 +1,35 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-12T05:55:40.026Z",
+  "generatedAt": "2026-09-12T08:05:19.257Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "b1bd5d19aab8165e22eafeae4715ff1036805636",
+        "subject": "fix(deps): update composePreviewPlugin to v2.11.1 (#466)",
+        "at": "2026-09-12T08:56:57+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "0a24055877f1d0b84dd59e144d9cccf57b3cef06",
+        "subject": "chore(deps): update yschimke/compose-ai-tools action to v2.11.1 (#464)",
+        "at": "2026-09-12T07:19:40Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "6e00aa10e0f35b981184ed04d84dbc3a73a72102",
+        "subject": "ci: carve compose-preview-ui-builder-export into the server train (#465)",
+        "at": "2026-09-12T08:09:20+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "3ca571b7a68462168dd0ccb7b2fffe3547bcb48e",
         "subject": "feat(samples): link each sample back to the kit component it calls (#461)",
@@ -458,30 +482,6 @@
         "sha": "5404dc5f028a3b50f3a1c8e5fe327ff8c0f31a92",
         "subject": "chore(deps): move the preview line to 2.4.0 so the builder catalog is generated (#384)",
         "at": "2026-09-09T06:57:48+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "13e507773357d729cdc141bed0d6753ee88abf77",
-        "subject": "feat: declare both catalogs to the UI builder, and publish the measured padding (#383)",
-        "at": "2026-09-09T05:31:22+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "7476958c38d83544032e590095d1db74d8763036",
-        "subject": "fix(deps): update dependency ee.schimke.composeai:third-party-rc-embedded-player to v1.60.0 (#382)",
-        "at": "2026-09-08T20:08:32Z",
-        "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "1c258f817053fd9a5f3a5a0030e043d304761038",
-        "subject": "test(remote): bisect RemoteTitleCard dropping its time slot under host density (#381)",
-        "at": "2026-09-08T20:57:47+01:00",
         "author": "Yuri Schimke",
         "previewIds": [],
         "components": []
