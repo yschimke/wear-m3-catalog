@@ -1,11 +1,19 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-12T11:09:04.727Z",
+  "generatedAt": "2026-09-12T11:42:45.866Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "8f709ca7b4c4fce571f063217de715485805cb82",
+        "subject": "fix(ci): republish when ui-builder.policy.json changes (#476)",
+        "at": "2026-09-12T12:06:43+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "e447a2b9bd1871003d4afd057d547192de2b1a7a",
         "subject": "fix(ui-builder): shelve CircularProgressIndicator and EdgeButton where they are declared (#474)",
@@ -475,14 +483,6 @@
         "subject": "chore(deps): update yschimke/compose-ai-tools action to v2.5.0 (#404)",
         "at": "2026-09-09T23:13:30Z",
         "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "f1b7d6cb5c174997b7e9d7c2b9d3151b2b6a47fa",
-        "subject": "fix(catalog): vendor variable Roboto Flex so the type scale's axes apply (#401)",
-        "at": "2026-09-09T23:31:15+01:00",
-        "author": "Yuri Schimke",
         "previewIds": [],
         "components": []
       }
