@@ -9,6 +9,7 @@ import {
   buildSpec,
   kitComponentFor,
   kitFirstCellByFamily,
+  renderableSamples,
 } from "./samples-spec.mjs";
 
 /** A throwaway kit source tree: `<root>/<name>` for each entry. */
@@ -120,4 +121,23 @@ test("no label is emitted, so the destination names the component", () => {
   );
   const link = groups.flatMap((g) => g.components)[0].related[0];
   assert.equal("label" in link, false);
+});
+
+test("samples are found under the package directories they are vendored into", () => {
+  // The vendored tree mirrors the samples' own package, so nothing sits at its root. A flat scan
+  // finds no sample at all and reports it as "none carries @Preview upstream" — an empty spec that
+  // reads as an upstream fact rather than as a walk that never descended. Caught exactly that way.
+  const root = kitSources({
+    "androidx/wear/compose/material3/samples/ButtonSamples.kt":
+      "@Sampled\n@Preview\n@Composable\nfun ButtonSample() {}\n" +
+      "@Composable\nfun FancyHelper() {}\n",
+  });
+  try {
+    // No generated file: this test is about the vendored walk, and the wrappers would only add
+    // names it is not asking about.
+    const found = renderableSamples(root, join(root, "no-such-generated.kt"));
+    assert.deepEqual([...found.keys()], ["ButtonSample"]);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
 });
