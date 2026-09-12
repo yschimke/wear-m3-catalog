@@ -150,6 +150,60 @@ export function renderableSamples(dir = VENDORED, generated = GENERATED) {
   return found;
 }
 
+/** The module the vendored sources belong to, stripped to make a path module-relative. */
+const MODULE_PREFIX = "samples-catalog/";
+
+/**
+ * `sampleFunctionName -> { sourceFile, bodyLine }` for every `@Sampled` function in the vendored
+ * tree, as a MODULE-relative path and the line its `fun` is declared on.
+ *
+ * This is what the component's `sourceFile` / `bodyLine` are declared from, and the reason they are
+ * declared at all. 115 of this catalog's 150 previews are generated wrappers —
+ * `fun ButtonSamplePreview() = androidx.wear…ButtonSample()` — so discovery correctly records the
+ * generated file as the preview's source, and a reader opening the Source panel gets three lines of
+ * delegation instead of the sample. The catalog is the only party that knows which sample a wrapper
+ * it generated stands for, so the catalog says so.
+ *
+ * Declared for the upstream-annotated samples too, where it agrees with discovery. Stating it
+ * uniformly costs one line each and keeps the spec readable as "every component points at its
+ * sample", rather than as a list with 34 silent exceptions whose silence means something.
+ *
+ * `@Sampled` and not `@Preview`: this indexes where a sample is DECLARED, which is a fact about the
+ * vendored source, while renderability is a fact about what discovery can invoke.
+ */
+export function sampleSources(dir = VENDORED) {
+  const found = new Map();
+  const walk = (d) => {
+    for (const entry of readdirSync(d, { withFileTypes: true }).sort((a, b) =>
+      a.name.localeCompare(b.name),
+    )) {
+      const path = join(d, entry.name);
+      if (entry.isDirectory()) {
+        walk(path);
+        continue;
+      }
+      if (!entry.name.endsWith(".kt")) continue;
+      const text = readFileSync(path, "utf8");
+      const sourceFile = path.startsWith(MODULE_PREFIX)
+        ? path.slice(MODULE_PREFIX.length)
+        : path;
+      // Line numbers are 1-based and counted over the WHOLE file, so the offset has to come from
+      // the match index rather than from a per-match line walk.
+      for (const match of text.matchAll(/((?:@\w+(?:\([^)]*\))?\s*)+)fun\s+(?:<[^>]*>\s*)?(\w+)\s*\(/g)) {
+        const [, annotations, fn] = match;
+        if (!annotations.includes("@Sampled")) continue;
+        // The `fun` keyword, not the first annotation: the panel should open on the declaration a
+        // reader recognises, with the annotations above it as context rather than as the subject.
+        const funAt = match.index + annotations.length;
+        const bodyLine = text.slice(0, funAt).split("\n").length;
+        if (!found.has(fn)) found.set(fn, { sourceFile, bodyLine });
+      }
+    }
+  };
+  walk(dir);
+  return found;
+}
+
 /**
  * `kit lookup key -> the cell id it names`, read off `@CatalogComponent(id = …)`.
  *
@@ -251,7 +305,7 @@ export function apiBySample(map) {
 }
 
 /** Build the `groups` array: one group per API, one component per renderable sample. */
-export function buildGroups(map, renderable, cellIndex = new Map()) {
+export function buildGroups(map, renderable, cellIndex = new Map(), sources = new Map()) {
   const byApi = apiBySample(map);
   const groups = new Map();
   const unmapped = [];
@@ -277,10 +331,16 @@ export function buildGroups(map, renderable, cellIndex = new Map()) {
     // here, and an absent label is what tells the server to use it.
     const kitComponentId = api ? kitComponentFor(api, cellIndex) : null;
     if (api && !kitComponentId) unjoined.add(api);
+    // Where a reader should be sent for this component's source. The `@Preview` is in the generated
+    // wrapper for 115 of these, and the wrapper is machinery; `apply-source-files.mjs` takes a
+    // declared path in preference to the one discovery recorded, which is what makes the Source
+    // panel show the sample rather than its delegation.
+    const source = sources.get(fn);
     groups.get(group).push({
       componentId: `${group}/${fn}`,
       preview: previewFn,
       caption: `${fn} — the sample \`${api ?? "upstream"}\`'s KDoc points at.`,
+      ...(source ? { sourceFile: source.sourceFile, bodyLine: source.bodyLine } : {}),
       ...(kitComponentId
         ? { related: [{ system: KIT_SYSTEM, componentId: kitComponentId }] }
         : {}),
@@ -296,8 +356,8 @@ export function buildGroups(map, renderable, cellIndex = new Map()) {
   };
 }
 
-export function buildSpec(map, renderable, cellIndex = new Map()) {
-  const { groups, unmapped, unjoined } = buildGroups(map, renderable, cellIndex);
+export function buildSpec(map, renderable, cellIndex = new Map(), sources = new Map()) {
+  const { groups, unmapped, unjoined } = buildGroups(map, renderable, cellIndex, sources);
   return {
     spec: {
       $schema:
@@ -349,7 +409,7 @@ export function buildSpec(map, renderable, cellIndex = new Map()) {
 function main(argv) {
   const map = JSON.parse(readFileSync(SAMPLE_MAP, "utf8"));
   const renderable = renderableSamples();
-  const { spec, unmapped, unjoined } = buildSpec(map, renderable, kitCellIndex());
+  const { spec, unmapped, unjoined } = buildSpec(map, renderable, kitCellIndex(), sampleSources());
   const json = `${JSON.stringify(spec, null, 2)}\n`;
 
   const components = spec.groups.reduce((n, g) => n + g.components.length, 0);

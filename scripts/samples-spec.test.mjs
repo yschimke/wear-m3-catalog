@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -11,6 +11,7 @@ import {
   kitComponentFor,
   kitCellIndex,
   renderableSamples,
+  sampleSources,
 } from "./samples-spec.mjs";
 
 /** A throwaway kit source tree: `<root>/<name>` for each entry. */
@@ -192,5 +193,88 @@ test("every override in the shipped map resolves against the real kit", () => {
   const index = kitCellIndex();
   for (const [api, value] of API_TO_KIT_COMPONENT) {
     assert.equal(typeof index.get(value), "string", `${api} -> ${value} resolves to no kit cell`);
+  }
+});
+
+test("a sample's declaration site is indexed as a module-relative path and its `fun` line", () => {
+  const root = kitSources({
+    "samples-catalog/src/main/kotlin/upstream/a/b/ButtonSample.kt":
+      "package a.b\n\n@Sampled\n@Composable\nfun ButtonSample() {}\n",
+  });
+  try {
+    const found = sampleSources(join(root, "samples-catalog/src/main/kotlin/upstream"));
+    // Not the repository path: the server resolves `sourceFile` against the producing MODULE.
+    assert.equal(found.get("ButtonSample").sourceFile.startsWith("src/main/kotlin/"), false);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("the indexed line is the `fun`, not the first annotation above it", () => {
+  // The panel should open on the declaration a reader recognises, with the annotations above it as
+  // context rather than as the subject.
+  const root = kitSources({
+    "S.kt": "package a\n\n@Sampled\n@Preview\n@Composable\nfun ButtonSample() {}\n",
+  });
+  try {
+    assert.equal(sampleSources(root).get("ButtonSample").bodyLine, 6);
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("a @Sampled function with no @Preview is still indexed", () => {
+  // This indexes where a sample is DECLARED — a fact about the vendored source — while
+  // renderability is a fact about what discovery can invoke. A wrapper is generated for exactly
+  // these, and the wrapper's component needs this path most of all.
+  const root = kitSources({ "S.kt": "@Sampled\n@Composable\nfun OnlySampled() {}\n" });
+  try {
+    assert.equal(typeof sampleSources(root).get("OnlySampled")?.bodyLine, "number");
+  } finally {
+    rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test("a component carries the sample's source, not the generated wrapper's", () => {
+  // The whole point. `apply-source-files.mjs` prefers a declared path over the one discovery
+  // recorded, which for 115 of these is `generated/SamplePreviews.kt`.
+  const { groups } = buildGroups(
+    [{ api: "Button", samples: ["a.b.ButtonSample"] }],
+    new Map([["ButtonSample", "ButtonSamplePreview"]]),
+    new Map([["Button", "Button/Filled"]]),
+    new Map([["ButtonSample", { sourceFile: "src/main/kotlin/upstream/B.kt", bodyLine: 77 }]]),
+  );
+  const component = groups.flatMap((g) => g.components)[0];
+  assert.equal(component.sourceFile, "src/main/kotlin/upstream/B.kt");
+  assert.equal(component.bodyLine, 77);
+});
+
+test("a sample the index does not know carries no source at all", () => {
+  // Absent rather than guessed: a half-declared component would send a reader to a line of a file
+  // chosen by default, which is worse than the server rendering no link.
+  const { groups } = buildGroups(
+    [{ api: "Button", samples: ["a.b.ButtonSample"] }],
+    new Map([["ButtonSample", "ButtonSamplePreview"]]),
+    new Map(),
+    new Map(),
+  );
+  const component = groups.flatMap((g) => g.components)[0];
+  assert.equal("sourceFile" in component, false);
+  assert.equal("bodyLine" in component, false);
+});
+
+test("every declared path in the shipped spec exists on disk", () => {
+  // The declaration overrides discovery, so nothing downstream will catch a path that has moved —
+  // an upstream re-import that renames a file would otherwise publish 150 dead source links.
+  const spec = JSON.parse(readFileSync("samples-catalog/catalog.spec.json", "utf8"));
+  for (const group of spec.groups) {
+    for (const component of group.components) {
+      if (!component.sourceFile) continue;
+      assert.equal(
+        existsSync(join("samples-catalog", component.sourceFile)),
+        true,
+        `${component.componentId} declares ${component.sourceFile}, which does not exist`,
+      );
+    }
   }
 });
