@@ -69,6 +69,19 @@ on:
       - '.github/workflows/design-artifacts.yml'
   workflow_dispatch:
     inputs:
+      # WHICH lane to republish. A dispatch is the manual remedy for a lane the automatic path
+      # dropped, and re-rendering the other two to fix one costs 30-90 minutes of runner for
+      # nothing. `all` stays the default so the old behaviour is what you get by pressing the
+      # button.
+      lanes:
+        description: 'Which catalogs to republish.'
+        type: choice
+        default: all
+        options:
+          - all
+          - wear-m3-catalog
+          - remote-m3
+          - wear-m3-samples
       allow_incomplete:
         description: 'Publish even if some previews fail to render or lack semantics (use while tuning the spec).'
         type: boolean
@@ -78,7 +91,17 @@ permissions:
   contents: read
 
 concurrency:
-  group: design-artifacts-${{ github.ref }}
+  # `cancel-in-progress: false` protects the run that is ALREADY RUNNING. It does not protect the
+  # one that is waiting: GitHub keeps at most one pending run per group, and a newly queued run
+  # cancels it. That is how #483's republish was lost -- it sat pending behind #480's render, #485
+  # was queued, #483 was cancelled without ever starting, and #485 correctly declined to re-render
+  # the wear lane it had not touched. The sheet then served the superseded wording until the Monday
+  # cron. See yschimke/compose-ai-tools#5438.
+  #
+  # There is no "uncancellable" flag in Actions; the group is the only lever. So a dispatch gets a
+  # group of ITS OWN, keyed on the run id, which nothing else can ever join and therefore nothing
+  # can evict. Push runs keep sharing one group per ref, which is what serialises them.
+  group: design-artifacts-${{ github.ref }}${{ github.event_name == 'workflow_dispatch' && format('-manual-{0}', github.run_id) || '' }}
   cancel-in-progress: false
 
 jobs:
@@ -108,8 +131,21 @@ jobs:
       - id: scope
         env:
           BEFORE: ${{ github.event.before }}
+          LANES: ${{ github.event_name == 'workflow_dispatch' && inputs.lanes || '' }}
         run: |
           set -euo pipefail
+          # A dispatch naming one lane republishes that lane and nothing else. `all`, a schedule and
+          # an unresolvable change set all still mean every lane -- publishing a fresh bundle is
+          # never wrong, skipping a stale one is.
+          if [ -n "$LANES" ] && [ "$LANES" != 'all' ]; then
+            [ "$LANES" = 'wear-m3-catalog' ] && echo 'wear=true' >> "$GITHUB_OUTPUT" ||
+              echo 'wear=false' >> "$GITHUB_OUTPUT"
+            [ "$LANES" = 'remote-m3' ] && echo 'remote=true' >> "$GITHUB_OUTPUT" ||
+              echo 'remote=false' >> "$GITHUB_OUTPUT"
+            [ "$LANES" = 'wear-m3-samples' ] && echo 'samples=true' >> "$GITHUB_OUTPUT" ||
+              echo 'samples=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
           if [ "${{ github.event_name }}" != 'push' ] ||
              [ -z "$BEFORE" ] ||
              [ "$BEFORE" = '0000000000000000000000000000000000000000' ] ||
