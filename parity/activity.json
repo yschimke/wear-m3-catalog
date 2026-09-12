@@ -1,11 +1,51 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-12T11:42:45.866Z",
+  "generatedAt": "2026-09-12T14:10:18.513Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "20b8d0c5a285a76538c9869a0f2f1bb5ff93314e",
+        "subject": "fix(deps): update compose-preview-daemon to v3.4.4 (#482)",
+        "at": "2026-09-12T13:51:38Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "9161aa220b3458bfa2d5ea45be9d404126e9bda8",
+        "subject": "fix: read the component map from the source sets the modules actually have (#481)",
+        "at": "2026-09-12T14:37:44+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "484d178c0079c1a89746abaf669c717c6d3eb67e",
+        "subject": "fix: exclude the catalog's own preview frames from the ui-builder menu (#479)",
+        "at": "2026-09-12T14:30:32+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "49e5412e2536ede7b1279d79ebaa65ad4f4f221f",
+        "subject": "chore(deps): update yschimke/compose-ai-tools action to v2.12.0 (#478)",
+        "at": "2026-09-12T13:06:42Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "30c0d653e5e90371a31e55752d2012eac09875b6",
+        "subject": "docs: show CI, Design Artifacts and Design parity state in the README (#477)",
+        "at": "2026-09-12T12:28:23+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "8f709ca7b4c4fce571f063217de715485805cb82",
         "subject": "fix(ci): republish when ui-builder.policy.json changes (#476)",
@@ -443,46 +483,6 @@
         "subject": "test(remote-catalog): compile what a design's actions have to become (#416)",
         "at": "2026-09-10T09:15:56+01:00",
         "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "a1db3735aa35fdfebc4e44ed52a196f89eeaab48",
-        "subject": "test(remote-catalog): compile the Kotlin a widget design generates (#414)",
-        "at": "2026-09-10T08:10:22+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "a92d5c215d34a47d6adb0287fa1a421dcb466dc7",
-        "subject": "fix(deps): update dependency ee.schimke.composeai:wear-preview-runtime to v2.5.0 (#411)",
-        "at": "2026-09-10T07:05:43+01:00",
-        "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "1bc1ade0542d608384370efa3ac1998e876ff417",
-        "subject": "feat(remote-catalog): give a Remote design its root back, and order the shelves it sits on (#410)",
-        "at": "2026-09-10T07:03:34+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "e7070762dfa2c02e54125252353f94c08d3ca6bf",
-        "subject": "chore(deps): update dependency ee.schimke.composeai.preview to v2.5.0 (#409)",
-        "at": "2026-09-10T00:01:33Z",
-        "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "e4704290f994df4bbd16400c6b400458981efd07",
-        "subject": "chore(deps): update yschimke/compose-ai-tools action to v2.5.0 (#404)",
-        "at": "2026-09-09T23:13:30Z",
-        "author": "renovate[bot]",
         "previewIds": [],
         "components": []
       }
