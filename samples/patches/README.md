@@ -9,13 +9,23 @@ out until a render changes. A patch is re-applied every import, and one that sto
 the import** rather than disappearing — which is the point, because upstream moving under a fix is
 exactly when someone needs to look at it again.
 
+Patch paths are relative to the **vendored root**, so they carry the package directories the
+samples declare — `androidx/wear/compose/material3/samples/Foo.kt`, not `Foo.kt`. `applyPatches`
+hands the whole tree to `git apply --directory`, and a path missing the package fails the import
+with "upstream has moved under this patch", which is the one thing it would not mean.
+
 Cut a patch against the freshly imported tree:
 
 ```
 node scripts/import-samples.mjs --out /tmp/samples-fresh
-# edit /tmp/samples-fresh/Foo.kt
-git diff --no-index /tmp/samples-fresh-orig/Foo.kt /tmp/samples-fresh/Foo.kt > samples/patches/0001-foo.patch
+cp -r /tmp/samples-fresh /tmp/samples-orig
+# edit /tmp/samples-fresh/androidx/wear/compose/material3/samples/Foo.kt
+git -C /tmp diff --no-index --no-prefix samples-orig samples-fresh \
+  | sed -E 's#samples-(orig|fresh)/##' > samples/patches/0001-foo.patch
 ```
+
+The `sed` strips the two throwaway directory names so what remains is the package-relative path
+`applyPatches` expects; check the `--- ` / `+++ ` lines before committing.
 
 Open every patch with a comment saying **why** — which compile error or renderer limitation it
 answers — because the next reader has to decide whether it still holds after an upstream bump.

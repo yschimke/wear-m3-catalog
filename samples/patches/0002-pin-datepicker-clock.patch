@@ -11,10 +11,10 @@ PINNED TO `:catalog`'s OWN INSTANT (2026-01-01), for the reason 0001 gives.
 A renderer limitation rather than an upstream bug: `LocalDate.now()` is right for a sample someone
 runs on a watch, and wrong for one captured as a still.
 
-diff --git a/DatePickerSample.kt b/DatePickerSample.kt
+diff --git a/androidx/wear/compose/material3/samples/DatePickerSample.kt b/androidx/wear/compose/material3/samples/DatePickerSample.kt
 index 5f8694a4..ea411b94 100644
---- a/DatePickerSample.kt
-+++ b/DatePickerSample.kt
+--- a/androidx/wear/compose/material3/samples/DatePickerSample.kt
++++ b/androidx/wear/compose/material3/samples/DatePickerSample.kt
 @@ -38,11 +38,20 @@ import java.time.LocalDate
  import java.time.format.DateTimeFormatter
  import java.time.format.FormatStyle

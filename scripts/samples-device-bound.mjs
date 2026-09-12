@@ -50,7 +50,8 @@ import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const RENDERS = "samples-catalog/build/compose-previews/renders";
-const GENERATED = "samples-catalog/src/main/kotlin/generated/SamplePreviews.kt";
+const GENERATED =
+  "samples-catalog/src/main/kotlin/ee/schimke/wearm3catalog/samples/SamplePreviews.kt";
 const OUT = "samples/device-bound.json";
 
 /** The PNG's pixel dimensions, straight out of the IHDR chunk. */

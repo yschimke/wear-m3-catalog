@@ -115,16 +115,20 @@ dependencies {
 // `upstream/` is upstream's bytes. ktfmt would rewrite it into a permanent diff against every
 // future import — the formatting counterpart of "a fix is a patch, never an edit".
 //
-// `generated/` is `scripts/samples-previews.mjs`'s output, and its canonical form is whatever that
-// script emits: `--check` regenerates and diffs, exactly as `design-map.json` is checked. Letting a
-// formatter rewrite it would put the two checks in direct conflict — ktfmt wraps the long
-// fully-qualified calls at 100 columns, the generator does not, and whichever ran last would make
-// the other fail. The generator is the single source of truth, so the formatter stays out.
+// `SamplePreviews.kt` is `scripts/samples-previews.mjs`'s output, and its canonical form is
+// whatever that script emits: `--check` regenerates and diffs, exactly as `design-map.json` is
+// checked. Letting a formatter rewrite it would put the two checks in direct conflict — ktfmt wraps
+// the long fully-qualified calls at 100 columns, the generator does not, and whichever ran last
+// would make the other fail. The generator is the single source of truth, so the formatter stays
+// out. Named by FILE rather than by a `generated/` directory because it now lives under the
+// directories its own package names, beside hand-written sources it must not drag out of the
+// formatter with it.
 //
 // The root build applies ktfmt to every project, so this narrows its inputs here.
 tasks.withType<com.ncorti.ktfmt.gradle.tasks.KtfmtBaseTask>().configureEach {
   exclude {
     val path = it.file.absolutePath.replace('\\', '/')
-    path.contains("/src/main/kotlin/upstream/") || path.contains("/src/main/kotlin/generated/")
+    path.contains("/src/main/kotlin/upstream/") ||
+      path.endsWith("/src/main/kotlin/ee/schimke/wearm3catalog/samples/SamplePreviews.kt")
   }
 }
