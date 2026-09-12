@@ -127,9 +127,6 @@
                 },
                 "remote-m3/theme-specimen": {
                     "group": "Theme"
-                },
-                "remote-m3/capturing-wear-widget-preview": {
-                    "group": "Widget Container"
                 }
             }
         },
@@ -768,7 +765,7 @@
                 "starter": {},
                 "variantProperty": null,
                 "variants": {},
-                "excluded": null,
+                "excluded": "a `private` capture wrapper, not a Remote Compose component: it exists only to hand the widget's encoded document to `IrSidecarChannel` so the render lands a `.rc` sidecar beside the PNG, and it is local at all only until AndroidX's `useSafeFallbackRendererVersion` reaches compose-ai-tools' published wrapper. Same exclusion, and the same reason, as `remote-m3/remote-sticker` above: nobody places a capture frame in a design. It published on the `Widget Container` shelf, beside the two widget-container builtins it wraps.",
                 "propertyCapabilities": null,
                 "slotCapabilities": null,
                 "modifierCapabilities": null
