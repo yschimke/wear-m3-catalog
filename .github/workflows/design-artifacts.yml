@@ -34,6 +34,15 @@ on:
     paths:
       - 'catalog/**'
       - 'catalog.spec.json'
+      # What each catalog declares about itself to the UI builder: the shelf a component is
+      # filed under, the record an id binds to, the frame, the platform word. It is as much a
+      # render input as the spec — `composePreviewDiscover` reads it and its overrides are
+      # visible in the published `ui-builder.json` — and it was missing from this list, so a
+      # policy-only change edited the published catalog without ever republishing it. #474
+      # merged two shelf corrections and triggered no run at all; they would have sat unpublished
+      # until the Monday cron. `remote-catalog/ui-builder.policy.json` is already covered by
+      # the glob below.
+      - 'ui-builder.policy.json'
       - 'remote-catalog/**'
       - '.github/ci/remote-m3-cmp-wasm-allowlist.json'
       # The samples sheet's render inputs. `samples-catalog/**` is the vendored tree, the generated
