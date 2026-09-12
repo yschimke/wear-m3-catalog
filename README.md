@@ -1,5 +1,9 @@
 # M3 Wear OS Apps Design Kit — as code
 
+[![CI](https://github.com/yschimke/wear-m3-catalog/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/yschimke/wear-m3-catalog/actions/workflows/ci.yml)
+[![Design Artifacts](https://github.com/yschimke/wear-m3-catalog/actions/workflows/design-artifacts.yml/badge.svg?branch=main)](https://github.com/yschimke/wear-m3-catalog/actions/workflows/design-artifacts.yml)
+[![Design parity](https://github.com/yschimke/wear-m3-catalog/actions/workflows/design-parity.yml/badge.svg?branch=main)](https://github.com/yschimke/wear-m3-catalog/actions/workflows/design-parity.yml)
+
 The [M3 Wear OS Apps Design Kit][kit] rebuilt as **Jetpack Compose `@Preview`s**, published as an
 importable design catalog. The Wear-side sibling of [yschimke/m3-catalog][m3].
 
