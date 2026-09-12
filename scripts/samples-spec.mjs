@@ -232,6 +232,17 @@ export function buildSpec(map, renderable, firstCellByFamily = new Map()) {
       library: ["androidx.wear.compose:compose-material3"],
       module: ":samples-catalog",
       modes: ["light", "dark"],
+      // WHAT KIND of catalog this is, which the preview server reads to shape the pages: a catalog
+      // of CALL SITES drops every comparison lane — a sample is not a rendition of a reference, so
+      // a difference between the two is not a defect and offering the lane would invite a reader to
+      // read it as one — and stands the source beside the render instead of behind a chip, because
+      // here the code is what the page is for. It also names this catalog in the kit's back-links,
+      // so a component points at "Samples" rather than at this sheet's title.
+      //
+      // Declared, because only the catalog knows. The server may not infer it from a system name:
+      // which catalogs exist is a deployment's business, and `ui-builder-catalog-literals.sh` there
+      // exists to keep that knowledge out of its Kotlin.
+      display: { role: "samples" },
       // NO `themes[]`, deliberately, and it used to be here.
       //
       // The block is for "themes an IMPORTED project has but cannot declare for itself", and the

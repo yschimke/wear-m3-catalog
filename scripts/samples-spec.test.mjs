@@ -4,7 +4,12 @@ import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-import { buildGroups, kitComponentFor, kitFirstCellByFamily } from "./samples-spec.mjs";
+import {
+  buildGroups,
+  buildSpec,
+  kitComponentFor,
+  kitFirstCellByFamily,
+} from "./samples-spec.mjs";
 
 /** A throwaway kit source tree: `<root>/<name>` for each entry. */
 function kitSources(files) {
@@ -97,6 +102,14 @@ test("a sample component carries the link, and one with no kit family carries no
   // the shorter one does not make an absent link look declared.
   assert.equal(orphan.related, undefined);
   assert.deepEqual(unjoined, ["Orphan"]);
+});
+
+test("the spec declares what kind of catalog this is", () => {
+  // The server reads this to shape the pages (comparison lanes dropped, source beside the render)
+  // and to name this catalog in the kit's back-links. It cannot infer it: which catalogs exist is
+  // the deployment's business, not the server's.
+  const { spec } = buildSpec([], new Map(), new Map());
+  assert.equal(spec.display.role, "samples");
 });
 
 test("no label is emitted, so the destination names the component", () => {
