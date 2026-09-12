@@ -6,7 +6,7 @@
         "platform": "wear",
         "platformLabel": "Wear",
         "module": "catalog",
-        "variant": "debug"
+        "variant": "androidMain"
     },
     "record": {
         "file": "components.json",
@@ -30,16 +30,27 @@
         },
         "componentMenu": {
             "groupOrder": [
-                "Layout",
-                "Navigation",
-                "Actions",
-                "Selection",
+                "Lists and screens",
+                "Fast scrolling",
+                "Cards",
+                "Dialogs",
+                "Buttons",
+                "Icon buttons",
+                "Edge-hugging buttons",
+                "Toggle buttons",
+                "Selection buttons",
+                "Sliders and steppers",
+                "Pickers",
                 "Text",
-                "Containment",
-                "Communication",
-                "Motion",
-                "Styles",
-                "Horologist"
+                "Iconography",
+                "Progress indicators",
+                "Position indicators",
+                "Pagers",
+                "Swipe to dismiss",
+                "Swipe to reveal",
+                "One-handed gestures",
+                "Sign-in",
+                "Media controls"
             ],
             "components": {
                 "wear-m3/confirm-button": {
@@ -130,7 +141,7 @@
                     "group": "Icon buttons"
                 },
                 "wear-m3/icon": {
-                    "group": "Dialogs"
+                    "group": "Iconography"
                 },
                 "wear-m3/icon-toggle-button": {
                     "group": "Toggle buttons"
@@ -145,7 +156,7 @@
                     "group": "Progress indicators"
                 },
                 "wear-m3/list-header": {
-                    "group": "Fast scrolling"
+                    "group": "Lists and screens"
                 },
                 "wear-m3/list-sub-header": {
                     "group": "Text"
@@ -226,7 +237,7 @@
                     "group": "Icon buttons"
                 },
                 "wear-m3/text": {
-                    "group": "Dialogs"
+                    "group": "Text"
                 },
                 "wear-m3/text-toggle-button": {
                     "group": "Toggle buttons"
@@ -253,7 +264,7 @@
                     "group": "Edge-hugging buttons"
                 },
                 "wear-m3/full-screen-sticker": {
-                    "group": "Dialogs"
+                    "group": "Sign-in"
                 },
                 "wear-m3/screen-sticker": {
                     "group": "Fast scrolling"
@@ -323,7 +334,7 @@
             "wear-m3/screen-scaffold": {
                 "role": "screen-root",
                 "displayName": "Screen",
-                "group": "Layout",
+                "group": "Lists and screens",
                 "canvas": "frame/round-screen",
                 "traits": [],
                 "slots": {
@@ -349,7 +360,7 @@
             "wear-m3/transforming-lazy-column": {
                 "role": "list",
                 "displayName": "Scrolling list",
-                "group": "Layout",
+                "group": "Lists and screens",
                 "canvas": "placeholder",
                 "traits": [],
                 "slots": {
