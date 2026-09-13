@@ -2,6 +2,7 @@ package ee.schimke.wearm3catalog.remote.probe
 
 import androidx.compose.remote.creation.compose.action.lambdaAction
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.state.asRemoteTextUnit
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rf
@@ -9,7 +10,9 @@ import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import androidx.wear.compose.remote.material3.RemoteButton
+import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
 
 /**
@@ -38,6 +41,13 @@ import androidx.wear.compose.remote.material3.RemoteText
  *   JSON type for, so while `RemoteTextUnit` is unmapped `remote-m3/remote-text` declares `text`,
  *   `color` and `maxLines` and nothing else
  *   ([compose-preview-server#844](https://github.com/yschimke/compose-preview-server/pull/844));
+ * - **`RemoteMaterialTheme.typography.<role>` is a `RemoteTextStyle`**, which is how a design names
+ *   a type scale rather than a size. `RemoteContentEmitter` already writes this for the borrowed
+ *   `m3/text`, and the published component is where it has to keep working;
+ * - **`14.5f.sp.asRemoteTextUnit()` is a fractional size**, and it exists because `.rsp` cannot be
+ *   one: the extension is `val Int.rsp` and there is no `Float.rsp` anywhere in this library. A
+ *   generator that writes `14.5f.rsp` emits source that does not compile, so the half-sizes need
+ *   this spelling or an honest refusal;
  * - `Color(0xFF6750A4).rc` is a `RemoteColor`, which is how a design's colour travels;
  * - **`lambdaAction {}` is a legal `Action`**, which is the one that matters most. Nine components
  *   require an `Action` and no design carries one, so "what does a generator write for `onClick`"
@@ -57,6 +67,8 @@ fun remoteValueVocabularyProbe() {
   RemoteText(text = "a design's string".rs)
   RemoteText(text = "coloured".rs, color = Color(0xFF6750A4).rc)
   RemoteText(text = "sized".rs, fontSize = 22.rsp)
+  RemoteText(text = "scaled".rs, style = RemoteMaterialTheme.typography.bodyMedium)
+  RemoteText(text = "half a point".rs, fontSize = 14.5f.sp.asRemoteTextUnit())
   RemoteButton(onClick = lambdaAction {}, enabled = true.rb) { RemoteText(text = "label".rs) }
   @Suppress("UNUSED_EXPRESSION") 0.5f.rf
 }
