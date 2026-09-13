@@ -698,7 +698,68 @@
                 "variantProperty": null,
                 "variants": {},
                 "excluded": null,
-                "propertyCapabilities": null,
+                "propertyCapabilities": [
+                    {
+                        "name": "text",
+                        "jsonType": "string",
+                        "required": true,
+                        "notes": "The string the component draws. `RemoteText` takes a `RemoteString`, so a design's plain string is written as `\"…\".rs` and a binding or a state value as the remote expression it names — what the design carries is the same JSON either way."
+                    },
+                    {
+                        "name": "style",
+                        "jsonType": "string",
+                        "required": false,
+                        "allowedValues": [
+                            "displayLarge",
+                            "displayMedium",
+                            "displaySmall",
+                            "titleLarge",
+                            "titleMedium",
+                            "titleSmall",
+                            "labelLarge",
+                            "labelMedium",
+                            "labelSmall",
+                            "bodyLarge",
+                            "bodyMedium",
+                            "bodySmall",
+                            "bodyExtraSmall",
+                            "numeralExtraLarge",
+                            "numeralLarge",
+                            "numeralMedium",
+                            "numeralSmall",
+                            "numeralExtraSmall"
+                        ],
+                        "notes": "A role on this catalog's type scale, written as `style = RemoteMaterialTheme.typography.<role>`. This is the way to set type here: a role carries size, weight, line height and letter spacing together through `RemoteTextStyle`, which is why the catalog's own stickers pass a role OR an explicit size and never both. The eighteen are `RemoteTypography`'s own and are NOT the Material 3 fifteen — there is no `headline` on a watch, and there are five `numeral` roles a time or a metric is set in. A role this class does not have would export as a call that does not compile, so the list is exactly what it publishes."
+                    },
+                    {
+                        "name": "fontSize",
+                        "jsonType": "number",
+                        "required": false,
+                        "notes": "Size in sp, as an override on top of `style` rather than a substitute for it — set it alone and everything else about the type comes from the ambient style. Spelled the parameter's own way; a design authored against the borrowed `m3/text` says `fontSizeSp` and the writer reads both. A whole number writes `22.rsp`; a fractional one writes `14.5f.sp.asRemoteTextUnit()`, because `RemoteTextUnitKt` publishes no `Float.rsp`."
+                    },
+                    {
+                        "name": "color",
+                        "jsonType": "string",
+                        "required": false,
+                        "notes": "A colour: a `#RRGGBB` literal, which exports as `Color(0x…).rc`, or one of `colorTokens.roles`, which exports as `RemoteMaterialTheme.colorScheme.<role>`."
+                    },
+                    {
+                        "name": "textAlign",
+                        "jsonType": "string",
+                        "required": false,
+                        "allowedValues": [
+                            "start",
+                            "center",
+                            "end",
+                            "justify"
+                        ]
+                    },
+                    {
+                        "name": "maxLines",
+                        "jsonType": "integer",
+                        "required": false
+                    }
+                ],
                 "slotCapabilities": null,
                 "modifierCapabilities": null
             },
