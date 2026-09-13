@@ -6,6 +6,7 @@ import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.rs
+import androidx.compose.remote.creation.compose.state.rsp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -30,6 +31,13 @@ import androidx.wear.compose.remote.material3.RemoteText
  * What it establishes, each verified rather than assumed:
  * - `"…".rs`, `true.rb`, `0.5f.rf` build a `RemoteString`, `RemoteBoolean` and `RemoteFloat` —
  *   three of the six types blocking a call site, covering twelve components between them;
+ * - **`22.rsp` is a `RemoteTextUnit`**, and the receiver is an `Int`: there is no `Float.rsp`, so a
+ *   fractional size has no spelling here and a generator has to refuse one rather than round it.
+ *   This is the type that decides whether a design keeps its authored text size: the preview server
+ *   derives a published catalog's properties from the record and drops every parameter it has no
+ *   JSON type for, so while `RemoteTextUnit` is unmapped `remote-m3/remote-text` declares `text`,
+ *   `color` and `maxLines` and nothing else
+ *   ([compose-preview-server#844](https://github.com/yschimke/compose-preview-server/pull/844));
  * - `Color(0xFF6750A4).rc` is a `RemoteColor`, which is how a design's colour travels;
  * - **`lambdaAction {}` is a legal `Action`**, which is the one that matters most. Nine components
  *   require an `Action` and no design carries one, so "what does a generator write for `onClick`"
@@ -48,6 +56,7 @@ import androidx.wear.compose.remote.material3.RemoteText
 fun remoteValueVocabularyProbe() {
   RemoteText(text = "a design's string".rs)
   RemoteText(text = "coloured".rs, color = Color(0xFF6750A4).rc)
+  RemoteText(text = "sized".rs, fontSize = 22.rsp)
   RemoteButton(onClick = lambdaAction {}, enabled = true.rb) { RemoteText(text = "label".rs) }
   @Suppress("UNUSED_EXPRESSION") 0.5f.rf
 }
