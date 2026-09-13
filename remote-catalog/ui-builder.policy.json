@@ -79,11 +79,56 @@
 
   "$comment_builtins": "Two, and only because the record cannot carry them. The widget container is the Glance Wear HOST frame — the squircle the launcher draws around a widget, not a `remote-material3` component — so `WidgetContainerPreviews.kt` recreates it through `androidx.glance.wear`'s `WearWidgetPreview` wrapper and there is no component call for a record to find. That is exactly what a builtin is for: \"it has no call site, so there is nothing to discover and no sticker to annotate\". It matters more than two components' worth: this catalog's own policy says a Remote design starts from a container and everything else goes inside one, and the builder's record-free export routes on the ROOT component id — so a published catalog without these is one whose designs cannot be rooted. They were the blocker in https://github.com/yschimke/compose-preview-server/issues/674. `canvas: widget-container` is this catalog CLAIMING an adapter rather than a name anything validates: the Wasm canvas draws both by component id (UiBuilderRenderer's WearWidgetContainerScaffold), and a catalog claiming none would publish \"not drawn on the canvas\" about something the canvas draws. `remote-m3/lottie` is NOT here though the same argument reaches it — an asset player, no component call. It needs a shelf this catalog does not have (the frozen catalog files it under `Content`, a builder shelf), and inventing one is a catalog decision rather than a transcription. `remote-compose/document` stays out for the older reason: it is a BUILTIN OF THE BUILDER (https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_REMOTE_COMPOSE.md), and declaring it here would be this catalog claiming to own the builder's vocabulary.",
 
+  "$comment_remoteTextVocabulary": "WHY remote-m3/remote-text STATES A VOCABULARY AND THE OTHER SEVEN DO NOT. A component that states none is published with the properties DERIVED from its signature, and the derivation keeps only what maps to a JSON scalar: `RemoteText` has twelve parameters and four survive \u2014 `text`, `color`, `fontSize`, `maxLines`. `style` is a `RemoteTextStyle` and `textAlign` a `TextAlign`, so both were dropped, and `style` is the parameter this component is actually set through: a design could size text and not scale it. What is stated here is additive \u2014 the same four, plus the two the derivation cannot see \u2014 and stops there, because a design may only set what the writer writes, and `RemoteContentEmitter` writes these six and the modifier. The four derived names are repeated verbatim rather than left to be merged, because a vocabulary is all-or-nothing per component: state one and it replaces the derivation entirely.",
   "$comment_components": "Where a component sits on the shelf when the id it derives from does not say. One id per SYMBOL means a component lands on whichever catalog id sorts first: RemoteText is drawn by 29 stickers and arrived under Containment via AppCard, leaving the Text shelf empty. These place the six that were filed somewhere a person would not look, and exclude the one that is not a component.",
   "components": {
     "remote-m3/remote-text": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteTextKt.RemoteText",
-      "group": "Text"
+      "group": "Text",
+      "propertyCapabilities": [
+        {
+          "name": "text",
+          "jsonType": "string",
+          "required": true,
+          "notes": "The string the component draws. `RemoteText` takes a `RemoteString`, so a design's plain string is written as `\"\u2026\".rs` and a binding or a state value as the remote expression it names \u2014 what the design carries is the same JSON either way."
+        },
+        {
+          "name": "style",
+          "jsonType": "string",
+          "required": false,
+          "allowedValues": [
+            "displayLarge", "displayMedium", "displaySmall",
+            "titleLarge", "titleMedium", "titleSmall",
+            "labelLarge", "labelMedium", "labelSmall",
+            "bodyLarge", "bodyMedium", "bodySmall", "bodyExtraSmall",
+            "numeralExtraLarge", "numeralLarge", "numeralMedium", "numeralSmall", "numeralExtraSmall"
+          ],
+          "notes": "A role on this catalog's type scale, written as `style = RemoteMaterialTheme.typography.<role>`. This is the way to set type here: a role carries size, weight, line height and letter spacing together through `RemoteTextStyle`, which is why the catalog's own stickers pass a role OR an explicit size and never both. The eighteen are `RemoteTypography`'s own and are NOT the Material 3 fifteen \u2014 there is no `headline` on a watch, and there are five `numeral` roles a time or a metric is set in. A role this class does not have would export as a call that does not compile, so the list is exactly what it publishes."
+        },
+        {
+          "name": "fontSize",
+          "jsonType": "number",
+          "required": false,
+          "notes": "Size in sp, as an override on top of `style` rather than a substitute for it \u2014 set it alone and everything else about the type comes from the ambient style. Spelled the parameter's own way; a design authored against the borrowed `m3/text` says `fontSizeSp` and the writer reads both. A whole number writes `22.rsp`; a fractional one writes `14.5f.sp.asRemoteTextUnit()`, because `RemoteTextUnitKt` publishes no `Float.rsp`."
+        },
+        {
+          "name": "color",
+          "jsonType": "string",
+          "required": false,
+          "notes": "A colour: a `#RRGGBB` literal, which exports as `Color(0x\u2026).rc`, or one of `colorTokens.roles`, which exports as `RemoteMaterialTheme.colorScheme.<role>`."
+        },
+        {
+          "name": "textAlign",
+          "jsonType": "string",
+          "required": false,
+          "allowedValues": ["start", "center", "end", "justify"]
+        },
+        {
+          "name": "maxLines",
+          "jsonType": "integer",
+          "required": false
+        }
+      ]
     },
     "remote-m3/remote-icon": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteIconKt.RemoteIcon",
