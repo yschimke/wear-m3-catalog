@@ -80,7 +80,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@v7.0.0
         with:
-          node-version: 24.20.0
+          node-version: 24.21.0
 
       - name: Repair the description
         env:
