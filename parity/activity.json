@@ -1,11 +1,67 @@
 {
   "schema": "compose-preview-activity/v1",
-  "generatedAt": "2026-09-13T14:44:51.156Z",
+  "generatedAt": "2026-09-14T00:59:51.215Z",
   "windowDays": 30,
   "code": {
     "repo": "yschimke/wear-m3-catalog",
     "ref": "main",
     "events": [
+      {
+        "sha": "1af5a1f5c70266630d8522a63f9b42cdb330db5e",
+        "subject": "fix(deps): update dependency org.robolectric:robolectric to v4.17 (#501)",
+        "at": "2026-09-14T00:51:49Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "9d249964922a0536a8e3798dc4d6d25e05ecbb89",
+        "subject": "fix(deps): update dependency androidx.activity:activity-compose to v1.13.0 (#503)",
+        "at": "2026-09-14T00:51:44Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "b574298ff886025e8541a83919b290b37ac37ed0",
+        "subject": "chore(deps): update ci toolchain (#498)",
+        "at": "2026-09-14T00:50:23Z",
+        "author": "renovate[bot]",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "9b405e2ec13ba28a39b667d13b4cf7d46b86e36c",
+        "subject": "test(remote): assert the published type scale against the class it was copied from (#497)",
+        "at": "2026-09-13T21:31:08+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "8e4949f50103a7caf051485f5c173fac9663a898",
+        "subject": "feat(remote): state remote-text's vocabulary, so a design can name a type scale (#496)",
+        "at": "2026-09-13T21:11:38+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "27c7e556ac5ee8416e0f9ec0a7f7665d1962ffe5",
+        "subject": "test(remote): prove the type-scale style, and a fractional size that compiles (#495)",
+        "at": "2026-09-13T20:36:15+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
+      {
+        "sha": "a44a6a132689a8f469966b67084f0f85c809e7db",
+        "subject": "test(remote): prove `22.rsp` is a RemoteTextUnit (#494)",
+        "at": "2026-09-13T17:01:11+01:00",
+        "author": "Yuri Schimke",
+        "previewIds": [],
+        "components": []
+      },
       {
         "sha": "c630b77763272bd84fd7ac278281a3363c20da47",
         "subject": "fix(deps): update compose-ai-tools to v2.13.1 (#492)",
@@ -426,62 +482,6 @@
         "sha": "7be2de731608a0f4bb976a149fbd97f66d95e59c",
         "subject": "feat: seed the auth accounts with real CC0 photographs, masked at the call site (#436)",
         "at": "2026-09-11T11:06:27+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "5c9000c04ff6e9055de39f858c09b96b5a78e4c6",
-        "subject": "fix: seed the Horologist auth accounts with an avatar (#434)",
-        "at": "2026-09-11T09:30:01+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "cb6e7d0a77d4679a7c97a3fdc5469055800bb7ab",
-        "subject": "docs: strategy for importing the AndroidX samples as a linked catalog (#430)",
-        "at": "2026-09-11T09:09:36+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "69df5e0a7bd546d29d8087301afd26d2a49769b5",
-        "subject": "fix(deps): update compose-ai-tools to v2.8.1 and compose-preview-daemon to v3.3.0 (#431)",
-        "at": "2026-09-11T09:09:10+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "c8d871fcbbfe9907d9286422540cdf3705d434c4",
-        "subject": "ci(remote-m3): stabilize warm-frame gate (#428)",
-        "at": "2026-09-10T23:58:55+01:00",
-        "author": "Yuri Schimke",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "a6b68b7ed4056a14e85b1297cfc3390c7e9e4a65",
-        "subject": "fix(deps): update compose-preview-daemon to v3.2.0 (#427)",
-        "at": "2026-09-10T22:49:38Z",
-        "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "f024d64d0f44ee474a810ddd45d11982c0421ef2",
-        "subject": "fix(deps): update compose-preview-daemon to v3.1.0 (#426)",
-        "at": "2026-09-10T21:59:39Z",
-        "author": "renovate[bot]",
-        "previewIds": [],
-        "components": []
-      },
-      {
-        "sha": "bc03be1b95ea106572b07ff2f0e7100676fcafd4",
-        "subject": "feat(ui-builder): shelve the six components the derived id filed wrongly (#425)",
-        "at": "2026-09-10T21:23:35+01:00",
         "author": "Yuri Schimke",
         "previewIds": [],
         "components": []
