@@ -113,6 +113,19 @@
             "Type=Custom - Task, Selected=Yes, Split (2 tap targets)=Yes, Disabled=No",
             "Type=Custom - Task, Selected=Yes, Split (2 tap targets)=Yes, Disabled=Yes"
           ]
+        },
+        "remote-catalog": {
+          "drawn": 24,
+          "uncovered": [
+            "Type=Custom - Task, Selected=No, Split (2 tap targets)=No, Disabled=No",
+            "Type=Custom - Task, Selected=No, Split (2 tap targets)=No, Disabled=Yes",
+            "Type=Custom - Task, Selected=No, Split (2 tap targets)=Yes, Disabled=No",
+            "Type=Custom - Task, Selected=No, Split (2 tap targets)=Yes, Disabled=Yes",
+            "Type=Custom - Task, Selected=Yes, Split (2 tap targets)=No, Disabled=No",
+            "Type=Custom - Task, Selected=Yes, Split (2 tap targets)=No, Disabled=Yes",
+            "Type=Custom - Task, Selected=Yes, Split (2 tap targets)=Yes, Disabled=No",
+            "Type=Custom - Task, Selected=Yes, Split (2 tap targets)=Yes, Disabled=Yes"
+          ]
         }
       }
     },
@@ -254,13 +267,10 @@
           ]
         },
         "remote-catalog": {
-          "drawn": 40,
+          "drawn": 43,
           "uncovered": [
             "Layout type=App Card, Style=Background Image, Content type=Text, Interactive=Yes",
-            "Layout type=Title Card + Icon, Style=Background Image, Content type=Text, Interactive=Yes",
-            "Layout type=Title Card 1, Style=Background Image, Content type=Text, Interactive=Yes",
-            "Layout type=Title Card 2, Style=Background Image, Content type=Text, Interactive=Yes",
-            "Layout type=Title Card 3, Style=Background Image, Content type=Text, Interactive=Yes"
+            "Layout type=Title Card + Icon, Style=Background Image, Content type=Text, Interactive=Yes"
           ]
         }
       }
@@ -327,6 +337,10 @@
       "published": 64,
       "sheets": {
         "catalog": {
+          "drawn": 64,
+          "uncovered": []
+        },
+        "remote-catalog": {
           "drawn": 64,
           "uncovered": []
         }
@@ -728,6 +742,19 @@
             "Progress=Min, Context=In List, Size=Large",
             "Progress=Min, Context=In List, Size=Small"
           ]
+        },
+        "remote-catalog": {
+          "drawn": 8,
+          "uncovered": [
+            "Progress=20%, Context=In List, Size=Large",
+            "Progress=20%, Context=In List, Size=Small",
+            "Progress=50%, Context=In List, Size=Large",
+            "Progress=50%, Context=In List, Size=Small",
+            "Progress=Complete, Context=In List, Size=Large",
+            "Progress=Complete, Context=In List, Size=Small",
+            "Progress=Min, Context=In List, Size=Large",
+            "Progress=Min, Context=In List, Size=Small"
+          ]
         }
       }
     },
@@ -759,6 +786,29 @@
             "Increments=Three, Level=Low, Changed=Yes, Disabled=No",
             "Increments=Three, Level=Mid, Changed=Yes, Disabled=No"
           ]
+        },
+        "remote-catalog": {
+          "drawn": 36,
+          "uncovered": [
+            "Increments=Five, Level=Full, Changed=Yes, Disabled=No",
+            "Increments=Five, Level=Low, Changed=Yes, Disabled=No",
+            "Increments=Five, Level=Mid, Changed=Yes, Disabled=No",
+            "Increments=Four, Level=Full, Changed=Yes, Disabled=No",
+            "Increments=Four, Level=Low, Changed=Yes, Disabled=No",
+            "Increments=Four, Level=Mid, Changed=Yes, Disabled=No",
+            "Increments=Percentage, Level=Full, Changed=Yes, Disabled=No",
+            "Increments=Percentage, Level=Low, Changed=Yes, Disabled=No",
+            "Increments=Percentage, Level=Mid, Changed=Yes, Disabled=No",
+            "Increments=Seven, Level=Full, Changed=Yes, Disabled=No",
+            "Increments=Seven, Level=Low, Changed=Yes, Disabled=No",
+            "Increments=Seven, Level=Mid, Changed=Yes, Disabled=No",
+            "Increments=Six, Level=Full, Changed=Yes, Disabled=No",
+            "Increments=Six, Level=Low, Changed=Yes, Disabled=No",
+            "Increments=Six, Level=Mid, Changed=Yes, Disabled=No",
+            "Increments=Three, Level=Full, Changed=Yes, Disabled=No",
+            "Increments=Three, Level=Low, Changed=Yes, Disabled=No",
+            "Increments=Three, Level=Mid, Changed=Yes, Disabled=No"
+          ]
         }
       }
     },
@@ -769,6 +819,10 @@
       "published": 8,
       "sheets": {
         "catalog": {
+          "drawn": 8,
+          "uncovered": []
+        },
+        "remote-catalog": {
           "drawn": 8,
           "uncovered": []
         }
