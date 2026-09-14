@@ -258,6 +258,25 @@ before you call it motion.
 ./gradlew ktfmtFormat                                                      # format
 ```
 
+### Run Gradle through `build-brief`
+
+[`build-brief`](https://bb.staticvar.dev)
+([source](https://github.com/static-var/build-brief)) keeps Gradle's full log on disk while printing
+only the status, failures, warnings, build scan URLs and generated artifact paths that decide the
+next step. It preserves Gradle's exit code.
+
+```sh
+brew install static-var/tap/build-brief      # or use the installer from bb.staticvar.dev
+build-brief doctor                            # read-only; never runs Gradle
+build-brief ./gradlew :catalog:assemble
+```
+
+On a shared developer host, agents use `scripts/agent-gradle.sh` instead. Its normal profile gives
+focused work four low-priority workers; a broad combined catalog, desktop or Remote Compose graph
+uses `scripts/agent-gradle.sh --exclusive …` to serialize against automated builds in the sibling
+Compose Preview repositories. Interactive commands and hosted CI bypass that lock and keep their
+full capacity. Explicit task-specific worker limits are preserved.
+
 `composePreviewDiscover` is the real contract: it turns the annotations into the published
 inventory. A component that compiles but is not discovered vanishes from the sheet silently.
 

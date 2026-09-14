@@ -24,6 +24,8 @@ jobs:
       issues: read
     steps:
       - uses: actions/checkout@v7.0.1
+      - name: Test automated Gradle launcher
+        run: .github/scripts/test-agent-gradle.sh
       - uses: ./.github/actions/setup
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}

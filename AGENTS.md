@@ -403,6 +403,35 @@ two origin checks, two body caps and two places to drift about what a grant mean
 - **The tools are absent unless the box serves a builder** (`--ui-builder-dir`) — absent rather than
   listed-and-failing. `tools/list` needs no grant, so checking costs one unauthenticated call.
 
+## Running Gradle
+
+Wrap Gradle in [`build-brief`](https://bb.staticvar.dev). It keeps the full log on disk and prints
+only the parts that decide what you do next — failed tasks, failed tests, warnings, build scan URLs
+and artifact paths — while preserving Gradle's exit code exactly. Install it once with
+`brew install static-var/tap/build-brief` or the script installer documented in
+[`README.md` → Building](README.md#building).
+
+On a shared developer host, automated builds use [`scripts/agent-gradle.sh`](scripts/agent-gradle.sh)
+instead of invoking `build-brief` directly:
+
+```
+scripts/agent-gradle.sh :catalog:composePreviewDiscover
+scripts/agent-gradle.sh --exclusive :catalog:assemble :catalog-desktop:composePreviewDiscover :remote-catalog:assembleDebug test
+```
+
+The launcher keeps `build-brief` while limiting automation to four low-priority workers,
+non-interactive input and a ten-minute Gradle-daemon idle timeout. Use the normal profile for one
+focused compile, formatting or test task. Use `--exclusive` for broad test, discovery and render
+graphs: it takes the same per-user machine lock as the other Compose Preview repositories, so
+automated builds cannot peak together. Direct Gradle and `build-brief` invocations remain
+unrestricted for interactive development, and hosted CI keeps its runner's full capacity. Explicit
+task-specific worker limits are preserved. Do not copy these limits into `gradle.properties`.
+
+The per-command rules live in the managed `build-brief` block at the end of this file;
+`build-brief --install` regenerates it, so edit it there rather than by hand.
+
+Wrapping changes none of the verification rules below; run the same tasks through the launcher.
+
 ## Kotlin
 
 - ktfmt Google style, 100 columns. `./gradlew ktfmtFormat`.
@@ -551,3 +580,16 @@ shared body that reaches for something only Android has should fail here.
 
 `composePreviewDiscover` is the real contract: it turns the annotations into the published inventory. A
 component that compiles but is not discovered vanishes from the sheet silently.
+
+<!-- build-brief:instructions:start -->
+## build-brief
+
+- Prefer `build-brief gradle ...` for PATH Gradle and `build-brief ./gradlew ...` for the project wrapper.
+- For chained shell commands, rewrite each Gradle segment individually, for example `build-brief gradle test && build-brief gradle check`.
+- Use default `build-brief` output for routine Gradle work; it stays intentionally short on clean success cases.
+- Use default `build-brief` output for report-style commands like `tasks`, `help`, `projects`, `dependencies`, and `dependencyInsight`; their report bodies are preserved.
+- Use `build-brief gradle --stacktrace ...` or `build-brief ./gradlew --stacktrace ...` when you need Gradle stack traces.
+- `build-brief` normalizes output-shaping flags like `--quiet`, `--warn`, `--warning-mode ...`, and `--console ...` so its reducer keeps working reliably.
+- Let Gradle daemon reuse happen by default; `build-brief` strips explicit `--daemon` and `--no-daemon` overrides rather than forcing daemon-off behavior.
+- Preserve the raw log path from `build-brief` output when handing build failures to another tool or agent.
+<!-- build-brief:instructions:end -->
