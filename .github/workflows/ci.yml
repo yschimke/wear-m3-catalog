@@ -14,8 +14,82 @@ permissions:
   contents: read
 
 jobs:
+  # WHY THIS JOB EXISTS. The four checks below are REQUIRED on the `Protect Main` ruleset
+  # (`scripts/setup-repo-protection.sh` names them: Build + discover previews, Unit tests,
+  # ktfmtCheck, Validate catalog spec), and a job filtered out by `paths:` never reports at all — a
+  # required check that never reports BLOCKS the merge rather than passing it. So the cheap way to
+  # stop a docs-only pull request spending 30 minutes of runner on an assemble, a discovery and a
+  # render — `paths-ignore:` on the trigger — would wedge exactly the pull requests it is meant to
+  # make cheap (#489).
+  #
+  # Every job therefore still RUNS and still reports; what this job decides is whether their steps
+  # do anything. Same shape `design-artifacts.yml` already uses for its three publish lanes, and the
+  # only option that is safe whatever the ruleset requires.
+  changes:
+    name: Scope
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      inert: ${{ steps.scope.outputs.inert }}
+    steps:
+      # `fetch-depth: 2` is what makes the diff below possible and is the whole reason this job is
+      # separate from the ones it gates: on a pull request the checked-out commit is the MERGE of
+      # the head and the base, so depth 2 brings both parents and `HEAD^1..HEAD` is exactly this
+      # pull request's change set — no base-branch fetch, no API call.
+      - uses: actions/checkout@v7.0.1
+        with:
+          fetch-depth: 2
+          persist-credentials: false
+      - id: scope
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          set -uo pipefail
+          # INERT MEANS "CANNOT CHANGE WHAT ANY CHECK BELOW WOULD SAY", and anything this cannot
+          # prove is not inert: a dispatch, a push whose predecessor is unknown, a diff that does
+          # not resolve and an empty change set all run everything. Skipping a check that would
+          # have failed is the only expensive mistake here; running one that would have passed
+          # costs a runner.
+          files=''
+          case "${{ github.event_name }}" in
+            pull_request)
+              files="$(git diff --name-only HEAD^1 HEAD)" || files='' ;;
+            push)
+              if [ -n "$BEFORE" ] && [ "$BEFORE" != '0000000000000000000000000000000000000000' ]; then
+                files="$(git diff --name-only "$BEFORE" "$GITHUB_SHA")" || files=''
+              fi ;;
+          esac
+          if [ -z "$files" ]; then
+            echo 'inert=false' >> "$GITHUB_OUTPUT"
+            echo 'Change set unavailable or empty: running everything.'
+            exit 0
+          fi
+          # THE TWO EXCEPTIONS COME FIRST, because both are matched by the inert patterns below and
+          # both are real inputs to this workflow. `docs/KIT_COVERAGE.md` is GENERATED and gated in
+          # the build job (`kit-coverage.mjs --check`), so a hand-edit to it is precisely what that
+          # check exists to catch — it is the one markdown file in the tree that is not prose. And
+          # `ci.yml` is this file: a change to it must run under itself.
+          if grep -qE '^(docs/KIT_COVERAGE\.md|\.github/workflows/ci\.yml)$' <<<"$files"; then
+            echo 'inert=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Prose (`**/*.md`, `docs/**` — which is prose and the images it embeds — and `LICENSE`),
+          # and OTHER workflows. That last one is what #489 was raised about: #488 changed one file,
+          # `.github/workflows/design-artifacts.yml`, and started an assemble, a discovery and a
+          # render that no line of it could reach. A sibling workflow is not an input to any check
+          # here; `.github/actions/**`, `.github/scripts/**` and `.github/ci/**` ARE (the setup
+          # action, `test-agent-gradle.sh`, the snapshot pin Gradle reads), so they are deliberately
+          # absent from this list and keep the full run.
+          if grep -qvE '^(LICENSE|.*\.md|docs/.*|\.github/workflows/[^/]+\.yml)$' <<<"$files"; then
+            echo 'inert=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'inert=true' >> "$GITHUB_OUTPUT"
+            echo 'Prose or sibling-workflow change only; every check below reports without running.'
+          fi
+
   build:
     name: Build + discover previews
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 30
     # `issues: read` for the locator check at the end of this job; everything else reads the tree.
@@ -24,9 +98,12 @@ jobs:
       issues: read
     steps:
       - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
       - name: Test automated Gradle launcher
+        if: needs.changes.outputs.inert != 'true'
         run: .github/scripts/test-agent-gradle.sh
       - uses: ./.github/actions/setup
+        if: needs.changes.outputs.inert != 'true'
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
@@ -37,6 +114,7 @@ jobs:
       # Android has must fail here rather than in the renderer. `:remote-catalog` is still an
       # application and keeps `assembleDebug`.
       - name: Assemble
+        if: needs.changes.outputs.inert != 'true'
         run: ./gradlew :catalog:assemble :remote-catalog:assembleDebug --stacktrace
 
       # Discovery is the real contract for a design catalog: it is what turns the
@@ -56,6 +134,7 @@ jobs:
       # stale against a sheet nobody committed, and regenerating at that point would commit those
       # components into a record CI validates on the released lane.
       - name: Discover previews
+        if: needs.changes.outputs.inert != 'true'
         run: >-
           ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
           -PremoteSnapshot= --stacktrace
@@ -77,9 +156,11 @@ jobs:
       # TARGET already compiles in Assemble above; what only a render can catch is a body that
       # compiles for both lanes and then draws nothing on one of them.
       - name: Render the desktop sticker sheet
+        if: needs.changes.outputs.inert != 'true'
         run: ./gradlew :catalog-desktop:composePreviewRenderAll --stacktrace
 
       - name: design-map.json is up to date
+        if: needs.changes.outputs.inert != 'true'
         run: scripts/design-map.sh --check
 
       # kit-cells.json is the same argument one level down. It records how much of each published
@@ -91,6 +172,7 @@ jobs:
       # `--check` regenerates into a temp dir and diffs; it never writes the working tree, and it
       # never touches the committed map that belongs to `:catalog`.
       - name: kit-cells.json is up to date
+        if: needs.changes.outputs.inert != 'true'
         run: scripts/kit-cells.sh --check
 
       # The page join is the third committed output projected from the map, and it was the one with
@@ -105,6 +187,7 @@ jobs:
       # `--check` recomputes in memory and diffs; it never writes the working tree. A failure names
       # the one-line fix, and no token is needed to apply it.
       - name: The imported page join is up to date
+        if: needs.changes.outputs.inert != 'true'
         run: node scripts/import-figma-pages.mjs --check
 
       # The join above is `:catalog`'s, because the map it is projected from is — one design map
@@ -115,6 +198,7 @@ jobs:
       # the published `/remote-m3/pages/` surface linked 22 of 1845 nodes — the component-level
       # references and nothing below them — while that sheet's map resolves 228 (#316).
       - name: The Remote sheet's page join reaches its whole map
+        if: needs.changes.outputs.inert != 'true'
         run: |
           set -euo pipefail
           work="$(mktemp -d)"
@@ -130,6 +214,7 @@ jobs:
       # node. Every way of breaking it is silent and a rename is when it breaks, which is why the
       # gate lives in the job that has just discovered both manifests.
       - name: The two sheets still pair
+        if: needs.changes.outputs.inert != 'true'
         run: scripts/parallel-map.sh
 
       # `docs/KIT_COVERAGE.md` reads the two records gated directly above and nothing else, so it
@@ -138,6 +223,7 @@ jobs:
       # one fetches the delivery branches for render paths, so a difference there can mean "a branch
       # republished", not "the doc is stale", and a check would fail for something no PR did.
       - name: docs/KIT_COVERAGE.md is up to date
+        if: needs.changes.outputs.inert != 'true'
         run: node scripts/kit-coverage.mjs --check
 
       # The fifth record projected from the annotations, and the only one that does not live in this
@@ -169,6 +255,7 @@ jobs:
       # predates this and runs a validator this repository has always taken from head. The path is
       # spelled the same in both so the two read as one driver.
       - name: Check out the locator checker
+        if: needs.changes.outputs.inert != 'true'
         uses: actions/checkout@v7.0.1
         with:
           repository: yschimke/compose-ai-tools
@@ -185,6 +272,7 @@ jobs:
       # `--depth=1` of two branch tips, for one file each: the delivery branches carry thousands of
       # renders and none of them are wanted here.
       - name: Fetch the served baselines
+        if: needs.changes.outputs.inert != 'true'
         run: |
           set -euo pipefail
           for system in wear-m3-catalog remote-m3; do
@@ -195,6 +283,7 @@ jobs:
       # `issues: read` is granted on this job alone — the workflow's default is `contents: read`,
       # and every other step here reads the tree.
       - name: Parity locators still name a cell this catalog draws
+        if: needs.changes.outputs.inert != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -207,7 +296,8 @@ jobs:
             --published "remote-m3=$RUNNER_TEMP/remote-m3-index.json"
 
       - uses: actions/upload-artifact@v7.0.1
-        if: always()
+        if: needs.changes.outputs.inert != 'true'
+        if: always() && needs.changes.outputs.inert != 'true'
         with:
           name: previews-manifest
           path: |
@@ -217,15 +307,19 @@ jobs:
 
   test:
     name: Unit tests
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
       - uses: ./.github/actions/setup
+        if: needs.changes.outputs.inert != 'true'
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       - run: ./gradlew test --stacktrace
-      - if: always()
+        if: needs.changes.outputs.inert != 'true'
+      - if: always() && needs.changes.outputs.inert != 'true'
         uses: actions/upload-artifact@v7.0.1
         with:
           name: test-reports
@@ -236,34 +330,43 @@ jobs:
 
   ktfmt:
     name: ktfmtCheck
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
       - uses: ./.github/actions/setup
+        if: needs.changes.outputs.inert != 'true'
         with:
           cache-read-only: 'true'
       - run: ./gradlew ktfmtCheck --stacktrace
+        if: needs.changes.outputs.inert != 'true'
 
   spec:
     name: Validate catalog spec
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
       - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
         with:
           repository: yschimke/compose-ai-tools
           ref: main
           path: compose-ai-tools
           persist-credentials: false
       - uses: actions/setup-node@v7.0.0
+        if: needs.changes.outputs.inert != 'true'
         with:
           node-version: 24.21.0
       # The build-free pre-flight: resolves every spec reference against the module's actual
       # `@Preview` functions and flags PNG-less previews, before the (long) render in
       # design-artifacts.yml spends a runner discovering the same problem.
       - name: validate-catalog-spec
+        if: needs.changes.outputs.inert != 'true'
         run: |
           node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
             --spec catalog.spec.json --module-dir catalog
@@ -272,6 +375,7 @@ jobs:
       # not a pre-flight over annotations but the check on the inventory itself: every `preview` and
       # `motionPreview` it names has to resolve to a real `@Preview`.
       - name: validate-catalog-spec (remote)
+        if: needs.changes.outputs.inert != 'true'
         run: |
           node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
             --spec remote-catalog/catalog.spec.json --module-dir remote-catalog
@@ -283,17 +387,21 @@ jobs:
       # the check that every `preview` it names resolves to a real `@Preview`, before
       # design-artifacts.yml spends a runner discovering the same thing.
       - name: validate-catalog-spec (samples)
+        if: needs.changes.outputs.inert != 'true'
         run: |
           node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
             --spec samples-catalog/catalog.spec.json --module-dir samples-catalog
 
   pages:
     name: Figma page resolution
+    needs: changes
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
       - uses: actions/setup-node@v7.0.0
+        if: needs.changes.outputs.inert != 'true'
         with:
           node-version: 24.21.0
       # Which pages the import covers, and what each one is called. Both answers are published URLs
@@ -301,16 +409,19 @@ jobs:
       # hand-kept — so the slug rule is the only thing holding those URLs still. Needs no token:
       # it exercises the resolver against fixtures.
       - run: node --test scripts/import-figma-pages.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # What counts as a cell a sheet draws. The coverage record this decides is committed and
       # reconciled in the `map` job above, so a bug here would move every number in it at once and
       # the diff would look like a change to the catalog rather than to the counter.
       - run: node --test scripts/kit-cells.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # What counts as a broken pairing between the two sheets. The gate it backs runs in the `build`
       # job (it needs both discovered manifests); its pure half is fixture-driven and belongs here
       # beside the other script tests.
       - run: node --test scripts/parallel-map.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # The PR-body repair, which `pr-body-syntax.yml` runs UNATTENDED against real descriptions.
       # Both failure modes are silent: a matcher that over-reaches rewrites someone's prose, one
@@ -318,24 +429,28 @@ jobs:
       # never rendered anything. It lives here rather than as a second job in that workflow because
       # this is where this repo already runs `node --test` over its scripts.
       - run: node --test .github/scripts/fix-pr-body-markdown.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # The @sample KDoc reader behind sample-map.json — the API-to-sample map the samples catalog
       # groups by, and the fingerprint samples-drift.mjs compares the two corpora on. A line-based
       # reader mis-attributes about 12% of the blocks carrying a `@sample`, so the scanner that
       # replaces it is worth holding still. See docs/design/ANDROIDX_SAMPLES.md.
       - run: node --test scripts/sample-map.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # The vendoring importer. The load-bearing behaviour is that a patch which no longer applies
       # FAILS the import rather than silently dropping the fix it carries, that a quarantined file
       # is a declared and checked gap, and that a sample tree is copied as a PACKAGE — a flat copy
       # left `samples/icons/` behind here and cost 24 compile errors.
       - run: node --test scripts/import-samples.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # The @Preview wrapper generator. Only 34 of the 170 Wear samples are annotated upstream, so
       # 115 of this catalog's cards exist only because this script wrote them — and it must refuse
       # to write one for a sample that takes arguments (would not compile) or one quarantined as
       # unrenderable, because a single failed preview fails the whole render job.
       - run: node --test scripts/samples-previews.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # Which samples fill the watch screen, and therefore render on a round device rather than
       # cropping to their own bounds. Getting it backwards is a regression in BOTH directions — a
@@ -345,6 +460,7 @@ jobs:
       # checkable without one is that it reads a render correctly, including the idempotence a
       # first cut got wrong (a sample already ON the device must stay classified).
       - run: node --test scripts/samples-device-bound.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # The samples sheet's own spec, and with it the BACK-LINK each sample carries to the kit
       # component it is a call site for. The link names the kit family's first-declared cell, which
@@ -354,11 +470,13 @@ jobs:
       # is the other half: reordering a kit section re-points every sample of that family, and shows
       # up as a diff to review instead of drifting silently.
       - run: node --test scripts/samples-spec.test.mjs
+        if: needs.changes.outputs.inert != 'true'
 
       # Both generated-and-committed samples artifacts, regenerated and diffed. The wrappers are
       # compiled sources and the spec is what design-artifacts.yml publishes, so either going stale
       # against the vendored tree publishes a catalog that does not match its own inventory.
       - name: Regenerate the samples wrappers and spec
+        if: needs.changes.outputs.inert != 'true'
         run: |
           set -euo pipefail
           node scripts/samples-previews.mjs --check
@@ -370,3 +488,4 @@ jobs:
       # stopped working would report "nothing changed" forever, which is the one failure mode it
       # cannot have.
       - run: python3 scripts/test_remote_snapshot_probe.py
+        if: needs.changes.outputs.inert != 'true'
