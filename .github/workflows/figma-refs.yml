@@ -106,7 +106,25 @@ jobs:
         # further down runs `scripts/kit-cells.sh`, which answers for both sheets and hard-errors
         # with "remote-catalog/build/compose-previews/previews.json is missing" when the second
         # module was never discovered (run 34102140551). Same pair `ci.yml` discovers.
-        run: ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover --stacktrace
+        #
+        # `-PremoteSnapshot=` — an EMPTY property — forces the RELEASED lane, and this workflow
+        # needs it for the same reason `ci.yml` does, one step harder: it does not merely CHECK a
+        # record, it WRITES one and opens a pull request for it. `.github/ci/remote-snapshot-pin`
+        # turns the snapshot lane on by default for every Gradle invocation, so without this the
+        # manifest holds snapshot-only components and `scripts/kit-cells.sh` records their coverage
+        # into `kit-cells.json` — which `ci.yml` validates on the released lane, and therefore
+        # rejects.
+        #
+        # That is not hypothetical: #504 was this workflow's own refresh, and it added
+        # `remote-catalog` rows to five sets (`Edge-Button`, `Progress-Indicator-Linear`, `Slider`,
+        # `Stepper`, `Toggle+Selection-Buttons`) plus three `Card` cells that the released line does
+        # not draw. It merged, and CI on `main` went red on `kit-cells.json is out of date` and
+        # stayed red — the refresh broke the very gate it exists to keep satisfied. Regenerating on
+        # each lane reproduces both files byte for byte: `-PremoteSnapshot=` gives the record as it
+        # stands here, the default gives #504's.
+        run: >-
+          ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
+          -PremoteSnapshot= --stacktrace
 
       - name: Resolve
         env:
