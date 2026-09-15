@@ -11,7 +11,7 @@
     "record": {
         "file": "components.json",
         "schemaVersion": 2,
-        "components": 80
+        "components": 81
     },
     "statusSemantics": {
         "platform": "wear",
@@ -69,7 +69,7 @@
                     "group": "Text"
                 },
                 "wear-m3/app-scaffold": {
-                    "group": "Fast scrolling"
+                    "group": "Lists and screens"
                 },
                 "wear-m3/arc-progress-indicator": {
                     "group": "Progress indicators"
@@ -246,7 +246,7 @@
                     "group": "Pickers"
                 },
                 "wear-m3/time-text": {
-                    "group": "Fast scrolling"
+                    "group": "Text"
                 },
                 "wear-m3/one-handed-gesture-click-indicator": {
                     "group": "One-handed gestures"
@@ -259,6 +259,9 @@
                 },
                 "wear-m3/one-handed-gesture-scroll-indicator": {
                     "group": "One-handed gestures"
+                },
+                "wear-m3/placeholder-sticker": {
+                    "group": "Placeholders"
                 }
             }
         },
@@ -1678,6 +1681,23 @@
                 "propertyCapabilities": null,
                 "slotCapabilities": null,
                 "modifierCapabilities": null
+            },
+            "wear-m3/placeholder-sticker": {
+                "record": "catalog/ee.schimke.wearm3catalog.sections.PlaceholdersKt.PlaceholderSticker",
+                "catalogId": null,
+                "displayName": null,
+                "canvas": null,
+                "nativeOnly": false,
+                "traits": [],
+                "slots": {},
+                "stateCallbacks": {},
+                "starter": {},
+                "variantProperty": null,
+                "variants": {},
+                "excluded": null,
+                "propertyCapabilities": null,
+                "slotCapabilities": null,
+                "modifierCapabilities": null
             }
         }
     },
@@ -2085,6 +2105,11 @@
         {
             "code": "component.canvas.unclaimed",
             "subject": "wear-m3/media-row-sticker",
+            "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
+        },
+        {
+            "code": "component.canvas.unclaimed",
+            "subject": "wear-m3/placeholder-sticker",
             "message": "no canvas adapter claimed, so it draws as a placeholder. That is the honest default and needs no fixing; it is reported so a shelf drawn entirely in placeholders is visible rather than mysterious."
         }
     ]
