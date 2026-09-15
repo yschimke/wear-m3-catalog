@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
@@ -39,6 +41,7 @@ import ee.schimke.composeai.preview.KnobValue
 import ee.schimke.composeai.preview.OverrideVariant
 import ee.schimke.wearm3catalog.CatalogModes
 import ee.schimke.wearm3catalog.Sticker
+import ee.schimke.wearm3catalog.catalogInteractive
 
 // The kit's three `*-Placeholder` sets: what a button, an icon button and a card look like while
 // their content is still loading.
@@ -64,12 +67,18 @@ import ee.schimke.wearm3catalog.Sticker
 // because a placeholder has no text to size itself from, so those numbers ARE the design. Wear
 // Compose's own padding puts them where the kit puts them.
 //
-// The shimmer is deliberately left STILL on these stickers, and it costs nothing to ask for: a
-// placeholder animates only under an `AppScaffold`, because that is what composes the frame clock
+// THE SHIMMER IS STILL IN THE BAKED CAPTURE AND SWEEPS ON THE LIVE LANE
+//
+// A placeholder animates only under an `AppScaffold`, because that is what composes the frame clock
 // `PlaceholderState` reads (see `AnimatedSticker` in `CatalogTheme.kt`). `Sticker` has no scaffold,
-// so `Modifier.placeholderShimmer` here is a declaration of what the component does rather than a
-// sweep — which is what a baked capture wants, since a frame of a shimmer would differ on every
-// publish. The kit's own `Placeholder-gradient` overlay is that same sweep, drawn frozen.
+// so these stickers used to be frozen on BOTH surfaces — right for the PNG, wrong for the held
+// session, where a placeholder that never sweeps is indistinguishable from a component drawn in
+// grey blocks ([#487](https://github.com/yschimke/wear-m3-catalog/issues/487)).
+//
+// [PlaceholderSticker] below splits the two: baked, `Modifier.placeholderShimmer` stays a
+// declaration of what the component does rather than a sweep — which is what a capture wants, since
+// a frame of a shimmer would differ on every publish — and live, the sweep runs. The kit's own
+// `Placeholder-gradient` overlay is that same sweep, drawn frozen.
 //
 // A DECLARATION STILL HAS TO NAME THE RIGHT SHAPE. `placeholderShimmer` defaults to
 // `PlaceholderDefaults.shape`, which is `CornerFull` — right for the icon button, whose own shape
@@ -98,6 +107,35 @@ import ee.schimke.wearm3catalog.Sticker
 // is. An `@AnimatedPreview` here would ride every `@OverrideVariant` cell too, and the animated
 // path does not apply the cells' knobs: all four placeholder styles would come out byte-identical,
 // four copies of the base GIF published under four different names.
+
+/**
+ * [Sticker] that lets the shimmer run **on the live lane only**.
+ *
+ * `Modifier.placeholder` and `Modifier.placeholderShimmer` do not drive themselves: they read
+ * `AnimationCoordinator`, a library-internal singleton whose looper is composed by `AppScaffold`
+ * and by nothing else in Wear Compose. The coordinator is a process-wide object rather than
+ * something the scaffold provides down the tree, so the looper only has to EXIST somewhere in the
+ * composition — it does not have to be above the placeholder, and it does not have to occupy any
+ * space. That is what makes this affordable here: `AppScaffold` fills whatever it is given, and a
+ * component sticker is measured by what it wraps, so the scaffold goes inside a
+ * `requiredSize(0.dp)` box where it can lay nothing out and still start the clock.
+ *
+ * [catalogInteractive] is the whole point of the gate. A baked capture of a sweeping shimmer lands
+ * on a different frame every publish, which is a changed PNG on every render for a component nobody
+ * touched — the same defect `samples/patches/0001-pin-timepicker-clock.patch` answers for the
+ * pickers. So the looper is composed only where a person is watching, and the published bytes are
+ * exactly what they were.
+ *
+ * `AnimatedSticker` is the other half of this and stays where it is: a motion RECORDING wants the
+ * scaffold's layout as well as its clock, and it is captured deliberately rather than held.
+ */
+@Composable
+private fun PlaceholderSticker(content: @Composable () -> Unit) = Sticker {
+  if (catalogInteractive()) {
+    Box(Modifier.requiredSize(0.dp)) { AppScaffold(timeText = {}) {} }
+  }
+  content()
+}
 
 /** The icon that has not arrived: the kit draws it as a plain circle the icon's own size. */
 @Composable
@@ -161,50 +199,51 @@ enum class PlaceholderCardStyle {
   kitValue = "Outline",
 )
 @Composable
-fun ButtonPlaceholder(style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled) = Sticker {
-  val state = rememberPlaceholderState(isVisible = true)
-  val modifier = Modifier.width(172.dp).placeholderShimmer(state, ButtonDefaults.shape)
-  val icon: @Composable BoxScope.() -> Unit = { PlaceholderIcon(state, ButtonDefaults.IconSize) }
-  val label: @Composable RowScope.() -> Unit = { PlaceholderLine(state, 94.dp, 12.dp, 18.dp) }
-  val secondaryLabel: @Composable RowScope.() -> Unit = {
-    PlaceholderLine(state, 60.dp, 10.dp, 16.dp)
+fun ButtonPlaceholder(style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled) =
+  PlaceholderSticker {
+    val state = rememberPlaceholderState(isVisible = true)
+    val modifier = Modifier.width(172.dp).placeholderShimmer(state, ButtonDefaults.shape)
+    val icon: @Composable BoxScope.() -> Unit = { PlaceholderIcon(state, ButtonDefaults.IconSize) }
+    val label: @Composable RowScope.() -> Unit = { PlaceholderLine(state, 94.dp, 12.dp, 18.dp) }
+    val secondaryLabel: @Composable RowScope.() -> Unit = {
+      PlaceholderLine(state, 60.dp, 10.dp, 16.dp)
+    }
+    when (style) {
+      PlaceholderButtonStyle.Variant ->
+        Button(
+          onClick = {},
+          modifier = modifier,
+          colors = ButtonDefaults.filledVariantButtonColors(),
+          secondaryLabel = secondaryLabel,
+          icon = icon,
+          label = label,
+        )
+      PlaceholderButtonStyle.Tonal ->
+        FilledTonalButton(
+          onClick = {},
+          modifier = modifier,
+          secondaryLabel = secondaryLabel,
+          icon = icon,
+          label = label,
+        )
+      PlaceholderButtonStyle.Outlined ->
+        OutlinedButton(
+          onClick = {},
+          modifier = modifier,
+          secondaryLabel = secondaryLabel,
+          icon = icon,
+          label = label,
+        )
+      PlaceholderButtonStyle.Filled ->
+        Button(
+          onClick = {},
+          modifier = modifier,
+          secondaryLabel = secondaryLabel,
+          icon = icon,
+          label = label,
+        )
+    }
   }
-  when (style) {
-    PlaceholderButtonStyle.Variant ->
-      Button(
-        onClick = {},
-        modifier = modifier,
-        colors = ButtonDefaults.filledVariantButtonColors(),
-        secondaryLabel = secondaryLabel,
-        icon = icon,
-        label = label,
-      )
-    PlaceholderButtonStyle.Tonal ->
-      FilledTonalButton(
-        onClick = {},
-        modifier = modifier,
-        secondaryLabel = secondaryLabel,
-        icon = icon,
-        label = label,
-      )
-    PlaceholderButtonStyle.Outlined ->
-      OutlinedButton(
-        onClick = {},
-        modifier = modifier,
-        secondaryLabel = secondaryLabel,
-        icon = icon,
-        label = label,
-      )
-    PlaceholderButtonStyle.Filled ->
-      Button(
-        onClick = {},
-        modifier = modifier,
-        secondaryLabel = secondaryLabel,
-        icon = icon,
-        label = label,
-      )
-  }
-}
 
 /**
  * **Every cell of the kit's `Icon-Button-Placeholder` set** — four styles by four sizes, 16 nodes,
@@ -339,7 +378,7 @@ private fun placeholderIconButtonSize(size: PlaceholderIconSize): Dp =
 fun IconButtonPlaceholder(
   style: PlaceholderButtonStyle = PlaceholderButtonStyle.Filled,
   size: PlaceholderIconSize = PlaceholderIconSize.Default,
-) = Sticker {
+) = PlaceholderSticker {
   val state = rememberPlaceholderState(isVisible = true)
   val size = placeholderIconButtonSize(size)
   val modifier = Modifier.touchTargetAwareSize(size).placeholderShimmer(state, CircleShape)
@@ -378,7 +417,7 @@ fun IconButtonPlaceholder(
   kitValue = "Outline",
 )
 @Composable
-fun CardPlaceholder(style: PlaceholderCardStyle = PlaceholderCardStyle.Tonal) = Sticker {
+fun CardPlaceholder(style: PlaceholderCardStyle = PlaceholderCardStyle.Tonal) = PlaceholderSticker {
   val state = rememberPlaceholderState(isVisible = true)
   val modifier = Modifier.width(172.dp).placeholderShimmer(state, CardDefaults.shape)
   // The kit's card cell is the same row an `AppCard` draws — an icon beside a title and two lines

@@ -170,6 +170,19 @@ fun SwipeToRevealButton(
     revealState = state,
     modifier = Modifier.align(Alignment.Center).fillMaxWidth(),
   ) {
-    Button(onClick = {}, label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) })
+    // THE ROW'S WIDTH, NOT THE LABEL'S. `Card` above fills the width it is given and `Button` does
+    // not (see `KitRowWidth` in CatalogTheme.kt), so the same body that drew a full-width card drew
+    // a button hugging "Primary label" — about half the row, with the actions beside a stub
+    // ([#475](https://github.com/yschimke/wear-m3-catalog/issues/475)). The kit's `STR-button` cell
+    // draws the item at exactly the card's footprint, which is what the gesture reveals from.
+    //
+    // `fillMaxWidth()` rather than `kitRowWidth()`: this is a display cell, so the width is the
+    // swipeable row's own — whatever the breakpoint makes it — not the 172dp a component sticker
+    // states for itself on a bare canvas.
+    Button(
+      onClick = {},
+      modifier = Modifier.fillMaxWidth(),
+      label = { Text(kitCopy("label", KitCopy.PRIMARY_LABEL)) },
+    )
   }
 }
