@@ -29,7 +29,7 @@ wearcmp-port = "1.7.0-beta02-cmp09"
 # Compose Multiplatform. `commonMain` compiles against the JetBrains runtime/foundation/ui, which
 # resolve to the androidx artifacts on the android target — same FQNs, so the port and the AARs are
 # interchangeable at the source level, which is what makes one set of component bodies possible.
-compose-multiplatform = "1.10.3"
+compose-multiplatform = "1.12.0"
 
 # CMP Material 3, pinned FORWARD of the `compose-multiplatform` line above for exactly the reason
 # `compose-material3` below is pinned forward of the BOM: `MaterialShapes` / `RoundedPolygon.toShape`
