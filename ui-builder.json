@@ -60,7 +60,7 @@
                     "group": "Dialogs"
                 },
                 "wear-m3/edge-button": {
-                    "group": "Edge-hugging buttons"
+                    "group": "Dialogs"
                 },
                 "wear-m3/alert-dialog-content": {
                     "group": "Dialogs"
@@ -312,6 +312,7 @@
             ]
         },
         "assetRegistry": null,
+        "supersedes": null,
         "builtins": {
             "wear-m3/screen-scaffold": {
                 "role": "screen-root",
@@ -337,7 +338,8 @@
                     }
                 },
                 "properties": [],
-                "modifierCapabilities": null
+                "modifierCapabilities": null,
+                "implementation": null
             },
             "wear-m3/transforming-lazy-column": {
                 "role": "list",
@@ -352,7 +354,8 @@
                     }
                 },
                 "properties": [],
-                "modifierCapabilities": null
+                "modifierCapabilities": null,
+                "implementation": null
             }
         },
         "components": {
@@ -391,7 +394,7 @@
                 "modifierCapabilities": null
             },
             "wear-m3/edge-button": {
-                "record": "catalog/androidx.wear.compose.material3.EdgeButtonKt.EdgeButton",
+                "record": "catalog/androidx.wear.compose.material3.AlertDialogDefaults.EdgeButton",
                 "catalogId": null,
                 "displayName": null,
                 "canvas": null,
