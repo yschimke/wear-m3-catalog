@@ -283,5 +283,6 @@
     }
   },
 
+  "$comment_templates": "No template designs listed yet. Four arrive for this module: `wear-widget-small` and `wear-widget-large`, the two host frames whose dimensions THIS FILE already declares in frame.geometry.sizesDp, and `hello-widget` and `weather-widget`, the two worked designs reproducing android/wear-os-samples' WearWidget sample. They are hand-authored designs rather than vendored bytes, so the `groups` exception for :samples-catalog does not apply to them. The round trip they need — document to generated creation-DSL Kotlin, compiled against this module's own alpha Remote trio and rasterised by the real player — is only runnable here. See docs/UI_BUILDER_TEMPLATES.md and https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_SEED_TEMPLATES.md",
   "$comment_code": "No `code` block yet, so the export stays `record`. A Remote widget is written in the creation DSL rather than in Compose, which is a `code.language` and a set of structural templates — and both arrive with the template engine, not ahead of it. Until then the export prints call sites from the record, which is what it already does."
 }
