@@ -169,6 +169,11 @@ component is never renamed in two places. The
 explains the split, and each file's `$comment` fields explain the decisions in it. **Nothing reads
 them yet** — they are authored so they can be proved equivalent before anything switches over.
 
+Neither declares a **template design** yet — the starting point a new design opens as. Six are due,
+two for `:catalog` and four for `:remote-catalog`, and one of them is this catalog's own activity
+list currently transcribed into the preview server:
+[`docs/UI_BUILDER_TEMPLATES.md`](docs/UI_BUILDER_TEMPLATES.md).
+
 The padding table under `frame.geometry` is written by a test, not by a person:
 `ScreenScaffoldContentPaddingTest` composes the real `ScreenScaffold` over a real
 `TransformingLazyColumn` at each round size and asserts the committed rows equal what Wear Compose
