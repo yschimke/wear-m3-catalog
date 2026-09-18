@@ -3010,6 +3010,8 @@ Auto-generated from `main`. Browse inline or compare against PR branches.
 | `TitleCardHostProbeWithContent` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/TitleCardHostProbeWithContent_width_227dp_height_200dp_dpi_320-c4482e8d.png" width="150" /> |
 | `WidgetContainerGradientRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerGradientRemote-48a21be7.png" width="150" /> |
 | `WidgetContainerLargeRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerLargeRemote-64343fde.png" width="150" /> |
+| `WidgetContainerRoundLargeRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerRoundLargeRemote-e48f0c26.png" width="150" /> |
+| `WidgetContainerRoundSmallRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerRoundSmallRemote-88666b16.png" width="150" /> |
 | `WidgetContainerSmallRemote` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/WidgetContainerSmallRemote-8c4118e7.png" width="150" /> |
 | `AndroidMakers theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__AndroidMakers.png" width="150" /> |
 | `Confetti (default) theme` | <img src="https://raw.githubusercontent.com/yschimke/wear-m3-catalog/compose-preview/main/renders/remote-catalog/wearthemecatalog__Confetti__default_.png" width="150" /> |
