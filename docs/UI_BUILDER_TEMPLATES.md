@@ -10,8 +10,10 @@ The plan to move them is
 [`UI_BUILDER_SEED_TEMPLATES.md`](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_SEED_TEMPLATES.md)
 in that repository, under the
 [catalog contract](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md)'s
-phase 3a and phase 2 item 11. **Nothing here carries a template yet**; this note records what each
-module is due to carry and the one test that makes carrying it worth anything.
+phase 3a and phase 2 item 11. **The four `:remote-catalog` templates have arrived** — as documents
+under `remote-catalog/ui-builder/designs/`, declared in that module's `ui-builder.policy.json` and
+gated by `WidgetTemplateRoundTripTest`. The two `:catalog` templates are still due; this note
+records them and the test that makes carrying any of it worth anything.
 
 ## What arrives, and in which module
 
@@ -27,13 +29,25 @@ module is due to carry and the one test that makes carrying it worth anything.
 Each arrives as a design document under `ui-builder/designs/<template>.json`, named from the
 module's `ui-builder.policy.json` in a `templates` entry carrying its id, path, chooser label and
 supporting text. The pipeline copies `ui-builder/designs/` to the delivery branch beside
-`ui-builder.json`, the same way it copies the record.
+`ui-builder.json`, the same way it copies the record. (The schema takes paths only today; the
+label / supporting-text / order / default fields are
+[SEED_TEMPLATES step 3](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_SEED_TEMPLATES.md)
+in compose-ai-tools, and the policy's `$comment_templates` records them until then.)
 
 The two host frames are worth one line of their own: their dimensions are **already** authored here,
 in `remote-catalog/ui-builder.policy.json`'s `frame.geometry.sizesDp`, from
 `WidgetContainerPreviews.kt`'s pinned `@Preview(widthDp = 216, heightDp = 76)` and `(216, 124)`. The
 document that starts a design in one of those frames being authored somewhere else is the split this
 move closes.
+
+One deviation from the server's Kotlin seeds, found by the round trip the seeds could never run: the
+empty host frames carry a `layout/box` with `fillMaxSize` in their content slot rather than nothing,
+because `WearWidgetCodeExporter` writes a literal `RemoteBox(modifier = RemoteModifier.fillMaxSize())`
+for an empty content slot **without the imports for any of the three** — source that generates and
+does not compile
+([compose-ui-builder#26](https://github.com/yschimke/compose-ui-builder/issues/26)). The box is the
+same starter `wearWidgetSampleDocument` gives the worked samples, and the compile gate holds it
+there; drop it from both host documents when that lands.
 
 ## The test is the deliverable, not the copy
 

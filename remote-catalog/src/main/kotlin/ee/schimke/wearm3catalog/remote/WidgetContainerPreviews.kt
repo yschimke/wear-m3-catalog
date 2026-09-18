@@ -79,6 +79,21 @@ annotation class CatalogRemoteWidgetSmall
 @Preview(showBackground = false, widthDp = 216, heightDp = 124)
 annotation class CatalogRemoteWidgetLarge
 
+/**
+ * Canvas for the **round** Small-container stickers — the Samsung-style host, whose footprint is
+ * not the squircle's with a different radius: `RoundSmallWidgetPreviewParams`'s widest entry is
+ * 200×60dp content at 15dp horizontal / 8dp vertical padding → 230×76.
+ */
+@Preview(showBackground = false, widthDp = 230, heightDp = 76)
+annotation class CatalogRemoteWidgetRoundSmall
+
+/**
+ * Canvas for the **round** Large-container stickers: `RoundLargeWidgetPreviewParams`'s widest entry
+ * is 160×136dp content at 35dp horizontal / 16dp vertical padding → 230×168.
+ */
+@Preview(showBackground = false, widthDp = 230, heightDp = 168)
+annotation class CatalogRemoteWidgetRoundLarge
+
 // The squircle host spec (240dp screen) from upstream's `WidgetPreviewParams`.
 // `WidgetInstanceId` uses the same "tiles" carousel namespace as upstream; the id is
 // inert in a preview capture (it only matters to a live host round-trip).
@@ -102,6 +117,34 @@ private val largeWidgetParams =
     horizontalPaddingDp = 8f,
     verticalPaddingDp = 8f,
     cornerRadiusDp = 26f,
+  )
+
+// The round host spec, from the same tooling providers' `Round*WidgetPreviewParams` (the widest
+// entry of each, which is the 240dp-screen one): a fully-round 999dp radius — the shape the
+// Galaxy Watch launcher masks a widget to — and a footprint that differs from the squircle's in
+// every dimension, not only the corner: Samsung's host insets the widget further from the screen
+// edge, so the same 60dp-tall Small carries 15dp of horizontal padding where the Pixel Watch's
+// squircle carries 8.
+private val roundSmallWidgetParams =
+  WearWidgetParams(
+    instanceId = WidgetInstanceId("tiles", 6),
+    containerType = ContainerInfo.CONTAINER_TYPE_SMALL,
+    widthDp = 200f,
+    heightDp = 60f,
+    horizontalPaddingDp = 15f,
+    verticalPaddingDp = 8f,
+    cornerRadiusDp = 999f,
+  )
+
+private val roundLargeWidgetParams =
+  WearWidgetParams(
+    instanceId = WidgetInstanceId("tiles", 8),
+    containerType = ContainerInfo.CONTAINER_TYPE_LARGE,
+    widthDp = 160f,
+    heightDp = 136f,
+    horizontalPaddingDp = 35f,
+    verticalPaddingDp = 16f,
+    cornerRadiusDp = 999f,
   )
 
 /**
@@ -206,6 +249,64 @@ fun WidgetContainerSmallRemote() {
 @Composable
 fun WidgetContainerLargeRemote() {
   CapturingWearWidgetPreview(params = largeWidgetParams, background = WearWidgetBrush) {
+    CenteredWidgetContent {
+      RemoteColumn {
+        RemoteText("Morning run".rs, style = RemoteMaterialTheme.typography.bodyLarge)
+        RemoteText("5.2 km · 28 min".rs, style = RemoteMaterialTheme.typography.labelSmall)
+      }
+    }
+  }
+}
+
+/**
+ * The Small widget container on the **round** host — the fully-round 999dp corner the Galaxy Watch
+ * launcher masks a widget to, against the Pixel Watch's 26dp squircle in
+ * [WidgetContainerSmallRemote]. The footprint is Samsung's own, from the same
+ * `RoundSmallWidgetPreviewParams` provider the generated UI-builder widget previews fan out over:
+ * 200×60dp content at 15dp/8dp padding → 230×76.
+ */
+@CatalogComponent(
+  id = "WidgetContainer/RoundSmall",
+  group = "Widget Container",
+  noReference =
+    "The Glance Wear widget *host* frame at the round (Samsung Galaxy Watch) corner — " +
+      "`WearWidgetParams.cornerRadiusDp = 999`, from the platform's own " +
+      "`RoundSmallWidgetPreviewParams` provider. The kit publishes app components, not the widget host.",
+  caption =
+    "The Small widget container on the round host the Galaxy Watch launcher draws — 999dp " +
+      "(fully round) corners, 200×60dp content at 15dp/8dp padding → a 230×76dp frame, against " +
+      "the Pixel Watch's 26dp squircle.",
+)
+@CatalogRemoteWidgetRoundSmall
+@Composable
+fun WidgetContainerRoundSmallRemote() {
+  CapturingWearWidgetPreview(params = roundSmallWidgetParams, background = WearWidgetBrush) {
+    CenteredWidgetContent { RemoteText("Next: Standup 10:30".rs) }
+  }
+}
+
+/**
+ * The Large widget container on the **round** host — Samsung's large footprint, from
+ * `RoundLargeWidgetPreviewParams`: 160×136dp content at 35dp/16dp padding → 230×168, fully-round
+ * 999dp corners. Carrying the same title + supporting line as [WidgetContainerLargeRemote] so the
+ * two hosts differ only in what the host draws.
+ */
+@CatalogComponent(
+  id = "WidgetContainer/RoundLarge",
+  group = "Widget Container",
+  noReference =
+    "The Glance Wear widget *host* frame at the round (Samsung Galaxy Watch) Large size — " +
+      "`WearWidgetParams.cornerRadiusDp = 999`, from the platform's own " +
+      "`RoundLargeWidgetPreviewParams` provider. The kit publishes app components, not the widget host.",
+  caption =
+    "The Large widget container on the round host the Galaxy Watch launcher draws — 999dp " +
+      "(fully round) corners, 160×136dp content at 35dp/16dp padding → a 230×168dp frame, " +
+      "carrying the same title + supporting line as the squircle Large.",
+)
+@CatalogRemoteWidgetRoundLarge
+@Composable
+fun WidgetContainerRoundLargeRemote() {
+  CapturingWearWidgetPreview(params = roundLargeWidgetParams, background = WearWidgetBrush) {
     CenteredWidgetContent {
       RemoteColumn {
         RemoteText("Morning run".rs, style = RemoteMaterialTheme.typography.bodyLarge)
