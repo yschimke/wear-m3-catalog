@@ -29,6 +29,10 @@ class WidgetContainerIrCaptureTest {
       "WidgetContainerSmallRemote",
       "WidgetContainerLargeRemote",
       "WidgetContainerGradientRemote",
+      // The round (Samsung) hosts — same gate as the squircle ones: the capture wrapper is what
+      // carries the encoded document, and nothing about the round footprint exempts it.
+      "WidgetContainerRoundSmallRemote",
+      "WidgetContainerRoundLargeRemote",
     )
 
   @Test
@@ -64,6 +68,8 @@ class WidgetContainerIrCaptureTest {
         "WidgetContainerSmallRemote" to listOf("Next: Standup 10:30"),
         "WidgetContainerLargeRemote" to listOf("Morning run", "28 min"),
         "WidgetContainerGradientRemote" to listOf("Gradient"),
+        "WidgetContainerRoundSmallRemote" to listOf("Next: Standup 10:30"),
+        "WidgetContainerRoundLargeRemote" to listOf("Morning run", "28 min"),
       )
     for ((stem, strings) in expected) {
       val bytes = renderFile(rendersDir, stem, ext = "rc").readBytes().toString(Charsets.UTF_8)
