@@ -1,0 +1,48 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "wear-widget-large",
+  "title": "Wear widget · Large (216×124dp)",
+  "revision": 0,
+  "template": "wear-widget-large",
+  "catalogPin": {
+    "systemId": "remote-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 216,
+    "heightDp": 124,
+    "density": 2.0,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "animations": "settled",
+    "networkAccess": false
+  },
+  "stateVariables": {},
+  "roots": ["wear-widget-large"],
+  "nodes": {
+    "wear-widget-large": {
+      "id": "wear-widget-large",
+      "componentId": "remote-m3/widget-container-large",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "content": ["starter-box"]
+      }
+    },
+    "starter-box": {
+      "id": "starter-box",
+      "componentId": "layout/box",
+      "properties": {},
+      "modifiers": [{ "type": "fillMaxSize" }],
+      "slots": {
+        "children": []
+      }
+    }
+  }
+}

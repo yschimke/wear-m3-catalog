@@ -68159,7 +68159,7 @@
       "wireframe": "wireframes/widgetcontainer-small.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 188,
+      "bodyLine": 231,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "WidgetContainerSmallRemote",
       "parameters": [
@@ -68202,9 +68202,95 @@
       "wireframe": "wireframes/widgetcontainer-large.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 207,
+      "bodyLine": 250,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "WidgetContainerLargeRemote",
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams"
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
+    },
+    {
+      "componentId": "WidgetContainer/RoundSmall",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/widgetcontainer-roundsmall/ideal__default__compact.png",
+          "state": "default",
+          "width": 604,
+          "height": 200,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/widgetcontainer-roundsmall__ideal__default__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.WidgetContainerRoundSmallRemote",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "group": "Widget Container",
+      "caption": "The Small widget container on the round host the Galaxy Watch launcher draws — 999dp (fully round) corners, 200×60dp content at 15dp/8dp padding → a 230×76dp frame, against the Pixel Watch's 26dp squircle.",
+      "noReference": "The Glance Wear widget *host* frame at the round (Samsung Galaxy Watch) corner — `WearWidgetParams.cornerRadiusDp = 999`, from the platform's own `RoundSmallWidgetPreviewParams` provider. The kit publishes app components, not the widget host.",
+      "wireframe": "wireframes/widgetcontainer-roundsmall.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
+      "sourceModule": ":remote-catalog",
+      "bodyLine": 282,
+      "sourceDirectory": "remote-catalog",
+      "sourceFunction": "WidgetContainerRoundSmallRemote",
+      "parameters": [
+        {
+          "name": "params",
+          "type": "WearWidgetParams"
+        },
+        {
+          "name": "background",
+          "type": "WearWidgetBrush",
+          "hasDefault": true
+        },
+        {
+          "name": "content",
+          "type": "() -> Unit",
+          "composableSlot": true
+        }
+      ]
+    },
+    {
+      "componentId": "WidgetContainer/RoundLarge",
+      "images": [
+        {
+          "variant": "ideal",
+          "path": "images/widgetcontainer-roundlarge/ideal__default__compact.png",
+          "state": "default",
+          "width": 604,
+          "height": 441,
+          "size": "compact",
+          "livePreview": "https://preview.coo.ee/remote-m3/p/widgetcontainer-roundlarge__ideal__default__compact",
+          "previewId": "ee.schimke.wearm3catalog.remote.WidgetContainerPreviewsKt.WidgetContainerRoundLargeRemote",
+          "density": 2.625
+        }
+      ],
+      "greenlines": [],
+      "redlines": [],
+      "group": "Widget Container",
+      "caption": "The Large widget container on the round host the Galaxy Watch launcher draws — 999dp (fully round) corners, 160×136dp content at 35dp/16dp padding → a 230×168dp frame, carrying the same title + supporting line as the squircle Large.",
+      "noReference": "The Glance Wear widget *host* frame at the round (Samsung Galaxy Watch) Large size — `WearWidgetParams.cornerRadiusDp = 999`, from the platform's own `RoundLargeWidgetPreviewParams` provider. The kit publishes app components, not the widget host.",
+      "wireframe": "wireframes/widgetcontainer-roundlarge.svg",
+      "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
+      "sourceModule": ":remote-catalog",
+      "bodyLine": 308,
+      "sourceDirectory": "remote-catalog",
+      "sourceFunction": "WidgetContainerRoundLargeRemote",
       "parameters": [
         {
           "name": "params",
@@ -68245,7 +68331,7 @@
       "wireframe": "wireframes/widgetcontainer-gradientbackground.svg",
       "sourceFile": "src/main/kotlin/ee/schimke/wearm3catalog/remote/WidgetContainerPreviews.kt",
       "sourceModule": ":remote-catalog",
-      "bodyLine": 236,
+      "bodyLine": 337,
       "sourceDirectory": "remote-catalog",
       "sourceFunction": "WidgetContainerGradientRemote",
       "parameters": [
@@ -68272,7 +68358,7 @@
     "androidx.glance.wear:wear"
   ],
   "renderer": "compose-preview 2.18.1",
-  "generatedAt": "2026-09-18T04:46:52.688Z",
+  "generatedAt": "2026-09-18T22:27:22.580Z",
   "display": {
     "surface": "dark",
     "hero": "AppCard"

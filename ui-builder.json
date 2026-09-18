@@ -150,7 +150,12 @@
             }
         },
         "code": null,
-        "templates": [],
+        "templates": [
+            "ui-builder/designs/wear-widget-small.json",
+            "ui-builder/designs/wear-widget-large.json",
+            "ui-builder/designs/hello-widget.json",
+            "ui-builder/designs/weather-widget.json"
+        ],
         "colorTokens": {
             "$comment": "The theme roles a colour property may name. Same Material 3 vocabulary as the sibling :catalog, and stated here for the same reason: a Remote design names roles, and a role the canvas cannot resolve is a literal. Every sticker in this catalog is a RemoteDocument carrying explicit dark-first Material colours, so the values behind these names are the document's rather than a theme's — but the names are what a design writes.",
             "roles": [

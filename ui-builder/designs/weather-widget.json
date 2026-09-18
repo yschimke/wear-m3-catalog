@@ -1,0 +1,86 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "weather-widget",
+  "title": "Weather widget · Large (216×124dp)",
+  "revision": 0,
+  "template": "weather-widget",
+  "catalogPin": {
+    "systemId": "remote-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 216,
+    "heightDp": 124,
+    "density": 2.0,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "animations": "settled",
+    "networkAccess": false
+  },
+  "stateVariables": {},
+  "roots": ["wear-widget-large"],
+  "nodes": {
+    "wear-widget-large": {
+      "id": "wear-widget-large",
+      "componentId": "remote-m3/widget-container-large",
+      "properties": {
+        "background": { "type": "color", "value": "#FF2196F3" }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": ["weather-content"]
+      }
+    },
+    "weather-content": {
+      "id": "weather-content",
+      "componentId": "layout/box",
+      "properties": {},
+      "modifiers": [{ "type": "fillMaxSize" }],
+      "slots": {
+        "children": ["weather-column"]
+      }
+    },
+    "weather-column": {
+      "id": "weather-column",
+      "componentId": "layout/column",
+      "properties": {
+        "verticalSpacingDp": { "type": "float", "value": 4 },
+        "alignment": { "type": "enum", "value": "center" }
+      },
+      "modifiers": [{ "type": "fillMaxWidth" }],
+      "slots": {
+        "children": ["weather-location", "weather-reading"]
+      }
+    },
+    "weather-location": {
+      "id": "weather-location",
+      "componentId": "m3/text",
+      "properties": {
+        "text": { "type": "string", "value": "London" },
+        "color": { "type": "color", "value": "#FFFFFFFF" },
+        "fontSizeSp": { "type": "float", "value": 14 },
+        "textAlign": { "type": "enum", "value": "center" }
+      },
+      "modifiers": [{ "type": "fillMaxWidth" }],
+      "slots": {}
+    },
+    "weather-reading": {
+      "id": "weather-reading",
+      "componentId": "m3/text",
+      "properties": {
+        "text": { "type": "string", "value": "75° ☀️" },
+        "color": { "type": "color", "value": "#FFFFFFFF" },
+        "fontSizeSp": { "type": "float", "value": 36 },
+        "textAlign": { "type": "enum", "value": "center" }
+      },
+      "modifiers": [{ "type": "fillMaxWidth" }],
+      "slots": {}
+    }
+  }
+}
