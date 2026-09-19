@@ -52,6 +52,22 @@ kotlin {
 
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.foundation)
+      // The host's own Skiko NATIVE runtime — the `.dylib`/`.so` the renderer loads, not the API
+      // jar that names it.
+      //
+      // This module renders through the compose-preview desktop lane, whose classpath is the
+      // concatenation of the tool's `composePreviewRenderer` and this module's runtime classpath.
+      // The tool half carries the native for the platform the renderer artifact was PUBLISHED on,
+      // so on Linux (CI) the lane works without this line and on macOS it does not: every capture
+      // dies with `Cannot find libskiko-macos-arm64.dylib.sha256, proper native dependency
+      // missing`, and `composePreviewRender` exits non-zero with "10 capture(s) were drawn and none
+      // produced a file". `validateComposePreviewDesktopRenderClasspath` passes either way — it
+      // checks that the skiko versions agree, not that a native is present at all.
+      //
+      // `compose.desktop.currentOs` is the supported way to ask for the host's native, and it is
+      // what the sibling `m3-catalog` and compose-ui-builder's own `:ui-builder` declare for the
+      // same reason. It resolves to the running machine, so it changes nothing on CI.
+      @Suppress("DEPRECATION") implementation(compose.desktop.currentOs)
       implementation(libs.compose.multiplatform.material3)
       implementation(libs.compose.multiplatform.ui.tooling.preview)
       implementation(libs.wearcmp.compose.material3)

@@ -9,7 +9,7 @@
   "previewSurfaces": {
     "wasm": {
       "fidelity": "approximate",
-      "reason": "The builder's canvas is Compose Multiplatform for Wasm, which cannot link an Android AAR and therefore cannot call Wear Compose Material 3 at all. It draws the screen frame from the measured geometry below, and every component as a placeholder or — where this catalog claims one — through a Material 3 adapter the builder already ships. It is a drawing aid; it is not what a watch shows."
+      "reason": "The canvas draws this catalog's components with a Compose Multiplatform build of Wear Compose — the Android AAR has no browser variant — so each is the component itself rather than an impression of it. What is still the canvas's own: the screen frame (the extent has no viewport for a real scaffold), the unrolled list (a long screenshot turns the row transformation off), and the type scale, which is the mobile theme's. Author on it; check a size on the Android preview, which compiles this design's own generated Kotlin against the real AAR."
     },
     "native": {
       "fidelity": "authoritative",
