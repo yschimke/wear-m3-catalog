@@ -1,0 +1,816 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "wear-list",
+  "title": "Activity · Wear screen",
+  "revision": 0,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2.0,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1.0,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "browserZoomPercent": 100,
+    "fixedTime": "2024-05-16T12:00:00Z",
+    "animations": "settled",
+    "networkAccess": false,
+    "exportDevices": [
+      "id:wearos_small_round",
+      "id:wearos_xl_round"
+    ]
+  },
+  "stateVariables": {},
+  "roots": [
+    "wear-screen"
+  ],
+  "nodes": {
+    "wear-screen": {
+      "id": "wear-screen",
+      "componentId": "wear-m3/screen-scaffold",
+      "properties": {
+        "timeText": {
+          "type": "string",
+          "value": "10:10"
+        },
+        "scrollIndicator": {
+          "type": "bool",
+          "value": true
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "wear-list"
+        ],
+        "edgeButton": []
+      },
+      "eventBindings": {}
+    },
+    "wear-list": {
+      "id": "wear-list",
+      "componentId": "wear-m3/transforming-lazy-column",
+      "properties": {
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 4.0
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "items": [
+          "list-header",
+          "row-0",
+          "row-1",
+          "row-2",
+          "row-3",
+          "row-4",
+          "row-5"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "list-header": {
+      "id": "list-header",
+      "componentId": "wear-m3/list-header",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Activity"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-0": {
+      "id": "row-0",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        },
+        "shape": {
+          "type": "enum",
+          "value": "large"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "row-0-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-0-lines": {
+      "id": "row-0-lines",
+      "componentId": "layout/column",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "padding",
+          "startDp": 12.2,
+          "topDp": 9.7,
+          "endDp": 12.2,
+          "bottomDp": 14.7
+        }
+      ],
+      "slots": {
+        "children": [
+          "row-0-title",
+          "row-0-subtitle"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-0-title": {
+      "id": "row-0-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Session 1"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "titleMedium"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurface"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 14.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-0-subtitle": {
+      "id": "row-0-subtitle",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "4 min"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "bodySmall"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurfaceVariant"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 13.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-1": {
+      "id": "row-1",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        },
+        "shape": {
+          "type": "enum",
+          "value": "large"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "row-1-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-1-lines": {
+      "id": "row-1-lines",
+      "componentId": "layout/column",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "padding",
+          "startDp": 12.2,
+          "topDp": 9.7,
+          "endDp": 12.2,
+          "bottomDp": 14.7
+        }
+      ],
+      "slots": {
+        "children": [
+          "row-1-title",
+          "row-1-subtitle"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-1-title": {
+      "id": "row-1-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Session 2"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "titleMedium"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurface"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 14.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-1-subtitle": {
+      "id": "row-1-subtitle",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "8 min"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "bodySmall"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurfaceVariant"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 13.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-2": {
+      "id": "row-2",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        },
+        "shape": {
+          "type": "enum",
+          "value": "large"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "row-2-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-2-lines": {
+      "id": "row-2-lines",
+      "componentId": "layout/column",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "padding",
+          "startDp": 12.2,
+          "topDp": 9.7,
+          "endDp": 12.2,
+          "bottomDp": 14.7
+        }
+      ],
+      "slots": {
+        "children": [
+          "row-2-title",
+          "row-2-subtitle"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-2-title": {
+      "id": "row-2-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Session 3"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "titleMedium"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurface"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 14.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-2-subtitle": {
+      "id": "row-2-subtitle",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "12 min"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "bodySmall"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurfaceVariant"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 13.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-3": {
+      "id": "row-3",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        },
+        "shape": {
+          "type": "enum",
+          "value": "large"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "row-3-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-3-lines": {
+      "id": "row-3-lines",
+      "componentId": "layout/column",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "padding",
+          "startDp": 12.2,
+          "topDp": 9.7,
+          "endDp": 12.2,
+          "bottomDp": 14.7
+        }
+      ],
+      "slots": {
+        "children": [
+          "row-3-title",
+          "row-3-subtitle"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-3-title": {
+      "id": "row-3-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Session 4"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "titleMedium"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurface"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 14.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-3-subtitle": {
+      "id": "row-3-subtitle",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "16 min"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "bodySmall"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurfaceVariant"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 13.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-4": {
+      "id": "row-4",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        },
+        "shape": {
+          "type": "enum",
+          "value": "large"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "row-4-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-4-lines": {
+      "id": "row-4-lines",
+      "componentId": "layout/column",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "padding",
+          "startDp": 12.2,
+          "topDp": 9.7,
+          "endDp": 12.2,
+          "bottomDp": 14.7
+        }
+      ],
+      "slots": {
+        "children": [
+          "row-4-title",
+          "row-4-subtitle"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-4-title": {
+      "id": "row-4-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Session 5"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "titleMedium"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurface"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 14.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-4-subtitle": {
+      "id": "row-4-subtitle",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "20 min"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "bodySmall"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurfaceVariant"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 13.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-5": {
+      "id": "row-5",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        },
+        "shape": {
+          "type": "enum",
+          "value": "large"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "row-5-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-5-lines": {
+      "id": "row-5-lines",
+      "componentId": "layout/column",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "padding",
+          "startDp": 12.2,
+          "topDp": 9.7,
+          "endDp": 12.2,
+          "bottomDp": 14.7
+        }
+      ],
+      "slots": {
+        "children": [
+          "row-5-title",
+          "row-5-subtitle"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "row-5-title": {
+      "id": "row-5-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Session 6"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "titleMedium"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurface"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 14.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "row-5-subtitle": {
+      "id": "row-5-subtitle",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "24 min"
+        },
+        "style": {
+          "type": "typographyToken",
+          "value": "bodySmall"
+        },
+        "color": {
+          "type": "colorToken",
+          "value": "onSurfaceVariant"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        },
+        "fontSizeSp": {
+          "type": "float",
+          "value": 13.0
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {},
+      "eventBindings": {}
+    }
+  },
+  "assets": {}
+}
