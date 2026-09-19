@@ -1,0 +1,75 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "wear-screen",
+  "title": "Untitled Wear screen",
+  "revision": 0,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2.0,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1.0,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "browserZoomPercent": 100,
+    "fixedTime": "2024-05-16T12:00:00Z",
+    "animations": "settled",
+    "networkAccess": false,
+    "exportDevices": [
+      "id:wearos_small_round",
+      "id:wearos_xl_round"
+    ]
+  },
+  "stateVariables": {},
+  "roots": [
+    "wear-screen"
+  ],
+  "nodes": {
+    "wear-screen": {
+      "id": "wear-screen",
+      "componentId": "wear-m3/screen-scaffold",
+      "properties": {
+        "timeText": {
+          "type": "string",
+          "value": "10:10"
+        },
+        "scrollIndicator": {
+          "type": "bool",
+          "value": true
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "wear-list"
+        ],
+        "edgeButton": []
+      },
+      "eventBindings": {}
+    },
+    "wear-list": {
+      "id": "wear-list",
+      "componentId": "wear-m3/transforming-lazy-column",
+      "properties": {
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 4.0
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "items": []
+      },
+      "eventBindings": {}
+    }
+  },
+  "assets": {}
+}

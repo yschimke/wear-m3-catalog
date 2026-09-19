@@ -244,8 +244,21 @@ kotlin {
       // Robolectric resolves against. On the KMP-Android plugin there is no `debugImplementation`
       // to merge it through, so the host-test source set declares it directly.
       implementation(libs.compose.ui.test.manifest)
+      // `WearScreenTemplateRoundTripTest` — the UI builder's own emitter, so the template documents
+      // this repository publishes can be compiled here rather than only described. Test-only: the
+      // stickers are drawn by Wear Compose and no main source reads the builder's document model.
+      implementation(libs.composeai.ui.builder.export)
     }
   }
+}
+
+// `-PwriteGolden=true` rewrites the checked-in generated screens from the UI builder's exporter
+// instead of asserting against them — the same shape as `:remote-catalog`'s widget round trip and
+// compose-preview-server's `-PuiBuilderGoldens=write`. A golden nobody can regenerate is one
+// people hand-edit, and a hand-edited generated file is a claim about a generator that stopped
+// being true.
+tasks.withType<Test>().configureEach {
+  systemProperty("writeGolden", providers.gradleProperty("writeGolden").getOrElse("false"))
 }
 
 // ── The port → AndroidX substitution ────────────────────────────────────────────────────────────

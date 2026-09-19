@@ -169,11 +169,15 @@ component is never renamed in two places. The
 explains the split, and each file's `$comment` fields explain the decisions in it. **Nothing reads
 them yet** — they are authored so they can be proved equivalent before anything switches over.
 
-The four `:remote-catalog` **template designs** have arrived — the two widget host frames and the
-two worked widget samples a new `remote-m3` design opens as, under
-`remote-catalog/ui-builder/designs/` and gated by `WidgetTemplateRoundTripTest`. The two `:catalog`
-templates (a blank Wear screen and this catalog's own activity list, currently transcribed into the
-preview server) are still due: [`docs/UI_BUILDER_TEMPLATES.md`](docs/UI_BUILDER_TEMPLATES.md).
+The **template designs** a new design opens as are here for both modules: the four
+`:remote-catalog` ones (the two widget host frames and the two worked widget samples) under
+`remote-catalog/ui-builder/designs/`, gated by `WidgetTemplateRoundTripTest`, and the two `:catalog`
+ones — `wear-screen` (an `AppScaffold` with a frozen `TimeText` over a `TransformingLazyColumn`) and
+`wear-list` (the same shape holding this catalog's own activity list) — under `ui-builder/designs/`,
+gated by `WearScreenTemplateRoundTripTest`. Each round trip generates Kotlin from the committed
+document and compiles it against that module's own classpath, which is the half the preview server
+could not run:
+[`docs/UI_BUILDER_TEMPLATES.md`](docs/UI_BUILDER_TEMPLATES.md).
 
 The padding table under `frame.geometry` is written by a test, not by a person:
 `ScreenScaffoldContentPaddingTest` composes the real `ScreenScaffold` over a real
