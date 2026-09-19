@@ -10,27 +10,28 @@ The plan to move them is
 [`UI_BUILDER_SEED_TEMPLATES.md`](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_SEED_TEMPLATES.md)
 in that repository, under the
 [catalog contract](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md)'s
-phase 3a and phase 2 item 11. **The four `:remote-catalog` templates have arrived** — as documents
-under `remote-catalog/ui-builder/designs/`, declared in that module's `ui-builder.policy.json` and
-gated by `WidgetTemplateRoundTripTest`. The two `:catalog` templates are still due; this note
-records them and the test that makes carrying any of it worth anything.
+phase 3a and phase 2 item 11. **All six have arrived**, each as a design document the owning module
+declares in its `ui-builder.policy.json` and gates with a round-trip test: the four
+`:remote-catalog` ones under `remote-catalog/ui-builder/designs/` (`WidgetTemplateRoundTripTest`)
+and the two `:catalog` ones under `ui-builder/designs/` (`WearScreenTemplateRoundTripTest`).
 
-## What arrives, and in which module
+## What arrived, and in which module
 
 | Module | Catalog | Template | What it draws |
 | --- | --- | --- | --- |
-| `:catalog` | `wear-m3` | `wear-screen` | `ScreenScaffold` with its clock and scroll indicator over an empty `TransformingLazyColumn` |
+| `:catalog` | `wear-m3` | `wear-screen` | `AppScaffold` with a frozen `10:10` `TimeText` over an empty `TransformingLazyColumn` |
 | `:catalog` | `wear-m3` | `wear-list` | the same shape holding six title cards under a list header — this catalog's activity list |
 | `:remote-catalog` | `remote-m3` | `wear-widget-small` | the 216×76dp host frame, one empty content slot |
 | `:remote-catalog` | `remote-m3` | `wear-widget-large` | the 216×124dp host frame, one empty content slot |
 | `:remote-catalog` | `remote-m3` | `hello-widget` | centred text on the theme's primary, in the small host |
 | `:remote-catalog` | `remote-m3` | `weather-widget` | location over a large reading on the sample's sunny blue, in the large host |
 
-Each arrives as a design document under `ui-builder/designs/<template>.json`, named from the
-module's `ui-builder.policy.json` in a `templates` entry carrying its id, path, chooser label and
-supporting text. The pipeline copies `ui-builder/designs/` to the delivery branch beside
-`ui-builder.json`, the same way it copies the record. (The schema takes paths only today; the
-label / supporting-text / order / default fields are
+Each is a design document under `ui-builder/designs/<template>.json` — the repository root for
+`:catalog`, whose policy is at the root, and `remote-catalog/ui-builder/designs/` for
+`:remote-catalog`, whose policy is beside its cover sheet — named from that module's
+`ui-builder.policy.json` in a `templates` entry. The pipeline copies `ui-builder/designs/` to the
+delivery branch beside `ui-builder.json`, the same way it copies the record. (The schema takes paths
+only today; the label / supporting-text / order / default fields are
 [SEED_TEMPLATES step 3](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_SEED_TEMPLATES.md)
 in compose-ai-tools, and the policy's `$comment_templates` records them until then.)
 
@@ -65,6 +66,21 @@ So the round trip is what this repository owes, per module: every template docum
 `:remote-catalog` rasterises on Robolectric through the real player, the same lane that produces
 every sticker in it. It consumes the published `ui-builder-export` and `screen-model` coordinates,
 which the layer rule allows — a leaf depends down.
+
+The two `:catalog` documents are gated the same way by `WearScreenTemplateRoundTripTest`: each is
+read from `ui-builder/designs/`, generated and compiled in the unit-test source set against Wear
+Compose Material 3 — `AppScaffold`, `TimeText` with its frozen `10:10`, `ScreenScaffold` and the
+`TransformingLazyColumn` the template opens on. The environment claims the two round sizes the seed
+names, `wearos_small_round` (192dp) and `wearos_xl_round` (240dp), and the generated
+`@WearPreviewDevices` preview fans out over every round size. **Regenerating a golden is deliberate,
+never hand-edit:** run the module's test with `-PwriteGolden=true` and read the diff; a green
+compile on the new text is the review.
+
+The generated Kotlin is **compiled, not rasterised, in this repository's tests**. The player lane
+that rasterises every `remote-m3` sticker runs `composePreviewRender` over the main source set's
+`@Preview`s, and a generated file placed there would join the component record and need an exclusion
+per preview symbol. Pixels are the native render lane's answer — `compose-preview-server design
+render` against the same documents — which is also the lane the deployment uses.
 
 ## Two of them are somebody else's sample, and the vendoring rule does not apply
 
