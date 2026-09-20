@@ -120,6 +120,12 @@ providers.gradleProperty("composeUiBuilderDir").orNull?.let { path ->
 
 include(":catalog-ui-builder-renderer")
 
+include(":remote-catalog-ui-builder-renderer")
+
+include(":ui-builder-foundation-adapters")
+
+include(":ui-builder-material-adapters")
+
 include(":ui-builder-wear-adapters")
 
 // The same component bodies, drawn by Compose Multiplatform Desktop instead of Robolectric. It

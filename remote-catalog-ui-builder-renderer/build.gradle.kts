@@ -43,7 +43,7 @@ abstract class GenerateRuntimePolicy : DefaultTask() {
         parentFile.mkdirs()
         writeText(
           """
-        package ee.schimke.wearm3catalog.uibuilder
+        package ee.schimke.wearm3catalog.remoteuibuilder
 
         internal const val catalogUiBuilderPolicyJson = "$encoded"
         """
@@ -62,13 +62,13 @@ plugins {
 val runtimeIdentity =
   providers
     .environmentVariable("GITHUB_SHA")
-    .map { "wear-m3-p2-${it.take(12)}" }
-    .orElse("wear-m3-p2-development")
+    .map { "remote-m3-p2-${it.take(12)}" }
+    .orElse("remote-m3-p2-development")
 
 val generatedRuntimePolicy = layout.buildDirectory.dir("generated/uiBuilderRuntimePolicy")
 val generateRuntimePolicy by
   tasks.registering(GenerateRuntimePolicy::class) {
-    policy.set(rootProject.layout.projectDirectory.file("ui-builder.policy.json"))
+    policy.set(rootProject.layout.projectDirectory.file("remote-catalog/ui-builder.policy.json"))
     outputDirectory.set(generatedRuntimePolicy)
   }
 
@@ -76,7 +76,7 @@ kotlin {
   @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
   wasmJs {
     browser()
-    outputModuleName.set("wearM3CatalogRenderer")
+    outputModuleName.set("remoteM3CatalogRenderer")
     binaries.executable()
   }
 
@@ -84,6 +84,7 @@ kotlin {
     commonMain.dependencies {
       implementation(libs.composeai.ui.builder.renderer.sdk.source)
       implementation(project(":ui-builder-foundation-adapters"))
+      implementation(project(":ui-builder-material-adapters"))
       implementation(project(":ui-builder-wear-adapters"))
       implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
@@ -170,7 +171,7 @@ abstract class AssembleCatalogRendererRuntime : DefaultTask() {
 
 val wasmRendererDist =
   tasks.register<AssembleCatalogRendererRuntime>("wasmRendererDist") {
-    description = "Assemble the transitional catalog-owned Wear UI-builder renderer."
+    description = "Assemble the transitional catalog-owned Remote M3 UI-builder renderer."
     group = "distribution"
     dependsOn(runtimeAssets)
     assetsDirectory.set(layout.buildDirectory.dir("runtimeAssets"))
@@ -180,11 +181,11 @@ val wasmRendererDist =
 
 val rendererArchive =
   tasks.register<Zip>("rendererArchive") {
-    description = "Package the immutable catalog-owned Wear UI-builder renderer."
+    description = "Package the immutable catalog-owned Remote M3 UI-builder renderer."
     group = "distribution"
     dependsOn(wasmRendererDist)
     from(wasmRendererDist.flatMap { it.outputDirectory })
-    archiveFileName.set("wear-m3-ui-builder-renderer.zip")
+    archiveFileName.set("remote-m3-ui-builder-renderer.zip")
     destinationDirectory.set(layout.buildDirectory.dir("distributions"))
     isPreserveFileTimestamps = false
     isReproducibleFileOrder = true
@@ -205,8 +206,8 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
         setOf(
           "runtime-manifest.json",
           "index.html",
-          "wearM3CatalogRenderer.mjs",
-          "wearM3CatalogRenderer.wasm",
+          "remoteM3CatalogRenderer.mjs",
+          "remoteM3CatalogRenderer.wasm",
           "skiko.mjs",
           "skiko.wasm",
         )
