@@ -5,7 +5,7 @@ package ee.schimke.wearm3catalog.remote
  * `remote-catalog/build.gradle.kts`.
  *
  * `false` is the committed default: the released alphas `gradle/libs.versions.toml` pins. `true`
- * means the run was started with `-PremoteSnapshot=<androidx.dev build id>`, so the two Remote
+ * means the run was started with `-PremoteSnapshot=<androidx.dev build id>`, so the three Remote
  * groups resolve to `1.0.0-SNAPSHOT` and the sheet is drawing against unreleased code.
  *
  * Only the fixtures that record LIBRARY behaviour should branch on this — `knownDuplicate`,

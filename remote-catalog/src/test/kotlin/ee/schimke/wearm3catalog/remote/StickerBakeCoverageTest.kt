@@ -84,7 +84,31 @@ class StickerBakeCoverageTest {
    * catches a library that starts drawing — it could not have caught this, because the library was
    * never the one at fault.
    */
-  private val knownBlank = emptyMap<String, String>()
+  private val knownBlank: Map<String, String> =
+    if (onSnapshotLane) {
+      emptyMap()
+    } else {
+      listOf(192, 204, 216, 225, 240)
+        .flatMap { size ->
+          listOf(
+              "left",
+              "left-five-pages",
+              "left-many-pages",
+              "left-many-pages-end",
+              "left-many-pages-middle",
+              "left-six-pages",
+              "left-six-pages-end",
+              "left-six-pages-middle",
+              "left-three-pages",
+              "left-two-pages",
+            )
+            .map { cell -> "VerticalPageIndicatorRemote_${size}dp_VARIANT_$cell" }
+        }
+        .associateWith {
+          "released remote-core defaults an omitted graphics-layer transform origin to 0, so the " +
+            "left-side scaleX = -1 mirror is clipped outside its layer"
+        }
+    }
 
   /**
    * `<stem>_VARIANT_<cell>`, the identity a [knownBlank] entry names, or null for a base render.
@@ -96,7 +120,7 @@ class StickerBakeCoverageTest {
    * moves; keying it on the cell's real name and matching forwards keeps the map readable.
    */
   private fun blankKey(file: File): String? {
-    val stem = file.name.substringBefore("_width")
+    val stem = file.name.substringBefore("_width").substringBefore("_VARIANT_")
     val cell = file.name.substringAfter("_VARIANT_", "").substringBeforeLast("-")
     return if (cell.isEmpty()) null else "${stem}_VARIANT_${cell.replace('_', '-')}"
   }

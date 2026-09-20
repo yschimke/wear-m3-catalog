@@ -138,17 +138,18 @@ materialkolor = "5.0.1"
 horologist = "0.8.4-alpha"
 
 # ── Remote Compose, for `:remote-catalog` only ──────────────────────────────────────────────────
-# The Remote Compose trio the Remote catalog renders against. The snapshot lane repoints all three
-# groups together, because a skewed trio fails inside the player rather than at compile time
-# (compose-ai-tools records what that cost: a `NoClassDefFoundError` in `RemoteButton` and a wear pin
-# that briefly did not exist at all). The repository is selected by `.github/ci/remote-snapshot-pin`.
+# The released Remote Compose trio. The snapshot lane replaces all three groups together, because a
+# skewed trio fails inside the player rather than at compile time (compose-ai-tools records what
+# that cost: a `NoClassDefFoundError` in `RemoteButton` and a wear pin that briefly did not exist at
+# all). The repository and substitution are selected by `.github/ci/remote-snapshot-pin`; an empty
+# `-PremoteSnapshot=` selects these released coordinates for normal CI.
 #
 # Nothing here reaches `:catalog`. That module is on the stable Compose BOM and the Wear Compose
 # beta line; this one deliberately is not, which is why the two are separate modules rather than
 # two source sets (see remote-catalog/build.gradle.kts).
-compose-remote = "1.0.0-SNAPSHOT"
-wear-compose-remote = "1.0.0-SNAPSHOT"
-glance-wear = "1.0.0-SNAPSHOT"
+compose-remote = "1.0.0-alpha19"
+wear-compose-remote = "1.0.0-alpha11"
+glance-wear = "1.0.0-alpha18"
 
 # Pre-release compose-ui for `:remote-catalog`. The alpha remote artifacts align with the Compose
 # 1.11+ line (1.11.0 is the first release shipping `PreviewWrapper`), so that module pins explicit
