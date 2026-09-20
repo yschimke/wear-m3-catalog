@@ -570,10 +570,9 @@ fun EdgeButtonRemote() = RemoteSticker {
     // component exists for — and it is now literally the same `ImageVector` the Wear sibling
     // passes, resolved from the same artifact rather than transcribed beside it.
     if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {
-      RemoteIcon(Icons.Filled.Check, contentDescription = "Done".rs)
+      RemoteIcon(Icons.Filled.Check.asCatalogRemoteIcon(), contentDescription = "Done".rs)
     } else {
       RemoteText(label)
     }
   }
 }
-

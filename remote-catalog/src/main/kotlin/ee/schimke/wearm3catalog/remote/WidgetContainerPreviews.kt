@@ -61,8 +61,7 @@ import kotlinx.coroutines.runBlocking
 // The wrapper captures the same document and offers it to `IrSidecarChannel`, so the render lands a
 // `<stem>.rc` next to the PNG and `BundlePreviewTask.resolvePreviewIr` packs it as
 // the sticker's IR — the widget travels as data, like every other Remote Compose
-// sticker in this sheet. It is local while the AndroidX snapshot's new
-// `useSafeFallbackRendererVersion` parameter is newer than compose-ai-tools' published wrapper.
+// sticker in this sheet.
 //
 // No Wear M3 parallel: the container is a Glance Wear *host* frame, not a
 // `remote-material3` component.
@@ -147,14 +146,7 @@ private val roundLargeWidgetParams =
     cornerRadiusDp = 999f,
   )
 
-/**
- * Snapshot-compatible form of compose-ai-tools' widget capture wrapper.
- *
- * AndroidX added [WearWidgetPreview]'s `useSafeFallbackRendererVersion` parameter after the
- * published wrapper was compiled. Calling the wrapper therefore links against the old JVM signature
- * and fails at render time. Keep the sidecar capture here and call the new API directly until the
- * wrapper release catches up.
- */
+/** Captures the widget document beside its normal host preview. */
 @Composable
 private fun CapturingWearWidgetPreview(
   params: WearWidgetParams,
@@ -180,7 +172,6 @@ private fun CapturingWearWidgetPreview(
     params = params,
     modifier = Modifier,
     background = background,
-    useSafeFallbackRendererVersion = true,
     content = content,
   )
 }
