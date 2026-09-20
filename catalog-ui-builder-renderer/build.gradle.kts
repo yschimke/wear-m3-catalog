@@ -10,8 +10,8 @@ plugins {
 val runtimeIdentity =
   providers
     .environmentVariable("GITHUB_SHA")
-    .map { "wear-m3-p1-${it.take(12)}" }
-    .orElse("wear-m3-p1-development")
+    .map { "wear-m3-p2-${it.take(12)}" }
+    .orElse("wear-m3-p2-development")
 
 kotlin {
   @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
@@ -94,7 +94,7 @@ abstract class AssembleCatalogRendererRuntime : DefaultTask() {
     output
       .resolve("runtime-manifest.json")
       .writeText(
-        """{"schema":"compose-ui-builder-runtime/v1","runtimeId":"${runtimeId.get()}","protocolVersion":1,"entrypoint":"index.html","integritySha256":"$integrity"}"""
+        """{"schema":"compose-ui-builder-runtime/v1","runtimeId":"${runtimeId.get()}","protocolVersion":2,"entrypoint":"index.html","integritySha256":"$integrity"}"""
       )
   }
 
@@ -158,7 +158,7 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
       }
       val manifest = zip.getInputStream(zip.getEntry("runtime-manifest.json")).reader().readText()
       check(manifest.contains("\"runtimeId\":\"${expectedRuntimeId.get()}\""))
-      check(manifest.contains("\"protocolVersion\":1"))
+      check(manifest.contains("\"protocolVersion\":2"))
       check(manifest.contains(Regex("\"integritySha256\":\"[a-f0-9]{64}\"")))
     }
   }

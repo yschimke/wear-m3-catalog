@@ -13,9 +13,10 @@ import ee.schimke.composeai.uibuilder.startCatalogRenderer
  */
 fun main() {
   val actions = UiBuilderSemanticActionController()
-  startCatalogRenderer(actions) { document, renderSessionId, onInspectionSnapshot ->
+  startCatalogRenderer(actions) { document, surface, renderSessionId, onInspectionSnapshot ->
     UiBuilderSurface(
       document = document,
+      renderSurface = surface,
       editorOverlay = false,
       runtimeActionController = actions,
       renderSessionId = renderSessionId,
