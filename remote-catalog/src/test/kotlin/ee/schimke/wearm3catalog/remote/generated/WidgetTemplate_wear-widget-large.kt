@@ -37,20 +37,20 @@ class WearWidget : GlanceWearWidget() {
     }
 }
 
-@Preview(name = "Squircle Preview")
-@Composable
-fun WearWidgetSquirclePreview() =
-    WearWidgetPreview(
-        WearWidget(),
-        SquircleLargeWidgetPreviewParams().values.maxBy { it.widthDp },
-    )
-
 @Preview(name = "Rectangular Preview")
 @Composable
 fun WearWidgetRectangularPreview() =
     WearWidgetPreview(
         WearWidget(),
         RectangularLargeWidgetPreviewParams().values.maxBy { it.widthDp },
+    )
+
+@Preview(name = "Squircle Preview")
+@Composable
+fun WearWidgetSquirclePreview() =
+    WearWidgetPreview(
+        WearWidget(),
+        SquircleLargeWidgetPreviewParams().values.maxBy { it.widthDp },
     )
 
 @Preview(name = "Round Preview")

@@ -29,7 +29,7 @@ class WidgetContainerIrCaptureTest {
       "WidgetContainerSmallRemote",
       "WidgetContainerLargeRemote",
       "WidgetContainerGradientRemote",
-      // The round (Samsung) hosts — same gate as the squircle ones: the capture wrapper is what
+      // The round (Pixel Watch) hosts — same gate as the squircle ones: the capture wrapper is what
       // carries the encoded document, and nothing about the round footprint exempts it.
       "WidgetContainerRoundSmallRemote",
       "WidgetContainerRoundLargeRemote",

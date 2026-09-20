@@ -6,12 +6,19 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { findings, readSheet, unpairedCells } from "./parallel-map.mjs";
+import { canvasPolicyFindings, findings, readSheet, unpairedCells } from "./parallel-map.mjs";
 
 /** A manifest of one component plus its `@OverrideVariant` captures, in discovery's own shape. */
 const manifest = (components) => ({
+  module: "remote-catalog",
   previews: components.flatMap(({ id, cells = [], ...catalog }) => [
-    { id: `pkg.Kt.${id.replace(/\W/g, "")}`, catalog: { componentId: id, ...catalog } },
+    {
+      id: `pkg.Kt.${id.replace(/\W/g, "")}`,
+      catalog: { componentId: id, ...catalog },
+      componentTargets: catalog.target
+        ? [{ className: "example.ComponentsKt", functionName: catalog.target }]
+        : [],
+    },
     ...cells.map((cell) => ({
       id: `pkg.Kt.${id.replace(/\W/g, "")}_VARIANT_${cell}`,
       catalog: { componentId: id },
@@ -93,4 +100,46 @@ test("one-sided cells are reported, not failed", () => {
   assert.deepEqual(unpairedCells({ from: remote, to: wear, ...names }), [
     { id: "TitleCard", target: "TitleCard", "remote-catalog": [], catalog: ["background-image"] },
   ]);
+});
+
+test("canvas adapters are allowlisted by a parallel sticker's invoked record", () => {
+  const remote = readSheet(
+    manifest([{ id: "Button/Filled", parallel: "Button/Filled", target: "RemoteButton" }]),
+  );
+  const policy = {
+    components: {
+      "remote-m3/remote-button": {
+        record: "remote-catalog/example.ComponentsKt.RemoteButton",
+        canvas: "wear-m3/button",
+      },
+    },
+  };
+  assert.deepEqual(canvasPolicyFindings({ policy, from: remote, fromName: "remote-catalog" }), []);
+});
+
+test("a canvas adapter with no parallel call site fails", () => {
+  const remote = readSheet(manifest([{ id: "Theme/Typography", target: "ThemeSpecimen" }]));
+  const policy = {
+    components: {
+      "remote-m3/theme-specimen": {
+        record: "remote-catalog/example.ComponentsKt.ThemeSpecimen",
+        canvas: "wear-m3/text",
+      },
+    },
+  };
+  const [only] = canvasPolicyFindings({ policy, from: remote, fromName: "remote-catalog" });
+  assert.match(only, /not allowlisted by any parallel sticker/);
+});
+
+test("a canvas policy for a component absent from this dependency lane is deferred", () => {
+  const remote = readSheet(manifest([{ id: "Button/Filled", target: "RemoteButton" }]));
+  const policy = {
+    components: {
+      "remote-m3/remote-slider": {
+        record: "remote-catalog/example.ComponentsKt.RemoteSlider",
+        canvas: "wear-m3/slider",
+      },
+    },
+  };
+  assert.deepEqual(canvasPolicyFindings({ policy, from: remote, fromName: "remote-catalog" }), []);
 });

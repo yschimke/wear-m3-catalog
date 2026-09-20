@@ -21,6 +21,11 @@
     }
   },
 
+  "browserPreview": {
+    "renderer": "remote-compose-document",
+    "format": "rc"
+  },
+
   "frame": {
     "$comment_adapter": "Not a screen. A Remote Compose widget is drawn into a host container of a fixed size, so the frame is the host, not a watch face: `frame/widget-host` rather than the sibling catalog's `frame/round-screen`. This is the second reason `remote-m3` is a catalog of its own rather than a mode of the Wear one.",
     "adapter": "frame/widget-host",
@@ -80,12 +85,32 @@
   "$comment_builtins": "Two, and only because the record cannot carry them. The widget container is the Glance Wear HOST frame — the squircle the launcher draws around a widget, not a `remote-material3` component — so `WidgetContainerPreviews.kt` recreates it through `androidx.glance.wear`'s `WearWidgetPreview` wrapper and there is no component call for a record to find. That is exactly what a builtin is for: \"it has no call site, so there is nothing to discover and no sticker to annotate\". It matters more than two components' worth: this catalog's own policy says a Remote design starts from a container and everything else goes inside one, and the builder's record-free export routes on the ROOT component id — so a published catalog without these is one whose designs cannot be rooted. They were the blocker in https://github.com/yschimke/compose-preview-server/issues/674. `canvas: widget-container` is this catalog CLAIMING an adapter rather than a name anything validates: the Wasm canvas draws both by component id (UiBuilderRenderer's WearWidgetContainerScaffold), and a catalog claiming none would publish \"not drawn on the canvas\" about something the canvas draws. `remote-m3/lottie` is NOT here though the same argument reaches it — an asset player, no component call. It needs a shelf this catalog does not have (the frozen catalog files it under `Content`, a builder shelf), and inventing one is a catalog decision rather than a transcription. `remote-compose/document` stays out for the older reason: it is a BUILTIN OF THE BUILDER (https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_REMOTE_COMPOSE.md), and declaring it here would be this catalog claiming to own the builder's vocabulary.",
 
   "$comment_remoteTextVocabulary": "WHY remote-m3/remote-text STATES A VOCABULARY AND THE OTHER SEVEN DO NOT. A component that states none is published with the properties DERIVED from its signature, and the derivation keeps only what maps to a JSON scalar: `RemoteText` has twelve parameters and four survive \u2014 `text`, `color`, `fontSize`, `maxLines`. `style` is a `RemoteTextStyle` and `textAlign` a `TextAlign`, so both were dropped, and `style` is the parameter this component is actually set through: a design could size text and not scale it. What is stated here is additive \u2014 the same four, plus the two the derivation cannot see \u2014 and stops there, because a design may only set what the writer writes, and `RemoteContentEmitter` writes these six and the modifier. The four derived names are repeated verbatim rather than left to be merged, because a vocabulary is all-or-nothing per component: state one and it replaces the derivation entirely. ONE CONSEQUENCE FOR THE MIGRATION: `style` is undeclared until this lands, so a stored value is tolerated and dropped from validation (https://github.com/yschimke/compose-preview-server/pull/840); once it is declared with `allowedValues`, a value outside the eighteen is INVALID rather than undeclared. Material 3 `headlineLarge`, `headlineMedium` and `headlineSmall` have no counterpart in this scale, so a design authored against the borrowed `m3/text` that carries one needs the role mapped by whatever rewrites it onto this component \u2014 the `supersedes` migration, not tolerance. Which Wear role each becomes is a design decision for this catalog and is deliberately not guessed here; publishing a `headline` role instead would publish one `RemoteTypography` cannot draw. The set is asserted against the compiled class by RemoteTextStyleVocabularyTest.",
-  "$comment_components": "Where a component sits on the shelf when the id it derives from does not say. One id per SYMBOL means a component lands on whichever catalog id sorts first: RemoteText is drawn by 29 stickers and arrived under Containment via AppCard, leaving the Text shelf empty. These place the six that were filed somewhere a person would not look, and exclude the one that is not a component.",
+  "$comment_components": "Where a component sits on the shelf when the id it derives from does not say. One id per SYMBOL means a component lands on whichever catalog id sorts first: RemoteText is drawn by 29 stickers and arrived under Containment via AppCard, leaving the Text shelf empty. Canvas adapters are an approximate editing projection only: every one below is admitted by a `parallel` relationship to the sibling Wear catalog, while the authored properties and slots remain the Remote API's and the exported `.rc` Browser Preview plus generated Remote source remain authoritative. A canvasMapping translates only the names the Wear counterpart reads and never mutates the stored design or either export.",
   "components": {
+    "remote-m3/remote-app-card": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteAppCardKt.RemoteAppCard",
+      "group": "Containment",
+      "canvas": "wear-m3/card",
+      "canvasMapping": {
+        "slots": { "content": "title" },
+        "defaults": { "variant": { "type": "enum", "value": "app" } }
+      }
+    },
+    "remote-m3/remote-button-group": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteButtonGroupKt.RemoteButtonGroup",
+      "group": "Buttons",
+      "canvas": "wear-m3/button-group",
+      "canvasMapping": {
+        "slots": { "children": "content" }
+      }
+    },
     "remote-m3/remote-text": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteTextKt.RemoteText",
       "group": "Text",
-      "canvas": "m3/text",
+      "canvas": "wear-m3/text",
+      "canvasMapping": {
+        "properties": { "fontSizeSp": "fontSize" }
+      },
       "propertyCapabilities": [
         {
           "name": "text",
@@ -133,23 +158,169 @@
     },
     "remote-m3/remote-icon": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteIconKt.RemoteIcon",
-      "group": "Iconography"
+      "group": "Iconography",
+      "canvas": "wear-m3/icon",
+      "canvasMapping": {
+        "properties": { "name": "imageVector" }
+      }
     },
     "remote-m3/remote-horizontal-page-indicator": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemotePageIndicatorKt.RemoteHorizontalPageIndicator",
-      "group": "Position indicators"
+      "group": "Position indicators",
+      "canvas": "wear-m3/page-indicator",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "horizontal" } }
+      }
     },
     "remote-m3/remote-vertical-page-indicator": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemotePageIndicatorKt.RemoteVerticalPageIndicator",
-      "group": "Position indicators"
+      "group": "Position indicators",
+      "canvas": "wear-m3/page-indicator",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "vertical" } }
+      }
     },
     "remote-m3/remote-circular-progress-indicator": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteCircularProgressIndicatorKt.RemoteCircularProgressIndicator",
-      "group": "Communication"
+      "group": "Communication",
+      "canvas": "wear-m3/progress-indicator",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "circular" } }
+      }
+    },
+    "remote-m3/remote-linear-progress-indicator": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteLinearProgressIndicatorKt.RemoteLinearProgressIndicator",
+      "group": "Communication",
+      "canvas": "wear-m3/progress-indicator",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "linear" } }
+      }
+    },
+    "remote-m3/remote-curved-progress-indicator": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteCurvedProgressIndicatorKt.RemoteCurvedProgressIndicator",
+      "group": "Communication",
+      "canvas": "wear-m3/progress-indicator",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "arc" } }
+      }
+    },
+    "remote-m3/remote-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteButtonKt.RemoteButton",
+      "group": "Buttons",
+      "canvas": "wear-m3/button",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "filled" } }
+      }
+    },
+    "remote-m3/remote-compact-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteButtonKt.RemoteCompactButton",
+      "group": "Buttons",
+      "canvas": "wear-m3/button",
+      "canvasMapping": {
+        "slots": { "content": "label" },
+        "defaults": { "variant": { "type": "enum", "value": "filled" } }
+      }
+    },
+    "remote-m3/remote-card": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteCardKt.RemoteCard",
+      "group": "Containment",
+      "canvas": "wear-m3/card",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "filled" } }
+      }
+    },
+    "remote-m3/remote-outlined-card": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteCardKt.RemoteOutlinedCard",
+      "group": "Containment",
+      "canvas": "wear-m3/card",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "outlined" } }
+      }
+    },
+    "remote-m3/remote-checkbox-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteCheckboxButtonKt.RemoteCheckboxButton",
+      "group": "Selection buttons",
+      "canvas": "wear-m3/checkbox-button"
+    },
+    "remote-m3/remote-switch-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteSwitchButtonKt.RemoteSwitchButton",
+      "group": "Selection buttons",
+      "canvas": "wear-m3/switch-button"
+    },
+    "remote-m3/remote-radio-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteRadioButtonKt.RemoteRadioButton",
+      "group": "Selection buttons",
+      "canvas": "wear-m3/radio-button"
+    },
+    "remote-m3/remote-split-checkbox-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteSplitCheckboxButtonKt.RemoteSplitCheckboxButton",
+      "group": "Selection buttons",
+      "canvas": "wear-m3/checkbox-button"
+    },
+    "remote-m3/remote-split-switch-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteSplitSwitchButtonKt.RemoteSplitSwitchButton",
+      "group": "Selection buttons",
+      "canvas": "wear-m3/switch-button"
+    },
+    "remote-m3/remote-split-radio-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteSplitRadioButtonKt.RemoteSplitRadioButton",
+      "group": "Selection buttons",
+      "canvas": "wear-m3/radio-button"
+    },
+    "remote-m3/remote-slider": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteSliderKt.RemoteSlider",
+      "group": "Sliders",
+      "canvas": "wear-m3/slider",
+      "canvasMapping": {
+        "defaults": {
+          "valueFrom": { "type": "float", "value": 0.0 },
+          "valueTo": { "type": "float", "value": 1.0 }
+        }
+      }
+    },
+    "remote-m3/remote-stepper": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteStepperKt.RemoteStepper",
+      "group": "Steppers",
+      "canvas": "wear-m3/stepper",
+      "canvasMapping": {
+        "defaults": {
+          "valueFrom": { "type": "float", "value": 0.0 },
+          "valueTo": { "type": "float", "value": 1.0 }
+        }
+      }
+    },
+    "remote-m3/remote-edge-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteEdgeButtonKt.RemoteEdgeButton",
+      "group": "Edge-hugging buttons",
+      "canvas": "wear-m3/edge-button",
+      "canvasMapping": {
+        "properties": { "size": "buttonSize" }
+      }
+    },
+    "remote-m3/remote-icon-button": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteIconButtonKt.RemoteIconButton",
+      "group": "Buttons",
+      "canvas": "wear-m3/icon-button",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "filled" } }
+      }
     },
     "remote-m3/remote-text-button": {
       "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteTextButtonKt.RemoteTextButton",
-      "group": "Buttons"
+      "group": "Buttons",
+      "canvas": "wear-m3/text-button",
+      "canvasMapping": {
+        "defaults": { "variant": { "type": "enum", "value": "standard" } }
+      }
+    },
+    "remote-m3/remote-title-card": {
+      "record": "remote-catalog/androidx.wear.compose.remote.material3.RemoteTitleCardKt.RemoteTitleCard",
+      "group": "Containment",
+      "canvas": "wear-m3/card",
+      "canvasMapping": {
+        "slots": { "content": "title" },
+        "defaults": { "variant": { "type": "enum", "value": "title" } }
+      }
     },
     "remote-m3/remote-sticker": {
       "record": "remote-catalog/ee.schimke.wearm3catalog.remote.CatalogThemeKt.RemoteSticker",
