@@ -345,7 +345,7 @@ internal fun RemoteKitButton(
       borderColor = borderColor,
       icon = {
         RemoteIcon(
-          Icons.Filled.Add,
+          Icons.Filled.Add.asCatalogRemoteIcon(),
           contentDescription = null,
           modifier =
             RemoteModifier.size(
@@ -979,7 +979,7 @@ internal fun RemoteKitIconButton(
     borderColor = borderColor,
     content = {
       RemoteIcon(
-        Icons.Filled.Add,
+        Icons.Filled.Add.asCatalogRemoteIcon(),
         "Add".rs,
         modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
       )
@@ -1035,7 +1035,7 @@ fun IconRemoteButton() = RemoteSticker {
       ),
     content = {
       RemoteIcon(
-        Icons.Filled.Add,
+        Icons.Filled.Add.asCatalogRemoteIcon(),
         "Add".rs,
         modifier = RemoteModifier.size(RemoteIconButtonDefaults.iconSizeFor(size)),
       )
@@ -1334,7 +1334,7 @@ fun CompactRemoteButton() = RemoteSticker {
       else
         ({
           RemoteIcon(
-            Icons.Filled.Add,
+            Icons.Filled.Add.asCatalogRemoteIcon(),
             // The icon-only cell is the whole button, so it carries the description the label
             // carries on the other two.
             contentDescription = if (content == "icon") "Add".rs else null,
@@ -1991,7 +1991,13 @@ fun AppCardRemote() = RemoteSticker {
     // as an empty `IMAGE` fill there too.
     appImage =
       when (previewOverrideChoice("appImage", "image", listOf("image", "icon", "none"))) {
-        "icon" -> ({ RemoteIcon(Icons.Filled.Star, null, modifier = RemoteModifier.size(16.rdp)) })
+        "icon" -> ({
+            RemoteIcon(
+              Icons.Filled.Star.asCatalogRemoteIcon(),
+              null,
+              modifier = RemoteModifier.size(16.rdp),
+            )
+          })
         // NOT a kit cell, and the `none` cell's note below says why: the kit's leading slot is
         // always filled. This draws the empty one because `RemoteAppCard` allows it, which is the
         // library's shape rather than the kit's.
@@ -2458,7 +2464,11 @@ fun IconRemote() = RemoteSticker {
   // no longer resizes the icon, because a literal bakes into the document and nothing can override
   // it. That is the trade -- an icon that is the size it says it is, over one that could be
   // reseeded to the wrong size. Restore the knob when upstream lands a fix.
-  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(48.rdp))
+  RemoteIcon(
+    Icons.Filled.Add.asCatalogRemoteIcon(),
+    "Add".rs,
+    modifier = RemoteModifier.size(48.rdp),
+  )
 }
 
 // ---------------------------------------------------------------------------

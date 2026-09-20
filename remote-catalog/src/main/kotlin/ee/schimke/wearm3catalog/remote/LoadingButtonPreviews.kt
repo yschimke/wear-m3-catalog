@@ -259,7 +259,7 @@ fun LoadingRemoteButton() = RemoteSticker {
           strokeWidth = slot * (3f / 26f),
         )
         RemoteIcon(
-          Icons.Filled.Add,
+          Icons.Filled.Add.asCatalogRemoteIcon(),
           contentDescription = null,
           modifier = RemoteModifier.size(slot * (18f / 26f)),
         )

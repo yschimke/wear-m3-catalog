@@ -169,7 +169,7 @@ fun ListSubHeaderRemote() = RemoteSticker {
       // here; 6dp is the gap `ListSubHeader` puts between its icon slot and its label. Stated
       // because `RemoteRow` has no arrangement of its own to inherit one from.
       RemoteIcon(
-        Icons.Filled.Add,
+        Icons.Filled.Add.asCatalogRemoteIcon(),
         contentDescription = null,
         modifier = RemoteModifier.size(24.rdp).padding(0.rdp, 0.rdp, 6.rdp, 0.rdp),
         tint = RemoteMaterialTheme.colorScheme.onSurface,

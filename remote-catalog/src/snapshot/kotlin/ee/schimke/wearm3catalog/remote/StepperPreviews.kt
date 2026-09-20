@@ -207,8 +207,12 @@ fun ValueStepperRemote() = RemoteSticker {
     steps = 5,
     // Up at the top and down at the bottom, which is how the buttons are stacked and how the kit
     // draws them: the DECREASE button sits at the bottom of the display.
-    decreaseIcon = { RemoteIcon(Icons.Filled.KeyboardArrowDown, contentDescription = "Less".rs) },
-    increaseIcon = { RemoteIcon(Icons.Filled.KeyboardArrowUp, contentDescription = "More".rs) },
+    decreaseIcon = {
+      RemoteIcon(Icons.Filled.KeyboardArrowDown.asCatalogRemoteIcon(), contentDescription = "Less".rs)
+    },
+    increaseIcon = {
+      RemoteIcon(Icons.Filled.KeyboardArrowUp.asCatalogRemoteIcon(), contentDescription = "More".rs)
+    },
     decreaseAction = valueChange(value, value - step),
     increaseAction = valueChange(value, value + step),
     enabled = enabled,
@@ -223,7 +227,7 @@ fun ValueStepperRemote() = RemoteSticker {
     // sibling's glyph for this cell, and now literally the same `ImageVector` rather than a
     // transcription of it.
     if (previewOverrideChoice("content", "text", listOf("text", "icon")) == "icon") {
-      RemoteIcon(Icons.Filled.Settings, contentDescription = "Volume".rs)
+      RemoteIcon(Icons.Filled.Settings.asCatalogRemoteIcon(), contentDescription = "Volume".rs)
     } else {
       RemoteText(KitCopy.STEPPER_LABEL.rs)
     }

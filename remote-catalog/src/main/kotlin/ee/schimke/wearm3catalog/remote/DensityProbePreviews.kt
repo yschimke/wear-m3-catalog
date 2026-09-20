@@ -41,7 +41,11 @@ import ee.schimke.composeai.daemon.rememberOverridableRemoteDp
 @CatalogRemoteModes
 @Composable
 fun DensityProbeLiteralDp() = RemoteSticker {
-  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(48.rdp))
+  RemoteIcon(
+    Icons.Filled.Add.asCatalogRemoteIcon(),
+    "Add".rs,
+    modifier = RemoteModifier.size(48.rdp),
+  )
 }
 
 /** The named-variable twin of [DensityProbeLiteralDp]. Same glyph, same nominal 48dp. */
@@ -49,7 +53,7 @@ fun DensityProbeLiteralDp() = RemoteSticker {
 @Composable
 fun DensityProbeNamedDp() = RemoteSticker {
   val size = rememberOverridableRemoteDp("probeSize", 48.dp)
-  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(size))
+  RemoteIcon(Icons.Filled.Add.asCatalogRemoteIcon(), "Add".rs, modifier = RemoteModifier.size(size))
 }
 
 /**
@@ -67,5 +71,5 @@ fun DensityProbeNamedDp() = RemoteSticker {
 @Composable
 fun DensityProbeRawNamedDp() = RemoteSticker {
   val size = rememberNamedRemoteDp("rawProbeSize") { 48.rdp }
-  RemoteIcon(Icons.Filled.Add, "Add".rs, modifier = RemoteModifier.size(size))
+  RemoteIcon(Icons.Filled.Add.asCatalogRemoteIcon(), "Add".rs, modifier = RemoteModifier.size(size))
 }

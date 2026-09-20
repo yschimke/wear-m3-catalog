@@ -126,26 +126,9 @@ android {
     .add(if (remoteSnapshotBuild != null) "src/snapshot/kotlin" else "src/released/kotlin")
 }
 
-// GLANCE WEAR IS HELD BACK BY DEFAULT, and this is the one thing the lane learned the hard way.
-//
-// AGENTS.md says the Remote trio moves together, and for `androidx.compose.remote` and
-// `androidx.wear.compose.remote` that still holds — they are one build and a skewed pair fails
-// inside the player. Glance Wear turned out to be separable, and has to be:
-// `glance-wear:wear-tooling-preview`'s `WearWidgetPreview` gained a `boolean` parameter after
-// alpha17, which is BINARY-incompatible. This module's own sources recompile against it happily;
-// what does not is `ee.schimke.composeai:wear-preview-runtime`, whose `CapturingWearWidgetPreview`
-// is a PRE-COMPILED call to the old signature. The three `WidgetContainerPreviews.kt` stickers
-// therefore compile clean and then die at RENDER time with
-// `NoSuchMethodError: WearWidgetPreviewKt.WearWidgetPreview(…)` — the failure mode a compile check
-// cannot catch, and the reason this lane is measured by rendering rather than by building.
-//
-// Holding Glance at its release while the two Remote groups move is not a skew in practice: all
-// 412 previews render that way, including the widget containers. `-PremoteSnapshotGlance=true`
-// moves it too, for when the wrapper catches up or the question is Glance itself; expect those
-// three stickers to fail until it does.
-val remoteSnapshotGlance: Boolean
-  get() = providers.gradleProperty("remoteSnapshotGlance").orNull == "true"
-
+// THE REMOTE TRIO MOVES TOGETHER. `wear-compose-remote` and `glance-wear` share the Remote
+// creation runtime; a mixed snapshot and release set links against incompatible player APIs at
+// render time. Apply the snapshot substitution by group so transitive coordinates cannot skew.
 if (remoteSnapshotBuild != null) {
   configurations.configureEach {
     resolutionStrategy.eachDependency {
@@ -155,7 +138,7 @@ if (remoteSnapshotBuild != null) {
       if (
         group.startsWith("androidx.compose.remote") ||
           group.startsWith("androidx.wear.compose.remote") ||
-          (remoteSnapshotGlance && group.startsWith("androidx.glance.wear"))
+          group.startsWith("androidx.glance.wear")
       ) {
         useVersion("1.0.0-SNAPSHOT")
       }

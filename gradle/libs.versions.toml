@@ -138,12 +138,10 @@ materialkolor = "5.0.1"
 horologist = "0.8.4-alpha"
 
 # ── Remote Compose, for `:remote-catalog` only ──────────────────────────────────────────────────
-# The alpha line the Remote catalog renders against, resolved from Google Maven. The three groups
-# MOVE TOGETHER: `wear-compose-remote:remote-material3` and `glance-wear:wear` are both built on
-# `remote-creation*`, and a skewed pair fails at render time inside the player rather than at
-# compile time (compose-ai-tools records what that cost: a `NoClassDefFoundError` in `RemoteButton`
-# and a wear pin that briefly did not exist at all). Renovate must bump the trio in one PR, and a
-# human reads the visual diff — see .github/renovate.json.
+# The Remote Compose trio the Remote catalog renders against. The snapshot lane repoints all three
+# groups together, because a skewed trio fails inside the player rather than at compile time
+# (compose-ai-tools records what that cost: a `NoClassDefFoundError` in `RemoteButton` and a wear pin
+# that briefly did not exist at all). The repository is selected by `.github/ci/remote-snapshot-pin`.
 #
 # Nothing here reaches `:catalog`. That module is on the stable Compose BOM and the Wear Compose
 # beta line; this one deliberately is not, which is why the two are separate modules rather than
