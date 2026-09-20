@@ -20,6 +20,7 @@ fun main() {
       runtimeActionController = actions,
       renderSessionId = renderSessionId,
       onInspectionSnapshot = onInspectionSnapshot,
+      canvasAdapterRegistry = wearCanvasAdapters,
     )
   }
 }

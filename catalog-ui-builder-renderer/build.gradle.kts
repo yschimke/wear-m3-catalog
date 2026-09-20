@@ -28,6 +28,7 @@ kotlin {
       // the compatibility callback disappear while this module keeps the catalog-owned adapters.
       implementation(libs.composeai.ui.builder.renderer.sdk.source)
       implementation(libs.composeai.ui.builder.source)
+      implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
     }
