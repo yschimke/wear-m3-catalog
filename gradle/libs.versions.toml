@@ -114,6 +114,12 @@ composePreviewDaemon = "3.8.3"
 # it, and the compiler proves that Kotlin still builds against this module's own classpath.
 composePreviewServer = "3.29.0"
 
+# Synthetic source-composite coordinates for :catalog-ui-builder-renderer. There are deliberately
+# no Maven artifacts at these names: settings.gradle.kts substitutes both from the checkout named
+# by -PcomposeUiBuilderDir. Move to a released SDK coordinate only after the generic interpreter and
+# adapter registry have completed their release cycle.
+uiBuilderSource = "3.30.0"
+
 # rc-players — `ee.schimke.composeai:third-party-rc-embedded-player`. Same GROUP as the artifacts
 # above and nothing else: it is published from yschimke/rc-players on a release line of its own,
 # which moves separately and is already ahead. Sharing one ref with it (the `composePreviewAnnotations`
@@ -272,6 +278,8 @@ composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-r
 composeai-remotecompose-json = { module = "ee.schimke.composeai:remotecompose-json", version.ref = "composePreviewCore" }
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 composeai-ui-builder-export = { module = "ee.schimke.composeai:compose-preview-ui-builder-export", version.ref = "composePreviewServer" }
+composeai-ui-builder-renderer-sdk-source = { module = "ee.schimke.composeai:ui-builder-renderer-sdk-source", version.ref = "uiBuilderSource" }
+composeai-ui-builder-source = { module = "ee.schimke.composeai:ui-builder-source", version.ref = "uiBuilderSource" }
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 junit = { module = "junit:junit", version.ref = "junit" }
