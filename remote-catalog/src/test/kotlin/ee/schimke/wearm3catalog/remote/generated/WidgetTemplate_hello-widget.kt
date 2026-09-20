@@ -56,20 +56,20 @@ class HelloWidget : GlanceWearWidget() {
     }
 }
 
-@Preview(name = "Squircle Preview")
-@Composable
-fun HelloWidgetSquirclePreview() =
-    WearWidgetPreview(
-        HelloWidget(),
-        SquircleSmallWidgetPreviewParams().values.maxBy { it.widthDp },
-    )
-
 @Preview(name = "Rectangular Preview")
 @Composable
 fun HelloWidgetRectangularPreview() =
     WearWidgetPreview(
         HelloWidget(),
         RectangularSmallWidgetPreviewParams().values.maxBy { it.widthDp },
+    )
+
+@Preview(name = "Squircle Preview")
+@Composable
+fun HelloWidgetSquirclePreview() =
+    WearWidgetPreview(
+        HelloWidget(),
+        SquircleSmallWidgetPreviewParams().values.maxBy { it.widthDp },
     )
 
 @Preview(name = "Round Preview")

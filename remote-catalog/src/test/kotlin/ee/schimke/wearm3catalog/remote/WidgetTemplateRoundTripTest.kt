@@ -22,10 +22,10 @@ import org.junit.runners.Parameterized
  * the Remote Compose creation DSL and Glance Wear, the same artifacts the stickers use.
  *
  * The generated widget previews fan out over the three host corner shapes
- * `androidx.glance.wear.tooling.preview` publishes — `SquircleSmallWidgetPreviewParams` (the Pixel
- * Watch's 26dp squircle), `RoundSmallWidgetPreviewParams` (the Galaxy Watch's fully-round host) and
- * the rectangular picker asset — so each golden is also the corner pair the sheet draws as
- * WidgetContainer stickers.
+ * `androidx.glance.wear.tooling.preview` publishes — `RoundSmallWidgetPreviewParams` (the Pixel
+ * Watch's fully-round host), `SquircleSmallWidgetPreviewParams` (Samsung's 26dp squircle) and the
+ * rectangular picker asset — so each golden is also the host set the sheet draws as WidgetContainer
+ * stickers.
  *
  * **When this fails after an exporter upgrade**, regenerate rather than hand-edit: run with
  * `-PwriteGolden=true` and read the diff. A green compile on the new text is the review.
@@ -131,14 +131,15 @@ class WidgetTemplateRoundTripTest(private val templateId: String) {
   }
 
   /**
-   * Every template's generated widget carries the three host corner previews, including the two a
-   * Wear widget is actually checked on: the Pixel Watch squircle and the Samsung round host. The
-   * preview names come from the emitter, and a widget template that stopped generating them would
-   * hand a designer source with no way to see either corner.
+   * Every template's generated widget carries the three host previews: Pixel Watch's round host,
+   * Samsung's squircle and the rectangular picker asset. The preview names come from the emitter,
+   * and a widget template that stopped generating one would hand a designer source with no way to
+   * check that host.
    */
   @Test
-  fun `the generated widget previews both host corner shapes`() {
+  fun `the generated widget previews every host shape`() {
     val source = generated()
+    assertThat(source).contains("Rectangular")
     assertThat(source).contains("Squircle")
     assertThat(source).contains("Round")
     assertThat(source).contains("WearWidgetPreview")

@@ -2,7 +2,7 @@
 // Hold the two sheets' `parallel` declarations against each other.
 //
 //   node scripts/parallel-map.mjs --previews <sheet>=<previews.json> --previews <sheet>=<…> \
-//        [--from <sheet>] [--to <sheet>]
+//        [--from <sheet>] [--to <sheet>] [--canvas-policy <ui-builder.policy.json>]
 //
 // Normally driven by `scripts/parallel-map.sh`, which discovers both modules first.
 //
@@ -46,10 +46,19 @@ const VARIANT = /_VARIANT_(.+)$/;
 export const readSheet = (manifest) => {
   const components = new Map();
   const cells = new Map();
+  const records = new Set();
+  const parallelRecords = new Set();
   for (const preview of manifest.previews ?? []) {
     const catalog = preview.catalog;
     if (!catalog?.componentId) continue;
     const id = catalog.componentId;
+    for (const target of preview.componentTargets ?? []) {
+      if (target.className && target.functionName) {
+        const record = `${manifest.module ?? "remote-catalog"}/${target.className}.${target.functionName}`;
+        records.add(record);
+        if (catalog.parallel) parallelRecords.add(record);
+      }
+    }
     const variant = VARIANT.exec(preview.id ?? "");
     if (variant) {
       if (!cells.has(id)) cells.set(id, new Set());
@@ -58,7 +67,36 @@ export const readSheet = (manifest) => {
       components.set(id, catalog);
     }
   }
-  return { components, cells };
+  return { components, cells, records, parallelRecords };
+};
+
+/**
+ * A canvas counterpart is admitted only when a `parallel` sticker actually invokes its record.
+ *
+ * This is intentionally about the RECORD rather than the builder id: one Remote function may draw
+ * several paired kit components (`RemoteButton` is every button style), while the generated builder
+ * publishes one component per callable. The policy may choose an approximate canvas rendering for
+ * that callable, but it may not invent a Wear counterpart for a callable no paired sticker proves.
+ */
+export const canvasPolicyFindings = ({ policy, from, fromName }) => {
+  const out = [];
+  for (const [id, component] of Object.entries(policy.components ?? {})) {
+    if (!component.canvas || component.excluded) continue;
+    if (!component.record) {
+      out.push(`${fromName} ${id}: canvas = "${component.canvas}" has no record to hold to parallel.`);
+    } else if (!from.records.has(component.record)) {
+      // The policy is shared by the released and snapshot Remote lanes. A component that is absent
+      // from THIS manifest cannot be judged here; the snapshot publish lane discovers it and runs
+      // this same gate against the record that actually contains it.
+      continue;
+    } else if (!from.parallelRecords.has(component.record)) {
+      out.push(
+        `${fromName} ${id}: canvas = "${component.canvas}" is not allowlisted by any ` +
+          `parallel sticker invoking ${component.record}.`,
+      );
+    }
+  }
+  return out;
 };
 
 /**
@@ -125,8 +163,8 @@ export const unpairedCells = ({ from, to, fromName, toName }) => {
 
 const usage = () => {
   console.error(
-    "usage: parallel-map.mjs --previews <sheet>=<previews.json> [--previews …] " +
-      "[--from <sheet>] [--to <sheet>]",
+      "usage: parallel-map.mjs --previews <sheet>=<previews.json> [--previews …] " +
+      "[--from <sheet>] [--to <sheet>] [--canvas-policy <ui-builder.policy.json>]",
   );
   process.exit(2);
 };
@@ -135,6 +173,7 @@ const main = (argv) => {
   const sheets = {};
   let fromName = "remote-catalog";
   let toName = "catalog";
+  let canvasPolicy = null;
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
     if (arg === "--previews") {
@@ -144,13 +183,19 @@ const main = (argv) => {
       sheets[spec.slice(0, eq)] = readSheet(JSON.parse(readFileSync(spec.slice(eq + 1), "utf8")));
     } else if (arg === "--from") fromName = argv[++i] ?? usage();
     else if (arg === "--to") toName = argv[++i] ?? usage();
+    else if (arg === "--canvas-policy") {
+      canvasPolicy = JSON.parse(readFileSync(argv[++i] ?? usage(), "utf8"));
+    }
     else usage();
   }
   const from = sheets[fromName];
   const to = sheets[toName];
   if (!from || !to) usage();
 
-  const broken = findings({ from, to, fromName, toName });
+  const broken = [
+    ...findings({ from, to, fromName, toName }),
+    ...(canvasPolicy ? canvasPolicyFindings({ policy: canvasPolicy, from, fromName }) : []),
+  ];
   const paired = [...from.components.values()].filter(
     (c) => c.parallel && to.components.has(c.parallel),
   ).length;

@@ -22,4 +22,5 @@ for module in catalog remote-catalog; do
   ARGS+=(--previews "$module=$manifest")
 done
 
-node scripts/parallel-map.mjs "${ARGS[@]}"
+node scripts/parallel-map.mjs "${ARGS[@]}" \
+  --canvas-policy remote-catalog/ui-builder.policy.json

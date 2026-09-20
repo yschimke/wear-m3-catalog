@@ -69,20 +69,20 @@ class WeatherWidget : GlanceWearWidget() {
     }
 }
 
-@Preview(name = "Squircle Preview")
-@Composable
-fun WeatherWidgetSquirclePreview() =
-    WearWidgetPreview(
-        WeatherWidget(),
-        SquircleLargeWidgetPreviewParams().values.maxBy { it.widthDp },
-    )
-
 @Preview(name = "Rectangular Preview")
 @Composable
 fun WeatherWidgetRectangularPreview() =
     WearWidgetPreview(
         WeatherWidget(),
         RectangularLargeWidgetPreviewParams().values.maxBy { it.widthDp },
+    )
+
+@Preview(name = "Squircle Preview")
+@Composable
+fun WeatherWidgetSquirclePreview() =
+    WearWidgetPreview(
+        WeatherWidget(),
+        SquircleLargeWidgetPreviewParams().values.maxBy { it.widthDp },
     )
 
 @Preview(name = "Round Preview")
