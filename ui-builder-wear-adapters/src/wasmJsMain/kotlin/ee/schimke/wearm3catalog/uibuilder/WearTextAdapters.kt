@@ -20,7 +20,7 @@ import ee.schimke.composeai.uibuilder.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
 import ee.schimke.composeai.uibuilder.googleMaterialIconImageVector
 
-internal val wearTextAdapters = canvasAdapterRegistry {
+val wearTextAdapters = canvasAdapterRegistry {
   register("wear-m3/text") {
     Text(
       text = string("text"),
@@ -59,7 +59,7 @@ internal val wearTextAdapters = canvasAdapterRegistry {
 }
 
 @Composable
-internal fun resolveWearColor(value: String, fallback: Color = Color.Unspecified): Color =
+fun resolveWearColor(value: String, fallback: Color = Color.Unspecified): Color =
   when {
     value.startsWith("#") -> Color(parseArgb(value))
     value == "background" -> MaterialTheme.colorScheme.background

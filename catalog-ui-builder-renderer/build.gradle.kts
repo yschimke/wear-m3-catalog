@@ -83,6 +83,7 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(libs.composeai.ui.builder.renderer.sdk.source)
+      implementation(project(":ui-builder-wear-adapters"))
       implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
@@ -104,8 +105,8 @@ val runtimeAssets =
     }
     from(layout.buildDirectory.dir("kotlin-multiplatform-resources/aggregated-resources/wasmJs"))
     from(layout.projectDirectory.dir("src/wasmJsMain/resources")) { include("index.html") }
-    // UiBuilderSurface still owns these compatibility adapters. Keep their runtime assets beside
-    // the linked Wasm until those adapters move into their catalogs with the interpreter split.
+    // Skiko's browser loader and the Wear font resolver consume these at runtime. They are assets,
+    // not executable UI Builder code; the renderer links only the source/composite SDK.
     from(uiBuilderCheckout.map { it.resolve("assets/js-joda") }) { include("js-joda.esm.js") }
     from(uiBuilderCheckout.map { it.resolve("assets/rc-fonts") }) {
       include("*.ttf", "fonts.json", "*OFL.txt", "LICENSE.txt")

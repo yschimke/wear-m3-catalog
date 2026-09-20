@@ -20,7 +20,7 @@ import ee.schimke.composeai.uibuilder.uiBuilderModifier
 import kotlinx.serialization.json.JsonObject
 
 /** Foundation donor adapters compiled into this catalog runtime, never interpreted by the host. */
-internal val foundationCanvasAdapters = canvasAdapterRegistry {
+val foundationCanvasAdapters = canvasAdapterRegistry {
   register("layout/box") {
     val canvas = this
     Box(modifier = modifier, contentAlignment = alignmentFor(string("contentAlignment"))) {
