@@ -495,6 +495,32 @@ public class RemoteDocumentWriter(
 
   override fun endPatternForEach(): Unit = containerEnd()
 
+  override fun startConditional(type: Int, first: Float, second: Float) {
+    operation(ConditionalOperations)
+    buffer.writeByte(type)
+    buffer.writeFloat(first)
+    buffer.writeFloat(second)
+  }
+
+  override fun endConditional(): Unit = containerEnd()
+
+  override fun drawOnBitmap(bitmapId: Int, mode: Int, color: Int) {
+    operation(DrawToBitmap)
+    buffer.writeInt(bitmapId)
+    buffer.writeInt(mode)
+    buffer.writeInt(color)
+  }
+
+  override fun startLoop(indexId: Int, from: Float, step: Float, until: Float) {
+    operation(LoopStart)
+    buffer.writeInt(indexId)
+    buffer.writeFloat(from)
+    buffer.writeFloat(step)
+    buffer.writeFloat(until)
+  }
+
+  override fun endLoop(): Unit = containerEnd()
+
   public fun column(
     horizontal: Int = HorizontalStart,
     vertical: Int = VerticalTop,
@@ -675,6 +701,13 @@ public class RemoteDocumentWriter(
     buffer.writeInt(Utils.idFromNan(arrayId))
     buffer.writeFloat(index)
     return id
+  }
+
+  override fun writeIdLookup(outputId: Int, arrayId: Float, index: Float) {
+    operation(IdLookup)
+    buffer.writeInt(outputId)
+    buffer.writeInt(Utils.idFromNan(arrayId))
+    buffer.writeFloat(index)
   }
 
   override fun textLookup(arrayId: Float, index: Float): Int {
@@ -1015,6 +1048,23 @@ public class RemoteDocumentWriter(
     floats(DrawLine, x1, y1, x2, y2)
 
   override fun drawPath(pathId: Int) = intOperation(DrawPath, pathId)
+
+  override fun drawBitmap(
+    imageId: Int,
+    left: Float,
+    top: Float,
+    right: Float,
+    bottom: Float,
+    contentDescriptionId: Int,
+  ) {
+    operation(DrawBitmap)
+    buffer.writeInt(imageId)
+    buffer.writeFloat(left)
+    buffer.writeFloat(top)
+    buffer.writeFloat(right)
+    buffer.writeFloat(bottom)
+    buffer.writeInt(contentDescriptionId)
+  }
 
   override fun drawComponentContent(): Unit = operation(DrawContent)
 
@@ -1365,6 +1415,9 @@ public class RemoteDocumentWriter(
     private const val PatternForEach = 244
     private const val PatternDefine = 246
     private const val PatternInflation = 247
+    private const val ConditionalOperations = 178
+    private const val DrawToBitmap = 190
+    private const val LoopStart = 215
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39
@@ -1380,6 +1433,7 @@ public class RemoteDocumentWriter(
     private const val DrawTextOnCircleOp = 57
     private const val DataPath = 123
     private const val DrawPath = 124
+    private const val DrawBitmap = 44
     private const val DrawContent = 139
     private const val DrawTweenPath = 125
     private const val MatrixScale = 126

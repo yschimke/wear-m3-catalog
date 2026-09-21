@@ -24,7 +24,7 @@ class RemoteDocumentProgramTest {
         assertEquals(0, writes)
         assertFalse("Transform" in program.toString())
 
-        program.writeTo(creationState.document, creationState)
+        program.writeTo(creationState.writer, creationState)
 
         assertEquals(1, writes)
         assertEquals("RemoteDocumentProgram(empty)", program.toString())
@@ -40,7 +40,7 @@ class RemoteDocumentProgramTest {
         program.recordDeclaration { writes += "declaration" }
 
         program.optimize(creationState)
-        program.writeTo(creationState.document, creationState)
+        program.writeTo(creationState.writer, creationState)
 
         assertEquals(listOf("declaration", "body"), writes)
     }

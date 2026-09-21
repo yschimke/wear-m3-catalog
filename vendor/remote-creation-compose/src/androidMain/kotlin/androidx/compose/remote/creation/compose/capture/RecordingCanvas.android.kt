@@ -104,7 +104,7 @@ internal open class AndroidRecordingCanvas(
     override var currentDrawToBitmapId: Int = 0
     internal var currentSaveRestoreNode: DocumentOp.SaveRestore? = null
 
-    override val document: RemoteComposeWriter
+    private val document: RemoteComposeWriter
         get() = creationState.document
 
     override val remoteDensity: RemoteDensity
@@ -1576,9 +1576,9 @@ internal open class AndroidRecordingCanvas(
         val op =
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.loop(loopVariable.id, from.floatId, step.floatId, until.floatId) {
-                        childSpan.record(writer, creationState)
-                    }
+                    writer.startLoop(loopVariable.id, from.floatId, step.floatId, until.floatId)
+                    childSpan.record(writer, creationState)
+                    writer.endLoop()
                 }
             )
         buffer.addRoots(op, from, until, step)
@@ -1601,9 +1601,9 @@ internal open class AndroidRecordingCanvas(
         val op =
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.loop(loopVariable.id, from.toFloat(), 1f, until.floatId) {
-                        childSpan.record(writer, creationState)
-                    }
+                    writer.startLoop(loopVariable.id, from.toFloat(), 1f, until.floatId)
+                    childSpan.record(writer, creationState)
+                    writer.endLoop()
                 }
             )
         buffer.addRoots(op, until)
@@ -1758,17 +1758,17 @@ internal open class AndroidRecordingCanvas(
                 patternBodySpan = recordInChildSpan(action)
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, intArrayOf())
+                        writer.startPatternDefinition(patternId, intArrayOf())
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.buffer.inflatePattern(patternId, intArrayOf())
+                    writer.startPatternInflation(patternId, intArrayOf())
                     modifier?.let { writeRemoteModifier(it, writer) }
-                    writer.buffer.endPatternInflation()
+                    writer.endPatternInflation()
                 }
             )
         }
@@ -1797,21 +1797,21 @@ internal open class AndroidRecordingCanvas(
                 patternBodySpan = recordInChildSpan { action(formal1) }
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, paramIds!!)
+                        writer.startPatternDefinition(patternId, paramIds!!)
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             val opInflate =
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.inflatePattern(
+                        writer.startPatternInflation(
                             patternId,
                             intArrayOf(arg1.getPatternArgId(creationState)),
                         )
                         modifier?.let { writeRemoteModifier(it, writer) }
-                        writer.buffer.endPatternInflation()
+                        writer.endPatternInflation()
                     }
                 )
             buffer.addRoots(opInflate, arg1)
@@ -1845,16 +1845,16 @@ internal open class AndroidRecordingCanvas(
                 patternBodySpan = recordInChildSpan { action(formal1, formal2) }
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, paramIds!!)
+                        writer.startPatternDefinition(patternId, paramIds!!)
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             val opInflate =
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.inflatePattern(
+                        writer.startPatternInflation(
                             patternId,
                             intArrayOf(
                                 arg1.getPatternArgId(creationState),
@@ -1862,7 +1862,7 @@ internal open class AndroidRecordingCanvas(
                             ),
                         )
                         modifier?.let { writeRemoteModifier(it, writer) }
-                        writer.buffer.endPatternInflation()
+                        writer.endPatternInflation()
                     }
                 )
             buffer.addRoots(opInflate, arg1, arg2)
@@ -1900,16 +1900,16 @@ internal open class AndroidRecordingCanvas(
                 patternBodySpan = recordInChildSpan { action(formal1, formal2, formal3) }
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, paramIds!!)
+                        writer.startPatternDefinition(patternId, paramIds!!)
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             val opInflate =
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.inflatePattern(
+                        writer.startPatternInflation(
                             patternId,
                             intArrayOf(
                                 arg1.getPatternArgId(creationState),
@@ -1918,7 +1918,7 @@ internal open class AndroidRecordingCanvas(
                             ),
                         )
                         modifier?.let { writeRemoteModifier(it, writer) }
-                        writer.buffer.endPatternInflation()
+                        writer.endPatternInflation()
                     }
                 )
             buffer.addRoots(opInflate, arg1, arg2, arg3)
@@ -1961,16 +1961,16 @@ internal open class AndroidRecordingCanvas(
                 }
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, paramIds!!)
+                        writer.startPatternDefinition(patternId, paramIds!!)
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             val opInflate =
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.inflatePattern(
+                        writer.startPatternInflation(
                             patternId,
                             intArrayOf(
                                 arg1.getPatternArgId(creationState),
@@ -1980,7 +1980,7 @@ internal open class AndroidRecordingCanvas(
                             ),
                         )
                         modifier?.let { writeRemoteModifier(it, writer) }
-                        writer.buffer.endPatternInflation()
+                        writer.endPatternInflation()
                     }
                 )
             buffer.addRoots(opInflate, arg1, arg2, arg3, arg4)
@@ -2026,16 +2026,16 @@ internal open class AndroidRecordingCanvas(
                 }
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, paramIds!!)
+                        writer.startPatternDefinition(patternId, paramIds!!)
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             val opInflate =
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.inflatePattern(
+                        writer.startPatternInflation(
                             patternId,
                             intArrayOf(
                                 arg1.getPatternArgId(creationState),
@@ -2046,7 +2046,7 @@ internal open class AndroidRecordingCanvas(
                             ),
                         )
                         modifier?.let { writeRemoteModifier(it, writer) }
-                        writer.buffer.endPatternInflation()
+                        writer.endPatternInflation()
                     }
                 )
             buffer.addRoots(opInflate, arg1, arg2, arg3, arg4, arg5)
@@ -2097,16 +2097,16 @@ internal open class AndroidRecordingCanvas(
                 }
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.definePattern(patternId, paramIds!!)
+                        writer.startPatternDefinition(patternId, paramIds!!)
                         patternBodySpan!!.record(writer, creationState)
-                        writer.buffer.endPatternDefine()
+                        writer.endPatternDefinition()
                     }
                 )
             }
             val opInflate =
                 recordRenderingOp(
                     DocumentOp.Draw { writer ->
-                        writer.buffer.inflatePattern(
+                        writer.startPatternInflation(
                             patternId,
                             intArrayOf(
                                 arg1.getPatternArgId(creationState),
@@ -2118,7 +2118,7 @@ internal open class AndroidRecordingCanvas(
                             ),
                         )
                         modifier?.let { writeRemoteModifier(it, writer) }
-                        writer.buffer.endPatternInflation()
+                        writer.endPatternInflation()
                     }
                 )
             buffer.addRoots(opInflate, arg1, arg2, arg3, arg4, arg5, arg6)
@@ -2145,10 +2145,10 @@ internal open class AndroidRecordingCanvas(
                     for (i in items.indices) {
                         ids[i] = items[i].getIdForCreationState(creationState)
                     }
-                    val collectionId = writer.addDataListIds(ids)
-                    writer.buffer.addPatternForEach(collectionId, localItemId)
+                    val collectionId = Utils.idFromNan(writer.addIdList(ids))
+                    writer.startPatternForEach(collectionId, localItemId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         for (i in items.indices) {
@@ -2172,9 +2172,9 @@ internal open class AndroidRecordingCanvas(
                 DocumentOp.Draw { writer ->
                     // RemoteFloatArray requires an ID list so PatternForEach can map elements.
                     val collectionId = array.getIdListForCreationState(creationState)
-                    writer.buffer.addPatternForEach(collectionId, localItemId)
+                    writer.startPatternForEach(collectionId, localItemId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         buffer.addRoots(op, array)
@@ -2195,9 +2195,9 @@ internal open class AndroidRecordingCanvas(
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
                     val collectionId = array.getIdForCreationState(creationState)
-                    writer.buffer.addPatternForEach(collectionId, localItemId)
+                    writer.startPatternForEach(collectionId, localItemId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         buffer.addRoots(op, array)
@@ -2218,9 +2218,9 @@ internal open class AndroidRecordingCanvas(
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
                     val collectionId = array.getIdForCreationState(creationState)
-                    writer.buffer.addPatternForEach(collectionId, localItemId)
+                    writer.startPatternForEach(collectionId, localItemId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         buffer.addRoots(op, array)
@@ -2254,8 +2254,8 @@ internal open class AndroidRecordingCanvas(
         val childSpan = recordInChildSpan {
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.buffer.idLookup(id1, localTupleFloat, 0f)
-                    writer.buffer.idLookup(id2, localTupleFloat, 1f)
+                    writer.writeIdLookup(id1, localTupleFloat, 0f)
+                    writer.writeIdLookup(id2, localTupleFloat, 1f)
                 }
             )
             action(formal1, formal2)
@@ -2267,17 +2267,17 @@ internal open class AndroidRecordingCanvas(
                     val tupleIds = IntArray(size)
                     for (i in 0 until size) {
                         tupleIds[i] =
-                            writer.addDataListIds(
+                            Utils.idFromNan(writer.addIdList(
                                 intArrayOf(
                                     items1[i].getIdForCreationState(creationState),
                                     items2[i].getIdForCreationState(creationState),
                                 )
-                            )
+                            ))
                     }
-                    val outerListId = writer.addDataListIds(tupleIds)
-                    writer.buffer.addPatternForEach(outerListId, localTupleId)
+                    val outerListId = Utils.idFromNan(writer.addIdList(tupleIds))
+                    writer.startPatternForEach(outerListId, localTupleId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         for (i in items1.indices) buffer.addRoots(op, items1[i])
@@ -2320,9 +2320,9 @@ internal open class AndroidRecordingCanvas(
         val childSpan = recordInChildSpan {
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.buffer.idLookup(id1, localTupleFloat, 0f)
-                    writer.buffer.idLookup(id2, localTupleFloat, 1f)
-                    writer.buffer.idLookup(id3, localTupleFloat, 2f)
+                    writer.writeIdLookup(id1, localTupleFloat, 0f)
+                    writer.writeIdLookup(id2, localTupleFloat, 1f)
+                    writer.writeIdLookup(id3, localTupleFloat, 2f)
                 }
             )
             action(formal1, formal2, formal3)
@@ -2334,18 +2334,18 @@ internal open class AndroidRecordingCanvas(
                     val tupleIds = IntArray(size)
                     for (i in 0 until size) {
                         tupleIds[i] =
-                            writer.addDataListIds(
+                            Utils.idFromNan(writer.addIdList(
                                 intArrayOf(
                                     items1[i].getIdForCreationState(creationState),
                                     items2[i].getIdForCreationState(creationState),
                                     items3[i].getIdForCreationState(creationState),
                                 )
-                            )
+                            ))
                     }
-                    val outerListId = writer.addDataListIds(tupleIds)
-                    writer.buffer.addPatternForEach(outerListId, localTupleId)
+                    val outerListId = Utils.idFromNan(writer.addIdList(tupleIds))
+                    writer.startPatternForEach(outerListId, localTupleId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         for (i in items1.indices) buffer.addRoots(op, items1[i])
@@ -2395,10 +2395,10 @@ internal open class AndroidRecordingCanvas(
         val childSpan = recordInChildSpan {
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.buffer.idLookup(id1, localTupleFloat, 0f)
-                    writer.buffer.idLookup(id2, localTupleFloat, 1f)
-                    writer.buffer.idLookup(id3, localTupleFloat, 2f)
-                    writer.buffer.idLookup(id4, localTupleFloat, 3f)
+                    writer.writeIdLookup(id1, localTupleFloat, 0f)
+                    writer.writeIdLookup(id2, localTupleFloat, 1f)
+                    writer.writeIdLookup(id3, localTupleFloat, 2f)
+                    writer.writeIdLookup(id4, localTupleFloat, 3f)
                 }
             )
             action(formal1, formal2, formal3, formal4)
@@ -2410,19 +2410,19 @@ internal open class AndroidRecordingCanvas(
                     val tupleIds = IntArray(size)
                     for (i in 0 until size) {
                         tupleIds[i] =
-                            writer.addDataListIds(
+                            Utils.idFromNan(writer.addIdList(
                                 intArrayOf(
                                     items1[i].getIdForCreationState(creationState),
                                     items2[i].getIdForCreationState(creationState),
                                     items3[i].getIdForCreationState(creationState),
                                     items4[i].getIdForCreationState(creationState),
                                 )
-                            )
+                            ))
                     }
-                    val outerListId = writer.addDataListIds(tupleIds)
-                    writer.buffer.addPatternForEach(outerListId, localTupleId)
+                    val outerListId = Utils.idFromNan(writer.addIdList(tupleIds))
+                    writer.startPatternForEach(outerListId, localTupleId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         for (i in items1.indices) buffer.addRoots(op, items1[i])
@@ -2478,11 +2478,11 @@ internal open class AndroidRecordingCanvas(
         val childSpan = recordInChildSpan {
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.buffer.idLookup(id1, localTupleFloat, 0f)
-                    writer.buffer.idLookup(id2, localTupleFloat, 1f)
-                    writer.buffer.idLookup(id3, localTupleFloat, 2f)
-                    writer.buffer.idLookup(id4, localTupleFloat, 3f)
-                    writer.buffer.idLookup(id5, localTupleFloat, 4f)
+                    writer.writeIdLookup(id1, localTupleFloat, 0f)
+                    writer.writeIdLookup(id2, localTupleFloat, 1f)
+                    writer.writeIdLookup(id3, localTupleFloat, 2f)
+                    writer.writeIdLookup(id4, localTupleFloat, 3f)
+                    writer.writeIdLookup(id5, localTupleFloat, 4f)
                 }
             )
             action(formal1, formal2, formal3, formal4, formal5)
@@ -2494,7 +2494,7 @@ internal open class AndroidRecordingCanvas(
                     val tupleIds = IntArray(size)
                     for (i in 0 until size) {
                         tupleIds[i] =
-                            writer.addDataListIds(
+                            Utils.idFromNan(writer.addIdList(
                                 intArrayOf(
                                     items1[i].getIdForCreationState(creationState),
                                     items2[i].getIdForCreationState(creationState),
@@ -2502,12 +2502,12 @@ internal open class AndroidRecordingCanvas(
                                     items4[i].getIdForCreationState(creationState),
                                     items5[i].getIdForCreationState(creationState),
                                 )
-                            )
+                            ))
                     }
-                    val outerListId = writer.addDataListIds(tupleIds)
-                    writer.buffer.addPatternForEach(outerListId, localTupleId)
+                    val outerListId = Utils.idFromNan(writer.addIdList(tupleIds))
+                    writer.startPatternForEach(outerListId, localTupleId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         for (i in items1.indices) buffer.addRoots(op, items1[i])
@@ -2569,12 +2569,12 @@ internal open class AndroidRecordingCanvas(
         val childSpan = recordInChildSpan {
             recordRenderingOp(
                 DocumentOp.Draw { writer ->
-                    writer.buffer.idLookup(id1, localTupleFloat, 0f)
-                    writer.buffer.idLookup(id2, localTupleFloat, 1f)
-                    writer.buffer.idLookup(id3, localTupleFloat, 2f)
-                    writer.buffer.idLookup(id4, localTupleFloat, 3f)
-                    writer.buffer.idLookup(id5, localTupleFloat, 4f)
-                    writer.buffer.idLookup(id6, localTupleFloat, 5f)
+                    writer.writeIdLookup(id1, localTupleFloat, 0f)
+                    writer.writeIdLookup(id2, localTupleFloat, 1f)
+                    writer.writeIdLookup(id3, localTupleFloat, 2f)
+                    writer.writeIdLookup(id4, localTupleFloat, 3f)
+                    writer.writeIdLookup(id5, localTupleFloat, 4f)
+                    writer.writeIdLookup(id6, localTupleFloat, 5f)
                 }
             )
             action(formal1, formal2, formal3, formal4, formal5, formal6)
@@ -2586,7 +2586,7 @@ internal open class AndroidRecordingCanvas(
                     val tupleIds = IntArray(size)
                     for (i in 0 until size) {
                         tupleIds[i] =
-                            writer.addDataListIds(
+                            Utils.idFromNan(writer.addIdList(
                                 intArrayOf(
                                     items1[i].getIdForCreationState(creationState),
                                     items2[i].getIdForCreationState(creationState),
@@ -2595,12 +2595,12 @@ internal open class AndroidRecordingCanvas(
                                     items5[i].getIdForCreationState(creationState),
                                     items6[i].getIdForCreationState(creationState),
                                 )
-                            )
+                            ))
                     }
-                    val outerListId = writer.addDataListIds(tupleIds)
-                    writer.buffer.addPatternForEach(outerListId, localTupleId)
+                    val outerListId = Utils.idFromNan(writer.addIdList(tupleIds))
+                    writer.startPatternForEach(outerListId, localTupleId)
                     childSpan.record(writer, creationState)
-                    writer.buffer.endPatternForEach()
+                    writer.endPatternForEach()
                 }
             )
         for (i in items1.indices) buffer.addRoots(op, items1[i])
@@ -2611,14 +2611,11 @@ internal open class AndroidRecordingCanvas(
         for (i in items6.indices) buffer.addRoots(op, items6[i])
     }
 
-    private fun RemoteComposeWriter.addDataListIds(ids: IntArray): Int =
-        Utils.idFromNan(addList(ids))
-
     private fun writeRemoteModifier(
         modifier: RemoteModifier,
-        writer: RemoteComposeWriter = document,
+        writer: androidx.compose.remote.creation.common.RemoteWriter = creationState.writer,
     ) {
-        toRemoteModifierData(modifier).writeTo(LegacyRemoteWriterAdapter(writer))
+        toRemoteModifierData(modifier).writeTo(writer)
     }
 
     /** Draws the component content within a custom drawing stream. */

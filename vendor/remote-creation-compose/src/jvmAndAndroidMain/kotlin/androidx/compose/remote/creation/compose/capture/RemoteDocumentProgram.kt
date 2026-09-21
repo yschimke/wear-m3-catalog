@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.collection.MutableObjectIntMap
-import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.compose.layout.CustomPropertyEntry
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -109,11 +108,11 @@ internal sealed class DocumentTransform {
  * Represents an operation in the document program built before wire serialization.
  *
  * These operations are optimized (elided, flattened, fused) before being flushed to the actual
- * [RemoteComposeWriter] during serialization.
+ * [RemoteWriter] during serialization.
  */
 internal sealed class DocumentOp {
     /** Flushes this operation (and its children, if any) to the [writer]. */
-    abstract fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState)
+    abstract fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState)
 
     /** Returns true if this operation modifies the canvas transform or clip state. */
     open fun hasTransformsOrClips(): Boolean = false
@@ -144,7 +143,7 @@ internal sealed class DocumentOp {
 
     /**
      * Returns true if this operation is or encloses any operation that emits wire commands
-     * (`writer.xxx()`) to the [RemoteComposeWriter] (such as [Draw], [Clip], or [Transform]).
+     * (`writer.xxx()`) to the [RemoteWriter] (such as [Draw], [Clip], or [Transform]).
      *
      * This returns false for non-operational metadata or variable declarations ([Expression]) and
      * empty scopes. During optimization, conditional blocks ([DrawConditionally]) check
@@ -210,7 +209,7 @@ internal sealed class DocumentOp {
 
     /** A document-level declaration emitted before the root body. */
     class Declaration(val action: () -> Unit) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             action()
         }
 
@@ -224,7 +223,7 @@ internal sealed class DocumentOp {
         val switchesCanvas: Boolean,
         private val operation: WriterOp?,
         private val beforeWrite: (() -> Unit)?,
-        private val legacyAction: ((RemoteComposeWriter) -> Unit)?,
+        private val writerAction: ((RemoteWriter) -> Unit)?,
     ) : DocumentOp() {
         constructor(operation: WriterOp) : this(false, operation, null, null)
 
@@ -235,15 +234,15 @@ internal sealed class DocumentOp {
 
         constructor(
             switchesCanvas: Boolean = false,
-            action: (RemoteComposeWriter) -> Unit,
+            action: (RemoteWriter) -> Unit,
         ) : this(switchesCanvas, null, null, action)
 
-        constructor(action: (RemoteComposeWriter) -> Unit) : this(false, null, null, action)
+        constructor(action: (RemoteWriter) -> Unit) : this(false, null, null, action)
 
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             beforeWrite?.invoke()
-            operation?.write(LegacyRemoteWriterAdapter(writer), creationState)
-            legacyAction?.invoke(writer)
+            operation?.write(writer, creationState)
+            writerAction?.invoke(writer)
         }
 
         // Visual drawing primitive that renders content directly to the canvas.
@@ -260,15 +259,15 @@ internal sealed class DocumentOp {
     /** Represents a clipping operation. */
     class Clip private constructor(
         private val operation: WriterOp?,
-        private val legacyAction: ((RemoteComposeWriter) -> Unit)?,
+        private val writerAction: ((RemoteWriter) -> Unit)?,
     ) : DocumentOp() {
         constructor(operation: WriterOp) : this(operation, null)
 
-        constructor(action: (RemoteComposeWriter) -> Unit) : this(null, action)
+        constructor(action: (RemoteWriter) -> Unit) : this(null, action)
 
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
-            operation?.write(LegacyRemoteWriterAdapter(writer), creationState)
-            legacyAction?.invoke(writer)
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
+            operation?.write(writer, creationState)
+            writerAction?.invoke(writer)
         }
 
         override fun hasTransformsOrClips(): Boolean = true
@@ -288,8 +287,8 @@ internal sealed class DocumentOp {
      * @property op The underlying [DocumentTransform] transformation.
      */
     class Transform(val op: DocumentTransform) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
-            op.write(LegacyRemoteWriterAdapter(writer), creationState)
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
+            op.write(writer, creationState)
         }
 
         override fun hasTransformsOrClips(): Boolean = true
@@ -304,8 +303,7 @@ internal sealed class DocumentOp {
     }
 
     /**
-     * Represents a save/restore group (corresponding to [RemoteComposeWriter.save] and
-     * [RemoteComposeWriter.restore]).
+     * Represents a save/restore group around child operations.
      *
      * @property parent The parent [SaveRestore] scope, or null if this is the root scope.
      * @property children The list of child operations inside this save/restore block.
@@ -452,7 +450,7 @@ internal sealed class DocumentOp {
             }
         }
 
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             when (elisionMode) {
                 ElisionMode.DISCARD -> {}
                 ElisionMode.INLINE -> {
@@ -461,12 +459,11 @@ internal sealed class DocumentOp {
                     }
                 }
                 ElisionMode.PRESERVE -> {
-                    val commonWriter = LegacyRemoteWriterAdapter(writer)
-                    commonWriter.save()
+                    writer.save()
                     for (i in 0 until children.size) {
                         children[i].write(writer, creationState)
                     }
-                    commonWriter.restore()
+                    writer.restore()
                 }
             }
         }
@@ -476,7 +473,7 @@ internal sealed class DocumentOp {
 
     /** Represents an expression evaluation (hoisted variable assignment). */
     class Expression(val key: RemoteOperationCacheKey, val state: BaseRemoteState<*>) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             creationState.getOrPutVariableId(key) { state.writeToDocument(creationState) }
         }
 
@@ -502,22 +499,18 @@ internal sealed class DocumentOp {
         val childSpan: RemoteDocumentProgram.Span,
         val forcePaintRefresh: () -> Unit,
     ) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             if (condition.hasConstantValue) {
                 if (condition.constantValue) childSpan.record(writer, creationState)
                 return
             }
             val conditionId =
                 with(creationState) { condition.toRemoteInt().toRemoteFloat().floatId }
-            writer.conditionalOperations(
-                androidx.compose.remote.core.operations.ConditionalOperations.TYPE_NEQ,
-                conditionId,
-                0f,
-            ) {
-                forcePaintRefresh()
-                childSpan.record(writer, creationState)
-                forcePaintRefresh()
-            }
+            writer.startConditional(1, conditionId, 0f)
+            forcePaintRefresh()
+            childSpan.record(writer, creationState)
+            forcePaintRefresh()
+            writer.endConditional()
         }
 
         override fun hasTransformsOrClips(): Boolean = childSpan.hasTransformsOrClips()
@@ -548,7 +541,7 @@ internal sealed class DocumentOp {
         val childSpan: RemoteDocumentProgram.Span,
         val forcePaintRefresh: () -> Unit,
     ) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             val bitmapId = bitmap.getIdForCreationState(creationState)
             writer.drawOnBitmap(bitmapId, if (clearColor == null) 1 else 0, clearColor ?: 0)
             forcePaintRefresh()
@@ -578,13 +571,13 @@ internal sealed class DocumentOp {
         val until: RemoteFloat,
         val childSpan: RemoteDocumentProgram.Span,
     ) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             val fromValue = from.getFloatIdForCreationState(creationState)
             val stepValue = step.getFloatIdForCreationState(creationState)
             val untilValue = until.getFloatIdForCreationState(creationState)
-            writer.loop(indexId, fromValue, stepValue, untilValue) {
-                childSpan.record(writer, creationState)
-            }
+            writer.startLoop(indexId, fromValue, stepValue, untilValue)
+            childSpan.record(writer, creationState)
+            writer.endLoop()
         }
 
         override fun containsDrawingPrimitives(): Boolean = childSpan.containsDrawingPrimitives()
@@ -618,15 +611,14 @@ internal sealed class DocumentOp {
         val properties: List<CustomPropertyEntry>,
         val childSpan: RemoteDocumentProgram.Span?,
     ) : DocumentOp() {
-        override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
-            val commonWriter = LegacyRemoteWriterAdapter(writer)
-            commonWriter.startCustom(
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
+            writer.startCustom(
                 creationState.toRemoteModifierData(modifier),
                 creationState.writer.addText(config),
                 properties.map { it.toCustomProperty(creationState) },
             )
             childSpan?.record(writer, creationState)
-            commonWriter.endCustom()
+            writer.endCustom()
         }
 
         override fun hasTransformsOrClips(): Boolean = childSpan?.hasTransformsOrClips() ?: false
@@ -758,7 +750,7 @@ internal class RemoteDocumentProgram(val enableOptimizations: Boolean = false) {
             }
         }
 
-        fun record(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
+        fun record(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
             for (i in 0 until operations.size) {
                 operations[i].op.write(writer, creationState)
             }
@@ -964,7 +956,7 @@ internal class RemoteDocumentProgram(val enableOptimizations: Boolean = false) {
     public fun flush(creationState: RemoteComposeCreationState) {
         creationState.drainGlobalDeclarations(this)
         optimize(creationState)
-        writeTo(creationState.document, creationState)
+        writeTo(creationState.writer, creationState)
     }
 
     /** Applies document-level optimization passes without encoding the resulting program. */
@@ -981,7 +973,7 @@ internal class RemoteDocumentProgram(val enableOptimizations: Boolean = false) {
 
     /** Serializes the already optimized program to [writer], then clears it for reuse. */
     internal fun writeTo(
-        writer: RemoteComposeWriter,
+        writer: RemoteWriter,
         creationState: RemoteComposeCreationState,
     ) {
         declarationRoot.record(writer, creationState)

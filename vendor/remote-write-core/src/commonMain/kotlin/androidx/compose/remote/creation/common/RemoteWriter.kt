@@ -61,6 +61,11 @@ public interface RemoteWriter {
   public fun endPatternInflation()
   public fun startPatternForEach(collectionId: Int, localItemId: Int)
   public fun endPatternForEach()
+  public fun startConditional(type: Int, first: Float, second: Float)
+  public fun endConditional()
+  public fun drawOnBitmap(bitmapId: Int, mode: Int, color: Int)
+  public fun startLoop(indexId: Int, from: Float, step: Float, until: Float)
+  public fun endLoop()
 
   public fun setNamedVariable(id: Int, name: String, type: Int)
 
@@ -89,6 +94,7 @@ public interface RemoteWriter {
   public fun timeAttribute(longId: Int, type: Short, vararg args: Int): Float
 
   public fun idLookup(arrayId: Float, index: Float): Int
+  public fun writeIdLookup(outputId: Int, arrayId: Float, index: Float)
 
   public fun textLookup(arrayId: Float, index: Float): Int
 
@@ -205,6 +211,14 @@ public interface RemoteWriter {
   public fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float)
 
   public fun drawPath(pathId: Int)
+  public fun drawBitmap(
+    imageId: Int,
+    left: Float,
+    top: Float,
+    right: Float,
+    bottom: Float,
+    contentDescriptionId: Int,
+  )
   public fun drawComponentContent()
 
   public fun clipPath(pathId: Int)

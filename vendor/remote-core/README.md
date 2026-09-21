@@ -113,6 +113,11 @@ semantics, animation, graphics layers, paths, or collapsible orientation. Their 
 retain the protocol ordinals, leaving the legacy core dependency confined to capture orchestration,
 statistics, logging, and animated-vector parsing.
 
+The optimized document program itself now flushes only to `RemoteWriter`. Conditional blocks,
+loops, offscreen bitmap targets, pattern definition/inflation/iteration, tuple lookups, custom
+components, and unscaled bitmap draws all have common writer operations; platform recorders retain
+the legacy document only as their final adapter target.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

@@ -20,6 +20,7 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.compose.state.AnimatedRemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteFloat
+import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.packAnimation
 import androidx.compose.remote.creation.compose.state.remoteSpring
 
@@ -111,11 +112,7 @@ public class RemoteAccess(private val scope: RemoteDrawScope) {
         step: Float = 1f,
         content: RemoteDrawScope.(RemoteFloat) -> Unit,
     ) {
-        val document = scope.remoteComposeCreationState.document
-        val loopIndex = document.addFloatConstant(0f)
-        document.startLoop(Utils.idFromNan(loopIndex), from, step, until)
-        content.invoke(scope, RemoteFloat(loopIndex))
-        document.endLoop()
+        scope.remoteCanvas.loop(from.rf, until.rf, step.rf) { index -> content.invoke(scope, index) }
     }
 
     /** Runs [content] in a loop. */

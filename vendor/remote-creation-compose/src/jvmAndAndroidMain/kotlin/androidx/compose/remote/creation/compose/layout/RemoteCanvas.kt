@@ -400,9 +400,7 @@ public class RemoteCanvas(
         paint: RemotePaint? = null,
     ) {
         val op =
-            recordRenderingOp(paint) {
-                internalCanvas.document.drawBitmap(bitmap.id, left.floatId, top.floatId, "")
-            }
+            recordRenderingOp(paint, WriterOp.DrawBitmap(bitmap, left, top))
         internalCanvas.buffer.addRoots(op, bitmap, left, top)
     }
 
@@ -596,18 +594,6 @@ public class RemoteCanvas(
         internalCanvas.buffer.addRoots(op, from, until, step)
     }
 
-    /** Starts a state layout. */
-    public fun startStateLayout(
-        modifier: androidx.compose.remote.creation.modifiers.RecordingModifier,
-        currentStateId: Int,
-    ) {
-        recordRenderingOp { internalCanvas.document.startStateLayout(modifier, currentStateId) }
-    }
-
-    /** Ends a state layout. */
-    public fun endStateLayout() {
-        recordRenderingOp { internalCanvas.document.endStateLayout() }
-    }
 }
 
 internal val RecordingCanvas.buffer: RemoteDocumentProgram

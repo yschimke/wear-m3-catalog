@@ -37,7 +37,7 @@ internal class JvmRecordingCanvas(
   override lateinit var creationState: RemoteComposeCreationState
   override val parentScope: RemoteStateScope
     get() = creationState
-  override val document: RemoteComposeWriter
+  private val document: RemoteComposeWriter
     get() = creationState.document
   override val remoteDensity: RemoteDensity
     get() = creationState.remoteDensity

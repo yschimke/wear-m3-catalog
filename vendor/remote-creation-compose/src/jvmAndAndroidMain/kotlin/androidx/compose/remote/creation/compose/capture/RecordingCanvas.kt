@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
@@ -31,7 +30,6 @@ public interface RecordingCanvas : RemoteStateScope {
     public var creationState: RemoteComposeCreationState
     public val creationDisplayInfo: RemoteCreationDisplayInfo
 
-    val document: RemoteComposeWriter
     override val remoteDensity: RemoteDensity
     override val layoutDirection: LayoutDirection
 

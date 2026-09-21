@@ -452,6 +452,21 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
 
     override fun endPatternForEach() = delegate.buffer.endPatternForEach()
 
+    override fun startConditional(type: Int, first: Float, second: Float) {
+        delegate.conditionalOperations(type.toByte(), first, second)
+    }
+
+    override fun endConditional() = delegate.endConditionalOperations()
+
+    override fun drawOnBitmap(bitmapId: Int, mode: Int, color: Int) =
+        delegate.drawOnBitmap(bitmapId, mode, color)
+
+    override fun startLoop(indexId: Int, from: Float, step: Float, until: Float) {
+        delegate.startLoop(indexId, from, step, until)
+    }
+
+    override fun endLoop() = delegate.endLoop()
+
     override fun setNamedVariable(id: Int, name: String, type: Int) =
         delegate.setNamedVariable(id, name, type)
 
@@ -485,6 +500,10 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         delegate.timeAttribute(longId, type, *args)
 
     override fun idLookup(arrayId: Float, index: Float): Int = delegate.idLookup(arrayId, index)
+
+    override fun writeIdLookup(outputId: Int, arrayId: Float, index: Float) {
+        delegate.buffer.idLookup(outputId, arrayId, index)
+    }
 
     override fun textLookup(arrayId: Float, index: Float): Int = delegate.textLookup(arrayId, index)
 
@@ -650,6 +669,24 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         delegate.drawLine(x1, y1, x2, y2)
 
     override fun drawPath(pathId: Int) = delegate.drawPath(pathId)
+
+    override fun drawBitmap(
+        imageId: Int,
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float,
+        contentDescriptionId: Int,
+    ) {
+        delegate.buffer.addDrawBitmap(
+            imageId,
+            left,
+            top,
+            right,
+            bottom,
+            contentDescriptionId,
+        )
+    }
 
     override fun drawComponentContent() = delegate.drawComponentContent()
 
