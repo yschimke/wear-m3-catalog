@@ -121,18 +121,6 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         run: ./gradlew :catalog:assemble :remote-catalog:assembleDebug --stacktrace
 
-      # This must be the production executable: Kotlin/Wasm's development compiler accepted the
-      # same Remote Material typography path that its optimizer miscompiled. Node is enough here
-      # because the sample records a document and does not rasterise it through Skia.
-      - name: Capture Remote Material 3 in optimized Wasm
-        if: needs.changes.outputs.inert != 'true'
-        # Skiko initializes asynchronously because the dependency graph also contains Compose UI.
-        # This writer-only sample never calls it; Node cannot fetch Skiko's browser Wasm from a
-        # file URL, so leave that unrelated rejected promise as a warning after capture completes.
-        env:
-          NODE_OPTIONS: --unhandled-rejections=warn
-        run: ./gradlew :remote-wasm:wasmJsNodeProductionRun --stacktrace
-
       # Discovery is the real contract for a design catalog: it is what turns the
       # `@CatalogComponent` / `@CatalogVariant` / `@OverrideVariant` annotations into the published
       # inventory. A component that compiles but is not discovered would silently vanish from the

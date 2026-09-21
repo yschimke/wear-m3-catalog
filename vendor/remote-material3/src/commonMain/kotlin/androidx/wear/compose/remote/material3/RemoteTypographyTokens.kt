@@ -17,28 +17,30 @@
 package androidx.wear.compose.remote.material3
 
 import androidx.compose.remote.creation.compose.text.RemoteTextStyle
+import androidx.wear.compose.material3.Typography
 
-internal expect object RemoteTypographyTokens {
-    val DisplayLarge: RemoteTextStyle
-    val DisplayMedium: RemoteTextStyle
-    val DisplaySmall: RemoteTextStyle
+internal object RemoteTypographyTokens {
+    private val defaultTypography = Typography()
+    val DisplayLarge = RemoteTextStyle.fromTextStyle(defaultTypography.displayLarge)
+    val DisplayMedium = RemoteTextStyle.fromTextStyle(defaultTypography.displayMedium)
+    val DisplaySmall = RemoteTextStyle.fromTextStyle(defaultTypography.displaySmall)
 
-    val TitleLarge: RemoteTextStyle
-    val TitleMedium: RemoteTextStyle
-    val TitleSmall: RemoteTextStyle
+    val TitleLarge = RemoteTextStyle.fromTextStyle(defaultTypography.titleLarge)
+    val TitleMedium = RemoteTextStyle.fromTextStyle(defaultTypography.titleMedium)
+    val TitleSmall = RemoteTextStyle.fromTextStyle(defaultTypography.titleSmall)
 
-    val LabelLarge: RemoteTextStyle
-    val LabelMedium: RemoteTextStyle
-    val LabelSmall: RemoteTextStyle
+    val LabelLarge = RemoteTextStyle.fromTextStyle(defaultTypography.labelLarge)
+    val LabelMedium = RemoteTextStyle.fromTextStyle(defaultTypography.labelMedium)
+    val LabelSmall = RemoteTextStyle.fromTextStyle(defaultTypography.labelSmall)
 
-    val BodyLarge: RemoteTextStyle
-    val BodyMedium: RemoteTextStyle
-    val BodySmall: RemoteTextStyle
-    val BodyExtraSmall: RemoteTextStyle
+    val BodyLarge = RemoteTextStyle.fromTextStyle(defaultTypography.bodyLarge)
+    val BodyMedium = RemoteTextStyle.fromTextStyle(defaultTypography.bodyMedium)
+    val BodySmall = RemoteTextStyle.fromTextStyle(defaultTypography.bodySmall)
+    val BodyExtraSmall = RemoteTextStyle.fromTextStyle(defaultTypography.bodyExtraSmall)
 
-    val NumeralExtraLarge: RemoteTextStyle
-    val NumeralLarge: RemoteTextStyle
-    val NumeralMedium: RemoteTextStyle
-    val NumeralSmall: RemoteTextStyle
-    val NumeralExtraSmall: RemoteTextStyle
+    val NumeralExtraLarge = RemoteTextStyle.fromTextStyle(defaultTypography.numeralExtraLarge)
+    val NumeralLarge = RemoteTextStyle.fromTextStyle(defaultTypography.numeralLarge)
+    val NumeralMedium = RemoteTextStyle.fromTextStyle(defaultTypography.numeralMedium)
+    val NumeralSmall = RemoteTextStyle.fromTextStyle(defaultTypography.numeralSmall)
+    val NumeralExtraSmall = RemoteTextStyle.fromTextStyle(defaultTypography.numeralExtraSmall)
 }
