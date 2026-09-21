@@ -21,7 +21,8 @@ fun main() {
       runtimeActionController = actions,
       renderSessionId = renderSessionId,
       onInspectionSnapshot = onInspectionSnapshot,
-      canvasAdapterRegistry = wearCanvasAdapters,
+      canvasAdapterIds = mapOf("wear-m3/screen-scaffold" to "frame/round-screen"),
+      canvasAdapterRegistry = wearCanvasAdapters + wearScreenAdapters,
     )
   }
 }
