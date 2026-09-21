@@ -4,6 +4,7 @@ import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteTextData
+import androidx.compose.remote.creation.common.RemoteImageData
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -126,6 +127,11 @@ internal sealed interface WriterOp {
     data object EndText : WriterOp {
         override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
             writer.endText()
+    }
+
+    data class Image(val data: RemoteImageData) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.image(data)
     }
 
     data class Painted(

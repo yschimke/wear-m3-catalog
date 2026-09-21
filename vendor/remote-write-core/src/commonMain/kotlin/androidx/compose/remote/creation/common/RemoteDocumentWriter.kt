@@ -217,6 +217,17 @@ public class RemoteDocumentWriter(
 
   override fun endText(): Unit = endLayout()
 
+  override fun image(data: RemoteImageData) {
+    operation(LayoutImage)
+    buffer.writeInt(resolveComponentId(data.modifier.componentId))
+    buffer.writeInt(-1)
+    buffer.writeInt(data.bitmapId)
+    buffer.writeInt(data.scaleType)
+    buffer.writeFloat(data.alpha)
+    data.modifier.writeTo(this)
+    containerEnd()
+  }
+
   public fun column(
     horizontal: Int = HorizontalStart,
     vertical: Int = VerticalTop,
@@ -1035,6 +1046,7 @@ public class RemoteDocumentWriter(
     private const val LayoutFitBox = 176
     private const val LayoutState = 217
     private const val LayoutFlow = 240
+    private const val LayoutImage = 234
     private const val ModifierWidth = 16
     private const val ModifierHeight = 67
     private const val ModifierBackground = 55

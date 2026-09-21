@@ -333,6 +333,20 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun imageLayoutMatchesAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addImage(-1, -1, 42, 4, 0.75f)
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.image(RemoteImageData(RemoteModifierData(), 42, 4, 0.75f))
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun longStateOperationsMatchAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addLong(42, 0x1020304050607080L)

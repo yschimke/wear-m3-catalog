@@ -42,6 +42,7 @@ public interface RemoteWriter {
   public fun writeModifier(operation: RemoteModifierOperation)
   public fun startText(data: RemoteTextData)
   public fun endText()
+  public fun image(data: RemoteImageData)
 
   public fun setNamedVariable(id: Int, name: String, type: Int)
 

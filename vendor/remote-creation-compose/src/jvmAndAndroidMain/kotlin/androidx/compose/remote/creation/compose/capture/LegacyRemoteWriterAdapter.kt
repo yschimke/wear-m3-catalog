@@ -6,6 +6,7 @@ import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.common.RemoteTextData
+import androidx.compose.remote.creation.common.RemoteImageData
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -189,6 +190,18 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
 
     override fun endText() {
         delegate.buffer.addContainerEnd()
+        delegate.buffer.addContainerEnd()
+    }
+
+    override fun image(data: RemoteImageData) {
+        delegate.buffer.addImage(
+            data.modifier.componentId,
+            -1,
+            data.bitmapId,
+            data.scaleType,
+            data.alpha,
+        )
+        data.modifier.writeTo(this)
         delegate.buffer.addContainerEnd()
     }
 
