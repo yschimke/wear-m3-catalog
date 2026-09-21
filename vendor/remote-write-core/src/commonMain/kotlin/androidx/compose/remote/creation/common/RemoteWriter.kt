@@ -49,6 +49,12 @@ public interface RemoteWriter {
   public fun startText(data: RemoteTextData)
   public fun endText()
   public fun image(data: RemoteImageData)
+  public fun startPatternDefinition(id: Int, parameterIds: IntArray)
+  public fun endPatternDefinition()
+  public fun startPatternInflation(id: Int, argumentIds: IntArray)
+  public fun endPatternInflation()
+  public fun startPatternForEach(collectionId: Int, localItemId: Int)
+  public fun endPatternForEach()
 
   public fun setNamedVariable(id: Int, name: String, type: Int)
 

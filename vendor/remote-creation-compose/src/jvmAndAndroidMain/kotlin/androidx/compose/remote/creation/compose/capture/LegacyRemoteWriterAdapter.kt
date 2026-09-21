@@ -399,6 +399,24 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         delegate.buffer.addContainerEnd()
     }
 
+    override fun startPatternDefinition(id: Int, parameterIds: IntArray) {
+        delegate.buffer.definePattern(id, parameterIds)
+    }
+
+    override fun endPatternDefinition() = delegate.buffer.endPatternDefine()
+
+    override fun startPatternInflation(id: Int, argumentIds: IntArray) {
+        delegate.buffer.inflatePattern(id, argumentIds)
+    }
+
+    override fun endPatternInflation() = delegate.buffer.endPatternInflation()
+
+    override fun startPatternForEach(collectionId: Int, localItemId: Int) {
+        delegate.buffer.addPatternForEach(collectionId, localItemId)
+    }
+
+    override fun endPatternForEach() = delegate.buffer.endPatternForEach()
+
     override fun setNamedVariable(id: Int, name: String, type: Int) =
         delegate.setNamedVariable(id, name, type)
 

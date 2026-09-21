@@ -30,6 +30,14 @@ public class RemoteWireBuffer(initialCapacity: Int = 256) {
     bytes[size++] = value.toByte()
   }
 
+  public fun overwriteInt(offset: Int, value: Int) {
+    require(offset >= 0 && offset + 4 <= size)
+    bytes[offset] = (value ushr 24).toByte()
+    bytes[offset + 1] = (value ushr 16).toByte()
+    bytes[offset + 2] = (value ushr 8).toByte()
+    bytes[offset + 3] = value.toByte()
+  }
+
   public fun writeLong(value: Long) {
     ensureCapacity(8)
     for (shift in 56 downTo 0 step 8) bytes[size++] = (value ushr shift).toByte()

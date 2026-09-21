@@ -464,6 +464,33 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun patternContainersMatchAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.definePattern(42, intArrayOf(43, 44))
+    expected.addDrawRect(1f, 2f, 3f, 4f)
+    expected.endPatternDefine()
+    expected.inflatePattern(42, intArrayOf(45, 46))
+    expected.addPatternForEach(47, 48)
+    expected.addDrawCircle(5f, 6f, 7f)
+    expected.endPatternForEach()
+    expected.endPatternInflation()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.startPatternDefinition(42, intArrayOf(43, 44))
+    writer.drawRect(1f, 2f, 3f, 4f)
+    writer.endPatternDefinition()
+    writer.startPatternInflation(42, intArrayOf(45, 46))
+    writer.startPatternForEach(47, 48)
+    writer.drawCircle(5f, 6f, 7f)
+    writer.endPatternForEach()
+    writer.endPatternInflation()
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(

@@ -100,6 +100,10 @@ or path data inside a nested body.
 Component-content drawing and rounded-polygon paths/morphs also use typed writer operations; polygon
 morphs retain both endpoint paths and their remote progress value until the final writer flush.
 
+Pattern definition, inflation, and iteration containers are available on the common writer. Pattern
+definitions patch their own local body length before closing, and modifiers nested in Android pattern
+inflations now use the typed common modifier encoder.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

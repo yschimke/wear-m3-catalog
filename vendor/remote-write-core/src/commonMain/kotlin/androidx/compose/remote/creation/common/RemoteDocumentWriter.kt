@@ -33,6 +33,7 @@ public class RemoteDocumentWriter(
   private val textFromFloatIds = mutableMapOf<TextFromFloatKey, Int>()
   private val bitmapUrlIds = mutableMapOf<String, Int>()
   private val componentValueIds = mutableMapOf<Long, Int>()
+  private val patternDefinitionOffsets = mutableListOf<Int>()
 
   init {
     writeHeader(width, height, profiles, densityBehavior)
@@ -429,6 +430,38 @@ public class RemoteDocumentWriter(
     data.modifier.writeTo(this)
     containerEnd()
   }
+
+  override fun startPatternDefinition(id: Int, parameterIds: IntArray) {
+    operation(PatternDefine)
+    buffer.writeInt(id)
+    buffer.writeInt(parameterIds.size)
+    parameterIds.forEach(buffer::writeInt)
+    patternDefinitionOffsets += buffer.size
+    buffer.writeInt(0)
+  }
+
+  override fun endPatternDefinition() {
+    val offset = patternDefinitionOffsets.removeLast()
+    buffer.overwriteInt(offset, buffer.size - offset - 4)
+    containerEnd()
+  }
+
+  override fun startPatternInflation(id: Int, argumentIds: IntArray) {
+    operation(PatternInflation)
+    buffer.writeInt(id)
+    buffer.writeInt(argumentIds.size)
+    argumentIds.forEach(buffer::writeInt)
+  }
+
+  override fun endPatternInflation(): Unit = containerEnd()
+
+  override fun startPatternForEach(collectionId: Int, localItemId: Int) {
+    operation(PatternForEach)
+    buffer.writeInt(collectionId)
+    buffer.writeInt(localItemId)
+  }
+
+  override fun endPatternForEach(): Unit = containerEnd()
 
   public fun column(
     horizontal: Int = HorizontalStart,
@@ -1296,6 +1329,9 @@ public class RemoteDocumentWriter(
     private const val AnimationSpec = 14
     private const val TouchExpression = 157
     private const val ModifierScroll = 226
+    private const val PatternForEach = 244
+    private const val PatternDefine = 246
+    private const val PatternInflation = 247
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

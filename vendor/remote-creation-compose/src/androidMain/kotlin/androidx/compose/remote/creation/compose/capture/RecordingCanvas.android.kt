@@ -35,7 +35,7 @@ import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.compose.layout.RemoteCustomPropertiesScope
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.shapes.MorphTweenUtility
 import androidx.compose.remote.creation.compose.state.BaseRemoteState
 import androidx.compose.remote.creation.compose.state.MutableRemoteFloat
@@ -2618,10 +2618,7 @@ internal open class AndroidRecordingCanvas(
         modifier: RemoteModifier,
         writer: RemoteComposeWriter = document,
     ) {
-        val recordingModifier = toRecordingModifier(modifier)
-        for (i in 0 until recordingModifier.list.size) {
-            recordingModifier.list[i].write(writer)
-        }
+        toRemoteModifierData(modifier).writeTo(LegacyRemoteWriterAdapter(writer))
     }
 
     /** Draws the component content within a custom drawing stream. */
