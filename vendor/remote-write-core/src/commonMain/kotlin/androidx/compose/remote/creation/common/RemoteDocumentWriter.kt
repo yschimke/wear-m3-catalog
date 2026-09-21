@@ -35,6 +35,8 @@ public class RemoteDocumentWriter(
     writeHeader(width, height, profiles, densityBehavior)
   }
 
+  override fun createFloatId(): Float = Utils.asNan(nextDataId++)
+
   public fun root(content: RemoteDocumentWriter.() -> Unit) {
     startRoot()
     content()

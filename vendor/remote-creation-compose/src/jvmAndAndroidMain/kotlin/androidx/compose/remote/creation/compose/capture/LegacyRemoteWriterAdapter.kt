@@ -12,6 +12,8 @@ import androidx.compose.remote.creation.common.DrawTextOnCircle
 
 /** Temporary adapter while the common Kotlin encoder replaces [RemoteComposeWriter]. */
 internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWriter) : RemoteWriter {
+    override fun createFloatId(): Float = delegate.createFloatId()
+
     override val componentIdForCache: Int
         get() = delegate.buffer.lastComponentId
 

@@ -9,6 +9,8 @@ package androidx.compose.remote.creation.common
  * writer; the common encoder will implement the same surface directly.
  */
 public interface RemoteWriter {
+  public fun createFloatId(): Float
+
   public val componentIdForCache: Int
 
   public fun addComponentWidthValue(): Float
