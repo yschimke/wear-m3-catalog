@@ -18,8 +18,6 @@ package androidx.compose.remote.creation.compose.action
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
-import androidx.compose.remote.creation.actions.Action as CreationAction
-import androidx.compose.remote.creation.actions.HostAction as CreationHostAction
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteState
@@ -87,20 +85,6 @@ internal class HostAction(
         name: RemoteString,
         value: RemoteString,
     ) : this(name, Type.STRING, id, value)
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRemoteAction(): CreationAction {
-        val valueId = value?.id ?: -1
-        val constantValue = name.constantValueOrNull
-        if (id != 0) {
-            return CreationHostAction(id, valueId)
-        }
-        return if (constantValue != null) {
-            CreationHostAction(constantValue, type.value, valueId)
-        } else {
-            CreationHostAction(name.id, valueId)
-        }
-    }
 
     override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
         val valueId = value?.id ?: -1

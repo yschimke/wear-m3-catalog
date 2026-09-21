@@ -17,8 +17,6 @@
 package androidx.compose.remote.creation.compose.action
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.actions.Action as CreationAction
-import androidx.compose.remote.creation.actions.ValueFloatExpressionChange
 import androidx.compose.remote.creation.compose.modifier.RemoteScrollState
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
@@ -28,13 +26,6 @@ internal class ScrollByAction(
     public val scrollState: RemoteScrollState,
     public val value: RemoteFloat,
 ) : RemoteAction() {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRemoteAction(): CreationAction {
-        val positionState = scrollState.positionState
-        val updatedValue = positionState + value
-        return ValueFloatExpressionChange(positionState.id, updatedValue.id)
-    }
-
     override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
         val positionState = scrollState.positionState
         return listOf(RemoteActionData.FloatExpressionChange(positionState.id, (positionState + value).id))
@@ -45,12 +36,6 @@ internal class ScrollToAction(
     public val scrollState: RemoteScrollState,
     public val value: RemoteFloat,
 ) : RemoteAction() {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRemoteAction(): CreationAction {
-        val positionState = scrollState.positionState
-        return ValueFloatExpressionChange(positionState.id, value.id)
-    }
-
     override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> =
         listOf(RemoteActionData.FloatExpressionChange(scrollState.positionState.id, value.id))
 }

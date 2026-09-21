@@ -21,8 +21,6 @@ import androidx.compose.remote.creation.compose.state.MutableRemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.creationState
 import androidx.compose.remote.creation.common.RemoteModifierOperation
-import androidx.compose.remote.creation.modifiers.RecordingModifier
-import androidx.compose.remote.creation.modifiers.ScrollModifier as CoreScrollModifier
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.annotation.RememberInComposition
 import androidx.compose.runtime.remember
@@ -87,10 +85,6 @@ internal data class ScrollModifier(val direction: Int, val state: RemoteScrollSt
     RemoteModifier.Element {
 
     // Not used
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        return CoreScrollModifier(direction, state.positionState.floatId, state.notches)
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.Scroll(
             direction,
@@ -111,7 +105,7 @@ internal data class ScrollModifier(val direction: Int, val state: RemoteScrollSt
  * @see rememberRemoteScrollState
  */
 public fun RemoteModifier.verticalScroll(state: RemoteScrollState): RemoteModifier {
-    return this.then(ClipModifier()).then(ScrollModifier(CoreScrollModifier.VERTICAL, state))
+    return this.then(ClipModifier()).then(ScrollModifier(Vertical, state))
 }
 
 /**
@@ -125,5 +119,8 @@ public fun RemoteModifier.verticalScroll(state: RemoteScrollState): RemoteModifi
  * @see rememberRemoteScrollState
  */
 public fun RemoteModifier.horizontalScroll(state: RemoteScrollState): RemoteModifier {
-    return this.then(ClipModifier()).then(ScrollModifier(CoreScrollModifier.HORIZONTAL, state))
+    return this.then(ClipModifier()).then(ScrollModifier(Horizontal, state))
 }
+
+private const val Horizontal = 0
+private const val Vertical = 1

@@ -20,7 +20,6 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteModifierOperation
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.runtime.Stable
 
 /**
@@ -33,9 +32,6 @@ import androidx.compose.runtime.Stable
  */
 @Stable
 public sealed interface RemoteModifier {
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public fun RemoteStateScope.toRecordingModifier(): RecordingModifier
 
     /**
      * Accumulates a value starting with [initial] and applying [operation] to the current value and
@@ -94,14 +90,6 @@ public sealed interface RemoteModifier {
         override fun all(predicate: (Element) -> Boolean): Boolean = predicate(this)
 
         @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-        override fun RemoteStateScope.toRecordingModifier(): RecordingModifier {
-            return RecordingModifier().then(toRecordingModifierElement())
-        }
-
-        @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-        public fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element
-
-        @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
         public fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
             error("Common modifier encoding is not implemented for ${this@Element::class.simpleName}")
     }
@@ -132,19 +120,8 @@ public sealed interface RemoteModifier {
 
         override fun toString(): String = "Modifier"
 
-        @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-        override fun RemoteStateScope.toRecordingModifier(): RecordingModifier = RecordingModifier()
     }
 }
-
-/**
- * Converts a [RemoteModifier] to a [RecordingModifier] within a [RemoteStateScope].
- *
- * This is the primary entry point for converting remote modifiers during document capture.
- */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-public fun RemoteStateScope.toRecordingModifier(modifier: RemoteModifier): RecordingModifier =
-    with(modifier) { toRecordingModifier() }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public fun RemoteStateScope.toRemoteModifierData(modifier: RemoteModifier): RemoteModifierData {
@@ -183,24 +160,6 @@ internal class CombinedRemoteModifier(
     private val outer: RemoteModifier,
     private val inner: RemoteModifier,
 ) : RemoteModifier {
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifier(): RecordingModifier {
-        val scope = this
-        val seenNonRepeatable = mutableSetOf<NonRepeatableModifier>()
-        return foldIn(RecordingModifier()) { acc, element ->
-            val nonRepeatable = element.nonRepeatableType()
-            if (nonRepeatable != null && !seenNonRepeatable.add(nonRepeatable)) {
-                println(
-                    "Warning: Ignoring duplicate ${element::class.simpleName} ($element); " +
-                        "only the first instance is applied (b/563261712)"
-                )
-                acc
-            } else {
-                acc.then(with(element) { scope.toRecordingModifierElement() })
-            }
-        }
-    }
 
     override fun <R> foldIn(initial: R, operation: (R, RemoteModifier.Element) -> R): R =
         inner.foldIn(outer.foldIn(initial, operation), operation)

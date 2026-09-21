@@ -17,12 +17,11 @@
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.collection.MutableObjectIntMap
-import androidx.compose.remote.core.operations.layout.managers.Custom.CustomProperty
 import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.compose.layout.CustomPropertyEntry
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.BaseRemoteState
 import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -620,17 +619,14 @@ internal sealed class DocumentOp {
         val childSpan: RemoteDocumentProgram.Span?,
     ) : DocumentOp() {
         override fun write(writer: RemoteComposeWriter, creationState: RemoteComposeCreationState) {
-            val corePropList = ArrayList<CustomProperty>(properties.size)
-            for (i in properties.indices) {
-                corePropList.add(properties[i].toCustomProperty(creationState))
-            }
-            val recordingModifier = creationState.toRecordingModifier(modifier)
-            if (recordingModifier.componentId == -1) {
-                recordingModifier.componentId(writer.nextId())
-            }
-            writer.startCustom(recordingModifier, config, corePropList)
+            val commonWriter = LegacyRemoteWriterAdapter(writer)
+            commonWriter.startCustom(
+                creationState.toRemoteModifierData(modifier),
+                creationState.writer.addText(config),
+                properties.map { it.toCustomProperty(creationState) },
+            )
             childSpan?.record(writer, creationState)
-            writer.endCustom()
+            commonWriter.endCustom()
         }
 
         override fun hasTransformsOrClips(): Boolean = childSpan?.hasTransformsOrClips() ?: false

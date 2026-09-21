@@ -24,8 +24,6 @@ import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rf
-import androidx.compose.remote.creation.modifiers.PaddingModifier as CreationPaddingModifier
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.unit.LayoutDirection
 
@@ -65,42 +63,6 @@ internal class PaddingModifier(
         ) {
             "Padding must be non-negative"
         }
-    }
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        val resolvedStart =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                startDp?.value ?: (start / remoteDensity.density)
-            } else {
-                start
-            }
-        val resolvedTop =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                topDp?.value ?: (top / remoteDensity.density)
-            } else {
-                top
-            }
-        val resolvedEnd =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                endDp?.value ?: (end / remoteDensity.density)
-            } else {
-                end
-            }
-        val resolvedBottom =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                bottomDp?.value ?: (bottom / remoteDensity.density)
-            } else {
-                bottom
-            }
-
-        val isLtr = layoutDirection == LayoutDirection.Ltr
-        return CreationPaddingModifier(
-            (if (isLtr) resolvedStart else resolvedEnd).floatId,
-            resolvedTop.floatId,
-            (if (isLtr) resolvedEnd else resolvedStart).floatId,
-            resolvedBottom.floatId,
-        )
     }
 
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {

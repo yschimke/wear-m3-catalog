@@ -21,8 +21,6 @@ import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
 import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
-import androidx.compose.remote.creation.modifiers.OffsetModifier as CreationOffsetModifier
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 internal class OffsetModifier(
@@ -41,23 +39,6 @@ internal class OffsetModifier(
         xDp = x,
         yDp = y,
     )
-
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        val resolvedX =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                xDp?.value ?: (x / remoteDensity.density)
-            } else {
-                x
-            }
-        val resolvedY =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                yDp?.value ?: (y / remoteDensity.density)
-            } else {
-                y
-            }
-        return CreationOffsetModifier(resolvedX.floatId, resolvedY.floatId)
-    }
 
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
         val resolvedX =

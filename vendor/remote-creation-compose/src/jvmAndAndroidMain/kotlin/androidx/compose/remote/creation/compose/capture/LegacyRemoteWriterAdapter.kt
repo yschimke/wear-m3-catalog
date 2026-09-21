@@ -9,6 +9,8 @@ import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.common.RemoteImageData
 import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.creation.common.RemoteLayerAttribute
+import androidx.compose.remote.creation.common.RemoteCustomPropertyData
+import androidx.compose.remote.core.operations.layout.managers.Custom
 import androidx.compose.remote.core.operations.layout.modifiers.HostActionMetadataOperation
 import androidx.compose.remote.core.operations.layout.modifiers.HostActionOperation
 import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
@@ -396,6 +398,39 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             data.alpha,
         )
         data.modifier.writeTo(this)
+        delegate.buffer.addContainerEnd()
+    }
+
+    override fun startCustom(
+        modifier: RemoteModifierData,
+        configId: Int,
+        properties: List<RemoteCustomPropertyData>,
+    ) {
+        if (modifier.componentId == -1) modifier.componentId = delegate.nextId()
+        val legacyProperties =
+            properties.map { property ->
+                if (
+                    property.dataType == RemoteCustomPropertyData.FloatProperty ||
+                        property.dataType == RemoteCustomPropertyData.FloatReturn
+                ) {
+                    Custom.CustomProperty(property.id, property.dataType, property.floatValue)
+                } else {
+                    Custom.CustomProperty(property.id, property.dataType, property.intValue)
+                }
+            }
+        Custom.apply(
+            delegate.buffer.buffer,
+            modifier.componentId,
+            -1,
+            configId,
+            legacyProperties,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCustom() {
+        delegate.buffer.addContainerEnd()
         delegate.buffer.addContainerEnd()
     }
 

@@ -19,6 +19,7 @@ package androidx.compose.remote.creation.compose.action
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.actions.HostAction as CreationHostAction
+import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.WriterEvents
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
@@ -49,15 +50,20 @@ public fun lambdaAction(content: () -> Unit): Action {
 public class LambdaAction(public val actionId: Int, public val content: () -> Unit) :
     RemoteAction() {
 
-    override fun RemoteStateScope.toRemoteAction(): CreationAction {
-        val action = CreationHostAction(LambdaAction.actionName(actionId))
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
         val writerCallback = (creationState as RemoteComposeCreationState).document.writerCallback
         if (writerCallback is WriterEvents) {
             writerCallback.storeLambda(actionId, content)
         } else {
             error("A WriterEvents is required for writing a LambdaAction.")
         }
-        return action
+        return listOf(
+            RemoteActionData.HostNamed(
+                creationState.writer.addText(LambdaAction.actionName(actionId)),
+                -1,
+                -1,
+            )
+        )
     }
 
     public companion object {

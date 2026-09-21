@@ -29,9 +29,6 @@ import androidx.compose.remote.creation.compose.shapes.toDimension
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
-import androidx.compose.remote.creation.modifiers.BorderModifier as CreationBorderModifier
-import androidx.compose.remote.creation.modifiers.DynamicBorderModifier
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.graphics.toArgb
 
@@ -40,39 +37,6 @@ internal class BorderModifier(
     public val color: RemoteColor,
     public val shape: RemoteShape = RemoteRectangleShape,
 ) : RemoteModifier.Element {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        var shapeType = ShapeType.RECTANGLE
-        var roundedCorner = 0f
-
-        if (shape === RemoteCircleShape) {
-            shapeType = ShapeType.CIRCLE
-        } else if (shape == RemoteRectangleShape) {
-            shapeType = ShapeType.RECTANGLE
-        } else if (shape is RemoteRoundedCornerShape) {
-            val context = RemoteFloatContext(this)
-            shapeType = ShapeType.ROUNDED_RECTANGLE
-
-            val remoteSize = RemoteSize(context.componentWidth(), context.componentHeight())
-            roundedCorner =
-                shape.topStart.toDimension(remoteSize, remoteDensity, densityBehavior).floatId
-        }
-
-        val resolvedWidth =
-            if (densityBehavior == RemoteDensityBehavior.Dp) {
-                width.value.floatId
-            } else {
-                width.toPx().floatId
-            }
-
-        val constantColor = color.constantValueOrNull
-        return if (constantColor != null) {
-            CreationBorderModifier(resolvedWidth, roundedCorner, constantColor.toArgb(), shapeType)
-        } else {
-            DynamicBorderModifier(resolvedWidth, roundedCorner, color.id.toShort(), shapeType)
-        }
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
         var shapeType = ShapeType.RECTANGLE
         var roundedCorner = 0f

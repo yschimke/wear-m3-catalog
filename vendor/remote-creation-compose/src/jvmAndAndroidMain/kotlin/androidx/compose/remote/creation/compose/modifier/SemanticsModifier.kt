@@ -25,7 +25,6 @@ import androidx.compose.remote.core.semantics.AccessibleComponent.Mode.SET
 import androidx.compose.remote.core.semantics.CoreSemantics
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.RemoteString
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.semantics.Role
 
@@ -118,21 +117,6 @@ internal data class SemanticsModifier(
     val mergeMode: Mode,
     val properties: Map<SemanticsPropertyKey<*>, Any?>,
 ) : RemoteModifier.Element {
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        return androidx.compose.remote.creation.modifiers.SemanticsModifier(
-            CoreSemantics().apply {
-                mMode = mergeMode
-                mTextId = (properties[SemanticsProperties.Text] as? RemoteString)?.id ?: 0
-                mContentDescriptionId =
-                    (properties[SemanticsProperties.ContentDescription] as? RemoteString)?.id ?: 0
-                mStateDescriptionId =
-                    (properties[SemanticsProperties.StateDescription] as? RemoteString)?.id ?: 0
-                mEnabled = properties[SemanticsProperties.Enabled] as? Boolean ?: true
-                mRole = fromRole(properties[SemanticsProperties.Role] as? Role)
-            }
-        )
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.Semantics(
             contentDescriptionId =

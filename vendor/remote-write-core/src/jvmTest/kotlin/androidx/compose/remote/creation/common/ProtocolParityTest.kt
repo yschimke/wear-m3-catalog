@@ -491,6 +491,47 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun customLayoutMatchesAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    androidx.compose.remote.core.operations.layout.managers.Custom.apply(
+      expected.buffer,
+      -2,
+      -1,
+      42,
+      listOf(
+        androidx.compose.remote.core.operations.layout.managers.Custom.CustomProperty(
+          1,
+          0,
+          7,
+        ),
+        androidx.compose.remote.core.operations.layout.managers.Custom.CustomProperty(
+          2,
+          1,
+          1.5f,
+        ),
+      ),
+    )
+    expected.addContentStart()
+    expected.addContainerEnd()
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.startCustom(
+      RemoteModifierData(),
+      42,
+      listOf(
+        RemoteCustomPropertyData.int(1, RemoteCustomPropertyData.IntProperty, 7),
+        RemoteCustomPropertyData.float(2, RemoteCustomPropertyData.FloatProperty, 1.5f),
+      ),
+    )
+    writer.endCustom()
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(

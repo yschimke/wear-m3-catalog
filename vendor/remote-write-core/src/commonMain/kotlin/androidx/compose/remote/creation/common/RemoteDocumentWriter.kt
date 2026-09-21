@@ -431,6 +431,38 @@ public class RemoteDocumentWriter(
     containerEnd()
   }
 
+  override fun startCustom(
+    modifier: RemoteModifierData,
+    configId: Int,
+    properties: List<RemoteCustomPropertyData>,
+  ) {
+    operation(LayoutCustom)
+    buffer.writeInt(resolveComponentId(modifier.componentId))
+    buffer.writeInt(-1)
+    buffer.writeInt(configId)
+    buffer.writeInt(properties.size)
+    properties.forEach { property ->
+      buffer.writeShort(property.id.toInt())
+      buffer.writeShort(property.dataType.toInt())
+      if (
+        property.dataType == RemoteCustomPropertyData.FloatProperty ||
+          property.dataType == RemoteCustomPropertyData.FloatReturn
+      ) {
+        buffer.writeFloat(property.floatValue)
+      } else {
+        buffer.writeInt(property.intValue)
+      }
+    }
+    modifier.writeTo(this)
+    operation(LayoutContent)
+    buffer.writeInt(lastComponentId)
+  }
+
+  override fun endCustom() {
+    containerEnd()
+    containerEnd()
+  }
+
   override fun startPatternDefinition(id: Int, parameterIds: IntArray) {
     operation(PatternDefine)
     buffer.writeInt(id)
@@ -1293,6 +1325,7 @@ public class RemoteDocumentWriter(
     private const val LayoutState = 217
     private const val LayoutFlow = 240
     private const val LayoutImage = 234
+    private const val LayoutCustom = 93
     private const val ModifierWidth = 16
     private const val ModifierHeight = 67
     private const val ModifierBackground = 55

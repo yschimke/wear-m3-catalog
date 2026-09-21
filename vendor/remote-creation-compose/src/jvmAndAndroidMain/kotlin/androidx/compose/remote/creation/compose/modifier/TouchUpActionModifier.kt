@@ -22,20 +22,10 @@ import androidx.compose.remote.creation.compose.action.RemoteAction
 import androidx.compose.remote.creation.compose.action.resolveAction
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
-import androidx.compose.remote.creation.modifiers.RecordingModifier
-import androidx.compose.remote.creation.modifiers.TouchActionModifier
 
 internal class TouchUpActionModifier(public val action: Action) : RemoteModifier.Element {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        return TouchActionModifier(
-            TouchActionModifier.UP,
-            if (action is RemoteAction) with(action) { listOf(toRemoteAction()) } else emptyList(),
-        )
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
-        RemoteModifierOperation.Touch(TouchActionModifier.UP, resolveAction(action))
+        RemoteModifierOperation.Touch(1, resolveAction(action))
 }
 
 public fun RemoteModifier.onTouchUp(action: Action): RemoteModifier =

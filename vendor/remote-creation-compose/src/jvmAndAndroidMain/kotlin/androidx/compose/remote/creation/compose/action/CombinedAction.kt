@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.action
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.common.RemoteActionData
 
@@ -29,17 +28,6 @@ import androidx.compose.remote.creation.common.RemoteActionData
 public fun combinedAction(vararg actions: Action): Action = CombinedAction(*actions)
 
 internal class CombinedAction(public vararg val actions: Action) : RemoteAction() {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun RemoteStateScope.toRemoteAction(): CreationAction {
-        return CreationAction { writer ->
-            for (action in actions) {
-                if (action is RemoteAction) {
-                    with(action) { toRemoteAction().write(writer) }
-                }
-            }
-        }
-    }
-
     override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> =
         actions.flatMap { resolveAction(it) }
 }

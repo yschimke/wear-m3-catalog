@@ -22,6 +22,7 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.core.operations.Utils
 import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.actions.HostAction as CreationHostAction
+import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.WriterEvents
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
@@ -55,15 +56,17 @@ public fun pendingIntentAction(pendingIntent: (Context) -> PendingIntent): Actio
 public class PendingIntentAction(public val pendingIntent: () -> PendingIntent) : RemoteAction() {
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRemoteAction(): CreationAction {
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
         val writerCallback = (creationState as RemoteComposeCreationState).document.writerCallback
         if (writerCallback is WriterEvents) {
             val index = writerCallback.storePendingIntent(pendingIntent())
             val valueId = creationState.writer.addInteger(index)
-            return CreationHostAction(
-                ACTION_NAME,
-                HostAction.Type.INT.value,
-                Utils.idFromLong(valueId).toInt(),
+            return listOf(
+                RemoteActionData.HostNamed(
+                    creationState.writer.addText(ACTION_NAME),
+                    HostAction.Type.INT.value,
+                    (valueId - 0x100000000L).toInt(),
+                )
             )
         } else {
             error(

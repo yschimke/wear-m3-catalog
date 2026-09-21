@@ -27,61 +27,12 @@ import androidx.compose.remote.creation.compose.shapes.RemoteShape
 import androidx.compose.remote.creation.compose.shapes.toDimension
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.min
-import androidx.compose.remote.creation.modifiers.ClipModifier as CoreClipModifier
-import androidx.compose.remote.creation.modifiers.RecordingModifier
-import androidx.compose.remote.creation.modifiers.RectShape as CoreRectShape
-import androidx.compose.remote.creation.modifiers.RoundedRectShape as CoreRoundedRectShape
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.unit.LayoutDirection
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class ClipModifier(public val shape: RemoteShape = RemoteRectangleShape) :
     RemoteModifier.Element {
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        val coreShape =
-            when (shape) {
-                RemoteRectangleShape -> CoreRectShape(0f, 0f, 0f, 0f)
-                RemoteCircleShape -> {
-                    val context = RemoteFloatContext(this)
-                    val remoteSize = RemoteSize(context.componentWidth(), context.componentHeight())
-                    val radius =
-                        if (densityBehavior == RemoteDensityBehavior.Dp) {
-                            min(remoteSize.width, remoteSize.height) / remoteDensity.density / 2f
-                        } else {
-                            min(remoteSize.width, remoteSize.height) / 2f
-                        }
-                    CoreRoundedRectShape(
-                        radius.floatId,
-                        radius.floatId,
-                        radius.floatId,
-                        radius.floatId,
-                    )
-                }
-                is RemoteRoundedCornerShape -> {
-                    val context = RemoteFloatContext(this)
-                    val remoteSize = RemoteSize(context.componentWidth(), context.componentHeight())
-                    val isRtl = layoutDirection == LayoutDirection.Rtl
-                    CoreRoundedRectShape(
-                        (if (isRtl) shape.topEnd else shape.topStart)
-                            .toDimension(remoteSize, remoteDensity, densityBehavior)
-                            .floatId,
-                        (if (isRtl) shape.topStart else shape.topEnd)
-                            .toDimension(remoteSize, remoteDensity, densityBehavior)
-                            .floatId,
-                        (if (isRtl) shape.bottomEnd else shape.bottomStart)
-                            .toDimension(remoteSize, remoteDensity, densityBehavior)
-                            .floatId,
-                        (if (isRtl) shape.bottomStart else shape.bottomEnd)
-                            .toDimension(remoteSize, remoteDensity, densityBehavior)
-                            .floatId,
-                    )
-                }
-                else -> CoreRectShape(0f, 0f, 0f, 0f)
-            }
-
-        return CoreClipModifier(coreShape)
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
         if (shape == RemoteRectangleShape) return RemoteModifierOperation.ClipRect
         val context = RemoteFloatContext(this)

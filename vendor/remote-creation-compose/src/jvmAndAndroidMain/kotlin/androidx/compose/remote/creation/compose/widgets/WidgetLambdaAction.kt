@@ -17,8 +17,7 @@
 package androidx.compose.remote.creation.compose.widgets
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.actions.Action as CreationAction
-import androidx.compose.remote.creation.actions.HostAction
+import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.creation.compose.action.RemoteAction
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 
@@ -27,12 +26,11 @@ import androidx.compose.remote.creation.compose.state.RemoteStateScope
 internal class WidgetLambdaAction(public val widgetId: Int, public val content: () -> Unit) :
     RemoteAction() {
 
-    override fun RemoteStateScope.toRemoteAction(): CreationAction {
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
         val actionId = widgetId * 1000 + counter
-        val action = HostAction(actionId, -1) // metadata)
         map[actionId] = this@WidgetLambdaAction
         counter++
-        return action
+        return listOf(RemoteActionData.HostMetadata(actionId, -1))
     }
 
     public companion object {

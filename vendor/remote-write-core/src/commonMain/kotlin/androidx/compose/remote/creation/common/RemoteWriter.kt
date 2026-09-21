@@ -49,6 +49,12 @@ public interface RemoteWriter {
   public fun startText(data: RemoteTextData)
   public fun endText()
   public fun image(data: RemoteImageData)
+  public fun startCustom(
+    modifier: RemoteModifierData,
+    configId: Int,
+    properties: List<RemoteCustomPropertyData>,
+  )
+  public fun endCustom()
   public fun startPatternDefinition(id: Int, parameterIds: IntArray)
   public fun endPatternDefinition()
   public fun startPatternInflation(id: Int, argumentIds: IntArray)

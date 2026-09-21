@@ -24,25 +24,12 @@ import androidx.compose.remote.creation.compose.action.RemoteAction
 import androidx.compose.remote.creation.compose.action.resolveAction
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.common.RemoteModifierOperation
-import androidx.compose.remote.creation.modifiers.ClickActionModifier
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.ui.semantics.Role
 
 internal class ClickableModifier(
     public val actions: List<Action>,
     public val clickType: Int = MultiClickModifier.CLICK_TYPE_SINGLE,
 ) : RemoteModifier.Element {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        return ClickActionModifier(
-            @Suppress("ListIterator")
-            actions.mapNotNull { action ->
-                if (action is RemoteAction) with(action) { toRemoteAction() } else null
-            },
-            clickType,
-        )
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.Click(clickType, actions.flatMap { resolveAction(it) })
 }

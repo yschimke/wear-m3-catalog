@@ -20,26 +20,10 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
 import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
-import androidx.compose.remote.creation.modifiers.HeightInModifier as CreationHeightInModifier
-import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 internal class HeightInModifier(val min: RemoteDp? = null, val max: RemoteDp? = null) :
     RemoteModifier.Element {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        val isPixels = densityBehavior == RemoteDensityBehavior.Pixels
-        var minValue = 0f
-        var maxValue = Float.MAX_VALUE
-        if (min != null) {
-            minValue = if (isPixels) min.toPx().floatId else min.value.floatId
-        }
-        if (max != null) {
-            maxValue = if (isPixels) max.toPx().floatId else max.value.floatId
-        }
-        return CreationHeightInModifier(minValue, maxValue)
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
         val isPixels = densityBehavior == RemoteDensityBehavior.Pixels
         val minValue = min?.let { if (isPixels) it.toPx().floatId else it.value.floatId } ?: 0f

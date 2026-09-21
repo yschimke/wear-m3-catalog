@@ -104,6 +104,10 @@ Pattern definition, inflation, and iteration containers are available on the com
 definitions patch their own local body length before closing, and modifiers nested in Android pattern
 inflations now use the typed common modifier encoder.
 
+Custom-component properties and layout containers are typed common payloads as well. The obsolete
+Creation `RecordingModifier` and Java `Action` conversion surfaces have been removed; Android host
+lambda and pending-intent actions now resolve directly to typed host-action payloads.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

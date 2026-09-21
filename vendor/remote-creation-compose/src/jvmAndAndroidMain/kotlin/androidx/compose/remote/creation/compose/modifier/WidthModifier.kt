@@ -23,17 +23,10 @@ import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.rf
-import androidx.compose.remote.creation.modifiers.RecordingModifier
-import androidx.compose.remote.creation.modifiers.WidthModifier as RecordingWidthModifier
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 internal class WidthModifier(public val type: Type, public val value: RemoteFloat) :
     RemoteModifier.Element {
-    @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
-        return RecordingWidthModifier(type, value.floatId)
-    }
-
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.Width(type.ordinal, value.floatId)
 
