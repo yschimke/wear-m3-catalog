@@ -21,6 +21,7 @@ import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.actions.HostAction as CreationHostAction
 import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.legacyDocument
 import androidx.compose.remote.creation.compose.capture.WriterEvents
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.creationState
@@ -51,7 +52,7 @@ public class LambdaAction(public val actionId: Int, public val content: () -> Un
     RemoteAction() {
 
     override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
-        val writerCallback = (creationState as RemoteComposeCreationState).document.writerCallback
+        val writerCallback = (creationState as RemoteComposeCreationState).legacyDocument.writerCallback
         if (writerCallback is WriterEvents) {
             writerCallback.storeLambda(actionId, content)
         } else {

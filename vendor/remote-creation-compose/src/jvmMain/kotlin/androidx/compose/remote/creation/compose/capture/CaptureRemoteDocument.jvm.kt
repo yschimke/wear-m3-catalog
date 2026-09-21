@@ -56,25 +56,22 @@ public suspend fun captureSingleRemoteDocument(
     val composition = Composition(RemoteComposeApplier(rootNode), recomposer)
     val imageProvider =
       object : PlatformImageProvider {
-        override fun addBitmap(
-          document: RemoteComposeWriter,
-          image: androidx.compose.ui.graphics.ImageBitmap,
-        ): Int = -1
+        override fun addBitmap(image: androidx.compose.ui.graphics.ImageBitmap): Int = -1
 
         override fun addNamedBitmap(
-          document: RemoteComposeWriter,
           name: String,
           image: androidx.compose.ui.graphics.ImageBitmap,
         ): Int = -1
       }
+    val document = profile.create(creationDisplayInfo.toCreationDisplayInfo(), null)
     val creationState =
-      RemoteComposeCreationState(
-        creationDisplayInfo = creationDisplayInfo,
-        profile = profile,
-        writerEvents = null,
-        remoteDensity = remoteDensity,
-        layoutDirection = layoutDirection,
-        platformImageProvider = imageProvider,
+      legacyCreationState(
+        creationDisplayInfo,
+        profile,
+        document,
+        remoteDensity,
+        layoutDirection,
+        imageProvider,
       )
 
     try {
@@ -101,7 +98,7 @@ public suspend fun captureSingleRemoteDocument(
         val recordingCanvas = JvmRecordingCanvas().apply { setRemoteComposeCreationState(creationState) }
         rootNode.render(creationState, RemoteCanvas(recordingCanvas))
         recordingCanvas.flush()
-        creationState.document.encodeToByteArray()
+        creationState.legacyDocument.encodeToByteArray()
       }
     } finally {
       composition.dispose()

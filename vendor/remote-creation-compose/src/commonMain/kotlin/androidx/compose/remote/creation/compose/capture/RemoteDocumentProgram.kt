@@ -26,6 +26,9 @@ import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
 import androidx.compose.remote.creation.compose.state.RemoteOperationCacheKey
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 import androidx.compose.remote.creation.compose.state.RemoteStateCacheKey
 
 /**
@@ -954,7 +957,7 @@ internal class RemoteDocumentProgram(val enableOptimizations: Boolean = false) {
      *   IDs.
      */
     public fun flush(creationState: RemoteComposeCreationState) {
-        creationState.drainGlobalDeclarations(this)
+        creationState.drainGlobalDeclarations(::recordDeclaration)
         optimize(creationState)
         writeTo(creationState.writer, creationState)
     }
@@ -1083,11 +1086,11 @@ internal class RemoteDocumentProgram(val enableOptimizations: Boolean = false) {
                     if (angleVal == null) {
                         break // Cannot commute past dynamic rotation, stop here.
                     }
-                    val rad = Math.toRadians(angleVal.toDouble())
-                    val cos = Math.cos(rad).toFloat()
-                    val sin = Math.sin(rad).toFloat()
-                    val rx = currDx * cos - currDy * sin
-                    val ry = currDx * sin + currDy * cos
+                    val rad = angleVal * PI.toFloat() / 180f
+                    val cosine = cos(rad)
+                    val sine = sin(rad)
+                    val rx = currDx * cosine - currDy * sine
+                    val ry = currDx * sine + currDy * cosine
                     currDx = rx
                     currDy = ry
                     i--

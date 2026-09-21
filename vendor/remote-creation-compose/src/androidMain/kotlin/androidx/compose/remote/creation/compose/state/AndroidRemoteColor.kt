@@ -21,6 +21,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.Rc.AndroidColors
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.legacyDocument
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 
@@ -57,7 +58,7 @@ public fun RemoteColor.Companion.createThemedRemoteColor(
         cacheKey = cacheKey,
         idProvider = { creationState ->
             creationState.getOrPutVariableId(cacheKey) {
-                (creationState as RemoteComposeCreationState).document
+                (creationState as RemoteComposeCreationState).legacyDocument
                     .addThemedColor(
                         AndroidColors.GROUP,
                         lightModeIndex,

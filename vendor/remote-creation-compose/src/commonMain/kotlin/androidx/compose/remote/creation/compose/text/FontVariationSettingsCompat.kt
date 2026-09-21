@@ -25,7 +25,6 @@ import androidx.compose.ui.text.font.FontVariation
  * API is present, so this file can be deleted without changing callers after that update.
  */
 internal val Font.variationSettings: FontVariation.Settings
-  get() {
-    val getter = javaClass.methods.firstOrNull { it.name == "getVariationSettings" }
-    return (getter?.invoke(this) as? FontVariation.Settings) ?: FontVariation.Settings()
-  }
+  get() = platformVariationSettings(this)
+
+internal expect fun platformVariationSettings(font: Font): FontVariation.Settings

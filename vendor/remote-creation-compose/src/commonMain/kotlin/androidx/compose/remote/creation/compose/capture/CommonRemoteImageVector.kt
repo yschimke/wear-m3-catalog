@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-@file:JvmName("RemoteImageVectorKt")
-@file:JvmMultifileClass
-
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.annotation.RestrictTo
@@ -103,7 +100,6 @@ internal constructor(
      * profiles that may not support clipping operations.
      */
     @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    @get:JvmName("hasClipPath")
     public val hasClipPath: Boolean by lazy(LazyThreadSafetyMode.NONE) { root.hasClipPath }
 
     public companion object

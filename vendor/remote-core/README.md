@@ -118,6 +118,12 @@ loops, offscreen bitmap targets, pattern definition/inflation/iteration, tuple l
 components, and unscaled bitmap draws all have common writer operations; platform recorders retain
 the legacy document only as their final adapter target.
 
+The Creation Compose API and rendering closure now live in `commonMain`: actions, layouts, text,
+images, canvas APIs, modifiers, painters, vectors, the optimized document program, and creation
+state all compile for Wasm from the same sources as JVM and Android. Platform source sets are reduced
+to the legacy writer/profile bridge, host capture services, JVM reflection hooks, diagnostics, and
+animated-vector parsing.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

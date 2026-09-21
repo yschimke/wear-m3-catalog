@@ -105,7 +105,7 @@ internal open class AndroidRecordingCanvas(
     internal var currentSaveRestoreNode: DocumentOp.SaveRestore? = null
 
     private val document: RemoteComposeWriter
-        get() = creationState.document
+        get() = creationState.legacyDocument
 
     override val remoteDensity: RemoteDensity
         get() = creationState.remoteDensity

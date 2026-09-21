@@ -24,6 +24,7 @@ import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.actions.HostAction as CreationHostAction
 import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.legacyDocument
 import androidx.compose.remote.creation.compose.capture.WriterEvents
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.creationState
@@ -57,7 +58,7 @@ public class PendingIntentAction(public val pendingIntent: () -> PendingIntent) 
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
-        val writerCallback = (creationState as RemoteComposeCreationState).document.writerCallback
+        val writerCallback = (creationState as RemoteComposeCreationState).legacyDocument.writerCallback
         if (writerCallback is WriterEvents) {
             val index = writerCallback.storePendingIntent(pendingIntent())
             val valueId = creationState.writer.addInteger(index)

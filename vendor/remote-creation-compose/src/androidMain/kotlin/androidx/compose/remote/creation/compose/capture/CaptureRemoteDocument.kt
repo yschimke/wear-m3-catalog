@@ -161,7 +161,7 @@ public suspend fun captureSingleRemoteDocument(
                 remoteDensity = remoteDensity,
             )
 
-        val initialSize = creationState.document.buffer.buffer.size()
+        val initialSize = creationState.legacyDocument.buffer.buffer.size()
 
         composition.setContent {
             CompositionLocalProvider(
@@ -213,8 +213,8 @@ public suspend fun captureSingleRemoteDocument(
             val remoteCanvas = RemoteCanvas(recordingCanvas)
 
             if (RemoteComposeCreationComposeFlags.isEnforceCleanRecompositionEnabled) {
-                check(creationState.document.buffer.buffer.size() == initialSize) {
-                    "Document was written to during composition. Expected size $initialSize, got ${creationState.document.buffer.buffer.size()}"
+                check(creationState.legacyDocument.buffer.buffer.size() == initialSize) {
+                    "Document was written to during composition. Expected size $initialSize, got ${creationState.legacyDocument.buffer.buffer.size()}"
                 }
             }
 
@@ -223,7 +223,7 @@ public suspend fun captureSingleRemoteDocument(
                 recordingCanvas.flush()
             }
 
-            creationState.document.encodeToByteArray()
+            creationState.legacyDocument.encodeToByteArray()
         }
 
         return CapturedDocument(document, writerEvents.pendingIntents, writerEvents.lambdas)
@@ -314,7 +314,7 @@ public fun captureRemoteDocument(
                 remoteDensity = remoteDensity,
             )
 
-        val initialSize = creationState.document.buffer.buffer.size()
+        val initialSize = creationState.legacyDocument.buffer.buffer.size()
 
         composition.setContent {
             CompositionLocalProvider(
@@ -349,7 +349,7 @@ public fun captureRemoteDocument(
                     .filter { it == Recomposer.State.Idle }
                     .mapLatest {
                         Snapshot.withMutableSnapshot {
-                            creationState.document =
+                            creationState.legacyDocument =
                                 profile.create(
                                     creationDisplayInfo.toCreationDisplayInfo(),
                                     writerEvents,
@@ -366,13 +366,13 @@ public fun captureRemoteDocument(
 
                             val remoteCanvas = RemoteCanvas(recordingCanvas)
 
-                            check(creationState.document.buffer.buffer.size() == initialSize) {
-                                "Document was written to during composition. Expected size $initialSize, got ${creationState.document.buffer.buffer.size()}"
+                            check(creationState.legacyDocument.buffer.buffer.size() == initialSize) {
+                                "Document was written to during composition. Expected size $initialSize, got ${creationState.legacyDocument.buffer.buffer.size()}"
                             }
 
                             rootNode.render(creationState, remoteCanvas)
 
-                            creationState.document.encodeToByteArray()
+                            creationState.legacyDocument.encodeToByteArray()
                         }
                     }
                     .distinctUntilChanged { old, new -> old.contentEquals(new) }
