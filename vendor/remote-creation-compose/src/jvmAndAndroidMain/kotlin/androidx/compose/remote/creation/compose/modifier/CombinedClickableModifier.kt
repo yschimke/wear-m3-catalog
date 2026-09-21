@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.MultiClickModifier
 import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.action.CombinedAction
 import androidx.compose.ui.semantics.Role
@@ -46,7 +45,7 @@ public fun RemoteModifier.combinedClickable(
                         modifier.then(
                             ClickableModifier(
                                 onClickActions,
-                                clickType = MultiClickModifier.CLICK_TYPE_SINGLE,
+                                clickType = 0,
                             )
                         )
                 }
@@ -57,7 +56,7 @@ public fun RemoteModifier.combinedClickable(
                         modifier.then(
                             ClickableModifier(
                                 onLongClickActions,
-                                clickType = MultiClickModifier.CLICK_TYPE_LONG,
+                                clickType = 1,
                             )
                         )
                 }
@@ -68,7 +67,7 @@ public fun RemoteModifier.combinedClickable(
                         modifier.then(
                             ClickableModifier(
                                 onDoubleClickActions,
-                                clickType = MultiClickModifier.CLICK_TYPE_DOUBLE,
+                                clickType = 2,
                             )
                         )
                 }

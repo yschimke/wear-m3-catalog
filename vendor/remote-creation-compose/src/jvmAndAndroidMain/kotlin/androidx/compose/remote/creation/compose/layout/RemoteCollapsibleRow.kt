@@ -17,8 +17,7 @@
 package androidx.compose.remote.creation.compose.layout
 
 import androidx.compose.foundation.layout.LayoutScopeMarker
-import androidx.compose.remote.core.operations.layout.managers.CollapsiblePriority
-import androidx.compose.remote.core.operations.layout.modifiers.DimensionModifierOperation.Type
+import androidx.compose.remote.creation.compose.modifier.RemoteDimensionType
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.CollapsiblePriorityModifier
@@ -42,7 +41,7 @@ public class RemoteCollapsibleRowScope {
      * @param weight The weight of the child.
      */
     public fun RemoteModifier.weight(weight: RemoteFloat): RemoteModifier =
-        then(WidthModifier(Type.WEIGHT, weight))
+        then(WidthModifier(RemoteDimensionType.WEIGHT, weight))
 
     /**
      * Sets the horizontal weight of the child.
@@ -50,7 +49,7 @@ public class RemoteCollapsibleRowScope {
      * @param weight The weight of the child.
      */
     public fun RemoteModifier.weight(weight: Float): RemoteModifier =
-        then(WidthModifier(Type.WEIGHT, RemoteFloat(weight)))
+        then(WidthModifier(RemoteDimensionType.WEIGHT, RemoteFloat(weight)))
 
     /**
      * Sets the collapsible priority of the child.
@@ -63,7 +62,7 @@ public class RemoteCollapsibleRowScope {
      *   prioritized to remain visible longer.
      */
     public fun RemoteModifier.collapsiblePriority(priority: Float): RemoteModifier =
-        then(CollapsiblePriorityModifier(CollapsiblePriority.HORIZONTAL, RemoteFloat(priority)))
+        then(CollapsiblePriorityModifier(0, RemoteFloat(priority)))
 }
 
 internal class RemoteCollapsibleRowNode : RemoteComposeNode() {

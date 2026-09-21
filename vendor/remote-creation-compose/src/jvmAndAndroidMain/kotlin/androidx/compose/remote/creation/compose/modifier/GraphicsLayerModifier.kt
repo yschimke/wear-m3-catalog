@@ -19,7 +19,6 @@ package androidx.compose.remote.creation.compose.modifier
 import androidx.annotation.RestrictTo
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.remote.core.operations.layout.modifiers.GraphicsLayerModifierOperation
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.rf
@@ -62,41 +61,41 @@ public class GraphicsLayerModifier(
         fun int(id: Int, value: Int, default: Int) {
             if (value != default) attributes += RemoteLayerAttribute.IntValue(id, value)
         }
-        float(GraphicsLayerModifierOperation.SCALE_X, scaleX, 1f)
-        float(GraphicsLayerModifierOperation.SCALE_Y, scaleY, 1f)
-        float(GraphicsLayerModifierOperation.ROTATION_X, rotationX, 0f)
-        float(GraphicsLayerModifierOperation.ROTATION_Y, rotationY, 0f)
-        float(GraphicsLayerModifierOperation.ROTATION_Z, rotationZ, 0f)
-        float(GraphicsLayerModifierOperation.TRANSFORM_ORIGIN_X, transformOriginX, 0f)
-        float(GraphicsLayerModifierOperation.TRANSFORM_ORIGIN_Y, transformOriginY, 0f)
-        float(GraphicsLayerModifierOperation.TRANSLATION_X, translationX, 0f)
-        float(GraphicsLayerModifierOperation.TRANSLATION_Y, translationY, 0f)
-        float(GraphicsLayerModifierOperation.SHADOW_ELEVATION, shadowElevation, 0f)
-        float(GraphicsLayerModifierOperation.ALPHA, alpha, 1f)
-        float(GraphicsLayerModifierOperation.CAMERA_DISTANCE, cameraDistance, 8f)
-        int(GraphicsLayerModifierOperation.COMPOSITING_STRATEGY, compositingStrategy, 0)
+        float(Layer.SCALE_X, scaleX, 1f)
+        float(Layer.SCALE_Y, scaleY, 1f)
+        float(Layer.ROTATION_X, rotationX, 0f)
+        float(Layer.ROTATION_Y, rotationY, 0f)
+        float(Layer.ROTATION_Z, rotationZ, 0f)
+        float(Layer.TRANSFORM_ORIGIN_X, transformOriginX, 0f)
+        float(Layer.TRANSFORM_ORIGIN_Y, transformOriginY, 0f)
+        float(Layer.TRANSLATION_X, translationX, 0f)
+        float(Layer.TRANSLATION_Y, translationY, 0f)
+        float(Layer.SHADOW_ELEVATION, shadowElevation, 0f)
+        float(Layer.ALPHA, alpha, 1f)
+        float(Layer.CAMERA_DISTANCE, cameraDistance, 8f)
+        int(Layer.COMPOSITING_STRATEGY, compositingStrategy, 0)
         if (renderEffect is BlurEffect) {
             attributes +=
                 RemoteLayerAttribute.FloatValue(
-                    GraphicsLayerModifierOperation.BLUR_RADIUS_X,
+                    Layer.BLUR_RADIUS_X,
                     renderEffect.radiusX,
                 )
             attributes +=
                 RemoteLayerAttribute.FloatValue(
-                    GraphicsLayerModifierOperation.BLUR_RADIUS_Y,
+                    Layer.BLUR_RADIUS_Y,
                     renderEffect.radiusY,
                 )
             val tileMode =
                 when (renderEffect.edgeTreatment) {
-                    TileMode.Clamp -> GraphicsLayerModifierOperation.TILE_MODE_CLAMP
-                    TileMode.Repeated -> GraphicsLayerModifierOperation.TILE_MODE_REPEATED
-                    TileMode.Mirror -> GraphicsLayerModifierOperation.TILE_MODE_MIRROR
-                    TileMode.Decal -> GraphicsLayerModifierOperation.TILE_MODE_DECAL
-                    else -> GraphicsLayerModifierOperation.TILE_MODE_CLAMP
+                    TileMode.Clamp -> Layer.TILE_MODE_CLAMP
+                    TileMode.Repeated -> Layer.TILE_MODE_REPEATED
+                    TileMode.Mirror -> Layer.TILE_MODE_MIRROR
+                    TileMode.Decal -> Layer.TILE_MODE_DECAL
+                    else -> Layer.TILE_MODE_CLAMP
                 }
             attributes +=
                 RemoteLayerAttribute.IntValue(
-                    GraphicsLayerModifierOperation.BLUR_TILE_MODE,
+                    Layer.BLUR_TILE_MODE,
                     tileMode,
                 )
         }
@@ -104,23 +103,23 @@ public class GraphicsLayerModifier(
             RectangleShape ->
                 attributes +=
                     RemoteLayerAttribute.IntValue(
-                        GraphicsLayerModifierOperation.SHAPE,
-                        GraphicsLayerModifierOperation.SHAPE_RECT,
+                        Layer.SHAPE,
+                        Layer.SHAPE_RECT,
                     )
             is RoundedCornerShape -> {
                 attributes +=
                     RemoteLayerAttribute.IntValue(
-                        GraphicsLayerModifierOperation.SHAPE,
-                        GraphicsLayerModifierOperation.SHAPE_ROUND_RECT,
+                        Layer.SHAPE,
+                        Layer.SHAPE_ROUND_RECT,
                     )
                 attributes +=
-                    RemoteLayerAttribute.FloatValue(GraphicsLayerModifierOperation.SHAPE_RADIUS, 40f)
+                    RemoteLayerAttribute.FloatValue(Layer.SHAPE_RADIUS, 40f)
             }
             CircleShape ->
                 attributes +=
                     RemoteLayerAttribute.IntValue(
-                        GraphicsLayerModifierOperation.SHAPE,
-                        GraphicsLayerModifierOperation.SHAPE_CIRCLE,
+                        Layer.SHAPE,
+                        Layer.SHAPE_CIRCLE,
                     )
             else -> Unit
         }
@@ -309,4 +308,32 @@ public fun RemoteModifier.graphicsLayer(block: GraphicsLayerScope.() -> Unit): R
             renderEffect = scope.renderEffect,
         )
     )
+}
+
+private object Layer {
+    const val SCALE_X = 0
+    const val SCALE_Y = 1
+    const val ROTATION_X = 2
+    const val ROTATION_Y = 3
+    const val ROTATION_Z = 4
+    const val TRANSFORM_ORIGIN_X = 5
+    const val TRANSFORM_ORIGIN_Y = 6
+    const val TRANSLATION_X = 7
+    const val TRANSLATION_Y = 8
+    const val SHADOW_ELEVATION = 10
+    const val ALPHA = 11
+    const val CAMERA_DISTANCE = 12
+    const val COMPOSITING_STRATEGY = 13
+    const val BLUR_RADIUS_X = 17
+    const val BLUR_RADIUS_Y = 18
+    const val BLUR_TILE_MODE = 19
+    const val SHAPE = 20
+    const val SHAPE_RADIUS = 21
+    const val SHAPE_RECT = 0
+    const val SHAPE_ROUND_RECT = 1
+    const val SHAPE_CIRCLE = 2
+    const val TILE_MODE_CLAMP = 0
+    const val TILE_MODE_REPEATED = 1
+    const val TILE_MODE_MIRROR = 2
+    const val TILE_MODE_DECAL = 3
 }

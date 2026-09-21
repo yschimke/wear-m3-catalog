@@ -108,6 +108,11 @@ Custom-component properties and layout containers are typed common payloads as w
 Creation `RecordingModifier` and Java `Action` conversion surfaces have been removed; Android host
 lambda and pending-intent actions now resolve directly to typed host-action payloads.
 
+Creation-facing modifiers no longer import core protocol enums for dimensions, shapes, clicks,
+semantics, animation, graphics layers, paths, or collapsible orientation. Their local typed values
+retain the protocol ordinals, leaving the legacy core dependency confined to capture orchestration,
+statistics, logging, and animated-vector parsing.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

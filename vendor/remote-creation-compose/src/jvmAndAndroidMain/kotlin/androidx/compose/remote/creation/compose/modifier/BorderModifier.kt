@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.modifiers.ShapeType
 import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
 import androidx.compose.remote.creation.compose.layout.RemoteFloatContext
 import androidx.compose.remote.creation.compose.layout.RemoteSize
@@ -38,13 +37,13 @@ internal class BorderModifier(
     public val shape: RemoteShape = RemoteRectangleShape,
 ) : RemoteModifier.Element {
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
-        var shapeType = ShapeType.RECTANGLE
+        var shapeType = 0
         var roundedCorner = 0f
         if (shape === RemoteCircleShape) {
-            shapeType = ShapeType.CIRCLE
+            shapeType = 1
         } else if (shape is RemoteRoundedCornerShape) {
             val context = RemoteFloatContext(this)
-            shapeType = ShapeType.ROUNDED_RECTANGLE
+            shapeType = 2
             roundedCorner =
                 shape.topStart
                     .toDimension(

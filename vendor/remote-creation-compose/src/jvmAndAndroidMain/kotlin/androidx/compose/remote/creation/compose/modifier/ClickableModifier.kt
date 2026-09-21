@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.MultiClickModifier
 import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.action.CombinedAction
 import androidx.compose.remote.creation.compose.action.RemoteAction
@@ -28,7 +27,7 @@ import androidx.compose.ui.semantics.Role
 
 internal class ClickableModifier(
     public val actions: List<Action>,
-    public val clickType: Int = MultiClickModifier.CLICK_TYPE_SINGLE,
+    public val clickType: Int = 0,
 ) : RemoteModifier.Element {
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.Click(clickType, actions.flatMap { resolveAction(it) })

@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.action
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteState
@@ -66,11 +65,11 @@ internal class HostAction(
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public enum class Type(public val value: Int) {
-        FLOAT(HostNamedActionOperation.FLOAT_TYPE),
-        INT(HostNamedActionOperation.INT_TYPE),
-        STRING(HostNamedActionOperation.STRING_TYPE),
-        FLOAT_ARRAY(HostNamedActionOperation.FLOAT_ARRAY_TYPE),
-        NONE(HostNamedActionOperation.NONE_TYPE),
+        FLOAT(0),
+        INT(1),
+        STRING(2),
+        FLOAT_ARRAY(3),
+        NONE(-1),
     }
 
     // TODO: Add a RemoteFloatArray type and use it here!

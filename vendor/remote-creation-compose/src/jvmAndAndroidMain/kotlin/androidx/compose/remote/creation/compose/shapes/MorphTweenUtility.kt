@@ -16,7 +16,7 @@
 
 package androidx.compose.remote.creation.compose.shapes
 
-import androidx.compose.remote.core.operations.PathData
+import androidx.compose.remote.creation.common.Utils
 import androidx.graphics.shapes.Cubic
 import androidx.graphics.shapes.RoundedPolygon
 
@@ -27,13 +27,13 @@ internal object MorphTweenUtility {
         val data = FloatArray(3 + cubics.size * 9 + 1)
         var i = 0
         val first = cubics[0]
-        data[i++] = PathData.MOVE_NAN
+        data[i++] = Utils.asNan(10)
         data[i++] = first.anchor0X
         data[i++] = first.anchor0Y
 
         for (j in cubics.indices) {
             val cubic = cubics[j]
-            data[i++] = PathData.CUBIC_NAN
+            data[i++] = Utils.asNan(14)
             data[i++] = 0f // padding
             data[i++] = 0f // padding
             data[i++] = cubic.control0X
@@ -43,7 +43,7 @@ internal object MorphTweenUtility {
             data[i++] = cubic.anchor1X
             data[i++] = cubic.anchor1Y
         }
-        data[i++] = PathData.CLOSE_NAN
+        data[i++] = Utils.asNan(15)
         return data
     }
 }

@@ -17,12 +17,6 @@
 package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.semantics.AccessibleComponent
-import androidx.compose.remote.core.semantics.AccessibleComponent.Mode
-import androidx.compose.remote.core.semantics.AccessibleComponent.Mode.CLEAR_AND_SET
-import androidx.compose.remote.core.semantics.AccessibleComponent.Mode.MERGE
-import androidx.compose.remote.core.semantics.AccessibleComponent.Mode.SET
-import androidx.compose.remote.core.semantics.CoreSemantics
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.common.RemoteModifierOperation
@@ -114,34 +108,34 @@ public var SemanticsPropertyReceiver.enabled: Boolean
     }
 
 internal data class SemanticsModifier(
-    val mergeMode: Mode,
+    val mergeMode: Int,
     val properties: Map<SemanticsPropertyKey<*>, Any?>,
 ) : RemoteModifier.Element {
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.Semantics(
             contentDescriptionId =
                 (properties[SemanticsProperties.ContentDescription] as? RemoteString)?.id ?: 0,
-            role = fromRole(properties[SemanticsProperties.Role] as? Role)?.ordinal ?: -1,
+            role = roleValue(properties[SemanticsProperties.Role] as? Role),
             textId = (properties[SemanticsProperties.Text] as? RemoteString)?.id ?: 0,
             stateDescriptionId =
                 (properties[SemanticsProperties.StateDescription] as? RemoteString)?.id ?: 0,
-            mode = mergeMode.ordinal,
+            mode = mergeMode,
             enabled = properties[SemanticsProperties.Enabled] as? Boolean ?: true,
             clickable = false,
         )
 }
 
-private fun fromRole(role: Role?): AccessibleComponent.Role? {
+private fun roleValue(role: Role?): Int {
     return when (role) {
-        Role.RadioButton -> AccessibleComponent.Role.RADIO_BUTTON
-        Role.DropdownList -> AccessibleComponent.Role.DROPDOWN_LIST
-        Role.Button -> AccessibleComponent.Role.BUTTON
-        Role.Checkbox -> AccessibleComponent.Role.CHECKBOX
-        Role.Image -> AccessibleComponent.Role.IMAGE
-        Role.Switch -> AccessibleComponent.Role.SWITCH
-        Role.Tab -> AccessibleComponent.Role.TAB
-        null -> null
-        else -> AccessibleComponent.Role.UNKNOWN
+        Role.Button -> 0
+        Role.Checkbox -> 1
+        Role.Switch -> 2
+        Role.RadioButton -> 3
+        Role.Tab -> 4
+        Role.Image -> 5
+        Role.DropdownList -> 6
+        null -> -1
+        else -> 9
     }
 }
 
@@ -180,7 +174,7 @@ internal class AccessibilitySemantics : SemanticsPropertyReceiver {
 public fun RemoteModifier.clearAndSetSemantics(
     properties: SemanticsPropertyReceiver.() -> Unit
 ): RemoteModifier =
-    then(SemanticsModifier(CLEAR_AND_SET, AccessibilitySemantics().apply(properties).props.toMap()))
+    then(SemanticsModifier(1, AccessibilitySemantics().apply(properties).props.toMap()))
 
 /**
  * Adds semantics to the node.
@@ -194,7 +188,7 @@ public fun RemoteModifier.semantics(
 ): RemoteModifier =
     then(
         SemanticsModifier(
-            if (mergeDescendants) MERGE else SET,
+            if (mergeDescendants) 2 else 0,
             AccessibilitySemantics().apply(properties).props.toMap(),
         )
     )

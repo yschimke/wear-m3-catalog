@@ -17,7 +17,7 @@
 package androidx.compose.remote.creation.compose.layout
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.modifiers.DimensionModifierOperation.Type
+import androidx.compose.remote.creation.compose.modifier.RemoteDimensionType
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -37,11 +37,11 @@ public class RemoteRowScope {
      * @param weight The proportional width to allocate to this element.
      */
     public fun RemoteModifier.weight(weight: RemoteFloat): RemoteModifier =
-        then(WidthModifier(Type.WEIGHT, weight))
+        then(WidthModifier(RemoteDimensionType.WEIGHT, weight))
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public fun RemoteModifier.weight(weight: Float): RemoteModifier =
-        then(WidthModifier(Type.WEIGHT, RemoteFloat(weight)))
+        then(WidthModifier(RemoteDimensionType.WEIGHT, RemoteFloat(weight)))
 }
 
 internal class RemoteRowNode : RemoteComposeNode() {

@@ -17,7 +17,7 @@
 package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.modifiers.AlignByModifierOperation.FIRST_BASELINE
+import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 
@@ -32,7 +32,7 @@ import androidx.compose.remote.creation.common.RemoteModifierOperation
 internal class AlignByBaselineModifier() : RemoteModifier.Element {
 
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
-        RemoteModifierOperation.AlignBy(FIRST_BASELINE)
+        RemoteModifierOperation.AlignBy(Utils.asNan(1))
 }
 
 /**

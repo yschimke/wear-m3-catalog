@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.vector
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.Operations
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.compose.capture.DefaultGroupName
 import androidx.compose.remote.creation.compose.capture.DefaultPathName
@@ -381,7 +380,7 @@ internal class RemoteGroupComponent : RemoteVNode() {
                 scaleY.constantValue == 1f)
         val hasClip =
             clipPathData.isNotEmpty() &&
-                Operations.CLIP_PATH in
+                38 in
                     this@draw.remoteCanvas.internalCanvas.creationState.profile.supportedOperations
 
         if (hasTransform || hasClip || groupMatrix != null) {

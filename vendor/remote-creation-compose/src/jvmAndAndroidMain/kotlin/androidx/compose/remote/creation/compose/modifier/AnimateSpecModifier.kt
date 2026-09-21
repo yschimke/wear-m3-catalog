@@ -17,7 +17,6 @@
 package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.layout.animation.AnimationSpec.ANIMATION
 import androidx.compose.remote.creation.common.GeneralEasing
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.RemoteTweenSpec
@@ -25,30 +24,43 @@ import androidx.compose.remote.creation.compose.state.remoteTween
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 /** Transition effect applied when a component enters a state layout. */
-public class RemoteEnterTransition internal constructor(internal val animation: ANIMATION) {
+public enum class RemoteAnimation {
+    FADE_IN,
+    FADE_OUT,
+    SLIDE_LEFT,
+    SLIDE_RIGHT,
+    SLIDE_TOP,
+    SLIDE_BOTTOM,
+    ROTATE,
+    PARTICLE,
+}
+
+public class RemoteEnterTransition internal constructor(internal val animation: RemoteAnimation) {
     public companion object {
         /** Fades the component in from transparent to opaque. */
-        public val FadeIn: RemoteEnterTransition = RemoteEnterTransition(ANIMATION.FADE_IN)
+        public val FadeIn: RemoteEnterTransition = RemoteEnterTransition(RemoteAnimation.FADE_IN)
 
         /** Slides the component in towards the left. */
-        public val SlideInLeft: RemoteEnterTransition = RemoteEnterTransition(ANIMATION.SLIDE_LEFT)
+        public val SlideInLeft: RemoteEnterTransition =
+            RemoteEnterTransition(RemoteAnimation.SLIDE_LEFT)
 
         /** Slides the component in towards the right. */
         public val SlideInRight: RemoteEnterTransition =
-            RemoteEnterTransition(ANIMATION.SLIDE_RIGHT)
+            RemoteEnterTransition(RemoteAnimation.SLIDE_RIGHT)
 
         /** Slides the component in towards the top. */
-        public val SlideInTop: RemoteEnterTransition = RemoteEnterTransition(ANIMATION.SLIDE_TOP)
+        public val SlideInTop: RemoteEnterTransition =
+            RemoteEnterTransition(RemoteAnimation.SLIDE_TOP)
 
         /** Slides the component in towards the bottom. */
         public val SlideInBottom: RemoteEnterTransition =
-            RemoteEnterTransition(ANIMATION.SLIDE_BOTTOM)
+            RemoteEnterTransition(RemoteAnimation.SLIDE_BOTTOM)
 
         /** Rotates the component during entry. */
-        public val Rotate: RemoteEnterTransition = RemoteEnterTransition(ANIMATION.ROTATE)
+        public val Rotate: RemoteEnterTransition = RemoteEnterTransition(RemoteAnimation.ROTATE)
 
         /** Applies a particle effect during entry. */
-        public val Particle: RemoteEnterTransition = RemoteEnterTransition(ANIMATION.PARTICLE)
+        public val Particle: RemoteEnterTransition = RemoteEnterTransition(RemoteAnimation.PARTICLE)
     }
 
     override fun equals(other: Any?): Boolean =
@@ -60,29 +72,32 @@ public class RemoteEnterTransition internal constructor(internal val animation: 
 }
 
 /** Transition effect applied when a component exits a state layout. */
-public class RemoteExitTransition internal constructor(internal val animation: ANIMATION) {
+public class RemoteExitTransition internal constructor(internal val animation: RemoteAnimation) {
     public companion object {
         /** Fades the component out from opaque to transparent. */
-        public val FadeOut: RemoteExitTransition = RemoteExitTransition(ANIMATION.FADE_OUT)
+        public val FadeOut: RemoteExitTransition = RemoteExitTransition(RemoteAnimation.FADE_OUT)
 
         /** Slides the component out towards the left. */
-        public val SlideOutLeft: RemoteExitTransition = RemoteExitTransition(ANIMATION.SLIDE_LEFT)
+        public val SlideOutLeft: RemoteExitTransition =
+            RemoteExitTransition(RemoteAnimation.SLIDE_LEFT)
 
         /** Slides the component out towards the right. */
-        public val SlideOutRight: RemoteExitTransition = RemoteExitTransition(ANIMATION.SLIDE_RIGHT)
+        public val SlideOutRight: RemoteExitTransition =
+            RemoteExitTransition(RemoteAnimation.SLIDE_RIGHT)
 
         /** Slides the component out towards the top. */
-        public val SlideOutTop: RemoteExitTransition = RemoteExitTransition(ANIMATION.SLIDE_TOP)
+        public val SlideOutTop: RemoteExitTransition =
+            RemoteExitTransition(RemoteAnimation.SLIDE_TOP)
 
         /** Slides the component out towards the bottom. */
         public val SlideOutBottom: RemoteExitTransition =
-            RemoteExitTransition(ANIMATION.SLIDE_BOTTOM)
+            RemoteExitTransition(RemoteAnimation.SLIDE_BOTTOM)
 
         /** Rotates the component during exit. */
-        public val Rotate: RemoteExitTransition = RemoteExitTransition(ANIMATION.ROTATE)
+        public val Rotate: RemoteExitTransition = RemoteExitTransition(RemoteAnimation.ROTATE)
 
         /** Applies a particle effect during exit. */
-        public val Particle: RemoteExitTransition = RemoteExitTransition(ANIMATION.PARTICLE)
+        public val Particle: RemoteExitTransition = RemoteExitTransition(RemoteAnimation.PARTICLE)
     }
 
     override fun equals(other: Any?): Boolean =
@@ -105,8 +120,8 @@ internal class AnimateSpecModifier(
     val motionEasingType: Int,
     val visibilityDuration: Float,
     val visibilityEasingType: Int,
-    val enterAnimation: ANIMATION,
-    val exitAnimation: ANIMATION,
+    val enterAnimation: RemoteAnimation,
+    val exitAnimation: RemoteAnimation,
 ) : RemoteModifier.Element {
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.AnimationSpec(
@@ -258,8 +273,8 @@ public fun RemoteModifier.animationSpec(
     motionEasingType: Int = GeneralEasing.CUBIC_STANDARD,
     visibilityDuration: Float = motionDuration,
     visibilityEasingType: Int = motionEasingType,
-    enterAnimation: ANIMATION = ANIMATION.FADE_IN,
-    exitAnimation: ANIMATION = ANIMATION.FADE_OUT,
+    enterAnimation: RemoteAnimation = RemoteAnimation.FADE_IN,
+    exitAnimation: RemoteAnimation = RemoteAnimation.FADE_OUT,
     enabled: Boolean = true,
 ): RemoteModifier {
     val id = if (enabled) animationId else 0
