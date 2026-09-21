@@ -32,6 +32,15 @@ public sealed interface RemoteModifierOperation {
   public data class Click(val clickType: Int, val actions: List<RemoteActionData>) :
     RemoteModifierOperation
   public data class Touch(val type: Int, val actions: List<RemoteActionData>) : RemoteModifierOperation
+  public data class Semantics(
+    val contentDescriptionId: Int,
+    val role: Int,
+    val textId: Int,
+    val stateDescriptionId: Int,
+    val mode: Int,
+    val enabled: Boolean,
+    val clickable: Boolean,
+  ) : RemoteModifierOperation
 }
 
 /** Typed action payloads nested under click and touch modifier containers. */

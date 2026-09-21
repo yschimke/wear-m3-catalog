@@ -26,6 +26,7 @@ import androidx.compose.remote.core.semantics.CoreSemantics
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.modifiers.RecordingModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.semantics.Role
 
 /**
@@ -131,6 +132,19 @@ internal data class SemanticsModifier(
             }
         )
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.Semantics(
+            contentDescriptionId =
+                (properties[SemanticsProperties.ContentDescription] as? RemoteString)?.id ?: 0,
+            role = fromRole(properties[SemanticsProperties.Role] as? Role)?.ordinal ?: -1,
+            textId = (properties[SemanticsProperties.Text] as? RemoteString)?.id ?: 0,
+            stateDescriptionId =
+                (properties[SemanticsProperties.StateDescription] as? RemoteString)?.id ?: 0,
+            mode = mergeMode.ordinal,
+            enabled = properties[SemanticsProperties.Enabled] as? Boolean ?: true,
+            clickable = false,
+        )
 }
 
 private fun fromRole(role: Role?): AccessibleComponent.Role? {

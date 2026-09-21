@@ -203,6 +203,16 @@ public class RemoteDocumentWriter(
         modifier.actions.forEach(::writeAction)
         containerEnd()
       }
+      is RemoteModifierOperation.Semantics -> {
+        operation(AccessibilitySemantics)
+        buffer.writeInt(modifier.contentDescriptionId)
+        buffer.writeByte(modifier.role)
+        buffer.writeInt(modifier.textId)
+        buffer.writeInt(modifier.stateDescriptionId)
+        buffer.writeByte(modifier.mode)
+        buffer.writeByte(if (modifier.enabled) 1 else 0)
+        buffer.writeByte(if (modifier.clickable) 1 else 0)
+      }
     }
   }
 
@@ -1166,6 +1176,7 @@ public class RemoteDocumentWriter(
     private const val ValueIntegerExpressionChange = 218
     private const val ValueFloatChange = 222
     private const val ValueFloatExpressionChange = 227
+    private const val AccessibilitySemantics = 250
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

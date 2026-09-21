@@ -82,6 +82,9 @@ Click and touch containers now retain typed host and value-change actions. Named
 expression dependencies are resolved before structural serialization, so nested actions cannot add
 late declarations inside a component body.
 
+Accessibility semantics are encoded through the same common modifier IR, including merge mode,
+role, text/state ids, enabled state and clickability.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

@@ -11,6 +11,7 @@ import androidx.compose.remote.creation.common.RemoteActionData
 import androidx.compose.remote.core.operations.layout.modifiers.HostActionMetadataOperation
 import androidx.compose.remote.core.operations.layout.modifiers.HostActionOperation
 import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
+import androidx.compose.remote.core.semantics.CoreSemantics
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -210,6 +211,17 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
                 operation.actions.forEach(::writeAction)
                 delegate.buffer.addContainerEnd()
             }
+            is RemoteModifierOperation.Semantics ->
+                CoreSemantics.apply(
+                    delegate.buffer.buffer,
+                    operation.contentDescriptionId,
+                    operation.role.toByte(),
+                    operation.textId,
+                    operation.stateDescriptionId,
+                    operation.mode,
+                    operation.enabled,
+                    operation.clickable,
+                )
         }
     }
 

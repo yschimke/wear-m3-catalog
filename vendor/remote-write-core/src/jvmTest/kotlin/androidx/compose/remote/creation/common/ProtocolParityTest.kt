@@ -351,6 +351,28 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun semanticsModifierMatchesAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    androidx.compose.remote.core.semantics.CoreSemantics.apply(
+      expected.buffer,
+      42,
+      3,
+      43,
+      44,
+      2,
+      false,
+      true,
+    )
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(RemoteModifierOperation.Semantics(42, 3, 43, 44, 2, false, true))
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(
