@@ -116,6 +116,40 @@ public class RemoteDocumentWriter(
 
   override fun endStateLayout(): Unit = endLayout()
 
+  override fun writeModifier(modifier: RemoteModifierOperation) {
+    when (modifier) {
+      is RemoteModifierOperation.Width -> {
+        operation(ModifierWidth)
+        buffer.writeInt(modifier.type)
+        buffer.writeFloat(modifier.value)
+      }
+      is RemoteModifierOperation.Height -> {
+        operation(ModifierHeight)
+        buffer.writeInt(modifier.type)
+        buffer.writeFloat(modifier.value)
+      }
+      is RemoteModifierOperation.Padding ->
+        floats(ModifierPadding, modifier.left, modifier.top, modifier.right, modifier.bottom)
+      is RemoteModifierOperation.Background -> {
+        operation(ModifierBackground)
+        buffer.writeInt(modifier.flags)
+        buffer.writeInt(modifier.colorId)
+        buffer.writeInt(0)
+        buffer.writeInt(0)
+        buffer.writeFloat(modifier.red)
+        buffer.writeFloat(modifier.green)
+        buffer.writeFloat(modifier.blue)
+        buffer.writeFloat(modifier.alpha)
+        buffer.writeInt(modifier.shape)
+      }
+      RemoteModifierOperation.ClipRect -> operation(ModifierClipRect)
+      is RemoteModifierOperation.Offset -> floats(ModifierOffset, modifier.x, modifier.y)
+      is RemoteModifierOperation.ZIndex -> floats(ModifierZIndex, modifier.value)
+      RemoteModifierOperation.Ripple -> operation(ModifierRipple)
+      RemoteModifierOperation.DrawContent -> operation(ModifierDrawContent)
+    }
+  }
+
   public fun column(
     horizontal: Int = HorizontalStart,
     vertical: Int = VerticalTop,
@@ -934,6 +968,15 @@ public class RemoteDocumentWriter(
     private const val LayoutFitBox = 176
     private const val LayoutState = 217
     private const val LayoutFlow = 240
+    private const val ModifierWidth = 16
+    private const val ModifierHeight = 67
+    private const val ModifierBackground = 55
+    private const val ModifierPadding = 58
+    private const val ModifierClipRect = 108
+    private const val ModifierDrawContent = 174
+    private const val ModifierOffset = 221
+    private const val ModifierZIndex = 223
+    private const val ModifierRipple = 229
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

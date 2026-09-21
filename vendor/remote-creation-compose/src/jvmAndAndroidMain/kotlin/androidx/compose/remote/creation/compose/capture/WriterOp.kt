@@ -2,6 +2,7 @@ package androidx.compose.remote.creation.compose.capture
 
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.PaintBundleData
+import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -12,6 +13,109 @@ import androidx.compose.remote.creation.compose.state.RemoteString
 /** Typed write operations retained in the document program until serialization. */
 internal sealed interface WriterOp {
     fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState)
+
+    data object StartRoot : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startRoot()
+    }
+
+    data object EndRoot : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endRoot()
+    }
+
+    data class StartBox(val modifier: RemoteModifierData, val horizontal: Int, val vertical: Int) :
+        WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startBox(modifier, horizontal, vertical)
+    }
+
+    data object EndBox : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endBox()
+    }
+
+    data class StartRow(val modifier: RemoteModifierData, val horizontal: Int, val vertical: Int) :
+        WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startRow(modifier, horizontal, vertical)
+    }
+
+    data object EndRow : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endRow()
+    }
+
+    data class StartColumn(val modifier: RemoteModifierData, val horizontal: Int, val vertical: Int) :
+        WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startColumn(modifier, horizontal, vertical)
+    }
+
+    data object EndColumn : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endColumn()
+    }
+
+    data class StartCanvas(val modifier: RemoteModifierData) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startCanvas(modifier)
+    }
+
+    data object EndCanvas : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endCanvas()
+    }
+
+    data object StartCanvasOperations : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startCanvasOperations()
+    }
+
+    data object EndCanvasOperations : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endCanvasOperations()
+    }
+
+    data class StartFitBox(
+        val modifier: RemoteModifierData,
+        val horizontal: Int,
+        val vertical: Int,
+    ) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startFitBox(modifier, horizontal, vertical)
+    }
+
+    data object EndFitBox : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endFitBox()
+    }
+
+    data class StartFlow(
+        val modifier: RemoteModifierData,
+        val horizontal: Int,
+        val vertical: Int,
+        val maxItemsInEachRow: Int,
+        val maxLines: Int,
+    ) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startFlow(modifier, horizontal, vertical, maxItemsInEachRow, maxLines)
+    }
+
+    data object EndFlow : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endFlow()
+    }
+
+    data class StartStateLayout(val modifier: RemoteModifierData, val indexId: Int) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startStateLayout(modifier, indexId)
+    }
+
+    data object EndStateLayout : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endStateLayout()
+    }
 
     data class Painted(
         val paint: RemotePaint?,

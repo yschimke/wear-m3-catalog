@@ -18,6 +18,8 @@ package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.common.RemoteModifierData
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.runtime.Stable
 
@@ -98,6 +100,10 @@ public sealed interface RemoteModifier {
 
         @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
         public fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element
+
+        @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+        public fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+            error("Common modifier encoding is not implemented for ${this@Element::class.simpleName}")
     }
 
     /**
@@ -139,6 +145,20 @@ public sealed interface RemoteModifier {
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public fun RemoteStateScope.toRecordingModifier(modifier: RemoteModifier): RecordingModifier =
     with(modifier) { toRecordingModifier() }
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public fun RemoteStateScope.toRemoteModifierData(modifier: RemoteModifier): RemoteModifierData {
+    val scope = this
+    val result = RemoteModifierData()
+    val seenNonRepeatable = mutableSetOf<NonRepeatableModifier>()
+    modifier.foldIn(Unit) { _, element ->
+        val nonRepeatable = element.nonRepeatableType()
+        if (nonRepeatable == null || seenNonRepeatable.add(nonRepeatable)) {
+            result.then(with(element) { scope.toRemoteModifierOperation() })
+        }
+    }
+    return result
+}
 
 // Workaround for b/563261712: Modifier element types that do not support multiple instances
 // on the same component. When chained, the outer (first) modifier takes precedence and

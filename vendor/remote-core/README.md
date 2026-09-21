@@ -63,6 +63,11 @@ canvas and state layout). Their component ids and nested content boundaries are 
 the JVM adapter is retained only as an oracle and temporary sink while modifier operations move to
 the same common representation.
 
+Modifier migration is typed as well: resolved modifier chains retain operation data rather than
+platform modifier objects. Width, height, padding, background, rectangular clipping, offset,
+z-index, ripple and draw-content already have byte-parity coverage; layout nodes continue using the
+legacy sink until every modifier and text component can enter the buffered structural path together.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

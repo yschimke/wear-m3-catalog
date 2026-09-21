@@ -228,6 +228,39 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun basicModifiersMatchAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addWidthModifierOperation(6, 10f)
+    expected.addHeightModifierOperation(3, 0.5f)
+    expected.addModifierPadding(1f, 2f, 3f, 4f)
+    expected.addModifierBackground(0.1f, 0.2f, 0.3f, 0.4f, 1)
+    expected.addDynamicModifierBackground(42, 0)
+    expected.addClipRectModifier()
+    expected.addModifierOffset(5f, 6f)
+    expected.addModifierZIndex(7f)
+    expected.addModifierRipple()
+    expected.addDrawContentOperation()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(RemoteModifierOperation.Width(6, 10f))
+    writer.writeModifier(RemoteModifierOperation.Height(3, 0.5f))
+    writer.writeModifier(RemoteModifierOperation.Padding(1f, 2f, 3f, 4f))
+    writer.writeModifier(
+      RemoteModifierOperation.Background(0, 0, 0.1f, 0.2f, 0.3f, 0.4f, 1)
+    )
+    writer.writeModifier(RemoteModifierOperation.Background(2, 42, 0f, 0f, 0f, 0f, 0))
+    writer.writeModifier(RemoteModifierOperation.ClipRect)
+    writer.writeModifier(RemoteModifierOperation.Offset(5f, 6f))
+    writer.writeModifier(RemoteModifierOperation.ZIndex(7f))
+    writer.writeModifier(RemoteModifierOperation.Ripple)
+    writer.writeModifier(RemoteModifierOperation.DrawContent)
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun longStateOperationsMatchAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addLong(42, 0x1020304050607080L)

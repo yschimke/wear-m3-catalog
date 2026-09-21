@@ -4,6 +4,7 @@ import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.common.BitmapFontGlyph
 import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteModifierData
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -105,6 +106,40 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     }
 
     override fun endStateLayout() = delegate.endStateLayout()
+
+    override fun writeModifier(operation: RemoteModifierOperation) {
+        when (operation) {
+            is RemoteModifierOperation.Width ->
+                delegate.addWidthModifierOperation(operation.type, operation.value)
+            is RemoteModifierOperation.Height ->
+                delegate.addHeightModifierOperation(operation.type, operation.value)
+            is RemoteModifierOperation.Padding ->
+                delegate.addModifierPadding(
+                    operation.left,
+                    operation.top,
+                    operation.right,
+                    operation.bottom,
+                )
+            is RemoteModifierOperation.Background -> {
+                if (operation.flags == 2) {
+                    delegate.addDynamicModifierBackground(operation.colorId, operation.shape)
+                } else {
+                    delegate.addModifierBackground(
+                        operation.red,
+                        operation.green,
+                        operation.blue,
+                        operation.alpha,
+                        operation.shape,
+                    )
+                }
+            }
+            RemoteModifierOperation.ClipRect -> delegate.addClipRectModifier()
+            is RemoteModifierOperation.Offset -> delegate.addModifierOffset(operation.x, operation.y)
+            is RemoteModifierOperation.ZIndex -> delegate.addModifierZIndex(operation.value)
+            RemoteModifierOperation.Ripple -> delegate.addModifierRipple()
+            RemoteModifierOperation.DrawContent -> delegate.addDrawContentOperation()
+        }
+    }
 
     override fun setNamedVariable(id: Int, name: String, type: Int) =
         delegate.setNamedVariable(id, name, type)
