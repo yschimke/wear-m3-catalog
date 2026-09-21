@@ -27,6 +27,10 @@ compose-bom = "2026.09.00"
 # the real AndroidX library, not by the port.
 wearcmp-port = "1.7.0-beta02-cmp09"
 
+# The published CMP Remote Compose writer. Browser Preview resolves this exact immutable version
+# from the group-fenced remote-compose-cmp-maven repository; it never follows latest.
+remote-compose-cmp = "4307936-ps17-cmp01"
+
 # Compose Multiplatform. `commonMain` compiles against the JetBrains runtime/foundation/ui, which
 # resolve to the androidx artifacts on the android target — same FQNs, so the port and the AARs are
 # interchangeable at the source level, which is what makes one set of component bodies possible.
@@ -214,6 +218,9 @@ composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-over
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 wearcmp-compose-material3 = { module = "ee.schimke.wearcmp:wear-compose-material3", version.ref = "wearcmp-port" }
 wearcmp-compose-foundation = { module = "ee.schimke.wearcmp:wear-compose-foundation", version.ref = "wearcmp-port" }
+remotecompose-write-core = { module = "ee.schimke.remotecompose:remote-write-core", version.ref = "remote-compose-cmp" }
+remotecompose-creation-compose = { module = "ee.schimke.remotecompose:remote-creation-compose", version.ref = "remote-compose-cmp" }
+remotecompose-material3 = { module = "ee.schimke.remotecompose:remote-material3", version.ref = "remote-compose-cmp" }
 compose-multiplatform-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose-multiplatform-material3" }
 compose-multiplatform-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 
@@ -277,6 +284,8 @@ composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-r
 # `composePreviewPlugin`, so a skew between them would mean this module gating the sheet's export
 # with a different projector than the one that produces it.
 composeai-remotecompose-json = { module = "ee.schimke.composeai:remotecompose-json", version.ref = "composePreviewCore" }
+composeai-rc-players-bom = { module = "ee.schimke.composeai:rc-players-bom", version.ref = "rcEmbeddedPlayer" }
+composeai-rc-player-compose = { module = "ee.schimke.composeai:rc-player-compose" }
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 composeai-ui-builder-export = { module = "ee.schimke.composeai:compose-preview-ui-builder-export", version.ref = "composePreviewServer" }
 composeai-ui-builder-renderer-sdk-source = { module = "ee.schimke.composeai:ui-builder-renderer-sdk-source", version.ref = "uiBuilderSource" }

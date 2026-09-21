@@ -21,6 +21,7 @@ import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.uibuilder.CanvasDocumentHost
 import ee.schimke.composeai.uibuilder.CanvasMode
 import ee.schimke.composeai.uibuilder.RenderCanvasNode
+import ee.schimke.composeai.uibuilder.UiBuilderInspectionCollector
 import ee.schimke.composeai.uibuilder.UiBuilderSemanticActionController
 import ee.schimke.composeai.uibuilder.applyCanvasModifier
 import ee.schimke.composeai.uibuilder.protocol.CanvasAdapterMappingV1
@@ -113,34 +114,27 @@ fun main() {
         ) {
           MaterialTheme {
             Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
-              CanvasDocumentHost(
-                document = document,
-                adapterIds = adapterIds,
-                adapterMappings = adapterMappings,
-                mode = mode,
-                density = density,
-                modifier = Modifier.fillMaxSize(),
-                renderSessionId = renderSessionId,
-                runtimeActionController = actions,
-                onInspectionSnapshot = onInspectionSnapshot,
-                rootModifier = { Modifier.align(Alignment.TopStart) },
-              ) { entry, rootModifier ->
-                RenderCanvasNode(
-                  entry = entry,
-                  registry = runtimeAdapters,
-                  modifier = rootModifier,
-                  applyModifier = { current, value ->
-                    current.applyCanvasModifier(
-                      value = value,
-                      mode = mode,
-                      resolveColor = { resolveWearColor(it) },
-                      resolveShape = ::resolveWearShape,
-                    )
+              if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED) {
+                SemanticCanvas(
+                  document = document,
+                  mode = mode,
+                  density = density,
+                  renderSessionId = renderSessionId,
+                  actions = actions,
+                  onInspectionSnapshot = onInspectionSnapshot,
+                )
+              } else {
+                RemoteM3DevicePreview(
+                  document = document,
+                  widthDp = surface.widthDp,
+                  heightDp = surface.heightDp,
+                  onReady = {
+                    // DEVICE is read-only, so the host only needs document identity to correlate
+                    // the frame. Bounds and semantic actions belong to AUTHORING_UNROLLED and must
+                    // not be fabricated from the player's pixels.
+                    onInspectionSnapshot(UiBuilderInspectionCollector(document).snapshot())
                   },
-                  missingComponent = { label, next -> UnsupportedComponent(label, next) },
-                ) {
-                  UnsupportedComponent(node.componentId, prepared.modifier)
-                }
+                )
               }
             }
           }
@@ -150,6 +144,47 @@ fun main() {
     },
     onRejected = { error("Skiko initialization failed: $it") },
   )
+}
+
+@Composable
+private fun SemanticCanvas(
+  document: ee.schimke.composeai.uibuilder.UiBuilderDocument,
+  mode: CanvasMode,
+  density: Density,
+  renderSessionId: String,
+  actions: UiBuilderSemanticActionController,
+  onInspectionSnapshot: (ee.schimke.composeai.uibuilder.UiBuilderInspectionSnapshot) -> Unit,
+  modifier: Modifier = Modifier,
+) {
+  CanvasDocumentHost(
+    document = document,
+    adapterIds = adapterIds,
+    adapterMappings = adapterMappings,
+    mode = mode,
+    density = density,
+    modifier = modifier.fillMaxSize(),
+    renderSessionId = renderSessionId,
+    runtimeActionController = actions,
+    onInspectionSnapshot = onInspectionSnapshot,
+    rootModifier = { Modifier.align(Alignment.TopStart) },
+  ) { entry, rootModifier ->
+    RenderCanvasNode(
+      entry = entry,
+      registry = runtimeAdapters,
+      modifier = rootModifier,
+      applyModifier = { current, value ->
+        current.applyCanvasModifier(
+          value = value,
+          mode = mode,
+          resolveColor = { resolveWearColor(it) },
+          resolveShape = ::resolveWearShape,
+        )
+      },
+      missingComponent = { label, next -> UnsupportedComponent(label, next) },
+    ) {
+      UnsupportedComponent(node.componentId, prepared.modifier)
+    }
+  }
 }
 
 @Composable

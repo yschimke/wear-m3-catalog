@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -27,25 +28,50 @@ val wearWidgetCanvasAdapters = canvasAdapterRegistry {
     val horizontalPadding = float("horizontalPaddingDp", spec.horizontalPaddingDp)
     val verticalPadding = float("verticalPaddingDp", spec.verticalPaddingDp)
     val cornerRadius = float("cornerRadiusDp", spec.cornerRadiusDp)
-    val shape = RoundedCornerShape(cornerRadius.dp)
     val background =
       string("background").takeIf(String::isNotEmpty)?.let {
         resolveWearColor(it, WidgetDefaultBackground)
       } ?: WidgetDefaultBackground
-    Box(
-      modifier =
-        modifier
-          .size(
-            (spec.contentWidthDp + 2f * horizontalPadding).dp,
-            (spec.contentHeightDp + 2f * verticalPadding).dp,
-          )
-          .background(background, shape)
+    WearWidgetContainerFrame(
+      modifier = modifier,
+      contentWidthDp = spec.contentWidthDp.toFloat(),
+      contentHeightDp = spec.contentHeightDp.toFloat(),
+      horizontalPaddingDp = horizontalPadding,
+      verticalPaddingDp = verticalPadding,
+      cornerRadiusDp = cornerRadius,
+      background = background,
+      backgroundContent = { Slot("background", Modifier.fillMaxSize().clip(it)) },
     ) {
-      Slot("background", Modifier.fillMaxSize().clip(shape))
-      Box(Modifier.padding(horizontalPadding.dp, verticalPadding.dp)) {
-        Slot("content", Modifier.fillMaxSize())
-      }
+      Slot("content", Modifier.fillMaxSize())
     }
+  }
+}
+
+/** Shared Glance Wear host frame used by both the editable stand-in and the played RC document. */
+@Composable
+fun WearWidgetContainerFrame(
+  contentWidthDp: Float,
+  contentHeightDp: Float,
+  horizontalPaddingDp: Float,
+  verticalPaddingDp: Float,
+  cornerRadiusDp: Float,
+  background: Color,
+  modifier: Modifier = Modifier,
+  backgroundContent: @Composable (RoundedCornerShape) -> Unit = {},
+  content: @Composable () -> Unit,
+) {
+  val shape = RoundedCornerShape(cornerRadiusDp.dp)
+  Box(
+    modifier =
+      modifier
+        .size(
+          (contentWidthDp + 2f * horizontalPaddingDp).dp,
+          (contentHeightDp + 2f * verticalPaddingDp).dp,
+        )
+        .background(background, shape)
+  ) {
+    backgroundContent(shape)
+    Box(Modifier.padding(horizontalPaddingDp.dp, verticalPaddingDp.dp)) { content() }
   }
 }
 

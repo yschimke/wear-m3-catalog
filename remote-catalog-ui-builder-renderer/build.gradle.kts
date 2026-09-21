@@ -62,8 +62,22 @@ plugins {
 val runtimeIdentity =
   providers
     .environmentVariable("GITHUB_SHA")
-    .map { "remote-m3-p2-${it.take(12)}" }
-    .orElse("remote-m3-p2-development")
+    .map { "remote-m3-p3-${it.take(12)}" }
+    .orElse("remote-m3-p3-development")
+
+val remoteComposePort =
+  groovy.json.JsonSlurper().parse(rootProject.file("vendor/remote-compose-upstream.json"))
+    as Map<String, Any>
+val remoteComposeWriterVersion =
+  "${remoteComposePort.getValue("change")}-ps${remoteComposePort.getValue("patchSet")}-cmp" +
+    "%02d".format((remoteComposePort.getValue("portRevision") as Number).toInt())
+
+check(libs.versions.remote.compose.cmp.get() == remoteComposeWriterVersion) {
+  "remote-m3 Browser Preview must consume the published port $remoteComposeWriterVersion; " +
+    "found ${libs.versions.remote.compose.cmp.get()}"
+}
+
+val rcPlayerVersion = libs.versions.rcEmbeddedPlayer.get()
 
 val generatedRuntimePolicy = layout.buildDirectory.dir("generated/uiBuilderRuntimePolicy")
 val generateRuntimePolicy by
@@ -83,12 +97,18 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       implementation(libs.composeai.ui.builder.renderer.sdk.source)
+      implementation(libs.remotecompose.write.core)
+      implementation(libs.remotecompose.creation.compose)
+      implementation(libs.remotecompose.material3)
       implementation(project(":ui-builder-foundation-adapters"))
       implementation(project(":ui-builder-material-adapters"))
       implementation(project(":ui-builder-wear-adapters"))
+      implementation(project.dependencies.platform(libs.composeai.rc.players.bom))
+      implementation(libs.composeai.rc.player.compose)
       implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
+      implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     }
     wasmJsMain { kotlin.srcDir(generateRuntimePolicy) }
   }
@@ -124,6 +144,10 @@ abstract class AssembleCatalogRendererRuntime : DefaultTask() {
 
   @get:Input abstract val runtimeId: Property<String>
 
+  @get:Input abstract val writerVersion: Property<String>
+
+  @get:Input abstract val playerVersion: Property<String>
+
   @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
 
   @get:Inject abstract val fileSystemOperations: FileSystemOperations
@@ -153,7 +177,7 @@ abstract class AssembleCatalogRendererRuntime : DefaultTask() {
     output
       .resolve("runtime-manifest.json")
       .writeText(
-        """{"schema":"compose-ui-builder-runtime/v1","runtimeId":"${runtimeId.get()}","protocolVersion":2,"entrypoint":"index.html","integritySha256":"$integrity"}"""
+        """{"schema":"compose-ui-builder-runtime/v1","runtimeId":"${runtimeId.get()}","protocolVersion":2,"entrypoint":"index.html","remoteComposeWriter":"${writerVersion.get()}","rcPlayer":"${playerVersion.get()}","integritySha256":"$integrity"}"""
       )
   }
 
@@ -176,6 +200,8 @@ val wasmRendererDist =
     dependsOn(runtimeAssets)
     assetsDirectory.set(layout.buildDirectory.dir("runtimeAssets"))
     runtimeId.set(runtimeIdentity)
+    writerVersion.set(remoteComposeWriterVersion)
+    playerVersion.set(rcPlayerVersion)
     outputDirectory.set(layout.buildDirectory.dir("wasmRendererDist"))
   }
 
@@ -198,6 +224,10 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
 
   @get:Input abstract val expectedRuntimeId: Property<String>
 
+  @get:Input abstract val expectedWriterVersion: Property<String>
+
+  @get:Input abstract val expectedPlayerVersion: Property<String>
+
   @TaskAction
   fun verify() {
     ZipFile(archiveFile.get().asFile).use { zip ->
@@ -218,6 +248,8 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
       val manifest = zip.getInputStream(zip.getEntry("runtime-manifest.json")).reader().readText()
       check(manifest.contains("\"runtimeId\":\"${expectedRuntimeId.get()}\""))
       check(manifest.contains("\"protocolVersion\":2"))
+      check(manifest.contains("\"remoteComposeWriter\":\"${expectedWriterVersion.get()}\""))
+      check(manifest.contains("\"rcPlayer\":\"${expectedPlayerVersion.get()}\""))
       check(manifest.contains(Regex("\"integritySha256\":\"[a-f0-9]{64}\"")))
     }
   }
@@ -228,6 +260,8 @@ tasks.register<VerifyCatalogRendererRuntime>("verifyRendererRuntime") {
   dependsOn(rendererArchive)
   archiveFile.set(rendererArchive.flatMap { it.archiveFile })
   expectedRuntimeId.set(runtimeIdentity)
+  expectedWriterVersion.set(remoteComposeWriterVersion)
+  expectedPlayerVersion.set(rcPlayerVersion)
 }
 
 tasks.named("check") { dependsOn("verifyRendererRuntime") }

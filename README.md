@@ -166,8 +166,11 @@ shelf order — and `remote-catalog/` has its own for the `remote-m3` system's w
 Per-component builder policy is `@BuilderComponent` beside `@CatalogComponent` on the sticker, so a
 component is never renamed in two places. The
 [contract](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md)
-explains the split, and each file's `$comment` fields explain the decisions in it. **Nothing reads
-them yet** — they are authored so they can be proved equivalent before anything switches over.
+explains the split, and each file's `$comment` fields explain the decisions in it. The `remote-m3`
+runtime follows the explicit three-surface contract in
+[`docs/design/REMOTE_M3_UI_BUILDER.md`](docs/design/REMOTE_M3_UI_BUILDER.md): editable Wear CMP
+stand-ins, a real CMP/Wasm Remote M3 document and player for Browser Preview, and authoritative
+AndroidX Remote M3 creation/playback for Native / Live.
 
 The **template designs** a new design opens as are here for both modules: the four
 `:remote-catalog` ones (the two widget host frames and the two worked widget samples) under

@@ -37,6 +37,15 @@ dependencyResolutionManagement {
       content { includeGroup("ee.schimke.wearcmp") }
     }
 
+    // The published CMP Remote Compose writer used by the remote-m3 UI Builder Browser Preview.
+    // Kept separate from the Wear port above because the two release independently. The exact
+    // coordinate is pinned in libs.versions.toml and embedded in the renderer manifest; this
+    // repository is fenced to its own namespace so it cannot answer any AndroidX dependency.
+    maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/remote-compose-cmp-maven/") {
+      name = "remoteComposeCmpPort"
+      content { includeGroup("ee.schimke.remotecompose") }
+    }
+
     // ── The androidx.dev snapshot lane, PINNED IN-TREE and GROUP-FENCED ───────────────────────
     // Selected by `.github/ci/remote-snapshot-pin` — one line, an androidx.dev build id or
     // `latest` — with `-PremoteSnapshot=<id>` as a per-invocation override and an empty or absent
