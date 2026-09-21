@@ -20,6 +20,7 @@ package androidx.compose.remote.creation.compose.capture
 import android.graphics.Path
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.common.Utils
 import androidx.compose.ui.graphics.asComposePath
 
 /**
@@ -32,11 +33,65 @@ public class RemoteComposePath(
     public val remote: RemotePath,
 ) : androidx.compose.ui.graphics.Path by foo {
     public fun asAndroidPath(): Path {
-        return remote.path
+        return remote.toAndroidPath()
     }
 }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public fun RemotePath.asComposePath(): RemoteComposePath {
-    return RemoteComposePath(this.path.asComposePath(), this)
+    return RemoteComposePath(toAndroidPath().asComposePath(), this)
+}
+
+private fun RemotePath.toAndroidPath(): Path {
+    val result = Path()
+    val values = pathArray
+    var index = 0
+    while (index < size) {
+        when (Utils.idFromNan(values[index])) {
+            10 -> {
+                result.moveTo(values[index + 1], values[index + 2])
+                index += 3
+            }
+            11 -> {
+                result.lineTo(values[index + 3], values[index + 4])
+                index += 5
+            }
+            12 -> {
+                result.quadTo(
+                    values[index + 3],
+                    values[index + 4],
+                    values[index + 5],
+                    values[index + 6],
+                )
+                index += 7
+            }
+            13 -> {
+                result.conicTo(
+                    values[index + 3],
+                    values[index + 4],
+                    values[index + 5],
+                    values[index + 6],
+                    values[index + 7],
+                )
+                index += 8
+            }
+            14 -> {
+                result.cubicTo(
+                    values[index + 3],
+                    values[index + 4],
+                    values[index + 5],
+                    values[index + 6],
+                    values[index + 7],
+                    values[index + 8],
+                )
+                index += 9
+            }
+            15 -> {
+                result.close()
+                index++
+            }
+            else -> error("Unknown RemotePath command at index $index")
+        }
+    }
+    return result
 }

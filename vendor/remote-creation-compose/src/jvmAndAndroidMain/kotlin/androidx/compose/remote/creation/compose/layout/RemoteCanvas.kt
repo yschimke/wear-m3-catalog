@@ -367,14 +367,13 @@ public class RemoteCanvas(
         paint: RemotePaint? = null,
     ) {
         val op =
-            if (pathFillType == PathFillType.EvenOdd) {
-                // The temporary Java adapter has no float-array + winding overload.
-                recordRenderingOp(paint) {
-                    internalCanvas.document.drawPath(internalCanvas.document.addPathData(path, 1))
-                }
-            } else {
-                recordRenderingOp(paint, WriterOp.DrawPath(path.snapshotData()))
-            }
+            recordRenderingOp(
+                paint,
+                WriterOp.DrawPath(
+                    path.snapshotData(),
+                    winding = if (pathFillType == PathFillType.EvenOdd) 1 else 0,
+                ),
+            )
         internalCanvas.buffer.addRoots(op, path)
     }
 

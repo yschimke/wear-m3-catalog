@@ -49,6 +49,10 @@ state implementation and its density/font conversion closure now live in `common
 capture supplies image data and temporarily adapts the same interface to the legacy writer while
 layout, paint, modifier and action migration continues.
 
+`RemotePath` is now a common encoded-path builder rather than a platform path wrapper. Its output
+feeds path CSE directly, including explicit even-odd winding through the common writer; the Android
+Compose `Path` bridge is now a one-way compatibility decoder rather than the encoding boundary.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

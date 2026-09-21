@@ -20,6 +20,9 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
+import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.capture.toRemotePath
+import androidx.compose.remote.creation.compose.vector.RemotePathScope
 import androidx.compose.ui.unit.LayoutDirection
 
 /** Scope for accessing remote state IDs. */
@@ -60,3 +63,7 @@ public interface RemoteStateScope {
 @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public val RemoteStateScope.creationState: RemoteComposeCreationContext
     get() = this as? RemoteComposeCreationContext ?: parentScope.creationState
+
+/** Builds a platform-neutral encoded path using this state allocation scope. */
+public fun RemoteStateScope.remotePath(block: RemotePathScope.() -> Unit): RemotePath =
+    RemotePathScope().apply(block).nodes.toRemotePath(creationState = this)

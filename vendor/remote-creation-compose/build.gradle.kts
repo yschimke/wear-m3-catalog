@@ -33,6 +33,7 @@ kotlin {
         implementation("androidx.graphics:graphics-shapes:1.1.0")
       }
     }
+    val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     val jvmAndAndroidMain by creating {
       dependsOn(commonMain)
       dependencies { api(libs.compose.remote.creation) }

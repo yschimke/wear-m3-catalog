@@ -143,8 +143,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         delegate.addNamedLong(name, initialValue)
 
     override fun addPathData(pathData: FloatArray, winding: Int): Int {
-        require(winding == 0) { "The legacy writer adapter cannot encode non-zero path winding" }
-        return delegate.addPathData(pathData)
+        return delegate.addPathData(pathData, winding)
     }
 
     override fun save() = delegate.save()

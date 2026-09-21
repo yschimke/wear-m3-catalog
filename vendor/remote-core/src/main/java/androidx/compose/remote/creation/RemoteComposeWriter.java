@@ -1683,6 +1683,12 @@ public class RemoteComposeWriter {
         return mBuffer.addPathData(id, pathData);
     }
 
+    /** Adds encoded path data with an explicit winding rule. */
+    public int addPathData(float @NonNull [] pathData, int winding) {
+        int id = mState.cacheData(pathData);
+        return mBuffer.addPathData(id, pathData, winding);
+    }
+
     public int addPathData(RcPlatformServices.@NonNull RcPathArrayCreator path) {
         float[] pathData = mPlatform.pathToFloatArray(path);
         int id = mState.cacheData(path);

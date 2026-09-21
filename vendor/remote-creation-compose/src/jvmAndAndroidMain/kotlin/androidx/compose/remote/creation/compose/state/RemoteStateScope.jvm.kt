@@ -17,17 +17,9 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.compose.capture.LocalRemoteComposeCreationState
-import androidx.compose.remote.creation.compose.capture.toRemotePath
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
-import androidx.compose.remote.creation.compose.vector.RemotePathScope
 import androidx.compose.runtime.Composable
-
-/** Build the [RemotePath], encoding using this [RemoteStateScope]. */
-public fun RemoteStateScope.remotePath(fn: RemotePathScope.() -> Unit): RemotePath {
-    return RemotePathScope().apply(fn).nodes.toRemotePath(creationState = this)
-}
 
 /** Allocates this state in document-global scope. */
 @Composable
