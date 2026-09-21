@@ -16,6 +16,11 @@ dependencies {
 
 kotlin { compilerOptions { jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17) } }
 
+java {
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
+}
+
 configurations.configureEach {
   resolutionStrategy.dependencySubstitution {
     substitute(module("androidx.compose.remote:remote-core")).using(project(":vendor:remote-core"))
