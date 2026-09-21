@@ -32,6 +32,7 @@ import androidx.compose.remote.creation.compose.state.RemoteState
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.isLiteral
+import androidx.compose.remote.creation.common.RemoteActionData
 
 /** Update a value on click. */
 internal class ValueChangeAction<T>(
@@ -63,6 +64,36 @@ internal class ValueChangeAction<T>(
             TODO("println unsupported type in ValueChange $actualMutable")
         }
     }
+
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
+        val actualMutable = remoteValue.asEncodedMutable
+        val actualValue = updatedValue.asEncoded
+        val action =
+            when (actualMutable) {
+                is MutableRemoteInt -> {
+                    actualValue as RemoteInt
+                    val array = actualValue.arrayForCreationState(this)
+                    if (array.isLiteral()) {
+                        RemoteActionData.IntegerChange(actualMutable.id, array[0].toInt())
+                    } else {
+                        RemoteActionData.IntegerExpressionChange(
+                            actualMutable.longId,
+                            actualValue.longId,
+                        )
+                    }
+                }
+                is MutableRemoteFloat -> {
+                    actualValue as RemoteFloat
+                    RemoteActionData.FloatExpressionChange(actualMutable.id, actualValue.id)
+                }
+                is RemoteString -> {
+                    actualValue as RemoteString
+                    RemoteActionData.StringChange(actualMutable.id, actualValue.id)
+                }
+                else -> error("Unsupported value change type $actualMutable")
+            }
+        return listOf(action)
+    }
 }
 
 internal class ValueFloatChangeAction(
@@ -74,6 +105,9 @@ internal class ValueFloatChangeAction(
         val id = value.id
         return ValueFloatChange(id, updatedValue)
     }
+
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> =
+        listOf(RemoteActionData.FloatChange(value.id, updatedValue))
 }
 
 /**

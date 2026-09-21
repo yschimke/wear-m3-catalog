@@ -19,6 +19,8 @@ package androidx.compose.remote.creation.compose.modifier
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.action.RemoteAction
+import androidx.compose.remote.creation.compose.action.resolveAction
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.modifiers.TouchActionModifier
@@ -31,6 +33,9 @@ internal class TouchCancelActionModifier(public val action: Action) : RemoteModi
             if (action is RemoteAction) with(action) { listOf(toRemoteAction()) } else emptyList(),
         )
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.Touch(TouchActionModifier.CANCEL, resolveAction(action))
 }
 
 public fun RemoteModifier.onTouchCancel(action: Action): RemoteModifier =

@@ -7,6 +7,10 @@ import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.common.RemoteImageData
+import androidx.compose.remote.creation.common.RemoteActionData
+import androidx.compose.remote.core.operations.layout.modifiers.HostActionMetadataOperation
+import androidx.compose.remote.core.operations.layout.modifiers.HostActionOperation
+import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -191,6 +195,57 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             RemoteModifierOperation.DrawContent -> delegate.addDrawContentOperation()
             is RemoteModifierOperation.MacroCall ->
                 delegate.addPatternInflation(operation.id, operation.argumentIds)
+            is RemoteModifierOperation.Click -> {
+                if (operation.clickType == 0) delegate.buffer.addClickModifierOperation()
+                else delegate.buffer.addClickModifierOperation(operation.clickType)
+                operation.actions.forEach(::writeAction)
+                delegate.buffer.addContainerEnd()
+            }
+            is RemoteModifierOperation.Touch -> {
+                when (operation.type) {
+                    0 -> delegate.addTouchDownModifierOperation()
+                    1 -> delegate.addTouchUpModifierOperation()
+                    else -> delegate.addTouchCancelModifierOperation()
+                }
+                operation.actions.forEach(::writeAction)
+                delegate.buffer.addContainerEnd()
+            }
+        }
+    }
+
+    private fun writeAction(action: RemoteActionData) {
+        when (action) {
+            is RemoteActionData.Host ->
+                HostActionOperation.apply(delegate.buffer.buffer, action.actionId)
+            is RemoteActionData.HostMetadata ->
+                HostActionMetadataOperation.apply(
+                    delegate.buffer.buffer,
+                    action.actionId,
+                    action.metadataId,
+                )
+            is RemoteActionData.HostNamed ->
+                HostNamedActionOperation.apply(
+                    delegate.buffer.buffer,
+                    action.nameId,
+                    action.type,
+                    action.valueId,
+                )
+            is RemoteActionData.IntegerChange ->
+                delegate.buffer.addValueIntegerChangeActionOperation(action.targetId, action.value)
+            is RemoteActionData.IntegerExpressionChange ->
+                delegate.buffer.addValueIntegerExpressionChangeActionOperation(
+                    action.targetId,
+                    action.expressionId,
+                )
+            is RemoteActionData.FloatChange ->
+                delegate.buffer.addValueFloatChangeActionOperation(action.targetId, action.value)
+            is RemoteActionData.FloatExpressionChange ->
+                delegate.buffer.addValueFloatExpressionChangeActionOperation(
+                    action.targetId,
+                    action.expressionId,
+                )
+            is RemoteActionData.StringChange ->
+                delegate.buffer.addValueStringChangeActionOperation(action.targetId, action.valueId)
         }
     }
 

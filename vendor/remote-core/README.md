@@ -78,6 +78,10 @@ typed write operation with Java-oracle parity rather than a platform writer call
 Collapsible row/column containers and modifier-level macro calls now use the common structural
 encoder too, including locally terminated macro-inflation blocks.
 
+Click and touch containers now retain typed host and value-change actions. Named-action text and
+expression dependencies are resolved before structural serialization, so nested actions cannot add
+late declarations inside a component body.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

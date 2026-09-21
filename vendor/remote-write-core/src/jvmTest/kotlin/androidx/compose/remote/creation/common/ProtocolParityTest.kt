@@ -276,6 +276,81 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun clickActionsMatchAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addClickModifierOperation(2)
+    val buffer = expected.buffer
+    androidx.compose.remote.core.operations.layout.modifiers.HostActionOperation.apply(buffer, 7)
+    androidx.compose.remote.core.operations.layout.modifiers.HostActionMetadataOperation.apply(
+      buffer,
+      8,
+      42,
+    )
+    androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation.apply(
+      buffer,
+      43,
+      1,
+      44,
+    )
+    expected.addValueIntegerChangeActionOperation(45, 12)
+    expected.addValueIntegerExpressionChangeActionOperation(46L, 47L)
+    expected.addValueFloatChangeActionOperation(48, 1.5f)
+    expected.addValueFloatExpressionChangeActionOperation(49, 50)
+    expected.addValueStringChangeActionOperation(51, 52)
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(
+      RemoteModifierOperation.Click(
+        2,
+        listOf(
+          RemoteActionData.Host(7),
+          RemoteActionData.HostMetadata(8, 42),
+          RemoteActionData.HostNamed(43, 1, 44),
+          RemoteActionData.IntegerChange(45, 12),
+          RemoteActionData.IntegerExpressionChange(46L, 47L),
+          RemoteActionData.FloatChange(48, 1.5f),
+          RemoteActionData.FloatExpressionChange(49, 50),
+          RemoteActionData.StringChange(51, 52),
+        ),
+      )
+    )
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
+  fun touchActionsMatchAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addTouchDownModifierOperation()
+    expected.addValueFloatChangeActionOperation(42, 1f)
+    expected.addContainerEnd()
+    expected.addTouchUpModifierOperation()
+    expected.addValueIntegerChangeActionOperation(43, 2)
+    expected.addContainerEnd()
+    expected.addTouchCancelModifierOperation()
+    expected.addValueStringChangeActionOperation(44, 45)
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(
+      RemoteModifierOperation.Touch(0, listOf(RemoteActionData.FloatChange(42, 1f)))
+    )
+    writer.writeModifier(
+      RemoteModifierOperation.Touch(1, listOf(RemoteActionData.IntegerChange(43, 2)))
+    )
+    writer.writeModifier(
+      RemoteModifierOperation.Touch(2, listOf(RemoteActionData.StringChange(44, 45)))
+    )
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(

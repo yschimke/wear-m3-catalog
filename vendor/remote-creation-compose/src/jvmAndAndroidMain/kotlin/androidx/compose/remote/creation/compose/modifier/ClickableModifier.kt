@@ -21,7 +21,9 @@ import androidx.compose.remote.core.operations.layout.MultiClickModifier
 import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.action.CombinedAction
 import androidx.compose.remote.creation.compose.action.RemoteAction
+import androidx.compose.remote.creation.compose.action.resolveAction
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.modifiers.ClickActionModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.ui.semantics.Role
@@ -40,6 +42,9 @@ internal class ClickableModifier(
             clickType,
         )
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.Click(clickType, actions.flatMap { resolveAction(it) })
 }
 
 // TODO provide an onClickLabel

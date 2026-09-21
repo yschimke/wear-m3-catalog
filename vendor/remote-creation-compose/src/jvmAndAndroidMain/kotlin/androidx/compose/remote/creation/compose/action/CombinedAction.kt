@@ -19,6 +19,7 @@ package androidx.compose.remote.creation.compose.action
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.common.RemoteActionData
 
 /**
  * Creates an action that's a composite of multiple actions.
@@ -38,4 +39,7 @@ internal class CombinedAction(public vararg val actions: Action) : RemoteAction(
             }
         }
     }
+
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> =
+        actions.flatMap { resolveAction(it) }
 }

@@ -182,6 +182,72 @@ public class RemoteDocumentWriter(
         modifier.argumentIds.forEach(buffer::writeInt)
         containerEnd()
       }
+      is RemoteModifierOperation.Click -> {
+        if (modifier.clickType == 0) {
+          operation(ModifierClick)
+        } else {
+          operation(ModifierMultiClick)
+          buffer.writeInt(modifier.clickType)
+        }
+        modifier.actions.forEach(::writeAction)
+        containerEnd()
+      }
+      is RemoteModifierOperation.Touch -> {
+        operation(
+          when (modifier.type) {
+            0 -> ModifierTouchDown
+            1 -> ModifierTouchUp
+            else -> ModifierTouchCancel
+          }
+        )
+        modifier.actions.forEach(::writeAction)
+        containerEnd()
+      }
+    }
+  }
+
+  private fun writeAction(action: RemoteActionData) {
+    when (action) {
+      is RemoteActionData.Host -> {
+        operation(HostAction)
+        buffer.writeInt(action.actionId)
+      }
+      is RemoteActionData.HostMetadata -> {
+        operation(HostMetadataAction)
+        buffer.writeInt(action.actionId)
+        buffer.writeInt(action.metadataId)
+      }
+      is RemoteActionData.HostNamed -> {
+        operation(HostNamedAction)
+        buffer.writeInt(action.nameId)
+        buffer.writeInt(action.type)
+        buffer.writeInt(action.valueId)
+      }
+      is RemoteActionData.IntegerChange -> {
+        operation(ValueIntegerChange)
+        buffer.writeInt(action.targetId)
+        buffer.writeInt(action.value)
+      }
+      is RemoteActionData.IntegerExpressionChange -> {
+        operation(ValueIntegerExpressionChange)
+        buffer.writeLong(action.targetId)
+        buffer.writeLong(action.expressionId)
+      }
+      is RemoteActionData.FloatChange -> {
+        operation(ValueFloatChange)
+        buffer.writeInt(action.targetId)
+        buffer.writeFloat(action.value)
+      }
+      is RemoteActionData.FloatExpressionChange -> {
+        operation(ValueFloatExpressionChange)
+        buffer.writeInt(action.targetId)
+        buffer.writeInt(action.expressionId)
+      }
+      is RemoteActionData.StringChange -> {
+        operation(ValueStringChange)
+        buffer.writeInt(action.targetId)
+        buffer.writeInt(action.valueId)
+      }
     }
   }
 
@@ -1087,6 +1153,19 @@ public class RemoteDocumentWriter(
     private const val ModifierZIndex = 223
     private const val ModifierRipple = 229
     private const val MacroCall = 247
+    private const val ModifierClick = 59
+    private const val ModifierMultiClick = 83
+    private const val ModifierTouchDown = 219
+    private const val ModifierTouchUp = 220
+    private const val ModifierTouchCancel = 225
+    private const val HostAction = 209
+    private const val HostNamedAction = 210
+    private const val ValueIntegerChange = 212
+    private const val ValueStringChange = 213
+    private const val HostMetadataAction = 216
+    private const val ValueIntegerExpressionChange = 218
+    private const val ValueFloatChange = 222
+    private const val ValueFloatExpressionChange = 227
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

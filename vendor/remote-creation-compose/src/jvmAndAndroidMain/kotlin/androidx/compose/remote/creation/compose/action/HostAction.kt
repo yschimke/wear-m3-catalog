@@ -25,6 +25,7 @@ import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteState
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.RemoteString
+import androidx.compose.remote.creation.common.RemoteActionData
 
 /**
  * Creates an [Action] that triggers a named action on the host.
@@ -99,5 +100,16 @@ internal class HostAction(
         } else {
             CreationHostAction(name.id, valueId)
         }
+    }
+
+    override fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> {
+        val valueId = value?.id ?: -1
+        return listOf(
+            if (id != 0) {
+                RemoteActionData.HostMetadata(id, valueId)
+            } else {
+                RemoteActionData.HostNamed(name.id, type.value, valueId)
+            }
+        )
     }
 }

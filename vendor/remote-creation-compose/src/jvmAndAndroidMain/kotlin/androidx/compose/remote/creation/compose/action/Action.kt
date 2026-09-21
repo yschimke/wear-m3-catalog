@@ -19,6 +19,7 @@ package androidx.compose.remote.creation.compose.action
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.common.RemoteActionData
 
 /** A RemoteCompose frontend model of Actions that can be converted to RemoteCompose operations. */
 public interface Action {
@@ -31,4 +32,10 @@ public interface Action {
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public abstract class RemoteAction : Action {
     internal abstract fun RemoteStateScope.toRemoteAction(): CreationAction
+
+    internal open fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> =
+        error("Common action encoding is not implemented for ${this@RemoteAction::class.simpleName}")
 }
+
+internal fun RemoteStateScope.resolveAction(action: Action): List<RemoteActionData> =
+    if (action is RemoteAction) with(action) { toRemoteActionData() } else emptyList()

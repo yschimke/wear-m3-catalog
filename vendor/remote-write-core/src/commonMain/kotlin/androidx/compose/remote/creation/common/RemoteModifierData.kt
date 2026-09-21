@@ -29,6 +29,22 @@ public sealed interface RemoteModifierOperation {
   public data object Ripple : RemoteModifierOperation
   public data object DrawContent : RemoteModifierOperation
   public data class MacroCall(val id: Int, val argumentIds: IntArray) : RemoteModifierOperation
+  public data class Click(val clickType: Int, val actions: List<RemoteActionData>) :
+    RemoteModifierOperation
+  public data class Touch(val type: Int, val actions: List<RemoteActionData>) : RemoteModifierOperation
+}
+
+/** Typed action payloads nested under click and touch modifier containers. */
+public sealed interface RemoteActionData {
+  public data class Host(val actionId: Int) : RemoteActionData
+  public data class HostMetadata(val actionId: Int, val metadataId: Int) : RemoteActionData
+  public data class HostNamed(val nameId: Int, val type: Int, val valueId: Int) : RemoteActionData
+  public data class IntegerChange(val targetId: Int, val value: Int) : RemoteActionData
+  public data class IntegerExpressionChange(val targetId: Long, val expressionId: Long) :
+    RemoteActionData
+  public data class FloatChange(val targetId: Int, val value: Float) : RemoteActionData
+  public data class FloatExpressionChange(val targetId: Int, val expressionId: Int) : RemoteActionData
+  public data class StringChange(val targetId: Int, val valueId: Int) : RemoteActionData
 }
 
 /** Resolved modifier chain attached to one layout component. */
