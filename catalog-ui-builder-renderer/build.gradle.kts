@@ -1,6 +1,58 @@
 import java.security.MessageDigest
 import java.util.zip.ZipFile
 
+abstract class GenerateRuntimePolicy : DefaultTask() {
+  @get:InputFile abstract val policy: RegularFileProperty
+
+  @get:OutputDirectory abstract val outputDirectory: DirectoryProperty
+
+  @TaskAction
+  fun generate() {
+    @Suppress("UNCHECKED_CAST")
+    val source =
+      groovy.json.JsonSlurper().parseText(policy.get().asFile.readText()) as Map<String, Any?>
+    fun projected(section: String): Map<String, Any?> =
+      (source[section] as? Map<String, Any?>)
+        .orEmpty()
+        .mapNotNull { (id, raw) ->
+          val entry = raw as? Map<String, Any?> ?: return@mapNotNull null
+          val canvas = entry["canvas"] ?: return@mapNotNull null
+          id to
+            buildMap<String, Any?> {
+              put("canvas", canvas)
+              entry["canvasMapping"]?.let { put("canvasMapping", it) }
+            }
+        }
+        .toMap()
+    val runtimePolicy =
+      groovy.json.JsonOutput.toJson(
+        mapOf("builtins" to projected("builtins"), "components" to projected("components"))
+      )
+    val encoded =
+      runtimePolicy
+        .replace("\\", "\\\\")
+        .replace("$", "\\$")
+        .replace("\"", "\\\"")
+        .replace("\r", "\\r")
+        .replace("\n", "\\n")
+    outputDirectory
+      .get()
+      .file("ee/schimke/wearm3catalog/uibuilder/GeneratedRuntimePolicy.kt")
+      .asFile
+      .apply {
+        parentFile.mkdirs()
+        writeText(
+          """
+        package ee.schimke.wearm3catalog.uibuilder
+
+        internal const val catalogUiBuilderPolicyJson = "$encoded"
+        """
+            .trimIndent()
+        )
+      }
+  }
+}
+
 plugins {
   id("org.jetbrains.kotlin.multiplatform")
   alias(libs.plugins.compose.multiplatform)
@@ -12,6 +64,13 @@ val runtimeIdentity =
     .environmentVariable("GITHUB_SHA")
     .map { "wear-m3-p2-${it.take(12)}" }
     .orElse("wear-m3-p2-development")
+
+val generatedRuntimePolicy = layout.buildDirectory.dir("generated/uiBuilderRuntimePolicy")
+val generateRuntimePolicy by
+  tasks.registering(GenerateRuntimePolicy::class) {
+    policy.set(rootProject.layout.projectDirectory.file("ui-builder.policy.json"))
+    outputDirectory.set(generatedRuntimePolicy)
+  }
 
 kotlin {
   @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
@@ -28,6 +87,7 @@ kotlin {
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
     }
+    wasmJsMain { kotlin.srcDir(generateRuntimePolicy) }
   }
 }
 

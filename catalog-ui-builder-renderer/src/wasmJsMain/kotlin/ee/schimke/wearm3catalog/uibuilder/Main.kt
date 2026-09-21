@@ -21,17 +21,44 @@ import ee.schimke.composeai.uibuilder.CanvasMode
 import ee.schimke.composeai.uibuilder.RenderCanvasNode
 import ee.schimke.composeai.uibuilder.UiBuilderSemanticActionController
 import ee.schimke.composeai.uibuilder.applyCanvasModifier
+import ee.schimke.composeai.uibuilder.protocol.CanvasAdapterMappingV1
 import ee.schimke.composeai.uibuilder.protocol.UiBuilderRendererSurfaceModeV2
 import ee.schimke.composeai.uibuilder.startCatalogRenderer
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import ee.schimke.wearcmp.port.WearDeviceConfiguration
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 private val runtimeAdapters =
   foundationCanvasAdapters + wearCanvasAdapters + wearScreenAdapters + wearTextAdapters
 
-private val adapterIds = mapOf("wear-m3/screen-scaffold" to "frame/round-screen")
+private val runtimePolicy by lazy {
+  Json { ignoreUnknownKeys = true }.parseToJsonElement(catalogUiBuilderPolicyJson).jsonObject
+}
+
+private val adapterIds: Map<String, String> by lazy {
+  buildMap {
+    listOf("builtins", "components").forEach { section ->
+      runtimePolicy[section]?.jsonObject?.forEach { (componentId, element) ->
+        element.jsonObject["canvas"]?.jsonPrimitive?.contentOrNull?.let { put(componentId, it) }
+      }
+    }
+  }
+}
+
+private val adapterMappings: Map<String, CanvasAdapterMappingV1> by lazy {
+  val json = Json { ignoreUnknownKeys = true }
+  buildMap {
+    runtimePolicy["components"]?.jsonObject?.forEach { (componentId, element) ->
+      element.jsonObject["canvasMapping"]?.let { mapping ->
+        put(componentId, json.decodeFromJsonElement(CanvasAdapterMappingV1.serializer(), mapping))
+      }
+    }
+  }
+}
 
 fun main() {
   val actions = UiBuilderSemanticActionController()
@@ -65,7 +92,7 @@ fun main() {
           CanvasDocumentHost(
             document = document,
             adapterIds = adapterIds,
-            adapterMappings = emptyMap(),
+            adapterMappings = adapterMappings,
             mode = mode,
             density = density,
             modifier = Modifier.fillMaxSize(),
