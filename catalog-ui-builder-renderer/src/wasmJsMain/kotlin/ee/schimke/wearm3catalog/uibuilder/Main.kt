@@ -33,6 +33,8 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import org.jetbrains.skiko.InternalSkikoApi
+import org.jetbrains.skiko.wasm.awaitSkiko
 
 private val runtimeAdapters =
   foundationCanvasAdapters + wearCanvasAdapters + wearScreenAdapters + wearTextAdapters
@@ -62,76 +64,83 @@ private val adapterMappings: Map<String, CanvasAdapterMappingV1> by lazy {
   }
 }
 
+@OptIn(InternalSkikoApi::class)
 fun main() {
   val actions = UiBuilderSemanticActionController()
-  startCatalogRenderer(actions) { document, surface, renderSessionId, onInspectionSnapshot ->
-    val hostDensity = LocalDensity.current
-    val density =
-      Density(
-        density = surface.density,
-        fontScale =
-          document.environment["fontScale"]
-            ?.let { it as? JsonPrimitive }
-            ?.contentOrNull
-            ?.toFloatOrNull()
-            ?.takeIf { it.isFinite() && it > 0f } ?: hostDensity.fontScale,
-      )
-    val mode =
-      if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED)
-        CanvasMode.AuthoringUnrolled
-      else CanvasMode.Device
-    val layoutDirection =
-      if (document.environment["layoutDirection"]?.jsonPrimitive?.contentOrNull == "rtl")
-        LayoutDirection.Rtl
-      else LayoutDirection.Ltr
-    CompositionLocalProvider(
-      LocalDensity provides density,
-      LocalLayoutDirection provides layoutDirection,
-      LocalWearDeviceConfiguration provides
-        WearDeviceConfiguration(
-          isScreenRound = true,
-          screenWidthDp = surface.widthDp.toInt(),
-          screenHeightDp = surface.heightDp.toInt(),
-        ),
-    ) {
-      MaterialTheme {
-        Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
-          CanvasDocumentHost(
-            document = document,
-            adapterIds = adapterIds,
-            adapterMappings = adapterMappings,
-            mode = mode,
-            density = density,
-            modifier = Modifier.fillMaxSize(),
-            renderSessionId = renderSessionId,
-            runtimeActionController = actions,
-            onInspectionSnapshot = onInspectionSnapshot,
-            rootModifier = { entry ->
-              if (entry.adapterId == "frame/round-screen") Modifier.align(Alignment.TopCenter)
-              else Modifier
-            },
-          ) { entry, rootModifier ->
-            RenderCanvasNode(
-              entry = entry,
-              registry = runtimeAdapters,
-              modifier = rootModifier,
-              applyModifier = { current, value ->
-                current.applyCanvasModifier(
-                  value = value,
-                  mode = mode,
-                  resolveColor = { resolveWearColor(it) },
-                  resolveShape = ::resolveWearShape,
-                )
-              },
-              missingComponent = { label, next -> UnsupportedComponent(label, next) },
-            ) {
-              UnsupportedComponent(node.componentId, prepared.modifier)
+  awaitSkiko.then(
+    onFulfilled = {
+      startCatalogRenderer(actions) { document, surface, renderSessionId, onInspectionSnapshot ->
+        val hostDensity = LocalDensity.current
+        val density =
+          Density(
+            density = surface.density,
+            fontScale =
+              document.environment["fontScale"]
+                ?.let { it as? JsonPrimitive }
+                ?.contentOrNull
+                ?.toFloatOrNull()
+                ?.takeIf { it.isFinite() && it > 0f } ?: hostDensity.fontScale,
+          )
+        val mode =
+          if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED)
+            CanvasMode.AuthoringUnrolled
+          else CanvasMode.Device
+        val layoutDirection =
+          if (document.environment["layoutDirection"]?.jsonPrimitive?.contentOrNull == "rtl")
+            LayoutDirection.Rtl
+          else LayoutDirection.Ltr
+        CompositionLocalProvider(
+          LocalDensity provides density,
+          LocalLayoutDirection provides layoutDirection,
+          LocalWearDeviceConfiguration provides
+            WearDeviceConfiguration(
+              isScreenRound = true,
+              screenWidthDp = surface.widthDp.toInt(),
+              screenHeightDp = surface.heightDp.toInt(),
+            ),
+        ) {
+          MaterialTheme {
+            Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
+              CanvasDocumentHost(
+                document = document,
+                adapterIds = adapterIds,
+                adapterMappings = adapterMappings,
+                mode = mode,
+                density = density,
+                modifier = Modifier.fillMaxSize(),
+                renderSessionId = renderSessionId,
+                runtimeActionController = actions,
+                onInspectionSnapshot = onInspectionSnapshot,
+                rootModifier = { entry ->
+                  if (entry.adapterId == "frame/round-screen") Modifier.align(Alignment.TopCenter)
+                  else Modifier
+                },
+              ) { entry, rootModifier ->
+                RenderCanvasNode(
+                  entry = entry,
+                  registry = runtimeAdapters,
+                  modifier = rootModifier,
+                  applyModifier = { current, value ->
+                    current.applyCanvasModifier(
+                      value = value,
+                      mode = mode,
+                      resolveColor = { resolveWearColor(it) },
+                      resolveShape = ::resolveWearShape,
+                    )
+                  },
+                  missingComponent = { label, next -> UnsupportedComponent(label, next) },
+                ) {
+                  UnsupportedComponent(node.componentId, prepared.modifier)
+                }
+              }
             }
           }
         }
       }
-    }
-  }
+      null
+    },
+    onRejected = { error("Skiko initialization failed: $it") },
+  )
 }
 
 @Composable

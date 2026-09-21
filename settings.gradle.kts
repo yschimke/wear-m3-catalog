@@ -118,17 +118,15 @@ providers.gradleProperty("composeUiBuilderDir").orNull?.let { path ->
   }
 }
 
+// Both catalog-owned renderers link the source-only SDK. Keep them outside ordinary catalog builds:
+// without the composite there is deliberately no Maven fallback for that coordinate.
 if (providers.gradleProperty("composeUiBuilderDir").isPresent) {
   include(":catalog-ui-builder-renderer")
+  include(":remote-catalog-ui-builder-renderer")
+  include(":ui-builder-foundation-adapters")
+  include(":ui-builder-material-adapters")
+  include(":ui-builder-wear-adapters")
 }
-
-include(":remote-catalog-ui-builder-renderer")
-
-include(":ui-builder-foundation-adapters")
-
-include(":ui-builder-material-adapters")
-
-include(":ui-builder-wear-adapters")
 
 // The same component bodies, drawn by Compose Multiplatform Desktop instead of Robolectric. It
 // declares no previews: it names `:catalog` in `composePreviewSource` and renders that module's
