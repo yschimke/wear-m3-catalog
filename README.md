@@ -268,18 +268,21 @@ before you call it motion.
 ./gradlew ktfmtFormat                                                      # format
 ```
 
-The UI-builder renderer is a temporary combined build while the generic document interpreter moves
-into the source-only renderer SDK. It is not published by this repository yet. Build and verify its
-self-contained Wasm ZIP against a local UI Builder checkout with:
+The UI-builder renderers are temporary combined builds while the generic document interpreter moves
+into the source-only renderer SDK. They are not published by this repository yet. Build and verify a
+self-contained Wasm ZIP against a local UI Builder checkout with either renderer task:
 
 ```sh
 ./gradlew :catalog-ui-builder-renderer:verifyRendererRuntime \
   -PcomposeUiBuilderDir=../compose-ui-builder
+./gradlew :remote-catalog-ui-builder-renderer:verifyRendererRuntime \
+  -PcomposeUiBuilderDir=../compose-ui-builder
 ```
 
-The composite substitutes both `:ui-builder-renderer-sdk` and, temporarily, `:ui-builder`; neither
-synthetic source coordinate can fall back to Maven. Once the interpreter extraction is released,
-the full-editor dependency is removed before this runtime enters the design-artifacts lane.
+The composite substitutes `:ui-builder-renderer-sdk` and neither synthetic source coordinate can
+fall back to Maven. The renderer modules are therefore excluded from ordinary catalog builds unless
+`composeUiBuilderDir` is set. Once the interpreter extraction is released, the source dependency is
+replaced before these runtimes enter the design-artifacts lane.
 
 ### Run Gradle through `build-brief`
 
