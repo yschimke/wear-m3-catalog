@@ -74,6 +74,7 @@ private fun CanvasNodeScope.WearScreenFrame() {
         ) {
           Column(Modifier.fillMaxWidth().padding(padding)) { canvas.Slot("content") }
         }
+        canvas.Slot("overlays", Modifier.fillMaxSize())
       }
     } else {
       val timeText: @Composable () -> Unit = {
@@ -112,6 +113,7 @@ private fun CanvasNodeScope.WearScreenFrame() {
             )
           }
         }
+        canvas.Slot("overlays", Modifier.fillMaxSize())
       }
     }
   }
@@ -284,7 +286,7 @@ private fun screenContentPadding(): PaddingValues {
   val width = LocalWearDeviceConfiguration.current.screenWidthDp
   return when {
     width >= 240 -> PaddingValues(horizontal = 13.dp, vertical = 24.dp)
-    width >= 227 -> PaddingValues(horizontal = 12.dp, vertical = 23.dp)
+    width >= 225 -> PaddingValues(horizontal = 12.dp, vertical = 23.dp)
     else -> PaddingValues(horizontal = 10.dp, vertical = 20.dp)
   }
 }

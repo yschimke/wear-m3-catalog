@@ -10,6 +10,7 @@ kotlin {
   sourceSets {
     commonMain.dependencies {
       api(libs.composeai.ui.builder.renderer.sdk.source)
+      implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.foundation)
       @Suppress("DEPRECATION") implementation(compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
