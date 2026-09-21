@@ -12,7 +12,10 @@ public class RemoteDocumentWriter(
   densityBehavior: Int = DensityBehaviorDp,
   profiles: Int = 0,
 ) : RemoteWriter {
-  private val buffer = RemoteWireBuffer()
+  private val bodyBuffer = RemoteWireBuffer()
+  private var buffer = bodyBuffer
+  private val declarationBuffer = RemoteWireBuffer()
+  private var headerSize = 0
   private var nextComponentId = -1
   private var lastComponentId = -1
   private var nextDataId = 42
@@ -33,6 +36,7 @@ public class RemoteDocumentWriter(
 
   init {
     writeHeader(width, height, profiles, densityBehavior)
+    headerSize = buffer.toByteArray().size
   }
 
   override fun createFloatId(): Float = Utils.asNan(nextDataId++)
@@ -459,7 +463,11 @@ public class RemoteDocumentWriter(
     containerEnd()
   }
 
-  public fun encodeToByteArray(): ByteArray = buffer.toByteArray()
+  public fun encodeToByteArray(): ByteArray {
+    val body = bodyBuffer.toByteArray()
+    val declarations = declarationBuffer.toByteArray()
+    return body.copyOfRange(0, headerSize) + declarations + body.copyOfRange(headerSize, body.size)
+  }
 
   override val componentIdForCache: Int
     get() = lastComponentId
@@ -1145,7 +1153,10 @@ public class RemoteDocumentWriter(
     return Utils.asNan(id)
   }
 
-  private fun operation(opcode: Int): Unit = buffer.writeByte(opcode)
+  private fun operation(opcode: Int) {
+    buffer = if (opcode in DeclarationOpcodes) declarationBuffer else bodyBuffer
+    buffer.writeByte(opcode)
+  }
 
   private fun intOperation(opcode: Int, value: Int) {
     operation(opcode)
@@ -1333,6 +1344,40 @@ public class RemoteDocumentWriter(
     private const val UpdateDynamicFloatList = 198
     private const val TextTransform = 199
     private const val DataBitmapFont = 167
+
+    private val DeclarationOpcodes =
+      setOf(
+        DataBitmap,
+        DataText,
+        DataFloat,
+        AnimatedFloat,
+        DataPath,
+        ColorExpression,
+        TextFromFloat,
+        TextMerge,
+        NamedVariable,
+        ColorConstant,
+        DataInt,
+        IntegerExpression,
+        IdList,
+        FloatList,
+        DataLong,
+        ComponentValue,
+        TextLookup,
+        TextLookupInt,
+        TextLength,
+        DataBitmapFont,
+        AttributeImage,
+        AttributeTime,
+        AttributeColor,
+        TextSubtext,
+        BitmapTextMeasure,
+        MatrixExpression,
+        IdLookup,
+        DynamicFloatList,
+        UpdateDynamicFloatList,
+        TextTransform,
+      )
 
     private const val BitmapTypePng = 1
     private const val BitmapTypeRaw8888 = 3

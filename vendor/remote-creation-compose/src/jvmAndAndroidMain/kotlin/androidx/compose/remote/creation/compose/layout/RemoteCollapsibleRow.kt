@@ -20,10 +20,11 @@ import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.remote.core.operations.layout.managers.CollapsiblePriority
 import androidx.compose.remote.core.operations.layout.modifiers.DimensionModifierOperation.Type
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.CollapsiblePriorityModifier
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.WidthModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -72,21 +73,23 @@ internal class RemoteCollapsibleRowNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
+        val remoteModifier = scope.toRemoteModifierData(modifier)
         (horizontalArrangement as? RemoteSpaced)?.let {
-            recordingModifier.spacedBy(it.getSpacingFloatId(creationState))
+            remoteModifier.spacedBy = it.getSpacingFloatId(creationState)
         }
-        creationState.document.startCollapsibleRow(
-            recordingModifier,
-            horizontalArrangement.toRemote(layoutDirection),
-            verticalAlignment.toRemote(),
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartCollapsibleRow(
+                remoteModifier,
+                horizontalArrangement.toRemote(layoutDirection),
+                verticalAlignment.toRemote(),
+            )
         )
         renderChildren(
             creationState,
             remoteCanvas,
             reversed = shouldReverse(horizontalArrangement, layoutDirection),
         )
-        creationState.document.endCollapsibleRow()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCollapsibleRow)
     }
 }
 

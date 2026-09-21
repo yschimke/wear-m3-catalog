@@ -17,8 +17,9 @@
 package androidx.compose.remote.creation.compose.layout
 
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -30,14 +31,15 @@ internal class RemoteFitBoxNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
-        creationState.document.startFitBox(
-            recordingModifier,
-            horizontalAlignment.toRemote(layoutDirection),
-            verticalArrangement.toRemote(),
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartFitBox(
+                scope.toRemoteModifierData(modifier),
+                horizontalAlignment.toRemote(layoutDirection),
+                verticalArrangement.toRemote(),
+            )
         )
         renderChildren(creationState, remoteCanvas)
-        creationState.document.endFitBox()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndFitBox)
     }
 }
 

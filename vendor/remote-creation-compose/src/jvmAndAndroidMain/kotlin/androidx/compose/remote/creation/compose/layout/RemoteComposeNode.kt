@@ -19,6 +19,7 @@ package androidx.compose.remote.creation.compose.layout
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.capture.LocalRemoteDensity
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.modifier.DrawWithContentModifier
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -53,10 +54,9 @@ internal abstract class RemoteComposeNode {
         if (drawWithContent != null) {
             val drawWithContentScope = RemoteContentDrawScope(remoteCanvas)
 
-            creationState.document.startCanvasOperations()
+            remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.StartCanvasOperations)
             drawWithContent.onDraw(drawWithContentScope)
-            remoteCanvas.internalCanvas.buffer.flush(creationState)
-            creationState.document.endCanvasOperations()
+            remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCanvasOperations)
         }
 
         if (!reversed) {
@@ -69,7 +69,9 @@ internal abstract class RemoteComposeNode {
 
 internal class RemoteRootNode : RemoteComposeNode() {
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
-        creationState.document.root { renderChildren(creationState, remoteCanvas) }
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.StartRoot)
+        renderChildren(creationState, remoteCanvas)
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndRoot)
     }
 }
 

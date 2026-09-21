@@ -18,8 +18,9 @@ package androidx.compose.remote.creation.compose.layout
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
@@ -33,23 +34,25 @@ internal class RemoteFlowRowNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
+        val remoteModifier = scope.toRemoteModifierData(modifier)
         (horizontalArrangement as? RemoteSpaced)?.let {
-            recordingModifier.spacedBy(it.getSpacingFloatId(creationState))
+            remoteModifier.spacedBy = it.getSpacingFloatId(creationState)
         }
-        creationState.document.startFlow(
-            recordingModifier,
-            horizontalArrangement.toRemote(layoutDirection),
-            verticalArrangement.toRemote(),
-            maxItemsInEachRow,
-            maxLines,
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartFlow(
+                remoteModifier,
+                horizontalArrangement.toRemote(layoutDirection),
+                verticalArrangement.toRemote(),
+                maxItemsInEachRow,
+                maxLines,
+            )
         )
         renderChildren(
             creationState,
             remoteCanvas,
             reversed = shouldReverse(horizontalArrangement, layoutDirection),
         )
-        creationState.document.endFlow()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndFlow)
     }
 }
 

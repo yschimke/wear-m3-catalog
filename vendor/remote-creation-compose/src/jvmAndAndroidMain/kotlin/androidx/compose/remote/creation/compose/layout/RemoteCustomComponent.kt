@@ -96,7 +96,7 @@ internal class StringPropertyEntry(
     val value: String,
 ) : CustomPropertyEntry() {
     override fun toCustomProperty(creationState: RemoteComposeCreationState): CustomProperty =
-        CustomProperty(id, CustomProperty.STRING_PROP, creationState.document.addText(value))
+        CustomProperty(id, CustomProperty.STRING_PROP, creationState.writer.addText(value))
 }
 
 internal class BooleanPropertyEntry(

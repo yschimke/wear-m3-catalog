@@ -18,8 +18,10 @@
 package androidx.compose.remote.creation.compose.layout
 
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
+import androidx.compose.remote.creation.common.RemoteImageData
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
 import androidx.compose.remote.creation.compose.state.RemoteString
@@ -38,14 +40,20 @@ internal class RemoteImageNode : RemoteComposeNode() {
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val bitmapId =
             remoteBitmap?.getIdForCreationState(creationState)
-                ?: image?.let { creationState.document.addBitmap(it) }
+                ?: (image as? androidx.compose.ui.graphics.ImageBitmap)?.let {
+                    creationState.addBitmap(it)
+                }
                 ?: 0
         val scope = overriddenScope(creationState)
-        creationState.document.image(
-            scope.toRecordingModifier(modifier),
-            bitmapId,
-            contentScale.toImageScalingInt(),
-            alpha.getFloatIdForCreationState(creationState),
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.Image(
+                RemoteImageData(
+                    scope.toRemoteModifierData(modifier),
+                    bitmapId,
+                    contentScale.toImageScalingInt(),
+                    alpha.getFloatIdForCreationState(creationState),
+                )
+            )
         )
     }
 }

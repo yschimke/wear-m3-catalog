@@ -20,8 +20,10 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.capture.LocalFontWeightAdjustment
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
+import androidx.compose.remote.creation.compose.capture.WriterOp
+import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteString
@@ -257,35 +259,37 @@ internal class RemoteTextNode : RemoteComposeNode() {
             }
 
         val scope = overriddenScope(creationState)
-        creationState.document.startTextComponent(
-            scope.toRecordingModifier(modifier),
-            textIdValue,
-            -1,
-            colorInt,
-            colorId,
-            fontSizePxId,
-            minFontSize ?: -1f,
-            maxFontSize ?: -1f,
-            fontStyle.encode(),
-            adjustedFontWeight,
-            fontFamily,
-            resolvedTextAlign.encode(),
-            overflow.encode(),
-            maxLines,
-            letterSpacingId,
-            lineHeightAdd ?: 0f,
-            lineHeightMultiplyId,
-            lineBreakStrategy,
-            hyphenationFrequency,
-            0, // justificationMode
-            textDecoration.contains(TextDecoration.Underline),
-            textDecoration.contains(TextDecoration.LineThrough),
-            fontAxisNames,
-            fontAxisValues,
-            false, // autosize
-            0, // flags
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartText(
+                RemoteTextData(
+                    modifier = scope.toRemoteModifierData(modifier),
+                    textId = textIdValue,
+                    color = colorInt,
+                    colorId = colorId,
+                    fontSize = fontSizePxId,
+                    minFontSize = minFontSize ?: -1f,
+                    maxFontSize = maxFontSize ?: -1f,
+                    fontStyle = fontStyle.encode(),
+                    fontWeight = adjustedFontWeight,
+                    fontFamilyId = fontFamily?.let { creationState.writer.addText(it) } ?: -1,
+                    textAlign = resolvedTextAlign.encode(),
+                    overflow = overflow.encode(),
+                    maxLines = maxLines,
+                    letterSpacing = letterSpacingId,
+                    lineHeightAdd = lineHeightAdd ?: 0f,
+                    lineHeightMultiplier = lineHeightMultiplyId,
+                    lineBreakStrategy = lineBreakStrategy,
+                    hyphenationFrequency = hyphenationFrequency,
+                    underline = textDecoration.contains(TextDecoration.Underline),
+                    strikethrough = textDecoration.contains(TextDecoration.LineThrough),
+                    fontAxisIds =
+                        fontAxisNames?.map { creationState.writer.addText(it) }?.toIntArray()
+                            ?: intArrayOf(),
+                    fontAxisValues = fontAxisValues ?: floatArrayOf(),
+                )
+            )
         )
-        creationState.document.endTextComponent()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndText)
     }
 }
 

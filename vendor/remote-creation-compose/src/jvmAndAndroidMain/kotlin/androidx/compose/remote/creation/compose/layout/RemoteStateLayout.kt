@@ -17,8 +17,9 @@
 package androidx.compose.remote.creation.compose.layout
 
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteEnum
 import androidx.compose.remote.creation.compose.state.RemoteInt
@@ -40,15 +41,15 @@ internal class RemoteStateLayoutNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
-
-        creationState.document.startStateLayout(
-            recordingModifier,
-            currentState.getIdForCreationState(creationState),
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartStateLayout(
+                scope.toRemoteModifierData(modifier),
+                currentState.getIdForCreationState(creationState),
+            )
         )
 
         renderChildren(creationState, remoteCanvas)
-        creationState.document.endStateLayout()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndStateLayout)
     }
 }
 

@@ -20,10 +20,11 @@ import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.remote.core.operations.layout.managers.CollapsiblePriority
 import androidx.compose.remote.core.operations.layout.modifiers.DimensionModifierOperation.Type
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.CollapsiblePriorityModifier
 import androidx.compose.remote.creation.compose.modifier.HeightModifier
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -72,17 +73,19 @@ internal class RemoteCollapsibleColumnNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
+        val remoteModifier = scope.toRemoteModifierData(modifier)
         (verticalArrangement as? RemoteSpaced)?.let {
-            recordingModifier.spacedBy(it.getSpacingFloatId(creationState))
+            remoteModifier.spacedBy = it.getSpacingFloatId(creationState)
         }
-        creationState.document.startCollapsibleColumn(
-            recordingModifier,
-            horizontalAlignment.toRemote(layoutDirection),
-            verticalArrangement.toRemote(),
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartCollapsibleColumn(
+                remoteModifier,
+                horizontalAlignment.toRemote(layoutDirection),
+                verticalArrangement.toRemote(),
+            )
         )
         renderChildren(creationState, remoteCanvas)
-        creationState.document.endCollapsibleColumn()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCollapsibleColumn)
     }
 }
 

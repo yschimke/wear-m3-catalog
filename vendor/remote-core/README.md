@@ -92,6 +92,11 @@ Borders, visibility, collapsible priority, baseline alignment, marquee, animatio
 scrolling now lower through typed common modifier operations. Scroll retains its two reserved range
 ids and nested touch-expression program, so every Creation Compose modifier has a common encoding.
 
+Root, layout, text, image, and canvas-component boundaries now enter the optimized document as typed
+writer operations together. The common encoder maintains separate declaration and structural buffers
+and assembles the declaration preamble ahead of the root, even when a direct DSL call discovers text
+or path data inside a nested body.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

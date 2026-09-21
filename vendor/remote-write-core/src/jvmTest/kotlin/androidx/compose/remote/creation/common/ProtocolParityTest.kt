@@ -72,6 +72,11 @@ class ProtocolParityTest {
   @Test
   fun canvasWriterOperationsMatchAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addText(42, "bitmap")
+    val path1 = floatArrayOf(Utils.asNan(10), 1f, 2f, Utils.asNan(15))
+    val path2 = floatArrayOf(Utils.asNan(10), 3f, 4f, Utils.asNan(15))
+    expected.addPathData(43, path1)
+    expected.addPathData(44, path2)
     expected.addMatrixSave()
     expected.addMatrixTranslate(1f, 2f)
     expected.addMatrixScale(3f, 4f, 5f, 6f)
@@ -97,15 +102,10 @@ class ProtocolParityTest {
       androidx.compose.remote.core.operations.DrawTextOnCircle.Alignment.END,
       androidx.compose.remote.core.operations.DrawTextOnCircle.Placement.INSIDE,
     )
-    expected.addText(42, "bitmap")
     expected.drawScaledBitmap(64, 1f, 2f, 3f, 4f, 5f, 6f, 7f, 8f, 4, 0.5f, 42)
-    val path1 = floatArrayOf(Utils.asNan(10), 1f, 2f, Utils.asNan(15))
-    val path2 = floatArrayOf(Utils.asNan(10), 3f, 4f, Utils.asNan(15))
-    expected.addPathData(43, path1)
     expected.addDrawPath(43)
     expected.addClipPath(43)
     expected.addDrawTextOnPath(49, 43, 1.5f, 2.5f)
-    expected.addPathData(44, path2)
     expected.addDrawTweenPath(43, 44, 0.25f, 0f, 1f)
     expected.addMatrixRestore()
 

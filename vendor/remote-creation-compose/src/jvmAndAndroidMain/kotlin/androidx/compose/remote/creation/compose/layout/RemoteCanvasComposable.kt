@@ -17,10 +17,11 @@
 package androidx.compose.remote.creation.compose.layout
 
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.DrawWithContentModifier
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.find
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.runtime.Composable
 
 internal class RemoteCanvasNode : RemoteComposeNode() {
@@ -28,8 +29,9 @@ internal class RemoteCanvasNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
-        creationState.document.startCanvas(recordingModifier)
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartCanvas(scope.toRemoteModifierData(modifier))
+        )
 
         val drawWithContent = modifier.find<DrawWithContentModifier>()
 
@@ -41,9 +43,7 @@ internal class RemoteCanvasNode : RemoteComposeNode() {
             drawScope.onDraw()
         }
 
-        remoteCanvas.internalCanvas.buffer.flush(creationState)
-
-        creationState.document.endCanvas()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCanvas)
     }
 }
 

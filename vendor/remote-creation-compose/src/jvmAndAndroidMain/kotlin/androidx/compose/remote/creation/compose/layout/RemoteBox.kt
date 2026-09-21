@@ -18,8 +18,9 @@ package androidx.compose.remote.creation.compose.layout
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.toRecordingModifier
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -35,14 +36,15 @@ internal class RemoteBoxNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val recordingModifier = scope.toRecordingModifier(modifier)
-        creationState.document.startBox(
-            recordingModifier,
-            horizontalAlignment.toRemote(layoutDirection),
-            verticalAlignment.toRemote(),
+        remoteCanvas.internalCanvas.recordRenderingOp(
+            WriterOp.StartBox(
+                scope.toRemoteModifierData(modifier),
+                horizontalAlignment.toRemote(layoutDirection),
+                verticalAlignment.toRemote(),
+            )
         )
         renderChildren(creationState, remoteCanvas)
-        creationState.document.endBox()
+        remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndBox)
     }
 }
 
