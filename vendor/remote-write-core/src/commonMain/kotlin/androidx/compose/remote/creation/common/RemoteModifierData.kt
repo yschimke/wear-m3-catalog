@@ -28,6 +28,7 @@ public sealed interface RemoteModifierOperation {
   public data class ZIndex(val value: Float) : RemoteModifierOperation
   public data object Ripple : RemoteModifierOperation
   public data object DrawContent : RemoteModifierOperation
+  public data class MacroCall(val id: Int, val argumentIds: IntArray) : RemoteModifierOperation
 }
 
 /** Resolved modifier chain attached to one layout component. */

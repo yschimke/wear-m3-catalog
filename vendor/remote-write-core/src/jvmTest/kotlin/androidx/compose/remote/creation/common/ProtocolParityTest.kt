@@ -252,6 +252,8 @@ class ProtocolParityTest {
     expected.addModifierZIndex(7f)
     expected.addModifierRipple()
     expected.addDrawContentOperation()
+    androidx.compose.remote.core.WriteOperations.patternInflation(expected.buffer, 9, intArrayOf(42, 43))
+    expected.addContainerEnd()
 
     val writer = RemoteDocumentWriter(192, 192)
     val headerSize = writer.encodeToByteArray().size
@@ -267,6 +269,7 @@ class ProtocolParityTest {
     writer.writeModifier(RemoteModifierOperation.ZIndex(7f))
     writer.writeModifier(RemoteModifierOperation.Ripple)
     writer.writeModifier(RemoteModifierOperation.DrawContent)
+    writer.writeModifier(RemoteModifierOperation.MacroCall(9, intArrayOf(42, 43)))
     val bytes = writer.encodeToByteArray()
 
     assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))

@@ -75,6 +75,9 @@ oracle byte-for-byte without discovering declarations while writing nested layou
 Image layouts are represented the same way: bitmap id, scaling, alpha and resolved modifiers are a
 typed write operation with Java-oracle parity rather than a platform writer call.
 
+Collapsible row/column containers and modifier-level macro calls now use the common structural
+encoder too, including locally terminated macro-inflation blocks.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

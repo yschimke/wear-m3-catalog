@@ -189,6 +189,8 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             is RemoteModifierOperation.ZIndex -> delegate.addModifierZIndex(operation.value)
             RemoteModifierOperation.Ripple -> delegate.addModifierRipple()
             RemoteModifierOperation.DrawContent -> delegate.addDrawContentOperation()
+            is RemoteModifierOperation.MacroCall ->
+                delegate.addPatternInflation(operation.id, operation.argumentIds)
         }
     }
 

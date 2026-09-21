@@ -175,6 +175,13 @@ public class RemoteDocumentWriter(
       is RemoteModifierOperation.ZIndex -> floats(ModifierZIndex, modifier.value)
       RemoteModifierOperation.Ripple -> operation(ModifierRipple)
       RemoteModifierOperation.DrawContent -> operation(ModifierDrawContent)
+      is RemoteModifierOperation.MacroCall -> {
+        operation(MacroCall)
+        buffer.writeInt(modifier.id)
+        buffer.writeInt(modifier.argumentIds.size)
+        modifier.argumentIds.forEach(buffer::writeInt)
+        containerEnd()
+      }
     }
   }
 
@@ -1079,6 +1086,7 @@ public class RemoteDocumentWriter(
     private const val ModifierOffset = 221
     private const val ModifierZIndex = 223
     private const val ModifierRipple = 229
+    private const val MacroCall = 247
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

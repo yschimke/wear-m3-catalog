@@ -21,6 +21,7 @@ import androidx.compose.remote.creation.compose.state.RemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.MacroCallModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 internal class IncludeMacroModifier(val id: Int, val args: Array<out RemoteInt>? = null) :
     RemoteModifier.Element {
@@ -30,6 +31,9 @@ internal class IncludeMacroModifier(val id: Int, val args: Array<out RemoteInt>?
         val argIds = args?.map { it.id }?.toIntArray()
         return MacroCallModifier(id, argIds)
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.MacroCall(id, args?.map { it.id }?.toIntArray() ?: intArrayOf())
 }
 
 /**
