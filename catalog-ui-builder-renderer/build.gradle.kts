@@ -23,11 +23,7 @@ kotlin {
 
   sourceSets {
     commonMain.dependencies {
-      // Transitional compatibility bridge: one interpreter, still sourced from the combined
-      // build. Once UiBuilderSurface's generic half moves into the SDK, the second dependency and
-      // the compatibility callback disappear while this module keeps the catalog-owned adapters.
       implementation(libs.composeai.ui.builder.renderer.sdk.source)
-      implementation(libs.composeai.ui.builder.source)
       implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)

@@ -1,28 +1,117 @@
 package ee.schimke.wearm3catalog.uibuilder
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.Text
+import ee.schimke.composeai.uibuilder.CanvasDocumentHost
+import ee.schimke.composeai.uibuilder.CanvasMode
+import ee.schimke.composeai.uibuilder.RenderCanvasNode
 import ee.schimke.composeai.uibuilder.UiBuilderSemanticActionController
-import ee.schimke.composeai.uibuilder.UiBuilderSurface
+import ee.schimke.composeai.uibuilder.applyCanvasModifier
+import ee.schimke.composeai.uibuilder.protocol.UiBuilderRendererSurfaceModeV2
 import ee.schimke.composeai.uibuilder.startCatalogRenderer
+import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
+import ee.schimke.wearcmp.port.WearDeviceConfiguration
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
 
-/**
- * Transitional combined-build entrypoint.
- *
- * There is still exactly one document interpreter: [UiBuilderSurface] from the checked-out builder.
- * This module establishes catalog-owned packaging without copying that interpreter. The callback is
- * replaced by the Wear adapter registry after traversal moves into the renderer SDK.
- */
+private val runtimeAdapters =
+  foundationCanvasAdapters + wearCanvasAdapters + wearScreenAdapters + wearTextAdapters
+
+private val adapterIds = mapOf("wear-m3/screen-scaffold" to "frame/round-screen")
+
 fun main() {
   val actions = UiBuilderSemanticActionController()
   startCatalogRenderer(actions) { document, surface, renderSessionId, onInspectionSnapshot ->
-    UiBuilderSurface(
-      document = document,
-      renderSurface = surface,
-      editorOverlay = false,
-      runtimeActionController = actions,
-      renderSessionId = renderSessionId,
-      onInspectionSnapshot = onInspectionSnapshot,
-      canvasAdapterIds = mapOf("wear-m3/screen-scaffold" to "frame/round-screen"),
-      canvasAdapterRegistry = wearCanvasAdapters + wearScreenAdapters,
-    )
+    val hostDensity = LocalDensity.current
+    val density =
+      Density(
+        density = surface.density,
+        fontScale =
+          document.environment["fontScale"]
+            ?.let { it as? JsonPrimitive }
+            ?.contentOrNull
+            ?.toFloatOrNull()
+            ?.takeIf { it.isFinite() && it > 0f } ?: hostDensity.fontScale,
+      )
+    val mode =
+      if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED)
+        CanvasMode.AuthoringUnrolled
+      else CanvasMode.Device
+    CompositionLocalProvider(
+      LocalDensity provides density,
+      LocalWearDeviceConfiguration provides
+        WearDeviceConfiguration(
+          isScreenRound = true,
+          screenWidthDp = surface.widthDp.toInt(),
+          screenHeightDp = surface.heightDp.toInt(),
+        ),
+    ) {
+      MaterialTheme {
+        Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
+          CanvasDocumentHost(
+            document = document,
+            adapterIds = adapterIds,
+            adapterMappings = emptyMap(),
+            mode = mode,
+            density = density,
+            modifier = Modifier.fillMaxSize(),
+            renderSessionId = renderSessionId,
+            runtimeActionController = actions,
+            onInspectionSnapshot = onInspectionSnapshot,
+            rootModifier = { entry ->
+              if (entry.adapterId == "frame/round-screen") Modifier.align(Alignment.TopCenter)
+              else Modifier
+            },
+          ) { entry, rootModifier ->
+            RenderCanvasNode(
+              entry = entry,
+              registry = runtimeAdapters,
+              modifier = rootModifier,
+              applyModifier = { current, value ->
+                current.applyCanvasModifier(
+                  value = value,
+                  mode = mode,
+                  resolveColor = { resolveWearColor(it) },
+                  resolveShape = ::resolveWearShape,
+                )
+              },
+              missingComponent = { label, next -> UnsupportedComponent(label, next) },
+            ) {
+              UnsupportedComponent(node.componentId, prepared.modifier)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@Composable
+private fun resolveWearShape(value: String?): Shape =
+  when (value) {
+    "large" -> RoundedCornerShape(26.dp)
+    "medium" -> RoundedCornerShape(16.dp)
+    "small" -> RoundedCornerShape(8.dp)
+    else -> RoundedCornerShape(value?.toFloatOrNull()?.dp ?: 0.dp)
+  }
+
+@Composable
+private fun UnsupportedComponent(label: String, modifier: Modifier) {
+  Box(modifier.background(MaterialTheme.colorScheme.errorContainer).padding(8.dp)) {
+    Text(label, color = MaterialTheme.colorScheme.onErrorContainer)
   }
 }
