@@ -10,6 +10,13 @@ allprojects {
   apply(plugin = "com.ncorti.ktfmt.gradle")
   ktfmt { googleStyle() }
 
+  // AndroidX sources under vendor/ are pinned upstream bytes. Formatting them here would turn a
+  // source import into a repository-wide rewrite and make the next upstream comparison useless.
+  // The small JVM adapters intentionally live with that imported code and follow its formatting.
+  if (path.startsWith(":vendor:")) {
+    tasks.matching { it.name.startsWith("ktfmt") }.configureEach { enabled = false }
+  }
+
   // Generated Kotlin is checked in to be COMPILED, not to be read, and reformatting it breaks the
   // only thing it is for: `WidgetExportRoundTripTest` (the Remote widgets) and
   // `WearScreenTemplateRoundTripTest` (the Wear screens) assert the exporter still produces exactly
