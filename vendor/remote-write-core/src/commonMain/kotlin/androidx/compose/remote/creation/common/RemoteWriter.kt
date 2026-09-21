@@ -193,6 +193,7 @@ public interface RemoteWriter {
   public fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float)
 
   public fun drawPath(pathId: Int)
+  public fun drawComponentContent()
 
   public fun clipPath(pathId: Int)
 

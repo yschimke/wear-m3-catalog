@@ -598,6 +598,8 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
 
     override fun drawPath(pathId: Int) = delegate.drawPath(pathId)
 
+    override fun drawComponentContent() = delegate.drawComponentContent()
+
     override fun clipPath(pathId: Int) = delegate.addClipPath(pathId)
 
     override fun drawTweenPath(

@@ -97,6 +97,9 @@ writer operations together. The common encoder maintains separate declaration an
 and assembles the declaration preamble ahead of the root, even when a direct DSL call discovers text
 or path data inside a nested body.
 
+Component-content drawing and rounded-polygon paths/morphs also use typed writer operations; polygon
+morphs retain both endpoint paths and their remote progress value until the final writer flush.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

@@ -28,7 +28,6 @@ import android.graphics.Region
 import androidx.annotation.ColorInt
 import androidx.annotation.RestrictTo
 import androidx.annotation.VisibleForTesting
-import androidx.compose.remote.core.RcPlatformServices.RcPathArrayCreator
 import androidx.compose.remote.core.operations.ConditionalOperations
 import androidx.compose.remote.core.operations.Utils
 import androidx.compose.remote.creation.common.PaintBundleData
@@ -697,17 +696,10 @@ internal open class AndroidRecordingCanvas(
      * @param paint The [Paint] object to use for drawing the polygon.
      */
     override fun drawRoundedPolygon(roundedPolygon: RoundedPolygon, paint: RemotePaint?) {
-        // Snapshot the paint state to prevent mutation bugs before flush.
-        recordRenderingOp(paint) {
-            val pathData = MorphTweenUtility.cubicsToPathData(roundedPolygon.cubics)
-            val id =
-                document.addPathData(
-                    object : RcPathArrayCreator {
-                        override fun createFloatArray(): FloatArray = pathData
-                    }
-                )
-            document.buffer.addDrawPath(id)
-        }
+        recordRenderingOp(
+            paint,
+            WriterOp.DrawPath(MorphTweenUtility.cubicsToPathData(roundedPolygon.cubics)),
+        )
     }
 
     /**
@@ -725,15 +717,18 @@ internal open class AndroidRecordingCanvas(
         paint: RemotePaint?,
     ) {
         // Snapshot the paint state to prevent mutation bugs before flush.
+        val morph = androidx.graphics.shapes.Morph(from, to)
         val op =
-            recordRenderingOp(paint) {
-                MorphTweenUtility.emitMorphAsTweens(
-                    document,
-                    from,
-                    to,
-                    progress.getFloatIdForCreationState(creationState),
-                )
-            }
+            recordRenderingOp(
+                paint,
+                WriterOp.DrawTweenPath(
+                    MorphTweenUtility.cubicsToPathData(morph.asCubics(0f)),
+                    MorphTweenUtility.cubicsToPathData(morph.asCubics(1f)),
+                    progress,
+                    0f.rf,
+                    1f.rf,
+                ),
+            )
         buffer.addRoots(op, progress)
     }
 
@@ -2631,7 +2626,7 @@ internal open class AndroidRecordingCanvas(
 
     /** Draws the component content within a custom drawing stream. */
     override fun drawComponentContent() {
-        recordRenderingOp { document.drawComponentContent() }
+        recordRenderingOp(WriterOp.DrawComponentContent)
     }
 
     /**

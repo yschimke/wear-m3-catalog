@@ -336,6 +336,11 @@ internal sealed interface WriterOp {
             writer.drawPath(writer.addPathData(pathData, winding))
     }
 
+    data object DrawComponentContent : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.drawComponentContent()
+    }
+
     data class ClipPath(val pathData: FloatArray) : WriterOp {
         override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
             writer.clipPath(writer.addPathData(pathData))

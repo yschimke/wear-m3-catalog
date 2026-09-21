@@ -152,7 +152,7 @@ internal class JvmRecordingCanvas(
   }
 
   override fun drawComponentContent() {
-    recordRenderingOp { document.drawComponentContent() }
+    recordRenderingOp(WriterOp.DrawComponentContent)
   }
 
   override fun flush() {
@@ -164,11 +164,10 @@ internal class JvmRecordingCanvas(
   }
 
   override fun drawRoundedPolygon(roundedPolygon: RoundedPolygon, paint: RemotePaint?) {
-    recordRenderingOp(paint) {
-      val pathData = MorphTweenUtility.cubicsToPathData(roundedPolygon.cubics)
-      val id = document.addPathData(pathData)
-      document.drawPath(id)
-    }
+    recordRenderingOp(
+      paint,
+      WriterOp.DrawPath(MorphTweenUtility.cubicsToPathData(roundedPolygon.cubics)),
+    )
   }
 
   override fun drawRoundedPolygonMorph(
@@ -177,10 +176,18 @@ internal class JvmRecordingCanvas(
     progress: RemoteFloat,
     paint: RemotePaint?,
   ) {
+    val morph = androidx.graphics.shapes.Morph(from, to)
     val op =
-      recordRenderingOp(paint) {
-        MorphTweenUtility.emitMorphAsTweens(document, from, to, progress.floatId)
-      }
+      recordRenderingOp(
+        paint,
+        WriterOp.DrawTweenPath(
+          MorphTweenUtility.cubicsToPathData(morph.asCubics(0f)),
+          MorphTweenUtility.cubicsToPathData(morph.asCubics(1f)),
+          progress,
+          0f.rf,
+          1f.rf,
+        ),
+      )
     buffer.addRoots(op, progress)
   }
 

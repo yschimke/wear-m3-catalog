@@ -17,32 +17,10 @@
 package androidx.compose.remote.creation.compose.shapes
 
 import androidx.compose.remote.core.operations.PathData
-import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.graphics.shapes.Cubic
-import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 
 internal object MorphTweenUtility {
-    fun emitMorphAsTweens(
-        writer: RemoteComposeWriter,
-        p1: RoundedPolygon,
-        p2: RoundedPolygon,
-        progress: Float,
-    ) {
-        val morph = Morph(p1, p2)
-        val cubics1 = morph.asCubics(0f)
-        val cubics2 = morph.asCubics(1f)
-
-        val pathData1 = cubicsToPathData(cubics1)
-        val pathData2 = cubicsToPathData(cubics2)
-
-        val id1 = writer.addPathData(pathData1)
-        val id2 = writer.addPathData(pathData2)
-
-        val tweenId = writer.pathTween(id1, id2, progress)
-        writer.drawPath(tweenId)
-    }
-
     fun cubicsToPathData(cubics: List<Cubic>): FloatArray {
         if (cubics.isEmpty()) return floatArrayOf()
         // Path format: MOVE (3) + CUBIC (9 * N) + CLOSE (1)

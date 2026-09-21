@@ -107,6 +107,7 @@ class ProtocolParityTest {
     expected.addClipPath(43)
     expected.addDrawTextOnPath(49, 43, 1.5f, 2.5f)
     expected.addDrawTweenPath(43, 44, 0.25f, 0f, 1f)
+    expected.drawComponentContent()
     expected.addMatrixRestore()
 
     val writer = RemoteDocumentWriter(192, 192)
@@ -143,6 +144,7 @@ class ProtocolParityTest {
     writer.drawTextOnPath(49, path1Id, 1.5f, 2.5f)
     val path2Id = writer.addPathData(path2)
     writer.drawTweenPath(path1Id, path2Id, 0.25f, 0f, 1f)
+    writer.drawComponentContent()
     writer.restore()
 
     assertContentEquals(

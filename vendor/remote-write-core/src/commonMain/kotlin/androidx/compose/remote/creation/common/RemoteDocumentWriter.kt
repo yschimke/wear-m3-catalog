@@ -951,6 +951,8 @@ public class RemoteDocumentWriter(
 
   override fun drawPath(pathId: Int) = intOperation(DrawPath, pathId)
 
+  override fun drawComponentContent(): Unit = operation(DrawContent)
+
   override fun clipPath(pathId: Int) = intOperation(ClipPath, pathId)
 
   override fun drawTweenPath(
@@ -1309,6 +1311,7 @@ public class RemoteDocumentWriter(
     private const val DrawTextOnCircleOp = 57
     private const val DataPath = 123
     private const val DrawPath = 124
+    private const val DrawContent = 139
     private const val DrawTweenPath = 125
     private const val MatrixScale = 126
     private const val MatrixTranslate = 127
