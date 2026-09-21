@@ -33,6 +33,7 @@ on:
     branches: [main]
     paths:
       - 'catalog/**'
+      - 'catalog-ui-builder-renderer/**'
       - 'catalog.spec.json'
       # What each catalog declares about itself to the UI builder: the shelf a component is
       # filed under, the record an id binds to, the frame, the platform word. It is as much a
@@ -44,6 +45,10 @@ on:
       # the glob below.
       - 'ui-builder.policy.json'
       - 'remote-catalog/**'
+      - 'remote-catalog-ui-builder-renderer/**'
+      - 'ui-builder-foundation-adapters/**'
+      - 'ui-builder-material-adapters/**'
+      - 'ui-builder-wear-adapters/**'
       - '.github/ci/remote-m3-cmp-wasm-allowlist.json'
       # The samples sheet's render inputs. `samples-catalog/**` is the vendored tree, the generated
       # @Preview wrappers and the generated spec; `samples/**` is the import manifest, the patches
@@ -156,7 +161,7 @@ jobs:
             echo 'samples=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
-          shared='^(gradle/|settings\.gradle\.kts$|build\.gradle\.kts$|\.github/workflows/design-artifacts\.yml$)'
+          shared='^(gradle/|settings\.gradle\.kts$|build\.gradle\.kts$|ui-builder-(foundation|material|wear)-adapters/|\.github/workflows/design-artifacts\.yml$)'
           if grep -qE "$shared" <<<"$files"; then
             echo 'wear=true' >> "$GITHUB_OUTPUT"
             echo 'remote=true' >> "$GITHUB_OUTPUT"
@@ -168,9 +173,9 @@ jobs:
           # lane publishes. Listing it in one and not the other starts a run that skips the job it
           # was started for. (`remote-catalog/ui-builder.policy.json` is already matched by the
           # `remote-catalog/` prefix in the remote predicate below.)
-          grep -qE '^(catalog/|catalog\.spec\.json$|ui-builder\.policy\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
+          grep -qE '^(catalog/|catalog-ui-builder-renderer/|catalog\.spec\.json$|ui-builder\.policy\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
             echo 'wear=true' >> "$GITHUB_OUTPUT" || echo 'wear=false' >> "$GITHUB_OUTPUT"
-          grep -qE '^(remote-catalog/|\.github/ci/remote-m3-cmp-wasm-allowlist\.json$)' <<<"$files" &&
+          grep -qE '^(remote-catalog/|remote-catalog-ui-builder-renderer/|\.github/ci/remote-m3-cmp-wasm-allowlist\.json$)' <<<"$files" &&
             echo 'remote=true' >> "$GITHUB_OUTPUT" || echo 'remote=false' >> "$GITHUB_OUTPUT"
           grep -qE '^(samples-catalog/|samples/|sample-map\.json$|scripts/samples-)' <<<"$files" &&
             echo 'samples=true' >> "$GITHUB_OUTPUT" || echo 'samples=false' >> "$GITHUB_OUTPUT"
@@ -225,6 +230,12 @@ jobs:
       # Carry one executable bundle for the module, so a serve host running the Android daemon can
       # re-render any sticker on demand instead of only replaying baked PNGs.
       publish-live-bundle: true
+      # The executable canvas is owned and versioned by this catalog. The reusable workflow checks
+      # out this exact SDK commit as a source composite, builds the ZIP, verifies its manifest/tree
+      # digest, publishes it beside catalog.json and writes the matching runtime descriptor.
+      ui-builder-runtime-task: ':catalog-ui-builder-renderer:rendererArchive'
+      ui-builder-runtime-archive: 'catalog-ui-builder-renderer/build/distributions/wear-m3-ui-builder-renderer.zip'
+      ui-builder-runtime-source-ref: '4ec915397e1704cac8df9f7301a3d03237bef83b'
       # Pure editable SVGs are a daemon data product too: keep them transient through catalog
       # generation and cover cropping, then produce and cache them on request. Raster-backed hybrid
       # SVGs stay static so their crop references remain self-contained.
@@ -378,6 +389,9 @@ jobs:
       # every publish without adding a lane the serve host actually uses, and `split-mode` only
       # modifies the split. See the note on the caller above.
       publish-live-bundle: true
+      ui-builder-runtime-task: ':remote-catalog-ui-builder-renderer:rendererArchive'
+      ui-builder-runtime-archive: 'remote-catalog-ui-builder-renderer/build/distributions/remote-m3-ui-builder-renderer.zip'
+      ui-builder-runtime-source-ref: '4ec915397e1704cac8df9f7301a3d03237bef83b'
       defer-figma-svg: true
       split-per-preview: false
       # The CMP/Wasm player lane: the same browser environment visitors use, scoring every document
