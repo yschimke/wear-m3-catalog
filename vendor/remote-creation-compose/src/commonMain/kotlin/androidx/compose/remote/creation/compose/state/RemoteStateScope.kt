@@ -17,16 +17,9 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.RemoteComposeWriter
-import androidx.compose.remote.creation.RemotePath
-import androidx.compose.remote.creation.compose.capture.LocalRemoteComposeCreationState
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.capture.RemoteDensityBehavior
-import androidx.compose.remote.creation.compose.capture.toRemotePath
-import androidx.compose.remote.creation.compose.layout.RemoteComposable
-import androidx.compose.remote.creation.compose.vector.RemotePathScope
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.LayoutDirection
 
 /** Scope for accessing remote state IDs. */
@@ -41,11 +34,6 @@ public interface RemoteStateScope {
 
     /** The [LayoutDirection] associated with the document being drawn into. */
     public val layoutDirection: LayoutDirection
-
-    /** The [RemoteComposeWriter] associated with the document being drawn into. */
-    @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public val document: RemoteComposeWriter
-        get() = parentScope.document
 
     /** The density behavior associated with the document being drawn into. */
     @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -68,25 +56,7 @@ public interface RemoteStateScope {
         get() = (this as BaseRemoteState<*>).getLongIdForCreationState(creationState)
 }
 
-/** Build the [RemotePath], encoding using this [RemoteStateScope]. */
-public fun RemoteStateScope.remotePath(fn: RemotePathScope.() -> Unit): RemotePath {
-    return RemotePathScope().apply(fn).nodes.toRemotePath(creationState = this)
-}
-
-/** The [RemoteComposeCreationState] associated with the document being drawn into. */
+/** The [RemoteComposeCreationContext] associated with the document being drawn into. */
 @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-public val RemoteStateScope.creationState: RemoteComposeCreationState
-    get() = this as? RemoteComposeCreationState ?: parentScope.creationState
-
-/**
- * Allocates the RemoteState in global scope allowing assigning to global state IDs and
- * document-level properties.
- */
-@Composable
-@RemoteComposable
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-public fun <T : RemoteState<*>> T.withGlobalScope(): T {
-    LocalRemoteComposeCreationState.current.enqueueGlobalDeclaration(this as BaseRemoteState<*>)
-
-    return this
-}
+public val RemoteStateScope.creationState: RemoteComposeCreationContext
+    get() = this as? RemoteComposeCreationContext ?: parentScope.creationState

@@ -370,7 +370,7 @@ public class RemoteCanvas(
             if (pathFillType == PathFillType.EvenOdd) {
                 // The temporary Java adapter has no float-array + winding overload.
                 recordRenderingOp(paint) {
-                    document.drawPath(document.addPathData(path, 1))
+                    internalCanvas.document.drawPath(internalCanvas.document.addPathData(path, 1))
                 }
             } else {
                 recordRenderingOp(paint, WriterOp.DrawPath(path.snapshotData()))
@@ -402,7 +402,7 @@ public class RemoteCanvas(
     ) {
         val op =
             recordRenderingOp(paint) {
-                document.drawBitmap(bitmap.id, left.floatId, top.floatId, "")
+                internalCanvas.document.drawBitmap(bitmap.id, left.floatId, top.floatId, "")
             }
         internalCanvas.buffer.addRoots(op, bitmap, left, top)
     }
@@ -580,7 +580,7 @@ public class RemoteCanvas(
         step: RemoteFloat,
         body: (index: RemoteFloat) -> Unit,
     ) {
-        val loopVariableId = document.createFloatId()
+        val loopVariableId = internalCanvas.document.createFloatId()
         val loopVariable = MutableRemoteFloat(loopVariableId)
         val childSpan = internalCanvas.recordInChildSpan { body(loopVariable) }
 
@@ -602,12 +602,12 @@ public class RemoteCanvas(
         modifier: androidx.compose.remote.creation.modifiers.RecordingModifier,
         currentStateId: Int,
     ) {
-        recordRenderingOp { document.startStateLayout(modifier, currentStateId) }
+        recordRenderingOp { internalCanvas.document.startStateLayout(modifier, currentStateId) }
     }
 
     /** Ends a state layout. */
     public fun endStateLayout() {
-        recordRenderingOp { document.endStateLayout() }
+        recordRenderingOp { internalCanvas.document.endStateLayout() }
     }
 }
 

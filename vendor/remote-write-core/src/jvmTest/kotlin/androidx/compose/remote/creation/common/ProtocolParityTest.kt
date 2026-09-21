@@ -274,4 +274,111 @@ class ProtocolParityTest {
 
     assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
   }
+
+  @Test
+  fun expressionStateOperationsMatchAndroidxCore() {
+    val expression = floatArrayOf(2f, 3f, Utils.asNan(0x1001))
+    val animation = floatArrayOf(300f, 1f)
+    val integers = longArrayOf(7, 42L + 0x100000000L, 0x102)
+    val matrix = floatArrayOf(1f, 0f, Utils.asNan(8))
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addAnimatedFloat(42, expression, animation)
+    expected.addIntegerExpression(43, 2, intArrayOf(7, 42, 0x102))
+    expected.timeAttribute(44, 9, 6, 1, 2)
+    expected.addMatrixExpression(45, matrix)
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    assertEquals(Utils.asNan(42).toRawBits(), writer.floatExpression(expression, animation).toRawBits())
+    assertEquals(43L + 0x100000000L, writer.integerExpression(*integers))
+    assertEquals(Utils.asNan(44).toRawBits(), writer.timeAttribute(9, 6, 1, 2).toRawBits())
+    assertEquals(Utils.asNan(45).toRawBits(), writer.matrixExpression(*matrix).toRawBits())
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
+  fun textStateOperationsMatchAndroidxCore() {
+    val arrayId = Utils.asNan(7)
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.idLookup(42, arrayId, 2.5f)
+    expected.textLookup(43, arrayId, 3.5f)
+    expected.textLookup(44, arrayId, 11)
+    expected.textLength(45, 20)
+    expected.textMerge(46, 20, 21)
+    expected.textSubtext(47, 20, 1f, 4f)
+    expected.textTransform(48, 20, 0f, -1f, 2)
+    expected.createTextFromFloat(49, Utils.asNan(5), 3, 2, 1)
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    assertEquals(42, writer.idLookup(arrayId, 2.5f))
+    assertEquals(43, writer.textLookup(arrayId, 3.5f))
+    assertEquals(44, writer.textLookup(arrayId, 11))
+    assertEquals(Utils.asNan(45).toRawBits(), writer.textLength(20).toRawBits())
+    assertEquals(46, writer.textMerge(20, 21))
+    assertEquals(47, writer.textSubtext(20, 1f, 4f))
+    assertEquals(48, writer.textTransform(20, 0f, -1f, 2))
+    assertEquals(49, writer.createTextFromFloat(Utils.asNan(5), 3, 2, 1))
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
+  fun attributeAndDynamicArrayOperationsMatchAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addDynamicFloatArray(42, 6f)
+    expected.setArrayValue(42, 2f, 9f)
+    expected.getColorAttribute(43, 10, 3)
+    expected.bitmapAttribute(44, 11, 1)
+    expected.bitmapTextMeasure(45, 12, 13, 0, 0.5f)
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    assertEquals(Utils.asNan(42).toRawBits(), writer.addDynamicFloatArray(6f).toRawBits())
+    writer.setArrayValue(42, 2f, 9f)
+    assertEquals(Utils.asNan(43).toRawBits(), writer.colorAttribute(10, 3).toRawBits())
+    assertEquals(Utils.asNan(44).toRawBits(), writer.bitmapAttribute(11, 1).toRawBits())
+    assertEquals(Utils.asNan(45).toRawBits(), writer.bitmapTextMeasure(12, 13, 0, 0.5f).toRawBits())
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
+  fun bitmapDeclarationsMatchAndroidxCore() {
+    val coreGlyph =
+      androidx.compose.remote.core.operations.BitmapFontData.Glyph(
+        "fi",
+        9,
+        1,
+        2,
+        3,
+        4,
+        10,
+        12,
+      )
+    val glyph = BitmapFontGlyph("fi", 9, 1, 2, 3, 4, 10, 12)
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.storeBitmapUrl(42, "https://example.test/image.png", 1, 1)
+    expected.setNamedVariable(
+      42,
+      "USER:image",
+      androidx.compose.remote.core.operations.NamedVariable.IMAGE_TYPE,
+    )
+    expected.createBitmap(43, 20, 30)
+    expected.addBitmapFont(44, arrayOf(coreGlyph), linkedMapOf("fifi" to 1.toShort()))
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    assertEquals(42, writer.addBitmapUrl("https://example.test/image.png"))
+    assertEquals(42, writer.addNamedBitmapUrl("USER:image", "https://example.test/image.png"))
+    assertEquals(43, writer.createBitmap(20, 30))
+    assertEquals(44, writer.addBitmapFont(listOf(glyph), linkedMapOf("fifi" to 1.toShort())))
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
 }

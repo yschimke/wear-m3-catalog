@@ -17,7 +17,7 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.state.RemoteLong.Companion.createNamedRemoteLong
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -48,7 +48,7 @@ internal constructor(
     override fun toDebugString(): String = constantValueOrNull?.toString() ?: super.toDebugString()
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         throw UnsupportedOperationException("RemoteLong cannot be directly written to document yet")
     }
 
@@ -217,7 +217,7 @@ internal constructor(
             ?: RemoteIntExpression(null, RemoteStateInstanceKey()) {
                 throw UnsupportedOperationException("Cannot extract high from dynamic RemoteLong")
             },
-    private val idProvider: (creationState: RemoteComposeCreationState) -> Int,
+    private val idProvider: (creationState: RemoteComposeCreationContext) -> Int,
 ) : RemoteLong(low, high, cacheKey), MutableRemoteState<Long> {
 
     /**
@@ -247,7 +247,7 @@ internal constructor(
     )
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         idProvider(creationState)
 
     public override fun toString(): String {

@@ -21,6 +21,7 @@ import androidx.compose.remote.creation.Painter
 import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.RemoteComposeWriterAndroid
 import androidx.compose.remote.creation.compose.capture.LocalRemoteDensity
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteFloatExpression
@@ -117,7 +118,7 @@ public class RemoteTextMeasurer(internal val density: RemoteDensity) {
             constantValueOrNull = null,
             cacheKey = RemoteStateInstanceKey(),
         ) { creationState ->
-            val doc = creationState.document
+            val doc = (creationState as RemoteComposeCreationState).document
             val textSizePxId = textSize.getFloatIdForCreationState(creationState)
             doc.painter
                 .setTextSize(textSizePxId)
@@ -160,7 +161,7 @@ public class RemoteTextMeasurer(internal val density: RemoteDensity) {
             constantValueOrNull = null,
             cacheKey = RemoteStateInstanceKey(),
         ) { creationState ->
-            val doc = creationState.document
+            val doc = (creationState as RemoteComposeCreationState).document
             val textSizePxId = textSize.getFloatIdForCreationState(creationState)
             doc.painter
                 .setTextSize(textSizePxId)

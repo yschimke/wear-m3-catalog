@@ -19,7 +19,7 @@ package androidx.compose.remote.creation.compose.state
 import androidx.annotation.ColorInt
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.IntegerExpressionEvaluator
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.state.RemoteBoolean.Companion.createNamedRemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteInt.Companion.createNamedRemoteInt
@@ -93,7 +93,7 @@ internal constructor(
         get() = intValue
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         intValue.writeToDocument(creationState)
 
     /**
@@ -169,8 +169,8 @@ internal constructor(
             cacheKey =
                 RemoteOperationCacheKey.create(OperationKey.SelectString, this, ifTrue, ifFalse),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
-                    return creationState.document.textLookup(
+                override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
+                    return creationState.writer.textLookup(
                         creationState.writer.addIdList(
                             intArrayOf(
                                 ifFalse.getIdForCreationState(creationState),
@@ -182,7 +182,7 @@ internal constructor(
                 }
 
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ): Set<String>? {
                     if (hasConstantValue) {
                         val selected = if (constantValue) ifTrue else ifFalse
@@ -496,7 +496,7 @@ internal constructor(remoteInt: MutableRemoteInt) :
         get() = intValue as MutableRemoteInt
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         intValue.writeToDocument(creationState)
 
     public companion object {

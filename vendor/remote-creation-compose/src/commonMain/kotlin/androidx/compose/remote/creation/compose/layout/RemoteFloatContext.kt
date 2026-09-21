@@ -19,15 +19,15 @@ package androidx.compose.remote.creation.compose.layout
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.AnimatedFloatExpression
-import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.compose.state.RemoteComponentCacheKey
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteFloatExpression
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.compose.state.creationState
 
 public class RemoteFloatContext internal constructor(internal val state: RemoteStateScope) {
     public fun componentWidth(): RemoteFloat {
-        val doc = state.document
+        val doc = state.creationState.writer
         val value = doc.addComponentWidthValue()
         return RemoteFloatExpression(
             constantValueOrNull = null,
@@ -37,7 +37,7 @@ public class RemoteFloatContext internal constructor(internal val state: RemoteS
     }
 
     public fun componentHeight(): RemoteFloat {
-        val doc = state.document
+        val doc = state.creationState.writer
         val value = doc.addComponentHeightValue()
         return RemoteFloatExpression(
             constantValueOrNull = null,
@@ -47,7 +47,7 @@ public class RemoteFloatContext internal constructor(internal val state: RemoteS
     }
 
     public fun componentCenterX(): RemoteFloat {
-        val doc = state.document
+        val doc = state.creationState.writer
         val componentWidthValue = doc.addComponentWidthValue()
         val value = doc.floatExpression(componentWidthValue, 2f, AnimatedFloatExpression.DIV)
         return RemoteFloatExpression(
@@ -58,7 +58,7 @@ public class RemoteFloatContext internal constructor(internal val state: RemoteS
     }
 
     public fun componentCenterY(): RemoteFloat {
-        val doc = state.document
+        val doc = state.creationState.writer
         val componentHeightValue = doc.addComponentHeightValue()
         val value = doc.floatExpression(componentHeightValue, 2f, AnimatedFloatExpression.DIV)
         return RemoteFloatExpression(
@@ -68,7 +68,3 @@ public class RemoteFloatContext internal constructor(internal val state: RemoteS
         )
     }
 }
-
-// Remove with the published Android writer once it exposes this at the writer boundary too.
-private val RemoteComposeWriter.componentIdForCache: Int
-    get() = buffer.lastComponentId

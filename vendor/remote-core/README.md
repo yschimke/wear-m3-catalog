@@ -42,10 +42,12 @@ JVM parity tests compare those operations, protocol primitives, and the 149-byte
 with this Java core while the remaining paint, modifier, action, layout, state, and platform-image
 calls are migrated.
 
-The common writer now also owns scalar and collection declaration primitives: integer, float,
-long, colour and string constants, named variables, reserved float IDs, float arrays and ID lists.
-Creation Compose routes those state allocations through the common interface; expression codecs and
-lookup/attribute operations are the remaining state-side dependency on the Java writer.
+The common writer now owns the complete state declaration surface: scalar and collection constants,
+named variables, expressions, lookups, text transforms, component values, colour expressions,
+dynamic arrays, URL/offscreen images and bitmap fonts. Java-oracle tests pin their wire bytes. The
+state implementation and its density/font conversion closure now live in `commonMain`; platform
+capture supplies image data and temporarily adapts the same interface to the legacy writer while
+layout, paint, modifier and action migration continues.
 
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android

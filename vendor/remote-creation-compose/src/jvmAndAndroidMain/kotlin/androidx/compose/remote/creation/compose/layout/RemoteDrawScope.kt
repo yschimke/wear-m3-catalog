@@ -45,7 +45,7 @@ internal constructor(
 ) : RemoteStateScope by remoteCanvas {
     @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public val remoteComposeCreationState: RemoteComposeCreationState
-        get() = remoteCanvas.creationState
+        get() = remoteCanvas.internalCanvas.creationState
 
     /** The width of the drawing area as a [RemoteFloat]. */
     public val width: RemoteFloat

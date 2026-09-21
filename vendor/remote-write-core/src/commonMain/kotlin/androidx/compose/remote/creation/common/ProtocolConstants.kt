@@ -152,6 +152,43 @@ public object ColorAttribute {
   public const val COLOR_ALPHA: Short = 6
 }
 
+public object ImageAttribute {
+  public const val IMAGE_WIDTH: Short = 0
+  public const val IMAGE_HEIGHT: Short = 1
+}
+
+public object BitmapTextMeasure {
+  public const val MEASURE_WIDTH: Int = 0
+  public const val MEASURE_HEIGHT: Int = 1
+}
+
+public object TextFromFloat {
+  public const val PAD_AFTER_SPACE: Int = 0
+  public const val PAD_AFTER_NONE: Int = 1
+  public const val PAD_AFTER_ZERO: Int = 3
+  public const val PAD_PRE_SPACE: Int = 0
+  public const val PAD_PRE_NONE: Int = 4
+  public const val PAD_PRE_ZERO: Int = 12
+  public const val GROUPING_NONE: Int = 0
+  public const val GROUPING_BY3: Int = 1 shl 4
+  public const val GROUPING_BY4: Int = 2 shl 4
+  public const val GROUPING_BY32: Int = 3 shl 4
+  public const val SEPARATOR_COMMA_PERIOD: Int = 0
+  public const val SEPARATOR_PERIOD_COMMA: Int = 1 shl 6
+  public const val SEPARATOR_SPACE_COMMA: Int = 2 shl 6
+  public const val SEPARATOR_UNDER_PERIOD: Int = 3 shl 6
+  public const val OPTIONS_NEGATIVE_PARENTHESES: Int = 1 shl 8
+  public const val OPTIONS_ROUNDING: Int = 2 shl 8
+}
+
+public object TextTransform {
+  public const val TEXT_TO_LOWERCASE: Int = 1
+  public const val TEXT_TO_UPPERCASE: Int = 2
+  public const val TEXT_TRIM: Int = 3
+  public const val TEXT_CAPITALIZE: Int = 4
+  public const val TEXT_UPPERCASE_FIRST_CHAR: Int = 5
+}
+
 public object TimeAttribute {
   public const val TIME_FROM_NOW_SEC: Short = 0
   public const val TIME_FROM_NOW_MIN: Short = 1

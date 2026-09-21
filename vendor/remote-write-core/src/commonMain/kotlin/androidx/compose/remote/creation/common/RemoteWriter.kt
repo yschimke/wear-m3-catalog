@@ -9,6 +9,12 @@ package androidx.compose.remote.creation.common
  * writer; the common encoder will implement the same surface directly.
  */
 public interface RemoteWriter {
+  public val componentIdForCache: Int
+
+  public fun addComponentWidthValue(): Float
+
+  public fun addComponentHeightValue(): Float
+
   public fun setNamedVariable(id: Int, name: String, type: Int)
 
   public fun addInteger(value: Int): Long
@@ -23,9 +29,69 @@ public interface RemoteWriter {
 
   public fun addIdList(ids: IntArray): Float
 
+  public fun addDynamicFloatArray(size: Float): Float
+
+  public fun setArrayValue(id: Int, index: Float, value: Float)
+
+  public fun floatExpression(vararg values: Float): Float
+
+  public fun floatExpression(values: FloatArray, animation: FloatArray?): Float
+
+  public fun integerExpression(vararg values: Long): Long
+
+  public fun timeAttribute(longId: Int, type: Short, vararg args: Int): Float
+
+  public fun idLookup(arrayId: Float, index: Float): Int
+
+  public fun textLookup(arrayId: Float, index: Float): Int
+
+  public fun textLookup(arrayId: Float, indexId: Int): Int
+
+  public fun textLength(textId: Int): Float
+
+  public fun textMerge(leftId: Int, rightId: Int): Int
+
+  public fun textSubtext(textId: Int, start: Float, length: Float): Int
+
+  public fun textTransform(textId: Int, start: Float, length: Float, operation: Int): Int
+
+  public fun createTextFromFloat(value: Float, before: Int, after: Int, flags: Int): Int
+
+  public fun colorAttribute(colorId: Int, type: Short): Float
+
+  public fun bitmapAttribute(bitmapId: Int, type: Short): Float
+
+  public fun bitmapTextMeasure(
+    textId: Int,
+    bitmapFontId: Int,
+    type: Int,
+    glyphSpacing: Float,
+  ): Float
+
+  public fun addBitmapUrl(url: String, width: Int = 1, height: Int = 1): Int
+
+  public fun addNamedBitmapUrl(name: String, url: String): Int
+
+  public fun createBitmap(width: Int, height: Int): Int
+
+  public fun addBitmapFont(
+    glyphs: List<BitmapFontGlyph>,
+    kerningTable: Map<String, Short> = emptyMap(),
+  ): Int
+
+  public fun matrixExpression(vararg expression: Float): Float
+
   public fun addColor(argb: Int): Int
 
   public fun addNamedColor(name: String, argb: Int): Int
+
+  public fun addColorExpression(color1: Int, color2: Int, tween: Float): Short
+
+  public fun addColorExpression(color1: Short, color2: Short, tween: Float): Short
+
+  public fun addColorExpression(alpha: Int, hue: Float, saturation: Float, value: Float): Short
+
+  public fun addColorExpression(alpha: Float, red: Float, green: Float, blue: Float): Short
 
   public fun addText(value: String): Int
 
@@ -140,6 +206,17 @@ public interface RemoteWriter {
     contentDescription: String,
   )
 }
+
+public data class BitmapFontGlyph(
+  val chars: String,
+  val bitmapId: Int,
+  val marginLeft: Short,
+  val marginTop: Short,
+  val marginRight: Short,
+  val marginBottom: Short,
+  val width: Short,
+  val height: Short,
+)
 
 public object NamedVariableType {
   public const val STRING: Int = 0

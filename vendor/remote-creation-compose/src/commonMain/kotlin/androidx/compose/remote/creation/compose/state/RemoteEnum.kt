@@ -17,7 +17,7 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.state.RemoteInt.Companion.createNamedRemoteInt
 import androidx.compose.runtime.Composable
@@ -55,7 +55,7 @@ public constructor(internal val intValue: RemoteInt, internal val enumEntries: E
         get() = intValue
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         intValue.writeToDocument(creationState)
 
     internal enum class OperationKey : RemoteOperation {
@@ -125,18 +125,18 @@ public constructor(internal val intValue: RemoteInt, internal val enumEntries: E
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.ToString, this, stringArray),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
+                override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
                     val strings = stringArray.constantValueOrNull!!
                     val stringIds =
                         IntArray(strings.size) { strings[it].getIdForCreationState(creationState) }
-                    return creationState.document.textLookup(
+                    return creationState.writer.textLookup(
                         creationState.writer.addIdList(stringIds),
                         intValue.getIdForCreationState(creationState),
                     )
                 }
 
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = buildSet {
                     stringArray.constantValueOrNull?.fastForEach {
                         val codePointSet =
@@ -228,7 +228,7 @@ public constructor(public val remoteInt: MutableRemoteInt, enumEntries: EnumEntr
         get() = intValue as MutableRemoteInt
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         intValue.writeToDocument(creationState)
 
     public companion object {

@@ -17,13 +17,13 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.compose.remote.creation.common.RemoteContext
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 /**
  * Represents a key used for caching [BaseRemoteState] instances or expressions in
- * [androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState].
+ * [androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext].
  *
  * Caching based on these keys prevents redundant operations and document writes when the same
  * expression or state is encountered multiple times during document creation.
@@ -404,7 +404,7 @@ internal class FloatArrayRemoteState(internal val floatArray: FloatArray, key: F
     override val constantValueOrNull: FloatArray
         get() = floatArray
 
-    override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         throw UnsupportedOperationException(
             "FloatArrayRemoteState cannot be written directly to document"
         )

@@ -15,15 +15,12 @@
  */
 
 
-@file:JvmName("RemoteIntKt")
-@file:JvmMultifileClass
-
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.common.IntegerExpressionEvaluator
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.state.RemoteInt.Companion.createNamedRemoteInt
 import androidx.compose.remote.creation.compose.state.RemoteInt.OperationKey
@@ -34,6 +31,7 @@ import androidx.compose.runtime.remember
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.withSign
 
 private const val OP_ABS = 0x100000000L + IntegerExpressionEvaluator.I_ABS
 private const val OP_ADD = 0x100000000L + IntegerExpressionEvaluator.I_ADD
@@ -67,7 +65,7 @@ public abstract class RemoteInt
 internal constructor(
     @get:Suppress("AutoBoxing") public override val constantValueOrNull: Int?,
     cacheKey: RemoteStateCacheKey,
-    internal val arrayProvider: (creationState: RemoteComposeCreationState) -> LongArray,
+    internal val arrayProvider: (creationState: RemoteComposeCreationContext) -> LongArray,
 ) : BaseRemoteState<Int>(cacheKey) {
     internal enum class OperationKey(
         override val precedence: Int = 100,
@@ -200,8 +198,8 @@ internal constructor(
         }
     }
 
-    internal fun hasBeenWrittenToDoc(creationState: RemoteComposeCreationState) =
-        creationState.remoteVariableToId.contains(cacheKey)
+    internal fun hasBeenWrittenToDoc(creationState: RemoteComposeCreationContext) =
+        creationState.hasVariableId(cacheKey)
 
     /**
      * Converts this [RemoteInt] to a [RemoteFloat]. If the [RemoteInt] is a literal, it\'s directly
@@ -641,7 +639,7 @@ internal constructor(
  * [MAX_SAFE_LONG_ARRAY].
  */
 internal fun combineToLongArray(
-    creationState: RemoteComposeCreationState,
+    creationState: RemoteComposeCreationContext,
     remoteInts: Array<RemoteInt>,
     vararg extras: Long,
 ): LongArray {
@@ -793,7 +791,7 @@ private inline fun LongArray.foldTrailingConstant(
 ): LongArray? {
     val idx = size - 2
     if (idx < 0 || get(idx) >= 0x100000000L) return null
-    val copy = clone()
+    val copy = copyOf()
     copy[idx] = update(copy[idx]).toInt().toLong()
     return trim(copy)
 }
@@ -900,7 +898,7 @@ internal fun comparisonOp(
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public fun copySign(v: RemoteInt, sign: RemoteInt): RemoteInt =
     binaryOp(v, sign, OperationKey.CopySign, OP_COPY_SIGN) { a, b ->
-        Math.copySign(a.toDouble(), b.toDouble()).toInt()
+        a.toDouble().withSign(b.toDouble()).toInt()
     }
 
 /**
@@ -962,7 +960,7 @@ public class MutableRemoteInt
 internal constructor(
     constantValueOrNull: Int? = null,
     cacheKey: RemoteStateCacheKey,
-    internal val idProvider: (creationState: RemoteComposeCreationState) -> Long,
+    internal val idProvider: (creationState: RemoteComposeCreationContext) -> Long,
 ) :
     RemoteInt(
         constantValueOrNull = constantValueOrNull,
@@ -1032,7 +1030,7 @@ internal constructor(
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         Utils.idFromLong(idProvider(creationState)).toInt()
 }
 
@@ -1208,11 +1206,11 @@ public open class RemoteIntExpression
 internal constructor(
     public override val constantValueOrNull: Int?,
     cacheKey: RemoteStateCacheKey,
-    arrayProvider: (creationState: RemoteComposeCreationState) -> LongArray,
+    arrayProvider: (creationState: RemoteComposeCreationContext) -> LongArray,
 ) : RemoteInt(constantValueOrNull, cacheKey, arrayProvider) {
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         val array = arrayForCreationState(creationState)
 
         // in case we have a single element array, check if the element is an id or not;
@@ -1232,10 +1230,10 @@ internal constructor(
             }
 
             creationState.intExpressionCache.put(hash, this)
-            return Utils.idFromLong(creationState.document.integerExpression(*array)).toInt()
+            return Utils.idFromLong(creationState.writer.integerExpression(*array)).toInt()
         } else {
             creationState.intExpressionCache.put(hash, this)
-            return Utils.idFromLong(creationState.document.integerExpression(*array)).toInt()
+            return Utils.idFromLong(creationState.writer.integerExpression(*array)).toInt()
         }
     }
 }
@@ -1261,7 +1259,7 @@ internal sealed class SelectIntCondition {
      * @return long array encoding the selection expression in RPN
      */
     abstract fun buildLongArray(
-        creationState: RemoteComposeCreationState,
+        creationState: RemoteComposeCreationContext,
         ifFalse: RemoteInt,
         ifTrue: RemoteInt,
     ): LongArray
@@ -1276,7 +1274,7 @@ internal sealed class SelectIntCondition {
     data class IntComparison(val a: RemoteInt, val b: RemoteInt, val op: IntComparisonOp) :
         SelectIntCondition() {
         override fun buildLongArray(
-            creationState: RemoteComposeCreationState,
+            creationState: RemoteComposeCreationContext,
             ifFalse: RemoteInt,
             ifTrue: RemoteInt,
         ): LongArray =
@@ -1335,7 +1333,7 @@ internal sealed class SelectIntCondition {
      */
     data class BooleanCondition(val bool: RemoteBoolean) : SelectIntCondition() {
         override fun buildLongArray(
-            creationState: RemoteComposeCreationState,
+            creationState: RemoteComposeCreationContext,
             ifFalse: RemoteInt,
             ifTrue: RemoteInt,
         ): LongArray =

@@ -18,12 +18,7 @@ package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
-import androidx.compose.remote.creation.RemoteComposeWriter
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
-import androidx.compose.remote.creation.compose.layout.RemoteCanvas
-import androidx.compose.remote.creation.compose.layout.RemoteComposable
-import androidx.compose.remote.creation.compose.layout.RemoteComposeNode
-import androidx.compose.runtime.Composable
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.runtime.Stable
 
 /**
@@ -34,7 +29,7 @@ import androidx.compose.runtime.Stable
  * engine.
  *
  * In Remote Compose recording mode, a type-specific ID is used to refer to this state within
- * [RemoteComposeCreationState].
+ * [RemoteComposeCreationContext].
  *
  * @param T The type of the value held by this state.
  */
@@ -187,41 +182,41 @@ internal constructor(initialCacheKey: RemoteStateCacheKey) : RemoteState<T> {
     ): R = cacheKey.accept(visitor, memo)
 
     /**
-     * Returns a new or cached id for this [RemoteState] within the [RemoteComposeCreationState].
+     * Returns a new or cached id for this [RemoteState] within the [RemoteComposeCreationContext].
      *
-     * @param creationState The [RemoteComposeCreationState] for which the ID will be generated.
+     * @param creationState The [RemoteComposeCreationContext] for which the ID will be generated.
      * @return The ID of this remote value, for the given [creationState].
      */
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public open fun getIdForCreationState(creationState: RemoteComposeCreationState): Int {
+    public open fun getIdForCreationState(creationState: RemoteComposeCreationContext): Int {
         return creationState.getOrPutVariableId(cacheKey) { writeToDocument(creationState) }
     }
 
     /**
-     * @param creationState The [RemoteComposeCreationState] for which the ID will be generated.
+     * @param creationState The [RemoteComposeCreationContext] for which the ID will be generated.
      * @return The ID of this remote value, for the given [creationState] as a long.
      */
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public open fun getLongIdForCreationState(creationState: RemoteComposeCreationState): Long {
+    public open fun getLongIdForCreationState(creationState: RemoteComposeCreationContext): Long {
         return getIdForCreationState(creationState).toLong() + 0x100000000L
     }
 
     /**
-     * @param creationState The [RemoteComposeCreationState] for which the ID will be generated.
+     * @param creationState The [RemoteComposeCreationContext] for which the ID will be generated.
      * @return The ID of this remote value encoded in a Float NaN, for the given [creationState].
      */
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public open fun getFloatIdForCreationState(creationState: RemoteComposeCreationState): Float =
+    public open fun getFloatIdForCreationState(creationState: RemoteComposeCreationContext): Float =
         Utils.asNan(getIdForCreationState(creationState))
 
     /**
      * Writes the Remote Value to the [creationState] and returns the allocated ID.
      *
-     * @param creationState The [RemoteComposeCreationState] to write to.
+     * @param creationState The [RemoteComposeCreationContext] to write to.
      * @return The ID allocated by the [RemoteComposeWriter].
      */
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public abstract fun writeToDocument(creationState: RemoteComposeCreationState): Int
+    public abstract fun writeToDocument(creationState: RemoteComposeCreationContext): Int
 }
 
 /**
@@ -239,37 +234,7 @@ public interface MutableRemoteState<T> : RemoteState<T> {
         get() = this
 }
 
-internal class RemoteHoistNode : RemoteComposeNode() {
-    var states: Array<out RemoteState<*>> = emptyArray()
-
-    override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
-        for (state in states) {
-            if (state is BaseRemoteState<*>) {
-                state.getIdForCreationState(creationState)
-            }
-        }
-    }
-}
-
-/**
- * Explicitly registers one or more [RemoteState] expressions to be hoisted and evaluated at the
- * current container level in the document hierarchy.
- *
- * This ensures the operations underlying the given states (such as string formatting or
- * mathematical operations) are emitted at this container level, so that they are evaluated whenever
- * this container is rendered, rather than being trapped inside a conditionally hidden child
- * container (such as an inactive branch of a RemoteStateLayout).
- *
- * @param states The remote state expressions to hoist to the current container scope.
- */
-@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-@RemoteComposable
-@Composable
-public fun Hoist(vararg states: RemoteState<*>) {
-    RemoteComposeNode(factory = ::RemoteHoistNode, update = { set(states) { this.states = it } })
-}
-
-/** The cache key for this remote state within the RemoteComposeCreationState. */
+/** The cache key for this remote state within the RemoteComposeCreationContext. */
 @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 internal val RemoteState<*>.cacheKey: RemoteStateCacheKey
     get() =

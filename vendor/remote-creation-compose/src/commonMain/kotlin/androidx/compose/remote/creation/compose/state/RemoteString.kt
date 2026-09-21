@@ -17,11 +17,11 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.TextTransform
+import androidx.compose.remote.creation.common.TextTransform
 import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.common.AnimatedFloatExpression
 import androidx.compose.remote.creation.common.IntegerExpressionEvaluator
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.state.RemoteString.Companion.createNamedRemoteString
 import androidx.compose.remote.creation.compose.state.RemoteString.OperationKey
 import androidx.compose.runtime.Composable
@@ -165,7 +165,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                 longArrayOf(
                     0x100000000L +
                         Utils.idFromNan(
-                                creationState.document.textLength(
+                                creationState.writer.textLength(
                                     getIdForCreationState(creationState)
                                 )
                             )
@@ -190,7 +190,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                         0,
                         0x100000000L +
                             Utils.idFromNan(
-                                    creationState.document.textLength(
+                                    creationState.writer.textLength(
                                         getIdForCreationState(creationState)
                                     )
                                 )
@@ -217,7 +217,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                         1,
                         0x100000000L +
                             Utils.idFromNan(
-                                    creationState.document.textLength(
+                                    creationState.writer.textLength(
                                         getIdForCreationState(creationState)
                                     )
                                 )
@@ -243,14 +243,14 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Concat, this, v),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                    creationState.document.textMerge(
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                    creationState.writer.textMerge(
                         getIdForCreationState(creationState),
                         v.getIdForCreationState(creationState),
                     )
 
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) =
                     mergeSets(
                         this@RemoteString.computeRequiredCodePointSet(creationState),
@@ -287,8 +287,8 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Substring, this, start),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                    creationState.document.textSubtext(
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                    creationState.writer.textSubtext(
                         getIdForCreationState(creationState),
                         start.toFloat(),
                         -1f,
@@ -296,7 +296,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                 // TODO(b/): This is probably overestimate, consider refactoring.
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = this@RemoteString.computeRequiredCodePointSet(creationState)
             },
         )
@@ -317,7 +317,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Uppercase, this),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
+                override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
                     // If the computed code points for this string are already invariant under
                     // uppercase (e.g. digits, symbols, or uppercase characters), then the
                     // transform is a NOP and can be safely elided.
@@ -325,7 +325,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                     if (codePoints != null && codePoints.all { it.uppercase() == it }) {
                         return this@RemoteString.getIdForCreationState(creationState)
                     }
-                    return creationState.document.textTransform(
+                    return creationState.writer.textTransform(
                         getIdForCreationState(creationState),
                         0f,
                         -1f,
@@ -335,7 +335,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                 // Is this correct in all locales?
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) =
                     this@RemoteString.computeRequiredCodePointSet(creationState)?.mapTo(HashSet()) {
                         it.uppercase()
@@ -359,7 +359,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Lowercase, this),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
+                override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
                     // If the computed code points for this string are already invariant under
                     // lowercase (e.g. digits, symbols, or lowercase characters), then the
                     // transform is a NOP and can be safely elided.
@@ -367,7 +367,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                     if (codePoints != null && codePoints.all { it.lowercase() == it }) {
                         return this@RemoteString.getIdForCreationState(creationState)
                     }
-                    return creationState.document.textTransform(
+                    return creationState.writer.textTransform(
                         getIdForCreationState(creationState),
                         0f,
                         -1f,
@@ -377,7 +377,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                 // Is this correct in all locales?
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) =
                     this@RemoteString.computeRequiredCodePointSet(creationState)?.mapTo(HashSet()) {
                         it.lowercase()
@@ -401,8 +401,8 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Trim, this),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                    creationState.document.textTransform(
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                    creationState.writer.textTransform(
                         getIdForCreationState(creationState),
                         0f,
                         -1f,
@@ -412,7 +412,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                 // This is likely an overestimate, but whitespace glyphs are typically encoded as
                 // a space so optimizing doesn't seem worthwhile.
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = this@RemoteString.computeRequiredCodePointSet(creationState)
             },
         )
@@ -439,8 +439,8 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Substring, this, start),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                    creationState.document.textSubtext(
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                    creationState.writer.textSubtext(
                         getIdForCreationState(creationState),
                         start.getFloatIdForCreationState(creationState),
                         -1f,
@@ -448,7 +448,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                 // TODO(b/): This is probably overestimate, consider refactoring.
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = this@RemoteString.computeRequiredCodePointSet(creationState)
             },
         )
@@ -472,8 +472,8 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             constantValueOrNull = null,
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Substring, this, start, end),
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                    creationState.document.textSubtext(
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                    creationState.writer.textSubtext(
                         getIdForCreationState(creationState),
                         start.toFloat(),
                         (end - start).toFloat(),
@@ -481,7 +481,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                 // TODO(b/): This is probably overestimate, consider refactoring.
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = this@RemoteString.computeRequiredCodePointSet(creationState)
             },
         )
@@ -509,8 +509,8 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Substring, this, start, end),
             lazyRemoteString =
                 object : LazyRemoteString {
-                    override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                        creationState.document.textSubtext(
+                    override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                        creationState.writer.textSubtext(
                             getIdForCreationState(creationState),
                             start.getFloatIdForCreationState(creationState),
                             (end - start).getFloatIdForCreationState(creationState),
@@ -518,7 +518,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                     // TODO(b/): This is probably overestimate, consider refactoring.
                     override fun computeRequiredCodePointSet(
-                        creationState: RemoteComposeCreationState
+                        creationState: RemoteComposeCreationContext
                     ) = this@RemoteString.computeRequiredCodePointSet(creationState)
                 },
         )
@@ -548,8 +548,8 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
             cacheKey = RemoteOperationCacheKey.create(OperationKey.Substring, this, start, end),
             lazyRemoteString =
                 object : LazyRemoteString {
-                    override fun reserveTextId(creationState: RemoteComposeCreationState) =
-                        creationState.document.textSubtext(
+                    override fun reserveTextId(creationState: RemoteComposeCreationContext) =
+                        creationState.writer.textSubtext(
                             getIdForCreationState(creationState),
                             start.getFloatIdForCreationState(creationState),
                             (end - start).getFloatIdForCreationState(creationState),
@@ -557,7 +557,7 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
 
                     // TODO(b/): This is probably overestimate, consider refactoring.
                     override fun computeRequiredCodePointSet(
-                        creationState: RemoteComposeCreationState
+                        creationState: RemoteComposeCreationContext
                     ) = this@RemoteString.computeRequiredCodePointSet(creationState)
                 },
         )
@@ -570,13 +570,13 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
      * This is useful if you need to compute the subset of a font that\'s required to render the
      * string.
      *
-     * @param creationState The [RemoteComposeCreationState] context this is being evaluated within.
+     * @param creationState The [RemoteComposeCreationContext] context this is being evaluated within.
      * @return The set of unicode code points that can occur in this string, or null if that can\'t
      *   be statically determined .
      */
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public abstract fun computeRequiredCodePointSet(
-        creationState: RemoteComposeCreationState
+        creationState: RemoteComposeCreationContext
     ): Set<String>?
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -593,11 +593,11 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                 constantValueOrNull = value,
                 cacheKey = RemoteConstantCacheKey(value),
                 object : LazyRemoteString {
-                    override fun reserveTextId(creationState: RemoteComposeCreationState) =
+                    override fun reserveTextId(creationState: RemoteComposeCreationContext) =
                         creationState.writer.addText(value)
 
                     override fun computeRequiredCodePointSet(
-                        creationState: RemoteComposeCreationState
+                        creationState: RemoteComposeCreationContext
                     ) = value.toCodePointSet()
                 },
             )
@@ -629,12 +629,12 @@ public abstract class RemoteString internal constructor(cacheKey: RemoteStateCac
                 constantValueOrNull = null,
                 cacheKey = RemoteNamedCacheKey(domain, name),
                 object : LazyRemoteString {
-                    override fun reserveTextId(creationState: RemoteComposeCreationState) =
+                    override fun reserveTextId(creationState: RemoteComposeCreationContext) =
                         creationState.writer.addNamedString(domain.prefixed(name), defaultValue)
 
                     // Named strings can change so we can't statically determine the needed glyphs
                     override fun computeRequiredCodePointSet(
-                        creationState: RemoteComposeCreationState
+                        creationState: RemoteComposeCreationContext
                     ) = null
                 },
             )
@@ -648,7 +648,7 @@ private class SelectFloatImpl(
     val ifTrue: RemoteString,
     val ifFalse: RemoteString,
 ) : LazyRemoteString {
-    override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
+    override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
         val select =
             RemoteFloatExpression(
                 constantValueOrNull = null,
@@ -663,7 +663,7 @@ private class SelectFloatImpl(
                     AnimatedFloatExpression.IFELSE,
                 )
             }
-        return creationState.document.textLookup(
+        return creationState.writer.textLookup(
             creationState.writer.addIdList(
                 intArrayOf(
                     ifFalse.getIdForCreationState(creationState),
@@ -675,7 +675,7 @@ private class SelectFloatImpl(
     }
 
     override fun computeRequiredCodePointSet(
-        creationState: RemoteComposeCreationState
+        creationState: RemoteComposeCreationContext
     ): Set<String>? {
         if (a.hasConstantValue && b.hasConstantValue) {
             val selected = if (a.constantValue < b.constantValue) ifTrue else ifFalse
@@ -694,7 +694,7 @@ private class SelectIntImpl(
     val ifTrue: RemoteString,
     val ifFalse: RemoteString,
 ) : LazyRemoteString {
-    override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
+    override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
         val select =
             RemoteIntExpression(
                 constantValueOrNull = null,
@@ -709,7 +709,7 @@ private class SelectIntImpl(
                     0x100000000L + IntegerExpressionEvaluator.I_IFELSE,
                 )
             }
-        return creationState.document.textLookup(
+        return creationState.writer.textLookup(
             creationState.writer.addIdList(
                 intArrayOf(
                     ifFalse.getIdForCreationState(creationState),
@@ -721,7 +721,7 @@ private class SelectIntImpl(
     }
 
     override fun computeRequiredCodePointSet(
-        creationState: RemoteComposeCreationState
+        creationState: RemoteComposeCreationContext
     ): Set<String>? {
         if (a.hasConstantValue && b.hasConstantValue) {
             val selected = if (a.constantValue < b.constantValue) ifTrue else ifFalse
@@ -1008,22 +1008,30 @@ public fun selectIfGe(
 
 internal interface LazyRemoteString {
     /**
-     * @return The text ID for the RemoteString within the provided [RemoteComposeCreationState].
+     * @return The text ID for the RemoteString within the provided [RemoteComposeCreationContext].
      */
-    public fun reserveTextId(creationState: RemoteComposeCreationState): Int
+    public fun reserveTextId(creationState: RemoteComposeCreationContext): Int
 
     /**
      * @return The set of unicode code points needed to render this string, or null if that can\'t
      *   be statically determined.
      */
-    public fun computeRequiredCodePointSet(creationState: RemoteComposeCreationState): Set<String>?
+    public fun computeRequiredCodePointSet(creationState: RemoteComposeCreationContext): Set<String>?
 }
 
 /** @return The string split up into a set of unicode code points. */
 internal fun String.toCodePointSet(): Set<String> {
     val s = HashSet<String>()
-    for (cPoint in codePoints()) {
-        s.add(StringBuilder().appendCodePoint(cPoint).toString())
+    var index = 0
+    while (index < length) {
+        val first = this[index]
+        if (first.isHighSurrogate() && index + 1 < length && this[index + 1].isLowSurrogate()) {
+            s.add(substring(index, index + 2))
+            index += 2
+        } else {
+            s.add(first.toString())
+            index++
+        }
     }
     return s
 }
@@ -1053,10 +1061,10 @@ internal constructor(
         cacheKey = RemoteStateIdKey(id),
         lazyRemoteString =
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) = id
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) = id
 
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = null
             },
     )
@@ -1075,22 +1083,22 @@ internal constructor(
         cacheKey = RemoteStateInstanceKey(),
         lazyRemoteString =
             object : LazyRemoteString {
-                override fun reserveTextId(creationState: RemoteComposeCreationState) =
+                override fun reserveTextId(creationState: RemoteComposeCreationContext) =
                     creationState.writer.addText(value)
 
                 override fun computeRequiredCodePointSet(
-                    creationState: RemoteComposeCreationState
+                    creationState: RemoteComposeCreationContext
                 ) = null
             },
     )
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         lazyRemoteString.reserveTextId(creationState)
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     public override fun computeRequiredCodePointSet(
-        creationState: RemoteComposeCreationState
+        creationState: RemoteComposeCreationContext
     ): Set<String>? = lazyRemoteString.computeRequiredCodePointSet(creationState)
 
     public companion object {

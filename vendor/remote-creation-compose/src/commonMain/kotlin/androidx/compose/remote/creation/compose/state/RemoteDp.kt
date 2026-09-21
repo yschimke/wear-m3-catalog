@@ -17,7 +17,7 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.state.RemoteDp.Companion.createNamedRemoteDp
@@ -76,7 +76,7 @@ internal constructor(
         get() = value.constantValueOrNull?.dp
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         return toPx().writeToDocument(creationState)
     }
 
@@ -100,7 +100,7 @@ internal constructor(
     }
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    override fun getFloatIdForCreationState(creationState: RemoteComposeCreationState): Float {
+    override fun getFloatIdForCreationState(creationState: RemoteComposeCreationContext): Float {
         return toPx().getFloatIdForCreationState(creationState)
     }
 

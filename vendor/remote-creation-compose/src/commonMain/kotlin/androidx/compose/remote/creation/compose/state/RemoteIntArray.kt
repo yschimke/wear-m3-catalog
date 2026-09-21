@@ -19,7 +19,7 @@ package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.ui.util.fastMap
 
 /** Represents an array of remote integers. */
@@ -68,7 +68,7 @@ internal constructor(
         },
     }
 
-    override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         // If this instance represents an existing allocated ID (e.g. a formal parameter in a
         // pattern definition), return that ID directly instead of writing to the document.
         if (cacheKey is RemoteStateIdKey) {
@@ -98,7 +98,7 @@ internal constructor(
         ) { creationState ->
             val arrayId = getIdForCreationState(creationState)
             val resultId =
-                creationState.document.idLookup(
+                creationState.writer.idLookup(
                     Utils.asNan(arrayId),
                     v.getFloatIdForCreationState(creationState),
                 )
@@ -122,7 +122,7 @@ internal constructor(
         ) { creationState ->
             val arrayId = getIdForCreationState(creationState)
             val resultId =
-                creationState.document.idLookup(
+                creationState.writer.idLookup(
                     Utils.asNan(arrayId),
                     v.getFloatIdForCreationState(creationState),
                 )

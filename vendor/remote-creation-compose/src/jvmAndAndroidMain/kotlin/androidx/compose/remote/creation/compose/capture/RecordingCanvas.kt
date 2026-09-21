@@ -31,7 +31,7 @@ public interface RecordingCanvas : RemoteStateScope {
     public var creationState: RemoteComposeCreationState
     public val creationDisplayInfo: RemoteCreationDisplayInfo
 
-    override val document: RemoteComposeWriter
+    val document: RemoteComposeWriter
     override val remoteDensity: RemoteDensity
     override val layoutDirection: LayoutDirection
 

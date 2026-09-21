@@ -21,7 +21,7 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.common.NamedVariableType
 import androidx.compose.remote.creation.common.AnimatedFloatExpression
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.ui.util.fastMap
 
 /** Represents an array of floats. */
@@ -30,7 +30,7 @@ public class RemoteFloatArray
 internal constructor(
     public override val constantValueOrNull: List<RemoteFloat>?,
     internal override val cacheKey: RemoteStateCacheKey,
-    internal val idProvider: ((creationState: RemoteComposeCreationState) -> Int)? = null,
+    internal val idProvider: ((creationState: RemoteComposeCreationContext) -> Int)? = null,
 ) : BaseRemoteState<List<RemoteFloat>>(cacheKey) {
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -84,7 +84,7 @@ internal constructor(
     private val idListCacheKey: RemoteStateCacheKey =
         RemoteOperationCacheKey.create(OperationKey.IdList, this)
 
-    override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         // If this instance represents an existing allocated ID (e.g. a formal parameter in a
         // pattern definition), return that ID directly instead of writing to the document.
         if (cacheKey is RemoteStateIdKey) {
@@ -107,7 +107,7 @@ internal constructor(
      * @param creationState creation state associated with the document being written
      * @return document ID allocated for the ID list
      */
-    internal fun getIdListForCreationState(creationState: RemoteComposeCreationState): Int {
+    internal fun getIdListForCreationState(creationState: RemoteComposeCreationContext): Int {
         if (cacheKey is RemoteStateIdKey) {
             return (cacheKey as RemoteStateIdKey).id
         }
@@ -171,7 +171,7 @@ internal constructor(
         }
     }
 
-    private fun arrayForCreationState(creationState: RemoteComposeCreationState): FloatArray {
+    private fun arrayForCreationState(creationState: RemoteComposeCreationContext): FloatArray {
         return creationState.getOrPutFloatArray(cacheKey) {
             floatArrayOf(getFloatIdForCreationState(creationState))
         }

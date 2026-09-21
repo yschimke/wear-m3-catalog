@@ -42,7 +42,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.LayoutDirection
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-public open class RemoteComposeCreationState : RemoteStateScope {
+public open class RemoteComposeCreationState : RemoteComposeCreationContext {
 
     override val parentScope: RemoteComposeCreationState
         get() = this
@@ -53,11 +53,11 @@ public open class RemoteComposeCreationState : RemoteStateScope {
     public override lateinit var layoutDirection: LayoutDirection
     public final override val densityBehavior: RemoteDensityBehavior
 
-    public val expressionCache: MutableIntObjectMap<RemoteFloat> = MutableIntObjectMap()
-    public val intExpressionCache: MutableIntObjectMap<RemoteInt> = MutableIntObjectMap()
+    public override val expressionCache: MutableIntObjectMap<RemoteFloat> = MutableIntObjectMap()
+    public override val intExpressionCache: MutableIntObjectMap<RemoteInt> = MutableIntObjectMap()
     public var ready: Boolean = true
-    public override lateinit var document: RemoteComposeWriter
-    internal val writer: RemoteWriter
+    public lateinit var document: RemoteComposeWriter
+    public override val writer: RemoteWriter
         get() = LegacyRemoteWriterAdapter(document)
     internal val remoteVariableToId: MutableObjectIntMap<RemoteStateCacheKey> =
         MutableObjectIntMap()
@@ -65,7 +65,7 @@ public open class RemoteComposeCreationState : RemoteStateScope {
     internal val longArrayCache: HashMap<RemoteStateCacheKey, LongArray> = HashMap()
     private val globalDeclarations = LinkedHashMap<RemoteStateCacheKey, BaseRemoteState<*>>()
 
-    internal fun enqueueGlobalDeclaration(state: BaseRemoteState<*>) {
+    public override fun enqueueGlobalDeclaration(state: BaseRemoteState<*>) {
         globalDeclarations[state.cacheKey] = state
     }
 
@@ -76,20 +76,21 @@ public open class RemoteComposeCreationState : RemoteStateScope {
         globalDeclarations.clear()
     }
 
-    internal inline fun getOrPutFloatArray(
-        key: RemoteStateCacheKey,
-        crossinline compute: () -> FloatArray,
-    ): FloatArray = floatArrayCache.getOrPut(key) { compute() }
+    public override fun getOrPutFloatArray(
+        key: Any,
+        compute: () -> FloatArray,
+    ): FloatArray = floatArrayCache.getOrPut(key as RemoteStateCacheKey) { compute() }
 
-    internal inline fun getOrPutLongArray(
-        key: RemoteStateCacheKey,
-        crossinline compute: () -> LongArray,
-    ): LongArray = longArrayCache.getOrPut(key) { compute() }
+    public override fun getOrPutLongArray(
+        key: Any,
+        compute: () -> LongArray,
+    ): LongArray = longArrayCache.getOrPut(key as RemoteStateCacheKey) { compute() }
 
-    internal inline fun getOrPutVariableId(
-        key: RemoteStateCacheKey,
-        crossinline compute: () -> Int,
+    public override fun getOrPutVariableId(
+        key: Any,
+        compute: () -> Int,
     ): Int {
+        key as RemoteStateCacheKey
         val id = remoteVariableToId.getOrDefault(key, -1)
         if (id == -1) {
             val nextId = compute()
@@ -99,6 +100,9 @@ public open class RemoteComposeCreationState : RemoteStateScope {
         return id
     }
 
+    public override fun hasVariableId(key: Any): Boolean =
+        remoteVariableToId.contains(key as RemoteStateCacheKey)
+
     public val time: MutableState<Long> = mutableLongStateOf(0L)
 
     public val platform: RcPlatformServices
@@ -106,9 +110,10 @@ public open class RemoteComposeCreationState : RemoteStateScope {
 
     internal val platformImageProvider: PlatformImageProvider
 
-    public fun addBitmap(image: ImageBitmap): Int = platformImageProvider.addBitmap(document, image)
+    public override fun addBitmap(image: ImageBitmap): Int =
+        platformImageProvider.addBitmap(document, image)
 
-    public fun addNamedBitmap(name: String, image: ImageBitmap): Int =
+    public override fun addNamedBitmap(name: String, image: ImageBitmap): Int =
         platformImageProvider.addNamedBitmap(document, name, image)
 
     public constructor(

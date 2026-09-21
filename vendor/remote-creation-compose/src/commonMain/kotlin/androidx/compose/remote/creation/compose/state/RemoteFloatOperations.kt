@@ -41,10 +41,11 @@ import kotlin.math.sign
 import kotlin.math.sin
 import kotlin.math.sqrt
 import kotlin.math.tan
+import kotlin.math.withSign
 
 private const val FP_TO_RAD = 57.29578f // 180/PI
 private const val FP_TO_DEG = 0.017453292f // 180/PI
-private val PI_RF = Math.PI.toFloat().rf
+private val PI_RF = kotlin.math.PI.toFloat().rf
 
 private fun easeOutBounce(x: RemoteFloat): RemoteFloat {
     val n1 = 7.5625f.rf
@@ -172,11 +173,11 @@ public fun sign(a: RemoteFloat): RemoteFloat =
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public fun copySign(a: RemoteFloat, b: Float): RemoteFloat =
-    binaryOp(a, b, RemoteFloat.OperationKey.CopySign) { a, b -> Math.copySign(a, b) }
+    binaryOp(a, b, RemoteFloat.OperationKey.CopySign) { a, b -> a.withSign(b) }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public fun copySign(a: Float, b: RemoteFloat): RemoteFloat =
-    binaryOp(a, b, RemoteFloat.OperationKey.CopySign) { a, b -> Math.copySign(a, b) }
+    binaryOp(a, b, RemoteFloat.OperationKey.CopySign) { a, b -> a.withSign(b) }
 
 /**
  * Returns the first floating-point argument with the sign of the second floating-point argument.
@@ -185,7 +186,7 @@ public fun copySign(a: Float, b: RemoteFloat): RemoteFloat =
  * @param b The value whose sign is used.
  */
 public fun copySign(a: RemoteFloat, b: RemoteFloat): RemoteFloat =
-    binaryOp(a, b, RemoteFloat.OperationKey.CopySign) { a, b -> Math.copySign(a, b) }
+    binaryOp(a, b, RemoteFloat.OperationKey.CopySign) { a, b -> a.withSign(b) }
 
 /** Returns Euler's number `e` raised to the power of the given [RemoteFloat] value [a]. */
 public fun exp(a: RemoteFloat): RemoteFloat =
@@ -221,7 +222,7 @@ public fun ln(a: RemoteFloat): RemoteFloat = a.unaryOp(RemoteFloat.OperationKey.
  * @param a The [RemoteFloat] to be rounded.
  */
 public fun round(a: RemoteFloat): RemoteFloat =
-    a.unaryOp(RemoteFloat.OperationKey.Round) { a -> Math.round(a).toFloat() }
+    a.unaryOp(RemoteFloat.OperationKey.Round) { a -> kotlin.math.round(a) }
 
 /**
  * Computes the sine of the given [RemoteFloat].

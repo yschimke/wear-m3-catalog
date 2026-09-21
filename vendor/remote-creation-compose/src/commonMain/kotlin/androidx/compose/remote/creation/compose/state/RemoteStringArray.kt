@@ -19,7 +19,7 @@ package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.ui.util.fastForEach
 import androidx.compose.ui.util.fastMap
 
@@ -61,7 +61,7 @@ internal constructor(
         },
     }
 
-    override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         // If this instance represents an existing allocated ID (e.g. a formal parameter in a
         // pattern definition), return that ID directly instead of writing to the document.
         if (cacheKey is RemoteStateIdKey) {
@@ -93,14 +93,14 @@ internal constructor(
 
 private class StringArrayDerefImpl(val array: RemoteStringArray, val index: RemoteInt) :
     LazyRemoteString {
-    override fun reserveTextId(creationState: RemoteComposeCreationState): Int {
+    override fun reserveTextId(creationState: RemoteComposeCreationContext): Int {
         val arrayId = Utils.asNan(array.getIdForCreationState(creationState))
         val indexId = index.getIdForCreationState(creationState)
-        return creationState.document.textLookup(arrayId, indexId)
+        return creationState.writer.textLookup(arrayId, indexId)
     }
 
     override fun computeRequiredCodePointSet(
-        creationState: RemoteComposeCreationState
+        creationState: RemoteComposeCreationContext
     ): Set<String>? {
         val constIndex = index.constantValueOrNull
         if (constIndex != null && array.constantValueOrNull != null) {

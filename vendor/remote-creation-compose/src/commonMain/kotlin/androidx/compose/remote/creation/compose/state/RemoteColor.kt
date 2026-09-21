@@ -20,7 +20,7 @@ import androidx.annotation.ColorInt
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.ColorAttribute
 import androidx.compose.remote.creation.common.Utils
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.state.RemoteColor.Companion.createNamedRemoteColor
 import androidx.compose.remote.creation.compose.state.RemoteColor.OperationKey
@@ -46,7 +46,7 @@ internal constructor(
     red: RemoteFloat?,
     green: RemoteFloat?,
     blue: RemoteFloat?,
-    internal val idProvider: (creationState: RemoteComposeCreationState) -> Int,
+    internal val idProvider: (creationState: RemoteComposeCreationContext) -> Int,
 ) : BaseRemoteState<Color>(cacheKey) {
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -145,7 +145,7 @@ internal constructor(
             creationState.getOrPutVariableId(
                 RemoteOperationCacheKey.create(OperationKey.FromArgb, alpha, red, green, blue)
             ) {
-                creationState.document
+                creationState.writer
                     .addColorExpression(
                         alpha.getFloatIdForCreationState(creationState),
                         red.getFloatIdForCreationState(creationState),
@@ -159,7 +159,7 @@ internal constructor(
 
     internal constructor(
         cacheKey: RemoteStateCacheKey,
-        idProvider: (creationState: RemoteComposeCreationState) -> Int,
+        idProvider: (creationState: RemoteComposeCreationContext) -> Int,
     ) : this(
         constantValueOrNull = null,
         cacheKey = cacheKey,
@@ -199,7 +199,7 @@ internal constructor(
     public constructor(@ColorInt color: Int) : this(Color(color))
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
         return idProvider(creationState)
     }
 
@@ -283,7 +283,7 @@ internal constructor(
             cacheKey = key,
         ) { creationState ->
             floatArrayOf(
-                creationState.document.getColorAttribute(
+                creationState.writer.colorAttribute(
                     creationState.getOrPutVariableId(cacheKey) { idProvider(creationState) },
                     component,
                 )
@@ -445,7 +445,7 @@ internal constructor(
                                 value,
                             )
                         ) {
-                            creationState.document
+                            creationState.writer
                                 .addColorExpression(
                                     fixedAlpha,
                                     hue.getFloatIdForCreationState(creationState),
@@ -509,7 +509,7 @@ internal constructor(
                             value,
                         )
                     ) {
-                        creationState.document
+                        creationState.writer
                             .addColorExpression(
                                 alpha.toFloat() / 255f,
                                 hue.getFloatIdForCreationState(creationState),
@@ -605,7 +605,7 @@ public fun tween(@ColorInt from: Int, @ColorInt to: Int, tween: RemoteFloat): Re
             creationState.getOrPutVariableId(
                 RemoteOperationCacheKey.create(OperationKey.TweenInt, from, to, tween)
             ) {
-                creationState.document
+                creationState.writer
                     .addColorExpression(
                         from,
                         to,
@@ -644,7 +644,7 @@ public fun tween(from: RemoteColor, to: RemoteColor, tween: RemoteFloat): Remote
             creationState.getOrPutVariableId(
                 RemoteOperationCacheKey.create(OperationKey.Tween, from, to, tween)
             ) {
-                creationState.document
+                creationState.writer
                     .addColorExpression(
                         from.getIdForCreationState(creationState).toShort(),
                         to.getIdForCreationState(creationState).toShort(),

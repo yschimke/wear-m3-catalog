@@ -22,8 +22,10 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.core.operations.Utils
 import androidx.compose.remote.creation.actions.Action as CreationAction
 import androidx.compose.remote.creation.actions.HostAction as CreationHostAction
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.WriterEvents
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.compose.state.creationState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -54,10 +56,10 @@ public class PendingIntentAction(public val pendingIntent: () -> PendingIntent) 
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
     override fun RemoteStateScope.toRemoteAction(): CreationAction {
-        val writerCallback = document.writerCallback
+        val writerCallback = (creationState as RemoteComposeCreationState).document.writerCallback
         if (writerCallback is WriterEvents) {
             val index = writerCallback.storePendingIntent(pendingIntent())
-            val valueId = document.addInteger(index)
+            val valueId = creationState.writer.addInteger(index)
             return CreationHostAction(
                 ACTION_NAME,
                 HostAction.Type.INT.value,

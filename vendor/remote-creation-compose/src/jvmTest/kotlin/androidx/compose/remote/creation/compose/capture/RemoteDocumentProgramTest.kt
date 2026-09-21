@@ -54,7 +54,7 @@ class RemoteDocumentProgramTest {
             object : BaseRemoteState<Int>(RemoteStateInstanceKey()) {
                 override val constantValueOrNull: Int? = null
 
-                override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
+                override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
                     writes += "declaration"
                     return 42
                 }

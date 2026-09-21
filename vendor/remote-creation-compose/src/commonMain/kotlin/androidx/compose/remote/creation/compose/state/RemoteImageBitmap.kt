@@ -17,9 +17,9 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.ImageAttribute.IMAGE_HEIGHT
-import androidx.compose.remote.core.operations.ImageAttribute.IMAGE_WIDTH
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.common.ImageAttribute.IMAGE_HEIGHT
+import androidx.compose.remote.creation.common.ImageAttribute.IMAGE_WIDTH
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.state.RemoteImageBitmap.Companion.createNamedRemoteImageBitmap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.annotation.RememberInComposition
@@ -52,7 +52,7 @@ internal constructor(
                 cacheKey = RemoteOperationCacheKey.create(OperationKey.Width, this),
             ) { creationState ->
                 floatArrayOf(
-                    creationState.document.bitmapAttribute(
+                    creationState.writer.bitmapAttribute(
                         getIdForCreationState(creationState),
                         IMAGE_WIDTH,
                     )
@@ -68,7 +68,7 @@ internal constructor(
                 cacheKey = RemoteOperationCacheKey.create(OperationKey.Height, this),
             ) { creationState ->
                 floatArrayOf(
-                    creationState.document.bitmapAttribute(
+                    creationState.writer.bitmapAttribute(
                         getIdForCreationState(creationState),
                         IMAGE_HEIGHT,
                     )
@@ -101,7 +101,7 @@ internal constructor(
                 constantValueOrNull = null,
                 cacheKey = RemoteConstantCacheKey(url),
             ) { creationState ->
-                creationState.document.addBitmapUrl(url)
+                creationState.writer.addBitmapUrl(url)
             }
         }
 
@@ -169,7 +169,7 @@ internal constructor(
                 constantValueOrNull = null,
                 cacheKey = RemoteNamedCacheKey(domain, name),
             ) { creationState ->
-                creationState.document.addNamedBitmapUrl(domain.prefixed(name), url)
+                creationState.writer.addNamedBitmapUrl(domain.prefixed(name), url)
             }
         }
 
@@ -186,8 +186,8 @@ internal constructor(
                 public override val constantValueOrNull: ImageBitmap? = null
 
                 public override fun writeToDocument(
-                    creationState: RemoteComposeCreationState
-                ): Int = creationState.document.createBitmap(width, height)
+                    creationState: RemoteComposeCreationContext
+                ): Int = creationState.writer.createBitmap(width, height)
             }
     }
 }
@@ -200,7 +200,7 @@ public class MutableRemoteImageBitmap
 internal constructor(
     constantValueOrNull: ImageBitmap?,
     cacheKey: RemoteStateCacheKey?,
-    private val idProvider: (creationState: RemoteComposeCreationState) -> Int,
+    private val idProvider: (creationState: RemoteComposeCreationContext) -> Int,
 ) :
     RemoteImageBitmap(constantValueOrNull, cacheKey ?: RemoteStateInstanceKey()),
     MutableRemoteState<ImageBitmap> {
@@ -223,7 +223,7 @@ internal constructor(
     )
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int =
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int =
         idProvider(creationState)
 
     public companion object {

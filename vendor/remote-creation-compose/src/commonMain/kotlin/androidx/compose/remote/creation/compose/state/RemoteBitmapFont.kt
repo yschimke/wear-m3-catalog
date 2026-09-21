@@ -18,9 +18,9 @@
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.BitmapFontData
-import androidx.compose.remote.core.operations.BitmapTextMeasure
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.common.BitmapFontGlyph
+import androidx.compose.remote.creation.common.BitmapTextMeasure
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.util.fastFirstOrNull
 import kotlin.math.max
@@ -97,11 +97,11 @@ constructor(
         get() = null
 
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
-    public override fun writeToDocument(creationState: RemoteComposeCreationState): Int {
-        return creationState.document.addBitmapFont(
-            Array<BitmapFontData.Glyph>(glyphs.size) { index ->
+    public override fun writeToDocument(creationState: RemoteComposeCreationContext): Int {
+        return creationState.writer.addBitmapFont(
+            List(glyphs.size) { index ->
                 val glyph = glyphs[index]
-                BitmapFontData.Glyph(
+                BitmapFontGlyph(
                     glyph.chars,
                     glyph.bitmap?.let { creationState.addBitmap(it) } ?: -1,
                     glyph.marginLeft,
@@ -187,7 +187,7 @@ constructor(
             cacheKey = RemoteOperationCacheKey.create(OperationKey.MeasureWidth, this, text),
         ) { creationState ->
             floatArrayOf(
-                creationState.document.bitmapTextMeasure(
+                creationState.writer.bitmapTextMeasure(
                     text.getIdForCreationState(creationState),
                     getIdForCreationState(creationState),
                     BitmapTextMeasure.MEASURE_WIDTH,
@@ -213,7 +213,7 @@ constructor(
             cacheKey = RemoteOperationCacheKey.create(OperationKey.MeasureHeight, this, text),
         ) { creationState ->
             floatArrayOf(
-                creationState.document.bitmapTextMeasure(
+                creationState.writer.bitmapTextMeasure(
                     text.getIdForCreationState(creationState),
                     getIdForCreationState(creationState),
                     BitmapTextMeasure.MEASURE_HEIGHT,

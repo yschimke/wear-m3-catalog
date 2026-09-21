@@ -382,7 +382,7 @@ internal class RemoteGroupComponent : RemoteVNode() {
         val hasClip =
             clipPathData.isNotEmpty() &&
                 Operations.CLIP_PATH in
-                    this@draw.remoteCanvas.creationState.profile.supportedOperations
+                    this@draw.remoteCanvas.internalCanvas.creationState.profile.supportedOperations
 
         if (hasTransform || hasClip || groupMatrix != null) {
             withTransform({
