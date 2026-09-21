@@ -15,6 +15,31 @@ public interface RemoteWriter {
 
   public fun addComponentHeightValue(): Float
 
+  public fun startRoot()
+  public fun endRoot()
+  public fun startBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int)
+  public fun endBox()
+  public fun startRow(modifier: RemoteModifierData, horizontal: Int, vertical: Int)
+  public fun endRow()
+  public fun startColumn(modifier: RemoteModifierData, horizontal: Int, vertical: Int)
+  public fun endColumn()
+  public fun startCanvas(modifier: RemoteModifierData)
+  public fun endCanvas()
+  public fun startCanvasOperations()
+  public fun endCanvasOperations()
+  public fun startFitBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int)
+  public fun endFitBox()
+  public fun startFlow(
+    modifier: RemoteModifierData,
+    horizontal: Int,
+    vertical: Int,
+    maxItemsInEachRow: Int,
+    maxLines: Int,
+  )
+  public fun endFlow()
+  public fun startStateLayout(modifier: RemoteModifierData, indexId: Int)
+  public fun endStateLayout()
+
   public fun setNamedVariable(id: Int, name: String, type: Int)
 
   public fun addInteger(value: Int): Long

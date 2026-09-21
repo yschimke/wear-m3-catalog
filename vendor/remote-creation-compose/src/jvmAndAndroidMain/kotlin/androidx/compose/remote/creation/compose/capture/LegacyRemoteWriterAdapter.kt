@@ -3,6 +3,7 @@ package androidx.compose.remote.creation.compose.capture
 import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.common.BitmapFontGlyph
 import androidx.compose.remote.creation.common.PaintBundleData
+import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -14,6 +15,96 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun addComponentWidthValue(): Float = delegate.addComponentWidthValue()
 
     override fun addComponentHeightValue(): Float = delegate.addComponentHeightValue()
+
+    override fun startRoot() = delegate.startRoot()
+
+    override fun endRoot() = delegate.endRoot()
+
+    override fun startBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addBoxStart(modifier.componentId, -1, horizontal, vertical)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endBox() = delegate.endBox()
+
+    override fun startRow(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addRowStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endRow() = delegate.endRow()
+
+    override fun startColumn(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addColumnStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endColumn() = delegate.endColumn()
+
+    override fun startCanvas(modifier: RemoteModifierData) {
+        delegate.buffer.addCanvasStart(modifier.componentId, -1)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCanvas() = delegate.endCanvas()
+
+    override fun startCanvasOperations() = delegate.startCanvasOperations()
+
+    override fun endCanvasOperations() = delegate.endCanvasOperations()
+
+    override fun startFitBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addFitBoxStart(modifier.componentId, -1, horizontal, vertical)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endFitBox() = delegate.endFitBox()
+
+    override fun startFlow(
+        modifier: RemoteModifierData,
+        horizontal: Int,
+        vertical: Int,
+        maxItemsInEachRow: Int,
+        maxLines: Int,
+    ) {
+        delegate.buffer.addFlowStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+            maxItemsInEachRow,
+            maxLines,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endFlow() = delegate.endFlow()
+
+    override fun startStateLayout(modifier: RemoteModifierData, indexId: Int) {
+        delegate.buffer.addStateLayout(modifier.componentId, -1, 0, 0, indexId)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endStateLayout() = delegate.endStateLayout()
 
     override fun setNamedVariable(id: Int, name: String, type: Int) =
         delegate.setNamedVariable(id, name, type)

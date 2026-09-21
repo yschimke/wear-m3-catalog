@@ -36,11 +36,85 @@ public class RemoteDocumentWriter(
   }
 
   public fun root(content: RemoteDocumentWriter.() -> Unit) {
+    startRoot()
+    content()
+    endRoot()
+  }
+
+  override fun startRoot() {
     operation(LayoutRoot)
     buffer.writeInt(componentId())
-    content()
-    containerEnd()
   }
+
+  override fun endRoot(): Unit = containerEnd()
+
+  override fun startBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) =
+    startLayout(LayoutBox, modifier, horizontal, vertical)
+
+  override fun endBox(): Unit = endLayout()
+
+  override fun startRow(modifier: RemoteModifierData, horizontal: Int, vertical: Int) =
+    startLinearLayout(LayoutRow, modifier, horizontal, vertical)
+
+  override fun endRow(): Unit = endLayout()
+
+  override fun startColumn(modifier: RemoteModifierData, horizontal: Int, vertical: Int) =
+    startLinearLayout(LayoutColumn, modifier, horizontal, vertical)
+
+  override fun endColumn(): Unit = endLayout()
+
+  override fun startCanvas(modifier: RemoteModifierData) {
+    operation(LayoutCanvas)
+    buffer.writeInt(resolveComponentId(modifier.componentId))
+    buffer.writeInt(-1)
+    modifier.writeTo(this)
+    contentSection()
+  }
+
+  override fun endCanvas(): Unit = endLayout()
+
+  override fun startCanvasOperations(): Unit = operation(CanvasOperations)
+
+  override fun endCanvasOperations(): Unit = containerEnd()
+
+  override fun startFitBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) =
+    startLayout(LayoutFitBox, modifier, horizontal, vertical)
+
+  override fun endFitBox(): Unit = endLayout()
+
+  override fun startFlow(
+    modifier: RemoteModifierData,
+    horizontal: Int,
+    vertical: Int,
+    maxItemsInEachRow: Int,
+    maxLines: Int,
+  ) {
+    operation(LayoutFlow)
+    buffer.writeInt(resolveComponentId(modifier.componentId))
+    buffer.writeInt(-1)
+    buffer.writeInt(horizontal)
+    buffer.writeInt(vertical)
+    buffer.writeFloat(modifier.spacedBy)
+    buffer.writeInt(maxItemsInEachRow)
+    buffer.writeInt(maxLines)
+    modifier.writeTo(this)
+    contentSection()
+  }
+
+  override fun endFlow(): Unit = endLayout()
+
+  override fun startStateLayout(modifier: RemoteModifierData, indexId: Int) {
+    operation(LayoutState)
+    buffer.writeInt(resolveComponentId(modifier.componentId))
+    buffer.writeInt(-1)
+    buffer.writeInt(0)
+    buffer.writeInt(0)
+    buffer.writeInt(indexId)
+    modifier.writeTo(this)
+    contentSection()
+  }
+
+  override fun endStateLayout(): Unit = endLayout()
 
   public fun column(
     horizontal: Int = HorizontalStart,
@@ -707,6 +781,47 @@ public class RemoteDocumentWriter(
     return lastComponentId
   }
 
+  private fun resolveComponentId(requested: Int): Int {
+    lastComponentId = if (requested == -1) --nextComponentId else requested
+    return lastComponentId
+  }
+
+  private fun startLayout(
+    opcode: Int,
+    modifier: RemoteModifierData,
+    horizontal: Int,
+    vertical: Int,
+  ) {
+    operation(opcode)
+    buffer.writeInt(resolveComponentId(modifier.componentId))
+    buffer.writeInt(-1)
+    buffer.writeInt(horizontal)
+    buffer.writeInt(vertical)
+    modifier.writeTo(this)
+    contentSection()
+  }
+
+  private fun startLinearLayout(
+    opcode: Int,
+    modifier: RemoteModifierData,
+    horizontal: Int,
+    vertical: Int,
+  ) {
+    operation(opcode)
+    buffer.writeInt(resolveComponentId(modifier.componentId))
+    buffer.writeInt(-1)
+    buffer.writeInt(horizontal)
+    buffer.writeInt(vertical)
+    buffer.writeFloat(modifier.spacedBy)
+    modifier.writeTo(this)
+    contentSection()
+  }
+
+  private fun endLayout() {
+    containerEnd()
+    containerEnd()
+  }
+
   private fun componentValue(type: Int): Float {
     val key = pairKey(lastComponentId, type)
     val id =
@@ -811,7 +926,14 @@ public class RemoteDocumentWriter(
     private const val AnimatedFloat = 81
     private const val LayoutRoot = 200
     private const val LayoutContent = 201
+    private const val LayoutBox = 202
+    private const val LayoutRow = 203
     private const val LayoutColumn = 204
+    private const val LayoutCanvas = 205
+    private const val CanvasOperations = 173
+    private const val LayoutFitBox = 176
+    private const val LayoutState = 217
+    private const val LayoutFlow = 240
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

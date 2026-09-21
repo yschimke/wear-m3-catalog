@@ -58,6 +58,11 @@ shaders, shapes and `RemotePaint` are common code, and typed draw operations app
 `RemoteWriter`; only conversion from a platform-native Compose color filter remains an actualized
 adapter.
 
+The common writer also owns structural layout containers (root, box, row, column, flow, fit box,
+canvas and state layout). Their component ids and nested content boundaries are emitted in one pass;
+the JVM adapter is retained only as an oracle and temporary sink while modifier operations move to
+the same common representation.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.
