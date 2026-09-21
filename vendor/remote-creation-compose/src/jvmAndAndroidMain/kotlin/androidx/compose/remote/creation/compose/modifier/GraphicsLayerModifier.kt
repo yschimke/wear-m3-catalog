@@ -26,6 +26,8 @@ import androidx.compose.remote.creation.modifiers.CircleShape
 import androidx.compose.remote.creation.modifiers.GraphicsLayerModifier as CreationGraphicsLayerModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.modifiers.RectShape
+import androidx.compose.remote.creation.common.RemoteLayerAttribute
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
@@ -153,6 +155,81 @@ public class GraphicsLayerModifier(
             )
         }
         return layer
+    }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
+        val attributes = mutableListOf<RemoteLayerAttribute>()
+        fun float(id: Int, value: RemoteFloat, default: Float) {
+            if (value.floatId != default) {
+                attributes += RemoteLayerAttribute.FloatValue(id, value.floatId)
+            }
+        }
+        fun int(id: Int, value: Int, default: Int) {
+            if (value != default) attributes += RemoteLayerAttribute.IntValue(id, value)
+        }
+        float(GraphicsLayerModifierOperation.SCALE_X, scaleX, 1f)
+        float(GraphicsLayerModifierOperation.SCALE_Y, scaleY, 1f)
+        float(GraphicsLayerModifierOperation.ROTATION_X, rotationX, 0f)
+        float(GraphicsLayerModifierOperation.ROTATION_Y, rotationY, 0f)
+        float(GraphicsLayerModifierOperation.ROTATION_Z, rotationZ, 0f)
+        float(GraphicsLayerModifierOperation.TRANSFORM_ORIGIN_X, transformOriginX, 0f)
+        float(GraphicsLayerModifierOperation.TRANSFORM_ORIGIN_Y, transformOriginY, 0f)
+        float(GraphicsLayerModifierOperation.TRANSLATION_X, translationX, 0f)
+        float(GraphicsLayerModifierOperation.TRANSLATION_Y, translationY, 0f)
+        float(GraphicsLayerModifierOperation.SHADOW_ELEVATION, shadowElevation, 0f)
+        float(GraphicsLayerModifierOperation.ALPHA, alpha, 1f)
+        float(GraphicsLayerModifierOperation.CAMERA_DISTANCE, cameraDistance, 8f)
+        int(GraphicsLayerModifierOperation.COMPOSITING_STRATEGY, compositingStrategy, 0)
+        if (renderEffect is BlurEffect) {
+            attributes +=
+                RemoteLayerAttribute.FloatValue(
+                    GraphicsLayerModifierOperation.BLUR_RADIUS_X,
+                    renderEffect.radiusX,
+                )
+            attributes +=
+                RemoteLayerAttribute.FloatValue(
+                    GraphicsLayerModifierOperation.BLUR_RADIUS_Y,
+                    renderEffect.radiusY,
+                )
+            val tileMode =
+                when (renderEffect.edgeTreatment) {
+                    TileMode.Clamp -> GraphicsLayerModifierOperation.TILE_MODE_CLAMP
+                    TileMode.Repeated -> GraphicsLayerModifierOperation.TILE_MODE_REPEATED
+                    TileMode.Mirror -> GraphicsLayerModifierOperation.TILE_MODE_MIRROR
+                    TileMode.Decal -> GraphicsLayerModifierOperation.TILE_MODE_DECAL
+                    else -> GraphicsLayerModifierOperation.TILE_MODE_CLAMP
+                }
+            attributes +=
+                RemoteLayerAttribute.IntValue(
+                    GraphicsLayerModifierOperation.BLUR_TILE_MODE,
+                    tileMode,
+                )
+        }
+        when (shape) {
+            is RectShape ->
+                attributes +=
+                    RemoteLayerAttribute.IntValue(
+                        GraphicsLayerModifierOperation.SHAPE,
+                        GraphicsLayerModifierOperation.SHAPE_RECT,
+                    )
+            is RoundedCornerShape -> {
+                attributes +=
+                    RemoteLayerAttribute.IntValue(
+                        GraphicsLayerModifierOperation.SHAPE,
+                        GraphicsLayerModifierOperation.SHAPE_ROUND_RECT,
+                    )
+                attributes +=
+                    RemoteLayerAttribute.FloatValue(GraphicsLayerModifierOperation.SHAPE_RADIUS, 40f)
+            }
+            is CircleShape ->
+                attributes +=
+                    RemoteLayerAttribute.IntValue(
+                        GraphicsLayerModifierOperation.SHAPE,
+                        GraphicsLayerModifierOperation.SHAPE_CIRCLE,
+                    )
+            else -> Unit
+        }
+        return RemoteModifierOperation.GraphicsLayer(attributes)
     }
 }
 

@@ -8,6 +8,7 @@ import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.common.RemoteImageData
 import androidx.compose.remote.creation.common.RemoteActionData
+import androidx.compose.remote.creation.common.RemoteLayerAttribute
 import androidx.compose.remote.core.operations.layout.modifiers.HostActionMetadataOperation
 import androidx.compose.remote.core.operations.layout.modifiers.HostActionOperation
 import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
@@ -222,6 +223,17 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
                     operation.enabled,
                     operation.clickable,
                 )
+            is RemoteModifierOperation.GraphicsLayer -> {
+                val attributes = java.util.HashMap<Int, Any>()
+                operation.attributes.forEach { attribute ->
+                    when (attribute) {
+                        is RemoteLayerAttribute.FloatValue ->
+                            attributes[attribute.id] = attribute.value
+                        is RemoteLayerAttribute.IntValue -> attributes[attribute.id] = attribute.value
+                    }
+                }
+                delegate.addModifierGraphicsLayer(attributes)
+            }
         }
     }
 

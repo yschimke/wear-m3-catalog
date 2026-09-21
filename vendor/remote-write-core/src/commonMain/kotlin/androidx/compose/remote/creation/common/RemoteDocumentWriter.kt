@@ -213,6 +213,24 @@ public class RemoteDocumentWriter(
         buffer.writeByte(if (modifier.enabled) 1 else 0)
         buffer.writeByte(if (modifier.clickable) 1 else 0)
       }
+      is RemoteModifierOperation.GraphicsLayer -> {
+        operation(ModifierGraphicsLayer)
+        buffer.writeInt(modifier.attributes.size)
+        // Match the legacy Integer-keyed HashMap's stable bucket iteration order.
+        val capacity = if (modifier.attributes.size > 12) 32 else 16
+        modifier.attributes.sortedBy { it.id and (capacity - 1) }.forEach { attribute ->
+          when (attribute) {
+            is RemoteLayerAttribute.FloatValue -> {
+              buffer.writeInt(attribute.id or (1 shl 10))
+              buffer.writeFloat(attribute.value)
+            }
+            is RemoteLayerAttribute.IntValue -> {
+              buffer.writeInt(attribute.id)
+              buffer.writeInt(attribute.value)
+            }
+          }
+        }
+      }
     }
   }
 
@@ -1177,6 +1195,7 @@ public class RemoteDocumentWriter(
     private const val ValueFloatChange = 222
     private const val ValueFloatExpressionChange = 227
     private const val AccessibilitySemantics = 250
+    private const val ModifierGraphicsLayer = 224
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39

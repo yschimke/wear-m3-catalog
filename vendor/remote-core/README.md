@@ -85,6 +85,9 @@ late declarations inside a component body.
 Accessibility semantics are encoded through the same common modifier IR, including merge mode,
 role, text/state ids, enabled state and clickability.
 
+Graphics-layer attributes are typed as float or integer values and retain the legacy protocol's
+stable attribute order, including dynamic NaN ids, blur fields, transforms and compositing state.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

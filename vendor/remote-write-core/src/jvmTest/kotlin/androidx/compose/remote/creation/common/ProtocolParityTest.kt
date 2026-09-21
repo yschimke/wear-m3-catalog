@@ -373,6 +373,29 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun graphicsLayerModifierMatchesAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addModifierGraphicsLayer(
+      hashMapOf<Int, Any>(0 to 0.5f, 13 to 2, 17 to Utils.asNan(42))
+    )
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(
+      RemoteModifierOperation.GraphicsLayer(
+        listOf(
+          RemoteLayerAttribute.FloatValue(0, 0.5f),
+          RemoteLayerAttribute.IntValue(13, 2),
+          RemoteLayerAttribute.FloatValue(17, Utils.asNan(42)),
+        )
+      )
+    )
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(

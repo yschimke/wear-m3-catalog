@@ -41,6 +41,15 @@ public sealed interface RemoteModifierOperation {
     val enabled: Boolean,
     val clickable: Boolean,
   ) : RemoteModifierOperation
+  public data class GraphicsLayer(val attributes: List<RemoteLayerAttribute>) :
+    RemoteModifierOperation
+}
+
+public sealed interface RemoteLayerAttribute {
+  public val id: Int
+
+  public data class FloatValue(override val id: Int, val value: Float) : RemoteLayerAttribute
+  public data class IntValue(override val id: Int, val value: Int) : RemoteLayerAttribute
 }
 
 /** Typed action payloads nested under click and touch modifier containers. */
