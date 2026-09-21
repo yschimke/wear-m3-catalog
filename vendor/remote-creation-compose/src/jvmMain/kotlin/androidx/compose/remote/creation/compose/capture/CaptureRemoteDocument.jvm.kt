@@ -95,7 +95,7 @@ public suspend fun captureSingleRemoteDocument(
       }
 
       Snapshot.withMutableSnapshot {
-        val recordingCanvas = JvmRecordingCanvas().apply { setRemoteComposeCreationState(creationState) }
+        val recordingCanvas = CommonRecordingCanvas().apply { setRemoteComposeCreationState(creationState) }
         rootNode.render(creationState, RemoteCanvas(recordingCanvas))
         recordingCanvas.flush()
         creationState.legacyDocument.encodeToByteArray()

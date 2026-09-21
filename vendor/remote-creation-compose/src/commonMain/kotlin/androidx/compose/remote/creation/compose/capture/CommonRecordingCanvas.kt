@@ -16,7 +16,6 @@
 
 package androidx.compose.remote.creation.compose.capture
 
-import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.compose.layout.RemoteCustomPropertiesScope
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.shapes.MorphTweenUtility
@@ -30,15 +29,13 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.graphics.shapes.RoundedPolygon
 
 /** JVM recorder for the platform-neutral RemoteCanvas write path. */
-internal class JvmRecordingCanvas(
+internal class CommonRecordingCanvas(
   override val enableOptimizations: Boolean = false,
 ) : InternalRecordingCanvas {
   override val buffer = RemoteDocumentProgram(enableOptimizations)
   override lateinit var creationState: RemoteComposeCreationState
   override val parentScope: RemoteStateScope
     get() = creationState
-  private val document: RemoteComposeWriter
-    get() = creationState.legacyDocument
   override val remoteDensity: RemoteDensity
     get() = creationState.remoteDensity
   override val layoutDirection: LayoutDirection

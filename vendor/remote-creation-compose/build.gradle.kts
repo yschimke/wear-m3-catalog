@@ -31,16 +31,17 @@ kotlin {
         @Suppress("DEPRECATION") implementation(compose.foundation)
         @Suppress("DEPRECATION") implementation(compose.runtime)
         implementation("androidx.graphics:graphics-shapes:1.1.0")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
       }
     }
     val commonTest by getting { dependencies { implementation(kotlin("test")) } }
     val jvmAndAndroidMain by creating {
       dependsOn(commonMain)
-      dependencies { api(libs.compose.remote.creation) }
     }
     val androidMain by getting {
       dependsOn(jvmAndAndroidMain)
       dependencies {
+        api(libs.compose.remote.creation)
         implementation("androidx.graphics:graphics-path:1.1.0-rc01")
         implementation("androidx.core:core-ktx:1.16.0")
         implementation("androidx.lifecycle:lifecycle-viewmodel:2.10.0")
@@ -49,9 +50,9 @@ kotlin {
         implementation("androidx.appcompat:appcompat:1.7.1")
       }
     }
-    val jvmMain by getting { dependsOn(jvmAndAndroidMain) }
-    jvmMain.dependencies {
-      implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    val jvmMain by getting {
+      dependsOn(jvmAndAndroidMain)
+      dependencies { api(project(":vendor:remote-core")) }
     }
     val jvmTest by getting { dependencies { implementation(kotlin("test")) } }
   }

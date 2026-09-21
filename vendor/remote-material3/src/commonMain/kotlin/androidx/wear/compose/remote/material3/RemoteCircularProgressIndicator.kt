@@ -41,6 +41,7 @@ import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.PaintingStyle
 import androidx.compose.ui.graphics.StrokeCap
+import kotlin.math.PI
 
 /**
  * Material Design circular progress indicator.
@@ -178,7 +179,7 @@ private fun RemoteDrawScope.drawIndicatorArcs(
 
     val chordRatio =
         min(1f.rf, max(0f.rf, (strokePx + gapSizePx) / max(0.001f.rf, diameter - strokePx)))
-    val gapSweep = asin(chordRatio) * (360f / Math.PI.toFloat()).rf
+    val gapSweep = asin(chordRatio) * (360f / PI.toFloat()).rf
 
     val trackGapSweep = min(sweepAngle, gapSweep)
 

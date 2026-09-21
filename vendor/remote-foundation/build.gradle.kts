@@ -17,18 +17,20 @@ kotlin {
     }
   }
   jvm()
+  @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+  wasmJs { browser() }
 
   sourceSets {
-    val commonMain by getting
-    val jvmAndAndroidMain by creating {
-      dependsOn(commonMain)
+    val commonMain by getting {
       dependencies {
         api(project(":vendor:remote-creation-compose"))
-        api(libs.compose.remote.creation)
         @Suppress("DEPRECATION") api(compose.runtime)
         @Suppress("DEPRECATION") api(compose.ui)
         @Suppress("DEPRECATION") api(compose.foundation)
       }
+    }
+    val jvmAndAndroidMain by creating {
+      dependsOn(commonMain)
     }
     val androidMain by getting { dependsOn(jvmAndAndroidMain) }
     val jvmMain by getting { dependsOn(jvmAndAndroidMain) }

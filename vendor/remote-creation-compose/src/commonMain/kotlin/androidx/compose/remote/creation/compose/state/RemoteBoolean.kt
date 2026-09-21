@@ -489,6 +489,7 @@ internal constructor(remoteInt: MutableRemoteInt) :
                 0 -> false
                 is Int -> true
                 null -> null
+                else -> true
             }
 
     @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)

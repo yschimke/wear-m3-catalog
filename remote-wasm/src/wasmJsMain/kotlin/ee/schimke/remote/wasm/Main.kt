@@ -1,15 +1,23 @@
 package ee.schimke.remote.wasm
 
-import androidx.compose.remote.creation.common.RemoteDocumentWriter
+import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
+import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocument
+import androidx.compose.remote.creation.compose.state.rs
+import androidx.wear.compose.remote.material3.RemoteText
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
-public fun createWasmSample(): ByteArray =
-  RemoteDocumentWriter(width = 192, height = 192).run {
-    root { column { text("Remote Compose on Desktop") } }
-    encodeToByteArray()
+/** Builds a real Remote Material 3 component tree and encodes it entirely in Wasm. */
+public suspend fun createWasmMaterialSample(): ByteArray =
+  captureCommonRemoteDocument(RemoteCreationDisplayInfo(192, 192, 160)) {
+    RemoteText("Remote Material 3".rs)
+    RemoteText("Rendered in Wasm".rs)
   }
 
 public fun main() {
-  val output = createWasmSample()
-  check(output.size == 149) { "Expected a 149-byte document, got ${output.size}" }
-  println("Remote Compose Wasm document: ${output.size} bytes")
+  MainScope().launch {
+    val output = createWasmMaterialSample()
+    check(output.size > 149) { "Expected composed Material components, got ${output.size} bytes" }
+    println("Remote Material 3 Wasm document: ${output.size} bytes")
+  }
 }

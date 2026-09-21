@@ -10,16 +10,11 @@ These modules are copied from AndroidX change
 | `:vendor:remote-foundation` | `compose/remote/foundation/foundation` |
 | `:vendor:remote-material3` | `wear/compose/remote/remote-material3` |
 | `:vendor:remote-core` | write-side sources from `remote-core`, `remote-creation-core`, and `remote-creation` |
+| `:vendor:remote-write-core` | common write-only encoder extracted from those core sources |
 
-The copied Kotlin sources are upstream bytes. Local `build.gradle.kts` files adapt AndroidX's
-internal build to this repository and expose Android and JVM targets. Foundation and Material 3 are
-placed in the shared JVM/Android source set because their upstream `src/main` sources contain no
-Android APIs. One local compatibility source, `FontVariationSettingsCompat.kt`, bridges the
-`Font.variationSettings` API included by the CL's Compose UI prerequisite but not yet present in the
-published Compose JVM artifact; member resolution supersedes the bridge when that API is released.
-Two narrow platform adapters complete the JVM surface: `RemoteTimeDefaults.jvm.kt` obtains the
-12/24-hour preference from Java's locale formatter, and `CurrentScreenHeight` uses Compose's window
-metrics on JVM while retaining `LocalConfiguration` on Android.
+The copied Kotlin sources started as upstream bytes; the port then moved the portable Creation,
+Foundation, and Material 3 closure to `commonMain`. Local build files expose Android, JVM, and Wasm
+targets. Narrow actuals retain Android/JVM time, display, image, and legacy-writer integration.
 
 `:remote-desktop` is the phase-2 client. Its `run` task performs a real Compose recomposition through
 the vendored JVM applier and writes the encoded document to
@@ -38,6 +33,28 @@ bitmap and path adapters.
 AndroidX artifacts already publish standard JVM variants. On JVM, Remote Material 3 uses this
 repository's existing CMP Wear Compose port for the Wear token types it references. Android
 configurations substitute that port back to the real AndroidX Wear Compose artifacts.
+
+## Published artifacts
+
+The five vendored modules publish under `ee.schimke.remotecompose` at
+`4307936-ps17-cmp01`. The version is derived from `remote-compose-upstream.json`; bump its
+`portRevision` whenever published bytes change without moving to a newer AndroidX patch set.
+
+As with the repository's Wear Compose CMP port, CI publishes to GitHub Packages and to a
+credential-free Maven tree on `remote-compose-cmp-maven`:
+
+```kotlin
+repositories {
+  maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/remote-compose-cmp-maven/")
+}
+
+dependencies {
+  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp01")
+}
+```
+
+`./gradlew publishToMavenLocal` publishes locally. `./gradlew publishRemoteComposeToBuildDir`
+produces the exact repository tree CI pushes under `build/remote-compose-maven`.
 
 The vendored source is Apache 2.0 licensed; each source file retains its Android Open Source Project
 header.

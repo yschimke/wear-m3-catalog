@@ -124,6 +124,13 @@ state all compile for Wasm from the same sources as JVM and Android. Platform so
 to the legacy writer/profile bridge, host capture services, JVM reflection hooks, diagnostics, and
 animated-vector parsing.
 
+Foundation and Remote Material 3 now consume that closure from their own `commonMain` source sets
+and publish JVM, Android, and Wasm variants. A common recomposition/capture entry point renders
+directly into `RemoteDocumentWriter`; `:remote-wasm` exercises it with real Remote Material text
+components in both development and optimized browser bundles. The five vendored writer/Creation/
+Foundation/Material modules publish under the immutable version recorded in
+`vendor/remote-compose-upstream.json`.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.
