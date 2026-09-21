@@ -59,6 +59,34 @@ internal sealed interface WriterOp {
             writer.endColumn()
     }
 
+    data class StartCollapsibleRow(
+        val modifier: RemoteModifierData,
+        val horizontal: Int,
+        val vertical: Int,
+    ) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startCollapsibleRow(modifier, horizontal, vertical)
+    }
+
+    data object EndCollapsibleRow : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endCollapsibleRow()
+    }
+
+    data class StartCollapsibleColumn(
+        val modifier: RemoteModifierData,
+        val horizontal: Int,
+        val vertical: Int,
+    ) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startCollapsibleColumn(modifier, horizontal, vertical)
+    }
+
+    data object EndCollapsibleColumn : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endCollapsibleColumn()
+    }
+
     data class StartCanvas(val modifier: RemoteModifierData) : WriterOp {
         override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
             writer.startCanvas(modifier)

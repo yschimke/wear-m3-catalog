@@ -61,6 +61,42 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
 
     override fun endColumn() = delegate.endColumn()
 
+    override fun startCollapsibleRow(
+        modifier: RemoteModifierData,
+        horizontal: Int,
+        vertical: Int,
+    ) {
+        delegate.buffer.addCollapsibleRowStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCollapsibleRow() = delegate.endCollapsibleRow()
+
+    override fun startCollapsibleColumn(
+        modifier: RemoteModifierData,
+        horizontal: Int,
+        vertical: Int,
+    ) {
+        delegate.buffer.addCollapsibleColumnStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCollapsibleColumn() = delegate.endCollapsibleColumn()
+
     override fun startCanvas(modifier: RemoteModifierData) {
         delegate.buffer.addCanvasStart(modifier.componentId, -1)
         modifier.writeTo(this)

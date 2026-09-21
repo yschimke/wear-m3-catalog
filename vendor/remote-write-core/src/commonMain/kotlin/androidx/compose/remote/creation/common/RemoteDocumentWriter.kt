@@ -65,6 +65,22 @@ public class RemoteDocumentWriter(
 
   override fun endColumn(): Unit = endLayout()
 
+  override fun startCollapsibleRow(
+    modifier: RemoteModifierData,
+    horizontal: Int,
+    vertical: Int,
+  ) = startLinearLayout(LayoutCollapsibleRow, modifier, horizontal, vertical)
+
+  override fun endCollapsibleRow(): Unit = endLayout()
+
+  override fun startCollapsibleColumn(
+    modifier: RemoteModifierData,
+    horizontal: Int,
+    vertical: Int,
+  ) = startLinearLayout(LayoutCollapsibleColumn, modifier, horizontal, vertical)
+
+  override fun endCollapsibleColumn(): Unit = endLayout()
+
   override fun startCanvas(modifier: RemoteModifierData) {
     operation(LayoutCanvas)
     buffer.writeInt(resolveComponentId(modifier.componentId))
@@ -1044,6 +1060,8 @@ public class RemoteDocumentWriter(
     private const val LayoutRow = 203
     private const val LayoutColumn = 204
     private const val LayoutCanvas = 205
+    private const val LayoutCollapsibleRow = 230
+    private const val LayoutCollapsibleColumn = 233
     private const val CanvasOperations = 173
     private const val LayoutFitBox = 176
     private const val LayoutState = 217
