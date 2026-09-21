@@ -131,6 +131,12 @@ components in both development and optimized browser bundles. The five vendored 
 Foundation/Material modules publish under the immutable version recorded in
 `vendor/remote-compose-upstream.json`.
 
+Buffered layout nodes reserve stable component ids before their draw scopes run. Component width and
+height remain typed `RemoteFloat` dependencies until flush, then encode a `ComponentValue` naming
+that reserved id in the declaration preamble. This is what lets CSE and declaration hoisting coexist
+with locally measured canvas content; asking the legacy writer for its "last component" while the
+layout itself was still buffered produced zero-sized indicators and backgrounds.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+@file:kotlin.jvm.JvmName("RemoteCreationDisplayInfoKt")
+@file:kotlin.jvm.JvmMultifileClass
+
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.compose.remote.creation.common.CoreDocument

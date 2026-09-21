@@ -262,7 +262,7 @@ internal class RemoteTextNode : RemoteComposeNode() {
         remoteCanvas.internalCanvas.recordRenderingOp(
             WriterOp.StartText(
                 RemoteTextData(
-                    modifier = scope.toRemoteModifierData(modifier),
+                    modifier = resolveModifier(scope, creationState),
                     textId = textIdValue,
                     color = colorInt,
                     colorId = colorId,

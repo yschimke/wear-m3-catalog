@@ -29,18 +29,23 @@ internal class RemoteCanvasNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
+        val remoteModifier = resolveModifier(scope, creationState)
         remoteCanvas.internalCanvas.recordRenderingOp(
-            WriterOp.StartCanvas(scope.toRemoteModifierData(modifier))
+            WriterOp.StartCanvas(remoteModifier)
         )
+        val previousComponent = creationState.enterComponentScope(remoteModifier.componentId)
+        try {
+            val drawWithContent = modifier.find<DrawWithContentModifier>()
 
-        val drawWithContent = modifier.find<DrawWithContentModifier>()
-
-        if (drawWithContent != null) {
-            val drawWithContentScope = RemoteContentDrawScope(remoteCanvas, onDraw)
-            drawWithContent.onDraw(drawWithContentScope)
-        } else {
-            val drawScope = RemoteDrawScope(remoteCanvas)
-            drawScope.onDraw()
+            if (drawWithContent != null) {
+                val drawWithContentScope = RemoteContentDrawScope(remoteCanvas, onDraw)
+                drawWithContent.onDraw(drawWithContentScope)
+            } else {
+                val drawScope = RemoteDrawScope(remoteCanvas)
+                drawScope.onDraw()
+            }
+        } finally {
+            creationState.restoreComponentScope(previousComponent)
         }
 
         remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCanvas)

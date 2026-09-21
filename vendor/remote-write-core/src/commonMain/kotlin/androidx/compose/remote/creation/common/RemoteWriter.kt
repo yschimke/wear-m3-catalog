@@ -13,9 +13,9 @@ public interface RemoteWriter {
 
   public val componentIdForCache: Int
 
-  public fun addComponentWidthValue(): Float
+  public fun addComponentWidthValue(componentId: Int): Float
 
-  public fun addComponentHeightValue(): Float
+  public fun addComponentHeightValue(componentId: Int): Float
 
   public fun startRoot()
   public fun endRoot()
@@ -147,6 +147,13 @@ public interface RemoteWriter {
   public fun addColorExpression(alpha: Float, red: Float, green: Float, blue: Float): Short
 
   public fun addText(value: String): Int
+  public fun addThemedColor(
+    group: String,
+    lightId: Short,
+    darkId: Short,
+    lightFallback: Int,
+    darkFallback: Int,
+  ): Int
 
   public fun addNamedString(name: String, initialValue: String): Int
 

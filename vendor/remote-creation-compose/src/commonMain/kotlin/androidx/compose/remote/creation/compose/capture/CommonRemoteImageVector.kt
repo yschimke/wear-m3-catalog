@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+@file:kotlin.jvm.JvmName("RemoteImageVectorKt")
+@file:kotlin.jvm.JvmMultifileClass
+
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.annotation.RestrictTo

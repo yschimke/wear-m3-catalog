@@ -8,6 +8,8 @@
  *      http://www.apache.org/licenses/LICENSE-2.0
  */
 @file:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+@file:kotlin.jvm.JvmName("RemoteComposeCreationStateKt")
+@file:kotlin.jvm.JvmMultifileClass
 
 package androidx.compose.remote.creation.compose.capture
 
@@ -50,6 +52,21 @@ public open class RemoteComposeCreationState(
     internal val floatArrayCache: HashMap<RemoteStateCacheKey, FloatArray> = HashMap()
     internal val longArrayCache: HashMap<RemoteStateCacheKey, LongArray> = HashMap()
     private val globalDeclarations = LinkedHashMap<RemoteStateCacheKey, BaseRemoteState<*>>()
+    private var nextComponentId = -1_000_000
+    internal var componentCacheKey: Int = 0
+        private set
+
+    internal fun allocateComponentId(): Int = nextComponentId--
+
+    internal fun enterComponentScope(componentId: Int): Int {
+        val previous = componentCacheKey
+        componentCacheKey = componentId
+        return previous
+    }
+
+    internal fun restoreComponentScope(previous: Int) {
+        componentCacheKey = previous
+    }
 
     public override fun enqueueGlobalDeclaration(state: BaseRemoteState<*>) {
         globalDeclarations[state.cacheKey] = state

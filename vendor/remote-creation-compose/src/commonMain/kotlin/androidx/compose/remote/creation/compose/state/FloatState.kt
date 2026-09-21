@@ -15,6 +15,9 @@
  */
 
 
+@file:kotlin.jvm.JvmName("RemoteFloatKt")
+@file:kotlin.jvm.JvmMultifileClass
+
 package androidx.compose.remote.creation.compose.state
 
 import androidx.annotation.IntDef

@@ -30,9 +30,18 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override val componentIdForCache: Int
         get() = delegate.buffer.lastComponentId
 
-    override fun addComponentWidthValue(): Float = delegate.addComponentWidthValue()
+    override fun addComponentWidthValue(componentId: Int): Float = componentValue(0, componentId)
 
-    override fun addComponentHeightValue(): Float = delegate.addComponentHeightValue()
+    override fun addComponentHeightValue(componentId: Int): Float = componentValue(1, componentId)
+
+    private fun componentValue(type: Int, componentId: Int): Float {
+        val id = delegate.nextId()
+        delegate.buffer.buffer.start(150)
+        delegate.buffer.buffer.writeInt(type)
+        delegate.buffer.buffer.writeInt(componentId)
+        delegate.buffer.buffer.writeInt(id)
+        return Utils.asNan(id)
+    }
 
     override fun startRoot() = delegate.startRoot()
 
@@ -591,6 +600,14 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
 
     override fun addText(value: String): Int = delegate.addText(value)
 
+    override fun addThemedColor(
+        group: String,
+        lightId: Short,
+        darkId: Short,
+        lightFallback: Int,
+        darkFallback: Int,
+    ): Int = delegate.addThemedColor(group, lightId, darkId, lightFallback, darkFallback).toInt()
+
     override fun addNamedString(name: String, initialValue: String): Int =
         delegate.addNamedString(name, initialValue)
 
@@ -600,7 +617,10 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         delegate.addNamedLong(name, initialValue)
 
     override fun addPathData(pathData: FloatArray, winding: Int): Int {
-        return delegate.addPathData(pathData, winding)
+        // Released AndroidX only exposes the platform-path overload here. Reserve an id through
+        // its state allocator, then write the already encoded common path directly.
+        val id = delegate.nextId()
+        return delegate.buffer.addPathData(id, pathData, winding)
     }
 
     override fun applyPaint(paint: PaintBundleData) {

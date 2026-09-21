@@ -43,7 +43,7 @@ internal class RemoteStateLayoutNode : RemoteComposeNode() {
         val scope = overriddenScope(creationState)
         remoteCanvas.internalCanvas.recordRenderingOp(
             WriterOp.StartStateLayout(
-                scope.toRemoteModifierData(modifier),
+                resolveModifier(scope, creationState),
                 currentState.getIdForCreationState(creationState),
             )
         )

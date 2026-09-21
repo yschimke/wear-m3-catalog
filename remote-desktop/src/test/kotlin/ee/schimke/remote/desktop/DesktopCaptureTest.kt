@@ -35,7 +35,11 @@ class DesktopCaptureTest {
   fun commonWriterMatchesComposeCapture() = runBlocking {
     val common =
       RemoteDocumentWriter(width = 192, height = 192).run {
-        root { column { text("Remote Compose on Desktop") } }
+        root {
+          column(componentId = -1_000_000) {
+            text("Remote Compose on Desktop", componentId = -1_000_001)
+          }
+        }
         encodeToByteArray()
       }
 

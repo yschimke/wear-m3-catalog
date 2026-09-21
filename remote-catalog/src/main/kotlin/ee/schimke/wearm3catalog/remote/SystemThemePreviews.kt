@@ -68,9 +68,8 @@ private fun systemThemeColor(
     RemoteConstantCacheKey("SystemTheme:$lightResource/$darkResource:$lightArgb/$darkArgb")
   ) { creationState ->
     (creationState as RemoteComposeCreationState)
-      .document
+      .writer
       .addThemedColor(Rc.AndroidColors.GROUP, lightResource, darkResource, lightArgb, darkArgb)
-      .toInt()
   }
 }
 

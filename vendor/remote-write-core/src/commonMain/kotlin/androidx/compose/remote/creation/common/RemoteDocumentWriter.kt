@@ -525,10 +525,11 @@ public class RemoteDocumentWriter(
     horizontal: Int = HorizontalStart,
     vertical: Int = VerticalTop,
     spacedBy: Float = 0f,
+    componentId: Int = -1,
     content: RemoteDocumentWriter.() -> Unit,
   ) {
     operation(LayoutColumn)
-    buffer.writeInt(componentId())
+    buffer.writeInt(resolveComponentId(componentId))
     buffer.writeInt(-1)
     buffer.writeInt(horizontal)
     buffer.writeInt(vertical)
@@ -539,14 +540,14 @@ public class RemoteDocumentWriter(
     containerEnd()
   }
 
-  public fun text(value: String, fontSize: Float = 12f) {
+  public fun text(value: String, fontSize: Float = 12f, componentId: Int = -1) {
     val textId = textId(value)
 
     operation(CoreText)
     buffer.writeInt(textId)
     buffer.writeShort(2)
     buffer.writeByte(TextParameterId)
-    buffer.writeInt(componentId())
+    buffer.writeInt(resolveComponentId(componentId))
     buffer.writeByte(TextParameterFontSize)
     buffer.writeFloat(fontSize)
     contentSection()
@@ -563,9 +564,11 @@ public class RemoteDocumentWriter(
   override val componentIdForCache: Int
     get() = lastComponentId
 
-  override fun addComponentWidthValue(): Float = componentValue(ComponentWidth)
+  override fun addComponentWidthValue(componentId: Int): Float =
+    componentValue(ComponentWidth, componentId)
 
-  override fun addComponentHeightValue(): Float = componentValue(ComponentHeight)
+  override fun addComponentHeightValue(componentId: Int): Float =
+    componentValue(ComponentHeight, componentId)
 
   override fun setNamedVariable(id: Int, name: String, type: Int) =
     writeNamedVariable(id, type, name)
@@ -948,6 +951,25 @@ public class RemoteDocumentWriter(
 
   override fun addText(value: String): Int = textId(value)
 
+  override fun addThemedColor(
+    group: String,
+    lightId: Short,
+    darkId: Short,
+    lightFallback: Int,
+    darkFallback: Int,
+  ): Int {
+    val id = nextDataId++
+    val groupId = textId(group)
+    operation(ColorTheme)
+    buffer.writeInt(id)
+    buffer.writeInt(groupId)
+    buffer.writeShort(lightId.toInt())
+    buffer.writeShort(darkId.toInt())
+    buffer.writeInt(lightFallback)
+    buffer.writeInt(darkFallback)
+    return id
+  }
+
   override fun addNamedString(name: String, initialValue: String): Int {
     val id = nextDataId++
     writeNamedVariable(id, NamedVariableType.STRING, name)
@@ -1257,14 +1279,15 @@ public class RemoteDocumentWriter(
     containerEnd()
   }
 
-  private fun componentValue(type: Int): Float {
-    val key = pairKey(lastComponentId, type)
+  private fun componentValue(type: Int, componentId: Int): Float {
+    val key = pairKey(componentId, type)
     val id =
       componentValueIds.getOrPut(key) {
         val allocated = nextDataId++
         operation(ComponentValue)
-        buffer.writeInt(allocated)
         buffer.writeInt(type)
+        buffer.writeInt(componentId)
+        buffer.writeInt(allocated)
         allocated
       }
     return Utils.asNan(id)
@@ -1434,6 +1457,7 @@ public class RemoteDocumentWriter(
     private const val DataPath = 123
     private const val DrawPath = 124
     private const val DrawBitmap = 44
+    private const val ColorTheme = 196
     private const val DrawContent = 139
     private const val DrawTweenPath = 125
     private const val MatrixScale = 126

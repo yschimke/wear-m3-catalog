@@ -33,7 +33,7 @@ internal class RemoteFitBoxNode : RemoteComposeNode() {
         val scope = overriddenScope(creationState)
         remoteCanvas.internalCanvas.recordRenderingOp(
             WriterOp.StartFitBox(
-                scope.toRemoteModifierData(modifier),
+                resolveModifier(scope, creationState),
                 horizontalAlignment.toRemote(layoutDirection),
                 verticalArrangement.toRemote(),
             )

@@ -48,7 +48,7 @@ internal class RemoteImageNode : RemoteComposeNode() {
         remoteCanvas.internalCanvas.recordRenderingOp(
             WriterOp.Image(
                 RemoteImageData(
-                    scope.toRemoteModifierData(modifier),
+                    resolveModifier(scope, creationState),
                     bitmapId,
                     contentScale.toImageScalingInt(),
                     alpha.getFloatIdForCreationState(creationState),

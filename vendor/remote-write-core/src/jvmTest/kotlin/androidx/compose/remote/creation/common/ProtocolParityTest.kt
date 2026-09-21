@@ -169,6 +169,42 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun themedColorMatchesAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addText(43, "android")
+    expected.addThemedColor(42, 43, 7, 9, 0xff123456.toInt(), 0xffabcdef.toInt())
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    assertEquals(
+      42,
+      writer.addThemedColor("android", 7, 9, 0xff123456.toInt(), 0xffabcdef.toInt()),
+    )
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
+  fun componentValueNamesItsBufferedComponent() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    androidx.compose.remote.core.operations.ComponentValue.apply(expected.buffer, 0, -1000, 42)
+    expected.addCanvasStart(-1000, -1)
+    expected.addContentStart()
+    expected.addContainerEnd()
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.startCanvas(RemoteModifierData(componentId = -1000))
+    assertEquals(Utils.asNan(42).toRawBits(), writer.addComponentWidthValue(-1000).toRawBits())
+    writer.endCanvas()
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun layoutContainersMatchAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addRootStart()

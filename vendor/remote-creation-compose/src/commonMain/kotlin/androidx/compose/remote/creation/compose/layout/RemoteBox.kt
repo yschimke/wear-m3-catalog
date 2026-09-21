@@ -38,7 +38,7 @@ internal class RemoteBoxNode : RemoteComposeNode() {
         val scope = overriddenScope(creationState)
         remoteCanvas.internalCanvas.recordRenderingOp(
             WriterOp.StartBox(
-                scope.toRemoteModifierData(modifier),
+                resolveModifier(scope, creationState),
                 horizontalAlignment.toRemote(layoutDirection),
                 verticalAlignment.toRemote(),
             )

@@ -24,7 +24,9 @@ import androidx.compose.remote.creation.compose.capture.RemoteDensity
 import androidx.compose.remote.creation.compose.modifier.DrawWithContentModifier
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.find
+import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ComposeNode
 import androidx.compose.runtime.DisallowComposableCalls
@@ -37,6 +39,7 @@ internal abstract class RemoteComposeNode {
     val children = mutableListOf<RemoteComposeNode>()
     var modifier: RemoteModifier = RemoteModifier
     var remoteDensity: RemoteDensity = RemoteDensity.Host
+    private var renderedComponentId: Int = 0
 
     fun overriddenScope(creationState: RemoteComposeCreationState): RemoteStateScope {
         return OverriddenScope(creationState, remoteDensity, creationState.layoutDirection)
@@ -44,25 +47,38 @@ internal abstract class RemoteComposeNode {
 
     abstract fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas)
 
+    fun resolveModifier(
+        scope: RemoteStateScope,
+        creationState: RemoteComposeCreationState,
+    ): RemoteModifierData {
+        renderedComponentId = creationState.allocateComponentId()
+        return scope.toRemoteModifierData(modifier).apply { componentId = renderedComponentId }
+    }
+
     fun renderChildren(
         creationState: RemoteComposeCreationState,
         remoteCanvas: RemoteCanvas,
         reversed: Boolean = false,
     ) {
-        val drawWithContent = modifier.find<DrawWithContentModifier>()
+        val previousComponent = creationState.enterComponentScope(renderedComponentId)
+        try {
+            val drawWithContent = modifier.find<DrawWithContentModifier>()
 
-        if (drawWithContent != null) {
-            val drawWithContentScope = RemoteContentDrawScope(remoteCanvas)
+            if (drawWithContent != null) {
+                val drawWithContentScope = RemoteContentDrawScope(remoteCanvas)
 
-            remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.StartCanvasOperations)
-            drawWithContent.onDraw(drawWithContentScope)
-            remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCanvasOperations)
-        }
+                remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.StartCanvasOperations)
+                drawWithContent.onDraw(drawWithContentScope)
+                remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCanvasOperations)
+            }
 
-        if (!reversed) {
-            children.fastForEach { it.render(creationState, remoteCanvas) }
-        } else {
-            children.fastForEachReversed { it.render(creationState, remoteCanvas) }
+            if (!reversed) {
+                children.fastForEach { it.render(creationState, remoteCanvas) }
+            } else {
+                children.fastForEachReversed { it.render(creationState, remoteCanvas) }
+            }
+        } finally {
+            creationState.restoreComponentScope(previousComponent)
         }
     }
 }

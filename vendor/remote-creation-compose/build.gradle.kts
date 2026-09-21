@@ -26,7 +26,7 @@ kotlin {
       dependencies {
         api("androidx.annotation:annotation:1.9.1")
         api("androidx.collection:collection:1.5.0")
-        implementation(project(":vendor:remote-write-core"))
+        api(project(":vendor:remote-write-core"))
         @Suppress("DEPRECATION") api(compose.ui)
         @Suppress("DEPRECATION") implementation(compose.foundation)
         @Suppress("DEPRECATION") implementation(compose.runtime)

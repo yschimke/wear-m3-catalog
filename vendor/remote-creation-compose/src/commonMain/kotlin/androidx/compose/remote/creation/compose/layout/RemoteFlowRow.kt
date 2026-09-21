@@ -34,7 +34,7 @@ internal class RemoteFlowRowNode : RemoteComposeNode() {
 
     override fun render(creationState: RemoteComposeCreationState, remoteCanvas: RemoteCanvas) {
         val scope = overriddenScope(creationState)
-        val remoteModifier = scope.toRemoteModifierData(modifier)
+        val remoteModifier = resolveModifier(scope, creationState)
         (horizontalArrangement as? RemoteSpaced)?.let {
             remoteModifier.spacedBy = it.getSpacingFloatId(creationState)
         }
