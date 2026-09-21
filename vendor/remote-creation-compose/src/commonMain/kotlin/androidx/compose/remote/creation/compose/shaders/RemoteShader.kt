@@ -17,8 +17,8 @@
 package androidx.compose.remote.creation.compose.shaders
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.paint.PaintBundle
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.common.PaintBundleData
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.state.RemoteMatrix3x3
 import androidx.compose.remote.creation.compose.state.RemoteMatrix3x3.Companion.createIdentity
 
@@ -31,7 +31,7 @@ public abstract class RemoteShader {
      * @param creationState The state of the remote creation session.
      * @param paintBundle The paint bundle to configure with this shader.
      */
-    public abstract fun apply(creationState: RemoteComposeCreationState, paintBundle: PaintBundle)
+    public abstract fun apply(creationState: RemoteComposeCreationContext, paintBundle: PaintBundleData)
 
     /**
      * The [RemoteMatrix3x3] to apply to the shader. Note not all profiles will support shader

@@ -17,13 +17,8 @@
 
 package androidx.compose.remote.creation.compose.capture
 
-import android.annotation.SuppressLint
-import androidx.compose.remote.core.operations.paint.PaintBundle
+import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.compose.RemoteComposeCreationComposeFlags
-import androidx.compose.remote.creation.compose.layout.toAndroidCap
-import androidx.compose.remote.creation.compose.layout.toAndroidJoin
-import androidx.compose.remote.creation.compose.layout.toAndroidStyle
-import androidx.compose.remote.creation.compose.layout.toComposeBlendMode
 import androidx.compose.remote.creation.compose.layout.toInt
 import androidx.compose.remote.creation.compose.shaders.RemoteShader
 import androidx.compose.remote.creation.compose.state.ComposeRemoteColorFilter
@@ -34,7 +29,9 @@ import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.text.RemoteTypeface
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.FilterQuality
-import androidx.compose.ui.graphics.asAndroidColorFilter
+import androidx.compose.ui.graphics.PaintingStyle
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontVariation
 
@@ -84,10 +81,11 @@ internal class PaintTracker {
         return newValue
     }
 
-    @SuppressLint("ObsoleteSdkInt")
-    fun updateWithPaint(newPaint: RemotePaint, paintBundle: PaintBundle, scope: RecordingCanvas) {
-        val creationState = scope.creationState
-
+    fun updateWithPaint(
+        newPaint: RemotePaint,
+        paintBundle: PaintBundleData,
+        creationState: RemoteComposeCreationContext,
+    ) {
         // Color
         val targetRemoteColor = newPaint.color
         val colorVal: Int
@@ -126,19 +124,19 @@ internal class PaintTracker {
                 paintBundle.setStrokeWidth(it)
             }
 
-        val targetCap = newPaint.strokeCap.toAndroidCap().ordinal
+        val targetCap = newPaint.strokeCap.remoteInt
         updateIfChanged(targetCap, strokeCap) {
             strokeCap = targetCap
             paintBundle.setStrokeCap(targetCap)
         }
 
-        val targetJoin = newPaint.strokeJoin.toAndroidJoin().ordinal
+        val targetJoin = newPaint.strokeJoin.remoteInt
         updateIfChanged(targetJoin, strokeJoin) {
             strokeJoin = targetJoin
             paintBundle.setStrokeJoin(targetJoin)
         }
 
-        val targetStyle = newPaint.style.toAndroidStyle().ordinal
+        val targetStyle = newPaint.style.remoteInt
         updateIfChanged(targetStyle, style) {
             style = targetStyle
             paintBundle.setStyle(targetStyle)
@@ -190,12 +188,12 @@ internal class PaintTracker {
                 if (fontAxisNames != null && fontAxisValues != null) {
                     val axisTags =
                         IntArray(fontAxisNames.size) { i ->
-                            creationState.document.addText(fontAxisNames[i])
+                            creationState.writer.addText(fontAxisNames[i])
                         }
-                    paintBundle.setTextAxis(axisTags, fontAxisValues)
+                    paintBundle.setFontAxes(axisTags, fontAxisValues)
                 }
             } else {
-                paintBundle.setTextAxis(intArrayOf(), floatArrayOf())
+                paintBundle.setFontAxes(intArrayOf(), floatArrayOf())
             }
         }
 
@@ -222,17 +220,7 @@ internal class PaintTracker {
                     }
                 }
 
-                is ComposeRemoteColorFilter -> {
-                    val native = targetColorFilter.composeColorFilter.asAndroidColorFilter()
-                    if (native is android.graphics.BlendModeColorFilter) {
-                        paintBundle.setColorFilter(
-                            native.color,
-                            native.mode.toComposeBlendMode().toInt(),
-                        )
-                    } else {
-                        TODO("Native color filter not supported: " + native)
-                    }
-                }
+                is ComposeRemoteColorFilter -> paintBundle.setComposeColorFilter(targetColorFilter)
             }
         }
 
@@ -275,22 +263,22 @@ internal class PaintTracker {
 
     private fun getTypefaceId(
         paintTypeface: RemoteTypeface?,
-        creationState: RemoteComposeCreationState,
+        creationState: RemoteComposeCreationContext,
     ): Int {
         return when (paintTypeface) {
-            null -> PaintBundle.FONT_TYPE_DEFAULT
-            RemoteTypeface.Default -> PaintBundle.FONT_TYPE_DEFAULT
-            RemoteTypeface.DefaultBold -> PaintBundle.FONT_TYPE_DEFAULT
-            RemoteTypeface.Serif -> PaintBundle.FONT_TYPE_SERIF
-            RemoteTypeface.SansSerif -> PaintBundle.FONT_TYPE_SANS_SERIF
-            RemoteTypeface.Monospace -> PaintBundle.FONT_TYPE_MONOSPACE
+            null -> PaintBundleData.FONT_TYPE_DEFAULT
+            RemoteTypeface.Default -> PaintBundleData.FONT_TYPE_DEFAULT
+            RemoteTypeface.DefaultBold -> PaintBundleData.FONT_TYPE_DEFAULT
+            RemoteTypeface.Serif -> PaintBundleData.FONT_TYPE_SERIF
+            RemoteTypeface.SansSerif -> PaintBundleData.FONT_TYPE_SANS_SERIF
+            RemoteTypeface.Monospace -> PaintBundleData.FONT_TYPE_MONOSPACE
             is RemoteTypeface.Named -> {
                 when (paintTypeface.name.lowercase()) {
-                    "sans-serif" -> PaintBundle.FONT_TYPE_SANS_SERIF
-                    "serif" -> PaintBundle.FONT_TYPE_SERIF
-                    "monospace" -> PaintBundle.FONT_TYPE_MONOSPACE
-                    "default" -> PaintBundle.FONT_TYPE_DEFAULT
-                    else -> creationState.document.addText(paintTypeface.name)
+                    "sans-serif" -> PaintBundleData.FONT_TYPE_SANS_SERIF
+                    "serif" -> PaintBundleData.FONT_TYPE_SERIF
+                    "monospace" -> PaintBundleData.FONT_TYPE_MONOSPACE
+                    "default" -> PaintBundleData.FONT_TYPE_DEFAULT
+                    else -> creationState.writer.addText(paintTypeface.name)
                 }
             }
         }
@@ -311,3 +299,24 @@ internal class PaintTracker {
         const val DEFAULT_FONT_WEIGHT = 400
     }
 }
+
+private val StrokeCap.remoteInt: Int
+    get() =
+        when (this) {
+            StrokeCap.Butt -> 0
+            StrokeCap.Round -> 1
+            StrokeCap.Square -> 2
+            else -> 0
+        }
+
+private val StrokeJoin.remoteInt: Int
+    get() =
+        when (this) {
+            StrokeJoin.Miter -> 0
+            StrokeJoin.Round -> 1
+            StrokeJoin.Bevel -> 2
+            else -> 0
+        }
+
+private val PaintingStyle.remoteInt: Int
+    get() = if (this == PaintingStyle.Stroke) 1 else 0

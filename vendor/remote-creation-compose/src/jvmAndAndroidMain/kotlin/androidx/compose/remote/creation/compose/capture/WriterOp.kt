@@ -1,15 +1,34 @@
 package androidx.compose.remote.creation.compose.capture
 
 import androidx.compose.remote.creation.common.RemoteWriter
+import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteImageBitmap
+import androidx.compose.remote.creation.compose.state.RemotePaint
 import androidx.compose.remote.creation.compose.state.RemoteString
 
 /** Typed write operations retained in the document program until serialization. */
 internal sealed interface WriterOp {
     fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState)
+
+    data class Painted(
+        val paint: RemotePaint?,
+        val operation: WriterOp,
+        val tracker: PaintTracker,
+        val force: Boolean = false,
+    ) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) {
+            if (paint != null) {
+                val bundle = PaintBundleData()
+                tracker.reset(force || writer.consumePaintReset())
+                tracker.updateWithPaint(paint, bundle, creationState)
+                if (tracker.isChanged) writer.applyPaint(bundle)
+            }
+            operation.write(writer, creationState)
+        }
+    }
 
     data object Save : WriterOp {
         override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =

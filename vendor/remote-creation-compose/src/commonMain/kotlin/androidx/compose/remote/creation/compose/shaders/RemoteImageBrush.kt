@@ -17,9 +17,9 @@
 package androidx.compose.remote.creation.compose.shaders
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.paint.PaintBundle
+import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.Rc
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.toTileModeInt
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -41,7 +41,7 @@ internal class RemoteImageShader(
     public val tileModeX: ComposeTileMode,
     public val tileModeY: ComposeTileMode,
 ) : RemoteShader() {
-    override fun apply(creationState: RemoteComposeCreationState, paintBundle: PaintBundle) {
+    override fun apply(creationState: RemoteComposeCreationContext, paintBundle: PaintBundleData) {
         paintBundle.setTextureShader(
             bitmap.getIdForCreationState(creationState),
             tileModeX.toTileModeInt().toShort(),

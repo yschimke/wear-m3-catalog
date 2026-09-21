@@ -52,6 +52,7 @@ import androidx.compose.remote.core.RcPlatformServices;
 import androidx.compose.remote.core.RemoteComposeBuffer;
 import androidx.compose.remote.core.RemoteComposeState;
 import androidx.compose.remote.core.RemoteContext;
+import androidx.compose.remote.core.Operations;
 import androidx.compose.remote.core.WriteOperations;
 import androidx.compose.remote.core.operations.BitmapFontData;
 import androidx.compose.remote.core.operations.ComponentValue;
@@ -1687,6 +1688,15 @@ public class RemoteComposeWriter {
     public int addPathData(float @NonNull [] pathData, int winding) {
         int id = mState.cacheData(pathData);
         return mBuffer.addPathData(id, pathData, winding);
+    }
+
+    /** Applies an already encoded, platform-neutral paint bundle. */
+    public void applyPaint(int @NonNull [] values) {
+        mBuffer.getBuffer().start(Operations.PAINT_VALUES);
+        mBuffer.getBuffer().writeInt(values.length);
+        for (int value : values) {
+            mBuffer.getBuffer().writeInt(value);
+        }
     }
 
     public int addPathData(RcPlatformServices.@NonNull RcPathArrayCreator path) {

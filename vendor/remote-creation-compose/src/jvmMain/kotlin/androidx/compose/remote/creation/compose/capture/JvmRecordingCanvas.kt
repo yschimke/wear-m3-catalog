@@ -22,6 +22,7 @@ import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.shapes.MorphTweenUtility
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemotePaint
+import androidx.compose.remote.creation.compose.state.StandardRemotePaint
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.ui.graphics.Matrix
@@ -46,6 +47,7 @@ internal class JvmRecordingCanvas(
     get() = creationState.creationDisplayInfo
   override var forceSendingPaint: Boolean = false
   override var currentDrawToBitmapId: Int = 0
+  private val paintTracker = PaintTracker()
 
   override fun recordRenderingOp(op: DocumentOp): RemoteDocumentProgram.SpanOp =
     buffer.recordRenderingOp(op)
@@ -64,7 +66,12 @@ internal class JvmRecordingCanvas(
   override fun recordRenderingOp(
     paint: RemotePaint?,
     operation: WriterOp,
-  ): RemoteDocumentProgram.SpanOp = recordRenderingOp(operation)
+  ): RemoteDocumentProgram.SpanOp {
+    val snapshot = paint?.let(::StandardRemotePaint)
+    val force = forceSendingPaint
+    forceSendingPaint = false
+    return recordRenderingOp(WriterOp.Painted(snapshot, operation, paintTracker, force))
+  }
 
   override fun recordInChildSpan(action: () -> Unit): RemoteDocumentProgram.Span {
     val child = buffer.insertPoint.createChildSpan()

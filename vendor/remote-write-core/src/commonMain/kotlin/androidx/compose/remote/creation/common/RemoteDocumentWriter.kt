@@ -16,6 +16,7 @@ public class RemoteDocumentWriter(
   private var nextComponentId = -1
   private var lastComponentId = -1
   private var nextDataId = 42
+  private var paintResetPending = true
   private val textIds = mutableMapOf<String, Int>()
   private val pathIds = mutableMapOf<PathKey, Int>()
   private val integerIds = mutableMapOf<Int, Int>()
@@ -487,6 +488,19 @@ public class RemoteDocumentWriter(
       id
     }
 
+  override fun applyPaint(paint: PaintBundleData) {
+    val values = paint.toIntArray()
+    operation(PaintValues)
+    buffer.writeInt(values.size)
+    values.forEach(buffer::writeInt)
+  }
+
+  override fun consumePaintReset(): Boolean {
+    val result = paintResetPending
+    paintResetPending = false
+    return result
+  }
+
   override fun save(): Unit = operation(MatrixSave)
 
   override fun restore(): Unit = operation(MatrixRestore)
@@ -790,6 +804,7 @@ public class RemoteDocumentWriter(
     public const val VerticalTop: Int = 4
 
     private const val Header = 0
+    private const val PaintValues = 40
     private const val DataBitmap = 101
     private const val DataText = 102
     private const val DataFloat = 80

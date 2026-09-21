@@ -16,8 +16,8 @@
 package androidx.compose.remote.creation.compose.shaders
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.core.operations.paint.PaintBundle
-import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
+import androidx.compose.remote.creation.common.PaintBundleData
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationContext
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.layout.toTileModeInt
@@ -148,7 +148,7 @@ public class RemoteRadialShader(
     public var tileMode: ComposeTileMode,
 ) : RemoteShader() {
 
-    override fun apply(creationState: RemoteComposeCreationState, paintBundle: PaintBundle) {
+    override fun apply(creationState: RemoteComposeCreationContext, paintBundle: PaintBundleData) {
         var mask = 0
         val colorsArray =
             IntArray(colors.size) { i ->

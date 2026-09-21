@@ -31,7 +31,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.compose.remote.core.RcPlatformServices.RcPathArrayCreator
 import androidx.compose.remote.core.operations.ConditionalOperations
 import androidx.compose.remote.core.operations.Utils
-import androidx.compose.remote.core.operations.paint.PaintBundle
+import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.compose.layout.RemoteCustomPropertiesScope
@@ -200,7 +200,9 @@ internal open class AndroidRecordingCanvas(
         operation: WriterOp,
     ): RemoteDocumentProgram.SpanOp {
         val paintSnapshot = snapshotPaint(paint)
-        return recordRenderingOp(DocumentOp.Draw(operation) { usePaintInternal(paintSnapshot) })
+        val force = forceSendingPaint
+        forceSendingPaint = false
+        return recordRenderingOp(DocumentOp.Draw(WriterOp.Painted(paintSnapshot, operation, tracker, force)))
     }
 
     /**
@@ -229,7 +231,9 @@ internal open class AndroidRecordingCanvas(
         operation: WriterOp,
     ): RemoteDocumentProgram.SpanOp {
         val paintSnapshot = snapshotPaint(paint)
-        return recordRenderingOp(DocumentOp.Draw(operation) { usePaintInternal(paintSnapshot) })
+        val force = forceSendingPaint
+        forceSendingPaint = false
+        return recordRenderingOp(DocumentOp.Draw(WriterOp.Painted(paintSnapshot, operation, tracker, force)))
     }
 
     /**
@@ -362,13 +366,13 @@ internal open class AndroidRecordingCanvas(
             return
         }
 
-        val paintBundle = PaintBundle()
+        val paintBundle = PaintBundleData()
 
         tracker.reset(forceSendingPaint || document.checkAndClearForceSendingNewPaint())
-        tracker.updateWithPaint(paint, paintBundle, this)
+        tracker.updateWithPaint(paint, paintBundle, creationState)
 
         if (tracker.isChanged) {
-            document.buffer.addPaint(paintBundle)
+            creationState.writer.applyPaint(paintBundle)
         }
         forceSendingPaint = false
     }

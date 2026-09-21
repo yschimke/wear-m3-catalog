@@ -103,6 +103,11 @@ public interface RemoteWriter {
 
   public fun addPathData(pathData: FloatArray, winding: Int = 0): Int
 
+  public fun applyPaint(paint: PaintBundleData)
+
+  /** Returns and clears whether the next paint must be emitted as a complete state. */
+  public fun consumePaintReset(): Boolean
+
   public fun save()
 
   public fun restore()

@@ -53,6 +53,11 @@ layout, paint, modifier and action migration continues.
 feeds path CSE directly, including explicit even-odd winding through the common writer; the Android
 Compose `Path` bridge is now a one-way compatibility decoder rather than the encoding boundary.
 
+Paint deltas and gradient/texture payloads now have a common `PaintBundleData` codec. Paint tracking,
+shaders, shapes and `RemotePaint` are common code, and typed draw operations apply their paint through
+`RemoteWriter`; only conversion from a platform-native Compose color filter remains an actualized
+adapter.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

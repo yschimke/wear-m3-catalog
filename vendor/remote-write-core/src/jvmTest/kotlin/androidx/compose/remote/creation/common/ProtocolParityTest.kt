@@ -381,4 +381,56 @@ class ProtocolParityTest {
 
     assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
   }
+
+  @Test
+  fun paintBundleMatchesAndroidxCore() {
+    val corePaint = androidx.compose.remote.core.operations.paint.PaintBundle()
+    corePaint.setColorId(11)
+    corePaint.setStrokeWidth(Utils.asNan(7))
+    corePaint.setStrokeCap(2)
+    corePaint.setStyle(1)
+    corePaint.setBlendMode(3)
+    corePaint.setAntiAlias(true)
+    corePaint.setTextStyle(2, 600, true)
+    corePaint.setPathEffect(floatArrayOf(2f, Utils.asNan(8)))
+    corePaint.setLinearGradient(
+      intArrayOf(0xff000000.toInt(), 12),
+      2,
+      floatArrayOf(0f, 1f),
+      1f,
+      2f,
+      3f,
+      4f,
+      0,
+    )
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addPaint(corePaint)
+
+    val paint =
+      PaintBundleData()
+        .setColorId(11)
+        .setStrokeWidth(Utils.asNan(7))
+        .setStrokeCap(2)
+        .setStyle(1)
+        .setBlendMode(3)
+        .setAntiAlias(true)
+        .setTextStyle(2, 600, true)
+        .setPathEffect(floatArrayOf(2f, Utils.asNan(8)))
+        .setLinearGradient(
+          intArrayOf(0xff000000.toInt(), 12),
+          2,
+          floatArrayOf(0f, 1f),
+          1f,
+          2f,
+          3f,
+          4f,
+          0,
+        )
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.applyPaint(paint)
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
 }

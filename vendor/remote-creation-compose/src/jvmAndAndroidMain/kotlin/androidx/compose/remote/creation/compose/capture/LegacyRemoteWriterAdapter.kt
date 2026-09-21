@@ -2,6 +2,7 @@ package androidx.compose.remote.creation.compose.capture
 
 import androidx.compose.remote.creation.RemoteComposeWriter
 import androidx.compose.remote.creation.common.BitmapFontGlyph
+import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -145,6 +146,15 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun addPathData(pathData: FloatArray, winding: Int): Int {
         return delegate.addPathData(pathData, winding)
     }
+
+    override fun applyPaint(paint: PaintBundleData) {
+        val values = paint.toIntArray()
+        delegate.buffer.buffer.start(40)
+        delegate.buffer.buffer.writeInt(values.size)
+        values.forEach(delegate.buffer.buffer::writeInt)
+    }
+
+    override fun consumePaintReset(): Boolean = delegate.checkAndClearForceSendingNewPaint()
 
     override fun save() = delegate.save()
 
