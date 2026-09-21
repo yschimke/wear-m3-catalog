@@ -96,15 +96,14 @@ rootProject.name = "wear-m3-catalog"
 
 include(":catalog")
 
-// Transitional catalog renderer build. The renderer SDK is source-only, and until the generic
-// interpreter moves into it the compatibility entrypoint also consumes :ui-builder from the SAME
-// checkout. Opt in explicitly so ordinary catalog builds keep resolving exactly as before:
+// Catalog renderer builds consume the renderer SDK from source. Opt in explicitly so ordinary
+// catalog builds keep resolving exactly as before:
 //
 //   ./gradlew :catalog-ui-builder-renderer:rendererArchive \
 //     -PcomposeUiBuilderDir=../compose-ui-builder
 //
-// Both synthetic coordinates are intentionally absent from Maven, so asking for the renderer
-// without this checkout fails closed rather than silently compiling against a different release.
+// The synthetic coordinate is intentionally absent from Maven, so asking for a renderer without
+// this checkout fails closed rather than silently compiling against a different release.
 providers.gradleProperty("composeUiBuilderDir").orNull?.let { path ->
   val directory = file(path).canonicalFile
   require(directory.resolve("settings.gradle.kts").isFile) {
@@ -115,12 +114,13 @@ providers.gradleProperty("composeUiBuilderDir").orNull?.let { path ->
     dependencySubstitution {
       substitute(module("ee.schimke.composeai:ui-builder-renderer-sdk-source"))
         .using(project(":ui-builder-renderer-sdk"))
-      substitute(module("ee.schimke.composeai:ui-builder-source")).using(project(":ui-builder"))
     }
   }
 }
 
 include(":catalog-ui-builder-renderer")
+
+include(":ui-builder-wear-adapters")
 
 // The same component bodies, drawn by Compose Multiplatform Desktop instead of Robolectric. It
 // declares no previews: it names `:catalog` in `composePreviewSource` and renders that module's

@@ -44,7 +44,7 @@ import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 
 /** Wear screen structure and components whose rendering depends on its lazy-row receiver. */
-internal val wearScreenAdapters = canvasAdapterRegistry {
+val wearScreenAdapters = canvasAdapterRegistry {
   register("frame/round-screen") { WearScreenFrame() }
   register("wear-m3/transforming-lazy-column") { WearTransformingLazyColumn() }
   register("wear-m3/card") { WearCard() }

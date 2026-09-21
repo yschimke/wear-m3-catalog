@@ -52,7 +52,7 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
 /** Catalog-owned adapters, invoking the real Wear Compose Multiplatform components. */
-internal val wearCanvasAdapters = canvasAdapterRegistry {
+val wearCanvasAdapters = canvasAdapterRegistry {
   register("wear-m3/list-header") {
     ListHeader(modifier = modifier) {
       Text(
