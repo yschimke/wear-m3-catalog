@@ -1,0 +1,31 @@
+package androidx.compose.remote.creation.common
+
+/** Fully resolved CoreText payload retained until structural document serialization. */
+public data class RemoteTextData(
+  val modifier: RemoteModifierData,
+  val textId: Int,
+  val textStyleId: Int = -1,
+  val color: Int = 0xff000000.toInt(),
+  val colorId: Int = -1,
+  val fontSize: Float = 36f,
+  val minFontSize: Float = -1f,
+  val maxFontSize: Float = -1f,
+  val fontStyle: Int = 0,
+  val fontWeight: Float = 400f,
+  val fontFamilyId: Int = -1,
+  val textAlign: Int = 1,
+  val overflow: Int = 1,
+  val maxLines: Int = Int.MAX_VALUE,
+  val letterSpacing: Float = 0f,
+  val lineHeightAdd: Float = 0f,
+  val lineHeightMultiplier: Float = 1f,
+  val lineBreakStrategy: Int = 0,
+  val hyphenationFrequency: Int = 0,
+  val justificationMode: Int = 0,
+  val underline: Boolean = false,
+  val strikethrough: Boolean = false,
+  val fontAxisIds: IntArray = intArrayOf(),
+  val fontAxisValues: FloatArray = floatArrayOf(),
+  val autosize: Boolean = false,
+  val flags: Int = 0,
+)

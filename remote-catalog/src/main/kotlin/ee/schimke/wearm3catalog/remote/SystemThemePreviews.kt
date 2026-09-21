@@ -3,6 +3,7 @@
 package ee.schimke.wearm3catalog.remote
 
 import androidx.compose.remote.creation.Rc
+import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -66,9 +67,9 @@ private fun systemThemeColor(
   return RemoteColor(
     RemoteConstantCacheKey("SystemTheme:$lightResource/$darkResource:$lightArgb/$darkArgb")
   ) { creationState ->
-    creationState.document
+    (creationState as RemoteComposeCreationState)
+      .writer
       .addThemedColor(Rc.AndroidColors.GROUP, lightResource, darkResource, lightArgb, darkArgb)
-      .toInt()
   }
 }
 

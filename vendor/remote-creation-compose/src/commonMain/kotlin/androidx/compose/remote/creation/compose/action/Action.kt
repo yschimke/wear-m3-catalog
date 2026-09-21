@@ -1,0 +1,38 @@
+/*
+ * Copyright (C) 2024 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package androidx.compose.remote.creation.compose.action
+
+import androidx.annotation.RestrictTo
+import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.common.RemoteActionData
+
+/** A RemoteCompose frontend model of Actions that can be converted to RemoteCompose operations. */
+public interface Action {
+    public companion object {
+        /** A placeholder empty action. */
+        @get:RestrictTo(RestrictTo.Scope.LIBRARY_GROUP) public val Empty: Action = combinedAction()
+    }
+}
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public abstract class RemoteAction : Action {
+    internal open fun RemoteStateScope.toRemoteActionData(): List<RemoteActionData> =
+        error("Common action encoding is not implemented for ${this@RemoteAction::class.simpleName}")
+}
+
+internal fun RemoteStateScope.resolveAction(action: Action): List<RemoteActionData> =
+    if (action is RemoteAction) with(action) { toRemoteActionData() } else emptyList()

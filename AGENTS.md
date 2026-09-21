@@ -561,6 +561,11 @@ Wrapping changes none of the verification rules below; run the same tasks throug
   `ee.schimke.composeai:wear-preview-runtime`, whose `CapturingWearWidgetPreview` is a pre-compiled call
   to the old signature, so the widget-container stickers die at RENDER time with `NoSuchMethodError`
   while the build stays green. Compiling is not the check; rendering is.
+- **Published vendored Remote Compose versions are immutable.** The five `vendor/remote-*`
+  artifacts publish as `ee.schimke.remotecompose:*` to `remote-compose-cmp-maven` and GitHub
+  Packages. Their version comes from `vendor/remote-compose-upstream.json`; any non-test source or
+  module build change must increase `portRevision`. CI enforces this before the publish workflow
+  skips an already-used version.
 - Repository settings — squash-only merges, auto-merge, and the `Protect Main` ruleset — are applied by
   `scripts/setup-repo-protection.sh`. They need an admin token, so no workflow or agent session can set
   them; re-running the script repairs drift. `DRY_RUN=1` prints without writing.

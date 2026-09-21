@@ -118,7 +118,9 @@ providers.gradleProperty("composeUiBuilderDir").orNull?.let { path ->
   }
 }
 
-include(":catalog-ui-builder-renderer")
+if (providers.gradleProperty("composeUiBuilderDir").isPresent) {
+  include(":catalog-ui-builder-renderer")
+}
 
 include(":remote-catalog-ui-builder-renderer")
 
@@ -140,6 +142,24 @@ include(":catalog-desktop")
 // compileSdk 37 with no Compose BOM, and that must not reach `:catalog`. See
 // remote-catalog/build.gradle.kts.
 include(":remote-catalog")
+
+// Source vendoring of the three Remote Compose layers being moved to CMP JVM by AndroidX CL
+// 4307936. The upstream sources stay byte-for-byte under vendor/; only their standalone Gradle
+// wiring lives here. Phase 3 also merges the JVM write path from `remote-core`,
+// `remote-creation-core`, and `remote-creation` into one local module.
+include(":vendor:remote-creation-compose")
+
+include(":vendor:remote-foundation")
+
+include(":vendor:remote-material3")
+
+include(":vendor:remote-core")
+
+include(":vendor:remote-write-core")
+
+include(":remote-wasm")
+
+include(":remote-desktop")
 
 // The AndroidX Wear samples rendition — `androidx.wear.compose.material3`'s own `@Sampled`
 // composables, vendored from a pinned upstream commit and rendered beside the kit catalog.

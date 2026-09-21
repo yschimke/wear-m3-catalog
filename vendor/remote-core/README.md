@@ -1,0 +1,142 @@
+# Remote write core
+
+This module merges the JVM sources that AndroidX publishes as `remote-core`,
+`remote-creation-core`, and `remote-creation` at patch set 17 of CL 4307936. It is the source base
+for phases 3–4 of the port.
+
+Already removed or disconnected:
+
+- the `androidx.compose.remote.creation.json` document importer;
+- player operation-registry construction during document creation;
+- independently unreachable execution helpers (`SystemClock`, `RemoteContextActions`, recording
+  replay support, and platform paint adapters);
+- the KMP `expect` wrapper around `RemotePath`, flattened to its JVM implementation.
+
+The remaining operation classes still mix their static wire-writing functions with decoder and
+player methods. They cannot be deleted package-by-package: `RemoteComposeWriter` calls those static
+functions directly, and Java therefore type-checks the whole mixed class. Phase 4 should replace
+those classes with Kotlin write codecs over `WireBuffer`; once callers use the codecs, the operation
+objects, layout managers, evaluator, event, and semantics execution trees can be removed together.
+
+The portability boundary is the document writer, not a cross-platform imitation of Android's
+`RecordingCanvas`. Creation Compose already lowers its drawing, layout, and state APIs to writer
+calls. Shared code must call those high-level writer methods without reaching through to
+`RemoteComposeBuffer`; platform canvas adapters remain compatibility inputs only. Animation packing
+is the first utility moved all the way to `commonMain` under that rule.
+
+Creation Compose retains a typed `RemoteDocumentProgram` above the writer. It owns expression CSE
+and hoisting, dependency ordering, dead-scope pruning, save/restore elision, and transform fusion.
+Optimization and serialization are separate phases. Its declaration preamble is written before the
+body structurally. Global state now enters that preamble directly; the old writer
+`beginGlobal`/`endGlobal` API and `WireBuffer.moveBlock` byte relocation have been removed.
+
+`:vendor:remote-write-core` is the common Kotlin write-side module. It currently owns the growable
+wire sink, the writer-shaped document builder and canvas writer interface, animation packing
+dependencies, protocol IDs, layout/text constants, colour conversion, deterministic number
+formatting, and easing primitives. Creation Compose retains remote values in typed `WriterOp`
+nodes until optimization is complete, then lowers primitive drawing, clipping, transforms, path
+data, text, and scaled bitmaps through that interface. Conditional, loop, and offscreen scopes are
+typed composite program nodes rather than writer-capturing draw lambdas. JVM and Android use a
+temporary adapter to the Java writer; the common encoder implements the same interface directly.
+JVM parity tests compare those operations, protocol primitives, and the 149-byte smoke document
+with this Java core while the remaining paint, modifier, action, layout, state, and platform-image
+calls are migrated.
+
+The common writer now owns the complete state declaration surface: scalar and collection constants,
+named variables, expressions, lookups, text transforms, component values, colour expressions,
+dynamic arrays, URL/offscreen images and bitmap fonts. Java-oracle tests pin their wire bytes. The
+state implementation and its density/font conversion closure now live in `commonMain`; platform
+capture supplies image data and temporarily adapts the same interface to the legacy writer while
+layout, paint, modifier and action migration continues.
+
+`RemotePath` is now a common encoded-path builder rather than a platform path wrapper. Its output
+feeds path CSE directly, including explicit even-odd winding through the common writer; the Android
+Compose `Path` bridge is now a one-way compatibility decoder rather than the encoding boundary.
+
+Paint deltas and gradient/texture payloads now have a common `PaintBundleData` codec. Paint tracking,
+shaders, shapes and `RemotePaint` are common code, and typed draw operations apply their paint through
+`RemoteWriter`; only conversion from a platform-native Compose color filter remains an actualized
+adapter.
+
+The common writer also owns structural layout containers (root, box, row, column, flow, fit box,
+canvas and state layout). Their component ids and nested content boundaries are emitted in one pass;
+the JVM adapter is retained only as an oracle and temporary sink while modifier operations move to
+the same common representation.
+
+Modifier migration is typed as well: resolved modifier chains retain operation data rather than
+platform modifier objects. Width, height, padding, background, rectangular clipping, offset,
+z-index, ripple and draw-content already have byte-parity coverage; layout nodes continue using the
+legacy sink until every modifier and text component can enter the buffered structural path together.
+
+Full CoreText layout payloads now also have a common typed representation, including dynamic color,
+font sizing, line behavior, decoration and variable-font axes. The common encoder matches the Java
+oracle byte-for-byte without discovering declarations while writing nested layout content.
+
+Image layouts are represented the same way: bitmap id, scaling, alpha and resolved modifiers are a
+typed write operation with Java-oracle parity rather than a platform writer call.
+
+Collapsible row/column containers and modifier-level macro calls now use the common structural
+encoder too, including locally terminated macro-inflation blocks.
+
+Click and touch containers now retain typed host and value-change actions. Named-action text and
+expression dependencies are resolved before structural serialization, so nested actions cannot add
+late declarations inside a component body.
+
+Accessibility semantics are encoded through the same common modifier IR, including merge mode,
+role, text/state ids, enabled state and clickability.
+
+Graphics-layer attributes are typed as float or integer values and retain the legacy protocol's
+stable attribute order, including dynamic NaN ids, blur fields, transforms and compositing state.
+
+Borders, visibility, collapsible priority, baseline alignment, marquee, animation specs, and
+scrolling now lower through typed common modifier operations. Scroll retains its two reserved range
+ids and nested touch-expression program, so every Creation Compose modifier has a common encoding.
+
+Root, layout, text, image, and canvas-component boundaries now enter the optimized document as typed
+writer operations together. The common encoder maintains separate declaration and structural buffers
+and assembles the declaration preamble ahead of the root, even when a direct DSL call discovers text
+or path data inside a nested body.
+
+Component-content drawing and rounded-polygon paths/morphs also use typed writer operations; polygon
+morphs retain both endpoint paths and their remote progress value until the final writer flush.
+
+Pattern definition, inflation, and iteration containers are available on the common writer. Pattern
+definitions patch their own local body length before closing, and modifiers nested in Android pattern
+inflations now use the typed common modifier encoder.
+
+Custom-component properties and layout containers are typed common payloads as well. The obsolete
+Creation `RecordingModifier` and Java `Action` conversion surfaces have been removed; Android host
+lambda and pending-intent actions now resolve directly to typed host-action payloads.
+
+Creation-facing modifiers no longer import core protocol enums for dimensions, shapes, clicks,
+semantics, animation, graphics layers, paths, or collapsible orientation. Their local typed values
+retain the protocol ordinals, leaving the legacy core dependency confined to capture orchestration,
+statistics, logging, and animated-vector parsing.
+
+The optimized document program itself now flushes only to `RemoteWriter`. Conditional blocks,
+loops, offscreen bitmap targets, pattern definition/inflation/iteration, tuple lookups, custom
+components, and unscaled bitmap draws all have common writer operations; platform recorders retain
+the legacy document only as their final adapter target.
+
+The Creation Compose API and rendering closure now live in `commonMain`: actions, layouts, text,
+images, canvas APIs, modifiers, painters, vectors, the optimized document program, and creation
+state all compile for Wasm from the same sources as JVM and Android. Platform source sets are reduced
+to the legacy writer/profile bridge, host capture services, JVM reflection hooks, diagnostics, and
+animated-vector parsing.
+
+Foundation and Remote Material 3 now consume that closure from their own `commonMain` source sets
+and publish JVM, Android, and Wasm variants. A common recomposition/capture entry point renders
+directly into `RemoteDocumentWriter`; `:remote-wasm` exercises it with real Remote Material text
+components in both development and optimized browser bundles. The five vendored writer/Creation/
+Foundation/Material modules publish under the immutable version recorded in
+`vendor/remote-compose-upstream.json`.
+
+Buffered layout nodes reserve stable component ids before their draw scopes run. Component width and
+height remain typed `RemoteFloat` dependencies until flush, then encode a `ComponentValue` naming
+that reserved id in the declaration preamble. This is what lets CSE and declaration hoisting coexist
+with locally measured canvas content; asking the legacy writer for its "last component" while the
+layout itself was still buffered produced zero-sized indicators and backgrounds.
+
+The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
+the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
+platform types.

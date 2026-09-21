@@ -1,0 +1,801 @@
+package androidx.compose.remote.creation.compose.capture
+
+import androidx.compose.remote.creation.RemoteComposeWriter
+import androidx.compose.remote.creation.common.BitmapFontGlyph
+import androidx.compose.remote.creation.common.PaintBundleData
+import androidx.compose.remote.creation.common.RemoteModifierData
+import androidx.compose.remote.creation.common.RemoteModifierOperation
+import androidx.compose.remote.creation.common.RemoteTextData
+import androidx.compose.remote.creation.common.RemoteImageData
+import androidx.compose.remote.creation.common.RemoteActionData
+import androidx.compose.remote.creation.common.RemoteLayerAttribute
+import androidx.compose.remote.creation.common.RemoteCustomPropertyData
+import androidx.compose.remote.core.operations.layout.managers.Custom
+import androidx.compose.remote.core.operations.layout.modifiers.HostActionMetadataOperation
+import androidx.compose.remote.core.operations.layout.modifiers.HostActionOperation
+import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionOperation
+import androidx.compose.remote.core.semantics.CoreSemantics
+import androidx.compose.remote.creation.common.RemoteWriter
+import androidx.compose.remote.creation.common.DrawTextOnCircle
+import androidx.compose.remote.core.RemoteContext
+import androidx.compose.remote.core.operations.TouchExpression
+import androidx.compose.remote.core.operations.Utils
+import androidx.compose.remote.core.operations.layout.modifiers.ScrollModifierOperation
+import androidx.compose.remote.core.operations.utilities.AnimatedFloatExpression
+
+/** Temporary adapter while the common Kotlin encoder replaces [RemoteComposeWriter]. */
+internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWriter) : RemoteWriter {
+    override fun createFloatId(): Float = delegate.createFloatId()
+
+    override val componentIdForCache: Int
+        get() = delegate.buffer.lastComponentId
+
+    override fun addComponentWidthValue(componentId: Int): Float = componentValue(0, componentId)
+
+    override fun addComponentHeightValue(componentId: Int): Float = componentValue(1, componentId)
+
+    private fun componentValue(type: Int, componentId: Int): Float {
+        val id = delegate.nextId()
+        delegate.buffer.buffer.start(150)
+        delegate.buffer.buffer.writeInt(type)
+        delegate.buffer.buffer.writeInt(componentId)
+        delegate.buffer.buffer.writeInt(id)
+        return Utils.asNan(id)
+    }
+
+    override fun startRoot() = delegate.startRoot()
+
+    override fun endRoot() = delegate.endRoot()
+
+    override fun startBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addBoxStart(modifier.componentId, -1, horizontal, vertical)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endBox() = delegate.endBox()
+
+    override fun startRow(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addRowStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endRow() = delegate.endRow()
+
+    override fun startColumn(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addColumnStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endColumn() = delegate.endColumn()
+
+    override fun startCollapsibleRow(
+        modifier: RemoteModifierData,
+        horizontal: Int,
+        vertical: Int,
+    ) {
+        delegate.buffer.addCollapsibleRowStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCollapsibleRow() = delegate.endCollapsibleRow()
+
+    override fun startCollapsibleColumn(
+        modifier: RemoteModifierData,
+        horizontal: Int,
+        vertical: Int,
+    ) {
+        delegate.buffer.addCollapsibleColumnStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCollapsibleColumn() = delegate.endCollapsibleColumn()
+
+    override fun startCanvas(modifier: RemoteModifierData) {
+        delegate.buffer.addCanvasStart(modifier.componentId, -1)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCanvas() = delegate.endCanvas()
+
+    override fun startCanvasOperations() = delegate.startCanvasOperations()
+
+    override fun endCanvasOperations() = delegate.endCanvasOperations()
+
+    override fun startFitBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
+        delegate.buffer.addFitBoxStart(modifier.componentId, -1, horizontal, vertical)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endFitBox() = delegate.endFitBox()
+
+    override fun startFlow(
+        modifier: RemoteModifierData,
+        horizontal: Int,
+        vertical: Int,
+        maxItemsInEachRow: Int,
+        maxLines: Int,
+    ) {
+        delegate.buffer.addFlowStart(
+            modifier.componentId,
+            -1,
+            horizontal,
+            vertical,
+            modifier.spacedBy,
+            maxItemsInEachRow,
+            maxLines,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endFlow() = delegate.endFlow()
+
+    override fun startStateLayout(modifier: RemoteModifierData, indexId: Int) {
+        delegate.buffer.addStateLayout(modifier.componentId, -1, 0, 0, indexId)
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endStateLayout() = delegate.endStateLayout()
+
+    override fun writeModifier(operation: RemoteModifierOperation) {
+        when (operation) {
+            is RemoteModifierOperation.Width ->
+                delegate.addWidthModifierOperation(operation.type, operation.value)
+            is RemoteModifierOperation.Height ->
+                delegate.addHeightModifierOperation(operation.type, operation.value)
+            is RemoteModifierOperation.Padding ->
+                delegate.addModifierPadding(
+                    operation.left,
+                    operation.top,
+                    operation.right,
+                    operation.bottom,
+                )
+            is RemoteModifierOperation.Background -> {
+                if (operation.flags == 2) {
+                    delegate.addDynamicModifierBackground(operation.colorId, operation.shape)
+                } else {
+                    delegate.addModifierBackground(
+                        operation.red,
+                        operation.green,
+                        operation.blue,
+                        operation.alpha,
+                        operation.shape,
+                    )
+                }
+            }
+            RemoteModifierOperation.ClipRect -> delegate.addClipRectModifier()
+            is RemoteModifierOperation.RoundedClipRect ->
+                delegate.addRoundClipRectModifier(
+                    operation.topStart,
+                    operation.topEnd,
+                    operation.bottomStart,
+                    operation.bottomEnd,
+                )
+            is RemoteModifierOperation.WidthIn ->
+                delegate.addWidthInModifierOperation(operation.min, operation.max)
+            is RemoteModifierOperation.HeightIn ->
+                delegate.addHeightInModifierOperation(operation.min, operation.max)
+            is RemoteModifierOperation.Offset -> delegate.addModifierOffset(operation.x, operation.y)
+            is RemoteModifierOperation.ZIndex -> delegate.addModifierZIndex(operation.value)
+            RemoteModifierOperation.Ripple -> delegate.addModifierRipple()
+            RemoteModifierOperation.DrawContent -> delegate.addDrawContentOperation()
+            is RemoteModifierOperation.MacroCall ->
+                delegate.addPatternInflation(operation.id, operation.argumentIds)
+            is RemoteModifierOperation.Click -> {
+                if (operation.clickType == 0) delegate.buffer.addClickModifierOperation()
+                else delegate.buffer.addClickModifierOperation(operation.clickType)
+                operation.actions.forEach(::writeAction)
+                delegate.buffer.addContainerEnd()
+            }
+            is RemoteModifierOperation.Touch -> {
+                when (operation.type) {
+                    0 -> delegate.addTouchDownModifierOperation()
+                    1 -> delegate.addTouchUpModifierOperation()
+                    else -> delegate.addTouchCancelModifierOperation()
+                }
+                operation.actions.forEach(::writeAction)
+                delegate.buffer.addContainerEnd()
+            }
+            is RemoteModifierOperation.Semantics ->
+                CoreSemantics.apply(
+                    delegate.buffer.buffer,
+                    operation.contentDescriptionId,
+                    operation.role.toByte(),
+                    operation.textId,
+                    operation.stateDescriptionId,
+                    operation.mode,
+                    operation.enabled,
+                    operation.clickable,
+                )
+            is RemoteModifierOperation.GraphicsLayer -> {
+                val attributes = java.util.HashMap<Int, Any>()
+                operation.attributes.forEach { attribute ->
+                    when (attribute) {
+                        is RemoteLayerAttribute.FloatValue ->
+                            attributes[attribute.id] = attribute.value
+                        is RemoteLayerAttribute.IntValue -> attributes[attribute.id] = attribute.value
+                    }
+                }
+                delegate.addModifierGraphicsLayer(attributes)
+            }
+            is RemoteModifierOperation.Border ->
+                if (operation.dynamicColor) {
+                    delegate.addModifierDynamicBorder(
+                        operation.width,
+                        operation.roundedCorner,
+                        operation.color,
+                        operation.shapeType,
+                    )
+                } else {
+                    delegate.addModifierBorder(
+                        operation.width,
+                        operation.roundedCorner,
+                        operation.color,
+                        operation.shapeType,
+                    )
+                }
+            is RemoteModifierOperation.Visibility ->
+                delegate.addComponentVisibilityOperation(operation.valueId)
+            is RemoteModifierOperation.CollapsiblePriority ->
+                delegate.addCollapsiblePriorityModifier(operation.orientation, operation.priority)
+            is RemoteModifierOperation.AlignBy -> delegate.addAlignByModifier(operation.line)
+            is RemoteModifierOperation.Marquee ->
+                delegate.addModifierMarquee(
+                    operation.iterations,
+                    operation.animationMode,
+                    operation.repeatDelayMillis,
+                    operation.initialDelayMillis,
+                    operation.spacing,
+                    operation.velocity,
+                )
+            is RemoteModifierOperation.AnimationSpec ->
+                delegate.addAnimationSpecModifier(
+                    operation.animationId,
+                    operation.motionDuration,
+                    operation.motionEasingType,
+                    operation.visibilityDuration,
+                    operation.visibilityEasingType,
+                    operation.enterAnimation,
+                    operation.exitAnimation,
+                )
+            is RemoteModifierOperation.Scroll -> {
+                ScrollModifierOperation.apply(
+                    delegate.buffer.buffer,
+                    operation.direction,
+                    operation.position,
+                    operation.maximum,
+                    operation.notchMaximum,
+                )
+                delegate.buffer.addTouchExpression(
+                    Utils.idFromNan(operation.position),
+                    0f,
+                    0f,
+                    operation.maximum,
+                    0f,
+                    3,
+                    floatArrayOf(
+                        if (operation.direction != 0) RemoteContext.FLOAT_TOUCH_POS_X
+                        else RemoteContext.FLOAT_TOUCH_POS_Y,
+                        -1f,
+                        AnimatedFloatExpression.MUL,
+                    ),
+                    if (operation.notches > 0) TouchExpression.STOP_NOTCHES_EVEN
+                    else TouchExpression.STOP_GENTLY,
+                    if (operation.notches > 0)
+                        floatArrayOf(operation.notches.toFloat(), operation.notchMaximum)
+                    else null,
+                    null,
+                )
+                delegate.buffer.addContainerEnd()
+            }
+        }
+    }
+
+    private fun writeAction(action: RemoteActionData) {
+        when (action) {
+            is RemoteActionData.Host ->
+                HostActionOperation.apply(delegate.buffer.buffer, action.actionId)
+            is RemoteActionData.HostMetadata ->
+                HostActionMetadataOperation.apply(
+                    delegate.buffer.buffer,
+                    action.actionId,
+                    action.metadataId,
+                )
+            is RemoteActionData.HostNamed ->
+                HostNamedActionOperation.apply(
+                    delegate.buffer.buffer,
+                    action.nameId,
+                    action.type,
+                    action.valueId,
+                )
+            is RemoteActionData.IntegerChange ->
+                delegate.buffer.addValueIntegerChangeActionOperation(action.targetId, action.value)
+            is RemoteActionData.IntegerExpressionChange ->
+                delegate.buffer.addValueIntegerExpressionChangeActionOperation(
+                    action.targetId,
+                    action.expressionId,
+                )
+            is RemoteActionData.FloatChange ->
+                delegate.buffer.addValueFloatChangeActionOperation(action.targetId, action.value)
+            is RemoteActionData.FloatExpressionChange ->
+                delegate.buffer.addValueFloatExpressionChangeActionOperation(
+                    action.targetId,
+                    action.expressionId,
+                )
+            is RemoteActionData.StringChange ->
+                delegate.buffer.addValueStringChangeActionOperation(action.targetId, action.valueId)
+        }
+    }
+
+    override fun startText(data: RemoteTextData) {
+        delegate.buffer.addTextComponentStart(
+            data.modifier.componentId,
+            -1,
+            data.textId,
+            data.textStyleId,
+            data.color,
+            data.colorId,
+            data.fontSize,
+            data.minFontSize,
+            data.maxFontSize,
+            data.fontStyle,
+            data.fontWeight,
+            data.fontFamilyId,
+            data.textAlign,
+            data.overflow,
+            data.maxLines,
+            data.letterSpacing,
+            data.lineHeightAdd,
+            data.lineHeightMultiplier,
+            data.lineBreakStrategy,
+            data.hyphenationFrequency,
+            data.justificationMode,
+            data.underline,
+            data.strikethrough,
+            data.fontAxisIds,
+            data.fontAxisValues,
+            data.autosize,
+            data.flags,
+        )
+        data.modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endText() {
+        delegate.buffer.addContainerEnd()
+        delegate.buffer.addContainerEnd()
+    }
+
+    override fun image(data: RemoteImageData) {
+        delegate.buffer.addImage(
+            data.modifier.componentId,
+            -1,
+            data.bitmapId,
+            data.scaleType,
+            data.alpha,
+        )
+        data.modifier.writeTo(this)
+        delegate.buffer.addContainerEnd()
+    }
+
+    override fun startCustom(
+        modifier: RemoteModifierData,
+        configId: Int,
+        properties: List<RemoteCustomPropertyData>,
+    ) {
+        if (modifier.componentId == -1) modifier.componentId = delegate.nextId()
+        val legacyProperties =
+            properties.map { property ->
+                if (
+                    property.dataType == RemoteCustomPropertyData.FloatProperty ||
+                        property.dataType == RemoteCustomPropertyData.FloatReturn
+                ) {
+                    Custom.CustomProperty(property.id, property.dataType, property.floatValue)
+                } else {
+                    Custom.CustomProperty(property.id, property.dataType, property.intValue)
+                }
+            }
+        Custom.apply(
+            delegate.buffer.buffer,
+            modifier.componentId,
+            -1,
+            configId,
+            legacyProperties,
+        )
+        modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endCustom() {
+        delegate.buffer.addContainerEnd()
+        delegate.buffer.addContainerEnd()
+    }
+
+    override fun startPatternDefinition(id: Int, parameterIds: IntArray) {
+        delegate.buffer.definePattern(id, parameterIds)
+    }
+
+    override fun endPatternDefinition() = delegate.buffer.endPatternDefine()
+
+    override fun startPatternInflation(id: Int, argumentIds: IntArray) {
+        delegate.buffer.inflatePattern(id, argumentIds)
+    }
+
+    override fun endPatternInflation() = delegate.buffer.endPatternInflation()
+
+    override fun startPatternForEach(collectionId: Int, localItemId: Int) {
+        delegate.buffer.addPatternForEach(collectionId, localItemId)
+    }
+
+    override fun endPatternForEach() = delegate.buffer.endPatternForEach()
+
+    override fun startConditional(type: Int, first: Float, second: Float) {
+        delegate.conditionalOperations(type.toByte(), first, second)
+    }
+
+    override fun endConditional() = delegate.endConditionalOperations()
+
+    override fun drawOnBitmap(bitmapId: Int, mode: Int, color: Int) =
+        delegate.drawOnBitmap(bitmapId, mode, color)
+
+    override fun startLoop(indexId: Int, from: Float, step: Float, until: Float) {
+        delegate.startLoop(indexId, from, step, until)
+    }
+
+    override fun endLoop() = delegate.endLoop()
+
+    override fun setNamedVariable(id: Int, name: String, type: Int) =
+        delegate.setNamedVariable(id, name, type)
+
+    override fun addInteger(value: Int): Long = delegate.addInteger(value)
+
+    override fun addNamedInt(name: String, initialValue: Int): Long =
+        delegate.addNamedInt(name, initialValue)
+
+    override fun addNamedFloat(name: String, initialValue: Float): Float =
+        delegate.addNamedFloat(name, initialValue)
+
+    override fun reserveFloatVariable(): Float = delegate.reserveFloatVariable()
+
+    override fun addFloatArray(values: FloatArray): Float = delegate.addFloatArray(values)
+
+    override fun addIdList(ids: IntArray): Float = delegate.addList(ids)
+
+    override fun addDynamicFloatArray(size: Float): Float = delegate.addDynamicFloatArray(size)
+
+    override fun setArrayValue(id: Int, index: Float, value: Float) =
+        delegate.setArrayValue(id, index, value)
+
+    override fun floatExpression(vararg values: Float): Float = delegate.floatExpression(*values)
+
+    override fun floatExpression(values: FloatArray, animation: FloatArray?): Float =
+        delegate.floatExpression(values, animation)
+
+    override fun integerExpression(vararg values: Long): Long = delegate.integerExpression(*values)
+
+    override fun timeAttribute(longId: Int, type: Short, vararg args: Int): Float =
+        delegate.timeAttribute(longId, type, *args)
+
+    override fun idLookup(arrayId: Float, index: Float): Int = delegate.idLookup(arrayId, index)
+
+    override fun writeIdLookup(outputId: Int, arrayId: Float, index: Float) {
+        delegate.buffer.idLookup(outputId, arrayId, index)
+    }
+
+    override fun textLookup(arrayId: Float, index: Float): Int = delegate.textLookup(arrayId, index)
+
+    override fun textLookup(arrayId: Float, indexId: Int): Int =
+        delegate.textLookup(arrayId, indexId)
+
+    override fun textLength(textId: Int): Float = delegate.textLength(textId)
+
+    override fun textMerge(leftId: Int, rightId: Int): Int = delegate.textMerge(leftId, rightId)
+
+    override fun textSubtext(textId: Int, start: Float, length: Float): Int =
+        delegate.textSubtext(textId, start, length)
+
+    override fun textTransform(textId: Int, start: Float, length: Float, operation: Int): Int =
+        delegate.textTransform(textId, start, length, operation)
+
+    override fun createTextFromFloat(value: Float, before: Int, after: Int, flags: Int): Int =
+        delegate.createTextFromFloat(value, before, after, flags)
+
+    override fun colorAttribute(colorId: Int, type: Short): Float =
+        delegate.getColorAttribute(colorId, type)
+
+    override fun bitmapAttribute(bitmapId: Int, type: Short): Float =
+        delegate.bitmapAttribute(bitmapId, type)
+
+    override fun bitmapTextMeasure(
+        textId: Int,
+        bitmapFontId: Int,
+        type: Int,
+        glyphSpacing: Float,
+    ): Float = delegate.bitmapTextMeasure(textId, bitmapFontId, type, glyphSpacing)
+
+    override fun addBitmapUrl(url: String, width: Int, height: Int): Int =
+        delegate.addBitmapUrl(url, width, height)
+
+    override fun addNamedBitmapUrl(name: String, url: String): Int =
+        delegate.addNamedBitmapUrl(name, url)
+
+    override fun createBitmap(width: Int, height: Int): Int = delegate.createBitmap(width, height)
+
+    override fun addBitmapFont(
+        glyphs: List<BitmapFontGlyph>,
+        kerningTable: Map<String, Short>,
+    ): Int =
+        delegate.addBitmapFont(
+            glyphs
+                .map { glyph ->
+                    androidx.compose.remote.core.operations.BitmapFontData.Glyph(
+                        glyph.chars,
+                        glyph.bitmapId,
+                        glyph.marginLeft,
+                        glyph.marginTop,
+                        glyph.marginRight,
+                        glyph.marginBottom,
+                        glyph.width,
+                        glyph.height,
+                    )
+                }
+                .toTypedArray(),
+            kerningTable,
+        )
+
+    override fun matrixExpression(vararg expression: Float): Float =
+        delegate.matrixExpression(*expression)
+
+    override fun addColor(argb: Int): Int = delegate.addColor(argb)
+
+    override fun addNamedColor(name: String, argb: Int): Int = delegate.addNamedColor(name, argb)
+
+    override fun addColorExpression(color1: Int, color2: Int, tween: Float): Short =
+        delegate.addColorExpression(color1, color2, tween)
+
+    override fun addColorExpression(color1: Short, color2: Short, tween: Float): Short =
+        delegate.addColorExpression(color1, color2, tween)
+
+    override fun addColorExpression(
+        alpha: Int,
+        hue: Float,
+        saturation: Float,
+        value: Float,
+    ): Short = delegate.addColorExpression(alpha, hue, saturation, value)
+
+    override fun addColorExpression(alpha: Float, red: Float, green: Float, blue: Float): Short =
+        delegate.addColorExpression(alpha, red, green, blue)
+
+    override fun addText(value: String): Int = delegate.addText(value)
+
+    override fun addThemedColor(
+        group: String,
+        lightId: Short,
+        darkId: Short,
+        lightFallback: Int,
+        darkFallback: Int,
+    ): Int = delegate.addThemedColor(group, lightId, darkId, lightFallback, darkFallback).toInt()
+
+    override fun addNamedString(name: String, initialValue: String): Int =
+        delegate.addNamedString(name, initialValue)
+
+    override fun addLong(value: Long): Int = delegate.addLong(value)
+
+    override fun addNamedLong(name: String, initialValue: Long): Int =
+        delegate.addNamedLong(name, initialValue)
+
+    override fun addPathData(pathData: FloatArray, winding: Int): Int {
+        // Released AndroidX only exposes the platform-path overload here. Reserve an id through
+        // its state allocator, then write the already encoded common path directly.
+        val id = delegate.nextId()
+        return delegate.buffer.addPathData(id, pathData, winding)
+    }
+
+    override fun applyPaint(paint: PaintBundleData) {
+        val values = paint.toIntArray()
+        delegate.buffer.buffer.start(40)
+        delegate.buffer.buffer.writeInt(values.size)
+        values.forEach(delegate.buffer.buffer::writeInt)
+    }
+
+    override fun consumePaintReset(): Boolean = delegate.checkAndClearForceSendingNewPaint()
+
+    override fun save() = delegate.save()
+
+    override fun restore() = delegate.restore()
+
+    override fun translate(dx: Float, dy: Float) = delegate.translate(dx, dy)
+
+    override fun scale(scaleX: Float, scaleY: Float, centerX: Float, centerY: Float) =
+        delegate.scale(scaleX, scaleY, centerX, centerY)
+
+    override fun rotate(angle: Float, centerX: Float, centerY: Float) =
+        delegate.rotate(angle, centerX, centerY)
+
+    override fun skew(skewX: Float, skewY: Float) = delegate.skew(skewX, skewY)
+
+    override fun clipRect(left: Float, top: Float, right: Float, bottom: Float) =
+        delegate.clipRect(left, top, right, bottom)
+
+    override fun drawRect(left: Float, top: Float, right: Float, bottom: Float) =
+        delegate.drawRect(left, top, right, bottom)
+
+    override fun drawRoundRect(
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float,
+        radiusX: Float,
+        radiusY: Float,
+    ) = delegate.drawRoundRect(left, top, right, bottom, radiusX, radiusY)
+
+    override fun drawCircle(centerX: Float, centerY: Float, radius: Float) =
+        delegate.drawCircle(centerX, centerY, radius)
+
+    override fun drawOval(left: Float, top: Float, right: Float, bottom: Float) =
+        delegate.drawOval(left, top, right, bottom)
+
+    override fun drawArc(
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float,
+        startAngle: Float,
+        sweepAngle: Float,
+    ) = delegate.drawArc(left, top, right, bottom, startAngle, sweepAngle)
+
+    override fun drawSector(
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float,
+        startAngle: Float,
+        sweepAngle: Float,
+    ) = delegate.drawSector(left, top, right, bottom, startAngle, sweepAngle)
+
+    override fun drawLine(x1: Float, y1: Float, x2: Float, y2: Float) =
+        delegate.drawLine(x1, y1, x2, y2)
+
+    override fun drawPath(pathId: Int) = delegate.drawPath(pathId)
+
+    override fun drawBitmap(
+        imageId: Int,
+        left: Float,
+        top: Float,
+        right: Float,
+        bottom: Float,
+        contentDescriptionId: Int,
+    ) {
+        delegate.buffer.addDrawBitmap(
+            imageId,
+            left,
+            top,
+            right,
+            bottom,
+            contentDescriptionId,
+        )
+    }
+
+    override fun drawComponentContent() = delegate.drawComponentContent()
+
+    override fun clipPath(pathId: Int) = delegate.addClipPath(pathId)
+
+    override fun drawTweenPath(
+        path1Id: Int,
+        path2Id: Int,
+        tween: Float,
+        start: Float,
+        stop: Float,
+    ) = delegate.drawTweenPath(path1Id, path2Id, tween, start, stop)
+
+    override fun drawTextOnPath(
+        textId: Int,
+        pathId: Int,
+        horizontalOffset: Float,
+        verticalOffset: Float,
+    ) = delegate.drawTextOnPath(textId, pathId, horizontalOffset, verticalOffset)
+
+    override fun drawTextRun(
+        textId: Int,
+        start: Int,
+        end: Int,
+        contextStart: Int,
+        contextEnd: Int,
+        x: Float,
+        y: Float,
+        isRtl: Boolean,
+    ) = delegate.drawTextRun(textId, start, end, contextStart, contextEnd, x, y, isRtl)
+
+    override fun drawTextAnchored(
+        textId: Int,
+        anchorX: Float,
+        anchorY: Float,
+        panX: Float,
+        panY: Float,
+        flags: Int,
+    ) = delegate.drawTextAnchored(textId, anchorX, anchorY, panX, panY, flags)
+
+    override fun drawTextOnCircle(
+        textId: Int,
+        centerX: Float,
+        centerY: Float,
+        radius: Float,
+        startAngle: Float,
+        warpRadiusOffset: Float,
+        alignment: DrawTextOnCircle.Alignment,
+        placement: DrawTextOnCircle.Placement,
+    ) =
+        delegate.drawTextOnCircle(
+            textId,
+            centerX,
+            centerY,
+            radius,
+            startAngle,
+            warpRadiusOffset,
+            androidx.compose.remote.core.operations.DrawTextOnCircle.Alignment.values()[
+                alignment.ordinal],
+            androidx.compose.remote.core.operations.DrawTextOnCircle.Placement.values()[
+                placement.ordinal],
+        )
+
+    override fun drawScaledBitmap(
+        imageId: Int,
+        srcLeft: Float,
+        srcTop: Float,
+        srcRight: Float,
+        srcBottom: Float,
+        dstLeft: Float,
+        dstTop: Float,
+        dstRight: Float,
+        dstBottom: Float,
+        scaleType: Int,
+        scaleFactor: Float,
+        contentDescription: String,
+    ) =
+        delegate.drawScaledBitmap(
+            imageId,
+            srcLeft,
+            srcTop,
+            srcRight,
+            srcBottom,
+            dstLeft,
+            dstTop,
+            dstRight,
+            dstBottom,
+            scaleType,
+            scaleFactor,
+            contentDescription,
+        )
+}

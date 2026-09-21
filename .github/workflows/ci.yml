@@ -107,6 +107,10 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
+      - name: Published Remote Compose changes bump the version
+        if: needs.changes.outputs.inert != 'true' && github.event_name == 'pull_request'
+        run: .github/scripts/check-remote-compose-port-revision.sh HEAD^1
+
       # `:catalog` is a Kotlin Multiplatform module, so it has no `debug` application variant and
       # no `assembleDebug`: the KMP-Android plugin names its outputs after the target and
       # compilation (`assembleAndroidMain`). `assemble` covers that AND the `desktop` target, which

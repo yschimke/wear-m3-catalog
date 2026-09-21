@@ -146,6 +146,29 @@ if (remoteSnapshotBuild != null) {
   }
 }
 
+// Keep every transitive edge on the vendored Remote surface. The Wear CMP port is the JVM-side
+// dependency of the vendored Material module; this consumer is Android, so replace it with the real
+// AndroidX AARs just as :catalog does for its Android configurations.
+val wearComposeVersion = libs.versions.wear.compose.asProvider().get()
+
+configurations.configureEach {
+  resolutionStrategy.dependencySubstitution {
+    substitute(module("androidx.compose.remote:remote-creation-compose"))
+      .using(project(":vendor:remote-creation-compose"))
+    substitute(module("androidx.compose.remote:foundation"))
+      .using(project(":vendor:remote-foundation"))
+    substitute(module("androidx.wear.compose.remote:remote-material3"))
+      .using(project(":vendor:remote-material3"))
+    substitute(module("ee.schimke.wearcmp:wear-compose-material3"))
+      .using(module("androidx.wear.compose:compose-material3:$wearComposeVersion"))
+    substitute(module("ee.schimke.wearcmp:wear-compose-foundation"))
+      .using(module("androidx.wear.compose:compose-foundation:$wearComposeVersion"))
+    substitute(module("ee.schimke.wearcmp:wear-compose-material-core"))
+      .using(module("androidx.wear.compose:compose-material-core:$wearComposeVersion"))
+  }
+  exclude(group = "org.jetbrains.skiko")
+}
+
 dependencies {
   // NO Compose BOM, deliberately — `:catalog` has one and this module must not share it.
   // `wear-compose-remote-material3`'s POM pulls the Compose 1.11 runtime for foundation / runtime /
@@ -160,8 +183,11 @@ dependencies {
   implementation(libs.compose.material.icons.extended.prerelease)
   implementation(libs.compose.remote.tooling.preview)
   implementation(libs.compose.remote.creation)
-  implementation(libs.compose.remote.creation.compose)
-  implementation(libs.wear.compose.remote.material3)
+  // Vendored from AndroidX CL 4307936. These projects publish Android and JVM variants; this
+  // Android catalog consumes the Android variants while their JVM compilations gate the shared
+  // source independently. See vendor/README.md.
+  implementation(project(":vendor:remote-creation-compose"))
+  implementation(project(":vendor:remote-material3"))
 
   // Wear M3 proper — NOT for its composables, which this module never calls. It is declared for
   // `CircularProgressIndicatorDefaults.smallStrokeWidth` / `largeStrokeWidth`: the two dp values

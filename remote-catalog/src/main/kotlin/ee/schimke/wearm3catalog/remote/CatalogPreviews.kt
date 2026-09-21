@@ -2821,7 +2821,7 @@ fun VariableWidthRemote() = RemoteSticker {
 //
 // A document is written against a PROFILE, and a profile is the set of operations its writer will
 // emit. Under `RcPlatformProfiles.ANDROIDX` — what [RemoteSticker] captures with, and what the
-// AndroidX tooling renders — `CanvasOp$Draw.write` throws `Operation 57 is not supported for this
+// AndroidX tooling renders — `DocumentOp$Draw.write` throws `Operation 57 is not supported for this
 // version` while the sticker is still being CAPTURED, so there is no document at all.
 //
 // `RcPlatformProfiles.WEAR_WIDGETS` *does* list 57 among its 122 supported operations, and

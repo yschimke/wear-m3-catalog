@@ -1,0 +1,111 @@
+name: Publish Remote Compose port
+
+# Publishes the vendored CMP port to GitHub Packages and to a credential-free Maven repository
+# served from remote-compose-cmp-maven. The metadata file owns the immutable version.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'vendor/remote-compose-upstream.json'
+      - 'vendor/remote-core/**'
+      - 'vendor/remote-write-core/**'
+      - 'vendor/remote-creation-compose/**'
+      - 'vendor/remote-foundation/**'
+      - 'vendor/remote-material3/**'
+      - '.github/workflows/publish-remote-compose.yml'
+  workflow_dispatch:
+    inputs:
+      republish:
+        description: 'Overwrite the Maven-branch version when its bytes are identical'
+        type: boolean
+        default: false
+
+concurrency:
+  group: publish-remote-compose-cmp
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: 'true'
+
+      - name: Read version and published tree
+        id: state
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(./gradlew -q printRemoteComposePortVersion)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+          tree="$RUNNER_TEMP/remote-compose-maven"
+          if git ls-remote --exit-code --heads origin remote-compose-cmp-maven >/dev/null 2>&1; then
+            git clone -q --depth 1 --branch remote-compose-cmp-maven \
+              "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$tree"
+          else
+            git init -q "$tree"
+            git -C "$tree" checkout -q --orphan remote-compose-cmp-maven
+          fi
+          echo "tree=$tree" >> "$GITHUB_OUTPUT"
+
+          if [ -d "$tree/ee/schimke/remotecompose/remote-material3/$version" ]; then
+            echo 'published=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'published=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Already published
+        if: steps.state.outputs.published == 'true' && !inputs.republish
+        run: |
+          {
+            echo "### ${{ steps.state.outputs.version }} is already published"
+            echo
+            echo 'Bump `portRevision` in `vendor/remote-compose-upstream.json` for changed bytes.'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Build Maven repository
+        if: steps.state.outputs.published == 'false' || inputs.republish
+        run: ./gradlew publishRemoteComposeToBuildDir
+
+      - name: Publish to GitHub Packages
+        if: steps.state.outputs.published == 'false'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+
+      - name: Push Maven repository
+        if: steps.state.outputs.published == 'false' || inputs.republish
+        shell: bash
+        run: |
+          set -euo pipefail
+          version="${{ steps.state.outputs.version }}"
+          tree="${{ steps.state.outputs.tree }}"
+          cp -r build/remote-compose-maven/. "$tree/"
+          git -C "$tree" add -A
+          if git -C "$tree" diff --cached --quiet; then
+            echo 'The published tree is already identical.' >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git -C "$tree" \
+            -c user.name='github-actions[bot]' \
+            -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit -qm "chore: publish Remote Compose $version"
+          git -C "$tree" push -q \
+            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+            HEAD:remote-compose-cmp-maven
+          {
+            echo "### Published $version"
+            echo
+            echo '```kotlin'
+            echo 'maven("https://raw.githubusercontent.com/${{ github.repository }}/remote-compose-cmp-maven/")'
+            echo "implementation(\"ee.schimke.remotecompose:remote-material3:$version\")"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

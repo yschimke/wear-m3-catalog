@@ -1,0 +1,77 @@
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package androidx.compose.remote.creation.compose.modifier
+
+import androidx.annotation.RestrictTo
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.remote.creation.compose.state.RemoteDp
+import androidx.compose.remote.creation.compose.state.RemoteFloat
+import androidx.compose.remote.creation.compose.state.RemoteStateScope
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.compose.remote.creation.common.RemoteModifierOperation
+
+internal class HeightModifier(val type: RemoteDimensionType, val value: RemoteFloat) : RemoteModifier.Element {
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.Height(type.ordinal, value.floatId)
+
+    override fun toString(): String = "HeightModifier(type=$type, value=$value)"
+}
+
+/** Sets the height of the content using [RemoteDp]. */
+public fun RemoteModifier.height(height: RemoteDp): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.EXACT_DP, height.value))
+
+/** Sets the height of the content using [RemoteFloat]. */
+public fun RemoteModifier.height(height: RemoteFloat): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.EXACT, height))
+
+/**
+ * Fills the maximum available height.
+ *
+ * @param fraction The fraction of the maximum height to use.
+ */
+public fun RemoteModifier.fillMaxHeight(fraction: RemoteFloat = 1f.rf): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.FILL, fraction))
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public fun RemoteModifier.fillMaxHeight(fraction: Float): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.FILL, RemoteFloat(fraction)))
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public fun RemoteModifier.fillParentMaxHeight(fraction: Float): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.FILL_PARENT_MAX_HEIGHT, RemoteFloat(fraction)))
+
+/**
+ * Fills the parent's maximum available height.
+ *
+ * @param fraction The fraction of the parent's maximum height to use.
+ */
+public fun RemoteModifier.fillParentMaxHeight(fraction: RemoteFloat = 1f.rf): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.FILL_PARENT_MAX_HEIGHT, fraction))
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public fun RemoteModifier.height(height: Int): RemoteModifier =
+    then(HeightModifier(RemoteDimensionType.EXACT, height.rf))
+
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public fun RemoteModifier.height(height: IntrinsicSize): RemoteModifier {
+    return if (height == IntrinsicSize.Min) {
+        then(HeightModifier(RemoteDimensionType.INTRINSIC_MIN, RemoteFloat(0f)))
+    } else {
+        then(HeightModifier(RemoteDimensionType.INTRINSIC_MAX, RemoteFloat(0f)))
+    }
+}
