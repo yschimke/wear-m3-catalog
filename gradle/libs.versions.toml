@@ -1,6 +1,7 @@
 [versions]
 kotlin = "2.4.20"
 ktfmt = "0.27.0"
+ktfmt-cli = "0.64"
 agp = "9.4.1"
 
 # Wear Compose Material 3 — the library this catalog reproduces the kit against.
@@ -279,6 +280,7 @@ composeai-remotecompose-json = { module = "ee.schimke.composeai:remotecompose-js
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 composeai-ui-builder-export = { module = "ee.schimke.composeai:compose-preview-ui-builder-export", version.ref = "composePreviewServer" }
 composeai-ui-builder-renderer-sdk-source = { module = "ee.schimke.composeai:ui-builder-renderer-sdk-source", version.ref = "uiBuilderSource" }
+ktfmt-cli = { module = "com.facebook:ktfmt", version.ref = "ktfmt-cli" }
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 junit = { module = "junit:junit", version.ref = "junit" }
