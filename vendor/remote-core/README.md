@@ -88,6 +88,10 @@ role, text/state ids, enabled state and clickability.
 Graphics-layer attributes are typed as float or integer values and retain the legacy protocol's
 stable attribute order, including dynamic NaN ids, blur fields, transforms and compositing state.
 
+Borders, visibility, collapsible priority, baseline alignment, marquee, and animation specs now
+also lower through typed common modifier operations. Scroll is the sole modifier still using only
+the legacy recording representation.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

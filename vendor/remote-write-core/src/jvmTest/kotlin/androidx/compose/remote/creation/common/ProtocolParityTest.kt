@@ -396,6 +396,31 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun advancedModifiersMatchAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addModifierBorder(2f, 8f, 0x804080c0.toInt(), 2)
+    expected.addModifierDynamicBorder(3f, 9f, 42, 1)
+    expected.addComponentVisibilityOperation(43)
+    expected.addCollapsiblePriorityModifier(1, 1.5f)
+    expected.addModifierAlignBy(Utils.asNan(44))
+    expected.addModifierMarquee(4, 1, 200f, 100f, 12f, 20f)
+    expected.addAnimationSpecModifier(7, 300f, 2, 400f, 3, 4, 5)
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(RemoteModifierOperation.Border(2f, 8f, 0x804080c0.toInt(), false, 2))
+    writer.writeModifier(RemoteModifierOperation.Border(3f, 9f, 42, true, 1))
+    writer.writeModifier(RemoteModifierOperation.Visibility(43))
+    writer.writeModifier(RemoteModifierOperation.CollapsiblePriority(1, 1.5f))
+    writer.writeModifier(RemoteModifierOperation.AlignBy(Utils.asNan(44)))
+    writer.writeModifier(RemoteModifierOperation.Marquee(4, 1, 200f, 100f, 12f, 20f))
+    writer.writeModifier(RemoteModifierOperation.AnimationSpec(7, 300f, 2, 400f, 3, 4, 5))
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(

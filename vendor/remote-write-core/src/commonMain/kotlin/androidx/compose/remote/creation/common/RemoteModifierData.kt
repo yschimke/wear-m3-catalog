@@ -43,6 +43,34 @@ public sealed interface RemoteModifierOperation {
   ) : RemoteModifierOperation
   public data class GraphicsLayer(val attributes: List<RemoteLayerAttribute>) :
     RemoteModifierOperation
+  public data class Border(
+    val width: Float,
+    val roundedCorner: Float,
+    val color: Int,
+    val dynamicColor: Boolean,
+    val shapeType: Int,
+  ) : RemoteModifierOperation
+  public data class Visibility(val valueId: Int) : RemoteModifierOperation
+  public data class CollapsiblePriority(val orientation: Int, val priority: Float) :
+    RemoteModifierOperation
+  public data class AlignBy(val line: Float, val flags: Int = 0) : RemoteModifierOperation
+  public data class Marquee(
+    val iterations: Int,
+    val animationMode: Int,
+    val repeatDelayMillis: Float,
+    val initialDelayMillis: Float,
+    val spacing: Float,
+    val velocity: Float,
+  ) : RemoteModifierOperation
+  public data class AnimationSpec(
+    val animationId: Int,
+    val motionDuration: Float,
+    val motionEasingType: Int,
+    val visibilityDuration: Float,
+    val visibilityEasingType: Int,
+    val enterAnimation: Int,
+    val exitAnimation: Int,
+  ) : RemoteModifierOperation
 }
 
 public sealed interface RemoteLayerAttribute {

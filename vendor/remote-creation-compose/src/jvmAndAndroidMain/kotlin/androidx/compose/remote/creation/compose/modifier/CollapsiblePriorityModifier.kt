@@ -21,6 +21,7 @@ import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.RecordingModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class CollapsiblePriorityModifier(
@@ -35,4 +36,7 @@ public class CollapsiblePriorityModifier(
             priority.floatId,
         )
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.CollapsiblePriority(orientation, priority.floatId)
 }

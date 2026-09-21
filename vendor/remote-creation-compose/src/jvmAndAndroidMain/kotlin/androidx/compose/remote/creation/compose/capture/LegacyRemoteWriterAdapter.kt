@@ -234,6 +234,46 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
                 }
                 delegate.addModifierGraphicsLayer(attributes)
             }
+            is RemoteModifierOperation.Border ->
+                if (operation.dynamicColor) {
+                    delegate.addModifierDynamicBorder(
+                        operation.width,
+                        operation.roundedCorner,
+                        operation.color,
+                        operation.shapeType,
+                    )
+                } else {
+                    delegate.addModifierBorder(
+                        operation.width,
+                        operation.roundedCorner,
+                        operation.color,
+                        operation.shapeType,
+                    )
+                }
+            is RemoteModifierOperation.Visibility ->
+                delegate.addComponentVisibilityOperation(operation.valueId)
+            is RemoteModifierOperation.CollapsiblePriority ->
+                delegate.addCollapsiblePriorityModifier(operation.orientation, operation.priority)
+            is RemoteModifierOperation.AlignBy -> delegate.addAlignByModifier(operation.line)
+            is RemoteModifierOperation.Marquee ->
+                delegate.addModifierMarquee(
+                    operation.iterations,
+                    operation.animationMode,
+                    operation.repeatDelayMillis,
+                    operation.initialDelayMillis,
+                    operation.spacing,
+                    operation.velocity,
+                )
+            is RemoteModifierOperation.AnimationSpec ->
+                delegate.addAnimationSpecModifier(
+                    operation.animationId,
+                    operation.motionDuration,
+                    operation.motionEasingType,
+                    operation.visibilityDuration,
+                    operation.visibilityEasingType,
+                    operation.enterAnimation,
+                    operation.exitAnimation,
+                )
         }
     }
 

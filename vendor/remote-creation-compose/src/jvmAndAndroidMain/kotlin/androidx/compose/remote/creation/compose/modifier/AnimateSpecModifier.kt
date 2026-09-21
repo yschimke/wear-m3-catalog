@@ -24,6 +24,7 @@ import androidx.compose.remote.creation.compose.state.RemoteTweenSpec
 import androidx.compose.remote.creation.compose.state.remoteTween
 import androidx.compose.remote.creation.modifiers.AnimateSpecModifier as CreationAnimateSpecModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 /** Transition effect applied when a component enters a state layout. */
 public class RemoteEnterTransition internal constructor(internal val animation: ANIMATION) {
@@ -121,6 +122,17 @@ internal class AnimateSpecModifier(
             exitAnimation,
         )
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.AnimationSpec(
+            animationId,
+            motionDuration,
+            motionEasingType,
+            visibilityDuration,
+            visibilityEasingType,
+            enterAnimation.ordinal,
+            exitAnimation.ordinal,
+        )
 }
 
 private fun extractDurationAndEasing(spec: RemoteTweenSpec): Pair<Float, Int> =

@@ -22,6 +22,7 @@ import androidx.compose.foundation.MarqueeSpacing
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.MarqueeModifier as CreationMarqueeModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 /**
  * A modifier that animates the text content to scroll across the screen like a marquee.
@@ -62,6 +63,16 @@ public class MarqueeModifier(
             velocity,
         )
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.Marquee(
+            iterations,
+            animationMode,
+            repeatDelayMillis,
+            initialDelayMillis,
+            spacing,
+            velocity,
+        )
 }
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)

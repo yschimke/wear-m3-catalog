@@ -21,6 +21,7 @@ import androidx.compose.remote.core.operations.layout.modifiers.AlignByModifierO
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.AlignByModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 /**
  * A [RemoteModifier.Element] that aligns a layout by its baseline.
@@ -36,6 +37,9 @@ internal class AlignByBaselineModifier() : RemoteModifier.Element {
     override fun RemoteStateScope.toRecordingModifierElement(): RecordingModifier.Element {
         return AlignByModifier(FIRST_BASELINE)
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        RemoteModifierOperation.AlignBy(FIRST_BASELINE)
 }
 
 /**

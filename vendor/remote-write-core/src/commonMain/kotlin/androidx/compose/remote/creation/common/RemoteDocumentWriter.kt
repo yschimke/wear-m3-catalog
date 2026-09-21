@@ -231,6 +231,57 @@ public class RemoteDocumentWriter(
           }
         }
       }
+      is RemoteModifierOperation.Border -> {
+        operation(ModifierBorder)
+        buffer.writeInt(if (modifier.dynamicColor) 2 else 0)
+        buffer.writeInt(if (modifier.dynamicColor) modifier.color else 0)
+        buffer.writeInt(0)
+        buffer.writeInt(0)
+        buffer.writeFloat(modifier.width)
+        buffer.writeFloat(modifier.roundedCorner)
+        if (modifier.dynamicColor) {
+          repeat(4) { buffer.writeFloat(0f) }
+        } else {
+          buffer.writeFloat(((modifier.color ushr 16) and 0xff) / 255f)
+          buffer.writeFloat(((modifier.color ushr 8) and 0xff) / 255f)
+          buffer.writeFloat((modifier.color and 0xff) / 255f)
+          buffer.writeFloat(((modifier.color ushr 24) and 0xff) / 255f)
+        }
+        buffer.writeInt(modifier.shapeType)
+      }
+      is RemoteModifierOperation.Visibility -> {
+        operation(ModifierVisibility)
+        buffer.writeInt(modifier.valueId)
+      }
+      is RemoteModifierOperation.CollapsiblePriority -> {
+        operation(ModifierCollapsiblePriority)
+        buffer.writeInt(modifier.orientation)
+        buffer.writeFloat(modifier.priority)
+      }
+      is RemoteModifierOperation.AlignBy -> {
+        operation(ModifierAlignBy)
+        buffer.writeFloat(modifier.line)
+        buffer.writeInt(modifier.flags)
+      }
+      is RemoteModifierOperation.Marquee -> {
+        operation(ModifierMarquee)
+        buffer.writeInt(modifier.iterations)
+        buffer.writeInt(modifier.animationMode)
+        buffer.writeFloat(modifier.repeatDelayMillis)
+        buffer.writeFloat(modifier.initialDelayMillis)
+        buffer.writeFloat(modifier.spacing)
+        buffer.writeFloat(modifier.velocity)
+      }
+      is RemoteModifierOperation.AnimationSpec -> {
+        operation(AnimationSpec)
+        buffer.writeInt(modifier.animationId)
+        buffer.writeFloat(modifier.motionDuration)
+        buffer.writeInt(modifier.motionEasingType)
+        buffer.writeFloat(modifier.visibilityDuration)
+        buffer.writeInt(modifier.visibilityEasingType)
+        buffer.writeInt(modifier.enterAnimation)
+        buffer.writeInt(modifier.exitAnimation)
+      }
     }
   }
 
@@ -1196,6 +1247,12 @@ public class RemoteDocumentWriter(
     private const val ValueFloatExpressionChange = 227
     private const val AccessibilitySemantics = 250
     private const val ModifierGraphicsLayer = 224
+    private const val ModifierBorder = 107
+    private const val ModifierVisibility = 211
+    private const val ModifierMarquee = 228
+    private const val ModifierCollapsiblePriority = 235
+    private const val ModifierAlignBy = 237
+    private const val AnimationSpec = 14
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39
