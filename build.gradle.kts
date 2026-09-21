@@ -1,4 +1,5 @@
 import groovy.json.JsonSlurper
+import org.gradle.api.attributes.Bundling
 import org.gradle.api.publish.PublishingExtension
 
 plugins {
@@ -53,6 +54,39 @@ allprojects {
       }
     }
 }
+
+// The UI-builder renderer graph is intentionally absent unless `composeUiBuilderDir` enables its
+// source composite (settings.gradle.kts). Its Kotlin still needs the same formatter on ordinary CI
+// runs, so this root task invokes ktfmt directly over those source trees without adding their
+// unresolvable synthetic SDK dependency to the build graph.
+val uiBuilderRendererKtfmt by configurations.creating {
+  attributes {
+    attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling::class, Bundling.SHADOWED))
+  }
+}
+
+dependencies { uiBuilderRendererKtfmt(libs.ktfmt.cli) }
+
+val uiBuilderRendererKotlinSources =
+  files(
+    fileTree("catalog-ui-builder-renderer") { include("src/**/*.kt") },
+    fileTree("remote-catalog-ui-builder-renderer") { include("src/**/*.kt") },
+    fileTree("ui-builder-foundation-adapters") { include("src/**/*.kt") },
+    fileTree("ui-builder-material-adapters") { include("src/**/*.kt") },
+    fileTree("ui-builder-wear-adapters") { include("src/**/*.kt") },
+  )
+val ktfmtCheckUiBuilderRendererSources by
+  tasks.registering(JavaExec::class) {
+    group = "verification"
+    description = "Checks the opt-in UI-builder renderer sources with ktfmt."
+    classpath = uiBuilderRendererKtfmt
+    mainClass.set("com.facebook.ktfmt.cli.Main")
+    inputs.files(uiBuilderRendererKotlinSources).withPathSensitivity(PathSensitivity.RELATIVE)
+    args("--google-style", "--dry-run", "--set-exit-if-changed")
+    args(uiBuilderRendererKotlinSources.files)
+  }
+
+tasks.named("ktfmtCheck") { dependsOn(ktfmtCheckUiBuilderRendererSources) }
 
 configure(publishedRemoteComposeProjects.map(::project)) {
   group = "ee.schimke.remotecompose"
