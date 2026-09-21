@@ -36,13 +36,26 @@ before Typography()
 after Typography(): 16.0.sp
 ```
 
-The production executable currently prints the first line and then fails from minified JavaScript:
+The production executable at `/` prints the first line and then fails from minified JavaScript:
 
 ```text
 before Typography()
 TypeError: <minified> is not a function
 ```
 
-The equivalent constructor works on JVM, Android, and a Wasm development executable. This places
-the defect below Remote Material 3's composable content lambdas: `RemoteTypography()` initializes
-its defaults from Wear `Typography()`, so the constructor failed before composition began.
+The failing minified function is Skiko's
+`org_jetbrains_skia_FontMgr__1nDefault`. The call occurs before Skiko's Wasm side module has installed
+its native exports; it is not a Typography or composable-lambda optimizer failure.
+
+Open `/?awaitSkiko` to run the same constructor after Skiko's public `awaitSkiko` promise resolves.
+The optimized executable then succeeds:
+
+```text
+awaiting Skiko
+before Typography()
+after Typography(): 16.0.sp
+```
+
+The equivalent constructor also works on JVM, Android, and a Wasm development executable. Remote
+Material 3 reaches this path because `RemoteTypography()` initializes its defaults from Wear
+`Typography()`.
