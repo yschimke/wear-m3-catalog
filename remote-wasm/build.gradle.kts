@@ -8,6 +8,7 @@ kotlin {
   @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
   wasmJs {
     browser()
+    nodejs()
     outputModuleName.set("remoteComposeWasm")
     binaries.executable()
   }

@@ -21,6 +21,12 @@ the vendored JVM applier and writes the encoded document to
 `remote-desktop/build/desktop-sample.rc`; it does not use Robolectric or any Android API.
 `DesktopCaptureTest` repeats the capture and checks that its bytes are non-empty and deterministic.
 
+The Wasm target expresses the default Remote Material typography directly in `RemoteTextStyle`
+tokens. This avoids constructing the CMP Wear `Typography` intermediary, whose large default-argument
+constructor is currently miscompiled only by Kotlin/Wasm production optimization. Android and JVM
+retain AndroidX's original `Typography` conversion. `:remote-wasm:wasmJsNodeProductionRun` is the
+optimized regression gate; `repro/wasm-typography` keeps the underlying compiler failure isolated.
+
 ## Write-only core extraction
 
 `:vendor:remote-core` begins phase 3 by merging the JVM writer stack that AndroidX publishes as
