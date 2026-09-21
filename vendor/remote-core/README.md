@@ -68,6 +68,10 @@ platform modifier objects. Width, height, padding, background, rectangular clipp
 z-index, ripple and draw-content already have byte-parity coverage; layout nodes continue using the
 legacy sink until every modifier and text component can enter the buffered structural path together.
 
+Full CoreText layout payloads now also have a common typed representation, including dynamic color,
+font sizing, line behavior, decoration and variable-font axes. The common encoder matches the Java
+oracle byte-for-byte without discovering declarations while writing nested layout content.
+
 The Desktop graph substitutes all three original Maven coordinates with this project. Android keeps
 the published `remote-creation` variant temporarily because its bitmap and path adapters use Android
 platform types.

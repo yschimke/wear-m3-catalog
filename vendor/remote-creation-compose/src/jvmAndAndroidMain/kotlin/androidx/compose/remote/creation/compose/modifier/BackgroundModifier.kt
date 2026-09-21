@@ -25,6 +25,7 @@ import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.DynamicSolidBackgroundModifier
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.modifiers.SolidBackgroundModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 internal data class BackgroundModifier(val color: RemoteColor) : RemoteModifier.Element {
     @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -40,6 +41,29 @@ internal data class BackgroundModifier(val color: RemoteColor) : RemoteModifier.
             DynamicSolidBackgroundModifier(color.id)
         }
     }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
+        if (color.hasConstantValue) {
+            RemoteModifierOperation.Background(
+                flags = 0,
+                colorId = 0,
+                red = color.red.floatId,
+                green = color.green.floatId,
+                blue = color.blue.floatId,
+                alpha = color.alpha.floatId,
+                shape = 0,
+            )
+        } else {
+            RemoteModifierOperation.Background(
+                flags = 2,
+                colorId = color.id,
+                red = 0f,
+                green = 0f,
+                blue = 0f,
+                alpha = 0f,
+                shape = 0,
+            )
+        }
 }
 
 /**

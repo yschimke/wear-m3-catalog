@@ -22,6 +22,7 @@ import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.modifiers.WidthInModifier as CreationWidthInModifier
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 
 internal class WidthInModifier(val min: RemoteDp? = null, val max: RemoteDp? = null) :
     RemoteModifier.Element {
@@ -37,6 +38,14 @@ internal class WidthInModifier(val min: RemoteDp? = null, val max: RemoteDp? = n
             maxValue = if (isPixels) max.toPx().floatId else max.value.floatId
         }
         return CreationWidthInModifier(minValue, maxValue)
+    }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
+        val isPixels = densityBehavior == RemoteDensityBehavior.Pixels
+        val minValue = min?.let { if (isPixels) it.toPx().floatId else it.value.floatId } ?: 0f
+        val maxValue =
+            max?.let { if (isPixels) it.toPx().floatId else it.value.floatId } ?: Float.MAX_VALUE
+        return RemoteModifierOperation.WidthIn(minValue, maxValue)
     }
 }
 

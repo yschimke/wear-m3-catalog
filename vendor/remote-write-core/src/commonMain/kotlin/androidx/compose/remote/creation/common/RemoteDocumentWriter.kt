@@ -143,12 +143,79 @@ public class RemoteDocumentWriter(
         buffer.writeInt(modifier.shape)
       }
       RemoteModifierOperation.ClipRect -> operation(ModifierClipRect)
+      is RemoteModifierOperation.RoundedClipRect ->
+        floats(
+          ModifierRoundedClipRect,
+          modifier.topStart,
+          modifier.topEnd,
+          modifier.bottomStart,
+          modifier.bottomEnd,
+        )
+      is RemoteModifierOperation.WidthIn -> floats(ModifierWidthIn, modifier.min, modifier.max)
+      is RemoteModifierOperation.HeightIn -> floats(ModifierHeightIn, modifier.min, modifier.max)
       is RemoteModifierOperation.Offset -> floats(ModifierOffset, modifier.x, modifier.y)
       is RemoteModifierOperation.ZIndex -> floats(ModifierZIndex, modifier.value)
       RemoteModifierOperation.Ripple -> operation(ModifierRipple)
       RemoteModifierOperation.DrawContent -> operation(ModifierDrawContent)
     }
   }
+
+  override fun startText(data: RemoteTextData) {
+    require(data.fontAxisIds.size == data.fontAxisValues.size)
+    operation(CoreText)
+    buffer.writeInt(data.textId)
+    val parameters = mutableListOf<() -> Unit>()
+    fun int(id: Int, value: Int, default: Int) {
+      if (value != default) parameters += { buffer.writeByte(id); buffer.writeInt(value) }
+    }
+    fun float(id: Int, value: Float, default: Float) {
+      if (value != default) parameters += { buffer.writeByte(id); buffer.writeFloat(value) }
+    }
+    fun boolean(id: Int, value: Boolean) {
+      if (value) parameters += { buffer.writeByte(id); buffer.writeByte(1) }
+    }
+    int(1, resolveComponentId(data.modifier.componentId), -1)
+    int(3, data.color, 0xff000000.toInt())
+    int(4, data.colorId, -1)
+    float(5, data.fontSize, 36f)
+    float(25, data.minFontSize, -1f)
+    float(26, data.maxFontSize, -1f)
+    int(6, data.fontStyle, 0)
+    float(7, data.fontWeight, 400f)
+    int(8, data.fontFamilyId, -1)
+    int(9, data.textAlign, 1)
+    int(10, data.overflow, 1)
+    int(11, data.maxLines, Int.MAX_VALUE)
+    float(12, data.letterSpacing, 0f)
+    float(13, data.lineHeightAdd, 0f)
+    float(14, data.lineHeightMultiplier, 1f)
+    int(15, data.lineBreakStrategy, 0)
+    int(16, data.hyphenationFrequency, 0)
+    int(17, data.justificationMode, 0)
+    boolean(18, data.underline)
+    boolean(19, data.strikethrough)
+    if (data.fontAxisIds.isNotEmpty()) {
+      parameters += {
+        buffer.writeByte(20)
+        buffer.writeShort(data.fontAxisIds.size)
+        data.fontAxisIds.forEach(buffer::writeInt)
+      }
+      parameters += {
+        buffer.writeByte(21)
+        buffer.writeShort(data.fontAxisValues.size)
+        data.fontAxisValues.forEach(buffer::writeFloat)
+      }
+    }
+    boolean(22, data.autosize)
+    int(23, data.flags, 0)
+    int(24, data.textStyleId, -1)
+    buffer.writeShort(parameters.size)
+    parameters.forEach { it() }
+    data.modifier.writeTo(this)
+    contentSection()
+  }
+
+  override fun endText(): Unit = endLayout()
 
   public fun column(
     horizontal: Int = HorizontalStart,
@@ -973,6 +1040,9 @@ public class RemoteDocumentWriter(
     private const val ModifierBackground = 55
     private const val ModifierPadding = 58
     private const val ModifierClipRect = 108
+    private const val ModifierRoundedClipRect = 54
+    private const val ModifierWidthIn = 231
+    private const val ModifierHeightIn = 232
     private const val ModifierDrawContent = 174
     private const val ModifierOffset = 221
     private const val ModifierZIndex = 223

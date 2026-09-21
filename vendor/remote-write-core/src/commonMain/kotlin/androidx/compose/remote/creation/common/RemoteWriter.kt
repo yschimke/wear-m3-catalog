@@ -40,6 +40,8 @@ public interface RemoteWriter {
   public fun startStateLayout(modifier: RemoteModifierData, indexId: Int)
   public fun endStateLayout()
   public fun writeModifier(operation: RemoteModifierOperation)
+  public fun startText(data: RemoteTextData)
+  public fun endText()
 
   public fun setNamedVariable(id: Int, name: String, type: Int)
 

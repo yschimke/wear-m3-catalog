@@ -5,6 +5,7 @@ import androidx.compose.remote.creation.common.BitmapFontGlyph
 import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteModifierOperation
+import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 
@@ -134,11 +135,61 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
                 }
             }
             RemoteModifierOperation.ClipRect -> delegate.addClipRectModifier()
+            is RemoteModifierOperation.RoundedClipRect ->
+                delegate.addRoundClipRectModifier(
+                    operation.topStart,
+                    operation.topEnd,
+                    operation.bottomStart,
+                    operation.bottomEnd,
+                )
+            is RemoteModifierOperation.WidthIn ->
+                delegate.addWidthInModifierOperation(operation.min, operation.max)
+            is RemoteModifierOperation.HeightIn ->
+                delegate.addHeightInModifierOperation(operation.min, operation.max)
             is RemoteModifierOperation.Offset -> delegate.addModifierOffset(operation.x, operation.y)
             is RemoteModifierOperation.ZIndex -> delegate.addModifierZIndex(operation.value)
             RemoteModifierOperation.Ripple -> delegate.addModifierRipple()
             RemoteModifierOperation.DrawContent -> delegate.addDrawContentOperation()
         }
+    }
+
+    override fun startText(data: RemoteTextData) {
+        delegate.buffer.addTextComponentStart(
+            data.modifier.componentId,
+            -1,
+            data.textId,
+            data.textStyleId,
+            data.color,
+            data.colorId,
+            data.fontSize,
+            data.minFontSize,
+            data.maxFontSize,
+            data.fontStyle,
+            data.fontWeight,
+            data.fontFamilyId,
+            data.textAlign,
+            data.overflow,
+            data.maxLines,
+            data.letterSpacing,
+            data.lineHeightAdd,
+            data.lineHeightMultiplier,
+            data.lineBreakStrategy,
+            data.hyphenationFrequency,
+            data.justificationMode,
+            data.underline,
+            data.strikethrough,
+            data.fontAxisIds,
+            data.fontAxisValues,
+            data.autosize,
+            data.flags,
+        )
+        data.modifier.writeTo(this)
+        delegate.buffer.addContentStart()
+    }
+
+    override fun endText() {
+        delegate.buffer.addContainerEnd()
+        delegate.buffer.addContainerEnd()
     }
 
     override fun setNamedVariable(id: Int, name: String, type: Int) =

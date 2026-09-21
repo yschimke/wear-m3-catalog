@@ -3,6 +3,7 @@ package androidx.compose.remote.creation.compose.capture
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteModifierData
+import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.RemotePath
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 import androidx.compose.remote.creation.compose.state.RemoteFloat
@@ -115,6 +116,16 @@ internal sealed interface WriterOp {
     data object EndStateLayout : WriterOp {
         override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
             writer.endStateLayout()
+    }
+
+    data class StartText(val data: RemoteTextData) : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.startText(data)
+    }
+
+    data object EndText : WriterOp {
+        override fun write(writer: RemoteWriter, creationState: RemoteComposeCreationState) =
+            writer.endText()
     }
 
     data class Painted(

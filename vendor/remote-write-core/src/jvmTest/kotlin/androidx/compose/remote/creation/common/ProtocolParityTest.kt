@@ -261,6 +261,78 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun coreTextLayoutMatchesAndroidxCore() {
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addTextComponentStart(
+      -1,
+      -1,
+      42,
+      -1,
+      0xff123456.toInt(),
+      43,
+      18f,
+      10f,
+      30f,
+      1,
+      650f,
+      44,
+      2,
+      0,
+      3,
+      1.5f,
+      2f,
+      1.2f,
+      1,
+      2,
+      0,
+      true,
+      true,
+      intArrayOf(45),
+      floatArrayOf(0.5f),
+      true,
+      7,
+    )
+    expected.addContentStart()
+    expected.addContainerEnd()
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.startText(
+      RemoteTextData(
+        RemoteModifierData(),
+        textId = 42,
+        color = 0xff123456.toInt(),
+        colorId = 43,
+        fontSize = 18f,
+        minFontSize = 10f,
+        maxFontSize = 30f,
+        fontStyle = 1,
+        fontWeight = 650f,
+        fontFamilyId = 44,
+        textAlign = 2,
+        overflow = 0,
+        maxLines = 3,
+        letterSpacing = 1.5f,
+        lineHeightAdd = 2f,
+        lineHeightMultiplier = 1.2f,
+        lineBreakStrategy = 1,
+        hyphenationFrequency = 2,
+        underline = true,
+        strikethrough = true,
+        fontAxisIds = intArrayOf(45),
+        fontAxisValues = floatArrayOf(0.5f),
+        autosize = true,
+        flags = 7,
+      )
+    )
+    writer.endText()
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun longStateOperationsMatchAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addLong(42, 0x1020304050607080L)

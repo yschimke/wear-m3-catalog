@@ -31,6 +31,7 @@ import androidx.compose.remote.creation.modifiers.ClipModifier as CoreClipModifi
 import androidx.compose.remote.creation.modifiers.RecordingModifier
 import androidx.compose.remote.creation.modifiers.RectShape as CoreRectShape
 import androidx.compose.remote.creation.modifiers.RoundedRectShape as CoreRoundedRectShape
+import androidx.compose.remote.creation.common.RemoteModifierOperation
 import androidx.compose.ui.unit.LayoutDirection
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
@@ -79,6 +80,44 @@ public class ClipModifier(public val shape: RemoteShape = RemoteRectangleShape) 
             }
 
         return CoreClipModifier(coreShape)
+    }
+
+    override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation {
+        if (shape == RemoteRectangleShape) return RemoteModifierOperation.ClipRect
+        val context = RemoteFloatContext(this)
+        val remoteSize = RemoteSize(context.componentWidth(), context.componentHeight())
+        if (shape == RemoteCircleShape) {
+            val radius =
+                if (densityBehavior == RemoteDensityBehavior.Dp) {
+                    min(remoteSize.width, remoteSize.height) / remoteDensity.density / 2f
+                } else {
+                    min(remoteSize.width, remoteSize.height) / 2f
+                }
+            return RemoteModifierOperation.RoundedClipRect(
+                radius.floatId,
+                radius.floatId,
+                radius.floatId,
+                radius.floatId,
+            )
+        }
+        if (shape is RemoteRoundedCornerShape) {
+            val isRtl = layoutDirection == LayoutDirection.Rtl
+            return RemoteModifierOperation.RoundedClipRect(
+                (if (isRtl) shape.topEnd else shape.topStart)
+                    .toDimension(remoteSize, remoteDensity, densityBehavior)
+                    .floatId,
+                (if (isRtl) shape.topStart else shape.topEnd)
+                    .toDimension(remoteSize, remoteDensity, densityBehavior)
+                    .floatId,
+                (if (isRtl) shape.bottomEnd else shape.bottomStart)
+                    .toDimension(remoteSize, remoteDensity, densityBehavior)
+                    .floatId,
+                (if (isRtl) shape.bottomStart else shape.bottomEnd)
+                    .toDimension(remoteSize, remoteDensity, densityBehavior)
+                    .floatId,
+            )
+        }
+        return RemoteModifierOperation.ClipRect
     }
 }
 

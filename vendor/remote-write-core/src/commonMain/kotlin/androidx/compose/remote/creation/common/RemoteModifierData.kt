@@ -16,6 +16,14 @@ public sealed interface RemoteModifierOperation {
     val shape: Int,
   ) : RemoteModifierOperation
   public data object ClipRect : RemoteModifierOperation
+  public data class RoundedClipRect(
+    val topStart: Float,
+    val topEnd: Float,
+    val bottomStart: Float,
+    val bottomEnd: Float,
+  ) : RemoteModifierOperation
+  public data class WidthIn(val min: Float, val max: Float) : RemoteModifierOperation
+  public data class HeightIn(val min: Float, val max: Float) : RemoteModifierOperation
   public data class Offset(val x: Float, val y: Float) : RemoteModifierOperation
   public data class ZIndex(val value: Float) : RemoteModifierOperation
   public data object Ripple : RemoteModifierOperation
