@@ -71,6 +71,13 @@ public sealed interface RemoteModifierOperation {
     val enterAnimation: Int,
     val exitAnimation: Int,
   ) : RemoteModifierOperation
+  public data class Scroll(
+    val direction: Int,
+    val position: Float,
+    val maximum: Float,
+    val notchMaximum: Float,
+    val notches: Int,
+  ) : RemoteModifierOperation
 }
 
 public sealed interface RemoteLayerAttribute {

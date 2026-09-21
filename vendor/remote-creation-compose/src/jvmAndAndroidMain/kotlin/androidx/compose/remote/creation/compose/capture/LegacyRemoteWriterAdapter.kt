@@ -15,6 +15,11 @@ import androidx.compose.remote.core.operations.layout.modifiers.HostNamedActionO
 import androidx.compose.remote.core.semantics.CoreSemantics
 import androidx.compose.remote.creation.common.RemoteWriter
 import androidx.compose.remote.creation.common.DrawTextOnCircle
+import androidx.compose.remote.core.RemoteContext
+import androidx.compose.remote.core.operations.TouchExpression
+import androidx.compose.remote.core.operations.Utils
+import androidx.compose.remote.core.operations.layout.modifiers.ScrollModifierOperation
+import androidx.compose.remote.core.operations.utilities.AnimatedFloatExpression
 
 /** Temporary adapter while the common Kotlin encoder replaces [RemoteComposeWriter]. */
 internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWriter) : RemoteWriter {
@@ -274,6 +279,36 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
                     operation.enterAnimation,
                     operation.exitAnimation,
                 )
+            is RemoteModifierOperation.Scroll -> {
+                ScrollModifierOperation.apply(
+                    delegate.buffer.buffer,
+                    operation.direction,
+                    operation.position,
+                    operation.maximum,
+                    operation.notchMaximum,
+                )
+                delegate.buffer.addTouchExpression(
+                    Utils.idFromNan(operation.position),
+                    0f,
+                    0f,
+                    operation.maximum,
+                    0f,
+                    3,
+                    floatArrayOf(
+                        if (operation.direction != 0) RemoteContext.FLOAT_TOUCH_POS_X
+                        else RemoteContext.FLOAT_TOUCH_POS_Y,
+                        -1f,
+                        AnimatedFloatExpression.MUL,
+                    ),
+                    if (operation.notches > 0) TouchExpression.STOP_NOTCHES_EVEN
+                    else TouchExpression.STOP_GENTLY,
+                    if (operation.notches > 0)
+                        floatArrayOf(operation.notches.toFloat(), operation.notchMaximum)
+                    else null,
+                    null,
+                )
+                delegate.buffer.addContainerEnd()
+            }
         }
     }
 

@@ -421,6 +421,47 @@ class ProtocolParityTest {
   }
 
   @Test
+  fun scrollModifiersMatchAndroidxCore() {
+    val position = Utils.asNan(42)
+    val maximum = Utils.asNan(43)
+    val notchMaximum = Utils.asNan(44)
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    androidx.compose.remote.core.WriteOperations.scrollModifier(
+      expected.buffer,
+      1,
+      position,
+      maximum,
+      notchMaximum,
+    )
+    expected.addTouchExpression(
+      42,
+      0f,
+      0f,
+      maximum,
+      0f,
+      3,
+      floatArrayOf(
+        androidx.compose.remote.core.RemoteContext.FLOAT_TOUCH_POS_X,
+        -1f,
+        androidx.compose.remote.core.operations.utilities.AnimatedFloatExpression.MUL,
+      ),
+      androidx.compose.remote.core.operations.TouchExpression.STOP_NOTCHES_EVEN,
+      floatArrayOf(5f, notchMaximum),
+      null,
+    )
+    expected.addContainerEnd()
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(
+      RemoteModifierOperation.Scroll(1, position, maximum, notchMaximum, notches = 5)
+    )
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  @Test
   fun coreTextLayoutMatchesAndroidxCore() {
     val expected = androidx.compose.remote.core.RemoteComposeBuffer()
     expected.addTextComponentStart(

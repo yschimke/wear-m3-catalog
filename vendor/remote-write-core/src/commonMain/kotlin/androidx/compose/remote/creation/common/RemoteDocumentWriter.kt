@@ -282,6 +282,34 @@ public class RemoteDocumentWriter(
         buffer.writeInt(modifier.enterAnimation)
         buffer.writeInt(modifier.exitAnimation)
       }
+      is RemoteModifierOperation.Scroll -> {
+        operation(ModifierScroll)
+        buffer.writeInt(modifier.direction)
+        buffer.writeFloat(modifier.position)
+        buffer.writeFloat(modifier.maximum)
+        buffer.writeFloat(modifier.notchMaximum)
+
+        operation(TouchExpression)
+        buffer.writeInt(Utils.idFromNan(modifier.position))
+        buffer.writeFloat(0f)
+        buffer.writeFloat(0f)
+        buffer.writeFloat(modifier.maximum)
+        buffer.writeFloat(0f)
+        buffer.writeInt(3)
+        buffer.writeInt(3)
+        buffer.writeFloat(Utils.asNan(if (modifier.direction != 0) 13 else 14))
+        buffer.writeFloat(-1f)
+        buffer.writeFloat(Utils.asNan(0x310003))
+        if (modifier.notches > 0) {
+          buffer.writeInt((3 shl 16) or 2)
+          buffer.writeFloat(modifier.notches.toFloat())
+          buffer.writeFloat(modifier.notchMaximum)
+        } else {
+          buffer.writeInt(0)
+        }
+        buffer.writeInt(0)
+        containerEnd()
+      }
     }
   }
 
@@ -1253,6 +1281,8 @@ public class RemoteDocumentWriter(
     private const val ModifierCollapsiblePriority = 235
     private const val ModifierAlignBy = 237
     private const val AnimationSpec = 14
+    private const val TouchExpression = 157
+    private const val ModifierScroll = 226
     private const val ContainerEnd = 214
     private const val CoreText = 239
     private const val ClipRect = 39
