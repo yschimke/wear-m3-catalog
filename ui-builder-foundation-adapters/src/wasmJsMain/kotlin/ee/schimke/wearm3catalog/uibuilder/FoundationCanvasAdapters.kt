@@ -18,6 +18,8 @@ import ee.schimke.composeai.uibuilder.alignmentFor
 import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
 import ee.schimke.composeai.uibuilder.uiBuilderModifier
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.contentOrNull
 
 /** Foundation donor adapters compiled into this catalog runtime, never interpreted by the host. */
 val foundationCanvasAdapters = canvasAdapterRegistry {
@@ -89,7 +91,8 @@ private fun CanvasNodeScope.verticalAlignment(): Alignment.Vertical =
   }
 
 private fun BoxScope.boxChildModifier(node: UiBuilderNode): Modifier {
-  var result: Modifier = Modifier
+  var result: Modifier =
+    node.propertyString("alignment")?.let { Modifier.align(alignmentFor(it)) } ?: Modifier
   node.modifierPlans().forEach { plan ->
     when (plan) {
       UiBuilderModifierPlan.MatchParentSize -> result = result.matchParentSize()
@@ -143,3 +146,6 @@ private fun RowScope.rowChildModifier(node: UiBuilderNode): Modifier {
 private fun UiBuilderNode.modifierPlans(): List<UiBuilderModifierPlan> = modifiers.mapNotNull {
   (it as? JsonObject)?.let(::uiBuilderModifier)
 }
+
+private fun UiBuilderNode.propertyString(name: String): String? =
+  ((properties[name] as? JsonObject)?.get("value") as? JsonPrimitive)?.contentOrNull

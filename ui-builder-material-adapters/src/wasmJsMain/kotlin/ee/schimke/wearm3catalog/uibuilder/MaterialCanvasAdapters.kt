@@ -2,9 +2,6 @@ package ee.schimke.wearm3catalog.uibuilder
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -14,6 +11,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.wear.compose.material3.LocalTextStyle
+import androidx.wear.compose.material3.MaterialTheme
 import ee.schimke.composeai.uibuilder.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
 import ee.schimke.composeai.uibuilder.googleMaterialIconImageVector
@@ -53,7 +52,7 @@ private fun ee.schimke.composeai.uibuilder.CanvasAdapterRegistry.Builder.materia
         imageVector = vector,
         contentDescription = string("contentDescription").ifEmpty { null },
         modifier = modifier.size(float("sizeDp", 24f).dp),
-        tint = materialColor("color", LocalContentColor.current),
+        tint = materialColor("color", MaterialTheme.colorScheme.onSurface),
       )
     }
   }
@@ -63,11 +62,11 @@ private fun ee.schimke.composeai.uibuilder.CanvasAdapterRegistry.Builder.materia
 private fun CanvasNodeScope.materialColor(name: String, fallback: Color): Color =
   when (val value = string(name)) {
     "background" -> MaterialTheme.colorScheme.background
-    "surface" -> MaterialTheme.colorScheme.surface
+    "surface" -> MaterialTheme.colorScheme.surfaceContainer
     "surfaceContainer" -> MaterialTheme.colorScheme.surfaceContainer
     "surfaceContainerLow" -> MaterialTheme.colorScheme.surfaceContainerLow
     "surfaceContainerHigh" -> MaterialTheme.colorScheme.surfaceContainerHigh
-    "surfaceContainerHighest" -> MaterialTheme.colorScheme.surfaceContainerHighest
+    "surfaceContainerHighest" -> MaterialTheme.colorScheme.surfaceContainer
     "primary" -> MaterialTheme.colorScheme.primary
     "onPrimary" -> MaterialTheme.colorScheme.onPrimary
     "tertiary" -> MaterialTheme.colorScheme.tertiary
@@ -85,9 +84,9 @@ private fun materialTextStyle(value: String): TextStyle =
     "displayLarge" -> MaterialTheme.typography.displayLarge
     "displayMedium" -> MaterialTheme.typography.displayMedium
     "displaySmall" -> MaterialTheme.typography.displaySmall
-    "headlineLarge" -> MaterialTheme.typography.headlineLarge
-    "headlineMedium" -> MaterialTheme.typography.headlineMedium
-    "headlineSmall" -> MaterialTheme.typography.headlineSmall
+    "headlineLarge" -> MaterialTheme.typography.titleLarge
+    "headlineMedium" -> MaterialTheme.typography.titleMedium
+    "headlineSmall" -> MaterialTheme.typography.titleSmall
     "titleLarge" -> MaterialTheme.typography.titleLarge
     "titleMedium" -> MaterialTheme.typography.titleMedium
     "titleSmall" -> MaterialTheme.typography.titleSmall
