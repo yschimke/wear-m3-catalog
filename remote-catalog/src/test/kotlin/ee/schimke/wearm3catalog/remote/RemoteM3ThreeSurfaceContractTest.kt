@@ -69,6 +69,27 @@ class RemoteM3ThreeSurfaceContractTest {
   }
 
   @Test
+  fun `device adapter preserves canonical layout and widget host properties`() {
+    val device =
+      File(
+          root,
+          "remote-catalog-ui-builder-renderer/src/wasmJsMain/kotlin/ee/schimke/" +
+            "wearm3catalog/remoteuibuilder/RemoteM3DevicePreview.kt",
+        )
+        .readText()
+
+    assertThat(device).contains("number(\"horizontalPaddingDp\")")
+    assertThat(device).contains("number(\"verticalPaddingDp\")")
+    assertThat(device).contains("number(\"cornerRadiusDp\")")
+    assertThat(device).contains("RenderRootSlot(\"background\")")
+    assertThat(device).contains("string(\"contentAlignment\")")
+    assertThat(device).contains("string(\"horizontalAlignment\")")
+    assertThat(device).contains("string(\"verticalAlignment\")")
+    assertThat(device).contains("string(\"horizontalArrangement\")")
+    assertThat(device).contains("string(\"verticalArrangement\")")
+  }
+
+  @Test
   fun `published CMP writer pin matches immutable port identity`() {
     val versions = File(root, "gradle/libs.versions.toml").readText()
     val published =

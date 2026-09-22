@@ -34,8 +34,8 @@ val wearWidgetCanvasAdapters = canvasAdapterRegistry {
       } ?: WidgetDefaultBackground
     WearWidgetContainerFrame(
       modifier = modifier,
-      contentWidthDp = spec.contentWidthDp.toFloat(),
-      contentHeightDp = spec.contentHeightDp.toFloat(),
+      contentWidthDp = (spec.frameWidthDp - 2f * horizontalPadding).coerceAtLeast(0f),
+      contentHeightDp = (spec.frameHeightDp - 2f * verticalPadding).coerceAtLeast(0f),
       horizontalPaddingDp = horizontalPadding,
       verticalPaddingDp = verticalPadding,
       cornerRadiusDp = cornerRadius,
