@@ -32,9 +32,12 @@ Writer and player move as an explicit compatibility pair:
   (`4307936-ps17-cmp01` at the time this contract was added);
 - player: the `rc-players` release in `gradle/libs.versions.toml` (`1.69.0` at the same point).
 
-Both values are written into `runtime-manifest.json` and verified when the renderer ZIP is built.
-The runtime is then published under an immutable, exact runtime id. No part of recovery or preview
-may resolve `latest`, substitute a merely compatible system, or follow a different catalog pin.
+Both values are pinned by the renderer's dependency graph and declared by the versioned runtime
+contract. `remote-m3` emits `compose-ui-builder-runtime/v2`, which adds `remoteComposeWriter` and
+`rcPlayer` to v1's five fields. The renderer ZIP verification checks the exact seven-field set and
+both pinned values; neither schema accepts undeclared keys. The runtime is then published under an
+immutable, exact runtime id. No part of recovery or preview may resolve `latest`, substitute a
+merely compatible system, or follow a different catalog pin.
 
 ## Failure rules
 
