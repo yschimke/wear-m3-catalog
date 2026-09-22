@@ -1,12 +1,21 @@
 package ee.schimke.wearm3catalog.uitemplate
 
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onRoot
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import ee.schimke.composeai.uibuilder.RecordFreeExport
 import ee.schimke.composeai.uibuilder.protocol.DesignDocumentV1
+import ee.schimke.wearm3catalog.uitemplate.generated.ActivityScreen
+import ee.schimke.wearm3catalog.uitemplate.generated.UntitledWearScreen
 import java.io.File
 import kotlinx.serialization.json.Json
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 
 /**
  * Every `wear-m3` template document → generated Kotlin → **compiled against this module's own
@@ -47,7 +56,11 @@ import org.junit.Test
  * `WearScreenTemplateRoundTripTest` with `-PwriteGolden=true` and read the diff. A green compile on
  * the new text is the review.
  */
+@RunWith(AndroidJUnit4::class)
+@Config(sdk = [35], qualifiers = "w192dp-h192dp-round-xhdpi")
 class WearScreenTemplateRoundTripTest {
+
+  @get:Rule val rule = createComposeRule()
 
   private val templates = listOf("wear-screen", "wear-list")
 
@@ -94,5 +107,25 @@ class WearScreenTemplateRoundTripTest {
       assertTrue("$template: no golden at ${golden.path}", golden.isFile)
       assertEquals("$template: the exporter no longer produces the checked-in source", golden.readText(), source)
     }
+  }
+
+  /**
+   * Compilation only proves that the exported API names exist. Compose this repository's checked-in
+   * generated entry points on a round Wear device as well: scaffold locals, lazy-list state and the
+   * TimeText chrome are established at composition time, where a compile-only round trip cannot
+   * reach them.
+   */
+  @Test
+  fun `generated Wear screen template composes on a round device`() {
+    rule.setContent { UntitledWearScreen() }
+    rule.waitForIdle()
+    rule.onRoot().assertIsDisplayed()
+  }
+
+  @Test
+  fun `generated Wear list template composes on a round device`() {
+    rule.setContent { ActivityScreen() }
+    rule.waitForIdle()
+    rule.onRoot().assertIsDisplayed()
   }
 }

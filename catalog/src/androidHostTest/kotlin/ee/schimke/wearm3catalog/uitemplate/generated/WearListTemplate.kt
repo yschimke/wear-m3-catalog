@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppScaffold
+import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
@@ -57,7 +58,7 @@ fun ActivityScreen() {
                         subtitle = {
                             Text(text = "4 min")
                         },
-                        modifier = Modifier.transformedHeight(this, spec),
+                        modifier = Modifier.minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     )
                 }
@@ -70,7 +71,7 @@ fun ActivityScreen() {
                         subtitle = {
                             Text(text = "8 min")
                         },
-                        modifier = Modifier.transformedHeight(this, spec),
+                        modifier = Modifier.minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     )
                 }
@@ -83,7 +84,7 @@ fun ActivityScreen() {
                         subtitle = {
                             Text(text = "12 min")
                         },
-                        modifier = Modifier.transformedHeight(this, spec),
+                        modifier = Modifier.minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     )
                 }
@@ -96,7 +97,7 @@ fun ActivityScreen() {
                         subtitle = {
                             Text(text = "16 min")
                         },
-                        modifier = Modifier.transformedHeight(this, spec),
+                        modifier = Modifier.minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     )
                 }
@@ -109,7 +110,7 @@ fun ActivityScreen() {
                         subtitle = {
                             Text(text = "20 min")
                         },
-                        modifier = Modifier.transformedHeight(this, spec),
+                        modifier = Modifier.minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     )
                 }
@@ -122,7 +123,7 @@ fun ActivityScreen() {
                         subtitle = {
                             Text(text = "24 min")
                         },
-                        modifier = Modifier.transformedHeight(this, spec),
+                        modifier = Modifier.minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding).transformedHeight(this, spec),
                         transformation = SurfaceTransformation(spec),
                     )
                 }
