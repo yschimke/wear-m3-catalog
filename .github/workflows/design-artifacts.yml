@@ -195,6 +195,7 @@ jobs:
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
     with:
       system: wear-m3-catalog
+      artifact-repository: yschimke/wear-m3-catalog-out
       spec: catalog.spec.json
       module: ':catalog'
 
@@ -306,6 +307,7 @@ jobs:
       reference-cache-branch: design-parity/reference
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
     secrets:
+      artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
       # Publishes the `figma:` entries in design-map.json as design references on the delivery
       # branch, which feeds the preview server's PNG ↔ Design reference lane. Without it those
       # entries are skipped with a warning and the catalog still publishes.
@@ -326,6 +328,7 @@ jobs:
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
     with:
       system: remote-m3
+      artifact-repository: yschimke/wear-m3-catalog-out
       spec: remote-catalog/catalog.spec.json
       module: ':remote-catalog'
 
@@ -470,6 +473,7 @@ jobs:
       # every published reference to chase a problem this sheet may not have. Left for evidence.
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
     secrets:
+      artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
       # The reference rasteriser. Without it the `figma:` entries in the projected design map are
       # "skipped with a warning and the rest of the manifest still publishes" — which is exactly
       # the state this sheet has been in: `catalog.json` declares a `reference` on 19 of its 45
@@ -494,6 +498,7 @@ jobs:
     uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
     with:
       system: wear-m3-samples
+      artifact-repository: yschimke/wear-m3-catalog-out
       spec: samples-catalog/catalog.spec.json
       module: ':samples-catalog'
 
@@ -568,3 +573,5 @@ jobs:
       # plain `androidx.compose.ui.tooling.preview.Preview`, 34 carried by upstream's own sources
       # and 115 by the generated wrappers, verified against the vendored tree rather than assumed.
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
+    secrets:
+      artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
