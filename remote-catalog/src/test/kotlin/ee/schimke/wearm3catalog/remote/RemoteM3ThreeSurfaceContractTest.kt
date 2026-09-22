@@ -3,6 +3,7 @@ package ee.schimke.wearm3catalog.remote
 import com.google.common.truth.Truth.assertThat
 import java.io.File
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.junit.Test
@@ -66,6 +67,45 @@ class RemoteM3ThreeSurfaceContractTest {
     assertThat(device).contains("node.boolean(\"enabled\", true)")
     assertThat(device).contains("entry.slot(\"content\")")
     assertThat(device).contains("Unsupported: ${'$'}{node.componentId}")
+  }
+
+  @Test
+  fun `Golden Widget Remote components are discovered without orphaned policies`() {
+    val build = File(root, "remote-catalog/build/compose-previews")
+    val components =
+      Json.parseToJsonElement(File(build, "components.json").readText())
+        .jsonObject
+        .getValue("components")
+        .jsonArray
+        .map { it.jsonObject.getValue("canonicalId").jsonPrimitive.content }
+        .toSet()
+    val uiBuilder = Json.parseToJsonElement(File(build, "ui-builder.json").readText()).jsonObject
+    val published =
+      uiBuilder.getValue("statusSemantics").jsonObject.getValue("components").jsonObject.keys
+    val required =
+      mapOf(
+        "remote-m3/remote-text" to
+          "remote-catalog/androidx.wear.compose.remote.material3.RemoteTextKt.RemoteText",
+        "remote-m3/remote-button" to
+          "remote-catalog/androidx.wear.compose.remote.material3.RemoteButtonKt.RemoteButton",
+        "remote-m3/remote-compact-button" to
+          "remote-catalog/androidx.wear.compose.remote.material3.RemoteButtonKt.RemoteCompactButton",
+        "remote-m3/remote-circular-progress-indicator" to
+          "remote-catalog/androidx.wear.compose.remote.material3.RemoteCircularProgressIndicatorKt." +
+            "RemoteCircularProgressIndicator",
+      )
+
+    assertThat(components).containsAtLeastElementsIn(required.values)
+    assertThat(published).containsAtLeastElementsIn(required.keys)
+
+    val orphaned =
+      uiBuilder
+        .getValue("diagnostics")
+        .jsonArray
+        .map { it.jsonObject }
+        .filter { it.getValue("code").jsonPrimitive.content == "component.policy.orphaned" }
+        .map { it.getValue("subject").jsonPrimitive.content }
+    assertThat(orphaned).containsNoneIn(required.keys)
   }
 
   @Test
