@@ -170,6 +170,10 @@ configurations.configureEach {
 }
 
 dependencies {
+  // Pin the atomic Emoji2 family rather than inheriting Compose UI / AppCompat's 1.4.0 floor.
+  // Render packaging hashes the selected AAR, so an implicit old selection is not harmless.
+  implementation(libs.androidx.emoji2)
+
   // NO Compose BOM, deliberately — `:catalog` has one and this module must not share it.
   // `wear-compose-remote-material3`'s POM pulls the Compose 1.11 runtime for foundation / runtime /
   // ui, and the alpha remote runtime aligns with that line. Pinning explicit prerelease versions
