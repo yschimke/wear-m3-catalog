@@ -87,6 +87,8 @@ val generateRuntimePolicy by
   }
 
 kotlin {
+  jvm()
+
   @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
   wasmJs {
     browser()
@@ -109,6 +111,12 @@ kotlin {
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
       implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+    }
+    jvmTest.dependencies {
+      implementation(kotlin("test"))
+      @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class) @Suppress("DEPRECATION")
+      implementation(compose.uiTest)
+      implementation(compose.desktop.currentOs)
     }
     wasmJsMain { kotlin.srcDir(generateRuntimePolicy) }
   }
@@ -257,7 +265,7 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
 
 tasks.register<VerifyCatalogRendererRuntime>("verifyRendererRuntime") {
   group = "verification"
-  dependsOn(rendererArchive)
+  dependsOn(rendererArchive, "jvmTest")
   archiveFile.set(rendererArchive.flatMap { it.archiveFile })
   expectedRuntimeId.set(runtimeIdentity)
   expectedWriterVersion.set(remoteComposeWriterVersion)
