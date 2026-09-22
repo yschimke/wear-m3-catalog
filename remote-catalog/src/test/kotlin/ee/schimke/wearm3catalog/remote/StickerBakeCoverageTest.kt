@@ -68,9 +68,14 @@ class StickerBakeCoverageTest {
    * either label, not the checkbox — with the split row one function over offered as proof that the
    * plain row's disabled path was the gap. It was the same player, and the same three causes: on
    * 1.59.2 that cell bakes 33449 drawn pixels against the enabled row's 33540, which is the whole
-   * row. The lane branch went with it, so this map is now unconditionally empty.
+   * row. The lane branch went with it.
    *
-   * So all thirteen entries are deleted rather than retargeted, and the cells stand as ordinary
+   * The released lane's fifty left-side vertical-page-indicator cells followed when remote-core
+   * started supplying the transform origin used by their `scaleX = -1` mirror. Those captures now
+   * draw at all five device sizes, so that lane branch is gone too and this map is unconditionally
+   * empty.
+   *
+   * All sixty-three entries are deleted rather than retargeted, and the cells stand as ordinary
    * comparisons. That is exactly what the second assertion below was built to force: it fails the
    * day a known-blank capture stops being blank, which is how this gap announced its own closure
    * instead of quietly persisting as an exemption nobody rechecked.
@@ -84,31 +89,7 @@ class StickerBakeCoverageTest {
    * catches a library that starts drawing — it could not have caught this, because the library was
    * never the one at fault.
    */
-  private val knownBlank: Map<String, String> =
-    if (onSnapshotLane) {
-      emptyMap()
-    } else {
-      listOf(192, 204, 216, 225, 240)
-        .flatMap { size ->
-          listOf(
-              "left",
-              "left-five-pages",
-              "left-many-pages",
-              "left-many-pages-end",
-              "left-many-pages-middle",
-              "left-six-pages",
-              "left-six-pages-end",
-              "left-six-pages-middle",
-              "left-three-pages",
-              "left-two-pages",
-            )
-            .map { cell -> "VerticalPageIndicatorRemote_${size}dp_VARIANT_$cell" }
-        }
-        .associateWith {
-          "released remote-core defaults an omitted graphics-layer transform origin to 0, so the " +
-            "left-side scaleX = -1 mirror is clipped outside its layer"
-        }
-    }
+  private val knownBlank: Map<String, String> = emptyMap()
 
   /**
    * `<stem>_VARIANT_<cell>`, the identity a [knownBlank] entry names, or null for a base render.

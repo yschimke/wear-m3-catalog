@@ -140,13 +140,6 @@ class RemoteRenderTest {
           "leave one frame",
     )
 
-  private val RELEASED_VERTICAL_PAGE_INDICATORS_BLANK_WHEN_MIRRORED: Map<String, String> =
-    listOf(192, 204, 216, 225, 240).associate { size ->
-      "VerticalPageIndicatorRemote_${size}dp" to
-        "released remote-core defaults the omitted transform origin to 0, so the left-side " +
-          "scaleX = -1 mirror is clipped outside its layer"
-    }
-
   /**
    * The pairs that are **expected** to render identically, each one a state the LIBRARY collapses
    * rather than a cell that varies nothing — the duplicate twin of
@@ -220,9 +213,7 @@ class RemoteRenderTest {
           "to miss. Exactly six pairs, held by expectedCollapses",
     ) +
       if (onSnapshotLane) EDGE_BUTTON_FILLED_STYLES_COLLAPSE_WHEN_DISABLED
-      else
-        CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED +
-          RELEASED_VERTICAL_PAGE_INDICATORS_BLANK_WHEN_MIRRORED
+      else CONTAINED_ICON_BUTTONS_COLLAPSE_WHEN_DISABLED
 
   /**
    * How many pairs a [knownDuplicate] component is allowed to collapse into.
@@ -256,7 +247,6 @@ class RemoteRenderTest {
    */
   private val expectedCollapses: Map<String, Int> =
     mapOf("TitleCardRemote" to 6) +
-      (if (!onSnapshotLane) mapOf("LoadingRemoteButton" to 3) else emptyMap()) +
       (if (onSnapshotLane) mapOf("ValueStepperRemote" to 2) else emptyMap())
 
   /**
