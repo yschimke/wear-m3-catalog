@@ -185,7 +185,7 @@ abstract class AssembleCatalogRendererRuntime : DefaultTask() {
     output
       .resolve("runtime-manifest.json")
       .writeText(
-        """{"schema":"compose-ui-builder-runtime/v1","runtimeId":"${runtimeId.get()}","protocolVersion":2,"entrypoint":"index.html","remoteComposeWriter":"${writerVersion.get()}","rcPlayer":"${playerVersion.get()}","integritySha256":"$integrity"}"""
+        """{"schema":"compose-ui-builder-runtime/v2","runtimeId":"${runtimeId.get()}","protocolVersion":2,"entrypoint":"index.html","integritySha256":"$integrity","remoteComposeWriter":"${writerVersion.get()}","rcPlayer":"${playerVersion.get()}"}"""
       )
   }
 
@@ -254,11 +254,28 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
         "renderer archive contains an unsafe path"
       }
       val manifest = zip.getInputStream(zip.getEntry("runtime-manifest.json")).reader().readText()
-      check(manifest.contains("\"runtimeId\":\"${expectedRuntimeId.get()}\""))
-      check(manifest.contains("\"protocolVersion\":2"))
-      check(manifest.contains("\"remoteComposeWriter\":\"${expectedWriterVersion.get()}\""))
-      check(manifest.contains("\"rcPlayer\":\"${expectedPlayerVersion.get()}\""))
-      check(manifest.contains(Regex("\"integritySha256\":\"[a-f0-9]{64}\"")))
+      val parsed = groovy.json.JsonSlurper().parseText(manifest) as Map<String, Any>
+      check(
+        parsed.keys ==
+          setOf(
+            "schema",
+            "runtimeId",
+            "protocolVersion",
+            "entrypoint",
+            "integritySha256",
+            "remoteComposeWriter",
+            "rcPlayer",
+          )
+      ) {
+        "runtime manifest v2 fields changed: ${parsed.keys}"
+      }
+      check(parsed["schema"] == "compose-ui-builder-runtime/v2")
+      check(parsed["runtimeId"] == expectedRuntimeId.get())
+      check(parsed["protocolVersion"] == 2)
+      check(parsed["entrypoint"] == "index.html")
+      check((parsed["integritySha256"] as? String)?.matches(Regex("[a-f0-9]{64}")) == true)
+      check(parsed["remoteComposeWriter"] == expectedWriterVersion.get())
+      check(parsed["rcPlayer"] == expectedPlayerVersion.get())
     }
   }
 }
