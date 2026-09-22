@@ -35,6 +35,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
@@ -54,14 +57,17 @@ import ee.schimke.composeai.uibuilder.WearWidgetHostShape
 import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
 import ee.schimke.composeai.uibuilder.hostSpec
 import ee.schimke.wearm3catalog.uibuilder.WearWidgetContainerFrame
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.floatOrNull
 import kotlinx.serialization.json.intOrNull
+
+internal const val REMOTE_M3_DEVICE_PREVIEW_TEST_TAG = "remote-m3-device-preview"
+internal const val REMOTE_M3_WIDGET_HOST_TEST_TAG = "remote-m3-widget-host"
+internal const val REMOTE_M3_WIDGET_BACKGROUND_TEST_TAG = "remote-m3-widget-background"
+internal const val REMOTE_M3_WIDGET_CONTENT_TEST_TAG = "remote-m3-widget-content"
 
 /** Real Remote M3 creation and playback for the read-only browser device surface. */
 @Composable
@@ -102,52 +108,66 @@ internal fun RemoteM3DevicePreview(
       }
       CapturedRemoteDocuments(content = content, background = background)
     }
-    withContext(Dispatchers.Main) {
-      captured = next
-      onReady()
-    }
+    captured = next
+    onReady()
   }
 
-  when (val result = captured) {
-    null -> Box(Modifier.fillMaxSize()) { Text("Building Remote M3 preview…") }
-    else -> {
-      result.fold(
-        onSuccess = { documents ->
-          if (hostSpec == null || root == null) {
-            RcComposePlayer(
-              document = documents.content,
-              theme = document.playerTheme(),
-              modifier = Modifier.fillMaxSize(),
-            )
-          } else {
-            val background = root.color("background") ?: Color(39, 36, 48)
-            WearWidgetContainerFrame(
-              contentWidthDp = contentWidth,
-              contentHeightDp = contentHeight,
-              horizontalPaddingDp = horizontalPadding,
-              verticalPaddingDp = verticalPadding,
-              cornerRadiusDp = cornerRadius,
-              background = background,
-              backgroundContent = { shape ->
-                documents.background?.let {
-                  RcComposePlayer(
-                    document = it,
-                    theme = document.playerTheme(),
-                    modifier = Modifier.fillMaxSize().clip(shape),
-                  )
-                }
-              },
-            ) {
+  val result = captured
+  val state =
+    when {
+      result == null -> "Building"
+      result.isSuccess -> "Ready"
+      else -> "Failed"
+    }
+  Box(
+    Modifier.fillMaxSize().testTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG).semantics {
+      stateDescription = state
+    }
+  ) {
+    when (result) {
+      null -> Text("Building Remote M3 preview…")
+      else ->
+        result.fold(
+          onSuccess = { documents ->
+            if (hostSpec == null || root == null) {
               RcComposePlayer(
                 document = documents.content,
                 theme = document.playerTheme(),
                 modifier = Modifier.fillMaxSize(),
               )
+            } else {
+              val background = root.color("background") ?: Color(39, 36, 48)
+              WearWidgetContainerFrame(
+                modifier = Modifier.testTag(REMOTE_M3_WIDGET_HOST_TEST_TAG),
+                contentWidthDp = contentWidth,
+                contentHeightDp = contentHeight,
+                horizontalPaddingDp = horizontalPadding,
+                verticalPaddingDp = verticalPadding,
+                cornerRadiusDp = cornerRadius,
+                background = background,
+                backgroundContent = { shape ->
+                  documents.background?.let {
+                    RcComposePlayer(
+                      document = it,
+                      theme = document.playerTheme(),
+                      modifier =
+                        Modifier.fillMaxSize()
+                          .clip(shape)
+                          .testTag(REMOTE_M3_WIDGET_BACKGROUND_TEST_TAG),
+                    )
+                  }
+                },
+              ) {
+                RcComposePlayer(
+                  document = documents.content,
+                  theme = document.playerTheme(),
+                  modifier = Modifier.fillMaxSize().testTag(REMOTE_M3_WIDGET_CONTENT_TEST_TAG),
+                )
+              }
             }
-          }
-        },
-        onFailure = { Text("Remote M3 preview failed: ${it.message ?: it::class.simpleName}") },
-      )
+          },
+          onFailure = { Text("Remote M3 preview failed: ${it.message ?: it::class.simpleName}") },
+        )
     }
   }
 }
