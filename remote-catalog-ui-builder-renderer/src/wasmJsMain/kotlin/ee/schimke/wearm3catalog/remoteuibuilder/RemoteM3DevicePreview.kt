@@ -33,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -73,19 +74,33 @@ internal fun RemoteM3DevicePreview(
   val root = document.roots.singleOrNull()?.let(document.nodes::get)
   val widgetSize = root?.widgetSize()
   val hostSpec = widgetSize?.hostSpec(WearWidgetHostShape.Default)
-  val contentWidth = hostSpec?.contentWidthDp ?: widthDp
-  val contentHeight = hostSpec?.contentHeightDp ?: heightDp
+  val horizontalPadding = root?.number("horizontalPaddingDp") ?: hostSpec?.horizontalPaddingDp ?: 0f
+  val verticalPadding = root?.number("verticalPaddingDp") ?: hostSpec?.verticalPaddingDp ?: 0f
+  val cornerRadius = root?.number("cornerRadiusDp") ?: hostSpec?.cornerRadiusDp ?: 0f
+  val contentWidth =
+    hostSpec?.let { (it.frameWidthDp - 2f * horizontalPadding).coerceAtLeast(0f) } ?: widthDp
+  val contentHeight =
+    hostSpec?.let { (it.frameHeightDp - 2f * verticalPadding).coerceAtLeast(0f) } ?: heightDp
   var captured by
-    remember(document, contentWidth, contentHeight) { mutableStateOf<Result<RcDocument>?>(null) }
+    remember(document, contentWidth, contentHeight) {
+      mutableStateOf<Result<CapturedRemoteDocuments>?>(null)
+    }
   LaunchedEffect(document, contentWidth, contentHeight) {
     val next = runCatching {
-      val bytes =
-        captureCommonRemoteDocument(
-          RemoteCreationDisplayInfo(contentWidth.toInt(), contentHeight.toInt(), 160)
-        ) {
-          RemoteMaterialTheme { RemoteDocumentTree(document).Render(widgetSize != null) }
+      val content =
+        captureDocument(contentWidth, contentHeight) {
+          RemoteDocumentTree(document).Render(widgetSize != null)
         }
-      RcDocumentCodec.decode(bytes)
+      val background = hostSpec?.let { spec ->
+        root
+          ?.takeIf { it.slots["background"].orEmpty().isNotEmpty() }
+          ?.let {
+            captureDocument(spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+              RemoteDocumentTree(document).RenderRootSlot("background")
+            }
+          }
+      }
+      CapturedRemoteDocuments(content = content, background = background)
     }
     withContext(Dispatchers.Main) {
       captured = next
@@ -97,25 +112,34 @@ internal fun RemoteM3DevicePreview(
     null -> Box(Modifier.fillMaxSize()) { Text("Building Remote M3 preview…") }
     else -> {
       result.fold(
-        onSuccess = { remoteDocument ->
+        onSuccess = { documents ->
           if (hostSpec == null || root == null) {
             RcComposePlayer(
-              document = remoteDocument,
+              document = documents.content,
               theme = document.playerTheme(),
               modifier = Modifier.fillMaxSize(),
             )
           } else {
             val background = root.color("background") ?: Color(39, 36, 48)
             WearWidgetContainerFrame(
-              contentWidthDp = hostSpec.contentWidthDp.toFloat(),
-              contentHeightDp = hostSpec.contentHeightDp.toFloat(),
-              horizontalPaddingDp = hostSpec.horizontalPaddingDp,
-              verticalPaddingDp = hostSpec.verticalPaddingDp,
-              cornerRadiusDp = hostSpec.cornerRadiusDp,
+              contentWidthDp = contentWidth,
+              contentHeightDp = contentHeight,
+              horizontalPaddingDp = horizontalPadding,
+              verticalPaddingDp = verticalPadding,
+              cornerRadiusDp = cornerRadius,
               background = background,
+              backgroundContent = { shape ->
+                documents.background?.let {
+                  RcComposePlayer(
+                    document = it,
+                    theme = document.playerTheme(),
+                    modifier = Modifier.fillMaxSize().clip(shape),
+                  )
+                }
+              },
             ) {
               RcComposePlayer(
-                document = remoteDocument,
+                document = documents.content,
                 theme = document.playerTheme(),
                 modifier = Modifier.fillMaxSize(),
               )
@@ -126,6 +150,23 @@ internal fun RemoteM3DevicePreview(
       )
     }
   }
+}
+
+private data class CapturedRemoteDocuments(
+  val content: RcDocument,
+  val background: RcDocument?,
+)
+
+private suspend fun captureDocument(
+  widthDp: Float,
+  heightDp: Float,
+  content: @Composable @RemoteComposable () -> Unit,
+): RcDocument {
+  val bytes =
+    captureCommonRemoteDocument(RemoteCreationDisplayInfo(widthDp.toInt(), heightDp.toInt(), 160)) {
+      RemoteMaterialTheme { content() }
+    }
+  return RcDocumentCodec.decode(bytes)
 }
 
 private class RemoteDocumentTree(private val document: UiBuilderDocument) {
@@ -149,6 +190,12 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
         }
       }
     }
+  }
+
+  @Composable
+  @RemoteComposable
+  fun RenderRootSlot(slotName: String) {
+    document.roots.singleOrNull()?.let(tree::root)?.slot(slotName)?.forEach { RenderNode(it) }
   }
 
   @Composable
@@ -375,7 +422,7 @@ private fun UiBuilderNode.textStyle(): RemoteTextStyle =
   }
 
 private fun UiBuilderNode.boxAlignment(): RemoteAlignment =
-  when (string("alignment")) {
+  when (string("contentAlignment")) {
     "center" -> RemoteAlignment.Center
     "topEnd" -> RemoteAlignment.TopEnd
     "bottomStart" -> RemoteAlignment.BottomStart
@@ -384,33 +431,59 @@ private fun UiBuilderNode.boxAlignment(): RemoteAlignment =
   }
 
 private fun UiBuilderNode.horizontalAlignment(): RemoteAlignment.Horizontal =
-  when (string("alignment")) {
+  when (string("horizontalAlignment")) {
     "center" -> RemoteAlignment.CenterHorizontally
     "end" -> RemoteAlignment.End
     else -> RemoteAlignment.Start
   }
 
 private fun UiBuilderNode.verticalAlignment(): RemoteAlignment.Vertical =
-  when (string("alignment")) {
-    "center" -> RemoteAlignment.CenterVertically
+  when (string("verticalAlignment")) {
+    "top" -> RemoteAlignment.Top
     "bottom" -> RemoteAlignment.Bottom
-    else -> RemoteAlignment.Top
+    else -> RemoteAlignment.CenterVertically
   }
 
 private fun UiBuilderNode.verticalArrangement(): RemoteArrangement.Vertical =
-  number("verticalSpacingDp")?.let { RemoteArrangement.spacedBy(it.rdp) }
-    ?: when (string("arrangement")) {
-      "center" -> RemoteArrangement.Center
-      "bottom" -> RemoteArrangement.Bottom
-      "spaceBetween" -> RemoteArrangement.SpaceBetween
-      else -> RemoteArrangement.Top
-    }
+  when (string("verticalArrangement")) {
+    "center" ->
+      RemoteArrangement.spacedBy(
+        (number("verticalSpacingDp") ?: 0f).rdp,
+        RemoteAlignment.CenterVertically,
+      )
+    "bottom" ->
+      RemoteArrangement.spacedBy(
+        (number("verticalSpacingDp") ?: 0f).rdp,
+        RemoteAlignment.Bottom,
+      )
+    "spaceBetween" -> RemoteArrangement.SpaceBetween
+    "spaceAround" -> RemoteArrangement.SpaceAround
+    "spaceEvenly" -> RemoteArrangement.SpaceEvenly
+    else ->
+      RemoteArrangement.spacedBy(
+        (number("verticalSpacingDp") ?: 0f).rdp,
+        RemoteAlignment.Top,
+      )
+  }
 
 private fun UiBuilderNode.horizontalArrangement(): RemoteArrangement.Horizontal =
-  number("horizontalSpacingDp")?.let { RemoteArrangement.spacedBy(it.rdp) }
-    ?: when (string("arrangement")) {
-      "center" -> RemoteArrangement.Center
-      "end" -> RemoteArrangement.End
-      "spaceBetween" -> RemoteArrangement.SpaceBetween
-      else -> RemoteArrangement.Start
-    }
+  when (string("horizontalArrangement")) {
+    "center" ->
+      RemoteArrangement.spacedBy(
+        (number("horizontalSpacingDp") ?: 0f).rdp,
+        RemoteAlignment.CenterHorizontally,
+      )
+    "end" ->
+      RemoteArrangement.spacedBy(
+        (number("horizontalSpacingDp") ?: 0f).rdp,
+        RemoteAlignment.End,
+      )
+    "spaceBetween" -> RemoteArrangement.SpaceBetween
+    "spaceAround" -> RemoteArrangement.SpaceAround
+    "spaceEvenly" -> RemoteArrangement.SpaceEvenly
+    else ->
+      RemoteArrangement.spacedBy(
+        (number("horizontalSpacingDp") ?: 0f).rdp,
+        RemoteAlignment.Start,
+      )
+  }
