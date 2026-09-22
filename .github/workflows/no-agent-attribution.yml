@@ -96,6 +96,9 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
+          # This gate reads commit identities/messages, not historical file contents. Keep the
+          # complete graph without downloading generated catalog, parity and preview blobs.
+          filter: blob:none
           persist-credentials: false
 
       # Read the PR's title and body from the API, NOT from this run's event
@@ -192,6 +195,8 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           fetch-depth: 0
+          # Preserve force-push range coverage without fetching every generated delivery blob.
+          filter: blob:none
           persist-credentials: false
 
       - name: Scan the commits this push added to main
