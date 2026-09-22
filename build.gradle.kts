@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 
-// The published coordinates track upstream: `1.7.0-beta02-cmp01` is the first port of AndroidX
-// 1.7.0-beta02. Both halves come from upstream.json, so a version bump is still a one-file edit
+// The published coordinates track upstream: `1.7.0-rc01-cmp01` is the first port of AndroidX
+// 1.7.0-rc01. Both halves come from upstream.json, so a version bump is still a one-file edit
 // and no consumer has to guess which AndroidX release an artifact came from.
 val upstream = JsonSlurper().parse(file("upstream.json")) as Map<*, *>
 val portVersion = "${upstream["version"]}-cmp%02d".format((upstream["portRevision"] as Number).toInt())
