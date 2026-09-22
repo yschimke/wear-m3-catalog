@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/yschimke/compose-ai-tools/main/scripts/design-artifacts/ui-builder.policy.schema.json",
-  "$comment": "Catalog-level UI builder policy for :remote-catalog, beside its own cover sheet. PER-COMPONENT policy is @BuilderComponent on the sticker, not here. Nothing reads this file yet: it is authored so it can be proved equivalent to the `remote-m3` catalog the preview server synthesises in Kotlin today (ProductionUiBuilderRuntime.remoteM3Catalog), BEFORE the server changes a reader. The contract: https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md",
+  "$comment": "Catalog-level UI builder policy for :remote-catalog, beside its own cover sheet. PER-COMPONENT policy is @BuilderComponent on the sticker, not here. The published catalog and its immutable renderer runtime consume this policy. The three-surface contract is docs/design/REMOTE_M3_UI_BUILDER.md; the generic catalog contract is https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md",
 
   "schema": "compose-ui-builder-policy/v1",
 
@@ -12,7 +12,7 @@
   "previewSurfaces": {
     "wasm": {
       "fidelity": "approximate",
-      "reason": "A Remote Compose document is played, not composed. The builder's Wasm canvas has no player, so it draws the widget host frame and catalog-declared static stand-ins where one is available, otherwise a named placeholder; what the player would draw is a different picture, produced by a different program from the same document."
+      "reason": "The selectable Visual Editor draws Wear Compose CMP stand-ins. The read-only Browser Preview is a separate DEVICE surface: CMP Remote M3 records a real .rc document in Wasm and the pinned CMP RcComposePlayer plays it in each selected host frame. Approximate describes authoring only, never the Browser Preview."
     },
     "native": {
       "fidelity": "authoritative",
@@ -21,10 +21,7 @@
     }
   },
 
-  "browserPreview": {
-    "renderer": "remote-compose-document",
-    "format": "rc"
-  },
+  "$comment_browserPreview": "No browserPreview capability is declared. That legacy capability asks the host/server to compile an RC document and makes the editor bypass the catalog runtime's DEVICE surface. remote-m3 instead owns Browser Preview end to end inside its exact-pinned runtime: CMP/Wasm Remote M3 creation followed by CMP/Wasm RC playback. Native/Live remains the separate authoritative Android lane.",
 
   "frame": {
     "$comment_adapter": "Not a screen. A Remote Compose widget is drawn into a host container of a fixed size, so the frame is the host, not a watch face: `frame/widget-host` rather than the sibling catalog's `frame/round-screen`. This is the second reason `remote-m3` is a catalog of its own rather than a mode of the Wear one.",
