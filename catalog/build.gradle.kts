@@ -183,6 +183,10 @@ kotlin {
     }
 
     androidMain.dependencies {
+      // Pin the atomic Emoji2 family rather than inheriting Compose UI / AppCompat's 1.4.0 floor.
+      // Render packaging hashes the selected AAR, so an implicit old selection is not harmless.
+      implementation(libs.androidx.emoji2)
+
       // MOBILE Material 3, at the androidx pin this module has always used.
       //
       // `commonMain` gets `MaterialShapes` from the CMP flavour, and the CMP 1.12.0-alpha03 line
