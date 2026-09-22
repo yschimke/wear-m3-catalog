@@ -40,7 +40,7 @@ class RemoteM3ThreeSurfaceContractTest {
     val device =
       File(
           root,
-          "remote-catalog-ui-builder-renderer/src/wasmJsMain/kotlin/ee/schimke/" +
+          "remote-catalog-ui-builder-renderer/src/commonMain/kotlin/ee/schimke/" +
             "wearm3catalog/remoteuibuilder/RemoteM3DevicePreview.kt",
         )
         .readText()
@@ -57,7 +57,7 @@ class RemoteM3ThreeSurfaceContractTest {
     val device =
       File(
           root,
-          "remote-catalog-ui-builder-renderer/src/wasmJsMain/kotlin/ee/schimke/" +
+          "remote-catalog-ui-builder-renderer/src/commonMain/kotlin/ee/schimke/" +
             "wearm3catalog/remoteuibuilder/RemoteM3DevicePreview.kt",
         )
         .readText()
@@ -73,7 +73,7 @@ class RemoteM3ThreeSurfaceContractTest {
     val device =
       File(
           root,
-          "remote-catalog-ui-builder-renderer/src/wasmJsMain/kotlin/ee/schimke/" +
+          "remote-catalog-ui-builder-renderer/src/commonMain/kotlin/ee/schimke/" +
             "wearm3catalog/remoteuibuilder/RemoteM3DevicePreview.kt",
         )
         .readText()
