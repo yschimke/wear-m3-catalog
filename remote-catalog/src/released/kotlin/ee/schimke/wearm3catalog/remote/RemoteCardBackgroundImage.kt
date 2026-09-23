@@ -6,6 +6,7 @@ import androidx.compose.remote.creation.compose.action.Action
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.runtime.Composable
+import androidx.wear.compose.remote.material3.RemoteAppCard
 import androidx.wear.compose.remote.material3.RemoteCardDefaults
 import androidx.wear.compose.remote.material3.RemoteTitleCard
 
@@ -60,6 +61,32 @@ internal fun KitTitleCard(
     title = title,
     time = time,
     subtitle = subtitle,
+    content = content,
+  )
+}
+
+/** The released API has no border parameter on `RemoteAppCard`; draw the available palette. */
+@Composable
+@RemoteComposable
+internal fun KitAppCard(
+  onClick: Action,
+  outlined: Boolean,
+  modifier: RemoteModifier,
+  appName: @Composable @RemoteComposable () -> Unit,
+  title: @Composable @RemoteComposable () -> Unit,
+  time: @Composable @RemoteComposable () -> Unit,
+  appImage: (@Composable @RemoteComposable () -> Unit)?,
+  content: @Composable @RemoteComposable () -> Unit,
+) {
+  RemoteAppCard(
+    onClick = onClick,
+    modifier = modifier,
+    colors =
+      if (outlined) RemoteCardDefaults.outlinedCardColors() else RemoteCardDefaults.cardColors(),
+    appName = appName,
+    title = title,
+    time = time,
+    appImage = appImage,
     content = content,
   )
 }
