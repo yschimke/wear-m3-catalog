@@ -52,13 +52,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.wear.compose.material3.CircularProgressIndicatorDefaults
-import androidx.wear.compose.remote.material3.RemoteAppCard
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonColors
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteButtonGroup
 import androidx.wear.compose.remote.material3.RemoteCard
-import androidx.wear.compose.remote.material3.RemoteCardDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteCompactButton
 import androidx.wear.compose.remote.material3.RemoteCurvedProgressIndicator
@@ -1758,17 +1756,9 @@ fun TitleCardRemote() = RemoteSticker {
       listOf("title-time", "title-time-subtitle", "title-subtitle"),
     )
   val titleOverSubtitle = layout == "title-subtitle"
-  // THE KIT'S `Style` AXIS, and the cell it produces will not match — deliberately. The kit crosses
-  // every layout with `Outline`, and `remote-material3` splits that across two functions it does
-  // not join: `RemoteOutlinedCard` has the border but one content slot and no title, while
-  // `RemoteTitleCard` has the slots and NO border parameter at all — `RemoteCardColors` carries
-  // container, content, appName, time, title and subtitle, and no stroke among them.
-  //
-  // So this passes the library's own `outlinedCardColors()`, which is the call site that exists,
-  // and the render comes out with the outlined palette and no outline. That is the finding, and
-  // drawing it is the rule this repo works to: a cell whose API exists is drawn failing rather than
-  // withheld. It is a different case from `Style=Background Image` below, which is withheld because
-  // no painter parameter exists anywhere to call.
+  // The current snapshot gives `RemoteTitleCard` the same `RemoteBorderStroke` parameter as its
+  // outlined sibling, so the lane wrapper supplies the library's own outlined border. The released
+  // lane retains the older no-border call without asking that artifact for an API it cannot link.
   //
   // The list of values is the LANE's (`KitCardStyles`), because `image` is only drawable on one of
   // them, and the call goes through `KitTitleCard` for the same reason: on the snapshot lane that
@@ -1969,15 +1959,13 @@ fun TitleCardRemote() = RemoteSticker {
 @Composable
 fun AppCardRemote() = RemoteSticker {
   val (title, onClick) = countedRemote(KitCopy.CARD_TITLE)
-  // The kit's `Style` axis, on the same terms as `TitleCardRemote` above: `RemoteAppCard` takes
-  // colours and no border, so the outlined cells draw the outlined palette with no stroke, and the
-  // missing stroke is the finding rather than a reason to withhold them.
+  // The snapshot lane now takes its outlined border from `RemoteCardDefaults`; the released lane
+  // stays on its older palette-only overload until that API ships.
   val outlined = previewOverrideChoice("style", "tonal", listOf("tonal", "outlined")) == "outlined"
-  RemoteAppCard(
+  KitAppCard(
     onClick = onClick,
+    outlined = outlined,
     modifier = RemoteModifier.width(KitRowWidth),
-    colors =
-      if (outlined) RemoteCardDefaults.outlinedCardColors() else RemoteCardDefaults.cardColors(),
     appName = { RemoteText(KitCopy.APP_LABEL.rs) },
     title = { RemoteText(title) },
     // The kit's App Card cell fills its timestamp slot, and so does `wear-m3-catalog`'s `AppCard`.
