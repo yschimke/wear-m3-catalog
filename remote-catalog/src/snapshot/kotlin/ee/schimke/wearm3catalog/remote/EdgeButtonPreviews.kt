@@ -61,29 +61,10 @@ import ee.schimke.composeai.preview.OverrideVariant
 // here at the theme's `outline` token. The three filled styles pass a zero-width border, which is
 // a no-op whatever colour rides with it.
 
-// WHAT THE 64 CELLS SHOWED, and it is one finding rather than a list: **`RemoteEdgeButton` does not
-// clip its content to its arc.** The kit draws this component with a truncated label — that is why
-// [KitCopy.EDGE_BUTTON_LABEL] is an M-run long enough to truncate, on both columns — and Wear's
-// `EdgeButton` reproduces it, constraining the label to the arc and ellipsizing what will not fit.
-// The Remote one lays its content out to the width the button is GIVEN and draws it wherever it
-// lands, so the label spills past the pill on both sides in every `Type=Text` cell.
-//
-// IT IS NOT REACHABLE FROM HERE, which is the part worth being exact about, because there is an
-// obvious-looking fix that would be wrong twice over. `RemoteText` takes `maxLines`, and
-// `RemoteEdgeButtonSize` computes the right number — but `maxLines$remote_material3()` is INTERNAL,
-// so a call site can only hardcode it, which is the invented-number-under-the-kit's-name that
-// `CircularProgressRemote`'s stroke note refuses on this very sheet. And it would not work anyway:
-// the overflow is HORIZONTAL as well as vertical (the `extra-small` cell spills on one line), and
-// the arc's inner width is published nowhere at all. So the divergence is stated rather than
-// papered over, per AGENTS.md.
-//
-// THE WIDTH IS NOT ADJUSTED TO HIDE IT, and the measurement says why. Dropping the width modifier
-// does not help, it hurts: with no bound the label lays out across the whole 227dp frame — the
-// `extra-small` cell measured 193dp of text against a 117dp pill, ellipsis and all, entirely
-// outside the container. Narrowing below the kit's 192dp would shrink the spill by drawing an arc
-// the kit never published, which is the trade `SelectionPreviews.kt` names for the split row: a
-// reported difference swapped for an unreported one. So the button is handed the display width the
-// kit measures it against and the spill is left visible for design-parity to score.
+// BUILD 16399547 FIXED the former `RemoteEdgeButton` label spill: text now clips to the arc, so the
+// long [KitCopy.EDGE_BUTTON_LABEL] truncates within the component as the kit does. This call site
+// still gives the button the kit's display width; it carries no workaround or narrower frame to
+// manufacture that result.
 
 /**
  * **Every cell of the kit's `Edge-Button` set** — all 64 nodes, drawn on the Remote column.
@@ -514,7 +495,7 @@ annotation class RemoteEdgeButtonKitCells
   referenceSet = "figma:B24oss2tTeXAFykyeyusz0/36601:6586",
   caption =
     "The screen-hugging confirm action, curved to the bottom edge of the display. Remote draws " +
-      "the label unclipped, so it spills past the arc where the kit truncates it — see the file note.",
+      "the label clipped to its arc, matching the kit's truncation — see the file note.",
 )
 @CatalogRemoteModes
 @RemoteEdgeButtonKitCells
