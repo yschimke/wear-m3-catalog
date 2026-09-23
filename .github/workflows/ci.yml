@@ -279,8 +279,12 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         run: |
           set -euo pipefail
+          # Generated delivery branches are isolated in the public output repository. The source
+          # repository may still contain an in-flight, legacy branch, which is neither authoritative
+          # nor guaranteed to carry preview-index.json.
+          artifact_repo="https://github.com/yschimke/wear-m3-catalog-out.git"
           for system in wear-m3-catalog remote-m3; do
-            git fetch --depth=1 origin "design-artifacts/$system"
+            git fetch --depth=1 "$artifact_repo" "design-artifacts/$system"
             git show FETCH_HEAD:preview-index.json > "$RUNNER_TEMP/$system-index.json"
           done
 
