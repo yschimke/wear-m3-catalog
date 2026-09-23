@@ -143,7 +143,7 @@ class RemoteM3ThreeSurfaceContractTest {
         "cmp${port.getValue("portRevision").jsonPrimitive.content.padStart(2, '0')}"
 
     assertThat(published).isEqualTo(expected)
-    assertThat(versions).contains("rcEmbeddedPlayer = \"1.69.0\"")
+    assertThat(versions).contains("rcEmbeddedPlayer = \"1.70.0\"")
   }
 
   private fun repositoryRoot(): File {
