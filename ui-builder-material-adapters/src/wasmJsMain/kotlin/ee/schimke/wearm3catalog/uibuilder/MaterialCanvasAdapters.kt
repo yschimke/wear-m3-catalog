@@ -117,11 +117,11 @@ private fun CanvasNodeScope.textAlign(): TextAlign? =
     else -> null
   }
 
-private fun parseMaterialArgb(value: String): ULong {
+private fun parseMaterialArgb(value: String): Long {
   val hex = value.removePrefix("#")
   return when (hex.length) {
-    6 -> ("FF$hex").toULong(16)
-    8 -> hex.toULong(16)
-    else -> 0u
+    6 -> ("FF$hex").toLong(16)
+    8 -> hex.toLong(16)
+    else -> 0L
   }
 }
