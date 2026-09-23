@@ -1383,8 +1383,18 @@ fun ButtonGroupRemote() = RemoteSticker {
   // entirely the missing modifier
   // ([#295](https://github.com/yschimke/wear-m3-catalog/issues/295)).
   RemoteButtonGroup(modifier = RemoteModifier.width(180.rdp)) {
-    RemoteButton(onClick = onFirst, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(first) }
-    RemoteButton(onClick = onSecond, modifier = RemoteModifier.weight(1f.rf)) { RemoteText(second) }
+    RemoteButton(
+      onClick = onFirst,
+      modifier = RemoteModifier.weight(1f.rf).paintStateFence(),
+    ) {
+      RemoteText(first)
+    }
+    RemoteButton(
+      onClick = onSecond,
+      modifier = RemoteModifier.weight(1f.rf).paintStateFence(),
+    ) {
+      RemoteText(second)
+    }
   }
 }
 

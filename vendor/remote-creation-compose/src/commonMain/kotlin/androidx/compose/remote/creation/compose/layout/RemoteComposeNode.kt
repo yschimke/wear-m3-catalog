@@ -21,9 +21,9 @@ import androidx.compose.remote.creation.compose.capture.LocalRemoteDensity
 import androidx.compose.remote.creation.compose.capture.RemoteComposeCreationState
 import androidx.compose.remote.creation.compose.capture.WriterOp
 import androidx.compose.remote.creation.compose.capture.RemoteDensity
-import androidx.compose.remote.creation.compose.modifier.DrawWithContentModifier
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
-import androidx.compose.remote.creation.compose.modifier.find
+import androidx.compose.remote.creation.compose.modifier.drawWithContent
+import androidx.compose.remote.creation.compose.modifier.hasDrawWithContent
 import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.common.RemoteModifierData
@@ -62,13 +62,11 @@ internal abstract class RemoteComposeNode {
     ) {
         val previousComponent = creationState.enterComponentScope(renderedComponentId)
         try {
-            val drawWithContent = modifier.find<DrawWithContentModifier>()
-
-            if (drawWithContent != null) {
-                val drawWithContentScope = RemoteContentDrawScope(remoteCanvas)
-
+            if (modifier.hasDrawWithContent()) {
                 remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.StartCanvasOperations)
-                drawWithContent.onDraw(drawWithContentScope)
+                modifier.drawWithContent(remoteCanvas) {
+                    remoteCanvas.internalCanvas.drawComponentContent()
+                }
                 remoteCanvas.internalCanvas.recordRenderingOp(WriterOp.EndCanvasOperations)
             }
 

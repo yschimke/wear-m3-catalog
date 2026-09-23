@@ -18,6 +18,8 @@ package androidx.compose.remote.creation.compose.modifier
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.compose.layout.RemoteContentDrawScope
+import androidx.compose.remote.creation.compose.layout.RemoteCanvas
+import androidx.compose.remote.creation.compose.layout.RemoteDrawScope
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 import androidx.compose.remote.creation.common.RemoteModifierOperation
 
@@ -34,4 +36,31 @@ internal class DrawWithContentModifier(val onDraw: RemoteContentDrawScope.() -> 
     RemoteModifier.Element {
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.DrawContent
+}
+
+internal fun RemoteModifier.hasDrawWithContent(): Boolean =
+    any { it is DrawWithContentModifier }
+
+/** Runs every draw-with-content modifier in order, nesting each modifier's content lambda. */
+internal fun RemoteModifier.drawWithContent(
+    remoteCanvas: RemoteCanvas,
+    content: RemoteDrawScope.() -> Unit,
+): Boolean {
+    val modifiers = mutableListOf<DrawWithContentModifier>()
+    foldIn(Unit) { _, element ->
+        (element as? DrawWithContentModifier)?.let(modifiers::add)
+    }
+    if (modifiers.isEmpty()) return false
+
+    fun drawAt(index: Int) {
+        if (index == modifiers.size) {
+            RemoteDrawScope(remoteCanvas).content()
+        } else {
+            modifiers[index].onDraw(
+                RemoteContentDrawScope(remoteCanvas) { drawAt(index + 1) }
+            )
+        }
+    }
+    drawAt(0)
+    return true
 }
