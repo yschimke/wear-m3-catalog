@@ -113,6 +113,7 @@ jobs:
       contents: write # publish the regenerated artifacts to design-parity/main
     with:
       module: ':catalog'
+      publication-repository: yschimke/wear-m3-catalog-out
 
       # Skip the run outright when nothing that feeds the comparison has moved: the module itself,
       # the version catalog the renderer is pinned from, and the build files that assemble them.
@@ -155,6 +156,7 @@ jobs:
       timeout-minutes: 60
     secrets:
       figma-token: ${{ secrets.FIGMA_TOKEN }}
+      publication-token: ${{ secrets.ARTIFACTS_TOKEN }}
 
   remote:
     name: Design parity (remote-m3)
@@ -164,6 +166,7 @@ jobs:
       contents: write # publish the regenerated artifacts to design-parity/remote-m3
     with:
       module: ':remote-catalog'
+      publication-repository: yschimke/wear-m3-catalog-out
 
       # Same policy as the job above, deliberately. `.design-parity.json` is repo-wide and says
       # `design-led`, so a divergence from the kit is a defect in this code — for the Remote
@@ -235,3 +238,4 @@ jobs:
       timeout-minutes: 60
     secrets:
       figma-token: ${{ secrets.FIGMA_TOKEN }}
+      publication-token: ${{ secrets.ARTIFACTS_TOKEN }}
