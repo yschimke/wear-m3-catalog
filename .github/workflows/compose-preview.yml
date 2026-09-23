@@ -23,16 +23,22 @@ jobs:
   apply:
     name: Render previews (baseline or PR comment, auto-selected)
     runs-on: ubuntu-latest
+    permissions:
+      contents: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
+      pull-requests: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
       - uses: ./.github/actions/setup
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
       - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.22.3
         with:
           artifact-repository: yschimke/wear-m3-catalog-out
-          artifacts-token: ${{ secrets.ARTIFACTS_TOKEN }}
+          artifacts-token: ${{ github.event_name != 'pull_request' && secrets.ARTIFACTS_TOKEN || '' }}
+          phase: ${{ github.event_name == 'pull_request' && 'render' || 'all' }}
           # Single source of truth for the renderer version: the composePreviewPlugin entry in
           # libs.versions.toml. A newer published CLI auto-installed against an older applied
           # plugin breaks preview discovery outright.
@@ -43,3 +49,11 @@ jobs:
           # one, whose stickers additionally go through the Remote Compose player. Raised from 1800
           # when `:remote-catalog` landed; the phone catalog needed 4800 at ~1150 previews.
           timeout: '3600'
+
+      - uses: actions/upload-artifact@v7.0.1
+        if: github.event_name == 'pull_request'
+        with:
+          name: compose-preview-handoff
+          path: _compose_preview_handoff/
+          if-no-files-found: error
+          retention-days: 1
