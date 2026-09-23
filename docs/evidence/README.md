@@ -58,9 +58,7 @@ most interesting thing that job can say. Record what was verified: for `#91`'s b
 is max alpha 31, the same container colour, and no pixel above the container's alpha (so no label)
 across both captures — the framing moved, the bug did not.
 
-**Check which way a probe's metric reads.** `max alpha 0` means "still broken" for #130, but
-`edge_button_label_spill_dp` is an overhang, so **0 there means fixed**.
-
-A snapshot-lane baseline (`remote-m3-edge-button-label-spill-break.png`) cannot be reproduced with
-an empty `-PremoteSnapshot=`, because the component is absent from the released alphas. That is fine
-— the probe workflow always renders on its own snapshot overlay.
+`remote-m3-edge-button-label-spill-break.png` is a retired snapshot-lane baseline: build `16399547`
+reduced its measured overhang to 0dp and the #249 probe was removed. It remains as the record of the
+fixed defect; it cannot be reproduced with an empty `-PremoteSnapshot=` because the component is
+absent from the released alphas.
