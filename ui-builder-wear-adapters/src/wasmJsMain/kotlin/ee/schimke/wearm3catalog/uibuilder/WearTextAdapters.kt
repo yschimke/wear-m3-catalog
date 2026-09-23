@@ -150,11 +150,18 @@ private fun CanvasNodeScope.textDecoration(): TextDecoration? =
     else -> null
   }
 
-private fun parseArgb(value: String): ULong {
+/**
+ * Parses a UI Builder colour as an sRGB ARGB value.
+ *
+ * Keep the return type as [Long]. `Color(ULong)` is the packed wide-gamut value-class constructor,
+ * where the low six bits are a colour-space id. Feeding an ordinary `#RRGGBB` value to that
+ * constructor can therefore crash the Wasm renderer while reading `Color.colorSpace`.
+ */
+private fun parseArgb(value: String): Long {
   val hex = value.removePrefix("#")
   return when (hex.length) {
-    6 -> ("FF$hex").toULong(16)
-    8 -> hex.toULong(16)
-    else -> 0u
+    6 -> ("FF$hex").toLong(16)
+    8 -> hex.toLong(16)
+    else -> 0L
   }
 }
