@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import ee.schimke.composeai.uibuilder.WearWidgetHostShape
 import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
 import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
 import ee.schimke.composeai.uibuilder.hostSpec
@@ -17,7 +16,7 @@ val wearWidgetCanvasAdapters = canvasAdapterRegistry {
     val size =
       WearWidgetScaffoldSize.entries.firstOrNull { it.componentId == node.componentId }
         ?: WearWidgetScaffoldSize.Small
-    val spec = size.hostSpec(WearWidgetHostShape.Default)
+    val spec = size.hostSpec(LocalWearWidgetHostShape.current)
     val horizontalPadding = float("horizontalPaddingDp", spec.horizontalPaddingDp)
     val verticalPadding = float("verticalPaddingDp", spec.verticalPaddingDp)
     val cornerRadius = float("cornerRadiusDp", spec.cornerRadiusDp)

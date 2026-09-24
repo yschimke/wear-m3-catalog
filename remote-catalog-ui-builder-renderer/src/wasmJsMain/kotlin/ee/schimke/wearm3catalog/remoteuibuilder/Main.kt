@@ -10,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -29,6 +32,7 @@ import ee.schimke.composeai.uibuilder.protocol.UiBuilderRendererSurfaceModeV2
 import ee.schimke.composeai.uibuilder.startCatalogRenderer
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import ee.schimke.wearcmp.port.WearDeviceConfiguration
+import ee.schimke.wearm3catalog.uibuilder.LocalWearWidgetHostShape
 import ee.schimke.wearm3catalog.uibuilder.foundationCanvasAdapters
 import ee.schimke.wearm3catalog.uibuilder.materialCanvasAdapters
 import ee.schimke.wearm3catalog.uibuilder.resolveWearColor
@@ -36,6 +40,7 @@ import ee.schimke.wearm3catalog.uibuilder.wearCanvasAdapters
 import ee.schimke.wearm3catalog.uibuilder.wearScreenAdapters
 import ee.schimke.wearm3catalog.uibuilder.wearTextAdapters
 import ee.schimke.wearm3catalog.uibuilder.wearWidgetCanvasAdapters
+import ee.schimke.wearm3catalog.uibuilder.wearWidgetHostShape
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
@@ -111,8 +116,19 @@ fun main() {
               screenWidthDp = surface.widthDp.toInt(),
               screenHeightDp = surface.heightDp.toInt(),
             ),
+          LocalWearWidgetHostShape provides document.wearWidgetHostShape(),
         ) {
           MaterialTheme {
+            // The viewport's canvas starts opaque white, and whatever the design leaves uncovered
+            // (a widget frame's rounded corners, a pane wider than the frame) showed as a white box
+            // in the editor. The editor draws its own backdrop behind this frame, so the runtime
+            // clears to transparent and paints only the design.
+            Box(
+              Modifier.fillMaxSize().drawWithContent {
+                drawRect(Color.Transparent, blendMode = BlendMode.Clear)
+                drawContent()
+              }
+            )
             Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
               if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED) {
                 SemanticCanvas(

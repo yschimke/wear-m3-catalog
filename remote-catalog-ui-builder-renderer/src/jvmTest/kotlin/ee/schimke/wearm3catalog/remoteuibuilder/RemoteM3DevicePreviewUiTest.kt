@@ -12,9 +12,15 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runDesktopComposeUiTest
 import androidx.compose.ui.unit.dp
 import ee.schimke.composeai.uibuilder.UiBuilderDocument
+import ee.schimke.composeai.uibuilder.WearWidgetHostShape
+import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
+import ee.schimke.composeai.uibuilder.hostSpec
+import ee.schimke.wearm3catalog.uibuilder.WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.jsonArray
 
 /** Compose UI coverage for the real Remote M3 creation-and-player surface used by UI Builder. */
@@ -42,6 +48,39 @@ class RemoteM3DevicePreviewUiTest {
       onNodeWithTag(REMOTE_M3_WIDGET_CONTENT_TEST_TAG).assertIsDisplayed()
       assertEquals(1, readyCalls)
     }
+
+  @Test
+  fun `the host frame is the shape the editor names for the pane`() {
+    // The editor sends each preview pane's shape in the environment; without it every pane was
+    // framed as the default, so the Samsung and Pixel Watch panes drew the same rectangle.
+    WearWidgetHostShape.entries.forEach { shape ->
+      runDesktopComposeUiTest(width = 480, height = 320) {
+        val spec = WearWidgetScaffoldSize.Small.hostSpec(shape)
+        var readyCalls = 0
+        val sent =
+          document().let {
+            it.copy(
+              environment =
+                JsonObject(
+                  it.environment +
+                    (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
+                )
+            )
+          }
+        setContent {
+          RemoteM3DevicePreview(sent, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+            readyCalls++
+          }
+        }
+
+        waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+        onNodeWithTag(REMOTE_M3_WIDGET_HOST_TEST_TAG)
+          .assertWidthIsEqualTo(spec.frameWidthDp.toFloat().dp)
+          .assertHeightIsEqualTo(spec.frameHeightDp.toFloat().dp)
+      }
+    }
+  }
 
   @Test
   fun `unsupported modifier fails visibly instead of changing the document`() =
