@@ -294,6 +294,16 @@ dependencies {
   testImplementation(libs.composeai.remotecompose.json)
   testImplementation(libs.junit)
   testImplementation(libs.truth)
+  // `CmpAndroidPlayerTrialTest` — the Compose Multiplatform player replaying this sheet's `.rc`
+  // sidecars on Android under Robolectric, beside the embedded player that bakes them.
+  // Its own version ref, not the rc-players BOM: the BOM also pins the embedded player above, and
+  // this trial must not move the player the stickers are baked with.
+  testImplementation(libs.composeai.rc.player.compose.android.trial)
+  testImplementation(libs.robolectric)
+  testImplementation(libs.compose.ui.test.junit4.prerelease)
+  // The test activity has to be in the merged debug manifest Robolectric reads, which for an
+  // application module means `debugImplementation` rather than `testImplementation`.
+  debugImplementation(libs.compose.ui.test.manifest.prerelease)
 }
 
 // `-PwriteGolden=true` rewrites the checked-in generated widget from the exporter instead of
@@ -302,4 +312,11 @@ dependencies {
 // claim about a generator that stopped being true.
 tasks.withType<Test>().configureEach {
   systemProperty("writeGolden", providers.gradleProperty("writeGolden").getOrElse("false"))
+  providers.gradleProperty("cmpTrialOut").orNull?.let { systemProperty("cmpTrialOut", it) }
+  // The shared Google Fonts cache `rcGoogleFontsTypefaceLoader` reads — the same property the
+  // embedded player and the preview daemon use. Unset, `google:` families fall to the GMS
+  // provider, which Robolectric does not have, and draw in the default face.
+  providers.gradleProperty("composeai.fonts.cacheDir").orNull?.let {
+    systemProperty("composeai.fonts.cacheDir", it)
+  }
 }
