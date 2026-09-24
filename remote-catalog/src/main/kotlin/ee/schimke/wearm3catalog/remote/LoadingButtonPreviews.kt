@@ -254,9 +254,7 @@ fun LoadingRemoteButton() = RemoteSticker {
           // ring is one slot of a button rather than the whole sticker, and the cells above turn
           // the style and the size, not this.
           progress = previewOverrideFloat("progress", 0.75f).rf,
-          // A transparent fill before and after the indicator makes its stroke state explicit
-          // for the AndroidX Embedded player; see [paintStateFence].
-          modifier = RemoteModifier.fillMaxSize().paintStateFence(),
+          modifier = RemoteModifier.fillMaxSize(),
           enabled = enabled,
           strokeWidth = slot * (3f / 26f),
         )

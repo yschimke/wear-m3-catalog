@@ -1229,6 +1229,10 @@ public class RemoteDocumentWriter(
   private fun contentSection() {
     operation(LayoutContent)
     buffer.writeInt(componentId())
+    // As `RemoteComposeWriter.addContentStart` does: a player begins each component with a fresh
+    // paint, so the first paint inside one has to be written in full, not as a delta against the
+    // previous component's.
+    paintResetPending = true
   }
 
   private fun containerEnd(): Unit = operation(ContainerEnd)
