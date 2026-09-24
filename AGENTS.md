@@ -562,8 +562,9 @@ Wrapping changes none of the verification rules below; run the same tasks throug
   to the old signature, so the widget-container stickers die at RENDER time with `NoSuchMethodError`
   while the build stays green. Compiling is not the check; rendering is.
 - **Published vendored Remote Compose versions are immutable.** The five `vendor/remote-*`
-  artifacts publish as `ee.schimke.remotecompose:*` to `remote-compose-cmp-maven` and GitHub
-  Packages. Their version comes from `vendor/remote-compose-upstream.json`; any non-test source or
+  artifacts publish as `ee.schimke.remotecompose:*` to GitHub Packages and to the
+  `remote-compose-cmp-maven` branch of `yschimke/wear-m3-catalog-out`, where the Wear port's
+  `wear-compose-cmp-maven` also lives; no generated branch belongs in this repository. Their version comes from `vendor/remote-compose-upstream.json`; any non-test source or
   module build change must increase `portRevision`. CI enforces this before the publish workflow
   skips an already-used version.
 - Repository settings — squash-only merges, auto-merge, and the `Protect Main` ruleset — are applied by

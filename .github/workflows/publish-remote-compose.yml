@@ -1,7 +1,9 @@
 name: Publish Remote Compose port
 
 # Publishes the vendored CMP port to GitHub Packages and to a credential-free Maven repository
-# served from remote-compose-cmp-maven. The metadata file owns the immutable version.
+# served from the remote-compose-cmp-maven branch of yschimke/wear-m3-catalog-out, the public output
+# repository that also carries the design artifacts, so no generated branch lives in this source
+# repository (#604). The metadata file owns the immutable version.
 on:
   push:
     branches: [main]
@@ -27,6 +29,11 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      MAVEN_REPOSITORY: yschimke/wear-m3-catalog-out
+      # ARTIFACTS_TOKEN is the credential every design-artifacts lane already pushes to the output
+      # repository with; github.token cannot write outside this repository.
+      MAVEN_REMOTE: https://x-access-token:${{ secrets.ARTIFACTS_TOKEN }}@github.com/yschimke/wear-m3-catalog-out.git
     permissions:
       contents: write
       packages: write
@@ -46,9 +53,8 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
           tree="$RUNNER_TEMP/remote-compose-maven"
-          if git ls-remote --exit-code --heads origin remote-compose-cmp-maven >/dev/null 2>&1; then
-            git clone -q --depth 1 --branch remote-compose-cmp-maven \
-              "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$tree"
+          if git ls-remote --exit-code --heads "$MAVEN_REMOTE" remote-compose-cmp-maven >/dev/null 2>&1; then
+            git clone -q --depth 1 --branch remote-compose-cmp-maven "$MAVEN_REMOTE" "$tree"
           else
             git init -q "$tree"
             git -C "$tree" checkout -q --orphan remote-compose-cmp-maven
@@ -119,14 +125,12 @@ jobs:
             -c user.name='github-actions[bot]' \
             -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
             commit -qm "chore: publish Remote Compose $version"
-          git -C "$tree" push -q \
-            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
-            HEAD:remote-compose-cmp-maven
+          git -C "$tree" push -q "$MAVEN_REMOTE" HEAD:remote-compose-cmp-maven
           {
             echo "### Published $version"
             echo
             echo '```kotlin'
-            echo 'maven("https://raw.githubusercontent.com/${{ github.repository }}/remote-compose-cmp-maven/")'
+            echo 'maven("https://raw.githubusercontent.com/${{ env.MAVEN_REPOSITORY }}/remote-compose-cmp-maven/")'
             echo "implementation(\"ee.schimke.remotecompose:remote-material3:$version\")"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"

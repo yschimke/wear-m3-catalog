@@ -13,12 +13,12 @@ dependencyResolutionManagement {
 
     // ── The CMP Wear port, GROUP-FENCED ───────────────────────────────────────────────────────
     // `ee.schimke.wearcmp:*` — Wear Compose Material 3 / Foundation compiled for Compose
-    // Multiplatform, published from this repository's own `wear-compose-cmp-maven` branch by the
-    // port lane on `wear-compose-cmp`. `:catalog` declares it in `commonMain` so the component
-    // bodies compile once for every target; the `android` configurations substitute it back to the
-    // real `androidx.wear.compose` AARs, so what the Robolectric lane renders — and what the
-    // published kit rendition therefore IS — stays the genuine library. See
-    // `catalog/build.gradle.kts` for that substitution.
+    // Multiplatform, published to the `wear-compose-cmp-maven` branch of the output repository,
+    // `yschimke/wear-m3-catalog-out`, by the port lane on `wear-compose-cmp`. `:catalog` declares
+    // it in `commonMain` so the component bodies compile once for every target; the `android`
+    // configurations substitute it back to the real `androidx.wear.compose` AARs, so what the
+    // Robolectric lane renders — and what the published kit rendition therefore IS — stays the
+    // genuine library. See `catalog/build.gradle.kts` for that substitution.
     //
     // Fenced the same way and for the same reason as the snapshot lane below: a settings-level
     // repository is visible to every project, so it is scoped to the one group it can legitimately
@@ -27,12 +27,16 @@ dependencyResolutionManagement {
     // never satisfy a request for an `androidx.*` or `ee.schimke.composeai` artifact even by
     // accident.
     //
-    // Serving a build dependency from a git branch of the same repository is a real coupling, and
-    // it is deliberate: the port is this project's own artifact, versioned by `portRevision` and
+    // Serving a build dependency from a git branch of this project's own output repository is a
+    // real coupling, and it is deliberate. The branch lives beside the design artifacts in
+    // `wear-m3-catalog-out` rather than here, so this source repository carries no generated
+    // branch (#604): the port is this project's own artifact, versioned by `portRevision` and
     // gated by the port lane's CI (#413 requires that revision to increase). The alternative —
     // vendoring the port's sources into `:catalog` — would put a fork of Wear Compose in the
     // catalog's history and lose that gate.
-    maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/") {
+    maven(
+      "https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/"
+    ) {
       name = "wearComposeCmpPort"
       content { includeGroup("ee.schimke.wearcmp") }
     }
@@ -41,7 +45,9 @@ dependencyResolutionManagement {
     // Kept separate from the Wear port above because the two release independently. The exact
     // coordinate is pinned in libs.versions.toml and embedded in the renderer manifest; this
     // repository is fenced to its own namespace so it cannot answer any AndroidX dependency.
-    maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/remote-compose-cmp-maven/") {
+    maven(
+      "https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/remote-compose-cmp-maven/"
+    ) {
       name = "remoteComposeCmpPort"
       content { includeGroup("ee.schimke.remotecompose") }
     }

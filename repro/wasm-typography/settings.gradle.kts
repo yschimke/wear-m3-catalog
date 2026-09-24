@@ -8,7 +8,9 @@ pluginManagement {
 
 dependencyResolutionManagement {
   repositories {
-    maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/") {
+    maven(
+      "https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/"
+    ) {
       content { includeGroup("ee.schimke.wearcmp") }
     }
     mavenCentral()

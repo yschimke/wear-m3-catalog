@@ -95,7 +95,8 @@ configure(publishedRemoteComposeProjects.map(::project)) {
 
   extensions.configure<PublishingExtension> {
     repositories {
-      // CI pushes this credential-free Maven tree to remote-compose-cmp-maven. Keeping the local
+      // CI pushes this credential-free Maven tree to the remote-compose-cmp-maven branch of
+      // yschimke/wear-m3-catalog-out. Keeping the local
       // destination identical makes publishRemoteComposeToBuildDir the exact preflight for CI.
       maven(rootProject.layout.buildDirectory.dir("remote-compose-maven")) { name = "BuildDir" }
 
