@@ -53,10 +53,10 @@ import ee.schimke.composeai.uibuilder.CanvasRenderNode
 import ee.schimke.composeai.uibuilder.CanvasRenderTree
 import ee.schimke.composeai.uibuilder.UiBuilderDocument
 import ee.schimke.composeai.uibuilder.UiBuilderNode
-import ee.schimke.composeai.uibuilder.WearWidgetHostShape
 import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
 import ee.schimke.composeai.uibuilder.hostSpec
 import ee.schimke.wearm3catalog.uibuilder.WearWidgetContainerFrame
+import ee.schimke.wearm3catalog.uibuilder.wearWidgetHostShape
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
@@ -79,7 +79,7 @@ internal fun RemoteM3DevicePreview(
 ) {
   val root = document.roots.singleOrNull()?.let(document.nodes::get)
   val widgetSize = root?.widgetSize()
-  val hostSpec = widgetSize?.hostSpec(WearWidgetHostShape.Default)
+  val hostSpec = widgetSize?.hostSpec(document.wearWidgetHostShape())
   val horizontalPadding = root?.number("horizontalPaddingDp") ?: hostSpec?.horizontalPaddingDp ?: 0f
   val verticalPadding = root?.number("verticalPaddingDp") ?: hostSpec?.verticalPaddingDp ?: 0f
   val cornerRadius = root?.number("cornerRadiusDp") ?: hostSpec?.cornerRadiusDp ?: 0f
