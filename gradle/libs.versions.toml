@@ -137,6 +137,9 @@ uiBuilderSource = "3.30.0"
 # bug: a version REF is a claim that its artifacts release together, and it is wrong the moment they
 # do not — whether the other line lives in another repository (here) or in the same one (#347).
 rcEmbeddedPlayer = "1.70.0"
+# The CMP player on Android (`CmpAndroidPlayerTrialTest`), on its own ref: it needs a release with
+# the Android target and `rcGoogleFontsTypefaceLoader`, and must not drag the embedded player above.
+rcPlayerComposeAndroid = "1.73.1"
 
 # materialkolor — the dynamic-colour engine Confetti Wear builds its conference palettes with. The
 # declared themes in `CatalogThemes.kt` reproduce them by running the same seed through the same
@@ -260,6 +263,8 @@ glance-wear-tooling-preview = { module = "androidx.glance.wear:wear-tooling-prev
 # Compose UI at the prerelease line `:remote-catalog` needs, declared WITHOUT the BOM.
 compose-ui-tooling-preview-prerelease = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui-prerelease" }
 compose-ui-tooling-prerelease = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui-prerelease" }
+compose-ui-test-junit4-prerelease = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui-prerelease" }
+compose-ui-test-manifest-prerelease = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-ui-prerelease" }
 # The SAME icon artifacts `:catalog` takes from the BOM, at the version the BOM maps them to — see
 # `compose-material-icons` above for why that equality is load-bearing rather than incidental.
 compose-material-icons-core-prerelease = { module = "androidx.compose.material:material-icons-core", version.ref = "compose-material-icons" }
@@ -290,6 +295,7 @@ composeai-wear-preview-runtime = { module = "ee.schimke.composeai:wear-preview-r
 composeai-remotecompose-json = { module = "ee.schimke.composeai:remotecompose-json", version.ref = "composePreviewCore" }
 composeai-rc-players-bom = { module = "ee.schimke.composeai:rc-players-bom", version.ref = "rcEmbeddedPlayer" }
 composeai-rc-player-compose = { module = "ee.schimke.composeai:rc-player-compose" }
+composeai-rc-player-compose-android-trial = { module = "ee.schimke.composeai:rc-player-compose", version.ref = "rcPlayerComposeAndroid" }
 composeai-rc-embedded-player = { module = "ee.schimke.composeai:third-party-rc-embedded-player", version.ref = "rcEmbeddedPlayer" }
 composeai-ui-builder-export = { module = "ee.schimke.composeai:compose-preview-ui-builder-export", version.ref = "composePreviewServer" }
 composeai-ui-builder-renderer-sdk-source = { module = "ee.schimke.composeai:ui-builder-renderer-sdk-source", version.ref = "uiBuilderSource" }
