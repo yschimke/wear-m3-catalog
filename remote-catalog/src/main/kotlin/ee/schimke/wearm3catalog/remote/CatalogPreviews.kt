@@ -1383,13 +1383,13 @@ fun ButtonGroupRemote() = RemoteSticker {
   RemoteButtonGroup(modifier = RemoteModifier.width(180.rdp)) {
     RemoteButton(
       onClick = onFirst,
-      modifier = RemoteModifier.weight(1f.rf).paintStateFence(),
+      modifier = RemoteModifier.weight(1f.rf),
     ) {
       RemoteText(first)
     }
     RemoteButton(
       onClick = onSecond,
-      modifier = RemoteModifier.weight(1f.rf).paintStateFence(),
+      modifier = RemoteModifier.weight(1f.rf),
     ) {
       RemoteText(second)
     }

@@ -25,6 +25,40 @@ import androidx.compose.remote.core.operations.utilities.AnimatedFloatExpression
 
 /** Temporary adapter while the common Kotlin encoder replaces [RemoteComposeWriter]. */
 internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWriter) : RemoteWriter {
+
+    /**
+     * Whether the next paint must be written in full rather than as a delta.
+     *
+     * `RemoteComposeWriter` re-arms this itself at every layout content start (its private
+     * `addContentStart`), because a player begins each component with a fresh paint, and a delta
+     * written against the previous component's paint is read against defaults instead: a fill with
+     * no colour draws opaque black, and a stroke whose style was left out draws filled. This adapter
+     * writes content starts straight to the buffer, which skips that, so it re-arms the flag itself
+     * alongside every `addContentStart` below.
+     */
+    private var paintResetPending = false
+
+    /**
+     * `ComponentValue` variables by `(componentId, type)`, as `RemoteComposeWriter`'s
+     * `ComponentValuesCache` keys them: a component's width read twice is one variable fed by one
+     * operation, not two of each.
+     */
+    private val componentValueIds = HashMap<Long, Float>()
+
+    /** Path ids by content, as `RemoteComposeWriter.addPathData` dedupes through `cacheData`. */
+    private val pathIds = HashMap<PathKey, Int>()
+
+    private class PathKey(val data: FloatArray, val winding: Int) {
+        override fun equals(other: Any?): Boolean =
+            other is PathKey && winding == other.winding && data.contentEquals(other.data)
+
+        override fun hashCode(): Int = 31 * data.contentHashCode() + winding
+    }
+
+    private fun contentStart() {
+        delegate.buffer.addContentStart()
+        paintResetPending = true
+    }
     override fun createFloatId(): Float = delegate.createFloatId()
 
     override val componentIdForCache: Int
@@ -34,14 +68,15 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
 
     override fun addComponentHeightValue(componentId: Int): Float = componentValue(1, componentId)
 
-    private fun componentValue(type: Int, componentId: Int): Float {
-        val id = delegate.nextId()
-        delegate.buffer.buffer.start(150)
-        delegate.buffer.buffer.writeInt(type)
-        delegate.buffer.buffer.writeInt(componentId)
-        delegate.buffer.buffer.writeInt(id)
-        return Utils.asNan(id)
-    }
+    private fun componentValue(type: Int, componentId: Int): Float =
+        componentValueIds.getOrPut((componentId.toLong() shl 32) or (type.toLong() and 0xffffffffL)) {
+            val id = delegate.nextId()
+            delegate.buffer.buffer.start(150)
+            delegate.buffer.buffer.writeInt(type)
+            delegate.buffer.buffer.writeInt(componentId)
+            delegate.buffer.buffer.writeInt(id)
+            Utils.asNan(id)
+        }
 
     override fun startRoot() = delegate.startRoot()
 
@@ -50,7 +85,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun startBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
         delegate.buffer.addBoxStart(modifier.componentId, -1, horizontal, vertical)
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endBox() = delegate.endBox()
@@ -64,7 +99,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             modifier.spacedBy,
         )
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endRow() = delegate.endRow()
@@ -78,7 +113,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             modifier.spacedBy,
         )
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endColumn() = delegate.endColumn()
@@ -96,7 +131,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             modifier.spacedBy,
         )
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endCollapsibleRow() = delegate.endCollapsibleRow()
@@ -114,7 +149,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             modifier.spacedBy,
         )
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endCollapsibleColumn() = delegate.endCollapsibleColumn()
@@ -122,7 +157,10 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun startCanvas(modifier: RemoteModifierData) {
         delegate.buffer.addCanvasStart(modifier.componentId, -1)
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
+        // As `RemoteComposeWriter.startCanvas`: a document at API level 7 or below opens the
+        // canvas's content explicitly.
+        if (delegate.apiLevel <= 7) delegate.buffer.addCanvasContentStart(-1)
     }
 
     override fun endCanvas() = delegate.endCanvas()
@@ -134,7 +172,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun startFitBox(modifier: RemoteModifierData, horizontal: Int, vertical: Int) {
         delegate.buffer.addFitBoxStart(modifier.componentId, -1, horizontal, vertical)
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endFitBox() = delegate.endFitBox()
@@ -156,7 +194,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             maxLines,
         )
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endFlow() = delegate.endFlow()
@@ -164,7 +202,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun startStateLayout(modifier: RemoteModifierData, indexId: Int) {
         delegate.buffer.addStateLayout(modifier.componentId, -1, 0, 0, indexId)
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endStateLayout() = delegate.endStateLayout()
@@ -390,7 +428,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             data.flags,
         )
         data.modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endText() {
@@ -435,7 +473,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
             legacyProperties,
         )
         modifier.writeTo(this)
-        delegate.buffer.addContentStart()
+        contentStart()
     }
 
     override fun endCustom() {
@@ -616,12 +654,14 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     override fun addNamedLong(name: String, initialValue: Long): Int =
         delegate.addNamedLong(name, initialValue)
 
-    override fun addPathData(pathData: FloatArray, winding: Int): Int {
+    override fun addPathData(pathData: FloatArray, winding: Int): Int =
         // Released AndroidX only exposes the platform-path overload here. Reserve an id through
-        // its state allocator, then write the already encoded common path directly.
-        val id = delegate.nextId()
-        return delegate.buffer.addPathData(id, pathData, winding)
-    }
+        // its state allocator, then write the already encoded common path directly — once per
+        // distinct path, as its `cacheData` would.
+        pathIds.getOrPut(PathKey(pathData.copyOf(), winding)) {
+            val id = delegate.nextId()
+            delegate.buffer.addPathData(id, pathData, winding)
+        }
 
     override fun applyPaint(paint: PaintBundleData) {
         val values = paint.toIntArray()
@@ -630,7 +670,14 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         values.forEach(delegate.buffer.buffer::writeInt)
     }
 
-    override fun consumePaintReset(): Boolean = delegate.checkAndClearForceSendingNewPaint()
+    override fun consumePaintReset(): Boolean {
+        // Both flags are cleared: the delegate's is still set by the content starts it writes
+        // itself, and a reset consumed through either is the same reset.
+        val delegateReset = delegate.checkAndClearForceSendingNewPaint()
+        val result = paintResetPending || delegateReset
+        paintResetPending = false
+        return result
+    }
 
     override fun save() = delegate.save()
 
