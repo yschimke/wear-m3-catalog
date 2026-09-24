@@ -50,16 +50,17 @@ import org.robolectric.annotation.GraphicsMode
  */
 @RunWith(RobolectricTestRunner::class)
 @GraphicsMode(GraphicsMode.Mode.NATIVE)
-@Config(sdk = [35])
+// A window larger than any capture: Compose lays the content out at the window's size, and the
+// default 320 px window squeezes a 454 px sticker — wrapping its text — whatever the view is
+// measured at afterwards.
+@Config(sdk = [35], qualifiers = "w1000dp-h1000dp")
 class CmpAndroidPlayerTrialTest {
 
   @get:Rule val composeRule = createAndroidComposeRule<ComponentActivity>()
 
   private val renders = File("build/compose-previews/renders")
-  private var content by mutableStateOf<Pair<RcDocument, RcTypefaceLoader>?>(null)
-  private var width by mutableStateOf(0)
-  private var height by mutableStateOf(0)
-  private var density by mutableStateOf(1f)
+  private var capture by mutableStateOf<Capture?>(null)
+  private var started = false
 
   @Test
   fun `the CMP player draws every sticker on Android`() {
@@ -68,6 +69,9 @@ class CmpAndroidPlayerTrialTest {
         .listFiles { f -> f.name.endsWith(".rc") }
         .orEmpty()
         .sortedBy { it.name }
+        .filter { rc ->
+          System.getProperty("cmpTrialOnly")?.let { Regex(it).containsMatchIn(rc.name) } ?: true
+        }
         .mapNotNull { rc ->
           File(rc.path.removeSuffix(".rc") + ".png").takeIf { it.isFile }?.let { rc to it }
         }
@@ -76,19 +80,6 @@ class CmpAndroidPlayerTrialTest {
       captures.isNotEmpty(),
     )
 
-    // The first frame after `setContent` under a paused clock draws nothing; warm the scene up on
-    // the first capture so every measured render is a settled one.
-    captures.first().let { (rc, png) ->
-      val baked = BitmapFactory.decodeFile(png.path)
-      val document = RcDocumentCodec.decode(rc.readBytes())
-      render(
-        document,
-        baked.width,
-        baked.height,
-        documentDensity(png.name),
-        RcTypefaceLoader.Default,
-      )
-    }
     val out = System.getProperty("cmpTrialOut")?.let { File(it).apply { mkdirs() } }
     val failures = mutableListOf<String>()
     val rows = mutableListOf<String>()
@@ -132,6 +123,15 @@ class CmpAndroidPlayerTrialTest {
     )
   }
 
+  /** One capture's whole scene, keyed as a unit so nothing carries over from the last one. */
+  private data class Capture(
+    val document: RcDocument,
+    val typefaces: RcTypefaceLoader,
+    val width: Int,
+    val height: Int,
+    val density: Float,
+  )
+
   private fun render(
     document: RcDocument,
     w: Int,
@@ -139,37 +139,60 @@ class CmpAndroidPlayerTrialTest {
     documentDensity: Float,
     typefaces: RcTypefaceLoader,
   ): Bitmap {
-    if (width == 0) {
+    if (!started) {
+      started = true
       composeRule.setContent {
-        // The baked PNG is at device pixels for the capture's `dpi_NNN`, so the document is laid
-        // out at that density: the same dp, the same pixels.
-        val scene = Density(density, 1f)
-        CompositionLocalProvider(LocalDensity provides scene) {
-          Box(Modifier.size(with(scene) { width.toDp() }, with(scene) { height.toDp() })) {
-            content?.let { (doc, fonts) ->
-              key(doc, fonts) {
-                RcComposePlayer(doc, modifier = Modifier.fillMaxSize(), typefaces = fonts)
+        capture?.let { c ->
+          // Keyed on the whole capture, not just the document: reusing a scene across captures of
+          // different sizes and densities left layout from the previous one in place.
+          key(c) {
+            // The baked PNG is at device pixels for the capture's `dpi_NNN`, so the document is
+            // laid out at that density: the same dp, the same pixels.
+            val scene = Density(c.density, 1f)
+            CompositionLocalProvider(LocalDensity provides scene) {
+              Box(Modifier.size(with(scene) { c.width.toDp() }, with(scene) { c.height.toDp() })) {
+                RcComposePlayer(
+                  c.document,
+                  modifier = Modifier.fillMaxSize(),
+                  typefaces = c.typefaces,
+                )
               }
             }
           }
         }
       }
     }
-    width = w
-    height = h
-    density = documentDensity
-    // Documents that animate forever never let Compose go idle; step a fixed 100 ms instead.
+    // Documents that animate forever never let Compose go idle, so the clock is driven by hand:
+    // frames for the new capture to compose and lay out — without them the capture below draws
+    // the PREVIOUS document — then a fixed 100 ms.
     composeRule.mainClock.autoAdvance = false
-    content = document to typefaces
-    composeRule.mainClock.advanceTimeBy(100)
-    composeRule.waitForIdle()
+    // Size the view for THIS capture before it composes. Otherwise its first layout happens at the
+    // previous capture's size, and the player's bounds animation — correctly — animates the
+    // resize, so a capture 100 ms in draws a shifted, part-sized frame.
     val root = composeRule.activity.findViewById<ViewGroup>(android.R.id.content)
     root.measure(
       MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
       MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY),
     )
     root.layout(0, 0, w, h)
+    capture = Capture(document, typefaces, w, h, documentDensity)
+    repeat(SETTLE_FRAMES) {
+      composeRule.mainClock.advanceTimeByFrame()
+      composeRule.waitForIdle()
+    }
+    composeRule.mainClock.advanceTimeBy(100)
+    composeRule.waitForIdle()
+    root.measure(
+      MeasureSpec.makeMeasureSpec(w, MeasureSpec.EXACTLY),
+      MeasureSpec.makeMeasureSpec(h, MeasureSpec.EXACTLY),
+    )
+    root.layout(0, 0, w, h)
     return Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888).also { root.draw(Canvas(it)) }
+  }
+
+  private companion object {
+    /** Frames for a newly set document to compose, lay out and resolve its fonts. */
+    const val SETTLE_FRAMES = 3
   }
 
   /** A capture's density, from the `dpi_NNN` its render name carries; Wear's xhdpi otherwise. */
