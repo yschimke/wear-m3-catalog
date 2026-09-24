@@ -23,9 +23,10 @@ subprojects {
   extensions.configure<PublishingExtension> {
     repositories {
       // A self-contained Maven repository under the root build directory. `publishToBuildDir`
-      // fills it, and CI pushes it to the `wear-compose-cmp-maven` branch, which is then a real
-      // Maven repository served over raw.githubusercontent with no credentials — the form a wasm
-      // consumer can actually resolve from. Everything else here needs a token.
+      // fills it, and CI pushes it to the `wear-compose-cmp-maven` branch of wear-m3-catalog-out,
+      // which is then a real Maven repository served over raw.githubusercontent with no
+      // credentials — the form a wasm consumer can actually resolve from. Everything else here
+      // needs a token.
       maven(rootProject.layout.buildDirectory.dir("maven")) { name = "BuildDir" }
 
       // GitHub Packages, when the environment carries credentials for it. Absent those — a local
