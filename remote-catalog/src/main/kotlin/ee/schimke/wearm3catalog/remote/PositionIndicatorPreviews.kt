@@ -5,7 +5,12 @@ package ee.schimke.wearm3catalog.remote
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.RemoteColor
+import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.asRdp
+import androidx.compose.remote.creation.compose.state.clamp
+import androidx.compose.remote.creation.compose.state.max
+import androidx.compose.remote.creation.compose.state.min
+import androidx.compose.remote.creation.compose.state.pow
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rf
@@ -217,18 +222,45 @@ fun ScrollRailRemote() = RemoteSticker {
 }
 
 /**
- * The thumb's colour, and the closest published role to what Wear resolves.
+ * The thumb's colour: `onBackground` at tone 80, as `ScrollIndicatorDefaults.colors()` resolves it.
  *
- * `ScrollIndicatorDefaults.colors()` is `onBackground` put through a HCT luminance transform — 80
- * for the thumb, 20 for the track — which is a computed colour rather than a scheme role. A Remote
- * document is re-themed by overriding NAMED colour state (`USER:WearM3.<role>`, see
- * `RemoteThemeCatalogs.kt`), so baking the two resolved constants in would give this row a rail
- * that ignores every theme in the switcher. The roles are named instead and the difference in
- * luminance is left visible.
+ * Wear computes it with `setLuminance(80f)`, an HCT transform that keeps hue and chroma and sets
+ * tone (L*). The colour is not a scheme role, so it can't be named, and baking in the resolved
+ * constant would give a rail that ignores the theme switcher: themes reach a recorded document only
+ * as overrides of named colours such as `USER:WearM3.onBackground` (see `RemoteThemeCatalogs.kt`).
+ * [atTone] therefore derives it on the player from whatever `onBackground` is in force.
  */
-@Composable private fun RemoteScrollRailThumbColor() = RemoteMaterialTheme.colorScheme.onBackground
+@Composable
+private fun RemoteScrollRailThumbColor() = RemoteMaterialTheme.colorScheme.onBackground.atTone(80f)
 
-/** @see RemoteScrollRailThumbColor */
+/**
+ * This colour at L* [tone], computed by the player so it follows the theme.
+ *
+ * Remote Compose has no HCT, so it scales the colour in linear light until its relative luminance
+ * is the tone's. That keeps chromaticity rather than HCT's hue and chroma: for the light,
+ * low-chroma colours `onBackground` takes it matches Wear's `setLuminance` to within a few sRGB
+ * units at tone 80 (white gives `#C6C6C6`, the same as Wear), and it drifts on saturated colours or
+ * at low tones, which is why the track below keeps its role.
+ */
+private fun RemoteColor.atTone(tone: Float): RemoteColor {
+  val fy = (tone + 16f) / 116f
+  val targetLuminance = fy * fy * fy
+  // The sRGB transfer curve's power segment. Its linear toe only covers channels below 0.04045,
+  // which add almost nothing to the luminance of a light colour.
+  fun linear(channel: RemoteFloat) = pow((channel + 0.055f) / 1.055f, 2.4f)
+  val r = linear(red)
+  val g = linear(green)
+  val b = linear(blue)
+  val scale = targetLuminance.rf / max(r * 0.2126f + g * 0.7152f + b * 0.0722f, 0.0001f)
+  fun encoded(channel: RemoteFloat) =
+    clamp(pow(min(channel * scale, 1f), 1f / 2.4f) * 1.055f - 0.055f, 0f, 1f)
+  return RemoteColor.rgb(encoded(r), encoded(g), encoded(b), alpha)
+}
+
+/**
+ * The track's colour. Wear uses `onBackground` at tone 20, but [atTone] loses chroma that far down,
+ * so the track stays on the nearest role.
+ */
 @Composable
 private fun RemoteScrollRailTrackColor() = RemoteMaterialTheme.colorScheme.surfaceContainer
 
