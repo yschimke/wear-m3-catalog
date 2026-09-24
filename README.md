@@ -58,7 +58,8 @@ What each of these took is in [`docs/PIPELINE.md`](docs/PIPELINE.md).
 
 ## Using it from a wasm app
 
-The published artifacts live on the `wear-compose-cmp-maven` branch, which `raw.githubusercontent`
+The published artifacts live on the `wear-compose-cmp-maven` branch of the output repository,
+[`wear-m3-catalog-out`](https://github.com/yschimke/wear-m3-catalog-out), which `raw.githubusercontent`
 serves as a static Maven repository — **no credentials**, which matters because a consumer's CI
 would otherwise need a token to build at all. GitHub Packages carries the same artifacts for anyone
 who prefers it, and needs one.
@@ -67,7 +68,7 @@ who prefers it, and needs one.
 // settings.gradle.kts
 dependencyResolutionManagement {
     repositories {
-        maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/")
+        maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/")
         google()
         mavenCentral()
     }
@@ -85,7 +86,7 @@ kotlin {
 ```
 
 The latest published version is whatever
-[`maven-metadata.xml`](https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/ee/schimke/wearcmp/wear-compose-material3/maven-metadata.xml)
+[`maven-metadata.xml`](https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/ee/schimke/wearcmp/wear-compose-material3/maven-metadata.xml)
 on the Maven branch says — this snippet is pinned rather than a range, so check it rather than
 assuming the number here is current.
 

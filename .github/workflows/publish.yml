@@ -4,10 +4,11 @@ name: Publish
 #
 # GitHub Packages needs a token even to read, which makes it useless as the primary lane: the UI
 # builder would have to carry one in its own CI to build at all. So the artifacts are published as
-# a plain Maven tree on the `wear-compose-cmp-maven` branch, which raw.githubusercontent serves as
-# a static repository over HTTPS:
+# a plain Maven tree on the `wear-compose-cmp-maven` branch of the public output repository,
+# `yschimke/wear-m3-catalog-out`, beside the design artifacts, so this source repository carries no
+# generated branch (#604). raw.githubusercontent serves it as a static repository over HTTPS:
 #
-#   maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/wear-compose-cmp-maven/")
+#   maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/")
 #
 # GitHub Packages is published to as well, for anyone who prefers it.
 #
@@ -38,6 +39,11 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      MAVEN_REPOSITORY: yschimke/wear-m3-catalog-out
+      # ARTIFACTS_TOKEN is the credential the design-artifacts lanes already push to the output
+      # repository with; github.token cannot write outside this repository.
+      MAVEN_REMOTE: https://x-access-token:${{ secrets.ARTIFACTS_TOKEN }}@github.com/yschimke/wear-m3-catalog-out.git
     permissions:
       contents: write
       packages: write
@@ -59,9 +65,8 @@ jobs:
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
           tree="$RUNNER_TEMP/maven"
-          if git ls-remote --exit-code --heads origin wear-compose-cmp-maven >/dev/null 2>&1; then
-            git clone -q --depth 1 --branch wear-compose-cmp-maven \
-              "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "$tree"
+          if git ls-remote --exit-code --heads "$MAVEN_REMOTE" wear-compose-cmp-maven >/dev/null 2>&1; then
+            git clone -q --depth 1 --branch wear-compose-cmp-maven "$MAVEN_REMOTE" "$tree"
           else
             git init -q "$tree"
             git -C "$tree" checkout -q --orphan wear-compose-cmp-maven
@@ -97,12 +102,30 @@ jobs:
 
       # Not conditional on `republish`: GitHub Packages rejects a re-upload with 409 whatever we
       # think, so the only safe thing to do with an already-published version is leave it alone.
+      # GitHub Packages refuses to overwrite a release version (409 Conflict), and it is not the Maven
+      # branch: it can hold a version the branch lacks, as the Remote Compose port's did when its
+      # branch was lost (#606 in the main line). So every module is offered with --continue, and only
+      # a failure that is not a 409 fails the step; the branch push below always gets its turn.
       - name: Publish to GitHub Packages
-        if: steps.state.outputs.published == 'false'
+        if: steps.state.outputs.published == 'false' || inputs.republish
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_ACTOR: ${{ github.actor }}
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
+        run: |
+          # The runner starts bash with -e -o pipefail; +e lets the check below read the failures.
+          set +e -uo pipefail
+          log="$RUNNER_TEMP/github-packages.log"
+          ./gradlew --continue publishAllPublicationsToGitHubPackagesRepository 2>&1 | tee "$log"
+          status=${PIPESTATUS[0]}
+          [ "$status" = 0 ] && exit 0
+          failed=$(grep -c '^Execution failed for task' "$log" || true)
+          conflicts=$(grep -c 'Received status code 409 from server' "$log" || true)
+          if [ "$failed" -gt 0 ] && [ "$failed" = "$conflicts" ]; then
+            echo "::notice::$conflicts publication(s) already in GitHub Packages; left as they are."
+            exit 0
+          fi
+          exit "$status"
 
       - name: Push the Maven tree
         if: steps.state.outputs.published == 'false' || inputs.republish
@@ -123,15 +146,13 @@ jobs:
             -c user.name="github-actions[bot]" \
             -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
             commit -qm "chore: publish $version"
-          git -C "$tree" push -q \
-            "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
-            "HEAD:wear-compose-cmp-maven"
+          git -C "$tree" push -q "$MAVEN_REMOTE" "HEAD:wear-compose-cmp-maven"
 
           {
             echo "### Published $version"
             echo
             echo '```kotlin'
-            echo 'maven("https://raw.githubusercontent.com/${{ github.repository }}/wear-compose-cmp-maven/")'
+            echo 'maven("https://raw.githubusercontent.com/${{ env.MAVEN_REPOSITORY }}/wear-compose-cmp-maven/")'
             echo "implementation(\"ee.schimke.wearcmp:wear-compose-material3:$version\")"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
