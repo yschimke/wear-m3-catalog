@@ -61,6 +61,21 @@ jobs:
             echo 'published=false' >> "$GITHUB_OUTPUT"
           fi
 
+          # GitHub Packages is asked separately, because it is not the branch: it refuses to
+          # overwrite a release version (409 Conflict), so a version it already holds must not be
+          # uploaded again. Tying the upload to the branch check made a deleted branch permanent —
+          # the rerun that would have restored it failed on the 409 first, and the renderer build,
+          # which resolves from the branch, could not find the port it pins.
+          pom="ee/schimke/remotecompose/remote-material3/$version/remote-material3-$version.pom"
+          status=$(curl -s -o /dev/null -w '%{http_code}' \
+            -u "${{ github.actor }}:${{ github.token }}" \
+            "https://maven.pkg.github.com/${{ github.repository }}/$pom")
+          if [ "$status" = 200 ]; then
+            echo 'packaged=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'packaged=false' >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Already published
         if: steps.state.outputs.published == 'true' && !inputs.republish
         run: |
@@ -75,7 +90,7 @@ jobs:
         run: ./gradlew publishRemoteComposeToBuildDir
 
       - name: Publish to GitHub Packages
-        if: steps.state.outputs.published == 'false'
+        if: steps.state.outputs.packaged == 'false'
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_ACTOR: ${{ github.actor }}
