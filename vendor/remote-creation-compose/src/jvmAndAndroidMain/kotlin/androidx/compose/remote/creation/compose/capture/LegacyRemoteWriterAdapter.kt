@@ -48,11 +48,17 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
     /** Path ids by content, as `RemoteComposeWriter.addPathData` dedupes through `cacheData`. */
     private val pathIds = HashMap<PathKey, Int>()
 
-    private class PathKey(val data: FloatArray, val winding: Int) {
-        override fun equals(other: Any?): Boolean =
-            other is PathKey && winding == other.winding && data.contentEquals(other.data)
+    /**
+     * Keyed on raw bits: a path's commands and variable references are NaN payloads, which
+     * `FloatArray.contentEquals` would fold into one NaN, making different paths look equal.
+     */
+    private class PathKey(data: FloatArray, private val winding: Int) {
+        private val bits = IntArray(data.size) { data[it].toRawBits() }
 
-        override fun hashCode(): Int = 31 * data.contentHashCode() + winding
+        override fun equals(other: Any?): Boolean =
+            other is PathKey && winding == other.winding && bits.contentEquals(other.bits)
+
+        override fun hashCode(): Int = 31 * bits.contentHashCode() + winding
     }
 
     private fun contentStart() {
@@ -658,7 +664,7 @@ internal class LegacyRemoteWriterAdapter(private val delegate: RemoteComposeWrit
         // Released AndroidX only exposes the platform-path overload here. Reserve an id through
         // its state allocator, then write the already encoded common path directly — once per
         // distinct path, as its `cacheData` would.
-        pathIds.getOrPut(PathKey(pathData.copyOf(), winding)) {
+        pathIds.getOrPut(PathKey(pathData, winding)) {
             val id = delegate.nextId()
             delegate.buffer.addPathData(id, pathData, winding)
         }
