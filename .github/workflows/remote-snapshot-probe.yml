@@ -50,6 +50,9 @@ concurrency:
 
 env:
   STATE_BRANCH: snapshot-probe/remote-m3
+  # Generated state lives in the output repository with the other generated branches, never in
+  # this source repository.
+  STATE_REPOSITORY: yschimke/wear-m3-catalog-out
   # The one issue this job talks to. Per-issue comments are deliberately left to a human: an
   # automation that posts to #89 / #90 / #91 on every wobble teaches people to skim them.
   TRACKING_ISSUE: '95'
@@ -78,10 +81,12 @@ jobs:
         run: python3 scripts/test_remote_snapshot_probe.py
 
       - name: Read the previous state
+        env:
+          STATE_TOKEN: ${{ secrets.ARTIFACTS_TOKEN }}
         run: |
           set -euo pipefail
           if git clone --depth 1 --branch "$STATE_BRANCH" \
-               "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+               "https://x-access-token:${STATE_TOKEN}@github.com/${STATE_REPOSITORY}.git" \
                state 2>/dev/null; then
             echo "state branch present"
           else
@@ -188,6 +193,7 @@ jobs:
       - name: Publish the state
         if: steps.gate.outputs.run == 'true'
         env:
+          STATE_TOKEN: ${{ secrets.ARTIFACTS_TOKEN }}
           BUILD_ID: ${{ steps.resolve.outputs.buildId }}
         run: |
           set -euo pipefail
@@ -205,7 +211,7 @@ jobs:
           git add -A
           git diff --cached --quiet && { echo "state unchanged"; exit 0; }
           git commit -q -m "probe: androidx.dev build $BUILD_ID"
-          git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+          git push -q "https://x-access-token:${STATE_TOKEN}@github.com/${STATE_REPOSITORY}.git" \
             "HEAD:$STATE_BRANCH"
 
       - name: Report
@@ -217,6 +223,6 @@ jobs:
           {
             cat summary.md
             echo
-            echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) · state on \`$STATE_BRANCH\`"
+            echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) · state on [\`$STATE_BRANCH\`](${{ github.server_url }}/${STATE_REPOSITORY}/tree/${STATE_BRANCH})"
           } > comment.md
           gh issue comment "$TRACKING_ISSUE" --repo "${{ github.repository }}" --body-file comment.md
