@@ -61,24 +61,6 @@ jobs:
             echo 'published=false' >> "$GITHUB_OUTPUT"
           fi
 
-          # GitHub Packages is asked separately, because it is not the branch: it refuses to
-          # overwrite a release version (409 Conflict), so a module it already holds must not be
-          # uploaded again. Tying the upload to the branch check made a deleted branch permanent —
-          # the rerun that would have restored it failed on the 409 first, and the renderer build,
-          # which resolves from the branch, could not find the port it pins. Each module is asked
-          # for, so a partial upload publishes only what is still missing.
-          missing=''
-          for module in remote-core remote-write-core remote-creation-compose remote-foundation remote-material3; do
-            pom="ee/schimke/remotecompose/$module/$version/$module-$version.pom"
-            status=$(curl -s -o /dev/null -w '%{http_code}' \
-              -u "${{ github.actor }}:${{ github.token }}" \
-              "https://maven.pkg.github.com/${{ github.repository }}/$pom")
-            if [ "$status" != 200 ]; then
-              missing="$missing :vendor:$module:publishAllPublicationsToGitHubPackagesRepository"
-            fi
-          done
-          echo "packages-missing=${missing# }" >> "$GITHUB_OUTPUT"
-
       - name: Already published
         if: steps.state.outputs.published == 'true' && !inputs.republish
         run: |
@@ -92,14 +74,31 @@ jobs:
         if: steps.state.outputs.published == 'false' || inputs.republish
         run: ./gradlew publishRemoteComposeToBuildDir
 
+      # GitHub Packages refuses to overwrite a release version (409 Conflict), and it is not the
+      # branch: it can hold a version the branch lost. Keying the upload on the branch check made a
+      # deleted branch permanent — the rerun that would have restored it failed on the 409 before
+      # the push step, and the renderer build, which resolves from the branch, could not find the
+      # port it pins. So every module is offered with --continue: one Packages lacks is uploaded,
+      # one it already holds answers 409, and only a failure that is not a 409 fails the step.
       - name: Publish to GitHub Packages
-        if: steps.state.outputs.packages-missing != ''
+        if: steps.state.outputs.published == 'false' || inputs.republish
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_ACTOR: ${{ github.actor }}
-          MISSING: ${{ steps.state.outputs.packages-missing }}
-        # Word splitting is the point: MISSING is a space-separated list of task paths.
-        run: ./gradlew $MISSING
+        run: |
+          set -uo pipefail
+          log="$RUNNER_TEMP/github-packages.log"
+          ./gradlew --continue publishAllPublicationsToGitHubPackagesRepository 2>&1 | tee "$log"
+          status=${PIPESTATUS[0]}
+          [ "$status" = 0 ] && exit 0
+          failed=$(grep -c '^Execution failed for task' "$log" || true)
+          conflicts=$(grep -c 'Received status code 409 from server' "$log" || true)
+          if [ "$failed" -gt 0 ] && [ "$failed" = "$conflicts" ]; then
+            echo "::notice::$conflicts publication(s) already in GitHub Packages; left as they are."
+            exit 0
+          fi
+          exit "$status"
 
       - name: Push Maven repository
         if: steps.state.outputs.published == 'false' || inputs.republish
