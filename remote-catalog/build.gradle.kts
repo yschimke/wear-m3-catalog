@@ -313,6 +313,7 @@ dependencies {
 tasks.withType<Test>().configureEach {
   systemProperty("writeGolden", providers.gradleProperty("writeGolden").getOrElse("false"))
   providers.gradleProperty("cmpTrialOut").orNull?.let { systemProperty("cmpTrialOut", it) }
+  providers.gradleProperty("cmpTrialOnly").orNull?.let { systemProperty("cmpTrialOnly", it) }
   // The shared Google Fonts cache `rcGoogleFontsTypefaceLoader` reads — the same property the
   // embedded player and the preview daemon use. Unset, `google:` families fall to the GMS
   // provider, which Robolectric does not have, and draw in the default face.
