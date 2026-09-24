@@ -87,7 +87,9 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_ACTOR: ${{ github.actor }}
         run: |
-          set -uo pipefail
+          # The runner starts bash with -e -o pipefail, so the failing Gradle pipeline below would
+          # end the step before its failures were read. +e keeps it running to the check.
+          set +e -uo pipefail
           log="$RUNNER_TEMP/github-packages.log"
           ./gradlew --continue publishAllPublicationsToGitHubPackagesRepository 2>&1 | tee "$log"
           status=${PIPESTATUS[0]}
