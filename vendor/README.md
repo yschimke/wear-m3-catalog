@@ -41,11 +41,12 @@ The five vendored modules publish under `ee.schimke.remotecompose` at
 `portRevision` whenever published bytes change without moving to a newer AndroidX patch set.
 
 As with the repository's Wear Compose CMP port, CI publishes to GitHub Packages and to a
-credential-free Maven tree on `remote-compose-cmp-maven`:
+credential-free Maven tree on the `remote-compose-cmp-maven` branch of the output repository,
+`yschimke/wear-m3-catalog-out`:
 
 ```kotlin
 repositories {
-  maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog/remote-compose-cmp-maven/")
+  maven("https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/remote-compose-cmp-maven/")
 }
 
 dependencies {

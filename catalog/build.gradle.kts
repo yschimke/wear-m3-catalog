@@ -11,7 +11,7 @@
 // ── What renders the kit ──────────────────────────────────────────────────────────────────────
 //
 // The published rendition is still drawn by the REAL AndroidX library. `commonMain` compiles
-// against the CMP Wear port (`ee.schimke.wearcmp`, from this repository's own
+// against the CMP Wear port (`ee.schimke.wearcmp`, from the output repository's
 // `wear-compose-cmp-maven` branch — see `settings.gradle.kts` for the fenced repository), and every
 // `android` configuration substitutes that straight back to `androidx.wear.compose`. The port is
 // what makes ONE set of component bodies compile for more than one target; it is not what the kit
