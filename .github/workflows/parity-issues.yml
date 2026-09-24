@@ -69,11 +69,16 @@ jobs:
       # The delivery branch is `design-artifacts/<system>`, and this catalog's is
       # `design-artifacts/wear-m3-catalog` — the same slug `design-artifacts.yml` passes.
       system: wear-m3-catalog
+      # Same output repository design-artifacts.yml publishes design-artifacts/<system> to;
+      # generated branches never live in this source repository.
+      artifact-repository: yschimke/wear-m3-catalog-out
       # Only this repository. The catalog's previews are declared here, so this is where a
       # difference gets reported; add a source repo to this array only alongside a
       # credential that can read its issues, since an unreadable repo is indistinguishable
       # from one with no parity issues.
       repositories: '["yschimke/wear-m3-catalog"]'
+    secrets:
+      artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
 
   publish-remote:
     name: remote-m3 (:remote-catalog)
@@ -93,6 +98,11 @@ jobs:
       # failure mode is a silently ageing index rather than a missing one, and the compare
       # page keeps rendering a Bugs column that is simply out of date.
       system: remote-m3
+      # Same output repository design-artifacts.yml publishes design-artifacts/<system> to;
+      # generated branches never live in this source repository.
+      artifact-repository: yschimke/wear-m3-catalog-out
       # The same source repository: both catalogs' previews are declared here, and a locator
       # names its own system, so one issue set feeds both indexes.
       repositories: '["yschimke/wear-m3-catalog"]'
+    secrets:
+      artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
