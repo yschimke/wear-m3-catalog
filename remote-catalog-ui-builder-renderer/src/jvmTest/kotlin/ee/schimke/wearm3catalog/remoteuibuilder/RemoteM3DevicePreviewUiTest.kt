@@ -58,16 +58,15 @@ class RemoteM3DevicePreviewUiTest {
         val spec = WearWidgetScaffoldSize.Small.hostSpec(shape)
         var readyCalls = 0
         val sent =
-          document()
-            .let {
-              it.copy(
-                environment =
-                  JsonObject(
-                    it.environment +
-                      (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
-                  )
-              )
-            }
+          document().let {
+            it.copy(
+              environment =
+                JsonObject(
+                  it.environment +
+                    (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
+                )
+            )
+          }
         setContent {
           RemoteM3DevicePreview(sent, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
             readyCalls++
