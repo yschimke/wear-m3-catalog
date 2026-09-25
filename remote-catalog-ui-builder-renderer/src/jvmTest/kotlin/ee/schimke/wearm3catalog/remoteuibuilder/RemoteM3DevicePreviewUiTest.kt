@@ -94,6 +94,37 @@ class RemoteM3DevicePreviewUiTest {
     }
 
   @Test
+  fun `edits faster than a recording leave only the last one's result`() =
+    runDesktopComposeUiTest(width = 432, height = 240) {
+      var readyCalls = 0
+      var current by mutableStateOf(document())
+      setContent { RemoteM3DevicePreview(current, widthDp = 216f, heightDp = 76f) { readyCalls++ } }
+      waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+      // Back to back, so the first edit's recording is cancelled by the second.
+      mainClock.autoAdvance = false
+      current = edited(3, "One")
+      mainClock.advanceTimeByFrame()
+      current = edited(4, "Two")
+      mainClock.autoAdvance = true
+      waitUntil(timeoutMillis = 10_000) {
+        onAllNodesWithTag(REMOTE_M3_REFRESHING_TEST_TAG).fetchSemanticsNodes().isEmpty()
+      }
+
+      // Settled on the last edit: drawn, no indicator left behind, and at most one report per
+      // recording that finished (a cancelled one reports nothing).
+      assertTrue(readyCalls in 2..3, "ready reported $readyCalls times")
+      onNodeWithTag(REMOTE_M3_WIDGET_CONTENT_TEST_TAG).assertIsDisplayed()
+      onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
+        .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
+    }
+
+  private fun edited(revision: Int, text: String): UiBuilderDocument =
+    Json.decodeFromString(
+      DOCUMENT.replace("\"BG\"", "\"$text\"").replace("\"revision\": 2", "\"revision\": $revision")
+    )
+
+  @Test
   fun `the host frame is the shape the editor names for the pane`() {
     // The editor sends each preview pane's shape in the environment; without it every pane was
     // framed as the default, so the Samsung and Pixel Watch panes drew the same rectangle.

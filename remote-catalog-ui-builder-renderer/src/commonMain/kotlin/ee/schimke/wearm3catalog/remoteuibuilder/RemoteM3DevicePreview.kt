@@ -104,6 +104,8 @@ import ee.schimke.composeai.uibuilder.stateSelection
 import ee.schimke.wearm3catalog.uibuilder.WearWidgetContainerFrame
 import ee.schimke.wearm3catalog.uibuilder.wearWidgetHostShape
 import kotlin.math.roundToInt
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
@@ -165,6 +167,9 @@ internal fun RemoteM3DevicePreview(
       }
       CapturedRemoteDocuments(content = content, background = background)
     }
+    // A newer edit cancels this capture; `runCatching` would turn that into a failure that replaced
+    // the kept drawing and cleared the newer edit's indicator. Only the live capture lands.
+    currentCoroutineContext().ensureActive()
     captured = next
     refreshing = false
     onReady()
