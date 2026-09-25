@@ -1,0 +1,264 @@
+{
+ "schema": "compose-ui-builder-document/v1-candidate",
+ "id": "golden-tiles-goal",
+ "title": "Golden Tiles \u00b7 Goal",
+ "revision": 7,
+ "catalogPin": {
+  "systemId": "remote-m3",
+  "catalogRevision": "sha256:b2ff0dd000348e59aac83765914f8b92",
+  "capabilityDigest": "candidate",
+  "nativeRuntimeId": "remote-m3-p3-573935e055be"
+ },
+ "environment": {
+  "widthDp": 216,
+  "heightDp": 76,
+  "density": 2.0,
+  "theme": "dark",
+  "locale": "en-US",
+  "fontScale": 1.0,
+  "layoutDirection": "ltr",
+  "exportDevices": []
+ },
+ "stateVariables": {},
+ "roots": [
+  "widget"
+ ],
+ "nodes": {
+  "widget": {
+   "id": "widget",
+   "componentId": "remote-m3/widget-container-small",
+   "properties": {
+    "background": {
+     "type": "color",
+     "value": "#FF272430"
+    }
+   },
+   "modifiers": [],
+   "slots": {
+    "background": [],
+    "content": [
+     "goal-row-s4"
+    ]
+   }
+  },
+  "goal-row-s4": {
+   "id": "goal-row-s4",
+   "componentId": "layout/row",
+   "properties": {
+    "verticalAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxSize"
+    },
+    {
+     "type": "padding",
+     "startDp": 6,
+     "topDp": 0,
+     "endDp": 6,
+     "bottomDp": 0
+    }
+   ],
+   "slots": {
+    "children": [
+     "goal-text-s4",
+     "gap-9-s4",
+     "goal-graphic-s4"
+    ]
+   }
+  },
+  "goal-text-s4": {
+   "id": "goal-text-s4",
+   "componentId": "layout/column",
+   "properties": {
+    "verticalSpacingDp": {
+     "type": "float",
+     "value": 0.0
+    }
+   },
+   "modifiers": [
+    {
+     "type": "weight",
+     "weight": 1.0
+    }
+   ],
+   "slots": {
+    "children": [
+     "goal-steps-s4",
+     "goal-target-s4"
+    ]
+   }
+  },
+  "goal-steps-s4": {
+   "id": "goal-steps-s4",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "5,168"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 1
+    },
+    "style": {
+     "type": "enum",
+     "value": "numeralSmall"
+    },
+    "color": {
+     "type": "color",
+     "value": "#FFE3E2EA"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  },
+  "goal-target-s4": {
+   "id": "goal-target-s4",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "of 8,000 steps"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 1
+    },
+    "style": {
+     "type": "enum",
+     "value": "labelSmall"
+    },
+    "color": {
+     "type": "color",
+     "value": "#FFC5C6D0"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  },
+  "gap-9-s4": {
+   "id": "gap-9-s4",
+   "componentId": "layout/box",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "width",
+     "widthDp": 8
+    }
+   ],
+   "slots": {
+    "children": []
+   }
+  },
+  "goal-graphic-s4": {
+   "id": "goal-graphic-s4",
+   "componentId": "layout/box",
+   "properties": {
+    "contentAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "size",
+     "widthDp": 56,
+     "heightDp": 56
+    }
+   ],
+   "slots": {
+    "children": [
+     "goal-progress-s4",
+     "goal-icon-s4"
+    ]
+   }
+  },
+  "goal-progress-s4": {
+   "id": "goal-progress-s4",
+   "componentId": "remote-m3/remote-circular-progress-indicator",
+   "properties": {
+    "progress": {
+     "type": "float",
+     "value": 0.646
+    },
+    "startAngle": {
+     "type": "float",
+     "value": 200.0
+    },
+    "endAngle": {
+     "type": "float",
+     "value": 520.0
+    }
+   },
+   "modifiers": [
+    {
+     "type": "size",
+     "widthDp": 56,
+     "heightDp": 56
+    },
+    {
+     "type": "align",
+     "alignment": "center"
+    }
+   ],
+   "slots": {}
+  },
+  "goal-icon-s4": {
+   "id": "goal-icon-s4",
+   "componentId": "asset/image",
+   "properties": {
+    "assetKey": {
+     "type": "string",
+     "value": "walk-icon"
+    },
+    "contentDescription": {
+     "type": "string",
+     "value": "Walking"
+    },
+    "contentScale": {
+     "type": "string",
+     "value": "fit"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "size",
+     "widthDp": 22,
+     "heightDp": 22
+    },
+    {
+     "type": "align",
+     "alignment": "center"
+    }
+   ],
+   "slots": {}
+  }
+ },
+ "assets": {
+  "walk-icon": {
+   "mediaType": "image/png",
+   "contentDigest": "sha256:5c470ce6e6a5c8fc6087306c08def0b32dffd9e85a88866b34ac43903128cb23",
+   "source": {
+    "type": "embedded",
+    "base64": "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAFElEQVR4nGM8UaHBgA0wYRUdtBIAHicBeAYWg8oAAAAASUVORK5CYII="
+   },
+   "widthPx": 96,
+   "heightPx": 96
+  }
+ },
+ "createdAtEpochMillis": 1789856896387,
+ "updatedAtEpochMillis": 1790290909671,
+ "components": {}
+}

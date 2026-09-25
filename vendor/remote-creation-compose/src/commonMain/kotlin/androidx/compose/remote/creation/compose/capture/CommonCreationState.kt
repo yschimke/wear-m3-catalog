@@ -103,7 +103,7 @@ public open class RemoteComposeCreationState(
         platformImageProvider.addNamedBitmap(name, image)
 }
 
-private object NoOpPlatformImageProvider : PlatformImageProvider {
+internal object NoOpPlatformImageProvider : PlatformImageProvider {
     override fun addBitmap(image: ImageBitmap): Int = -1
 
     override fun addNamedBitmap(name: String, image: ImageBitmap): Int = -1

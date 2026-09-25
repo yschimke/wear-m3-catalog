@@ -9,21 +9,30 @@ import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
+import androidx.compose.remote.creation.compose.layout.RemoteColumnScope
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.layout.RemoteRow
+import androidx.compose.remote.creation.compose.layout.RemoteRowScope
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.background
+import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.height
 import androidx.compose.remote.creation.compose.modifier.padding
-import androidx.compose.remote.creation.compose.modifier.size
 import androidx.compose.remote.creation.compose.modifier.width
+import androidx.compose.remote.creation.compose.shaders.RemoteBrush
+import androidx.compose.remote.creation.compose.shaders.horizontalGradient
+import androidx.compose.remote.creation.compose.shaders.verticalGradient
+import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.asRemoteTextUnit
+import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.text.RemoteTextStyle
 import androidx.compose.runtime.Composable
@@ -38,11 +47,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteCard
+import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
 import ee.schimke.composeai.rcplayer.compose.RcComposePlayer
@@ -183,7 +195,11 @@ private suspend fun captureDocument(
   content: @Composable @RemoteComposable () -> Unit,
 ): RcDocument {
   val bytes =
-    captureCommonRemoteDocument(RemoteCreationDisplayInfo(widthDp.toInt(), heightDp.toInt(), 160)) {
+    captureCommonRemoteDocument(
+      RemoteCreationDisplayInfo(widthDp.toInt(), heightDp.toInt(), 160),
+      // Pictures travel inside the document: without an encoder the common writer drops them.
+      encodePng = ::encodeDesignAssetPng,
+    ) {
       RemoteMaterialTheme { content() }
     }
   return RcDocumentCodec.decode(bytes)
@@ -218,34 +234,53 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
     document.roots.singleOrNull()?.let(tree::root)?.slot(slotName)?.forEach { RenderNode(it) }
   }
 
+  /**
+   * One node, entered from the container it sits in.
+   *
+   * [row] and [column] are that container's scope, because `weight` is a member of it rather than a
+   * plain modifier — exactly as in the Kotlin this design exports to.
+   */
   @Composable
   @RemoteComposable
-  private fun RenderNode(entry: CanvasRenderNode) {
+  private fun RenderNode(
+    entry: CanvasRenderNode,
+    row: RemoteRowScope? = null,
+    column: RemoteColumnScope? = null,
+  ) {
     val node = entry.node
-    val modifier = node.remoteModifier()
+    val modifier = node.remoteModifier(row, column)
     when (node.componentId) {
       "remote-m3/widget-container-small",
       "remote-m3/widget-container-large" -> entry.slot("content").forEach { RenderNode(it) }
-      "layout/box" ->
-        RemoteBox(modifier = modifier, contentAlignment = node.boxAlignment()) {
-          entry.slot("children").forEach { RenderNode(it) }
+      "layout/box" -> {
+        val children = entry.slot("children")
+        RemoteBox(
+          modifier = modifier,
+          contentAlignment =
+            children.sharedAlignment("align")?.boxAlignment() ?: node.boxAlignment(),
+        ) {
+          children.forEach { RenderNode(it) }
         }
+      }
       "layout/column" ->
         RemoteColumn(
           modifier = modifier,
           verticalArrangement = node.verticalArrangement(),
           horizontalAlignment = node.horizontalAlignment(),
         ) {
-          entry.slot("children").forEach { RenderNode(it) }
+          entry.slot("children").forEach { RenderNode(it, column = this) }
         }
-      "layout/row" ->
+      "layout/row" -> {
+        val children = entry.slot("children")
         RemoteRow(
           modifier = modifier,
           horizontalArrangement = node.horizontalArrangement(),
-          verticalAlignment = node.verticalAlignment(),
+          verticalAlignment =
+            children.sharedAlignment("alignVertical")?.vertical() ?: node.verticalAlignment(),
         ) {
-          entry.slot("children").forEach { RenderNode(it) }
+          children.forEach { RenderNode(it, row = this) }
         }
+      }
       "m3/text",
       "remote-m3/remote-text" ->
         RemoteText(
@@ -255,7 +290,9 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
           fontSize =
             node.number("fontSize")?.sp?.asRemoteTextUnit()
               ?: node.number("fontSizeSp")?.sp?.asRemoteTextUnit(),
+          fontWeight = node.fontWeight(),
           textAlign = node.textAlign(),
+          overflow = node.textOverflow(),
           maxLines = node.integer("maxLines") ?: Int.MAX_VALUE,
           style = node.textStyle(),
         )
@@ -274,6 +311,33 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
         RemoteCard(onClick = combinedAction(), modifier = modifier) {
           entry.slot("content").forEach { RenderNode(it) }
         }
+      "remote-m3/remote-circular-progress-indicator" ->
+        RemoteCircularProgressIndicator(
+          progress = (node.number("progress") ?: 0f).rf,
+          modifier = modifier,
+          startAngle = (node.number("startAngle") ?: 0f).rf,
+          endAngle = (node.number("endAngle") ?: node.number("startAngle") ?: 0f).rf,
+        )
+      "asset/image" -> {
+        // The editor inlines the uploaded pictures it has fetched; until it has, a plain frame.
+        val bytes = document.embeddedAssetBytes(node.assetKey())
+        val bitmap = remember(bytes) { bytes?.let(::decodeDesignAssetBitmap) }
+        if (bitmap == null) RemoteBox(modifier = modifier.background(Color(0x33808080).rc))
+        else
+          RemoteImage(
+            remoteBitmap = bitmap.rb,
+            contentDescription = node.string("contentDescription").ifEmpty { null }?.rs,
+            modifier = modifier,
+            contentScale = node.assetContentScale(),
+          )
+      }
+      "shape/linear-gradient" -> {
+        val colors = listOfNotNull(node.remoteColor("startColor"), node.remoteColor("endColor"))
+        val brush =
+          if (node.string("direction") == "horizontal") RemoteBrush.horizontalGradient(colors)
+          else RemoteBrush.verticalGradient(colors)
+        RemoteBox(modifier = modifier.background(brush))
+      }
       else ->
         RemoteText(
           text = "Unsupported: ${node.componentId}".rs,
@@ -284,6 +348,28 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
     }
   }
 }
+
+/**
+ * The alignment every child asks its container for with a [modifierType] modifier, when they agree.
+ *
+ * `RemoteBox`, `RemoteRow` and `RemoteColumn` align their content as a group, so a child's own
+ * alignment becomes the container's argument, which is how the exported Kotlin writes it too.
+ */
+private fun List<CanvasRenderNode>.sharedAlignment(modifierType: String): String? = map { child ->
+  child.node.modifiers
+    .mapNotNull { it as? JsonObject }
+    .firstOrNull { (it["type"] as? JsonPrimitive)?.contentOrNull == modifierType }
+    ?.let { (it["alignment"] as? JsonPrimitive)?.contentOrNull }
+}
+  .distinct()
+  .singleOrNull()
+
+private fun String.vertical(): RemoteAlignment.Vertical =
+  when (this) {
+    "top" -> RemoteAlignment.Top
+    "bottom" -> RemoteAlignment.Bottom
+    else -> RemoteAlignment.CenterVertically
+  }
 
 private fun UiBuilderDocument.initialState(): Map<String, String?> =
   stateVariables.mapValues { (_, declaration) ->
@@ -313,7 +399,10 @@ private fun UiBuilderNode.boolean(name: String, fallback: Boolean): Boolean =
   value(name)?.booleanOrNull ?: fallback
 
 @Composable
-private fun UiBuilderNode.remoteModifier(): RemoteModifier {
+private fun UiBuilderNode.remoteModifier(
+  row: RemoteRowScope? = null,
+  column: RemoteColumnScope? = null,
+): RemoteModifier {
   var result: RemoteModifier = RemoteModifier
   modifiers.forEach { element ->
     val modifier = element as? JsonObject ?: return@forEach
@@ -321,6 +410,19 @@ private fun UiBuilderNode.remoteModifier(): RemoteModifier {
     fun number(vararg names: String): Float? = names.firstNotNullOfOrNull {
       (modifier[it] as? JsonPrimitive)?.floatOrNull
     }
+    // The shape a `clip` names, or a `background` draws in: a radius, or one of the size words the
+    // exporter writes the same radius for.
+    fun shape(): RemoteRoundedCornerShape? =
+      (modifier["shape"] as? JsonPrimitive)?.contentOrNull?.let { declared ->
+        val radius =
+          when (declared) {
+            "large" -> 16f
+            "medium" -> 12f
+            "small" -> 8f
+            else -> declared.toFloatOrNull() ?: 0f
+          }
+        RemoteRoundedCornerShape(radius.rdp)
+      }
     result =
       when (type) {
         "fillMaxSize" -> result.fillMaxSize()
@@ -328,7 +430,15 @@ private fun UiBuilderNode.remoteModifier(): RemoteModifier {
         "fillMaxHeight" -> result.fillMaxHeight()
         "width" -> number("widthDp", "value")?.let { result.width(it.rdp) } ?: result
         "height" -> number("heightDp", "value")?.let { result.height(it.rdp) } ?: result
-        "size" -> number("sizeDp", "value")?.let { result.size(it.rdp) } ?: result
+        "size" -> {
+          val both = number("sizeDp", "value")
+          val width = number("widthDp") ?: both
+          val height = number("heightDp") ?: both
+          var sized = result
+          if (width != null) sized = sized.width(width.rdp)
+          if (height != null) sized = sized.height(height.rdp)
+          sized
+        }
         "padding" -> {
           val all = number("allDp", "value")
           if (all != null) result.padding(all.rdp)
@@ -340,15 +450,37 @@ private fun UiBuilderNode.remoteModifier(): RemoteModifier {
               bottom = (number("bottomDp", "verticalDp") ?: 0f).rdp,
             )
         }
-        "background" ->
-          (modifier["color"] as? JsonPrimitive)?.contentOrNull?.remoteColor()?.let {
-            result.background(it)
-          } ?: result
+        // A member of the container's scope, as in the exported Kotlin; outside a row or column
+        // it means nothing and is dropped rather than failing the preview.
+        "weight" -> {
+          val weight = number("weight", "value") ?: 1f
+          row?.run { result.weight(weight.rf) }
+            ?: column?.run { result.weight(weight.rf) }
+            ?: result
+        }
+        "clip" -> result.clip(shape() ?: RemoteRoundedCornerShape(0f.rdp))
+        "background" -> {
+          val color = modifier["color"].modifierColor()?.remoteColor()
+          val clipped = shape()?.let { result.clip(it) } ?: result
+          color?.let { clipped.background(it) } ?: clipped
+        }
+        // Read by the parent: a remote container aligns its content as a group (`sharedAlignment`).
+        "align",
+        "alignVertical",
+        "alignHorizontal" -> result
         else -> error("Unsupported Remote Compose modifier '$type' on ${componentId}")
       }
   }
   return result
 }
+
+/** A modifier's colour, written either bare or as the `{"type":"color","value":…}` wrapper. */
+private fun kotlinx.serialization.json.JsonElement?.modifierColor(): String? =
+  when (this) {
+    is JsonPrimitive -> contentOrNull
+    is JsonObject -> (this["value"] as? JsonPrimitive)?.contentOrNull
+    else -> null
+  }
 
 @Composable
 private fun UiBuilderNode.remoteColor(name: String): RemoteColor? =
@@ -442,12 +574,38 @@ private fun UiBuilderNode.textStyle(): RemoteTextStyle =
   }
 
 private fun UiBuilderNode.boxAlignment(): RemoteAlignment =
-  when (string("contentAlignment")) {
+  string("contentAlignment").boxAlignment()
+
+private fun String.boxAlignment(): RemoteAlignment =
+  when (this) {
     "center" -> RemoteAlignment.Center
+    "topCenter" -> RemoteAlignment.TopCenter
     "topEnd" -> RemoteAlignment.TopEnd
+    "centerStart" -> RemoteAlignment.CenterStart
+    "centerEnd" -> RemoteAlignment.CenterEnd
     "bottomStart" -> RemoteAlignment.BottomStart
+    "bottomCenter" -> RemoteAlignment.BottomCenter
     "bottomEnd" -> RemoteAlignment.BottomEnd
     else -> RemoteAlignment.TopStart
+  }
+
+private fun UiBuilderNode.fontWeight(): FontWeight? =
+  when (string("fontWeight")) {
+    "thin" -> FontWeight.Thin
+    "light" -> FontWeight.Light
+    "normal" -> FontWeight.Normal
+    "medium" -> FontWeight.Medium
+    "semiBold" -> FontWeight.SemiBold
+    "bold" -> FontWeight.Bold
+    "black" -> FontWeight.Black
+    else -> string("fontWeight").removePrefix("w").toIntOrNull()?.let { FontWeight(it) }
+  }
+
+private fun UiBuilderNode.textOverflow(): TextOverflow =
+  when (string("overflow")) {
+    "ellipsis" -> TextOverflow.Ellipsis
+    "visible" -> TextOverflow.Visible
+    else -> TextOverflow.Clip
   }
 
 private fun UiBuilderNode.horizontalAlignment(): RemoteAlignment.Horizontal =

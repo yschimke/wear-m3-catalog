@@ -198,7 +198,10 @@ private fun SemanticCanvas(
       },
       missingComponent = { label, next -> UnsupportedComponent(label, next) },
     ) {
-      UnsupportedComponent(node.componentId, prepared.modifier)
+      // A picture is the design's own content rather than a catalog component: drawn from the
+      // bytes the editor inlines, since this sandboxed frame cannot fetch the design's assets.
+      if (node.componentId == "asset/image") DesignAssetImage(document, node, prepared.modifier)
+      else UnsupportedComponent(node.componentId, prepared.modifier)
     }
   }
 }

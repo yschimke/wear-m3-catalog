@@ -1,0 +1,437 @@
+{
+ "schema": "compose-ui-builder-document/v1-candidate",
+ "id": "golden-tiles-timer-1",
+ "title": "Golden Tiles \u00b7 Timer \u00b7 1",
+ "revision": 8,
+ "catalogPin": {
+  "systemId": "remote-m3",
+  "catalogRevision": "sha256:b2ff0dd000348e59aac83765914f8b92",
+  "capabilityDigest": "candidate",
+  "nativeRuntimeId": "remote-m3-p3-573935e055be"
+ },
+ "environment": {
+  "widthDp": 216,
+  "heightDp": 76,
+  "density": 2.0,
+  "theme": "dark",
+  "locale": "en-US",
+  "fontScale": 1.0,
+  "layoutDirection": "ltr",
+  "exportDevices": []
+ },
+ "stateVariables": {},
+ "roots": [
+  "widget"
+ ],
+ "nodes": {
+  "widget": {
+   "id": "widget",
+   "componentId": "remote-m3/widget-container-small",
+   "properties": {
+    "background": {
+     "type": "color",
+     "value": "#FF272430"
+    }
+   },
+   "modifiers": [],
+   "slots": {
+    "background": [],
+    "content": [
+     "timer-row-s4"
+    ]
+   }
+  },
+  "timer-row-s4": {
+   "id": "timer-row-s4",
+   "componentId": "layout/row",
+   "properties": {
+    "verticalAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxSize"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-5-s4",
+     "gap-24-s4",
+     "preset-10-s4",
+     "gap-25-s4",
+     "preset-15-s4",
+     "gap-26-s4",
+     "timer-add-s4"
+    ]
+   }
+  },
+  "preset-5-s4": {
+   "id": "preset-5-s4",
+   "componentId": "layout/box",
+   "properties": {
+    "contentAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "weight",
+     "weight": 1.0
+    },
+    {
+     "type": "fillMaxHeight"
+    },
+    {
+     "type": "background",
+     "color": {
+      "type": "color",
+      "value": "#FF332E3C"
+     },
+     "shape": "22"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-5-col-s4"
+    ]
+   }
+  },
+  "preset-5-col-s4": {
+   "id": "preset-5-col-s4",
+   "componentId": "layout/column",
+   "properties": {
+    "verticalSpacingDp": {
+     "type": "float",
+     "value": 0.0
+    },
+    "horizontalAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxWidth"
+    },
+    {
+     "type": "align",
+     "alignment": "center"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-5-value-s4"
+    ]
+   }
+  },
+  "preset-5-value-s4": {
+   "id": "preset-5-value-s4",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "5"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 1
+    },
+    "style": {
+     "type": "enum",
+     "value": "numeralExtraSmall"
+    },
+    "textAlign": {
+     "type": "enum",
+     "value": "center"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  },
+  "gap-24-s4": {
+   "id": "gap-24-s4",
+   "componentId": "layout/box",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "width",
+     "widthDp": 4
+    }
+   ],
+   "slots": {
+    "children": []
+   }
+  },
+  "preset-10-s4": {
+   "id": "preset-10-s4",
+   "componentId": "layout/box",
+   "properties": {
+    "contentAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "weight",
+     "weight": 1.0
+    },
+    {
+     "type": "fillMaxHeight"
+    },
+    {
+     "type": "background",
+     "color": {
+      "type": "color",
+      "value": "#FF332E3C"
+     },
+     "shape": "22"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-10-col-s4"
+    ]
+   }
+  },
+  "preset-10-col-s4": {
+   "id": "preset-10-col-s4",
+   "componentId": "layout/column",
+   "properties": {
+    "verticalSpacingDp": {
+     "type": "float",
+     "value": 0.0
+    },
+    "horizontalAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxWidth"
+    },
+    {
+     "type": "align",
+     "alignment": "center"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-10-value-s4"
+    ]
+   }
+  },
+  "preset-10-value-s4": {
+   "id": "preset-10-value-s4",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "10"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 1
+    },
+    "style": {
+     "type": "enum",
+     "value": "numeralExtraSmall"
+    },
+    "textAlign": {
+     "type": "enum",
+     "value": "center"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  },
+  "gap-25-s4": {
+   "id": "gap-25-s4",
+   "componentId": "layout/box",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "width",
+     "widthDp": 4
+    }
+   ],
+   "slots": {
+    "children": []
+   }
+  },
+  "preset-15-s4": {
+   "id": "preset-15-s4",
+   "componentId": "layout/box",
+   "properties": {
+    "contentAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "weight",
+     "weight": 1.0
+    },
+    {
+     "type": "fillMaxHeight"
+    },
+    {
+     "type": "background",
+     "color": {
+      "type": "color",
+      "value": "#FF332E3C"
+     },
+     "shape": "22"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-15-col-s4"
+    ]
+   }
+  },
+  "preset-15-col-s4": {
+   "id": "preset-15-col-s4",
+   "componentId": "layout/column",
+   "properties": {
+    "verticalSpacingDp": {
+     "type": "float",
+     "value": 0.0
+    },
+    "horizontalAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxWidth"
+    },
+    {
+     "type": "align",
+     "alignment": "center"
+    }
+   ],
+   "slots": {
+    "children": [
+     "preset-15-value-s4"
+    ]
+   }
+  },
+  "preset-15-value-s4": {
+   "id": "preset-15-value-s4",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "15"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 1
+    },
+    "style": {
+     "type": "enum",
+     "value": "numeralExtraSmall"
+    },
+    "textAlign": {
+     "type": "enum",
+     "value": "center"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  },
+  "gap-26-s4": {
+   "id": "gap-26-s4",
+   "componentId": "layout/box",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "width",
+     "widthDp": 4
+    }
+   ],
+   "slots": {
+    "children": []
+   }
+  },
+  "timer-add-s4": {
+   "id": "timer-add-s4",
+   "componentId": "remote-m3/remote-button",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "width",
+     "widthDp": 44
+    },
+    {
+     "type": "fillMaxHeight"
+    }
+   ],
+   "slots": {
+    "content": [
+     "icon-4-s4"
+    ]
+   }
+  },
+  "icon-4-s4": {
+   "id": "icon-4-s4",
+   "componentId": "asset/image",
+   "properties": {
+    "assetKey": {
+     "type": "string",
+     "value": "add-icon"
+    },
+    "contentDescription": {
+     "type": "string",
+     "value": "Add timer"
+    },
+    "contentScale": {
+     "type": "string",
+     "value": "fit"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "size",
+     "widthDp": 22,
+     "heightDp": 22
+    }
+   ],
+   "slots": {}
+  }
+ },
+ "assets": {
+  "add-icon": {
+   "mediaType": "image/png",
+   "contentDigest": "sha256:283e94453387b39192eb03b47875ec65824e3ddd96d00add835f24521024d368",
+   "source": {
+    "type": "embedded",
+    "base64": "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAFElEQVR4nGM8UaHBgA0wYRUdtBIAHicBeAYWg8oAAAAASUVORK5CYII="
+   },
+   "widthPx": 96,
+   "heightPx": 96
+  }
+ },
+ "createdAtEpochMillis": 1789856896926,
+ "updatedAtEpochMillis": 1790290927540,
+ "components": {}
+}

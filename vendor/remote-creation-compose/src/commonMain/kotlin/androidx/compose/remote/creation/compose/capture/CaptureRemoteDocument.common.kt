@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composition
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Recomposer
 import androidx.compose.runtime.snapshots.Snapshot
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -22,12 +23,19 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** Captures one platform-neutral Remote Compose document through the common write-only encoder. */
+/**
+ * Captures one platform-neutral Remote Compose document through the common write-only encoder.
+ *
+ * @param encodePng how this platform turns an [ImageBitmap] into PNG bytes. Given, every bitmap the
+ *   content draws is carried inline in the document; absent, bitmaps are dropped, as they always
+ *   were here, because common code has no image encoder of its own.
+ */
 public suspend fun captureCommonRemoteDocument(
     creationDisplayInfo: RemoteCreationDisplayInfo,
     remoteDensity: RemoteDensity = RemoteDensity.from(creationDisplayInfo),
     layoutDirection: LayoutDirection = LayoutDirection.Ltr,
     supportedOperations: Set<Int> = emptySet(),
+    encodePng: ((ImageBitmap) -> ByteArray?)? = null,
     content: @Composable @RemoteComposable () -> Unit,
 ): ByteArray =
     withContext(Dispatchers.Default.limitedParallelism(1)) {
@@ -47,6 +55,9 @@ public suspend fun captureCommonRemoteDocument(
                 remoteDensity = remoteDensity,
                 layoutDirection = layoutDirection,
                 supportedOperations = supportedOperations,
+                platformImageProvider =
+                    encodePng?.let { InlinePngImageProvider(writer, it) }
+                        ?: NoOpPlatformImageProvider,
             )
 
         try {
@@ -88,3 +99,14 @@ public suspend fun captureCommonRemoteDocument(
             recomposer.cancel()
         }
     }
+
+/** Bitmaps written inline as PNG, through a platform's own encoder. */
+private class InlinePngImageProvider(
+    private val writer: RemoteDocumentWriter,
+    private val encodePng: (ImageBitmap) -> ByteArray?,
+) : PlatformImageProvider {
+    override fun addBitmap(image: ImageBitmap): Int =
+        encodePng(image)?.let { writer.addBitmapPng(it, image.width, image.height) } ?: -1
+
+    override fun addNamedBitmap(name: String, image: ImageBitmap): Int = addBitmap(image)
+}
