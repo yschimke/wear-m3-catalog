@@ -8,6 +8,7 @@ import androidx.compose.remote.core.operations.PathData
 import androidx.compose.remote.core.operations.layout.CanvasContent
 import androidx.compose.remote.core.operations.layout.LayoutComponentContent
 import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.compose.layout.RemoteCanvas
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
@@ -52,6 +53,32 @@ class WriterOperationsTest {
                 captureSingleRemoteDocument(display) { OnePathTwice() },
             )) {
             assertEquals(1, operations(document).count { it is PathData })
+        }
+    }
+
+    /**
+     * Paths that differ only in which variable a coordinate reads are two paths. A variable
+     * reference is a NaN payload, so a cache that compares floats by value (every NaN equal) would
+     * declare the second as the first.
+     */
+    @Test
+    fun bothWritersKeepPathsThatDifferOnlyInAVariable() = runBlocking {
+        for (document in
+            listOf(
+                captureCommonRemoteDocument(display) { TwoPathsOneShape() },
+                captureSingleRemoteDocument(display) { TwoPathsOneShape() },
+            )) {
+            assertEquals(2, operations(document).count { it is PathData })
+        }
+    }
+
+    @Composable
+    private fun TwoPathsOneShape() {
+        RemoteCanvas(RemoteModifier.size(10.rdp)) {
+            for (variable in listOf(42, 43)) {
+                val path = RemotePath().apply { moveTo(Utils.asNan(variable), 0f) }
+                drawPath(path, RemotePaint { color = Color.Red.rc })
+            }
         }
     }
 
