@@ -128,6 +128,78 @@ class RemoteM3DevicePreviewUiTest {
     }
   }
 
+  /**
+   * `RemoteFitBox` and "Show by state" played as a real `RemoteStateLayout` whose branches share an
+   * element — the Remote Compose layouts a Wear widget can carry beyond box, row and column — plus
+   * the modifiers the export writes that this surface used to fail the whole pane on (`alpha`,
+   * `border`, `offset`, `zIndex`, `rotate`, `scale`, `widthIn`, `heightIn`, `wrapContentSize`).
+   * Recorded and played in every host shape.
+   */
+  @Test
+  fun `a fit box, a state switch and the export's modifiers play in every host shape`() {
+    val design = fixture("fit-box-state-switch")
+    WearWidgetHostShape.entries.forEach { shape ->
+      runDesktopComposeUiTest(width = 480, height = 320) {
+        val spec = WearWidgetScaffoldSize.Large.hostSpec(shape)
+        var readyCalls = 0
+        val sent =
+          design.copy(
+            environment =
+              JsonObject(
+                design.environment +
+                  (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
+              )
+          )
+        setContent {
+          RemoteM3DevicePreview(sent, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+            readyCalls++
+          }
+        }
+
+        waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+        onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
+          .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
+        onNodeWithText("Unsupported", substring = true).assertDoesNotExist()
+      }
+    }
+  }
+
+  /**
+   * A flow row and the collapsibles, with priorities and a weight. They are outside the Glance Wear
+   * widget profile, so a widget using them fails on Native / Live; the CMP writer records them, and
+   * this surface plays them so the design can still be authored and looked at.
+   */
+  @Test
+  fun `a flow row and the collapsibles play in every host shape`() {
+    val design = fixture("outside-widget-profile")
+    WearWidgetHostShape.entries.forEach { shape ->
+      runDesktopComposeUiTest(width = 480, height = 320) {
+        val spec = WearWidgetScaffoldSize.Large.hostSpec(shape)
+        var readyCalls = 0
+        val sent =
+          design.copy(
+            environment =
+              JsonObject(
+                design.environment +
+                  (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
+              )
+          )
+        setContent {
+          RemoteM3DevicePreview(sent, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+            readyCalls++
+          }
+        }
+
+        waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+        onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
+          .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
+        onNodeWithText("Unsupported", substring = true).assertDoesNotExist()
+      }
+    }
+  }
+
   @Test
   fun `an inlined picture is the only kind a sandboxed runtime can draw`() {
     val news = fixture("golden-tiles-news")

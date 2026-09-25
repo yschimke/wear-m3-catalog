@@ -1,0 +1,332 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "fit-box-state-switch",
+  "title": "Fit box and state switch",
+  "revision": 1,
+  "catalogPin": {
+    "systemId": "remote-m3",
+    "catalogRevision": "test",
+    "capabilityDigest": "candidate"
+  },
+  "environment": {
+    "widthDp": 216,
+    "heightDp": 124,
+    "density": 2.0,
+    "theme": "dark",
+    "locale": "en-US",
+    "fontScale": 1.0,
+    "layoutDirection": "ltr",
+    "exportDevices": []
+  },
+  "stateVariables": {
+    "expanded": {
+      "initialValue": true,
+      "valueType": "bool"
+    }
+  },
+  "roots": [
+    "widget"
+  ],
+  "nodes": {
+    "widget": {
+      "id": "widget",
+      "componentId": "remote-m3/widget-container-large",
+      "properties": {
+        "background": {
+          "type": "color",
+          "value": "#FF272430"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "background": [],
+        "content": [
+          "root"
+        ]
+      }
+    },
+    "root": {
+      "id": "root",
+      "componentId": "layout/column",
+      "properties": {},
+      "modifiers": [
+        {
+          "type": "fillMaxSize"
+        },
+        {
+          "type": "padding",
+          "startDp": 6,
+          "topDp": 2,
+          "endDp": 6,
+          "bottomDp": 2
+        }
+      ],
+      "slots": {
+        "children": [
+          "fit",
+          "mode",
+          "specimens"
+        ]
+      }
+    },
+    "wide": {
+      "id": "wide",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "A very long alternative that will not fit"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "offset",
+          "xDp": 1,
+          "yDp": 0
+        },
+        {
+          "type": "zIndex",
+          "zIndex": 1
+        },
+        {
+          "type": "scale",
+          "scaleX": 1,
+          "scaleY": 1
+        }
+      ],
+      "slots": {}
+    },
+    "narrow": {
+      "id": "narrow",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Short"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "rotate",
+          "degrees": 0
+        }
+      ],
+      "slots": {}
+    },
+    "fit": {
+      "id": "fit",
+      "componentId": "layout/fit-box",
+      "properties": {
+        "horizontalAlignment": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        },
+        {
+          "type": "heightIn",
+          "minDp": 10,
+          "maxDp": 20
+        },
+        {
+          "type": "widthIn",
+          "maxDp": 200
+        }
+      ],
+      "slots": {
+        "children": [
+          "wide",
+          "narrow"
+        ]
+      }
+    },
+    "collapsed": {
+      "id": "collapsed",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Collapsed"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "sharedElement",
+          "key": 7
+        }
+      ],
+      "slots": {}
+    },
+    "expanded": {
+      "id": "expanded",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Expanded"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "sharedElement",
+          "key": 7
+        },
+        {
+          "type": "wrapContentSize"
+        }
+      ],
+      "slots": {}
+    },
+    "mode": {
+      "id": "mode",
+      "componentId": "layout/box",
+      "properties": {
+        "showByState": {
+          "type": "object",
+          "fields": {
+            "selector": {
+              "type": "state",
+              "variable": "expanded"
+            },
+            "cases": {
+              "type": "object",
+              "fields": {
+                "collapsed": {
+                  "type": "bool",
+                  "value": false
+                },
+                "expanded": {
+                  "type": "bool",
+                  "value": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "collapsed",
+          "expanded"
+        ]
+      }
+    },
+    "specimens": {
+      "id": "specimens",
+      "componentId": "layout/row",
+      "properties": {
+        "horizontalSpacingDp": {
+          "type": "float",
+          "value": 4
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "faded",
+          "framed"
+        ]
+      }
+    },
+    "faded": {
+      "id": "faded",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Faded"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "alpha",
+          "alpha": 0.6
+        }
+      ],
+      "slots": {}
+    },
+    "framed": {
+      "id": "framed",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Framed"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "border",
+          "widthDp": 1,
+          "color": {
+            "type": "color",
+            "value": "#FFE3E2EA"
+          },
+          "shape": "small"
+        },
+        {
+          "type": "padding",
+          "startDp": 2,
+          "topDp": 0,
+          "endDp": 2,
+          "bottomDp": 0
+        }
+      ],
+      "slots": {}
+    }
+  },
+  "assets": {},
+  "components": {}
+}
