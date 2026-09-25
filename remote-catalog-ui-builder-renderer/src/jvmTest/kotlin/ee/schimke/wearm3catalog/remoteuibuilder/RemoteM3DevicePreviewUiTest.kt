@@ -1,8 +1,10 @@
 package ee.schimke.wearm3catalog.remoteuibuilder
 
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.graphics.toPixelMap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
@@ -14,12 +16,14 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runDesktopComposeUiTest
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import ee.schimke.composeai.uibuilder.UiBuilderDocument
 import ee.schimke.composeai.uibuilder.WearWidgetHostShape
 import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
 import ee.schimke.composeai.uibuilder.hostSpec
 import ee.schimke.wearm3catalog.uibuilder.WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY
+import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -119,6 +123,63 @@ class RemoteM3DevicePreviewUiTest {
       assertTrue(bottom.luminance() < 0.2f, "the scrim darkens the foot of the frame: $bottom")
       assertTrue(top.alpha > 0.99f, "and reaches its top: $top")
     }
+
+  /**
+   * The pane plays at the screen's density, so the document is recorded at it too. Captured at
+   * 160dpi and played at 2x, a design's dp layout scaled up and its sp text did not: every word
+   * drew at half size, and a headline that wraps to three lines on the canvas fit on two.
+   */
+  @Test
+  fun `text keeps its size at the screen's density`() {
+    val bounds =
+      listOf(1f, 2f).associateWith { scale ->
+        var box: IntArray? = null
+        runDesktopComposeUiTest(width = 600, height = 400) {
+          val design = fixture("golden-tiles-news")
+          val spec = WearWidgetScaffoldSize.Large.hostSpec(WearWidgetHostShape.Rectangular)
+          var readyCalls = 0
+          setContent {
+            CompositionLocalProvider(LocalDensity provides Density(scale)) {
+              RemoteM3DevicePreview(
+                design,
+                spec.frameWidthDp.toFloat(),
+                spec.frameHeightDp.toFloat(),
+              ) {
+                readyCalls++
+              }
+            }
+          }
+          waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+          box =
+            onNodeWithTag(REMOTE_M3_WIDGET_CONTENT_TEST_TAG).captureToImage().toPixelMap().let {
+              pixels ->
+              // The headline is the lower half's light text over the dark scrim.
+              var top = Int.MAX_VALUE
+              var bottom = -1
+              var left = Int.MAX_VALUE
+              var right = -1
+              for (y in pixels.height / 2 until pixels.height) {
+                for (x in 0 until pixels.width) {
+                  if (pixels[x, y].luminance() > 0.6f) {
+                    top = minOf(top, y)
+                    bottom = maxOf(bottom, y)
+                    left = minOf(left, x)
+                    right = maxOf(right, x)
+                  }
+                }
+              }
+              intArrayOf(right - left, bottom - top)
+            }
+        }
+        requireNotNull(box)
+      }
+    val (width1, height1) = bounds.getValue(1f).let { it[0] to it[1] }
+    val (width2, height2) = bounds.getValue(2f).let { it[0] to it[1] }
+    assertTrue(height1 > 0 && width1 > 0, "the headline draws: ${bounds.getValue(1f).toList()}")
+    // Twice the pixels on both axes, within a few pixels of glyph rounding.
+    assertTrue(abs(height2 - 2 * height1) <= 6, "headline height $height1 at 1x, $height2 at 2x")
+    assertTrue(abs(width2 - 2 * width1) <= 12, "headline width $width1 at 1x, $width2 at 2x")
+  }
 
   /**
    * Real remote-m3 designs, as the editor posts them: weights inside rows and columns, spacer
