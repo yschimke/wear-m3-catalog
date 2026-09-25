@@ -18,6 +18,8 @@ import ee.schimke.composeai.uibuilder.hostSpec
 import ee.schimke.wearm3catalog.uibuilder.WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -81,6 +83,78 @@ class RemoteM3DevicePreviewUiTest {
       }
     }
   }
+
+  /**
+   * Real remote-m3 designs, as the editor posts them: weights inside rows and columns, spacer
+   * boxes, clips, shaped backgrounds written as colour objects, children aligned through their box,
+   * a progress ring, and a picture the editor has inlined. Every one of those used to take the
+   * whole pane down with "Unsupported Remote Compose modifier 'weight' on layout/box".
+   */
+  @Test
+  fun `the golden widget designs play in every host shape`() {
+    listOf("golden-tiles-news", "golden-tiles-timer-1", "golden-tiles-goal").forEach { id ->
+      val design = fixture(id)
+      WearWidgetHostShape.entries.forEach { shape ->
+        runDesktopComposeUiTest(width = 480, height = 320) {
+          val size =
+            requireNotNull(
+              WearWidgetScaffoldSize.entries.firstOrNull {
+                it.componentId == design.nodes.getValue(design.roots.single()).componentId
+              }
+            )
+          val spec = size.hostSpec(shape)
+          var readyCalls = 0
+          val sent =
+            design.copy(
+              environment =
+                JsonObject(
+                  design.environment +
+                    (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
+                )
+            )
+          setContent {
+            RemoteM3DevicePreview(sent, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+              readyCalls++
+            }
+          }
+
+          waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+          onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
+            .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
+          onNodeWithText("Unsupported", substring = true).assertDoesNotExist()
+        }
+      }
+    }
+  }
+
+  @Test
+  fun `an inlined picture is the only kind a sandboxed runtime can draw`() {
+    val news = fixture("golden-tiles-news")
+    val key = news.assets.keys.single()
+    assertNotNull(news.embeddedAssetBytes(key))
+    assertNotNull(decodeDesignAssetBitmap(requireNotNull(news.embeddedAssetBytes(key))))
+    val uploaded =
+      news.copy(
+        assets =
+          JsonObject(
+            mapOf(
+              key to
+                Json.parseToJsonElement(
+                  """{"contentDigest":"sha256:aa","mediaType":"image/png",""" +
+                    """"source":{"type":"uploaded","storageKey":"sha256:aa"}}"""
+                )
+            )
+          )
+      )
+    // Not fetched by the editor yet: no bytes, and the node draws a plain frame, not a failure.
+    assertNull(uploaded.embeddedAssetBytes(key))
+  }
+
+  private fun fixture(id: String): UiBuilderDocument =
+    lenient.decodeFromString(
+      requireNotNull(javaClass.getResource("/remote-m3/$id.json")).readText()
+    )
 
   @Test
   fun `unsupported modifier fails visibly instead of changing the document`() =
@@ -199,4 +273,6 @@ class RemoteM3DevicePreviewUiTest {
       """
         .trimIndent()
   }
+
+  private val lenient = Json { ignoreUnknownKeys = true }
 }

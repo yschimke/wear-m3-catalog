@@ -198,19 +198,17 @@ private fun SemanticCanvas(
       },
       missingComponent = { label, next -> UnsupportedComponent(label, next) },
     ) {
-      UnsupportedComponent(node.componentId, prepared.modifier)
+      // A picture is the design's own content rather than a catalog component: drawn from the
+      // bytes the editor inlines, since this sandboxed frame cannot fetch the design's assets.
+      if (node.componentId == "asset/image") DesignAssetImage(document, node, prepared.modifier)
+      else UnsupportedComponent(node.componentId, prepared.modifier)
     }
   }
 }
 
 @Composable
 private fun resolveWearShape(value: String?): Shape =
-  when (value) {
-    "large" -> RoundedCornerShape(26.dp)
-    "medium" -> RoundedCornerShape(16.dp)
-    "small" -> RoundedCornerShape(8.dp)
-    else -> RoundedCornerShape(value?.toFloatOrNull()?.dp ?: 0.dp)
-  }
+  RoundedCornerShape(namedShapeRadiusDp(value).dp)
 
 @Composable
 private fun UnsupportedComponent(label: String, modifier: Modifier) {

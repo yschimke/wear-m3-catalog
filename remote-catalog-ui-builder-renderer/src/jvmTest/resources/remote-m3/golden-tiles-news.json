@@ -1,0 +1,273 @@
+{
+ "schema": "compose-ui-builder-document/v1-candidate",
+ "id": "golden-tiles-news",
+ "title": "Golden Tiles \u00b7 News",
+ "revision": 10,
+ "catalogPin": {
+  "systemId": "remote-m3",
+  "catalogRevision": "sha256:b2ff0dd000348e59aac83765914f8b92",
+  "capabilityDigest": "candidate",
+  "nativeRuntimeId": "remote-m3-p3-573935e055be"
+ },
+ "environment": {
+  "widthDp": 216,
+  "heightDp": 124,
+  "density": 2.0,
+  "theme": "dark",
+  "locale": "en-US",
+  "fontScale": 1.0,
+  "layoutDirection": "ltr",
+  "exportDevices": []
+ },
+ "stateVariables": {},
+ "roots": [
+  "widget"
+ ],
+ "nodes": {
+  "widget": {
+   "id": "widget",
+   "componentId": "remote-m3/widget-container-large",
+   "properties": {
+    "background": {
+     "type": "color",
+     "value": "#FF272430"
+    }
+   },
+   "modifiers": [],
+   "slots": {
+    "background": [],
+    "content": [
+     "news-layout-s9"
+    ]
+   }
+  },
+  "news-layout-s9": {
+   "id": "news-layout-s9",
+   "componentId": "layout/column",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "fillMaxSize"
+    }
+   ],
+   "slots": {
+    "children": [
+     "header-s9",
+     "gap-17-s9",
+     "box-2-s9"
+    ]
+   }
+  },
+  "header-s9": {
+   "id": "header-s9",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "Today, 31 July"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 1
+    },
+    "style": {
+     "type": "enum",
+     "value": "labelMedium"
+    },
+    "color": {
+     "type": "color",
+     "value": "#FFE3E2EA"
+    },
+    "textAlign": {
+     "type": "enum",
+     "value": "center"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxWidth"
+    }
+   ],
+   "slots": {}
+  },
+  "gap-17-s9": {
+   "id": "gap-17-s9",
+   "componentId": "layout/box",
+   "properties": {},
+   "modifiers": [
+    {
+     "type": "height",
+     "heightDp": 4
+    }
+   ],
+   "slots": {
+    "children": []
+   }
+  },
+  "box-2-s9": {
+   "id": "box-2-s9",
+   "componentId": "layout/box",
+   "properties": {
+    "contentAlignment": {
+     "type": "enum",
+     "value": "bottomStart"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "weight",
+     "weight": 1.0
+    },
+    {
+     "type": "fillMaxWidth"
+    },
+    {
+     "type": "clip",
+     "shape": "20"
+    }
+   ],
+   "slots": {
+    "children": [
+     "image-2-s9",
+     "scrim-2-s9",
+     "column-2-s9"
+    ]
+   }
+  },
+  "image-2-s9": {
+   "id": "image-2-s9",
+   "componentId": "asset/image",
+   "properties": {
+    "assetKey": {
+     "type": "string",
+     "value": "news-photo"
+    },
+    "contentDescription": {
+     "type": "string",
+     "value": "Road through Monument Valley at dusk"
+    },
+    "contentScale": {
+     "type": "string",
+     "value": "crop"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxSize"
+    },
+    {
+     "type": "align",
+     "alignment": "bottomStart"
+    }
+   ],
+   "slots": {}
+  },
+  "scrim-2-s9": {
+   "id": "scrim-2-s9",
+   "componentId": "layout/box",
+   "properties": {
+    "contentAlignment": {
+     "type": "enum",
+     "value": "center"
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxSize"
+    },
+    {
+     "type": "background",
+     "color": {
+      "type": "color",
+      "value": "#59000000"
+     }
+    },
+    {
+     "type": "align",
+     "alignment": "bottomStart"
+    }
+   ],
+   "slots": {
+    "children": []
+   }
+  },
+  "column-2-s9": {
+   "id": "column-2-s9",
+   "componentId": "layout/column",
+   "properties": {
+    "verticalSpacingDp": {
+     "type": "float",
+     "value": 0.0
+    }
+   },
+   "modifiers": [
+    {
+     "type": "fillMaxWidth"
+    },
+    {
+     "type": "padding",
+     "startDp": 12,
+     "topDp": 8,
+     "endDp": 12,
+     "bottomDp": 8
+    },
+    {
+     "type": "align",
+     "alignment": "bottomStart"
+    }
+   ],
+   "slots": {
+    "children": [
+     "news-headline-s9"
+    ]
+   }
+  },
+  "news-headline-s9": {
+   "id": "news-headline-s9",
+   "componentId": "remote-m3/remote-text",
+   "properties": {
+    "text": {
+     "type": "string",
+     "value": "Millions still without power as new storm moves across US"
+    },
+    "maxLines": {
+     "type": "int",
+     "value": 3
+    },
+    "style": {
+     "type": "enum",
+     "value": "bodyMedium"
+    },
+    "color": {
+     "type": "color",
+     "value": "#FFFFFFFF"
+    },
+    "overflow": {
+     "type": "string",
+     "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  }
+ },
+ "assets": {
+  "news-photo": {
+   "mediaType": "image/jpeg",
+   "contentDigest": "sha256:faccba78431b23ec26c029514a3492b51b521297d140716f768cf84b11050bda",
+   "source": {
+    "type": "embedded",
+    "base64": "iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAIAAABLbSncAAAAFElEQVR4nGM8UaHBgA0wYRUdtBIAHicBeAYWg8oAAAAASUVORK5CYII="
+   },
+   "widthPx": 640,
+   "heightPx": 427
+  }
+ },
+ "createdAtEpochMillis": 1789856897270,
+ "updatedAtEpochMillis": 1790314557738,
+ "components": {}
+}

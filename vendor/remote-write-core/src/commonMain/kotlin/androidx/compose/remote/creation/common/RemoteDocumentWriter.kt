@@ -32,6 +32,7 @@ public class RemoteDocumentWriter(
   private val textLookupIntIds = mutableMapOf<Long, Int>()
   private val textFromFloatIds = mutableMapOf<TextFromFloatKey, Int>()
   private val bitmapUrlIds = mutableMapOf<String, Int>()
+  private val inlineBitmapIds = mutableMapOf<List<Byte>, Int>()
   private val componentValueIds = mutableMapOf<Long, Int>()
   private val patternDefinitionOffsets = mutableListOf<Int>()
 
@@ -845,6 +846,33 @@ public class RemoteDocumentWriter(
       id
     }
 
+  /**
+   * PNG bytes carried in the document itself, as an inline `BitmapData`.
+   *
+   * The only bitmap form the common writer can produce without a platform: an ImageBitmap reaches it
+   * already encoded (see `captureCommonRemoteDocument`'s `encodePng`). Identical bytes share one id.
+   */
+  public fun addBitmapPng(png: ByteArray, width: Int, height: Int): Int =
+    inlineBitmapIds.getOrPut(png.asList()) {
+      val id = nextDataId++
+      writeBitmapData(
+        id = id,
+        type = BitmapTypePng,
+        width = width,
+        encoding = BitmapEncodingInline,
+        height = height,
+        data = png,
+      )
+      id
+    }
+
+  /** [addBitmapPng], bound to [name] the way [addNamedBitmapUrl] binds a URL bitmap. */
+  public fun addNamedBitmapPng(name: String, png: ByteArray, width: Int, height: Int): Int {
+    val id = addBitmapPng(png, width, height)
+    writeNamedVariable(id, NamedVariableType.IMAGE, name)
+    return id
+  }
+
   override fun addNamedBitmapUrl(name: String, url: String): Int {
     val id = addBitmapUrl(url)
     writeNamedVariable(id, NamedVariableType.IMAGE, name)
@@ -1535,6 +1563,7 @@ public class RemoteDocumentWriter(
 
     private const val BitmapTypePng = 1
     private const val BitmapTypeRaw8888 = 3
+    private const val BitmapEncodingInline = 0
     private const val BitmapEncodingUrl = 1
     private const val BitmapEncodingEmpty = 3
     private const val ColorHsvMode = 4
