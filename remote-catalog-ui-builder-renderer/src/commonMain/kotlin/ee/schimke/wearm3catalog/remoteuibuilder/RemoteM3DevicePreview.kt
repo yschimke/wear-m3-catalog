@@ -262,14 +262,17 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
           children.forEach { RenderNode(it) }
         }
       }
-      "layout/column" ->
+      "layout/column" -> {
+        val children = entry.slot("children")
         RemoteColumn(
           modifier = modifier,
           verticalArrangement = node.verticalArrangement(),
-          horizontalAlignment = node.horizontalAlignment(),
+          horizontalAlignment =
+            children.sharedAlignment("alignHorizontal")?.horizontal() ?: node.horizontalAlignment(),
         ) {
-          entry.slot("children").forEach { RenderNode(it, column = this) }
+          children.forEach { RenderNode(it, column = this) }
         }
+      }
       "layout/row" -> {
         val children = entry.slot("children")
         RemoteRow(
@@ -364,6 +367,13 @@ private fun List<CanvasRenderNode>.sharedAlignment(modifierType: String): String
   .distinct()
   .singleOrNull()
 
+private fun String.horizontal(): RemoteAlignment.Horizontal =
+  when (this) {
+    "center" -> RemoteAlignment.CenterHorizontally
+    "end" -> RemoteAlignment.End
+    else -> RemoteAlignment.Start
+  }
+
 private fun String.vertical(): RemoteAlignment.Vertical =
   when (this) {
     "top" -> RemoteAlignment.Top
@@ -410,18 +420,10 @@ private fun UiBuilderNode.remoteModifier(
     fun number(vararg names: String): Float? = names.firstNotNullOfOrNull {
       (modifier[it] as? JsonPrimitive)?.floatOrNull
     }
-    // The shape a `clip` names, or a `background` draws in: a radius, or one of the size words the
-    // exporter writes the same radius for.
+    // The shape a `clip` names, or a `background` draws in.
     fun shape(): RemoteRoundedCornerShape? =
-      (modifier["shape"] as? JsonPrimitive)?.contentOrNull?.let { declared ->
-        val radius =
-          when (declared) {
-            "large" -> 16f
-            "medium" -> 12f
-            "small" -> 8f
-            else -> declared.toFloatOrNull() ?: 0f
-          }
-        RemoteRoundedCornerShape(radius.rdp)
+      (modifier["shape"] as? JsonPrimitive)?.contentOrNull?.let {
+        RemoteRoundedCornerShape(namedShapeRadiusDp(it).rdp)
       }
     result =
       when (type) {
@@ -473,6 +475,21 @@ private fun UiBuilderNode.remoteModifier(
   }
   return result
 }
+
+/**
+ * The corner radius a stored shape names: a number of dp, or one of the size words.
+ *
+ * The words resolve to what the exported Kotlin writes for them (`RemoteContentEmitter`), because
+ * that is the widget that ships; the authoring canvas uses the same table so switching between it
+ * and a device preview never changes a component's geometry.
+ */
+internal fun namedShapeRadiusDp(declared: String?): Float =
+  when (declared) {
+    "large" -> 16f
+    "medium" -> 12f
+    "small" -> 8f
+    else -> declared?.toFloatOrNull() ?: 0f
+  }
 
 /** A modifier's colour, written either bare or as the `{"type":"color","value":…}` wrapper. */
 private fun kotlinx.serialization.json.JsonElement?.modifierColor(): String? =

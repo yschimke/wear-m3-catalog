@@ -108,5 +108,8 @@ private class InlinePngImageProvider(
     override fun addBitmap(image: ImageBitmap): Int =
         encodePng(image)?.let { writer.addBitmapPng(it, image.width, image.height) } ?: -1
 
-    override fun addNamedBitmap(name: String, image: ImageBitmap): Int = addBitmap(image)
+    // Named, so a host can still replace the picture through the name the content declared.
+    override fun addNamedBitmap(name: String, image: ImageBitmap): Int =
+        encodePng(image)?.let { writer.addNamedBitmapPng(name, it, image.width, image.height) }
+            ?: -1
 }

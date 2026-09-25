@@ -208,12 +208,7 @@ private fun SemanticCanvas(
 
 @Composable
 private fun resolveWearShape(value: String?): Shape =
-  when (value) {
-    "large" -> RoundedCornerShape(26.dp)
-    "medium" -> RoundedCornerShape(16.dp)
-    "small" -> RoundedCornerShape(8.dp)
-    else -> RoundedCornerShape(value?.toFloatOrNull()?.dp ?: 0.dp)
-  }
+  RoundedCornerShape(namedShapeRadiusDp(value).dp)
 
 @Composable
 private fun UnsupportedComponent(label: String, modifier: Modifier) {

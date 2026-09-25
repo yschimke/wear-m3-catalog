@@ -866,6 +866,13 @@ public class RemoteDocumentWriter(
       id
     }
 
+  /** [addBitmapPng], bound to [name] the way [addNamedBitmapUrl] binds a URL bitmap. */
+  public fun addNamedBitmapPng(name: String, png: ByteArray, width: Int, height: Int): Int {
+    val id = addBitmapPng(png, width, height)
+    writeNamedVariable(id, NamedVariableType.IMAGE, name)
+    return id
+  }
+
   override fun addNamedBitmapUrl(name: String, url: String): Int {
     val id = addBitmapUrl(url)
     writeNamedVariable(id, NamedVariableType.IMAGE, name)
