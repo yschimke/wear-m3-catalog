@@ -20,12 +20,22 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
+  # Two jobs rather than one with computed permissions. `permissions` takes only the literals
+  # `read`, `write` and `none` — an expression there makes GitHub reject the whole workflow before
+  # any job starts, which is what every run did from #593 until this split: zero jobs, the required
+  # check below never reported, and every pull request was blocked on it. #593's intent is kept by
+  # construction instead: the pull-request job can only read and never sees ARTIFACTS_TOKEN, and
+  # only the baseline job, which runs on this repository's own pushes, can write.
+  #
+  # The pull-request job keeps the exact name the `main` ruleset requires. The baseline job has its
+  # own name, so a skipped twin can never stand in for the required check.
   apply:
     name: Render previews (baseline or PR comment, auto-selected)
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     permissions:
-      contents: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
-      pull-requests: ${{ github.event_name == 'pull_request' && 'read' || 'write' }}
+      contents: read
+      pull-requests: read
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7.0.1
@@ -33,12 +43,12 @@ jobs:
           persist-credentials: false
       - uses: ./.github/actions/setup
         with:
-          cache-read-only: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+          cache-read-only: 'true'
       - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.23.0
         with:
           artifact-repository: yschimke/wear-m3-catalog-out
-          artifacts-token: ${{ github.event_name != 'pull_request' && secrets.ARTIFACTS_TOKEN || '' }}
-          phase: ${{ github.event_name == 'pull_request' && 'render' || 'all' }}
+          artifacts-token: ''
+          phase: render
           # Single source of truth for the renderer version: the composePreviewPlugin entry in
           # libs.versions.toml. A newer published CLI auto-installed against an older applied
           # plugin breaks preview discovery outright.
@@ -50,10 +60,36 @@ jobs:
           # when `:remote-catalog` landed; the phone catalog needed 4800 at ~1150 previews.
           timeout: '3600'
 
+      # The comment is posted by compose-preview-publish.yml, which runs on `workflow_run` with
+      # write access and none of this pull request's code.
       - uses: actions/upload-artifact@v7.0.1
-        if: github.event_name == 'pull_request'
         with:
           name: compose-preview-handoff
           path: _compose_preview_handoff/
           if-no-files-found: error
           retention-days: 1
+
+  baseline:
+    name: Render previews (baseline)
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+        with:
+          cache-read-only: 'false'
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.23.0
+        with:
+          artifact-repository: yschimke/wear-m3-catalog-out
+          artifacts-token: ${{ secrets.ARTIFACTS_TOKEN }}
+          phase: all
+          cli-version: catalog
+          catalog-key: composePreviewPlugin
+          only: compose
+          timeout: '3600'

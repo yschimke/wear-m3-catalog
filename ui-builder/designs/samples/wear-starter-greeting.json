@@ -1,0 +1,130 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "wear-starter-greeting",
+  "title": "Starter greeting · wear-os-samples ComposeStarter",
+  "revision": 5,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "browserZoomPercent": 100,
+    "fixedTime": "2024-05-16T12:00:00Z",
+    "animations": "settled",
+    "networkAccess": false,
+    "exportDevices": [
+      "id:wearos_small_round",
+      "id:wearos_xl_round"
+    ]
+  },
+  "stateVariables": {},
+  "roots": [
+    "screen"
+  ],
+  "nodes": {
+    "screen": {
+      "id": "screen",
+      "componentId": "wear-m3/screen-scaffold",
+      "properties": {
+        "timeText": {
+          "type": "string",
+          "value": "10:10"
+        },
+        "scrollIndicator": {
+          "type": "bool",
+          "value": true
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "list"
+        ],
+        "edgeButton": [
+          "show-list"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "list": {
+      "id": "list",
+      "componentId": "wear-m3/transforming-lazy-column",
+      "properties": {
+        "transformation": {
+          "type": "enum",
+          "value": "spec"
+        },
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 4
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxSize"
+        }
+      ],
+      "slots": {
+        "items": [
+          "greeting"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "greeting": {
+      "id": "greeting",
+      "componentId": "wear-m3/list-header",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "From the Round world, Hello, Android!"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "show-list": {
+      "id": "show-list",
+      "componentId": "wear-m3/edge-button",
+      "properties": {
+        "size": {
+          "type": "enum",
+          "value": "extra-small"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "show-list-label"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "show-list-label": {
+      "id": "show-list-label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Show list"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    }
+  },
+  "assets": {}
+}

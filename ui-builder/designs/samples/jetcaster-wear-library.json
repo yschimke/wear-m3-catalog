@@ -1,0 +1,258 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "jetcaster-wear-library",
+  "title": "Jetcaster library · compose-samples Jetcaster Wear",
+  "revision": 13,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "browserZoomPercent": 100,
+    "fixedTime": "2024-05-16T12:00:00Z",
+    "animations": "settled",
+    "networkAccess": false,
+    "exportDevices": [
+      "id:wearos_small_round",
+      "id:wearos_xl_round"
+    ]
+  },
+  "stateVariables": {},
+  "roots": [
+    "screen"
+  ],
+  "nodes": {
+    "screen": {
+      "id": "screen",
+      "componentId": "wear-m3/screen-scaffold",
+      "properties": {
+        "timeText": {
+          "type": "string",
+          "value": "10:10"
+        },
+        "scrollIndicator": {
+          "type": "bool",
+          "value": true
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "list"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "list": {
+      "id": "list",
+      "componentId": "wear-m3/transforming-lazy-column",
+      "properties": {
+        "transformation": {
+          "type": "enum",
+          "value": "spec"
+        },
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 4
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxSize"
+        }
+      ],
+      "slots": {
+        "items": [
+          "library-header",
+          "latest-episodes",
+          "podcasts",
+          "queue-header",
+          "up-next"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "library-header": {
+      "id": "library-header",
+      "componentId": "wear-m3/list-header",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Your library"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "latest-episodes": {
+      "id": "latest-episodes",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "latest-episodes-icon",
+          "latest-episodes-label"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "latest-episodes-icon": {
+      "id": "latest-episodes-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/newReleases"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "latest-episodes-label": {
+      "id": "latest-episodes-label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Latest episodes"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "podcasts": {
+      "id": "podcasts",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "podcasts-icon",
+          "podcasts-label"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "podcasts-icon": {
+      "id": "podcasts-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/podcasts"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "podcasts-label": {
+      "id": "podcasts-label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Podcasts"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-header": {
+      "id": "queue-header",
+      "componentId": "wear-m3/list-header",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Queue"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "up-next": {
+      "id": "up-next",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "up-next-icon",
+          "up-next-label"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "up-next-icon": {
+      "id": "up-next-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/playlistPlay"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "up-next-label": {
+      "id": "up-next-label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Up Next"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    }
+  },
+  "assets": {}
+}

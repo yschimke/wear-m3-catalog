@@ -1,0 +1,374 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "wear-starter-list",
+  "title": "Starter list · wear-os-samples ComposeStarter",
+  "revision": 19,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "browserZoomPercent": 100,
+    "fixedTime": "2024-05-16T12:00:00Z",
+    "animations": "settled",
+    "networkAccess": false,
+    "exportDevices": [
+      "id:wearos_small_round",
+      "id:wearos_xl_round"
+    ]
+  },
+  "stateVariables": {},
+  "roots": [
+    "screen"
+  ],
+  "nodes": {
+    "screen": {
+      "id": "screen",
+      "componentId": "wear-m3/screen-scaffold",
+      "properties": {
+        "timeText": {
+          "type": "string",
+          "value": "10:10"
+        },
+        "scrollIndicator": {
+          "type": "bool",
+          "value": true
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "list"
+        ],
+        "overlays": [
+          "error-dialog"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "list": {
+      "id": "list",
+      "componentId": "wear-m3/transforming-lazy-column",
+      "properties": {
+        "transformation": {
+          "type": "enum",
+          "value": "spec"
+        },
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 4
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxSize"
+        }
+      ],
+      "slots": {
+        "items": [
+          "list-header",
+          "example-card",
+          "example-button",
+          "actions"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "list-header": {
+      "id": "list-header",
+      "componentId": "wear-m3/list-header",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Header"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "example-card": {
+      "id": "example-card",
+      "componentId": "wear-m3/card",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "title"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "example-card-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "example-card-lines": {
+      "id": "example-card-lines",
+      "componentId": "layout/column",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "example-card-title",
+          "example-card-body"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "example-card-title": {
+      "id": "example-card-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Example Title"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "example-card-body": {
+      "id": "example-card-body",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Example Content More Lines And More"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "example-button": {
+      "id": "example-button",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "example-button-label"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "example-button-label": {
+      "id": "example-button-label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Example Button"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "actions": {
+      "id": "actions",
+      "componentId": "wear-m3/button-group",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "settings",
+          "thumbs-up"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "settings": {
+      "id": "settings",
+      "componentId": "wear-m3/icon-button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "settings-icon"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "settings-icon": {
+      "id": "settings-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "settings"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Settings Button"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "thumbs-up": {
+      "id": "thumbs-up",
+      "componentId": "wear-m3/icon-button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "thumbs-up-icon"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "thumbs-up-icon": {
+      "id": "thumbs-up-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/thumbUp"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Thumbs up Button"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "error-dialog": {
+      "id": "error-dialog",
+      "componentId": "wear-m3/alert-dialog",
+      "properties": {
+        "title": {
+          "type": "string",
+          "value": "Title"
+        },
+        "text": {
+          "type": "string",
+          "value": "An unknown error occurred during the request."
+        },
+        "visible": {
+          "type": "bool",
+          "value": false
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "confirmButton": [
+          "error-ok"
+        ],
+        "dismissButton": [
+          "error-cancel"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "error-ok": {
+      "id": "error-ok",
+      "componentId": "wear-m3/icon-button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "error-ok-icon"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "error-ok-icon": {
+      "id": "error-ok-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/check"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "OK"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "error-cancel": {
+      "id": "error-cancel",
+      "componentId": "wear-m3/icon-button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "error-cancel-icon"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "error-cancel-icon": {
+      "id": "error-cancel-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/close"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Cancel"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    }
+  },
+  "assets": {}
+}

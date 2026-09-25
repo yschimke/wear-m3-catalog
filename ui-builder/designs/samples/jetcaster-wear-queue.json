@@ -1,0 +1,474 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "jetcaster-wear-queue",
+  "title": "Jetcaster queue · compose-samples Jetcaster Wear",
+  "revision": 23,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2,
+    "theme": "dark",
+    "dynamicColor": false,
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr",
+    "windowPosture": "flat",
+    "browserZoomPercent": 100,
+    "fixedTime": "2024-05-16T12:00:00Z",
+    "animations": "settled",
+    "networkAccess": false,
+    "exportDevices": [
+      "id:wearos_small_round",
+      "id:wearos_xl_round"
+    ]
+  },
+  "stateVariables": {},
+  "roots": [
+    "screen"
+  ],
+  "nodes": {
+    "screen": {
+      "id": "screen",
+      "componentId": "wear-m3/screen-scaffold",
+      "properties": {
+        "timeText": {
+          "type": "string",
+          "value": "10:10"
+        },
+        "scrollIndicator": {
+          "type": "bool",
+          "value": true
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "content": [
+          "list"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "list": {
+      "id": "list",
+      "componentId": "wear-m3/transforming-lazy-column",
+      "properties": {
+        "transformation": {
+          "type": "enum",
+          "value": "spec"
+        },
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 4
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxSize"
+        }
+      ],
+      "slots": {
+        "items": [
+          "queue-title",
+          "queue-actions",
+          "queue-0",
+          "queue-1",
+          "queue-2"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-title": {
+      "id": "queue-title",
+      "componentId": "wear-m3/list-header",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Queue"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-actions": {
+      "id": "queue-actions",
+      "componentId": "wear-m3/button-group",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "play-all",
+          "clear-queue"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "play-all": {
+      "id": "play-all",
+      "componentId": "wear-m3/icon-button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "weight",
+          "weight": 0.7
+        }
+      ],
+      "slots": {
+        "content": [
+          "play-all-icon"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "play-all-icon": {
+      "id": "play-all-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/playArrow"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Play episodes"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "clear-queue": {
+      "id": "clear-queue",
+      "componentId": "wear-m3/icon-button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "weight",
+          "weight": 0.3
+        }
+      ],
+      "slots": {
+        "content": [
+          "clear-queue-icon"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "clear-queue-icon": {
+      "id": "clear-queue-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/delete"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Delete queue"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-0": {
+      "id": "queue-0",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "queue-0-icon",
+          "queue-0-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-0-icon": {
+      "id": "queue-0-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/podcasts"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-0-lines": {
+      "id": "queue-0-lines",
+      "componentId": "layout/column",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "queue-0-title",
+          "queue-0-detail"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-0-title": {
+      "id": "queue-0-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Episode 140: Lorem ipsum dolor"
+        },
+        "maxLines": {
+          "type": "int",
+          "value": 1
+        },
+        "overflow": {
+          "type": "enum",
+          "value": "ellipsis"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-0-detail": {
+      "id": "queue-0-detail",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Jun 2, 2020 • 45 mins"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "maxLines": {
+          "type": "int",
+          "value": 1
+        },
+        "overflow": {
+          "type": "enum",
+          "value": "ellipsis"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-1": {
+      "id": "queue-1",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "queue-1-icon",
+          "queue-1-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-1-icon": {
+      "id": "queue-1-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/podcasts"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-1-lines": {
+      "id": "queue-1-lines",
+      "componentId": "layout/column",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "queue-1-title",
+          "queue-1-detail"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-1-title": {
+      "id": "queue-1-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Episode 141: Material 3 for Wear"
+        },
+        "maxLines": {
+          "type": "int",
+          "value": 1
+        },
+        "overflow": {
+          "type": "enum",
+          "value": "ellipsis"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-1-detail": {
+      "id": "queue-1-detail",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Jun 16, 2020 • 38 mins"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "maxLines": {
+          "type": "int",
+          "value": 1
+        },
+        "overflow": {
+          "type": "enum",
+          "value": "ellipsis"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-2": {
+      "id": "queue-2",
+      "componentId": "wear-m3/button",
+      "properties": {
+        "variant": {
+          "type": "enum",
+          "value": "filled-tonal"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "content": [
+          "queue-2-icon",
+          "queue-2-lines"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-2-icon": {
+      "id": "queue-2-icon",
+      "componentId": "wear-m3/icon",
+      "properties": {
+        "iconKey": {
+          "type": "enum",
+          "value": "filled/podcasts"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-2-lines": {
+      "id": "queue-2-lines",
+      "componentId": "layout/column",
+      "properties": {},
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "queue-2-title",
+          "queue-2-detail"
+        ]
+      },
+      "eventBindings": {}
+    },
+    "queue-2-title": {
+      "id": "queue-2-title",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Episode 142: Compose on the wrist"
+        },
+        "maxLines": {
+          "type": "int",
+          "value": 1
+        },
+        "overflow": {
+          "type": "enum",
+          "value": "ellipsis"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    },
+    "queue-2-detail": {
+      "id": "queue-2-detail",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Jun 30, 2020 • 52 mins"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "maxLines": {
+          "type": "int",
+          "value": 1
+        },
+        "overflow": {
+          "type": "enum",
+          "value": "ellipsis"
+        }
+      },
+      "modifiers": [],
+      "slots": {},
+      "eventBindings": {}
+    }
+  },
+  "assets": {}
+}
