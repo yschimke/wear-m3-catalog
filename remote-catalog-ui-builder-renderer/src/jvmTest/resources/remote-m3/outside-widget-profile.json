@@ -1,0 +1,411 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "outside-widget-profile",
+  "title": "Outside the widget profile",
+  "revision": 1,
+  "catalogPin": {
+    "systemId": "remote-m3",
+    "catalogRevision": "test",
+    "capabilityDigest": "candidate"
+  },
+  "environment": {
+    "widthDp": 216,
+    "heightDp": 124,
+    "density": 2.0,
+    "theme": "dark",
+    "locale": "en-US",
+    "fontScale": 1.0,
+    "layoutDirection": "ltr",
+    "exportDevices": []
+  },
+  "stateVariables": {},
+  "roots": [
+    "widget"
+  ],
+  "nodes": {
+    "widget": {
+      "id": "widget",
+      "componentId": "remote-m3/widget-container-large",
+      "properties": {
+        "background": {
+          "type": "color",
+          "value": "#FF272430"
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "background": [],
+        "content": [
+          "root"
+        ]
+      }
+    },
+    "root": {
+      "id": "root",
+      "componentId": "layout/column",
+      "properties": {},
+      "modifiers": [
+        {
+          "type": "fillMaxSize"
+        },
+        {
+          "type": "padding",
+          "startDp": 6,
+          "topDp": 2,
+          "endDp": 6,
+          "bottomDp": 2
+        }
+      ],
+      "slots": {
+        "children": [
+          "chips",
+          "stack",
+          "line"
+        ]
+      }
+    },
+    "chip1": {
+      "id": "chip1",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Tag 1"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "background",
+          "color": {
+            "type": "color",
+            "value": "#FF3A3645"
+          },
+          "shape": "small"
+        },
+        {
+          "type": "padding",
+          "startDp": 4,
+          "topDp": 1,
+          "endDp": 4,
+          "bottomDp": 1
+        }
+      ],
+      "slots": {}
+    },
+    "chip2": {
+      "id": "chip2",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Tag 2"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "background",
+          "color": {
+            "type": "color",
+            "value": "#FF3A3645"
+          },
+          "shape": "small"
+        },
+        {
+          "type": "padding",
+          "startDp": 4,
+          "topDp": 1,
+          "endDp": 4,
+          "bottomDp": 1
+        }
+      ],
+      "slots": {}
+    },
+    "chip3": {
+      "id": "chip3",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Tag 3"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "background",
+          "color": {
+            "type": "color",
+            "value": "#FF3A3645"
+          },
+          "shape": "small"
+        },
+        {
+          "type": "padding",
+          "startDp": 4,
+          "topDp": 1,
+          "endDp": 4,
+          "bottomDp": 1
+        }
+      ],
+      "slots": {}
+    },
+    "chip4": {
+      "id": "chip4",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Tag 4"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "background",
+          "color": {
+            "type": "color",
+            "value": "#FF3A3645"
+          },
+          "shape": "small"
+        },
+        {
+          "type": "padding",
+          "startDp": 4,
+          "topDp": 1,
+          "endDp": 4,
+          "bottomDp": 1
+        }
+      ],
+      "slots": {}
+    },
+    "chip5": {
+      "id": "chip5",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Tag 5"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "background",
+          "color": {
+            "type": "color",
+            "value": "#FF3A3645"
+          },
+          "shape": "small"
+        },
+        {
+          "type": "padding",
+          "startDp": 4,
+          "topDp": 1,
+          "endDp": 4,
+          "bottomDp": 1
+        }
+      ],
+      "slots": {}
+    },
+    "chips": {
+      "id": "chips",
+      "componentId": "layout/flow-row",
+      "properties": {
+        "horizontalSpacingDp": {
+          "type": "float",
+          "value": 4
+        },
+        "verticalSpacingDp": {
+          "type": "float",
+          "value": 2
+        },
+        "maxItemsInEachRow": {
+          "type": "int",
+          "value": 4
+        }
+      },
+      "modifiers": [],
+      "slots": {
+        "children": [
+          "chip1",
+          "chip2",
+          "chip3",
+          "chip4",
+          "chip5"
+        ]
+      }
+    },
+    "headline": {
+      "id": "headline",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Headline"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [],
+      "slots": {}
+    },
+    "supporting": {
+      "id": "supporting",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Supporting line that goes first"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "collapsiblePriority",
+          "priority": 1
+        }
+      ],
+      "slots": {}
+    },
+    "stack": {
+      "id": "stack",
+      "componentId": "layout/collapsible-column",
+      "properties": {},
+      "modifiers": [
+        {
+          "type": "height",
+          "heightDp": 18
+        }
+      ],
+      "slots": {
+        "children": [
+          "headline",
+          "supporting"
+        ]
+      }
+    },
+    "grow": {
+      "id": "grow",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Grows"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "weight",
+          "weight": 1
+        }
+      ],
+      "slots": {}
+    },
+    "tail": {
+      "id": "tail",
+      "componentId": "remote-m3/remote-text",
+      "properties": {
+        "text": {
+          "type": "string",
+          "value": "Tail"
+        },
+        "style": {
+          "type": "enum",
+          "value": "labelSmall"
+        },
+        "color": {
+          "type": "color",
+          "value": "#FFE3E2EA"
+        }
+      },
+      "modifiers": [
+        {
+          "type": "collapsiblePriority",
+          "priority": 2
+        }
+      ],
+      "slots": {}
+    },
+    "line": {
+      "id": "line",
+      "componentId": "layout/collapsible-row",
+      "properties": {
+        "horizontalSpacingDp": {
+          "type": "float",
+          "value": 4
+        }
+      },
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ],
+      "slots": {
+        "children": [
+          "grow",
+          "tail"
+        ]
+      }
+    }
+  },
+  "assets": {},
+  "components": {}
+}

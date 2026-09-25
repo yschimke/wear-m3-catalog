@@ -8,10 +8,15 @@ import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocum
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
+import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleColumn
+import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleColumnScope
+import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleRow
+import androidx.compose.remote.creation.compose.layout.RemoteCollapsibleRowScope
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteColumnScope
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.layout.RemoteFitBox
+import androidx.compose.remote.creation.compose.layout.RemoteFlowRow
 import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteRowScope
@@ -291,9 +296,11 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
     entry: CanvasRenderNode,
     row: RemoteRowScope? = null,
     column: RemoteColumnScope? = null,
+    collapsibleColumn: RemoteCollapsibleColumnScope? = null,
+    collapsibleRow: RemoteCollapsibleRowScope? = null,
   ) {
     val node = entry.node
-    val modifier = node.remoteModifier(row, column)
+    val modifier = node.remoteModifier(row, column, collapsibleColumn, collapsibleRow)
     if (node.componentId == "layout/box" && SHOW_BY_STATE in node.properties) {
       StateSwitch(entry, modifier)
       return
@@ -333,9 +340,40 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
           children.forEach { RenderNode(it, row = this) }
         }
       }
-      // The one Remote Compose layout beyond these three that a Wear widget can carry. A flow row
-      // and the collapsibles are outside the Glance Wear widget profile, so they reach the
-      // "Unsupported" branch below rather than a preview no watch could play.
+      // Remote Compose's own layouts. The CMP writer records all four; only the fit box is in the
+      // Glance Wear widget profile, so a widget using the other three plays here and fails on
+      // Native / Live, which is the authoritative lane.
+      "layout/flow-row" ->
+        RemoteFlowRow(
+          modifier = modifier,
+          horizontalArrangement = node.horizontalArrangement(),
+          verticalArrangement = node.verticalArrangement(),
+          maxItemsInEachRow = node.integer("maxItemsInEachRow")?.takeIf { it > 0 } ?: Int.MAX_VALUE,
+        ) {
+          entry.slot("children").forEach { RenderNode(it) }
+        }
+      "layout/collapsible-column" -> {
+        val children = entry.slot("children")
+        RemoteCollapsibleColumn(
+          modifier = modifier,
+          verticalArrangement = node.verticalArrangement(),
+          horizontalAlignment =
+            children.sharedAlignment("alignHorizontal")?.horizontal() ?: node.horizontalAlignment(),
+        ) {
+          children.forEach { RenderNode(it, collapsibleColumn = this) }
+        }
+      }
+      "layout/collapsible-row" -> {
+        val children = entry.slot("children")
+        RemoteCollapsibleRow(
+          modifier = modifier,
+          horizontalArrangement = node.horizontalArrangement(),
+          verticalAlignment =
+            children.sharedAlignment("alignVertical")?.vertical() ?: node.verticalAlignment(),
+        ) {
+          children.forEach { RenderNode(it, collapsibleRow = this) }
+        }
+      }
       "layout/fit-box" ->
         RemoteFitBox(
           modifier = modifier,
@@ -482,6 +520,8 @@ private fun UiBuilderNode.boolean(name: String, fallback: Boolean): Boolean =
 private fun UiBuilderNode.remoteModifier(
   row: RemoteRowScope? = null,
   column: RemoteColumnScope? = null,
+  collapsibleColumn: RemoteCollapsibleColumnScope? = null,
+  collapsibleRow: RemoteCollapsibleRowScope? = null,
 ): RemoteModifier {
   var result: RemoteModifier = RemoteModifier
   modifiers.forEach { element ->
@@ -528,6 +568,15 @@ private fun UiBuilderNode.remoteModifier(
           val weight = number("weight", "value") ?: 1f
           row?.run { result.weight(weight.rf) }
             ?: column?.run { result.weight(weight.rf) }
+            ?: collapsibleColumn?.run { result.weight(weight.rf) }
+            ?: collapsibleRow?.run { result.weight(weight.rf) }
+            ?: result
+        }
+        // Members of the collapsible scopes, like `weight`; meaningless anywhere else.
+        "collapsiblePriority" -> {
+          val priority = number("priority") ?: 0f
+          collapsibleColumn?.run { result.collapsiblePriority(priority) }
+            ?: collapsibleRow?.run { result.collapsiblePriority(priority) }
             ?: result
         }
         // The export writes `animationSpec(Int, Boolean)` because the native lane's

@@ -166,29 +166,36 @@ class RemoteM3DevicePreviewUiTest {
   }
 
   /**
-   * A flow row and the collapsibles are `remote-creation-compose` layouts outside the Glance Wear
-   * widget profile — no watch plays them, and the Android writer refuses them — so this surface
-   * says so rather than drawing a widget that could never ship.
+   * A flow row and the collapsibles, with priorities and a weight. They are outside the Glance Wear
+   * widget profile, so a widget using them fails on Native / Live; the CMP writer records them, and
+   * this surface plays them so the design can still be authored and looked at.
    */
   @Test
-  fun `a layout outside the widget profile is named rather than drawn`() {
-    listOf("layout/flow-row", "layout/collapsible-column", "layout/collapsible-row").forEach { id ->
-      runDesktopComposeUiTest(width = 432, height = 240) {
+  fun `a flow row and the collapsibles play in every host shape`() {
+    val design = fixture("outside-widget-profile")
+    WearWidgetHostShape.entries.forEach { shape ->
+      runDesktopComposeUiTest(width = 480, height = 320) {
+        val spec = WearWidgetScaffoldSize.Large.hostSpec(shape)
         var readyCalls = 0
         val sent =
-          document().let {
-            it.copy(
-              nodes =
-                it.nodes.mapValues { (nodeId, node) ->
-                  if (nodeId == "button") node.copy(componentId = id) else node
-                }
-            )
+          design.copy(
+            environment =
+              JsonObject(
+                design.environment +
+                  (WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY to JsonPrimitive(shape.id))
+              )
+          )
+        setContent {
+          RemoteM3DevicePreview(sent, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+            readyCalls++
           }
-        setContent { RemoteM3DevicePreview(sent, widthDp = 216f, heightDp = 76f) { readyCalls++ } }
+        }
 
         waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
 
-        onNodeWithText("Unsupported: $id", substring = true).assertExists()
+        onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
+          .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
+        onNodeWithText("Unsupported", substring = true).assertDoesNotExist()
       }
     }
   }

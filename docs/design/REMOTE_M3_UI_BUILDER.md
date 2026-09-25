@@ -52,25 +52,27 @@ merely compatible system, or follow a different catalog pin.
 This division keeps the editor responsive, makes browser feedback real, and preserves Android as the
 final source of truth without introducing a second stored design model.
 
-## Layout vocabulary: what a Wear widget can carry
+## Layout vocabulary, and what a Wear widget can carry
 
-`remote-creation-compose` publishes more layouts than a widget can use. A `remote-m3` design is a
-Glance Wear widget, and `GlanceWearProfiles` (glance-wear 1.0.0-alpha18) fixes the operations a
-widget document may contain. The palette offers a layout only when that profile admits it, because
-an entry the watch cannot play is only found out at the end.
+The palette offers every core `remote-creation-compose` layout, and every surface draws each one.
+A `remote-m3` design is still a Glance Wear widget, though, and `GlanceWearProfiles`
+(glance-wear 1.0.0-alpha18) fixes which operations a widget document may contain. A layout outside
+that profile is authored, previewed and exported as normal, and it **fails on Native / Live**:
+the Android writer throws "Operation … is not supported for this version" while it captures the
+document. The failure is meant to be obvious rather than silent, so the palette note says so, and
+the generated Kotlin carries a comment above the call naming the missing operation.
 
-| Remote Compose | Builder | In the widget profile | Palette |
+| Remote Compose | Builder | In the widget profile | Native / Live |
 | --- | --- | --- | --- |
-| `RemoteBox`, `RemoteRow`, `RemoteColumn` | `layout/box`, `layout/row`, `layout/column` | yes | offered |
-| `RemoteFitBox` | `layout/fit-box` | `LAYOUT_FIT_BOX` | offered |
-| `RemoteStateLayout` | "Show by state" on `layout/box` | `LAYOUT_STATE` | offered (Remote Compose authoring builds) |
-| `Modifier.sharedElement` | `sharedElement` modifier | `ANIMATION_SPEC` | offered |
-| `RemoteFlowRow` | `layout/flow-row` | no (`LAYOUT_FLOW` is experimental-only) | withheld |
-| `RemoteCollapsibleColumn` / `Row`, `collapsiblePriority` | — | no | withheld |
+| `RemoteBox`, `RemoteRow`, `RemoteColumn` | `layout/box`, `layout/row`, `layout/column` | yes | renders |
+| `RemoteFitBox` | `layout/fit-box` | `LAYOUT_FIT_BOX` | renders |
+| `RemoteStateLayout` | "Show by state" on `layout/box` | `LAYOUT_STATE` | renders |
+| `Modifier.sharedElement` | `sharedElement` modifier | `ANIMATION_SPEC` | renders |
+| `RemoteFlowRow` | `layout/flow-row` | no (`LAYOUT_FLOW` is experimental-only) | fails at capture |
+| `RemoteCollapsibleColumn` / `Row` | `layout/collapsible-column` / `-row` | no | fails at capture |
+| `collapsiblePriority` | `collapsiblePriority` modifier | no | fails at capture |
 
-Each surface handles a withheld layout the same way. The exporter refuses it by name, the Browser
-Preview draws "Unsupported: <id>", and the Android writer throws "Operation … is not supported for
-this version" while it captures the document. That last one is why the list is not a guess.
+"Show by state" needs a build with Remote Compose authoring enabled (`-PuiBuilderRemoteCompose=true`).
 
 `sharedElement` exports as `animationSpec(key, true)`. That overload exists in both the released
 alpha19 (the native lane) and the vendored port the Browser Preview records with, and it produces the
@@ -78,3 +80,7 @@ same `AnimationSpec` operation as `sharedElement(key)`.
 
 ![Browser Preview, squircle host](../evidence/remote-m3-fit-box-state/browser-preview-squircle.png)
 ![Native, Android player](../evidence/remote-m3-fit-box-state/native-android-squircle.png)
+
+The same Browser Preview drawing the three layouts outside the widget profile (their Native / Live render fails at capture):
+
+![Browser Preview, flow row and collapsibles](../evidence/remote-m3-fit-box-state/browser-preview-outside-widget-profile.png)
