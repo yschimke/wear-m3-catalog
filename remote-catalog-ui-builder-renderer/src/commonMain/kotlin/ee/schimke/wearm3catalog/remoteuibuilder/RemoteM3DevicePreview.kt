@@ -264,10 +264,13 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
   @Composable
   @RemoteComposable
   fun RenderRootSlot(slotName: String) {
-    // Stacked in one full-frame box, the way the host layers a widget's background: a picture
-    // and the scrim over it both fill the frame, rather than each claiming the document's root.
+    // Stacked in one full-frame box, the way the host layers a widget's background: each layer is
+    // a brush over the whole frame, so it fills it without authoring any size of its own (the
+    // export refuses a background node that carries one).
     RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
-      document.roots.singleOrNull()?.let(tree::root)?.slot(slotName)?.forEach { RenderNode(it) }
+      document.roots.singleOrNull()?.let(tree::root)?.slot(slotName)?.forEach {
+        RenderNode(it, fillFrame = true)
+      }
     }
   }
 
@@ -313,9 +316,13 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
     column: RemoteColumnScope? = null,
     collapsibleColumn: RemoteCollapsibleColumnScope? = null,
     collapsibleRow: RemoteCollapsibleRowScope? = null,
+    fillFrame: Boolean = false,
   ) {
     val node = entry.node
-    val modifier = node.remoteModifier(row, column, collapsibleColumn, collapsibleRow)
+    val modifier =
+      node.remoteModifier(row, column, collapsibleColumn, collapsibleRow).let {
+        if (fillFrame) it.fillMaxSize() else it
+      }
     if (node.componentId == "layout/box" && SHOW_BY_STATE in node.properties) {
       StateSwitch(entry, modifier)
       return
