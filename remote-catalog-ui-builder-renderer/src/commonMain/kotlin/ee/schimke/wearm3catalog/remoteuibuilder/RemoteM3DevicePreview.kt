@@ -1,7 +1,16 @@
 package ee.schimke.wearm3catalog.remoteuibuilder
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background as scrimBackground
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding as spinnerPadding
+import androidx.compose.foundation.layout.size
 import androidx.compose.remote.creation.compose.action.combinedAction
 import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
 import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocument
@@ -59,9 +68,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
@@ -70,6 +81,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -103,6 +115,7 @@ internal const val REMOTE_M3_DEVICE_PREVIEW_TEST_TAG = "remote-m3-device-preview
 internal const val REMOTE_M3_WIDGET_HOST_TEST_TAG = "remote-m3-widget-host"
 internal const val REMOTE_M3_WIDGET_BACKGROUND_TEST_TAG = "remote-m3-widget-background"
 internal const val REMOTE_M3_WIDGET_CONTENT_TEST_TAG = "remote-m3-widget-content"
+internal const val REMOTE_M3_REFRESHING_TEST_TAG = "remote-m3-refreshing"
 
 /** Real Remote M3 creation and playback for the read-only browser device surface. */
 @Composable
@@ -127,11 +140,15 @@ internal fun RemoteM3DevicePreview(
   // Recorded at the density the pane plays at. A document captured at 160dpi and played on a 2x
   // screen had its dp layout scaled up and its sp text not, so every word drew at half size.
   val density = LocalDensity.current
+  // Kept across edits. Keyed on the document, every edit dropped the last drawing and showed a
+  // placeholder until the new one was recorded; the previous frame stays up under a scrim instead.
   var captured by
-    remember(document, contentWidth, contentHeight, density) {
+    remember(contentWidth, contentHeight, density) {
       mutableStateOf<Result<CapturedRemoteDocuments>?>(null)
     }
+  var refreshing by remember { mutableStateOf(true) }
   LaunchedEffect(document, contentWidth, contentHeight, density) {
+    refreshing = true
     val next = runCatching {
       val content =
         captureDocument(contentWidth, contentHeight, density) {
@@ -149,13 +166,14 @@ internal fun RemoteM3DevicePreview(
       CapturedRemoteDocuments(content = content, background = background)
     }
     captured = next
+    refreshing = false
     onReady()
   }
 
   val result = captured
   val state =
     when {
-      result == null -> "Building"
+      result == null || refreshing -> "Building"
       result.isSuccess -> "Ready"
       else -> "Failed"
     }
@@ -165,7 +183,7 @@ internal fun RemoteM3DevicePreview(
     }
   ) {
     when (result) {
-      null -> Text("Building Remote M3 preview…")
+      null -> Unit
       else ->
         result.fold(
           onSuccess = { documents ->
@@ -208,6 +226,35 @@ internal fun RemoteM3DevicePreview(
           },
           onFailure = { Text("Remote M3 preview failed: ${it.message ?: it::class.simpleName}") },
         )
+    }
+    if (refreshing) RefreshingIndicator(dimmed = result != null)
+  }
+}
+
+/** A light scrim over the last drawing and a small spinner, while the next one is recorded. */
+@Composable
+private fun RefreshingIndicator(dimmed: Boolean) {
+  val turn by
+    rememberInfiniteTransition(label = "refreshing")
+      .animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(tween(900, easing = LinearEasing)),
+        label = "turn",
+      )
+  Box(
+    Modifier.fillMaxSize()
+      .testTag(REMOTE_M3_REFRESHING_TEST_TAG)
+      .then(if (dimmed) Modifier.scrimBackground(Color.Black.copy(alpha = 0.12f)) else Modifier)
+  ) {
+    Canvas(Modifier.align(Alignment.TopEnd).spinnerPadding(6.dp).size(12.dp)) {
+      drawArc(
+        color = Color.White.copy(alpha = 0.8f),
+        startAngle = turn,
+        sweepAngle = 270f,
+        useCenter = false,
+        style = Stroke(width = 1.5.dp.toPx()),
+      )
     }
   }
 }
