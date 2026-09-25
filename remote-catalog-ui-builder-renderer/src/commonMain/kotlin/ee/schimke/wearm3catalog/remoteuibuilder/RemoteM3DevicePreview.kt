@@ -11,18 +11,30 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteColumnScope
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.layout.RemoteFitBox
 import androidx.compose.remote.creation.compose.layout.RemoteImage
 import androidx.compose.remote.creation.compose.layout.RemoteRow
 import androidx.compose.remote.creation.compose.layout.RemoteRowScope
+import androidx.compose.remote.creation.compose.layout.RemoteStateLayout
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
+import androidx.compose.remote.creation.compose.modifier.alpha
 import androidx.compose.remote.creation.compose.modifier.background
+import androidx.compose.remote.creation.compose.modifier.border
 import androidx.compose.remote.creation.compose.modifier.clip
 import androidx.compose.remote.creation.compose.modifier.fillMaxHeight
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.modifier.fillMaxWidth
 import androidx.compose.remote.creation.compose.modifier.height
+import androidx.compose.remote.creation.compose.modifier.heightIn
+import androidx.compose.remote.creation.compose.modifier.offset
 import androidx.compose.remote.creation.compose.modifier.padding
+import androidx.compose.remote.creation.compose.modifier.rotate
+import androidx.compose.remote.creation.compose.modifier.scale
+import androidx.compose.remote.creation.compose.modifier.sharedElement
 import androidx.compose.remote.creation.compose.modifier.width
+import androidx.compose.remote.creation.compose.modifier.widthIn
+import androidx.compose.remote.creation.compose.modifier.wrapContentSize
+import androidx.compose.remote.creation.compose.modifier.zIndex
 import androidx.compose.remote.creation.compose.shaders.RemoteBrush
 import androidx.compose.remote.creation.compose.shaders.horizontalGradient
 import androidx.compose.remote.creation.compose.shaders.verticalGradient
@@ -32,6 +44,7 @@ import androidx.compose.remote.creation.compose.state.asRemoteTextUnit
 import androidx.compose.remote.creation.compose.state.rb
 import androidx.compose.remote.creation.compose.state.rc
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.state.rememberMutableRemoteInt
 import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.remote.creation.compose.text.RemoteTextStyle
@@ -63,10 +76,12 @@ import ee.schimke.composeai.rcplayer.protocol.RcDocument
 import ee.schimke.composeai.rcplayer.protocol.RcDocumentCodec
 import ee.schimke.composeai.uibuilder.CanvasRenderNode
 import ee.schimke.composeai.uibuilder.CanvasRenderTree
+import ee.schimke.composeai.uibuilder.SHOW_BY_STATE
 import ee.schimke.composeai.uibuilder.UiBuilderDocument
 import ee.schimke.composeai.uibuilder.UiBuilderNode
 import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
 import ee.schimke.composeai.uibuilder.hostSpec
+import ee.schimke.composeai.uibuilder.stateSelection
 import ee.schimke.wearm3catalog.uibuilder.WearWidgetContainerFrame
 import ee.schimke.wearm3catalog.uibuilder.wearWidgetHostShape
 import kotlinx.serialization.json.JsonObject
@@ -237,6 +252,34 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
   }
 
   /**
+   * "Show by state" on a box, played as the `RemoteStateLayout` the export writes.
+   *
+   * Every branch is recorded — one per case, in case order, then the fallback — and the layout
+   * starts on the branch the design's initial state selects. Recording them all, rather than only
+   * the selected child, is what lets a `sharedElement` pair across branches the way it does in the
+   * exported widget, and what stops the preview stacking every branch on top of the others.
+   */
+  @Composable
+  @RemoteComposable
+  private fun StateSwitch(entry: CanvasRenderNode, modifier: RemoteModifier) {
+    val node = entry.node
+    val children = entry.slot("children").associateBy { it.node.id }
+    val selection = node.stateSelection()
+    val branches: List<String?> =
+      selection?.let { it.cases.keys.toList() + it.fallback } ?: listOf(null)
+    val selected =
+      selection?.selectedNode(document.initialState(), document.stateVariables)?.let {
+        branches.indexOf(it)
+      }
+    val current = rememberMutableRemoteInt(selected?.takeIf { it >= 0 } ?: branches.lastIndex)
+    RemoteBox(modifier = modifier, contentAlignment = node.boxAlignment()) {
+      RemoteStateLayout(current, *IntArray(branches.size) { it }) { branch ->
+        RemoteBox { branches.getOrNull(branch)?.let(children::get)?.let { RenderNode(it) } }
+      }
+    }
+  }
+
+  /**
    * One node, entered from the container it sits in.
    *
    * [row] and [column] are that container's scope, because `weight` is a member of it rather than a
@@ -251,6 +294,10 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
   ) {
     val node = entry.node
     val modifier = node.remoteModifier(row, column)
+    if (node.componentId == "layout/box" && SHOW_BY_STATE in node.properties) {
+      StateSwitch(entry, modifier)
+      return
+    }
     when (node.componentId) {
       "remote-m3/widget-container-small",
       "remote-m3/widget-container-large" -> entry.slot("content").forEach { RenderNode(it) }
@@ -286,6 +333,27 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
           children.forEach { RenderNode(it, row = this) }
         }
       }
+      // The one Remote Compose layout beyond these three that a Wear widget can carry. A flow row
+      // and the collapsibles are outside the Glance Wear widget profile, so they reach the
+      // "Unsupported" branch below rather than a preview no watch could play.
+      "layout/fit-box" ->
+        RemoteFitBox(
+          modifier = modifier,
+          horizontalAlignment =
+            when (node.string("horizontalAlignment")) {
+              "start" -> RemoteAlignment.Start
+              "end" -> RemoteAlignment.End
+              else -> RemoteAlignment.CenterHorizontally
+            },
+          verticalArrangement =
+            when (node.string("verticalArrangement")) {
+              "top" -> RemoteArrangement.Top
+              "bottom" -> RemoteArrangement.Bottom
+              else -> RemoteArrangement.Center
+            },
+        ) {
+          entry.slot("children").forEach { RenderNode(it) }
+        }
       "m3/text",
       "remote-m3/remote-text" ->
         RemoteText(
@@ -461,6 +529,28 @@ private fun UiBuilderNode.remoteModifier(
           row?.run { result.weight(weight.rf) }
             ?: column?.run { result.weight(weight.rf) }
             ?: result
+        }
+        // The export writes `animationSpec(Int, Boolean)` because the native lane's
+        // alpha19 predates `sharedElement`; the port this preview records with has both, and they
+        // lower to the same AnimationSpec operation with the same default motion.
+        "sharedElement" ->
+          number("key")?.toInt()?.takeIf { it >= 1 }?.let { result.sharedElement(key = it) }
+            ?: result
+        "alpha" -> result.alpha((number("alpha") ?: 1f).rf)
+        "rotate" -> result.rotate((number("degrees") ?: 0f).rf)
+        "scale" -> result.scale((number("scaleX") ?: 1f).rf, (number("scaleY") ?: 1f).rf)
+        "zIndex" -> result.zIndex((number("zIndex") ?: 0f).rf)
+        "offset" -> result.offset((number("xDp") ?: 0f).rdp, (number("yDp") ?: 0f).rdp)
+        "widthIn" -> result.widthIn(number("minDp")?.rdp, number("maxDp")?.rdp)
+        "heightIn" -> result.heightIn(number("minDp")?.rdp, number("maxDp")?.rdp)
+        "wrapContentSize" -> result.wrapContentSize()
+        "border" -> {
+          val color = modifier["color"].modifierColor()?.remoteColor() ?: Color.Transparent.rc
+          result.border(
+            (number("widthDp") ?: 1f).rdp,
+            color,
+            shape() ?: RemoteRoundedCornerShape(0f.rdp),
+          )
         }
         "clip" -> result.clip(shape() ?: RemoteRoundedCornerShape(0f.rdp))
         "background" -> {

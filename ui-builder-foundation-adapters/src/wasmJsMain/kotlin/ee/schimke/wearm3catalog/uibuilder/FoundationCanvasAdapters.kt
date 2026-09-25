@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ee.schimke.composeai.uibuilder.CanvasNodeScope
@@ -50,6 +51,31 @@ val foundationCanvasAdapters = canvasAdapterRegistry {
     }
   }
   register("layout/spacer") { Spacer(modifier) }
+  // `RemoteFitBox`, the one Remote Compose layout beyond these three that a Wear widget can carry.
+  // Foundation has no counterpart, so it is drawn by [FitBoxLayout], written to the player's rule.
+  register("layout/fit-box") {
+    val canvas = this
+    FitBoxLayout(
+      alignment =
+        BiasAlignment(
+          horizontalBias =
+            when (string("horizontalAlignment")) {
+              "start" -> -1f
+              "end" -> 1f
+              else -> 0f
+            },
+          verticalBias =
+            when (string("verticalArrangement")) {
+              "top" -> -1f
+              "bottom" -> 1f
+              else -> 0f
+            },
+        ),
+      modifier = modifier,
+    ) {
+      canvas.Items("children") { Content() }
+    }
+  }
 }
 
 private fun CanvasNodeScope.verticalArrangement(): Arrangement.Vertical {
