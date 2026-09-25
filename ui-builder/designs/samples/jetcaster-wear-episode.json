@@ -126,7 +126,12 @@
           "value": "filled"
         }
       },
-      "modifiers": [],
+      "modifiers": [
+        {
+          "type": "weight",
+          "weight": 0.7
+        }
+      ],
       "slots": {
         "content": [
           "play-icon"
@@ -141,6 +146,10 @@
         "iconKey": {
           "type": "enum",
           "value": "filled/playArrow"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Play episodes"
         }
       },
       "modifiers": [],
@@ -156,7 +165,12 @@
           "value": "filled"
         }
       },
-      "modifiers": [],
+      "modifiers": [
+        {
+          "type": "weight",
+          "weight": 0.3
+        }
+      ],
       "slots": {
         "content": [
           "add-to-queue-icon"
@@ -171,6 +185,10 @@
         "iconKey": {
           "type": "enum",
           "value": "filled/playlistAdd"
+        },
+        "contentDescription": {
+          "type": "string",
+          "value": "Add to queue"
         }
       },
       "modifiers": [],
