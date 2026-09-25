@@ -92,9 +92,11 @@ internal fun RemoteM3DevicePreview(
   val root = document.roots.singleOrNull()?.let(document.nodes::get)
   val widgetSize = root?.widgetSize()
   val hostSpec = widgetSize?.hostSpec(document.wearWidgetHostShape())
-  val horizontalPadding = root?.number("horizontalPaddingDp") ?: hostSpec?.horizontalPaddingDp ?: 0f
-  val verticalPadding = root?.number("verticalPaddingDp") ?: hostSpec?.verticalPaddingDp ?: 0f
-  val cornerRadius = root?.number("cornerRadiusDp") ?: hostSpec?.cornerRadiusDp ?: 0f
+  // The frame is the host's: the launcher hands a widget its padding and corner radius, so a
+  // design never authors them and a document that still carries them from before is not read.
+  val horizontalPadding = hostSpec?.horizontalPaddingDp ?: 0f
+  val verticalPadding = hostSpec?.verticalPaddingDp ?: 0f
+  val cornerRadius = hostSpec?.cornerRadiusDp ?: 0f
   val contentWidth =
     hostSpec?.let { (it.frameWidthDp - 2f * horizontalPadding).coerceAtLeast(0f) } ?: widthDp
   val contentHeight =

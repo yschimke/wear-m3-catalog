@@ -144,9 +144,9 @@ class RemoteM3ThreeSurfaceContractTest {
         )
         .readText()
 
-    assertThat(device).contains("number(\"horizontalPaddingDp\")")
-    assertThat(device).contains("number(\"verticalPaddingDp\")")
-    assertThat(device).contains("number(\"cornerRadiusDp\")")
+    // The host frame comes from the shape's spec, never from properties on the container.
+    assertThat(device).contains("hostSpec?.cornerRadiusDp")
+    assertThat(device).doesNotContain("number(\"cornerRadiusDp\")")
     assertThat(device).contains("RenderRootSlot(\"background\")")
     assertThat(device).contains("string(\"contentAlignment\")")
     assertThat(device).contains("string(\"horizontalAlignment\")")
