@@ -1,5 +1,8 @@
 package ee.schimke.wearm3catalog.remoteuibuilder
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
@@ -7,6 +10,7 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertWidthIsEqualTo
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runDesktopComposeUiTest
@@ -18,8 +22,10 @@ import ee.schimke.composeai.uibuilder.hostSpec
 import ee.schimke.wearm3catalog.uibuilder.WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -83,6 +89,36 @@ class RemoteM3DevicePreviewUiTest {
       }
     }
   }
+
+  /**
+   * A picture in the container's background slot fills the host's frame, under the scrim drawn over
+   * it, rather than sitting as a zero-size layer at the document's root. That is what lets a photo
+   * widget show the frame's own shape: the Samsung stadium, the Pixel Watch squircle.
+   */
+  @Test
+  fun `a background picture and its scrim fill the host frame`() =
+    runDesktopComposeUiTest(width = 480, height = 320) {
+      val design = fixture("golden-tiles-news")
+      val spec = WearWidgetScaffoldSize.Large.hostSpec(WearWidgetHostShape.Rectangular)
+      var readyCalls = 0
+      setContent {
+        RemoteM3DevicePreview(design, spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+          readyCalls++
+        }
+      }
+
+      waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+      val pixels = onNodeWithTag(REMOTE_M3_WIDGET_BACKGROUND_TEST_TAG).captureToImage().toPixelMap()
+      val centre = pixels[pixels.width / 2, pixels.height / 2]
+      // The container colour, #272430, is what shows through when the layers draw nothing.
+      assertNotEquals(Color(0xFF272430), centre, "the photo is drawn across the frame")
+      assertTrue(centre.alpha > 0.99f, "and nothing shows through it")
+      val top = pixels[pixels.width / 2, 2]
+      val bottom = pixels[pixels.width / 2, pixels.height - 3]
+      assertTrue(bottom.luminance() < 0.2f, "the scrim darkens the foot of the frame: $bottom")
+      assertTrue(top.alpha > 0.99f, "and reaches its top: $top")
+    }
 
   /**
    * Real remote-m3 designs, as the editor posts them: weights inside rows and columns, spacer
