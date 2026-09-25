@@ -62,12 +62,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.remote.material3.RemoteButton
@@ -89,6 +91,7 @@ import ee.schimke.composeai.uibuilder.hostSpec
 import ee.schimke.composeai.uibuilder.stateSelection
 import ee.schimke.wearm3catalog.uibuilder.WearWidgetContainerFrame
 import ee.schimke.wearm3catalog.uibuilder.wearWidgetHostShape
+import kotlin.math.roundToInt
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.booleanOrNull
@@ -121,21 +124,24 @@ internal fun RemoteM3DevicePreview(
     hostSpec?.let { (it.frameWidthDp - 2f * horizontalPadding).coerceAtLeast(0f) } ?: widthDp
   val contentHeight =
     hostSpec?.let { (it.frameHeightDp - 2f * verticalPadding).coerceAtLeast(0f) } ?: heightDp
+  // Recorded at the density the pane plays at. A document captured at 160dpi and played on a 2x
+  // screen had its dp layout scaled up and its sp text not, so every word drew at half size.
+  val density = LocalDensity.current
   var captured by
-    remember(document, contentWidth, contentHeight) {
+    remember(document, contentWidth, contentHeight, density) {
       mutableStateOf<Result<CapturedRemoteDocuments>?>(null)
     }
-  LaunchedEffect(document, contentWidth, contentHeight) {
+  LaunchedEffect(document, contentWidth, contentHeight, density) {
     val next = runCatching {
       val content =
-        captureDocument(contentWidth, contentHeight) {
+        captureDocument(contentWidth, contentHeight, density) {
           RemoteDocumentTree(document).Render(widgetSize != null)
         }
       val background = hostSpec?.let { spec ->
         root
           ?.takeIf { it.slots["background"].orEmpty().isNotEmpty() }
           ?.let {
-            captureDocument(spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat()) {
+            captureDocument(spec.frameWidthDp.toFloat(), spec.frameHeightDp.toFloat(), density) {
               RemoteDocumentTree(document).RenderRootSlot("background")
             }
           }
@@ -214,11 +220,16 @@ private data class CapturedRemoteDocuments(
 private suspend fun captureDocument(
   widthDp: Float,
   heightDp: Float,
+  density: Density,
   content: @Composable @RemoteComposable () -> Unit,
 ): RcDocument {
   val bytes =
     captureCommonRemoteDocument(
-      RemoteCreationDisplayInfo(widthDp.toInt(), heightDp.toInt(), 160),
+      RemoteCreationDisplayInfo(
+        (widthDp * density.density).roundToInt(),
+        (heightDp * density.density).roundToInt(),
+        (160 * density.density).roundToInt(),
+      ),
       // Pictures travel inside the document: without an encoder the common writer drops them.
       encodePng = ::encodeDesignAssetPng,
     ) {
