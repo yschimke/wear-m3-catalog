@@ -37,7 +37,7 @@ configurations substitute that port back to the real AndroidX Wear Compose artif
 ## Published artifacts
 
 The five vendored modules publish under `ee.schimke.remotecompose` at
-`4307936-ps17-cmp03`. The version is derived from `remote-compose-upstream.json`; bump its
+`4307936-ps17-cmp04`. The version is derived from `remote-compose-upstream.json`; bump its
 `portRevision` whenever published bytes change without moving to a newer AndroidX patch set.
 
 As with the repository's Wear Compose CMP port, CI publishes to GitHub Packages and to a
@@ -50,7 +50,7 @@ repositories {
 }
 
 dependencies {
-  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp03")
+  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp04")
 }
 ```
 

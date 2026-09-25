@@ -313,9 +313,42 @@ jobs:
       # entries are skipped with a warning and the catalog still publishes.
       figma_token: ${{ secrets.FIGMA_TOKEN }}
 
+  # The remote renderer compiles against the published Remote Compose port at the version
+  # `remote-compose-cmp` pins, and a push that bumps that pin also starts "Publish Remote Compose
+  # port" -- in parallel, with nothing ordering the two. Resolving before the publisher pushes
+  # failed the lane (#620 -> #621). Wait here until the pinned version is on the Maven branch; for
+  # every push that does not move the pin it is already there and this returns at once.
+  port:
+    name: Remote Compose port published
+    needs: changes
+    if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.remote == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          sparse-checkout: gradle/libs.versions.toml
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - run: |
+          set -euo pipefail
+          version="$(sed -nE 's/^remote-compose-cmp = "([^"]+)"/\1/p' gradle/libs.versions.toml)"
+          test -n "$version"
+          pom="https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/remote-compose-cmp-maven/ee/schimke/remotecompose/remote-creation-compose/$version/remote-creation-compose-$version.pom"
+          for attempt in $(seq 1 40); do
+            if curl -fsSIL -o /dev/null "$pom"; then
+              echo "remote-creation-compose $version is published"
+              exit 0
+            fi
+            echo "waiting for $version to be published ($attempt/40)"
+            sleep 30
+          done
+          echo "::error::remote-creation-compose $version was never published; see Publish Remote Compose port"
+          exit 1
+
   remote:
     name: remote-m3
-    needs: changes
+    needs: [changes, port]
     # Don't let forks push to the delivery branch.
     if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.remote == 'true' }}
     permissions:
