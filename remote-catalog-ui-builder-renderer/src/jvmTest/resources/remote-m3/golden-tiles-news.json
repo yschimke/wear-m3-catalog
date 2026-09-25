@@ -35,7 +35,10 @@
    },
    "modifiers": [],
    "slots": {
-    "background": [],
+    "background": [
+     "image-2-s9",
+     "scrim-s9"
+    ],
     "content": [
      "news-layout-s9"
     ]
@@ -54,7 +57,7 @@
     "children": [
      "header-s9",
      "gap-17-s9",
-     "box-2-s9"
+     "news-headline-s9"
     ]
    }
   },
@@ -100,42 +103,12 @@
    "properties": {},
    "modifiers": [
     {
-     "type": "height",
-     "heightDp": 4
+     "type": "weight",
+     "weight": 1.0
     }
    ],
    "slots": {
     "children": []
-   }
-  },
-  "box-2-s9": {
-   "id": "box-2-s9",
-   "componentId": "layout/box",
-   "properties": {
-    "contentAlignment": {
-     "type": "enum",
-     "value": "bottomStart"
-    }
-   },
-   "modifiers": [
-    {
-     "type": "weight",
-     "weight": 1.0
-    },
-    {
-     "type": "fillMaxWidth"
-    },
-    {
-     "type": "clip",
-     "shape": "20"
-    }
-   ],
-   "slots": {
-    "children": [
-     "image-2-s9",
-     "scrim-2-s9",
-     "column-2-s9"
-    ]
    }
   },
   "image-2-s9": {
@@ -158,73 +131,9 @@
    "modifiers": [
     {
      "type": "fillMaxSize"
-    },
-    {
-     "type": "align",
-     "alignment": "bottomStart"
     }
    ],
    "slots": {}
-  },
-  "scrim-2-s9": {
-   "id": "scrim-2-s9",
-   "componentId": "layout/box",
-   "properties": {
-    "contentAlignment": {
-     "type": "enum",
-     "value": "center"
-    }
-   },
-   "modifiers": [
-    {
-     "type": "fillMaxSize"
-    },
-    {
-     "type": "background",
-     "color": {
-      "type": "color",
-      "value": "#59000000"
-     }
-    },
-    {
-     "type": "align",
-     "alignment": "bottomStart"
-    }
-   ],
-   "slots": {
-    "children": []
-   }
-  },
-  "column-2-s9": {
-   "id": "column-2-s9",
-   "componentId": "layout/column",
-   "properties": {
-    "verticalSpacingDp": {
-     "type": "float",
-     "value": 0.0
-    }
-   },
-   "modifiers": [
-    {
-     "type": "fillMaxWidth"
-    },
-    {
-     "type": "padding",
-     "startDp": 12,
-     "topDp": 8,
-     "endDp": 12,
-     "bottomDp": 8
-    },
-    {
-     "type": "align",
-     "alignment": "bottomStart"
-    }
-   ],
-   "slots": {
-    "children": [
-     "news-headline-s9"
-    ]
-   }
   },
   "news-headline-s9": {
    "id": "news-headline-s9",
@@ -249,6 +158,26 @@
     "overflow": {
      "type": "string",
      "value": "ellipsis"
+    }
+   },
+   "modifiers": [],
+   "slots": {}
+  },
+  "scrim-s9": {
+   "id": "scrim-s9",
+   "componentId": "shape/linear-gradient",
+   "properties": {
+    "direction": {
+     "type": "string",
+     "value": "vertical"
+    },
+    "startColor": {
+     "type": "color",
+     "value": "#73000000"
+    },
+    "endColor": {
+     "type": "color",
+     "value": "#D9000000"
     }
    },
    "modifiers": [],

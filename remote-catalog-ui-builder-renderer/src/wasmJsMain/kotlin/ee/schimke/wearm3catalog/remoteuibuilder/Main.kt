@@ -200,8 +200,12 @@ private fun SemanticCanvas(
     ) {
       // A picture is the design's own content rather than a catalog component: drawn from the
       // bytes the editor inlines, since this sandboxed frame cannot fetch the design's assets.
-      if (node.componentId == "asset/image") DesignAssetImage(document, node, prepared.modifier)
-      else UnsupportedComponent(node.componentId, prepared.modifier)
+      when (node.componentId) {
+        "asset/image" -> DesignAssetImage(document, node, prepared.modifier)
+        "shape/linear-gradient" ->
+          DesignLinearGradient(node, prepared.modifier) { resolveWearColor(it) }
+        else -> UnsupportedComponent(node.componentId, prepared.modifier)
+      }
     }
   }
 }

@@ -253,7 +253,11 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
   @Composable
   @RemoteComposable
   fun RenderRootSlot(slotName: String) {
-    document.roots.singleOrNull()?.let(tree::root)?.slot(slotName)?.forEach { RenderNode(it) }
+    // Stacked in one full-frame box, the way the host layers a widget's background: a picture
+    // and the scrim over it both fill the frame, rather than each claiming the document's root.
+    RemoteBox(modifier = RemoteModifier.fillMaxSize()) {
+      document.roots.singleOrNull()?.let(tree::root)?.slot(slotName)?.forEach { RenderNode(it) }
+    }
   }
 
   /**
@@ -447,7 +451,8 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
         val brush =
           if (node.string("direction") == "horizontal") RemoteBrush.horizontalGradient(colors)
           else RemoteBrush.verticalGradient(colors)
-        RemoteBox(modifier = modifier.background(brush))
+        // A draw layer declares no size modifiers: it fills whatever it is placed in.
+        RemoteBox(modifier = modifier.fillMaxSize().background(brush))
       }
       else ->
         RemoteText(
