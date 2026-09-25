@@ -17,9 +17,10 @@ val wearWidgetCanvasAdapters = canvasAdapterRegistry {
       WearWidgetScaffoldSize.entries.firstOrNull { it.componentId == node.componentId }
         ?: WearWidgetScaffoldSize.Small
     val spec = size.hostSpec(LocalWearWidgetHostShape.current)
-    val horizontalPadding = float("horizontalPaddingDp", spec.horizontalPaddingDp)
-    val verticalPadding = float("verticalPaddingDp", spec.verticalPaddingDp)
-    val cornerRadius = float("cornerRadiusDp", spec.cornerRadiusDp)
+    // Padding and radius are the host's (WearWidgetParams), never the design's.
+    val horizontalPadding = spec.horizontalPaddingDp
+    val verticalPadding = spec.verticalPaddingDp
+    val cornerRadius = spec.cornerRadiusDp
     val background =
       string("background").takeIf(String::isNotEmpty)?.let {
         resolveWearColor(it, WidgetDefaultBackground)
