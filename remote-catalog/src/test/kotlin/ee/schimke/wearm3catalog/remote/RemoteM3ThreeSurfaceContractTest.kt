@@ -30,6 +30,30 @@ class RemoteM3ThreeSurfaceContractTest {
   }
 
   @Test
+  fun `Remote icon adapter has a canvas-safe default`() {
+    val policy =
+      Json.parseToJsonElement(File(root, "remote-catalog/ui-builder.policy.json").readText())
+        .jsonObject
+    val defaultIcon =
+      policy
+        .getValue("components")
+        .jsonObject
+        .getValue("remote-m3/remote-icon")
+        .jsonObject
+        .getValue("canvasMapping")
+        .jsonObject
+        .getValue("defaults")
+        .jsonObject
+        .getValue("iconKey")
+        .jsonObject
+        .getValue("value")
+        .jsonPrimitive
+        .content
+
+    assertThat(defaultIcon).isEqualTo("addCircle")
+  }
+
+  @Test
   fun `runtime routes authoring to stand-ins and device preview to RC playback`() {
     val runtime =
       File(
