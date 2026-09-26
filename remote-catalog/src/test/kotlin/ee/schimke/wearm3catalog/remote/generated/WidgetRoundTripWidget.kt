@@ -6,6 +6,8 @@ package ee.schimke.wearm3catalog.remote.generated
 import android.content.Context
 import androidx.compose.remote.creation.compose.layout.RemoteColumn
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
+import androidx.compose.remote.creation.compose.modifier.RemoteModifier
+import androidx.compose.remote.creation.compose.modifier.fillMaxSize
 import androidx.compose.remote.creation.compose.state.rs
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,7 +25,7 @@ import androidx.wear.compose.remote.material3.RemoteText
 @RemoteComposable
 @Composable
 fun WidgetRoundTripWidgetContent() {
-    RemoteColumn {
+    RemoteColumn(modifier = RemoteModifier.fillMaxSize()) {
         RemoteText(text = "Next train".rs)
         RemoteText(text = "09:24 to Tallinn".rs)
     }
