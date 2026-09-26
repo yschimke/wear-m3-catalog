@@ -38,9 +38,9 @@ import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.timeTextCurvedText
-import ee.schimke.composeai.uibuilder.CanvasMode
-import ee.schimke.composeai.uibuilder.CanvasNodeScope
-import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
+import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 
 /** Wear screen structure and components whose rendering depends on its lazy-row receiver. */
@@ -123,6 +123,8 @@ private fun CanvasNodeScope.WearScreenFrame() {
 private fun CanvasNodeScope.WearTransformingLazyColumn() {
   val canvas = this
   val count = itemCount("items")
+  val state = LocalScreenListState.current ?: rememberTransformingLazyColumnState()
+  registerScrolling(state::dispatchRawDelta) { state.requestScrollToItem(it) }
   if (mode == CanvasMode.AuthoringUnrolled) {
     Column(
       modifier = modifier,
@@ -133,7 +135,6 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
     return
   }
 
-  val state = LocalScreenListState.current ?: rememberTransformingLazyColumnState()
   val transformationSpec = rememberTransformationSpec()
   val transform = string("transformation") != "none"
   TransformingLazyColumn(

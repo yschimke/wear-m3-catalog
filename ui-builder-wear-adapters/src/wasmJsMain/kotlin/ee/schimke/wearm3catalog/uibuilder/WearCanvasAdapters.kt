@@ -46,8 +46,8 @@ import androidx.wear.compose.material3.TimePickerType
 import androidx.wear.compose.material3.VerticalPageIndicator
 import androidx.wear.compose.material3.confirmationDialogCurvedText
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
-import ee.schimke.composeai.uibuilder.CanvasNodeScope
-import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
+import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalTime
 
@@ -255,7 +255,7 @@ val wearCanvasAdapters = canvasAdapterRegistry {
   }
 }
 
-private fun ee.schimke.composeai.uibuilder.CanvasNodeScope.textOverflow(): TextOverflow =
+private fun CanvasNodeScope.textOverflow(): TextOverflow =
   when (string("overflow")) {
     "ellipsis" -> TextOverflow.Ellipsis
     "visible" -> TextOverflow.Visible

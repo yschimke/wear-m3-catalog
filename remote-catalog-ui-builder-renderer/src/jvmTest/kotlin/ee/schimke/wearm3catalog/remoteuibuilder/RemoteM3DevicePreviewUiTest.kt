@@ -22,10 +22,10 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runDesktopComposeUiTest
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
-import ee.schimke.composeai.uibuilder.UiBuilderDocument
-import ee.schimke.composeai.uibuilder.WearWidgetHostShape
-import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
-import ee.schimke.composeai.uibuilder.hostSpec
+import ee.schimke.composeai.uibuilder.export.UiBuilderDocument
+import ee.schimke.composeai.uibuilder.export.WearWidgetHostShape
+import ee.schimke.composeai.uibuilder.export.WearWidgetScaffoldSize
+import ee.schimke.composeai.uibuilder.export.hostSpec
 import ee.schimke.wearm3catalog.uibuilder.WEAR_WIDGET_HOST_SHAPE_ENVIRONMENT_KEY
 import kotlin.math.abs
 import kotlin.test.Test
