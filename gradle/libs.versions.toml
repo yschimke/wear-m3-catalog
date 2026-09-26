@@ -112,8 +112,8 @@ compose-material3 = "1.5.0-alpha28"
 # does not exist. The release's own `verify-maven-readiness` job checks that the CLI shipped at a
 # tag asks Gradle for a plugin version that IS on Central, which is why the action at v2.2.1 is
 # correct beside a plugin at 2.2.0.
-composePreviewPlugin = "2.23.0"
-composePreviewCore = "2.23.0"
+composePreviewPlugin = "2.27.0"
+composePreviewCore = "2.26.0"
 composePreviewDaemon = "3.8.4"
 
 # The UI-builder exporter, from yschimke/compose-preview-server, on its own release line — a
@@ -136,7 +136,7 @@ uiBuilderSource = "3.64.0"
 # compose-ai-tools group so the two cannot re-merge. Read that block for the third instance of this
 # bug: a version REF is a claim that its artifacts release together, and it is wrong the moment they
 # do not — whether the other line lives in another repository (here) or in the same one (#347).
-rcEmbeddedPlayer = "1.70.0"
+rcEmbeddedPlayer = "1.75.0"
 # The CMP player on Android (`CmpAndroidPlayerTrialTest`), on its own ref: it needs a release with
 # the Android target and `rcGoogleFontsTypefaceLoader`, and must not drag the embedded player above.
 rcPlayerComposeAndroid = "1.74.0"
