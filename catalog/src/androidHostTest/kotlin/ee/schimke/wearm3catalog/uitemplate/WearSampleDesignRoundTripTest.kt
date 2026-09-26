@@ -9,7 +9,7 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onRoot
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import ee.schimke.composeai.uibuilder.RecordFreeExport
+import ee.schimke.composeai.uibuilder.export.RecordFreeExport
 import ee.schimke.composeai.uibuilder.protocol.DesignDocumentV1
 import ee.schimke.wearm3catalog.uitemplate.generated.samples.JetcasterEpisodeScreen
 import ee.schimke.wearm3catalog.uitemplate.generated.samples.JetcasterLibraryScreen

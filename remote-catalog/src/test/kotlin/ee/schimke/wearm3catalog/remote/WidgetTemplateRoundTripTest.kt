@@ -1,8 +1,8 @@
 package ee.schimke.wearm3catalog.remote
 
 import com.google.common.truth.Truth.assertThat
-import ee.schimke.composeai.uibuilder.RecordFreeExport
-import ee.schimke.composeai.uibuilder.UiBuilderDocument
+import ee.schimke.composeai.uibuilder.export.RecordFreeExport
+import ee.schimke.composeai.uibuilder.export.UiBuilderDocument
 import java.io.File
 import kotlinx.serialization.json.Json
 import org.junit.Test
