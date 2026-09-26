@@ -236,7 +236,7 @@ jobs:
       # digest, publishes it beside catalog.json and writes the matching runtime descriptor.
       ui-builder-runtime-task: ':catalog-ui-builder-renderer:rendererArchive'
       ui-builder-runtime-archive: 'catalog-ui-builder-renderer/build/distributions/wear-m3-ui-builder-renderer.zip'
-      ui-builder-runtime-source-ref: '76c7964895859340ecf79b750faf2164e037e4a1'
+      ui-builder-runtime-source-ref: 'dbde32462736da71e833298377d2b859818ef93f'
       # Pure editable SVGs are a daemon data product too: keep them transient through catalog
       # generation and cover cropping, then produce and cache them on request. Raster-backed hybrid
       # SVGs stay static so their crop references remain self-contained.
@@ -427,7 +427,7 @@ jobs:
       publish-live-bundle: true
       ui-builder-runtime-task: ':remote-catalog-ui-builder-renderer:rendererArchive'
       ui-builder-runtime-archive: 'remote-catalog-ui-builder-renderer/build/distributions/remote-m3-ui-builder-renderer.zip'
-      ui-builder-runtime-source-ref: '76c7964895859340ecf79b750faf2164e037e4a1'
+      ui-builder-runtime-source-ref: 'dbde32462736da71e833298377d2b859818ef93f'
       defer-figma-svg: true
       split-per-preview: false
       # The CMP/Wasm player lane: the same browser environment visitors use, scoring every document

@@ -1,8 +1,8 @@
 package ee.schimke.wearm3catalog.uibuilder
 
 import androidx.compose.runtime.staticCompositionLocalOf
-import ee.schimke.composeai.uibuilder.UiBuilderDocument
-import ee.schimke.composeai.uibuilder.WearWidgetHostShape
+import ee.schimke.composeai.uibuilder.export.UiBuilderDocument
+import ee.schimke.composeai.uibuilder.export.WearWidgetHostShape
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
 

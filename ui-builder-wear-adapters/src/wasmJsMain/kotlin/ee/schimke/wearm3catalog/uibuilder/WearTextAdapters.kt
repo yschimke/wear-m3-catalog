@@ -16,9 +16,9 @@ import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
-import ee.schimke.composeai.uibuilder.CanvasNodeScope
-import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
-import ee.schimke.composeai.uibuilder.googleMaterialIconImageVector
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
+import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
+import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIconImageVector
 
 val wearTextAdapters = canvasAdapterRegistry {
   register("wear-m3/text") {

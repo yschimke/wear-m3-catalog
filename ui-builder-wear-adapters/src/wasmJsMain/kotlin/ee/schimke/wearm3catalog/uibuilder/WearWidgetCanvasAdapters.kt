@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import ee.schimke.composeai.uibuilder.WearWidgetScaffoldSize
-import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
-import ee.schimke.composeai.uibuilder.hostSpec
+import ee.schimke.composeai.uibuilder.export.WearWidgetScaffoldSize
+import ee.schimke.composeai.uibuilder.export.hostSpec
+import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
 
 /**
  * Host chrome for Remote Compose widgets; this frame is supplied by Glance Wear, not Material 3.

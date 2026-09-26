@@ -13,9 +13,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
-import ee.schimke.composeai.uibuilder.CanvasNodeScope
-import ee.schimke.composeai.uibuilder.canvasAdapterRegistry
-import ee.schimke.composeai.uibuilder.googleMaterialIconImageVector
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasAdapterRegistry
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
+import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
+import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIconImageVector
 
 /** Mobile Material donors used by persisted Remote and mobile designs. */
 val materialCanvasAdapters = canvasAdapterRegistry {
@@ -25,7 +26,7 @@ val materialCanvasAdapters = canvasAdapterRegistry {
   materialIcon("m3/icon")
 }
 
-private fun ee.schimke.composeai.uibuilder.CanvasAdapterRegistry.Builder.materialText(id: String) {
+private fun CanvasAdapterRegistry.Builder.materialText(id: String) {
   register(id) {
     Text(
       text = string("text"),
@@ -42,7 +43,7 @@ private fun ee.schimke.composeai.uibuilder.CanvasAdapterRegistry.Builder.materia
   }
 }
 
-private fun ee.schimke.composeai.uibuilder.CanvasAdapterRegistry.Builder.materialIcon(id: String) {
+private fun CanvasAdapterRegistry.Builder.materialIcon(id: String) {
   register(id) {
     val vector = googleMaterialIconImageVector(string("iconKey"))
     if (vector == null) {

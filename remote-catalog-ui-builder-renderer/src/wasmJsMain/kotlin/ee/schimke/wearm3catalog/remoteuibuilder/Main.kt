@@ -21,15 +21,18 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
-import ee.schimke.composeai.uibuilder.CanvasDocumentHost
-import ee.schimke.composeai.uibuilder.CanvasMode
-import ee.schimke.composeai.uibuilder.RenderCanvasNode
-import ee.schimke.composeai.uibuilder.UiBuilderInspectionCollector
-import ee.schimke.composeai.uibuilder.UiBuilderSemanticActionController
-import ee.schimke.composeai.uibuilder.applyCanvasModifier
+import ee.schimke.composeai.uibuilder.export.UiBuilderDocument
 import ee.schimke.composeai.uibuilder.protocol.CanvasAdapterMappingV1
 import ee.schimke.composeai.uibuilder.protocol.UiBuilderRendererSurfaceModeV2
-import ee.schimke.composeai.uibuilder.startCatalogRenderer
+import ee.schimke.composeai.uibuilder.renderer.sdk.CATALOG_RUNTIME_CAPABILITY_HORIZONTAL_UNROLL
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasDocumentHost
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
+import ee.schimke.composeai.uibuilder.renderer.sdk.RenderCanvasNode
+import ee.schimke.composeai.uibuilder.renderer.sdk.UiBuilderInspectionCollector
+import ee.schimke.composeai.uibuilder.renderer.sdk.UiBuilderInspectionSnapshot
+import ee.schimke.composeai.uibuilder.renderer.sdk.UiBuilderSemanticActionController
+import ee.schimke.composeai.uibuilder.renderer.sdk.applyCanvasModifier
+import ee.schimke.composeai.uibuilder.renderer.sdk.startCatalogRenderer
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import ee.schimke.wearcmp.port.WearDeviceConfiguration
 import ee.schimke.wearm3catalog.uibuilder.LocalWearWidgetHostShape
@@ -87,7 +90,10 @@ fun main() {
   val actions = UiBuilderSemanticActionController()
   awaitSkiko.then(
     onFulfilled = {
-      startCatalogRenderer(actions) { document, surface, renderSessionId, onInspectionSnapshot ->
+      startCatalogRenderer(
+        actions,
+        capabilities = setOf(CATALOG_RUNTIME_CAPABILITY_HORIZONTAL_UNROLL),
+      ) { document, surface, renderSessionId, onInspectionSnapshot ->
         val hostDensity = LocalDensity.current
         val density =
           Density(
@@ -164,12 +170,12 @@ fun main() {
 
 @Composable
 private fun SemanticCanvas(
-  document: ee.schimke.composeai.uibuilder.UiBuilderDocument,
+  document: UiBuilderDocument,
   mode: CanvasMode,
   density: Density,
   renderSessionId: String,
   actions: UiBuilderSemanticActionController,
-  onInspectionSnapshot: (ee.schimke.composeai.uibuilder.UiBuilderInspectionSnapshot) -> Unit,
+  onInspectionSnapshot: (UiBuilderInspectionSnapshot) -> Unit,
   modifier: Modifier = Modifier,
 ) {
   CanvasDocumentHost(
@@ -192,6 +198,7 @@ private fun SemanticCanvas(
         current.applyCanvasModifier(
           value = value,
           mode = mode,
+          unrolledHorizontally = unrolledHorizontally,
           resolveColor = { resolveWearColor(it) },
           resolveShape = ::resolveWearShape,
         )
