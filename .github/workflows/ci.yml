@@ -324,7 +324,10 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
-      - run: ./gradlew test --stacktrace
+      # `test` does not reach `:catalog`: a KMP-Android module has no task by that name, only
+      # `testAndroidHostTest`, so the catalog's render and template round-trip tests ran nowhere
+      # and went red on main unnoticed. Named explicitly; it renders first (catalog/build.gradle.kts).
+      - run: ./gradlew test :catalog:testAndroidHostTest --stacktrace
         if: needs.changes.outputs.inert != 'true'
       - if: always() && needs.changes.outputs.inert != 'true'
         uses: actions/upload-artifact@v7.0.1

@@ -265,6 +265,16 @@ tasks.withType<Test>().configureEach {
   systemProperty("writeGolden", providers.gradleProperty("writeGolden").getOrElse("false"))
 }
 
+// `renderBeforeUnitTests` above wires the render ahead of an Android module's unit-test task, and a
+// KMP-Android module has none by that name: its host tests are `testAndroidHostTest`. So the render
+// never ran, `CatalogRenderTest` read an empty `build/compose-previews/renders`, and failed on
+// "no renders" — or, for `knownDuplicate`, on every pair "no longer" rendering alike. Stated here
+// until the plugin reaches the KMP task itself; matched by name rather than `named` because the KMP
+// plugin registers the host-test task after this script runs.
+tasks
+  .matching { it.name == "testAndroidHostTest" }
+  .configureEach { dependsOn("composePreviewRender") }
+
 // ── The port → AndroidX substitution ────────────────────────────────────────────────────────────
 //
 // `commonMain` declares the CMP port so the component bodies compile for every target. Every
