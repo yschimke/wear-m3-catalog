@@ -49,6 +49,27 @@
       "displayName": "Screen",
       "group": "Lists and screens",
       "canvas": "frame/round-screen",
+      "traits": [
+        "ScreenContent",
+        "WearScreenHost"
+      ],
+      "properties": [
+        {
+          "name": "timeText",
+          "jsonType": "string",
+          "notes": "The curved status strip's text. Frozen rather than live, so a design's render does not change every minute."
+        },
+        {
+          "name": "scrollIndicator",
+          "jsonType": "boolean",
+          "notes": "Whether the generated screen gives `ScreenScaffold` a scroll indicator."
+        },
+        {
+          "name": "background",
+          "jsonType": "string",
+          "notes": "The screen's background; Wear Material 3's `background` when absent."
+        }
+      ],
       "slots": {
         "content": {
           "required": true,
@@ -72,9 +93,31 @@
       "displayName": "Scrolling list",
       "group": "Lists and screens",
       "canvas": "wear-m3/transforming-lazy-column",
+      "traits": [
+        "OrderedContent",
+        "VerticalContent",
+        "ScrollableContent",
+        "RepeatedContent",
+        "WearListContent"
+      ],
+      "properties": [
+        {
+          "name": "verticalSpacingDp",
+          "jsonType": "number",
+          "notes": "`Arrangement.spacedBy` between items; 4dp is the Wear list default."
+        },
+        {
+          "name": "transformation",
+          "jsonType": "string",
+          "allowedValues": [
+            "spec",
+            "none"
+          ],
+          "notes": "Whether each item carries `SurfaceTransformation(spec)` and `transformedHeight`."
+        }
+      ],
       "slots": {
         "items": {
-          "required": true,
           "role": "list-item"
         }
       }
@@ -135,8 +178,53 @@
   "components": {
     "wear-m3/text": {
       "record": "catalog/androidx.wear.compose.material3.TextKt.Text",
-      "$comment": "39 stickers draw Text; the first alphabetically is AlertDialog, so it shelved on Dialogs.",
-      "group": "Text"
+      "$comment": "39 stickers draw Text; the first alphabetically is AlertDialog, so it shelved on Dialogs. The builder properties `Text`'s signature cannot state; the call-site ones (`text`, `color`, `fontSizeSp`, `textAlign`, …) are still derived from the record.",
+      "group": "Text",
+      "propertyCapabilities": [
+        {
+          "name": "style",
+          "jsonType": "string",
+          "allowedValues": [
+            "displayLarge",
+            "displayMedium",
+            "displaySmall",
+            "headlineLarge",
+            "headlineMedium",
+            "headlineSmall",
+            "titleLarge",
+            "titleMedium",
+            "titleSmall",
+            "bodyLarge",
+            "bodyMedium",
+            "bodySmall",
+            "labelLarge",
+            "labelMedium",
+            "labelSmall"
+          ],
+          "notes": "The role the text is set in, resolved against Wear's own type scale."
+        },
+        {
+          "name": "alignment",
+          "jsonType": "string",
+          "allowedValues": [
+            "topStart",
+            "topCenter",
+            "topEnd",
+            "centerStart",
+            "center",
+            "centerEnd",
+            "bottomStart",
+            "bottomCenter",
+            "bottomEnd"
+          ],
+          "notes": "Where the text sits in a parent that gives it more room than it needs."
+        },
+        {
+          "name": "weight",
+          "jsonType": "number",
+          "notes": "The share of a parent's remaining space the text takes."
+        }
+      ]
     },
     "wear-m3/icon": {
       "record": "catalog/androidx.wear.compose.material3.IconKt.Icon",
@@ -145,13 +233,105 @@
     },
     "wear-m3/list-header": {
       "record": "catalog/androidx.wear.compose.material3.ListHeaderKt.ListHeader",
-      "$comment": "4 stickers; first is FastScrollingTransformingLazyColumn, which is where it went.",
+      "$comment": "4 stickers; first is FastScrollingTransformingLazyColumn, which is where it went. `ListHeader` takes a content lambda, so its record derives a `content` slot and no `text`, and every Wear template (whose first row is a header) was refused with `UNKNOWN_PROPERTY: property text is not declared by wear-m3/list-header`. Stated as a label leaf, the vocabulary `WearCanvasAdapters` reads: `text`, `maxLines`, `overflow`.",
       "canvas": "wear-m3/list-header",
-      "group": "Lists and screens"
+      "group": "Lists and screens",
+      "traits": [
+        "TextContent",
+        "RemoteAuthorable",
+        "ListItem"
+      ],
+      "propertyCapabilities": [
+        {
+          "name": "text",
+          "jsonType": "string",
+          "required": true,
+          "notes": "The label."
+        },
+        {
+          "name": "maxLines",
+          "jsonType": "integer",
+          "notes": "How many lines the label may occupy before it truncates."
+        },
+        {
+          "name": "overflow",
+          "jsonType": "string",
+          "allowedValues": [
+            "clip",
+            "ellipsis",
+            "visible"
+          ],
+          "notes": "What a truncated label does at its edge."
+        }
+      ],
+      "slotCapabilities": []
     },
     "wear-m3/list-sub-header": {
       "record": "catalog/androidx.wear.compose.material3.ListSubHeaderKt.ListSubHeader",
-      "canvas": "wear-m3/list-sub-header"
+      "$comment": "The same label leaf as `list-header`, for the same reason: the record derives `icon` and `label` slots, and the canvas adapter reads `text`, `maxLines` and `overflow`.",
+      "canvas": "wear-m3/list-sub-header",
+      "traits": [
+        "ListItem",
+        "WearListContent"
+      ],
+      "propertyCapabilities": [
+        {
+          "name": "text",
+          "jsonType": "string",
+          "required": true,
+          "notes": "The label."
+        },
+        {
+          "name": "maxLines",
+          "jsonType": "integer",
+          "notes": "How many lines the label may occupy before it truncates."
+        },
+        {
+          "name": "overflow",
+          "jsonType": "string",
+          "allowedValues": [
+            "clip",
+            "ellipsis",
+            "visible"
+          ],
+          "notes": "What a truncated label does at its edge."
+        }
+      ],
+      "slotCapabilities": []
+    },
+    "wear-m3/screen-scaffold": {
+      "record": "catalog/androidx.wear.compose.material3.ScreenScaffoldKt.ScreenScaffold",
+      "excluded": "the `wear-m3/screen-scaffold` builtin above is the screen root, and this record derives the same id. Left in, the record wins the id and the builtin is dropped: the screen composes as a Container with ScreenScaffold's lambda parameters as slots (`timeText`, `scrollIndicator`) and none of the builder's properties, so every Wear template is refused on creation. The Wear screen exporter writes `ScreenScaffold` without a record."
+    },
+    "wear-m3/card": {
+      "record": "catalog/androidx.wear.compose.material3.CardKt.Card",
+      "$comment": "`variant` picks which of Wear's four card composables is written, and `stableKey` is the lazy list's `key`; neither is a parameter of `Card`, so the record cannot derive them. `shape` and the rest are still derived.",
+      "propertyCapabilities": [
+        {
+          "name": "variant",
+          "jsonType": "string",
+          "allowedValues": [
+            "title",
+            "app",
+            "outlined",
+            "plain"
+          ],
+          "notes": "Which card is written: `TitleCard`, `AppCard`, `OutlinedCard` or `Card`."
+        },
+        {
+          "name": "stableKey",
+          "jsonType": "string",
+          "notes": "The item's identity, written as the generated lazy list's `key`."
+        },
+        {
+          "name": "onClickAction",
+          "jsonType": [
+            "object",
+            "null"
+          ],
+          "notes": "What a click does."
+        }
+      ]
     },
     "wear-m3/app-scaffold": {
       "record": "catalog/androidx.wear.compose.material3.AppScaffoldKt.AppScaffold",
