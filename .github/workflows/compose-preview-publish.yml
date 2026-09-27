@@ -25,7 +25,7 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
       - id: pr
         run: echo "number=$(cat _compose_preview_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@4b5fb2a1835d8655d0c58cd682cf2cbe2b1cc265 # v2.28.2
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@a4c682f1a2002211159001f640d9958bcf58fc88 # v2.28.3
         with:
           phase: publish
           pr-number: ${{ steps.pr.outputs.number }}
