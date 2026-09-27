@@ -15,6 +15,7 @@ import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.ListHeader
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
@@ -31,28 +32,26 @@ import ee.schimke.composeai.preview.ScrollingPreview
 fun StarterGreetingScreen() {
     val listState = rememberTransformingLazyColumnState()
     val spec = rememberTransformationSpec()
-    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) {
-        ScreenScaffold(scrollState = listState,
-            scrollIndicator = { if (!LocalScrollCaptureInProgress.current) ScrollIndicator(listState) },
-            edgeButton = {
-                EdgeButton(onClick = {}, buttonSize = EdgeButtonSize.ExtraSmall) {
-                    Text(text = "Show list")
-                }
-            },
-        ) { contentPadding ->
-            TransformingLazyColumn(
-                state = listState,
-                contentPadding = contentPadding,
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                item {
-                    ListHeader(
-                        modifier = Modifier.transformedHeight(this, spec),
-                        transformation = SurfaceTransformation(spec),
-                    ) {
-                        Text(text = "From the Round world, Hello, Android!")
-                    }
+    ScreenScaffold(scrollState = listState,
+        scrollIndicator = { if (!LocalScrollCaptureInProgress.current) ScrollIndicator(listState) },
+        edgeButton = {
+            EdgeButton(onClick = {}, buttonSize = EdgeButtonSize.ExtraSmall) {
+                Text(text = "Show list")
+            }
+        },
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = contentPadding,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.fillMaxSize(),
+        ) {
+            item {
+                ListHeader(
+                    modifier = Modifier.transformedHeight(this, spec).minimumVerticalContentPadding(ListHeaderDefaults.minimumTopListContentPadding, ListHeaderDefaults.minimumBottomListContentPadding),
+                    transformation = SurfaceTransformation(spec),
+                ) {
+                    Text(text = "From the Round world, Hello, Android!")
                 }
             }
         }
@@ -61,9 +60,13 @@ fun StarterGreetingScreen() {
 
 @WearPreviewDevices
 @Composable
-fun StarterGreetingScreenPreview() = StarterGreetingScreen()
+fun StarterGreetingScreenPreview() {
+    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { StarterGreetingScreen() }
+}
 
 @Preview(device = "id:wearos_small_round", showBackground = true, backgroundColor = 0xFF000000)
 @ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
-fun StarterGreetingScreenLongPreview() = StarterGreetingScreen()
+fun StarterGreetingScreenLongPreview() {
+    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { StarterGreetingScreen() }
+}

@@ -27,26 +27,28 @@ import ee.schimke.composeai.preview.ScrollingPreview
 fun UntitledWearScreen() {
     val listState = rememberTransformingLazyColumnState()
     val spec = rememberTransformationSpec()
-    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) {
-        ScreenScaffold(scrollState = listState,
-            scrollIndicator = { if (!LocalScrollCaptureInProgress.current) ScrollIndicator(listState) },
-        ) { contentPadding ->
-            TransformingLazyColumn(
-                state = listState,
-                contentPadding = contentPadding,
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.fillMaxSize(),
-            ) {
-            }
+    ScreenScaffold(scrollState = listState,
+        scrollIndicator = { if (!LocalScrollCaptureInProgress.current) ScrollIndicator(listState) },
+    ) { contentPadding ->
+        TransformingLazyColumn(
+            state = listState,
+            contentPadding = contentPadding,
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            modifier = Modifier.fillMaxSize(),
+        ) {
         }
     }
 }
 
 @WearPreviewDevices
 @Composable
-fun UntitledWearScreenPreview() = UntitledWearScreen()
+fun UntitledWearScreenPreview() {
+    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { UntitledWearScreen() }
+}
 
 @Preview(device = "id:wearos_small_round", showBackground = true, backgroundColor = 0xFF000000)
 @ScrollingPreview(modes = [ScrollMode.LONG])
 @Composable
-fun UntitledWearScreenLongPreview() = UntitledWearScreen()
+fun UntitledWearScreenLongPreview() {
+    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { UntitledWearScreen() }
+}
