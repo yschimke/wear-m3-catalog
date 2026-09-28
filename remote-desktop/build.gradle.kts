@@ -9,7 +9,7 @@ application { mainClass.set("ee.schimke.remote.desktop.MainKt") }
 dependencies {
   implementation(project(":vendor:remote-creation-compose"))
   implementation(project(":vendor:remote-write-core"))
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
   testImplementation(kotlin("test"))
   testImplementation(libs.junit)
 }

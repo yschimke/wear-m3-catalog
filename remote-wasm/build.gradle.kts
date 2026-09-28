@@ -18,7 +18,7 @@ kotlin {
       implementation(project(":vendor:remote-creation-compose"))
       implementation(project(":vendor:remote-material3"))
       @Suppress("DEPRECATION") implementation(compose.runtime)
-      implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+      implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
     }
   }
 }

@@ -110,7 +110,7 @@ kotlin {
       implementation(libs.wearcmp.compose.material3)
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
-      implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+      implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
     }
     jvmTest.dependencies {
       implementation(kotlin("test"))
