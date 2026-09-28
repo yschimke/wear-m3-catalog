@@ -388,6 +388,55 @@ class RemoteM3DevicePreviewUiTest {
       requireNotNull(javaClass.getResource("/remote-m3/$id.json")).readText()
     )
 
+  /**
+   * A button holding two `remote-m3/remote-icon`s: one with no `imageVector`, which is what the
+   * palette inserts and draws on the canvas as its `addCircle` default, and one naming a key. Both
+   * play as icons; neither falls through to "Unsupported: remote-m3/remote-icon".
+   */
+  @Test
+  fun `a remote icon plays in the device preview`() =
+    runDesktopComposeUiTest(width = 432, height = 240) {
+      var readyCalls = 0
+      val base = document()
+      val icons =
+        listOf("icon-default" to null, "icon-named" to "addCircle").associate { (id, key) ->
+          id to
+            base.nodes
+              .getValue("label")
+              .copy(
+                id = id,
+                componentId = "remote-m3/remote-icon",
+                properties =
+                  JsonObject(
+                    key?.let {
+                      mapOf(
+                        "imageVector" to
+                          Json.parseToJsonElement("""{"type":"enum","value":"$it"}""")
+                      )
+                    } ?: emptyMap()
+                  ),
+              )
+        }
+      val withIcons =
+        base.copy(
+          nodes =
+            base.nodes.mapValues { (id, node) ->
+              if (id == "button")
+                node.copy(slots = mapOf("content" to listOf("icon-default", "icon-named")))
+              else node
+            } + icons
+        )
+      setContent {
+        RemoteM3DevicePreview(withIcons, widthDp = 216f, heightDp = 76f) { readyCalls++ }
+      }
+
+      waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
+
+      onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
+        .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
+      onNodeWithText("Unsupported", substring = true).assertDoesNotExist()
+    }
+
   @Test
   fun `unsupported modifier fails visibly instead of changing the document`() =
     runDesktopComposeUiTest(width = 432, height = 240) {

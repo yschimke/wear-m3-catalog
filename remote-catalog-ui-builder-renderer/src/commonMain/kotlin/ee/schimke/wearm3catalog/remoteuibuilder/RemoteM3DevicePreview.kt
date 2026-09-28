@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.remote.creation.compose.action.combinedAction
 import androidx.compose.remote.creation.compose.capture.RemoteCreationDisplayInfo
 import androidx.compose.remote.creation.compose.capture.captureCommonRemoteDocument
+import androidx.compose.remote.creation.compose.capture.toRemoteImageVector
 import androidx.compose.remote.creation.compose.layout.RemoteAlignment
 import androidx.compose.remote.creation.compose.layout.RemoteArrangement
 import androidx.compose.remote.creation.compose.layout.RemoteBox
@@ -84,9 +85,11 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.remote.material3.LocalRemoteContentColor
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteCard
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
+import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
 import ee.schimke.composeai.rcplayer.compose.RcComposePlayer
@@ -101,6 +104,7 @@ import ee.schimke.composeai.uibuilder.export.hostSpec
 import ee.schimke.composeai.uibuilder.export.stateSelection
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasRenderNode
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasRenderTree
+import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIconImageVector
 import ee.schimke.wearm3catalog.uibuilder.WearWidgetContainerFrame
 import ee.schimke.wearm3catalog.uibuilder.wearWidgetHostShape
 import kotlin.math.roundToInt
@@ -492,6 +496,26 @@ private class RemoteDocumentTree(private val document: UiBuilderDocument) {
         ) {
           entry.slot("content").forEach { RenderNode(it) }
         }
+      // The icon the published catalog maps onto the canvas's `wear-m3/icon`: its `imageVector` is
+      // that adapter's `iconKey`, with the same `addCircle` default, so both surfaces draw the same
+      // glyph. Without this branch the pane drew the red "Unsupported" text, which a round button
+      // then wrapped a few letters to a line.
+      "remote-m3/remote-icon" -> {
+        val vector =
+          googleMaterialIconImageVector(
+            node.string("imageVector").ifEmpty { REMOTE_ICON_DEFAULT_KEY }
+          )
+        if (vector == null) {
+          RemoteText(text = "?".rs, modifier = modifier)
+        } else {
+          RemoteIcon(
+            imageVector = vector.toRemoteImageVector(),
+            contentDescription = node.string("contentDescription").ifEmpty { null }?.rs,
+            modifier = modifier,
+            tint = node.remoteColor("tint") ?: LocalRemoteContentColor.current,
+          )
+        }
+      }
       "remote-m3/remote-card" ->
         RemoteCard(onClick = combinedAction(), modifier = modifier) {
           entry.slot("content").forEach { RenderNode(it) }
@@ -898,3 +922,8 @@ private fun UiBuilderNode.horizontalArrangement(): RemoteArrangement.Horizontal 
         RemoteAlignment.Start,
       )
   }
+
+/**
+ * `remote-catalog/ui-builder.policy.json`'s default for `remote-m3/remote-icon`'s `imageVector`.
+ */
+private const val REMOTE_ICON_DEFAULT_KEY = "addCircle"
