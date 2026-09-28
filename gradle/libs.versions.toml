@@ -12,7 +12,7 @@ wear-tooling-preview = "1.0.0"
 androidx-activity-compose = "1.13.0"
 # Both Android catalogs otherwise settle on Emoji2 1.4.0 through Compose UI / AppCompat. Keep the
 # atomic Emoji2 family on the current AndroidX line; the renderer packages these exact AAR bytes.
-androidx-emoji2 = "1.7.0-rc01"
+androidx-emoji2 = "1.7.0"
 
 # The mobile Compose BOM supplies `androidx.compose.ui`, the preview tooling and — see
 # `catalog/build.gradle.kts` — `androidx.compose.material3.MaterialShapes`, which is where the 35
@@ -166,7 +166,7 @@ horologist = "0.8.4-alpha"
 # two source sets (see remote-catalog/build.gradle.kts).
 compose-remote = "1.0.0-alpha19"
 wear-compose-remote = "1.0.0-alpha11"
-glance-wear = "1.0.0-alpha18"
+glance-wear = "1.0.0-alpha19"
 
 # Pre-release compose-ui for `:remote-catalog`. The alpha remote artifacts align with the Compose
 # 1.11+ line (1.11.0 is the first release shipping `PreviewWrapper`), so that module pins explicit
