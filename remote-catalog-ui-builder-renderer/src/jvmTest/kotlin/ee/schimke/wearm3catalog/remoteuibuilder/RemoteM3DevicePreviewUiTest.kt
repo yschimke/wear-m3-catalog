@@ -426,7 +426,9 @@ class RemoteM3DevicePreviewUiTest {
               else node
             } + icons
         )
-      setContent { RemoteM3DevicePreview(withIcons, widthDp = 216f, heightDp = 76f) { readyCalls++ } }
+      setContent {
+        RemoteM3DevicePreview(withIcons, widthDp = 216f, heightDp = 76f) { readyCalls++ }
+      }
 
       waitUntil(timeoutMillis = 10_000) { readyCalls == 1 }
 

@@ -85,9 +85,9 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Text
+import androidx.wear.compose.remote.material3.LocalRemoteContentColor
 import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteCard
-import androidx.wear.compose.remote.material3.LocalRemoteContentColor
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteIcon
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
@@ -923,5 +923,7 @@ private fun UiBuilderNode.horizontalArrangement(): RemoteArrangement.Horizontal 
       )
   }
 
-/** `remote-catalog/ui-builder.policy.json`'s default for `remote-m3/remote-icon`'s `imageVector`. */
+/**
+ * `remote-catalog/ui-builder.policy.json`'s default for `remote-m3/remote-icon`'s `imageVector`.
+ */
 private const val REMOTE_ICON_DEFAULT_KEY = "addCircle"
