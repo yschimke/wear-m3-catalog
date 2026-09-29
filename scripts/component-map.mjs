@@ -40,8 +40,11 @@ import fs from "node:fs";
 import path from "node:path";
 
 const KIT = "B24oss2tTeXAFykyeyusz0";
-const REPO = "yschimke/wear-m3-catalog";
-const RAW = `https://raw.githubusercontent.com/${REPO}`;
+// The delivery branches (`design-artifacts/<system>`) live in the OUTPUT repository that
+// `design-artifacts.yml` publishes to (`artifact-repository`), not in this one — this repository
+// only keeps `refs/design-artifacts/source/*` markers, which carry no catalog.json.
+const ARTIFACT_REPO = "yschimke/wear-m3-catalog-out";
+const RAW = `https://raw.githubusercontent.com/${ARTIFACT_REPO}`;
 const SHEETS = [
   { module: "catalog", branch: "wear-m3-catalog" },
   { module: "remote-catalog", branch: "remote-m3" },
