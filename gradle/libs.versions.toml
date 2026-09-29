@@ -115,6 +115,14 @@ compose-material3 = "1.5.0-alpha28"
 composePreviewPlugin = "2.28.3"
 composePreviewCore = "2.28.3"
 composePreviewDaemon = "3.8.4"
+# compose-preview-daemon's release guard publishes each module only when it changed, so ITS OWN
+# artifacts move on independent lines too: 3.9.x shipped `data-remotecompose-connector` (and the
+# `daemon-core` it pins) at 3.9.2 while holding `preview-annotations` and
+# `data-preview-overrides-runtime` at 3.8.4 — the daemon's own 3.9.2 BOM names them at 3.8.4. One
+# ref over all three made Renovate propose 3.9.2 for the pair that was never uploaded, and #637
+# failed resolution ("Could not find ee.schimke.composeai:preview-annotations:3.9.2"). Same cure as
+# above: a ref per line, and a Renovate group per ref.
+composePreviewDaemonAnnotations = "3.8.4"
 
 # The UI-builder exporter, from yschimke/compose-preview-server, on its own release line — a
 # different repository from the compose-ai-tools artifacts above and versioned by it. Test-only:
@@ -219,8 +227,8 @@ wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-emoji2 = { module = "androidx.emoji2:emoji2", version.ref = "androidx-emoji2" }
 
-composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewDaemon" }
-composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewDaemon" }
+composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations", version.ref = "composePreviewDaemonAnnotations" }
+composeai-preview-overrides = { module = "ee.schimke.composeai:data-preview-overrides-runtime", version.ref = "composePreviewDaemonAnnotations" }
 
 materialkolor = { module = "com.materialkolor:material-kolor", version.ref = "materialkolor" }
 wearcmp-compose-material3 = { module = "ee.schimke.wearcmp:wear-compose-material3", version.ref = "wearcmp-port" }
