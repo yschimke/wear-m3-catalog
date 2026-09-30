@@ -46,6 +46,29 @@ class RemoteRenderTest {
    */
   private val minimumVisibleFraction = 0.0002
 
+  /**
+   * Every sticker is baked through the embedded player. The connector falls back to the View player
+   * without failing when the embedded player's entry point is not the one it links, and it records
+   * which one it used in each capture's `.remotecompose.json`. That fallback is how rc-players 2.x
+   * beside connector 3.9.2 blanked 319 canvas-drawn cells without a single error (#639), so it is
+   * checked here rather than inferred from the pixels.
+   */
+  @Test
+  fun `every capture used the embedded player`() {
+    val sidecars =
+      renders.listFiles { f: File -> f.name.endsWith(".remotecompose.json") }.orEmpty().toList()
+    assertTrue("no .remotecompose.json captures to check", sidecars.isNotEmpty())
+    val viaView =
+      sidecars
+        .filterNot { it.readText().contains("\"capturePlayer\":\"cmp-android\"") }
+        .map { it.name }
+    assertTrue(
+      "these captures did not use the embedded player (a connector / rc-players skew?):\n" +
+        viaView.take(20).joinToString("\n") { "  $it" },
+      viaView.isEmpty(),
+    )
+  }
+
   @Test
   fun `no render failed`() {
     val errors =
