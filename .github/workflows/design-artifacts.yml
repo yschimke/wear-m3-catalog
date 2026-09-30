@@ -198,6 +198,9 @@ jobs:
       artifact-repository: yschimke/wear-m3-catalog-out
       spec: catalog.spec.json
       module: ':catalog'
+      # Properties every render must hold, checked against the render's data products before
+      # anything publishes. See the file's $comment.
+      render-assertions: render-assertions.json
 
       # Project THIS module's map before the lanes that read it, exactly as `design-parity.yml`
       # already does for its own two jobs. The path is fixed at the repo root and one checkout

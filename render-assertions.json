@@ -1,0 +1,11 @@
+{
+  "$comment": "Properties every :catalog render must hold, checked by the design-artifacts workflow against the data products the render already wrote, before anything publishes. Format and failure semantics: https://github.com/yschimke/compose-ai-tools/blob/main/docs/RENDER_ASSERTIONS.md. The visual diff answers 'did this change?'; these answer 'is it still true?'. Previews that lay out no text write an empty fonts-used and are skipped by the checker itself, judged from their semantics.",
+  "assertions": [
+    {
+      "id": "wear-variation-axes-are-applied",
+      "product": "fonts-used",
+      "because": "Wear M3 typography carries its weights on Roboto Flex's variation axes (wght 450-580), not on named faces; a static font instance drops every axis without an error and the whole sheet renders at one weight — the failure glimmer-catalog shipped for its entire life before this check existed",
+      "require": { "noFont.droppedVariationSettings": null }
+    }
+  ]
+}
