@@ -9,13 +9,22 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
@@ -53,7 +62,47 @@ val wearScreenAdapters = canvasAdapterRegistry {
 
 private val LocalScreenListState = staticCompositionLocalOf<TransformingLazyColumnState?> { null }
 private val LocalScreenContentPadding = staticCompositionLocalOf { PaddingValues() }
-private val LocalSurfaceTransformation = staticCompositionLocalOf<SurfaceTransformation?> { null }
+
+/**
+ * The row transformation the enclosing list is applying, and how many components in the row are
+ * applying it themselves. The list transforms a row that no component took it for — a `Text`, an
+ * `IconButton` — as a whole, the way `ButtonGroup` transforms itself; without that such a row got
+ * `transformedHeight`'s shorter box near the bezel while drawing at full size.
+ */
+internal class RowTransformation(val surface: SurfaceTransformation) {
+  var appliedBy by mutableIntStateOf(0)
+    private set
+
+  fun claim() {
+    appliedBy++
+  }
+
+  fun release() {
+    appliedBy--
+  }
+}
+
+private val LocalRowTransformation = staticCompositionLocalOf<RowTransformation?> { null }
+
+/**
+ * The row's transformation for a component that takes one, or null outside a transforming list. The
+ * component then draws inside [OutsideRow]: upstream transforms a surface with everything on it,
+ * and a button in a card or a `ButtonGroup` taking it again would be scaled twice.
+ */
+@Composable
+internal fun rowTransformation(): SurfaceTransformation? {
+  val row = LocalRowTransformation.current ?: return null
+  DisposableEffect(row) {
+    row.claim()
+    onDispose { row.release() }
+  }
+  return row.surface
+}
+
+@Composable
+internal fun OutsideRow(content: @Composable () -> Unit) {
+  CompositionLocalProvider(LocalRowTransformation provides null, content = content)
+}
 
 @Composable
 private fun CanvasNodeScope.WearScreenFrame() {
@@ -62,9 +111,17 @@ private fun CanvasNodeScope.WearScreenFrame() {
   val padding = screenContentPadding()
   MaterialTheme {
     if (mode == CanvasMode.AuthoringUnrolled) {
+      // The extent is the screen at its content's height, not the frame's: the host hands this
+      // surface the frame's height and grows it to whatever the rows are measured to reach. Filled
+      // to the frame instead, the list was measured inside one screenful, the rows past it were
+      // squeezed to nothing, the extent never grew, and switching the editor off its device view
+      // drew the same watch it had just left.
+      val screen = LocalWearDeviceConfiguration.current.screenWidthDp.dp
       Box(
-        modifier
-          .fillMaxSize()
+        Modifier.wrapContentHeight(Alignment.Top, unbounded = true)
+          .then(modifier)
+          .fillMaxWidth()
+          .heightIn(min = screen)
           .clip(RoundedCornerShape(percent = 50))
           .background(MaterialTheme.colorScheme.background)
       ) {
@@ -145,15 +202,20 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
   ) {
     items(count) { index ->
       if (transform) {
-        CompositionLocalProvider(
-          LocalSurfaceTransformation provides SurfaceTransformation(transformationSpec)
-        ) {
+        val row =
+          remember(this, transformationSpec) {
+            RowTransformation(SurfaceTransformation(transformationSpec))
+          }
+        CompositionLocalProvider(LocalRowTransformation provides row) {
           canvas.Item(
             "items",
             index,
             Modifier.fillMaxWidth()
               .minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding)
-              .transformedHeight(this@items, transformationSpec),
+              .transformedHeight(this@items, transformationSpec)
+              .graphicsLayer {
+                if (row.appliedBy == 0) with(row.surface) { applyContainerTransformation() }
+              },
           )
         }
       } else {
@@ -171,7 +233,15 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
 @Composable
 private fun CanvasNodeScope.WearCard() {
   val canvas = this
-  val transformation = LocalSurfaceTransformation.current
+  val transformation = rowTransformation()
+  OutsideRow { WearCardVariant(canvas, transformation) }
+}
+
+@Composable
+private fun CanvasNodeScope.WearCardVariant(
+  canvas: CanvasNodeScope,
+  transformation: SurfaceTransformation?,
+) {
   when (string("variant")) {
     "title" ->
       if (transformation == null) {
@@ -228,8 +298,17 @@ private fun CanvasNodeScope.WearCard() {
 private fun CanvasNodeScope.WearButton() {
   val canvas = this
   val label: @Composable RowScope.() -> Unit = { canvas.Slot("content") }
-  val transformation = LocalSurfaceTransformation.current
+  val transformation = rowTransformation()
   val enabled = boolean("enabled", true)
+  OutsideRow { WearButtonVariant(label, transformation, enabled) }
+}
+
+@Composable
+private fun CanvasNodeScope.WearButtonVariant(
+  label: @Composable RowScope.() -> Unit,
+  transformation: SurfaceTransformation?,
+  enabled: Boolean,
+) {
   when (string("variant")) {
     "filled-tonal" ->
       if (transformation == null) {

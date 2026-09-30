@@ -54,52 +54,70 @@ import kotlinx.datetime.LocalTime
 /** Catalog-owned adapters, invoking the real Wear Compose Multiplatform components. */
 val wearCanvasAdapters = canvasAdapterRegistry {
   register("wear-m3/list-header") {
-    ListHeader(modifier = modifier) {
-      Text(
-        text = string("text"),
-        maxLines = integer("maxLines", Int.MAX_VALUE).coerceAtLeast(1),
-        overflow = textOverflow(),
-      )
+    val transformation = rowTransformation()
+    OutsideRow {
+      ListHeader(modifier = modifier, transformation = transformation) {
+        Text(
+          text = string("text"),
+          maxLines = integer("maxLines", Int.MAX_VALUE).coerceAtLeast(1),
+          overflow = textOverflow(),
+        )
+      }
     }
   }
   register("wear-m3/list-sub-header") {
-    ListSubHeader(modifier = modifier) {
-      Text(
-        text = string("text"),
-        maxLines = integer("maxLines", Int.MAX_VALUE).coerceAtLeast(1),
-        overflow = textOverflow(),
-      )
+    val transformation = rowTransformation()
+    OutsideRow {
+      ListSubHeader(modifier = modifier, transformation = transformation) {
+        Text(
+          text = string("text"),
+          maxLines = integer("maxLines", Int.MAX_VALUE).coerceAtLeast(1),
+          overflow = textOverflow(),
+        )
+      }
     }
   }
   register("wear-m3/switch-button") {
-    SwitchButton(
-      checked = boolean("checked"),
-      onCheckedChange = {},
-      modifier = modifier.fillMaxWidth(),
-      enabled = boolean("enabled", true),
-      label = { Label("label") },
-      secondaryLabel = optionalLabel("secondaryLabel"),
-    )
+    val transformation = rowTransformation()
+    OutsideRow {
+      SwitchButton(
+        checked = boolean("checked"),
+        onCheckedChange = {},
+        modifier = modifier.fillMaxWidth(),
+        enabled = boolean("enabled", true),
+        label = { Label("label") },
+        secondaryLabel = optionalLabel("secondaryLabel"),
+        transformation = transformation,
+      )
+    }
   }
   register("wear-m3/checkbox-button") {
-    CheckboxButton(
-      checked = boolean("checked"),
-      onCheckedChange = {},
-      modifier = modifier.fillMaxWidth(),
-      enabled = boolean("enabled", true),
-      label = { Label("label") },
-      secondaryLabel = optionalLabel("secondaryLabel"),
-    )
+    val transformation = rowTransformation()
+    OutsideRow {
+      CheckboxButton(
+        checked = boolean("checked"),
+        onCheckedChange = {},
+        modifier = modifier.fillMaxWidth(),
+        enabled = boolean("enabled", true),
+        label = { Label("label") },
+        secondaryLabel = optionalLabel("secondaryLabel"),
+        transformation = transformation,
+      )
+    }
   }
   register("wear-m3/radio-button") {
-    RadioButton(
-      selected = boolean("selected"),
-      onSelect = {},
-      modifier = modifier.fillMaxWidth(),
-      enabled = boolean("enabled", true),
-      label = { Label("label") },
-      secondaryLabel = optionalLabel("secondaryLabel"),
-    )
+    val transformation = rowTransformation()
+    OutsideRow {
+      RadioButton(
+        selected = boolean("selected"),
+        onSelect = {},
+        modifier = modifier.fillMaxWidth(),
+        enabled = boolean("enabled", true),
+        label = { Label("label") },
+        secondaryLabel = optionalLabel("secondaryLabel"),
+        transformation = transformation,
+      )
+    }
   }
   register("wear-m3/slider") {
     Slider(
@@ -169,7 +187,14 @@ val wearCanvasAdapters = canvasAdapterRegistry {
     }
   }
   register("wear-m3/button-group") {
-    ButtonGroup(modifier = modifier.fillMaxWidth()) { Items("children") { Content(Modifier) } }
+    // The group takes the row's transformation as a whole and its buttons none — upstream's own
+    // rule, since a transformation on both is applied twice, each button about its own centre.
+    val transformation = rowTransformation()
+    OutsideRow {
+      ButtonGroup(modifier = modifier.fillMaxWidth(), transformation = transformation) {
+        Items("children") { Content(Modifier) }
+      }
+    }
   }
   register("wear-m3/icon-button") {
     val canvas = this
