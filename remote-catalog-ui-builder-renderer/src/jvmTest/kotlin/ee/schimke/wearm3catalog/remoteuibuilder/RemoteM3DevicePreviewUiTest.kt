@@ -12,11 +12,13 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertHeightIsEqualTo
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertWidthIsEqualTo
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onAllNodesWithText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.runDesktopComposeUiTest
@@ -389,9 +391,15 @@ class RemoteM3DevicePreviewUiTest {
     )
 
   /**
-   * A button holding two `remote-m3/remote-icon`s: one with no `imageVector`, which is what the
-   * palette inserts and draws on the canvas as its `addCircle` default, and one naming a key. Both
-   * play as icons; neither falls through to "Unsupported: remote-m3/remote-icon".
+   * A button holding three `remote-m3/remote-icon`s: one with no `imageVector`, which is what the
+   * palette inserts and draws on the canvas as its `addCircle` default; one naming a different
+   * valid key (`check`); and one naming a key the icon set does not have. None falls through to
+   * "Unsupported: remote-m3/remote-icon".
+   *
+   * The unknown key is what makes the named case meaningful: it must draw the renderer's "?"
+   * fallback, and it is the only one that may. A renderer that ignored `imageVector` and always
+   * drew the default would draw no "?" at all, and one that could not resolve `check` would draw
+   * two.
    */
   @Test
   fun `a remote icon plays in the device preview`() =
@@ -399,30 +407,37 @@ class RemoteM3DevicePreviewUiTest {
       var readyCalls = 0
       val base = document()
       val icons =
-        listOf("icon-default" to null, "icon-named" to "addCircle").associate { (id, key) ->
-          id to
-            base.nodes
-              .getValue("label")
-              .copy(
-                id = id,
-                componentId = "remote-m3/remote-icon",
-                properties =
-                  JsonObject(
-                    key?.let {
-                      mapOf(
-                        "imageVector" to
-                          Json.parseToJsonElement("""{"type":"enum","value":"$it"}""")
-                      )
-                    } ?: emptyMap()
-                  ),
-              )
-        }
+        listOf(
+            "icon-default" to null,
+            "icon-named" to "check",
+            "icon-unknown" to "notAnIconKey",
+          )
+          .associate { (id, key) ->
+            id to
+              base.nodes
+                .getValue("label")
+                .copy(
+                  id = id,
+                  componentId = "remote-m3/remote-icon",
+                  properties =
+                    JsonObject(
+                      key?.let {
+                        mapOf(
+                          "imageVector" to
+                            Json.parseToJsonElement("""{"type":"enum","value":"$it"}""")
+                        )
+                      } ?: emptyMap()
+                    ),
+                )
+          }
       val withIcons =
         base.copy(
           nodes =
             base.nodes.mapValues { (id, node) ->
               if (id == "button")
-                node.copy(slots = mapOf("content" to listOf("icon-default", "icon-named")))
+                node.copy(
+                  slots = mapOf("content" to listOf("icon-default", "icon-named", "icon-unknown"))
+                )
               else node
             } + icons
         )
@@ -435,6 +450,7 @@ class RemoteM3DevicePreviewUiTest {
       onNodeWithTag(REMOTE_M3_DEVICE_PREVIEW_TEST_TAG)
         .assert(SemanticsMatcher.expectValue(SemanticsProperties.StateDescription, "Ready"))
       onNodeWithText("Unsupported", substring = true).assertDoesNotExist()
+      onAllNodesWithText("?").assertCountEquals(1)
     }
 
   @Test
