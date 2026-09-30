@@ -540,6 +540,12 @@ fun ScreenEdgeButton(
     buttonSize = size,
     enabled = enabled,
     colors = colors,
+    // `outlinedButtonColors()` alone is a transparent container, so the kit's `Style=Outline` is a
+    // bare label without the stroke. Wear Compose 1.7 gave `EdgeButton` the `border` it lacked
+    // (#286).
+    border =
+      if (style == EdgeButtonStyle.Outlined) ButtonDefaults.outlinedButtonBorder(enabled = enabled)
+      else null,
   ) {
     if (content == EdgeButtonContent.Icon) {
       Icon(Icons.Filled.Check, contentDescription = "Done")

@@ -21,10 +21,11 @@
       "minimumReleaseAge": "14 days"
     },
     {
-      "description": "Wear Compose and the mobile Compose BOM decide how every sticker in the catalog is laid out, and the render is the product \u2014 so they land as one PR whose visual diff is the review, not on automerge.",
+      "description": "Wear Compose and the mobile Compose BOM decide how every sticker in the catalog is laid out, and the render is the product \u2014 so they land as one PR whose visual diff is the review, not on automerge. Glance Wear is in the group because it is the third member of the Remote trio (AGENTS.md): it shares a `remote-creation*` base with `compose-remote` and `wear-compose-remote`, so a bump of it alone skews the trio and fails in the player at render time (#652).",
       "matchPackageNames": [
         "/^androidx\\.wear\\.compose($|[.:])/",
-        "/^androidx\\.compose($|[.:])/"
+        "/^androidx\\.compose($|[.:])/",
+        "/^androidx\\.glance\\.wear($|[.:])/"
       ],
       "groupName": "Compose",
       "automerge": false
