@@ -16,6 +16,7 @@
 package androidx.compose.remote.core;
 
 import androidx.annotation.RestrictTo;
+import androidx.compose.remote.core.operations.layout.Component;
 import androidx.compose.remote.core.operations.layout.managers.LayoutManager;
 import androidx.compose.remote.core.operations.paint.PaintBundle;
 
@@ -642,5 +643,90 @@ public abstract class PaintContext {
      */
     public int getDensityBehavior() {
         return mContext.mDocument.mDensityBehavior;
+    }
+
+    private final java.util.ArrayList<Boolean> mOffscreenClipStack = new java.util.ArrayList<>();
+    private final java.util.ArrayList<Component>
+            mOffscreenCompStack = new java.util.ArrayList<>();
+    private final java.util.ArrayList<Integer> mOffscreenBitmapIdStack =
+            new java.util.ArrayList<>();
+    private @Nullable Component mOffscreenComponent = null;
+    private int mOffscreenBitmapId = 0;
+
+    /** Releases any active offscreen bitmaps back to the offscreen bitmap pool. */
+    public void releaseOffscreenBitmaps() {
+        androidx.compose.remote.core.operations.BitmapData.releaseOffscreenBitmaps(mContext);
+    }
+
+    /**
+     * Pushes an offscreen target component, bitmap ID, and clip flag onto the offscreen rendering
+     * stack.
+     *
+     * @param component the component currently being rendered offscreen, or null
+     * @param bitmapId the bitmap ID of the offscreen target
+     * @param clipped true if a clip rect was pushed on the offscreen canvas
+     */
+    public void pushOffscreenTarget(@Nullable Component component,
+            int bitmapId,
+            boolean clipped) {
+        mOffscreenCompStack.add(mOffscreenComponent);
+        mOffscreenBitmapIdStack.add(mOffscreenBitmapId);
+        mOffscreenClipStack.add(clipped);
+        mOffscreenComponent = component;
+        mOffscreenBitmapId = bitmapId;
+    }
+
+    /**
+     * Pops the current offscreen target component and returns whether a clip rect was pushed.
+     *
+     * @return true if a clip rect was pushed when this offscreen target was entered
+     */
+    public boolean popOffscreenTarget() {
+        mOffscreenComponent =
+                mOffscreenCompStack.isEmpty()
+                        ? null
+                        : mOffscreenCompStack.remove(mOffscreenCompStack.size() - 1);
+        mOffscreenBitmapId =
+                mOffscreenBitmapIdStack.isEmpty()
+                        ? 0
+                        : mOffscreenBitmapIdStack.remove(mOffscreenBitmapIdStack.size() - 1);
+        return !mOffscreenClipStack.isEmpty()
+                && mOffscreenClipStack.remove(mOffscreenClipStack.size() - 1);
+    }
+
+    /**
+     * Returns whether there is an active component offscreen target on the stack.
+     *
+     * @return true if currently inside a component offscreen target
+     */
+    public boolean hasActiveOffscreenTarget() {
+        return mOffscreenBitmapId != 0 || !mOffscreenBitmapIdStack.isEmpty();
+    }
+
+    /**
+     * Returns the bitmap ID of the enclosing offscreen target, or 0 if targeting the main canvas.
+     *
+     * @return the enclosing offscreen bitmap ID, or 0
+     */
+    public int getOffscreenBitmapId() {
+        return mOffscreenBitmapId;
+    }
+
+    /**
+     * Sets the component currently being rendered to an offscreen bitmap.
+     *
+     * @param component the offscreen target component, or null
+     */
+    public void setOffscreenComponent(@Nullable Component component) {
+        mOffscreenComponent = component;
+    }
+
+    /**
+     * Returns the component currently being rendered to an offscreen bitmap, if any.
+     *
+     * @return the offscreen target component, or null
+     */
+    public @Nullable Component getOffscreenComponent() {
+        return mOffscreenComponent;
     }
 }

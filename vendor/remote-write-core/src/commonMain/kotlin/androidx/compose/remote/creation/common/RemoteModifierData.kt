@@ -68,8 +68,12 @@ public sealed interface RemoteModifierOperation {
     val motionEasingType: Int,
     val visibilityDuration: Float,
     val visibilityEasingType: Int,
+    /** The enter animation in the low byte, its sequence in the next (`AnimationSpec.packAnimation`). */
     val enterAnimation: Int,
+    /** The exit animation in the low byte, its sequence in the next. */
     val exitAnimation: Int,
+    val enterFunctionId: Int = -1,
+    val exitFunctionId: Int = -1,
   ) : RemoteModifierOperation
   public data class Scroll(
     val direction: Int,

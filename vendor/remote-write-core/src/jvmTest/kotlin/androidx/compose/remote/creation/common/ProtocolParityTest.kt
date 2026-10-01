@@ -1,5 +1,8 @@
 package androidx.compose.remote.creation.common
 
+import androidx.compose.remote.core.operations.layout.animation.AnimationSpec as CoreAnimationSpec
+import androidx.compose.remote.core.operations.layout.animation.AnimationSpec.ANIMATION as CoreAnimation
+import androidx.compose.remote.core.operations.layout.animation.AnimationSpec.SEQUENCE as CoreSequence
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -453,6 +456,31 @@ class ProtocolParityTest {
     writer.writeModifier(RemoteModifierOperation.AlignBy(Utils.asNan(44)))
     writer.writeModifier(RemoteModifierOperation.Marquee(4, 1, 200f, 100f, 12f, 20f))
     writer.writeModifier(RemoteModifierOperation.AnimationSpec(7, 300f, 2, 400f, 3, 4, 5))
+    val bytes = writer.encodeToByteArray()
+
+    assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))
+  }
+
+  /**
+   * The custom-function and sequenced enter/exit transitions: the animation sits in the low byte,
+   * the sequence in the next, and the two function ids follow only when either side is CUSTOM (8)
+   * or names a function.
+   */
+  @Test
+  fun animationSpecWithCustomFunctionsAndSequencesMatchesAndroidxCore() {
+    val enterCustom = CoreAnimationSpec.packAnimation(CoreAnimation.CUSTOM, CoreSequence.BEFORE)
+    val exitFade = CoreAnimationSpec.packAnimation(CoreAnimation.FADE_IN, CoreSequence.AFTER)
+
+    val expected = androidx.compose.remote.core.RemoteComposeBuffer()
+    expected.addAnimationSpecModifier(7, 300f, 2, 400f, 3, enterCustom, exitFade, 11, -1)
+    expected.addAnimationSpecModifier(8, 300f, 2, 400f, 3, exitFade, exitFade)
+
+    val writer = RemoteDocumentWriter(192, 192)
+    val headerSize = writer.encodeToByteArray().size
+    writer.writeModifier(
+      RemoteModifierOperation.AnimationSpec(7, 300f, 2, 400f, 3, enterCustom, exitFade, 11, -1)
+    )
+    writer.writeModifier(RemoteModifierOperation.AnimationSpec(8, 300f, 2, 400f, 3, exitFade, exitFade))
     val bytes = writer.encodeToByteArray()
 
     assertContentEquals(expected.buffer.cloneBytes(), bytes.copyOfRange(headerSize, bytes.size))

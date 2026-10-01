@@ -287,6 +287,17 @@ public class RemoteDocumentWriter(
         buffer.writeInt(modifier.visibilityEasingType)
         buffer.writeInt(modifier.enterAnimation)
         buffer.writeInt(modifier.exitAnimation)
+        // Mirrors AnimationSpec.apply: the function ids follow only when either side is CUSTOM or
+        // names one, so every other spec keeps the seven-field encoding older players read.
+        if (
+          (modifier.enterAnimation and 0xFF) == AnimationCustom ||
+            (modifier.exitAnimation and 0xFF) == AnimationCustom ||
+            modifier.enterFunctionId != -1 ||
+            modifier.exitFunctionId != -1
+        ) {
+          buffer.writeInt(modifier.enterFunctionId)
+          buffer.writeInt(modifier.exitFunctionId)
+        }
       }
       is RemoteModifierOperation.Scroll -> {
         operation(ModifierScroll)
@@ -1465,6 +1476,8 @@ public class RemoteDocumentWriter(
     private const val ModifierCollapsiblePriority = 235
     private const val ModifierAlignBy = 237
     private const val AnimationSpec = 14
+    /** `AnimationSpec.ANIMATION.CUSTOM.ordinal()`. */
+    private const val AnimationCustom = 8
     private const val TouchExpression = 157
     private const val ModifierScroll = 226
     private const val PatternForEach = 244

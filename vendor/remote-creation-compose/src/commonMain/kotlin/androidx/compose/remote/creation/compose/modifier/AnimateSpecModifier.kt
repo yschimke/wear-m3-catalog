@@ -33,9 +33,26 @@ public enum class RemoteAnimation {
     SLIDE_BOTTOM,
     ROTATE,
     PARTICLE,
+    /** Animates the component with a float function the document defines, named by id. */
+    CUSTOM,
 }
 
-public class RemoteEnterTransition internal constructor(internal val animation: RemoteAnimation) {
+/** When a component's enter or exit transition runs relative to the state layout's change. */
+public enum class RemoteAnimationSequence {
+    /** Alongside the layout change. */
+    CONCURRENT,
+    /** Before the layout change. */
+    BEFORE,
+    /** After the layout change. */
+    AFTER,
+}
+
+/** The wire int for [animation] and [sequence]: the animation in the low byte, the sequence above. */
+internal fun packAnimation(animation: RemoteAnimation, sequence: RemoteAnimationSequence): Int =
+    (animation.ordinal and 0xFF) or ((sequence.ordinal and 0xFF) shl 8)
+
+public class RemoteEnterTransition
+internal constructor(internal val animation: RemoteAnimation, internal val functionId: Int = -1) {
     public companion object {
         /** Fades the component in from transparent to opaque. */
         public val FadeIn: RemoteEnterTransition = RemoteEnterTransition(RemoteAnimation.FADE_IN)
@@ -61,18 +78,28 @@ public class RemoteEnterTransition internal constructor(internal val animation: 
 
         /** Applies a particle effect during entry. */
         public val Particle: RemoteEnterTransition = RemoteEnterTransition(RemoteAnimation.PARTICLE)
+
+        /** Applies a custom float function animation during entry. */
+        @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+        public fun Custom(functionId: Int): RemoteEnterTransition =
+            RemoteEnterTransition(RemoteAnimation.CUSTOM, functionId)
     }
 
     override fun equals(other: Any?): Boolean =
-        other is RemoteEnterTransition && animation == other.animation
+        other is RemoteEnterTransition &&
+            animation == other.animation &&
+            functionId == other.functionId
 
-    override fun hashCode(): Int = animation.hashCode()
+    override fun hashCode(): Int = 31 * animation.hashCode() + functionId
 
-    override fun toString(): String = "RemoteEnterTransition.${animation.name}"
+    override fun toString(): String =
+        if (functionId != -1) "RemoteEnterTransition.${animation.name}($functionId)"
+        else "RemoteEnterTransition.${animation.name}"
 }
 
 /** Transition effect applied when a component exits a state layout. */
-public class RemoteExitTransition internal constructor(internal val animation: RemoteAnimation) {
+public class RemoteExitTransition
+internal constructor(internal val animation: RemoteAnimation, internal val functionId: Int = -1) {
     public companion object {
         /** Fades the component out from opaque to transparent. */
         public val FadeOut: RemoteExitTransition = RemoteExitTransition(RemoteAnimation.FADE_OUT)
@@ -98,14 +125,23 @@ public class RemoteExitTransition internal constructor(internal val animation: R
 
         /** Applies a particle effect during exit. */
         public val Particle: RemoteExitTransition = RemoteExitTransition(RemoteAnimation.PARTICLE)
+
+        /** Applies a custom float function animation during exit. */
+        @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+        public fun Custom(functionId: Int): RemoteExitTransition =
+            RemoteExitTransition(RemoteAnimation.CUSTOM, functionId)
     }
 
     override fun equals(other: Any?): Boolean =
-        other is RemoteExitTransition && animation == other.animation
+        other is RemoteExitTransition &&
+            animation == other.animation &&
+            functionId == other.functionId
 
-    override fun hashCode(): Int = animation.hashCode()
+    override fun hashCode(): Int = 31 * animation.hashCode() + functionId
 
-    override fun toString(): String = "RemoteExitTransition.${animation.name}"
+    override fun toString(): String =
+        if (functionId != -1) "RemoteExitTransition.${animation.name}($functionId)"
+        else "RemoteExitTransition.${animation.name}"
 }
 
 /** Creates a fade-in enter transition for Remote Compose state layouts. */
@@ -122,6 +158,10 @@ internal class AnimateSpecModifier(
     val visibilityEasingType: Int,
     val enterAnimation: RemoteAnimation,
     val exitAnimation: RemoteAnimation,
+    val enterFunctionId: Int = -1,
+    val exitFunctionId: Int = -1,
+    val enterSequence: RemoteAnimationSequence = RemoteAnimationSequence.CONCURRENT,
+    val exitSequence: RemoteAnimationSequence = RemoteAnimationSequence.CONCURRENT,
 ) : RemoteModifier.Element {
     override fun RemoteStateScope.toRemoteModifierOperation(): RemoteModifierOperation =
         RemoteModifierOperation.AnimationSpec(
@@ -130,8 +170,10 @@ internal class AnimateSpecModifier(
             motionEasingType,
             visibilityDuration,
             visibilityEasingType,
-            enterAnimation.ordinal,
-            exitAnimation.ordinal,
+            packAnimation(enterAnimation, enterSequence),
+            packAnimation(exitAnimation, exitSequence),
+            enterFunctionId,
+            exitFunctionId,
         )
 }
 
@@ -163,6 +205,8 @@ public fun RemoteModifier.sharedElement(
             visibilityEasingType = easing,
             enterAnimation = enter.animation,
             exitAnimation = exit.animation,
+            enterFunctionId = enter.functionId,
+            exitFunctionId = exit.functionId,
         )
     )
 }
@@ -205,6 +249,8 @@ public fun RemoteModifier.animateEnterExit(
             visibilityEasingType = easing,
             enterAnimation = enter.animation,
             exitAnimation = exit.animation,
+            enterFunctionId = enter.functionId,
+            exitFunctionId = exit.functionId,
         )
     )
 }
@@ -236,6 +282,8 @@ public fun RemoteModifier.animationSpec(
             visibilityEasingType = visibilityEasing,
             enterAnimation = enter.animation,
             exitAnimation = exit.animation,
+            enterFunctionId = enter.functionId,
+            exitFunctionId = exit.functionId,
         )
     )
 }
@@ -287,6 +335,40 @@ public fun RemoteModifier.animationSpec(
             visibilityEasingType = visibilityEasingType,
             enterAnimation = enterAnimation,
             exitAnimation = exitAnimation,
+        )
+    )
+}
+
+/** Applies an animation specification to match elements for shared transitions across states. */
+@RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
+public fun RemoteModifier.animationSpec(
+    animationId: Int = -1,
+    motionDuration: Float = 300f,
+    motionEasingType: Int = GeneralEasing.CUBIC_STANDARD,
+    visibilityDuration: Float = motionDuration,
+    visibilityEasingType: Int = motionEasingType,
+    enterAnimation: RemoteAnimation = RemoteAnimation.FADE_IN,
+    exitAnimation: RemoteAnimation = RemoteAnimation.FADE_OUT,
+    enterFunctionId: Int = -1,
+    exitFunctionId: Int = -1,
+    enterSequence: RemoteAnimationSequence = RemoteAnimationSequence.CONCURRENT,
+    exitSequence: RemoteAnimationSequence = RemoteAnimationSequence.CONCURRENT,
+    enabled: Boolean = true,
+): RemoteModifier {
+    val id = if (enabled) animationId else 0
+    return then(
+        AnimateSpecModifier(
+            animationId = id,
+            motionDuration = motionDuration,
+            motionEasingType = motionEasingType,
+            visibilityDuration = visibilityDuration,
+            visibilityEasingType = visibilityEasingType,
+            enterAnimation = enterAnimation,
+            exitAnimation = exitAnimation,
+            enterFunctionId = enterFunctionId,
+            exitFunctionId = exitFunctionId,
+            enterSequence = enterSequence,
+            exitSequence = exitSequence,
         )
     )
 }

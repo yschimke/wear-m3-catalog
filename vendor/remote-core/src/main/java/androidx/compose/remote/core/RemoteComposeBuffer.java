@@ -1026,6 +1026,9 @@ public class RemoteComposeBuffer {
     /**
      * inflate the buffer into a list of operations
      *
+     * <p>If the header has the {@link Header#COMPRESS} flag, the buffer contents are first replaced
+     * by the decompressed document.
+     *
      * @param operations the operations list to add to
      */
     public void inflateFromBuffer(
@@ -1038,6 +1041,11 @@ public class RemoteComposeBuffer {
                 try {
                     Header header = Header.readDirect(mBuffer);
                     profiles = header.getProfiles();
+                    Object compression = header.get(Header.COMPRESS);
+                    if (compression != null
+                            && !Integer.valueOf(Header.COMPRESSION_NONE).equals(compression)) {
+                        decompress();
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -1067,6 +1075,18 @@ public class RemoteComposeBuffer {
             }
             companion.read(wrapped, operations);
         }
+    }
+
+    /**
+     * Replaces the buffer contents with the decompressed document, so later inflations (e.g. {@link
+     * CoreDocument#reinflate()}) read it directly instead of decompressing again.
+     */
+    private void decompress() throws IOException {
+        byte[] document = Header.decompressDocument(mBuffer.mBuffer, mBuffer.mSize);
+        mBuffer.mBuffer = document;
+        mBuffer.mMaxSize = document.length;
+        mBuffer.mSize = document.length;
+        mBuffer.setIndex(0);
     }
 
     /**
@@ -2659,6 +2679,46 @@ public class RemoteComposeBuffer {
         return imageId;
     }
 
+    /**
+     * Create an offscreen bitmap buffer whose dimensions are dynamically sized to a target
+     * component.
+     *
+     * @param imageId the image id
+     * @return the image id
+     */
+    public int createOffscreenBitmap(int imageId) {
+        return createOffscreenBitmap(imageId, 0);
+    }
+
+    /**
+     * Create an offscreen bitmap buffer whose dimensions are dynamically sized to the specified
+     * component.
+     *
+     * @param imageId the image id
+     * @param componentId the component id (or 0 to use the active component)
+     * @return the image id
+     */
+    public int createOffscreenBitmap(int imageId, int componentId) {
+        byte[] payload =
+                componentId != 0
+                        ? new byte[] {
+                            (byte) (componentId >> 24),
+                            (byte) (componentId >> 16),
+                            (byte) (componentId >> 8),
+                            (byte) componentId
+                        }
+                        : new byte[0];
+        BitmapData.apply(
+                mBuffer,
+                imageId,
+                BitmapData.TYPE_RAW8888,
+                (short) 1,
+                BitmapData.ENCODING_COMPONENT_OFFSCREEN_BUFFER,
+                (short) 1,
+                payload);
+        return imageId;
+    }
+
     /** */
     public void drawOnBitmap(int imageId, int mode, int color) {
         DrawToBitmap.apply(mBuffer, imageId, mode, color);
@@ -3184,6 +3244,41 @@ public class RemoteComposeBuffer {
             int visibilityEasingType,
             int enterAnimation,
             int exitAnimation) {
+        addAnimationSpecModifier(
+                animationId,
+                motionDuration,
+                motionEasingType,
+                visibilityDuration,
+                visibilityEasingType,
+                enterAnimation,
+                exitAnimation,
+                -1,
+                -1);
+    }
+
+    /**
+     * Add an animation spec modifier with custom enter/exit function IDs
+     *
+     * @param animationId the animation id
+     * @param motionDuration the duration of the motion animation
+     * @param motionEasingType the type of easing for the motion animation
+     * @param visibilityDuration the duration of the visibility animation
+     * @param visibilityEasingType the type of easing for the visibility animation
+     * @param enterAnimation the type of animation when "entering" (newly visible)
+     * @param exitAnimation the type of animation when "exiting" (newly gone)
+     * @param enterFunctionId the function id for custom enter animation
+     * @param exitFunctionId the function id for custom exit animation
+     */
+    public void addAnimationSpecModifier(
+            int animationId,
+            float motionDuration,
+            int motionEasingType,
+            float visibilityDuration,
+            int visibilityEasingType,
+            int enterAnimation,
+            int exitAnimation,
+            int enterFunctionId,
+            int exitFunctionId) {
         AnimationSpec.apply(
                 mBuffer,
                 animationId,
@@ -3192,7 +3287,9 @@ public class RemoteComposeBuffer {
                 visibilityDuration,
                 visibilityEasingType,
                 enterAnimation,
-                exitAnimation);
+                exitAnimation,
+                enterFunctionId,
+                exitFunctionId);
     }
 
     /**
