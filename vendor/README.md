@@ -12,6 +12,23 @@ These modules are copied from AndroidX change
 | `:vendor:remote-core` | write-side sources from `remote-core`, `remote-creation-core`, and `remote-creation` |
 | `:vendor:remote-write-core` | common write-only encoder extracted from those core sources |
 
+## Later upstream changes
+
+Since that patch set, the modules have taken the upstream delta between androidx.dev snapshot builds
+16427341 and 16480970 (the snapshot lane's pin), applied onto the port rather than re-copied:
+
+- `remote-material3`: the selection controls animate their progress, and `AnimateTick.kt` is new.
+  Upstream's removal of `RemotePageIndicator.inverseLerp`'s divide-by-zero guard is not taken.
+- `remote-creation-compose`: custom-function enter/exit transitions
+  (`RemoteEnterTransition.Custom` / `RemoteExitTransition.Custom`) and enter/exit sequencing
+  (`RemoteAnimationSequence`), the "h:mm" 12-hour `RemoteTimeDefaults`, the `RemoteVector` group-matrix
+  removal, and the Android capture loop's single-threaded recomposer and snapshot-write monitor.
+  Upstream's move of canvas recording from `RecordingCanvas` into `RemoteCanvas` and its
+  `CanvasOperationBuffer` is not mirrored: the port records through its own `RemoteDocumentProgram`,
+  and the buffer's optimisations are off by default upstream.
+- `remote-core`: the matching write-side changes, including `AnimationSpec`'s packed
+  animation/sequence ints and function ids, and optional document compression (`Header.COMPRESS`).
+
 The copied Kotlin sources started as upstream bytes; the port then moved the portable Creation,
 Foundation, and Material 3 closure to `commonMain`. Local build files expose Android, JVM, and Wasm
 targets. Narrow actuals retain Android/JVM time, display, image, and legacy-writer integration.
@@ -37,7 +54,7 @@ configurations substitute that port back to the real AndroidX Wear Compose artif
 ## Published artifacts
 
 The five vendored modules publish under `ee.schimke.remotecompose` at
-`4307936-ps17-cmp05`. The version is derived from `remote-compose-upstream.json`; bump its
+`4307936-ps17-cmp06`. The version is derived from `remote-compose-upstream.json`; bump its
 `portRevision` whenever published bytes change without moving to a newer AndroidX patch set.
 
 As with the repository's Wear Compose CMP port, CI publishes to GitHub Packages and to a
@@ -50,7 +67,7 @@ repositories {
 }
 
 dependencies {
-  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp05")
+  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp06")
 }
 ```
 

@@ -95,6 +95,7 @@ public class RemoteComposeWriter {
     private int mOriginalWidth = 0;
     private int mOriginalHeight = 0;
     private @Nullable String mContentDescription = null;
+    private int mCompression = Header.COMPRESSION_NONE;
     protected boolean mHasForceSendingNewPaint = false;
 
     public static final float TIME_IN_CONTINUOUS_SEC = RemoteContext.FLOAT_CONTINUOUS_SEC;
@@ -125,6 +126,9 @@ public class RemoteComposeWriter {
     }
 
     private static HTag[] filterAndValidateTags(int apiLevel, HTag[] tags) {
+        // The buffer is never compressed: encodeToByteArray() adds the flag when compressing.
+        tags = removeTag(tags, Header.COMPRESS);
+        checkScroll(apiLevel, HTag.getValue(tags, Header.DOC_SCROLL));
         if (apiLevel >= 8) {
             return tags;
         }
@@ -137,20 +141,84 @@ public class RemoteComposeWriter {
             throw new IllegalArgumentException(
                     "densityBehavior is only supported in API level 8 or higher");
         }
+        return removeTag(tags, Header.DOC_DENSITY_BEHAVIOR);
+    }
+
+    /**
+     * Checks the value of a {@link Header#DOC_SCROLL} tag, if any: an INT combining {@link
+     * Header#SCROLL_HORIZONTAL} and {@link Header#SCROLL_VERTICAL}, in an API level 7+ document.
+     * API level 6 headers have no properties, so they would drop it.
+     */
+    private static void checkScroll(int apiLevel, @Nullable Object value) {
+        if (value == null) {
+            return;
+        }
+        int directions = Header.SCROLL_HORIZONTAL | Header.SCROLL_VERTICAL;
+        if (!(value instanceof Integer) || ((Integer) value & ~directions) != 0) {
+            throw new IllegalArgumentException("Unsupported scroll directions " + value);
+        }
+        if (apiLevel < 7) {
+            throw new IllegalArgumentException(
+                    "DOC_SCROLL is only supported in API level 7 or higher");
+        }
+    }
+
+    private static HTag[] removeTag(HTag[] tags, short removedTag) {
         int count = 0;
         for (HTag tag : tags) {
-            if (tag.mTag != Header.DOC_DENSITY_BEHAVIOR) {
+            if (tag.mTag != removedTag) {
                 count++;
             }
+        }
+        if (count == tags.length) {
+            return tags;
         }
         HTag[] filteredTags = new HTag[count];
         int idx = 0;
         for (HTag tag : tags) {
-            if (tag.mTag != Header.DOC_DENSITY_BEHAVIOR) {
+            if (tag.mTag != removedTag) {
                 filteredTags[idx++] = tag;
             }
         }
         return filteredTags;
+    }
+
+    /**
+     * Checks that documents at {@code apiLevel} can use {@code compression}.
+     *
+     * @param apiLevel the document API level
+     * @param compression a {@link Header#COMPRESS} value
+     * @return {@code compression}
+     * @throws IllegalArgumentException if the compression is unknown, or not supported at {@code
+     *     apiLevel}
+     */
+    private static int checkCompression(int apiLevel, int compression) {
+        if (compression == Header.COMPRESSION_NONE) {
+            return compression;
+        }
+        if (compression != Header.COMPRESSION_DEFLATE) {
+            throw new IllegalArgumentException("Unsupported compression " + compression);
+        }
+        if (apiLevel < 8) {
+            throw new IllegalArgumentException(
+                    "compression is only supported in API level 8 or higher");
+        }
+        return compression;
+    }
+
+    /**
+     * Returns the compression requested by a {@link Header#COMPRESS} tag, or {@link
+     * Header#COMPRESSION_NONE} if there is no such tag.
+     */
+    private static int compressionOf(int apiLevel, HTag[] tags) {
+        Object value = HTag.getValue(tags, Header.COMPRESS);
+        if (value == null) {
+            return Header.COMPRESSION_NONE;
+        }
+        if (!(value instanceof Integer)) {
+            throw new IllegalArgumentException("Unsupported compression " + value);
+        }
+        return checkCompression(apiLevel, (Integer) value);
     }
 
     /**
@@ -206,6 +274,7 @@ public class RemoteComposeWriter {
     public RemoteComposeWriter(@NonNull Profile profile, HTag @NonNull ... tags) {
         this.mPlatform = profile.getPlatform();
         this.mApiLevel = profile.getApiLevel();
+        mCompression = compressionOf(mApiLevel, tags);
         tags = filterAndValidateTags(mApiLevel, tags);
         mBuffer = new RemoteComposeBuffer(profile.getApiLevel());
 
@@ -321,6 +390,7 @@ public class RemoteComposeWriter {
             HTag @NonNull ... tags) {
         this.mPlatform = platform;
         this.mApiLevel = apiLevel;
+        mCompression = compressionOf(apiLevel, tags);
         tags = filterAndValidateTags(apiLevel, tags);
         mBuffer = new RemoteComposeBuffer(apiLevel);
 
@@ -374,6 +444,7 @@ public class RemoteComposeWriter {
             @NonNull Profile profile, @NonNull RemoteComposeBuffer buffer, HTag @NonNull ... tags) {
         this.mPlatform = profile.getPlatform();
         this.mApiLevel = profile.getApiLevel();
+        mCompression = compressionOf(mApiLevel, tags);
         tags = filterAndValidateTags(mApiLevel, tags);
         mBuffer = buffer;
 
@@ -419,11 +490,16 @@ public class RemoteComposeWriter {
         }
     }
 
-    /** Reset the writer */
+    /**
+     * Reset the writer. The document restarts with a legacy header, which has no properties, so the
+     * writer stops compressing (see {@link #getCompression()}).
+     */
     public void reset() {
         mComponentValuesCache.clear();
         mBuffer.reset(1000000);
         mState.reset();
+        // The legacy header written below has no properties, so it can't carry COMPRESS.
+        mCompression = Header.COMPRESSION_NONE;
         header(mOriginalWidth, mOriginalHeight, mContentDescription, 1f, 0);
     }
 
@@ -730,12 +806,28 @@ public class RemoteComposeWriter {
 
     /**
      * Get a byte array with the current buffer contents.
-     * The array is a copy, so further changes to the buffer don't affect the array.
+     * The array is a copy, so further changes to the buffer don't affect the array. If the writer
+     * compresses (see {@link #getCompression()}), everything after the header is compressed (see
+     * {@link Header#compressDocument}).
      *
      * @return a byte array with the current buffer contents.
      */
     public byte @NonNull [] encodeToByteArray() {
+        if (mCompression != Header.COMPRESSION_NONE) {
+            return Header.compressDocument(
+                    mBuffer.getBuffer().getBuffer(), mBuffer.getBuffer().getSize());
+        }
         return mBuffer.getBuffer().cloneBytes();
+    }
+
+    /**
+     * Returns how {@link #encodeToByteArray()} compresses the document: the value of the {@link
+     * Header#COMPRESS} tag the writer was created with, else {@link Header#COMPRESSION_NONE}.
+     *
+     * @return a {@link Header#COMPRESS} value
+     */
+    public int getCompression() {
+        return mCompression;
     }
 
     /** Used to create the tag values in the header */
@@ -816,7 +908,10 @@ public class RemoteComposeWriter {
         }
     }
 
-    /** Returns the internal byte buffer. This should be used along with bufferSize(). */
+    /**
+     * Returns the internal byte buffer. This should be used along with bufferSize(). It is never
+     * compressed: use {@link #encodeToByteArray()} to honor a {@link Header#COMPRESS} tag.
+     */
     public byte @NonNull [] buffer() {
         return mBuffer.getBuffer().getBuffer();
     }
@@ -4596,6 +4691,54 @@ public class RemoteComposeWriter {
     }
 
     /**
+     * Reserve an offscreen bitmap ID whose backing bitmap will be lazily acquired from the player's
+     * bitmap pool when drawn to via {@link #drawOnBitmap} or {@link #drawComponentToBitmap}.
+     *
+     * @return id of the offscreen bitmap
+     */
+    public int createOffscreenBitmap() {
+        return createOffscreenBitmap(0);
+    }
+
+    /**
+     * Reserve an offscreen bitmap handle whose backing bitmap is dynamically sized to the specified
+     * component and lazily acquired from the player's reusable bitmap pool.
+     *
+     * @param componentId the component id (or 0 to use the active component)
+     * @return id of the offscreen bitmap
+     */
+    public int createOffscreenBitmap(int componentId) {
+        int id = mState.createNextAvailableId();
+        return mBuffer.createOffscreenBitmap(id, componentId);
+    }
+
+    /**
+     * Render the specified component's content into the specified offscreen bitmap.
+     *
+     * @param componentId the component id (or variable id holding the component id)
+     * @param bitmapId the id of the bitmap to render the component into
+     */
+    public void drawComponentToBitmap(int componentId, int bitmapId) {
+        drawOnBitmap(
+                bitmapId,
+                androidx.compose.remote.core.operations.DrawToBitmap.MODE_COMPONENT_ID,
+                componentId);
+        drawComponentContent();
+        drawOnBitmap(0, 0, 0);
+    }
+
+    /**
+     * Render the active component's content into the specified offscreen bitmap.
+     *
+     * @param bitmapId the id of the bitmap to render the component into
+     */
+    public void drawComponentToBitmap(int bitmapId) {
+        drawOnBitmap(bitmapId, 0, 0);
+        drawComponentContent();
+        drawOnBitmap(0, 0, 0);
+    }
+
+    /**
      * Draw on a bitmap, all subsequent operations will be applied to the bitmap
      *
      * @param bitmapId if 0 draw on main canvas
@@ -4951,6 +5094,40 @@ public class RemoteComposeWriter {
                 visibilityEasingType,
                 enterAnimation,
                 exitAnimation);
+    }
+
+    /**
+     * Add an animation spec modifier with custom enter/exit function IDs
+     *
+     * @param animationId          the animation id
+     * @param motionDuration       the motion duration
+     * @param motionEasingType     the motion easing type
+     * @param visibilityDuration   the visibility duration
+     * @param visibilityEasingType the visibility easing type
+     * @param enterAnimation       the enter animation
+     * @param exitAnimation        the exit animation
+     * @param enterFunctionId      the enter function id
+     * @param exitFunctionId       the exit function id
+     */
+    public void addAnimationSpecModifier(int animationId,
+            float motionDuration,
+            int motionEasingType,
+            float visibilityDuration,
+            int visibilityEasingType,
+            int enterAnimation,
+            int exitAnimation,
+            int enterFunctionId,
+            int exitFunctionId) {
+        mBuffer.addAnimationSpecModifier(
+                animationId,
+                motionDuration,
+                motionEasingType,
+                visibilityDuration,
+                visibilityEasingType,
+                enterAnimation,
+                exitAnimation,
+                enterFunctionId,
+                exitFunctionId);
     }
 
     /**

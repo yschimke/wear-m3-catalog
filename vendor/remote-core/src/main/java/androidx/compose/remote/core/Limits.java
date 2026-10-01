@@ -26,6 +26,9 @@ public class Limits {
     /** Default initial size of the wire buffer */
     public static final int BUFFER_SIZE = 1024 * 1024;
 
+    /** Maximum size in bytes of the operations of a compressed document, once decompressed */
+    public static int MAX_DECOMPRESSED_SIZE = 32 * 1024 * 1024;
+
     /** Maximum number of entries in the ID lookup table (bitmaps, fonts, etc.) */
     public static final int MAX_TABLE_SIZE = 1000;
 
@@ -43,6 +46,9 @@ public class Limits {
 
     /** Maximum memory allowed for bitmaps in a single player instance (in bytes) */
     public static int MAX_BITMAP_MEMORY = 20 * 1024 * 1024;
+
+    /** Maximum number of reusable offscreen bitmaps in the player pool */
+    public static final int MAX_BITMAP_POOL_SIZE = 8;
 
     /** Default maximum frames per second for the player */
     public static int DEFAULT_MAX_FPS = 60;

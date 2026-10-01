@@ -30,6 +30,7 @@ import androidx.compose.remote.core.operations.DataListIds;
 import androidx.compose.remote.core.operations.DrawContent;
 import androidx.compose.remote.core.operations.FloatConstant;
 import androidx.compose.remote.core.operations.FloatExpression;
+import androidx.compose.remote.core.operations.FloatFunctionDefine;
 import androidx.compose.remote.core.operations.Header;
 import androidx.compose.remote.core.operations.IntegerExpression;
 import androidx.compose.remote.core.operations.NamedVariable;
@@ -50,11 +51,13 @@ import androidx.compose.remote.core.operations.layout.TouchOperation;
 import androidx.compose.remote.core.operations.layout.managers.LayoutManager;
 import androidx.compose.remote.core.operations.layout.modifiers.ComponentModifiers;
 import androidx.compose.remote.core.operations.layout.modifiers.ModifierOperation;
+import androidx.compose.remote.core.operations.layout.modifiers.ScrollModifierOperation;
 import androidx.compose.remote.core.operations.loom.LoomManager;
 import androidx.compose.remote.core.operations.loom.PatternCallback;
 import androidx.compose.remote.core.operations.utilities.ArrayAccess;
 import androidx.compose.remote.core.operations.utilities.IntMap;
 import androidx.compose.remote.core.operations.utilities.StringSerializer;
+import androidx.compose.remote.core.semantics.ScrollableComponent;
 import androidx.compose.remote.core.serialize.MapSerializer;
 import androidx.compose.remote.core.serialize.Serializable;
 import androidx.compose.remote.core.types.IntegerConstant;
@@ -1270,9 +1273,13 @@ public class CoreDocument implements Serializable {
                     currentLastLayout = (LayoutComponent) component;
                 }
             } else if (o instanceof Container) {
-                finishInflation(((Container) o).getList(), parent, currentLastLayout);
-                if (o instanceof CanvasOperations) {
-                    ((CanvasOperations) o).setComponent(currentLastLayout);
+                if (o instanceof FloatFunctionDefine) {
+                    finishInflation(((Container) o).getList(), null, null);
+                } else {
+                    finishInflation(((Container) o).getList(), parent, currentLastLayout);
+                    if (o instanceof CanvasOperations) {
+                        ((CanvasOperations) o).setComponent(currentLastLayout);
+                    }
                 }
             } else if (o instanceof DrawContent) {
                 ((DrawContent) o).setComponent(currentLastLayout);
@@ -1874,6 +1881,115 @@ public class CoreDocument implements Serializable {
     }
 
     /**
+     * Returns true if the document declares vertical scrolling.
+     *
+     * <p>Checks the {@link Header#DOC_SCROLL} header property and the {@link RootContentBehavior}
+     * scroll mode, then every {@link ScrollableComponent}, {@link ScrollModifierOperation} and
+     * {@link ComponentModifiers} in the operations tree. The header property can only add vertical
+     * scrolling: a document with a vertical scroll container returns true whatever it says.
+     *
+     * <p>Note: this is a structural check that ignores layout and visibility. It returns true even
+     * if the scrollable content currently fits in its container, or is hidden.
+     *
+     * @return true if the document contains a vertical scroll container, or its header declares
+     *     vertical scrolling
+     */
+    public boolean hasVerticalScroll() {
+        if ((declaredScroll() & Header.SCROLL_VERTICAL) != 0) {
+            return true;
+        }
+        if ((mContentScroll & RootContentBehavior.SCROLL_VERTICAL) != 0) {
+            return true;
+        }
+        return hasVerticalScroll(mOperations);
+    }
+
+    private static boolean hasVerticalScroll(@Nullable List<Operation> operations) {
+        if (operations == null) {
+            return false;
+        }
+        for (Operation op : operations) {
+            if (op instanceof ScrollableComponent
+                    && ((ScrollableComponent) op).scrollDirection()
+                            == ScrollableComponent.SCROLL_VERTICAL) {
+                return true;
+            }
+            if (op instanceof ScrollModifierOperation
+                    && ((ScrollModifierOperation) op).isVerticalScroll()) {
+                return true;
+            }
+            if (op instanceof ComponentModifiers
+                    && ((ComponentModifiers) op).hasVerticalScroll()) {
+                return true;
+            }
+            if (op instanceof Container && hasVerticalScroll(((Container) op).getList())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the document declares horizontal scrolling.
+     *
+     * <p>Checks the {@link Header#DOC_SCROLL} header property and the {@link RootContentBehavior}
+     * scroll mode, then every {@link ScrollableComponent}, {@link ScrollModifierOperation} and
+     * {@link ComponentModifiers} in the operations tree. The header property can only add
+     * horizontal scrolling: a document with a horizontal scroll container returns true whatever it
+     * says.
+     *
+     * <p>Note: this is a structural check that ignores layout and visibility. It returns true even
+     * if the scrollable content currently fits in its container, or is hidden.
+     *
+     * @return true if the document contains a horizontal scroll container, or its header declares
+     *     horizontal scrolling
+     */
+    public boolean hasHorizontalScroll() {
+        if ((declaredScroll() & Header.SCROLL_HORIZONTAL) != 0) {
+            return true;
+        }
+        if ((mContentScroll & RootContentBehavior.SCROLL_HORIZONTAL) != 0) {
+            return true;
+        }
+        return hasHorizontalScroll(mOperations);
+    }
+
+    private static boolean hasHorizontalScroll(@Nullable List<Operation> operations) {
+        if (operations == null) {
+            return false;
+        }
+        for (Operation op : operations) {
+            if (op instanceof ScrollableComponent
+                    && ((ScrollableComponent) op).scrollDirection()
+                            == ScrollableComponent.SCROLL_HORIZONTAL) {
+                return true;
+            }
+            if (op instanceof ScrollModifierOperation
+                    && ((ScrollModifierOperation) op).isHorizontalScroll()) {
+                return true;
+            }
+            if (op instanceof ComponentModifiers
+                    && ((ComponentModifiers) op).hasHorizontalScroll()) {
+                return true;
+            }
+            if (op instanceof Container && hasHorizontalScroll(((Container) op).getList())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the scroll directions declared by the {@link Header#DOC_SCROLL} header property, or 0
+     * if there is none. The header is read when the document is loaded, so this doesn't need an
+     * initialized context. A value that isn't an INT declares nothing.
+     */
+    private int declaredScroll() {
+        Object value = mHeader == null ? null : mHeader.get(Header.DOC_SCROLL);
+        return value instanceof Integer ? (Integer) value : 0;
+    }
+
+    /**
      * Returns true if there are active applied touch operations (e.g. scroll or drag).
      *
      * @return true if there are applied touch operations
@@ -2307,6 +2423,12 @@ public class CoreDocument implements Serializable {
                 mRepaintNext = 1;
                 mRootLayoutComponent.clearNeedsBoundsAnimation();
                 mRootLayoutComponent.animatingBounds(context);
+                if (mRootLayoutComponent.needsMeasure()) {
+                    mRootLayoutComponent.layout(context);
+                    if (mLayoutCallback != null) {
+                        mLayoutCallback.onRequestLayout();
+                    }
+                }
             }
             if (DEBUG) {
                 String hierarchy = mRootLayoutComponent.displayHierarchy();
@@ -2622,6 +2744,7 @@ public class CoreDocument implements Serializable {
                 String str = context.getText(id);
                 if (str != null) {
                     sd.enable(ctl.isShaderValid(str));
+                    sd.apply(context);
                 }
             }
         }
