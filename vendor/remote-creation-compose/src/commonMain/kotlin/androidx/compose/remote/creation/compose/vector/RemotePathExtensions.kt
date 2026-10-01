@@ -16,7 +16,7 @@
 
 package androidx.compose.remote.creation.compose.vector
 
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteStateScope
 

@@ -16,7 +16,7 @@
 
 package androidx.compose.remote.creation.compose.shapes
 
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.compose.layout.RemoteOffset
 import androidx.compose.remote.creation.compose.layout.RemoteSize
 import androidx.compose.remote.creation.compose.state.RemoteFloat

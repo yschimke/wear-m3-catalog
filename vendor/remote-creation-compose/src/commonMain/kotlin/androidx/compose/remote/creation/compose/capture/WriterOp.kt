@@ -5,7 +5,7 @@ import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.common.RemoteModifierData
 import androidx.compose.remote.creation.common.RemoteTextData
 import androidx.compose.remote.creation.common.RemoteImageData
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.common.DrawTextOnCircle
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteImageBitmap

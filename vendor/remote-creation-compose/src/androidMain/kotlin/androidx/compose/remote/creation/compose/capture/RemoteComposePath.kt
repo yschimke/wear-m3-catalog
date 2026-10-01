@@ -19,7 +19,7 @@ package androidx.compose.remote.creation.compose.capture
 
 import android.graphics.Path
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.common.Utils
 import androidx.compose.ui.graphics.asComposePath
 

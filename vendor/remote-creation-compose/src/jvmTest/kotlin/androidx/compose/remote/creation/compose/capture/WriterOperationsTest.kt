@@ -7,7 +7,7 @@ import androidx.compose.remote.core.operations.PaintData
 import androidx.compose.remote.core.operations.PathData
 import androidx.compose.remote.core.operations.layout.CanvasContent
 import androidx.compose.remote.core.operations.layout.LayoutComponentContent
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.common.Utils
 import androidx.compose.remote.creation.compose.layout.RemoteCanvas
 import androidx.compose.remote.creation.compose.layout.RemoteColumn

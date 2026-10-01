@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package androidx.compose.remote.creation
+package androidx.compose.remote.creation.compose.path
 
 import androidx.annotation.RestrictTo
 import androidx.compose.remote.creation.common.Utils
