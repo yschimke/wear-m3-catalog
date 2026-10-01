@@ -23,6 +23,9 @@ jobs:
           name: compose-preview-handoff
           path: _compose_preview_handoff
           run-id: ${{ github.event.workflow_run.id }}
+          # `run-id` is ignored without a token: the action then looks in THIS run, finds no
+          # handoff, and fails with "Artifact not found", which it did on every run until this.
+          github-token: ${{ github.token }}
       - id: pr
         run: echo "number=$(cat _compose_preview_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
       - uses: yschimke/compose-ai-tools/.github/actions/apply@51ffbb7486203042627a2e8d020df8ffdac379f5 # v2.29.0
