@@ -32,7 +32,7 @@ wearcmp-port = "1.7.0-beta02-cmp09"
 
 # The published CMP Remote Compose writer. Browser Preview resolves this exact immutable version
 # from the group-fenced remote-compose-cmp-maven repository; it never follows latest.
-remote-compose-cmp = "4307936-ps17-cmp04"
+remote-compose-cmp = "4307936-ps17-cmp05"
 
 # Compose Multiplatform. `commonMain` compiles against the JetBrains runtime/foundation/ui, which
 # resolve to the androidx artifacts on the android target — same FQNs, so the port and the AARs are
@@ -114,7 +114,7 @@ compose-material3 = "1.5.0-alpha29"
 # correct beside a plugin at 2.2.0.
 composePreviewPlugin = "2.28.3"
 composePreviewCore = "2.28.3"
-composePreviewDaemon = "3.9.2"
+composePreviewDaemon = "3.10.0"
 # compose-preview-daemon's release guard publishes each module only when it changed, so ITS OWN
 # artifacts move on independent lines too: 3.9.x shipped `data-remotecompose-connector` (and the
 # `daemon-core` it pins) at 3.9.2 while holding `preview-annotations` and
@@ -144,10 +144,15 @@ uiBuilderSource = "3.69.0"
 # compose-ai-tools group so the two cannot re-merge. Read that block for the third instance of this
 # bug: a version REF is a claim that its artifacts release together, and it is wrong the moment they
 # do not — whether the other line lives in another repository (here) or in the same one (#347).
-rcEmbeddedPlayer = "1.75.0"
+# The connector (`composePreviewDaemon`) links this player's `RcPlayer` entry point reflectively and,
+# when the shape it was built against is missing, falls back to the View player WITHOUT failing:
+# rc-players 2.x beside connector 3.9.2 baked every sticker through the View player, blanking 319
+# canvas-drawn cells (#639). 2.x needs connector 3.10.0+; `RemoteM3ThreeSurfaceContractTest` pins the
+# pair and `RemoteRenderTest` checks every capture actually used the embedded player.
+rcEmbeddedPlayer = "2.0.3"
 # The CMP player on Android (`CmpAndroidPlayerTrialTest`), on its own ref: it needs a release with
 # the Android target and `rcGoogleFontsTypefaceLoader`, and must not drag the embedded player above.
-rcPlayerComposeAndroid = "1.75.0"
+rcPlayerComposeAndroid = "2.0.3"
 
 # materialkolor — the dynamic-colour engine Confetti Wear builds its conference palettes with. The
 # declared themes in `CatalogThemes.kt` reproduce them by running the same seed through the same

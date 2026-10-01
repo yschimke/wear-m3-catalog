@@ -193,7 +193,29 @@ class RemoteM3ThreeSurfaceContractTest {
         "cmp${port.getValue("portRevision").jsonPrimitive.content.padStart(2, '0')}"
 
     assertThat(published).isEqualTo(expected)
-    assertThat(versions).contains("rcEmbeddedPlayer = \"1.75.0\"")
+  }
+
+  /**
+   * The connector links the embedded player's `RcPlayer` entry point reflectively and falls back to
+   * the View player, silently, when the shape it was built against is missing. rc-players 2.x
+   * reshaped that entry point, so 2.x beside a connector older than 3.10.0 bakes every sticker
+   * through the View player (#639). Move the two refs together.
+   */
+  @Test
+  fun `embedded player and connector are on matching lines`() {
+    val versions = File(root, "gradle/libs.versions.toml").readText()
+    fun ref(name: String): List<Int> =
+      requireNotNull(Regex("""(?m)^$name\s*=\s*"([^"]+)"""").find(versions)) { "no $name ref" }
+        .groupValues[1]
+        .split('.', '-')
+        .take(3)
+        .map { it.toInt() }
+
+    val player = ref("rcEmbeddedPlayer")
+    val connector = ref("composePreviewDaemon")
+    if (player[0] >= 2) {
+      assertThat(connector[0] * 1000 + connector[1]).isAtLeast(3 * 1000 + 10)
+    }
   }
 
   private fun repositoryRoot(): File {
