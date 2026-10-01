@@ -1,5 +1,8 @@
 {
   "$schema": "https://github.com/yschimke/design-parity/schema/parity-config.schema.json",
-  "$comment": "DESIGN-LED, deliberately. This catalog exists to reproduce the published M3 Wear OS Apps Design Kit, so the kit is authoritative and a divergence is a bug in this code — the opposite of the `wear-m3` component-system catalog in compose-ai-tools, whose own render is the source of truth. Direction also has teeth beyond reporting: design-parity's Code-to-Canvas push-back is gated on `code-led`, so `design-led` makes writing back to the Figma file structurally impossible rather than merely forbidden by convention.",
-  "direction": "design-led"
+  "$comment": "DESIGN-LED, deliberately. This catalog exists to reproduce the published M3 Wear OS Apps Design Kit, so the kit is authoritative and a divergence is a bug in this code — the opposite of the `wear-m3` component-system catalog in compose-ai-tools, whose own render is the source of truth. Direction also has teeth beyond reporting: design-parity's Code-to-Canvas push-back is gated on `code-led`, so `design-led` makes writing back to the Figma file structurally impossible rather than merely forbidden by convention. VISUAL: Remote Compose rasterises the whole @Preview canvas, so a :remote-catalog sticker arrives as a 52dp button on a 227x100dp frame, and a frame the renderer imposed rescales and offsets the reference against it (#138). `visual.candidateFrame: crop-to-content` crops the candidate to what it draws, but only where the kit cell is itself tight: a display cell exported with a transparent margin of its own is a frame the kit specifies and is still compared whole, which is why one setting is safe for both sheets.",
+  "direction": "design-led",
+  "visual": {
+    "candidateFrame": "crop-to-content"
+  }
 }
