@@ -33,6 +33,13 @@ The copied Kotlin sources started as upstream bytes; the port then moved the por
 Foundation, and Material 3 closure to `commonMain`. Local build files expose Android, JVM, and Wasm
 targets. Narrow actuals retain Android/JVM time, display, image, and legacy-writer integration.
 
+The port's platform-neutral path is `androidx.compose.remote.creation.compose.path.RemotePath`, not
+upstream's `androidx.compose.remote.creation.RemotePath`. The Android graph still carries the
+published `remote-creation`, which ships a different class under that name, and a duplicate FQN on
+one classpath makes whichever jar loads first serve both. In the cmp06 bundle that was the port's,
+so 35 of `remote-creation-android`'s own references failed to link
+([#652](https://github.com/yschimke/wear-m3-catalog/issues/652)).
+
 `:remote-desktop` is the phase-2 client. Its `run` task performs a real Compose recomposition through
 the vendored JVM applier and writes the encoded document to
 `remote-desktop/build/desktop-sample.rc`; it does not use Robolectric or any Android API.
@@ -54,7 +61,7 @@ configurations substitute that port back to the real AndroidX Wear Compose artif
 ## Published artifacts
 
 The five vendored modules publish under `ee.schimke.remotecompose` at
-`4307936-ps17-cmp06`. The version is derived from `remote-compose-upstream.json`; bump its
+`4307936-ps17-cmp07`. The version is derived from `remote-compose-upstream.json`; bump its
 `portRevision` whenever published bytes change without moving to a newer AndroidX patch set.
 
 As with the repository's Wear Compose CMP port, CI publishes to GitHub Packages and to a
@@ -67,7 +74,7 @@ repositories {
 }
 
 dependencies {
-  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp06")
+  implementation("ee.schimke.remotecompose:remote-material3:4307936-ps17-cmp07")
 }
 ```
 

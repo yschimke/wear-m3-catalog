@@ -1,4 +1,4 @@
-package androidx.compose.remote.creation
+package androidx.compose.remote.creation.compose.path
 
 import androidx.compose.remote.creation.common.Utils
 import kotlin.test.Test

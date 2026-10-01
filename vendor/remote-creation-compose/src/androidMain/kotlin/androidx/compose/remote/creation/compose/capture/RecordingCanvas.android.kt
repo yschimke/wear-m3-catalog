@@ -32,7 +32,7 @@ import androidx.compose.remote.core.operations.ConditionalOperations
 import androidx.compose.remote.core.operations.Utils
 import androidx.compose.remote.creation.common.PaintBundleData
 import androidx.compose.remote.creation.RemoteComposeWriter
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.compose.layout.RemoteCustomPropertiesScope
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.toRemoteModifierData

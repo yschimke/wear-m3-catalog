@@ -17,7 +17,7 @@
 package androidx.compose.remote.creation.compose.vector
 
 import androidx.annotation.RestrictTo
-import androidx.compose.remote.creation.RemotePath
+import androidx.compose.remote.creation.compose.path.RemotePath
 import androidx.compose.remote.creation.compose.capture.DefaultGroupName
 import androidx.compose.remote.creation.compose.capture.DefaultPathName
 import androidx.compose.remote.creation.compose.capture.DefaultPivotX
