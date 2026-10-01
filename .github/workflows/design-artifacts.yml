@@ -484,7 +484,12 @@ jobs:
       # Gradle test in a cold rc-players checkout, so the headroom was real but not obviously
       # enough — and the failure mode is the one thing the lanes' own fail-soft cannot cover: a JOB
       # timeout kills the publish, where a harness that dies only drops its column.
-      timeout-minutes: 90
+      #
+      # 120 rather than 90 since run 440 (#660): with all four player lanes on, the job ran its
+      # parity step for ~24 minutes, stalled, and was cancelled at 95 minutes, losing the publish.
+      # The next run (442, #661) took 49 minutes end to end, so 90 was not the steady state; the
+      # headroom is for the slow tail, not a new baseline.
+      timeout-minutes: 120
       render-timeout: 1800
       render-shards: 1
       # The reference cache the job above builds, reused here rather than refetched. It is keyed by
