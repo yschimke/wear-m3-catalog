@@ -7,7 +7,9 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rdp
+import androidx.compose.remote.creation.compose.state.rf
 import androidx.compose.remote.creation.compose.text.RemoteFontFamily
 import androidx.compose.remote.creation.profile.RcPlatformProfiles
 import androidx.compose.runtime.Composable
@@ -140,6 +142,30 @@ val KitDisplayWidth = 192.rdp
  * first one went unnoticed: a border that drifts now moves one line that says what it is.
  */
 val KitOutlinedBorderWidth = 1.rdp
+
+/**
+ * The page indicator's dot colours as the kit draws them, which are Wear Compose's
+ * `PageIndicatorDefaults`: the selected dot in `onBackground`, the others in `onBackground` at 30%.
+ *
+ * `remote-material3`'s `RemotePageIndicatorDefaults` are not those. It takes the selected dot from
+ * `onSurface` and the others from an opaque `onSurfaceVariant`, so the Remote rail published three
+ * pale lavender dots next to a lavender-tinted selected one, where the kit and the Wear sticker
+ * draw three dim grey dots next to a white one, and the page you are on barely stood out. The
+ * background (`background` at 85%) already agrees and is left to the library.
+ *
+ * Named here for the same reason as [KitOutlinedBorderWidth]: the call site is where the kit's
+ * value has to be spelled, and one definition keeps both indicators saying the same thing.
+ */
+internal class KitPageIndicatorColors(val selected: RemoteColor, val unselected: RemoteColor) {
+  companion object {
+    @Composable
+    @RemoteComposable
+    fun current(): KitPageIndicatorColors {
+      val onBackground = RemoteMaterialTheme.colorScheme.onBackground
+      return KitPageIndicatorColors(onBackground, onBackground.copy(alpha = 0.3f.rf))
+    }
+  }
+}
 
 /**
  * The catalog's Remote Compose **component** multipreview. A single 227×100 capture. Remote Compose
