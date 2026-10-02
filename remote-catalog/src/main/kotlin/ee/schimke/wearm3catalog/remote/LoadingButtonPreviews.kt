@@ -21,7 +21,6 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteIcon
-import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteText
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.overrides.previewOverrideChoice
@@ -243,8 +242,7 @@ fun LoadingRemoteButton() = RemoteSticker {
     // cell's picture under another name. [KitOutlinedBorderWidth] is the 1dp Wear resolves.
     border = if (style == "outlined") KitOutlinedBorderWidth else 0.rdp,
     borderColor =
-      if (style == "outlined") RemoteMaterialTheme.colorScheme.outline
-      else RemoteColor(Color.Transparent),
+      if (style == "outlined") kitOutlinedBorderColor(enabled) else RemoteColor(Color.Transparent),
     // THE ICON SLOT IS A STACK, because the kit's is — see the file note for all three numbers.
     icon = {
       RemoteBox(modifier = RemoteModifier.size(slot), contentAlignment = RemoteAlignment.Center) {

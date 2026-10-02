@@ -127,7 +127,7 @@ internal fun KitTitleCard(
       colors =
         if (style == "outlined") RemoteCardDefaults.outlinedCardColors()
         else RemoteCardDefaults.cardColors(),
-      border = if (style == "outlined") RemoteCardDefaults.outlinedCardBorder() else null,
+      border = if (style == "outlined") kitOutlinedCardBorder() else null,
       title = title,
       time = time,
       subtitle = subtitle,
@@ -154,7 +154,7 @@ internal fun KitAppCard(
     modifier = modifier,
     colors =
       if (outlined) RemoteCardDefaults.outlinedCardColors() else RemoteCardDefaults.cardColors(),
-    border = if (outlined) RemoteCardDefaults.outlinedCardBorder() else null,
+    border = if (outlined) kitOutlinedCardBorder() else null,
     appName = appName,
     title = title,
     time = time,

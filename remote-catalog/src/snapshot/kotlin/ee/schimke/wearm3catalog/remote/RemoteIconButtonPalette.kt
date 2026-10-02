@@ -5,6 +5,7 @@ package ee.schimke.wearm3catalog.remote
 import androidx.compose.runtime.Composable
 import androidx.wear.compose.remote.material3.RemoteIconButtonColors
 import androidx.wear.compose.remote.material3.RemoteIconButtonDefaults
+import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 
 // THE SNAPSHOT LANE'S ICON-BUTTON PALETTE — the same four emphases, named by the library.
 //
@@ -44,7 +45,10 @@ internal fun remoteFilledVariantIconButtonColors(): RemoteIconButtonColors =
 /** The kit's `Filled Tonal` emphasis: the muted surface container. */
 @Composable
 internal fun remoteFilledTonalIconButtonColors(): RemoteIconButtonColors =
+  // `primary` glyph, as Wear's `FilledTonalIconButtonTokens`; the factory's is `onSurface`
+  // ([#673](https://github.com/yschimke/wear-m3-catalog/issues/673)).
   RemoteIconButtonDefaults.filledTonalIconButtonColors()
+    .copy(contentColor = RemoteMaterialTheme.colorScheme.primary)
 
 /**
  * The kit's `Outlined` emphasis — no container, and the border is drawn by the call site rather
@@ -52,4 +56,7 @@ internal fun remoteFilledTonalIconButtonColors(): RemoteIconButtonColors =
  */
 @Composable
 internal fun remoteOutlinedIconButtonColors(): RemoteIconButtonColors =
+  // `primary` glyph, as Wear's `OutlinedIconButtonTokens`; the factory's is `onSurface`
+  // ([#673](https://github.com/yschimke/wear-m3-catalog/issues/673)).
   RemoteIconButtonDefaults.outlinedIconButtonColors()
+    .copy(contentColor = RemoteMaterialTheme.colorScheme.primary)
