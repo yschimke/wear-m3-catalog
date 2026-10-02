@@ -392,6 +392,13 @@ two origin checks, two body caps and two places to drift about what a grant mean
   and URL. If the request says "fork" and means "try alternatives", say which you are using and why.
   Clean-up is not symmetric — a fork an agent made could not be deleted by that agent
   (`actor may not delete design`), so it is left for the owner to delete in the browser.
+- **A `wear-m3` design's colours belong on its `screen-scaffold`.** Its 23 `theme<Role>Color`
+  properties (`themePrimaryColor` … `themeOnErrorColor`, the list in compose-ui-builder's
+  `WearScreenTheme`) each re-skin one Wear colour role for everything on the screen — a
+  `#RRGGBB` colour or the name of another stock role. The canvas, the catalog runtime and the
+  generated screen all draw them through `MaterialTheme.colorScheme.copy(…)`
+  ([#682](https://github.com/yschimke/wear-m3-catalog/issues/682)); recolour a screen there rather
+  than component by component.
 - **A `wear-m3` design's typefaces belong on its `screen-scaffold`.** `themeDisplayTypeface`,
   `themeTitleTypeface`, `themeBodyTypeface` and `themeLabelTypeface` each take a family name — a
   vendored face or any Google Fonts family, `google:` prefix optional — for that group of Wear
