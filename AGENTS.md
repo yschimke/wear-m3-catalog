@@ -383,6 +383,21 @@ two origin checks, two body caps and two places to drift about what a grant mean
   `code: invalidCommand`, `node id is blank or already used`.
 - **The tools are absent unless the box serves a builder** (`--ui-builder-dir`) — absent rather than
   listed-and-failing. `tools/list` needs no grant, so checking costs one unauthenticated call.
+- **Alternatives of a design are branches, not forks — even when the ask says "fork".**
+  `ui_builder_branch_design` keeps each variant attached to its parent: `ui_builder_list_branches`
+  lists them, `ui_builder_diff_designs` compares them, `ui_builder_merge_branch` (`dryRun` first)
+  replays the chosen one onto the parent and archives its siblings. `ui_builder_fork_design` makes an
+  unrelated design that records only `forkedFrom` and that nothing flows back from; use it for a design
+  that will live on its own. Neither puts variants inside one document: a branch is its own design id
+  and URL. If the request says "fork" and means "try alternatives", say which you are using and why.
+  Clean-up is not symmetric — a fork an agent made could not be deleted by that agent
+  (`actor may not delete design`), so it is left for the owner to delete in the browser.
+- **The `wear-m3` builder cannot set a typeface.** `wear-m3/text` has no `fontFamily`,
+  `screen-scaffold` has no typography or colour-scheme override, and the canvas draws its vendored
+  Roboto Flex ([#684](https://github.com/yschimke/wear-m3-catalog/issues/684),
+  [#682](https://github.com/yschimke/wear-m3-catalog/issues/682)). A request for Google Fonts can only
+  be recorded — name the intended family on the design (a comment, or the branch name) and say plainly
+  that the render does not use it. Never present weight, tracking or casing tweaks as the font.
 
 ## Running Gradle
 
