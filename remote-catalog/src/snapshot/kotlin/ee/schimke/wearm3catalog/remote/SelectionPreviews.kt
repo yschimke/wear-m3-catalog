@@ -20,6 +20,9 @@ import androidx.wear.compose.remote.material3.RemoteText
 import ee.schimke.composeai.overrides.previewOverrideBoolean
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.OverrideVariant
+import androidx.compose.remote.creation.compose.state.rf
+import androidx.wear.compose.remote.material3.RemoteMaterialTheme
+import androidx.wear.compose.remote.material3.RemoteCheckboxButtonDefaults
 
 // THE KIT'S `Toggle+Selection-Buttons` SET, on the Remote column.
 //
@@ -171,6 +174,17 @@ fun CheckboxRowRemote() = RemoteSticker {
       onCheckedChange = toggle,
       modifier = RemoteModifier.width(KitRowWidth),
       enabled = enabled,
+      // The checkmark as Wear's `CheckboxButtonTokens` draw it: `primaryContainer`, and
+      // `background` at 38% when disabled. The library's non-split defaults are `onPrimary` and
+      // `onSurface` at 38% — its own split checkbox already uses Wear's pair
+      // ([#673](https://github.com/yschimke/wear-m3-catalog/issues/673)).
+      colors =
+        RemoteCheckboxButtonDefaults.checkboxButtonColors()
+          .copy(
+            checkedCheckmarkColor = RemoteMaterialTheme.colorScheme.primaryContainer,
+            disabledCheckedCheckmarkColor =
+              RemoteMaterialTheme.colorScheme.background.copy(alpha = 0.38f.rf),
+          ),
       label = { RemoteText(KitCopy.PRIMARY.rs) },
       secondaryLabel = { RemoteText(KitCopy.SECONDARY.rs) },
     )

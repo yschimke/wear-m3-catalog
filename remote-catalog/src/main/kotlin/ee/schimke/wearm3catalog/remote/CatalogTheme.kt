@@ -7,6 +7,7 @@ import androidx.compose.remote.creation.compose.layout.RemoteBox
 import androidx.compose.remote.creation.compose.layout.RemoteComposable
 import androidx.compose.remote.creation.compose.modifier.RemoteModifier
 import androidx.compose.remote.creation.compose.modifier.fillMaxSize
+import androidx.compose.remote.creation.compose.state.RemoteBoolean
 import androidx.compose.remote.creation.compose.state.RemoteColor
 import androidx.compose.remote.creation.compose.state.rdp
 import androidx.compose.remote.creation.compose.state.rf
@@ -14,6 +15,8 @@ import androidx.compose.remote.creation.compose.text.RemoteFontFamily
 import androidx.compose.remote.creation.profile.RcPlatformProfiles
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.remote.material3.RemoteBorderStroke
+import androidx.wear.compose.remote.material3.RemoteCardDefaults
 import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemoteTypography
 import ee.schimke.composeai.daemon.RemoteOverridablePreview
@@ -142,6 +145,34 @@ val KitDisplayWidth = 192.rdp
  * first one went unnoticed: a border that drifts now moves one line that says what it is.
  */
 val KitOutlinedBorderWidth = 1.rdp
+
+/**
+ * The outline an outlined control draws, as Wear's `ButtonDefaults.outlinedButtonBorder` resolves
+ * it: `outline` while enabled, `onSurface` at 20% (`DisabledContainerBorderOpacity`) while not.
+ *
+ * `remote-material3` publishes no outlined border for buttons or icon buttons at all, so every
+ * outlined cell on this sheet draws its own, and used to draw it in `outline` whatever the state: a
+ * disabled outlined button kept its enabled stroke. Chosen in the document on [enabled], so a live
+ * `enabled` knob dims it the same way.
+ */
+@Composable
+@RemoteComposable
+internal fun kitOutlinedBorderColor(enabled: RemoteBoolean): RemoteColor =
+  enabled.select(
+    RemoteMaterialTheme.colorScheme.outline,
+    RemoteMaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f.rf),
+  )
+
+/**
+ * The outlined card's border as Wear draws it: `outline`, 1dp (`OutlinedCardTokens`).
+ *
+ * `RemoteCardDefaults.outlinedCardBorder()` takes its colour from `outlinedCardColors()`'s content
+ * colour, `onSurfaceVariant`, so the default stroke is a shade lighter than the kit's.
+ */
+@Composable
+@RemoteComposable
+internal fun kitOutlinedCardBorder(): RemoteBorderStroke =
+  RemoteCardDefaults.outlinedCardBorder(borderColor = RemoteMaterialTheme.colorScheme.outline)
 
 /**
  * The page indicator's dot colours as the kit draws them, which are Wear Compose's

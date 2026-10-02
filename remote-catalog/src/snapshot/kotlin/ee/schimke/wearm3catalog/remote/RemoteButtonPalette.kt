@@ -57,7 +57,11 @@ internal fun remoteFilledVariantButtonColors(): RemoteButtonColors =
 /** The kit's `Tonal` emphasis: the muted surface container. */
 @Composable
 internal fun remoteTonalButtonColors(): RemoteButtonColors =
+  // The library's factory draws this emphasis's icon in `onSurface`; Wear's
+  // `FilledTonalButtonTokens.IconColor` is `primary`
+  // ([#673](https://github.com/yschimke/wear-m3-catalog/issues/673)).
   RemoteButtonDefaults.filledTonalButtonColors()
+    .copy(iconColor = RemoteMaterialTheme.colorScheme.primary)
 
 /**
  * The kit's `Child (No background)` column — a label on whatever is behind it.
@@ -82,4 +86,7 @@ internal fun remoteChildButtonColors(): RemoteButtonColors =
  */
 @Composable
 internal fun remoteOutlinedButtonColors(): RemoteButtonColors =
+  // `primary` icon, as Wear's `OutlinedButtonTokens.IconColor`; the factory's is `onSurface`
+  // ([#673](https://github.com/yschimke/wear-m3-catalog/issues/673)).
   RemoteButtonDefaults.outlinedButtonColors()
+    .copy(iconColor = RemoteMaterialTheme.colorScheme.primary)

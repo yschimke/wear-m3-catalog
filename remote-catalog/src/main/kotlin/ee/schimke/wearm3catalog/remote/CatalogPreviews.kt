@@ -28,7 +28,6 @@ import androidx.compose.remote.creation.compose.shaders.solidColor
 import androidx.compose.remote.creation.compose.shapes.RemoteCircleShape
 import androidx.compose.remote.creation.compose.shapes.RemoteRoundedCornerShape
 import androidx.compose.remote.creation.compose.state.RemoteColor
-import androidx.compose.remote.creation.compose.state.RemoteDp
 import androidx.compose.remote.creation.compose.state.RemoteFloat
 import androidx.compose.remote.creation.compose.state.RemoteString
 import androidx.compose.remote.creation.compose.state.animateRemoteFloat
@@ -299,13 +298,12 @@ fun FilledRemoteButton() = RemoteSticker { RemoteKitButton(remoteFilledButtonCol
  * Wear column reaches that emphasis through a separate function.
  */
 @Composable
-internal fun RemoteKitButton(
-  colors: RemoteButtonColors,
-  border: RemoteDp = 0.rdp,
-  borderColor: RemoteColor = RemoteColor(Color.Transparent),
-) {
+internal fun RemoteKitButton(colors: RemoteButtonColors, outlined: Boolean = false) {
   val (label, onClick) = countedRemote(KitCopy.PRIMARY_LABEL)
   val enabled = previewOverrideBoolean("enabled", true).rb
+  val border = if (outlined) KitOutlinedBorderWidth else 0.rdp
+  val borderColor =
+    if (outlined) kitOutlinedBorderColor(enabled) else RemoteColor(Color.Transparent)
   if (!previewOverrideBoolean("icon", false)) {
     // The kit's `Icon=No` column, and the base render. `buttonSizeModifier()` is what makes a
     // label-only button measure like the kit's one-line cell.
@@ -398,11 +396,7 @@ internal fun RemoteKitButton(
 @RemoteButtonKitCells
 @Composable
 fun OutlinedRemoteButton() = RemoteSticker {
-  RemoteKitButton(
-    colors = remoteOutlinedButtonColors(),
-    border = KitOutlinedBorderWidth,
-    borderColor = RemoteMaterialTheme.colorScheme.outline,
-  )
+  RemoteKitButton(colors = remoteOutlinedButtonColors(), outlined = true)
 }
 
 @CatalogComponent(
@@ -778,9 +772,10 @@ fun TextRemoteButton() = RemoteSticker {
   // The two size cells take the same filled container the base does — the kit draws its size cells
   // on its base style, and the style cells are the ones that change the container.
   val size = previewOverrideChoice("size", "default", listOf("default", "small", "large"))
+  val enabled = previewOverrideBoolean("enabled", true).rb
   RemoteTextButton(
     onClick = onClick,
-    enabled = previewOverrideBoolean("enabled", true).rb,
+    enabled = enabled,
     modifier =
       when (size) {
         "small" -> RemoteModifier.size(RemoteTextButtonDefaults.SmallButtonSize)
@@ -791,7 +786,7 @@ fun TextRemoteButton() = RemoteSticker {
     // The border is its OWN parameter, not part of `colors`: an outlined text button built from
     // the container-less colours alone draws no outline and is pixel-identical to the child cell.
     border = if (style == "outlined") KitOutlinedBorderWidth else null,
-    borderColor = if (style == "outlined") RemoteMaterialTheme.colorScheme.outline else null,
+    borderColor = if (style == "outlined") kitOutlinedBorderColor(enabled) else null,
     content = {
       RemoteText(
         KitCopy.GLYPHS.rs,
@@ -953,11 +948,7 @@ annotation class RemoteContainedIconButtonKitCells
  * from the container token rather than left at Material's default.
  */
 @Composable
-internal fun RemoteKitIconButton(
-  colors: RemoteIconButtonColors,
-  border: RemoteDp = 0.rdp,
-  borderColor: RemoteColor = RemoteColor(Color.Transparent),
-) {
+internal fun RemoteKitIconButton(colors: RemoteIconButtonColors, outlined: Boolean = false) {
   val size =
     when (
       previewOverrideChoice("size", "default", listOf("default", "extra-small", "small", "large"))
@@ -968,13 +959,14 @@ internal fun RemoteKitIconButton(
       else -> RemoteIconButtonDefaults.DefaultButtonSize
     }
   val (_, onClick) = toggledRemote()
+  val enabled = previewOverrideBoolean("enabled", true).rb
   RemoteIconButton(
     onClick = onClick,
-    enabled = previewOverrideBoolean("enabled", true).rb,
+    enabled = enabled,
     modifier = RemoteModifier.size(size),
     colors = colors,
-    border = border,
-    borderColor = borderColor,
+    border = if (outlined) KitOutlinedBorderWidth else 0.rdp,
+    borderColor = if (outlined) kitOutlinedBorderColor(enabled) else RemoteColor(Color.Transparent),
     content = {
       RemoteIcon(
         Icons.Filled.Add.asCatalogRemoteIcon(),
@@ -1029,7 +1021,11 @@ fun IconRemoteButton() = RemoteSticker {
     modifier = RemoteModifier.size(size),
     colors =
       RemoteIconButtonDefaults.iconButtonColors(
-        containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on)
+        containerColor = tween(stock.containerColor, RemoteMaterialTheme.colorScheme.primary, on),
+        // Wear's standard `IconButton` glyph is `primary` (`IconButtonTokens`); the library's
+        // default `iconButtonColors()` is `onSurface`
+        // ([#673](https://github.com/yschimke/wear-m3-catalog/issues/673)).
+        contentColor = RemoteMaterialTheme.colorScheme.primary,
       ),
     content = {
       RemoteIcon(
@@ -1310,13 +1306,13 @@ fun CompactRemoteButton() = RemoteSticker {
       "child" -> remoteChildButtonColors()
       else -> remoteFilledButtonColors()
     }
+  val enabled = previewOverrideBoolean("enabled", true).rb
   RemoteCompactButton(
     onClick = if (content == "icon") toggle else onClick,
-    enabled = previewOverrideBoolean("enabled", true).rb,
+    enabled = enabled,
     border = if (style == "outlined") KitOutlinedBorderWidth else 0.rdp,
     borderColor =
-      if (style == "outlined") RemoteMaterialTheme.colorScheme.outline
-      else RemoteColor(Color.Transparent),
+      if (style == "outlined") kitOutlinedBorderColor(enabled) else RemoteColor(Color.Transparent),
     // `copy` rather than a fresh `buttonColors(...)`: the toggle tween moves the CONTAINER and
     // nothing else, so copying keeps every other colour the emphasis resolved. At rest `on` is 0f
     // and `tween(a, b, 0f)` is `a`, so the baked capture is the palette's own container.
@@ -1441,6 +1437,7 @@ fun OutlinedCardRemote() = RemoteSticker {
   RemoteOutlinedCard(
     onClick = onClick,
     modifier = RemoteModifier.width(KitRowWidth),
+    border = kitOutlinedCardBorder(),
     content = { RemoteText(label, color = RemoteMaterialTheme.colorScheme.onSurface) },
   )
 }

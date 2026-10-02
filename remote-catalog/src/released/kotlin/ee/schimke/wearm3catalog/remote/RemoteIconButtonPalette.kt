@@ -55,7 +55,8 @@ internal fun remoteFilledVariantIconButtonColors(): RemoteIconButtonColors =
 internal fun remoteFilledTonalIconButtonColors(): RemoteIconButtonColors =
   RemoteIconButtonDefaults.iconButtonColors(
     containerColor = RemoteMaterialTheme.colorScheme.surfaceContainer,
-    contentColor = RemoteMaterialTheme.colorScheme.onSurface,
+    // `primary`, not `onSurface`: Wear's `FilledTonalIconButtonTokens` content colour (#673).
+    contentColor = RemoteMaterialTheme.colorScheme.primary,
   )
 
 /**
@@ -64,4 +65,8 @@ internal fun remoteFilledTonalIconButtonColors(): RemoteIconButtonColors =
  */
 @Composable
 internal fun remoteOutlinedIconButtonColors(): RemoteIconButtonColors =
-  RemoteIconButtonDefaults.iconButtonColors(containerColor = RemoteColor(Color.Transparent))
+  RemoteIconButtonDefaults.iconButtonColors(
+    containerColor = RemoteColor(Color.Transparent),
+    // `primary`, as Wear's `OutlinedIconButtonTokens`; the default is `onSurface` (#673).
+    contentColor = RemoteMaterialTheme.colorScheme.primary,
+  )

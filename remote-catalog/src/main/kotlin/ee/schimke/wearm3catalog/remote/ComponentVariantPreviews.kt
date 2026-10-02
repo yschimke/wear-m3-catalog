@@ -25,7 +25,6 @@ import androidx.wear.compose.remote.material3.RemoteButton
 import androidx.wear.compose.remote.material3.RemoteButtonDefaults
 import androidx.wear.compose.remote.material3.RemoteCircularProgressIndicator
 import androidx.wear.compose.remote.material3.RemoteHorizontalPageIndicator
-import androidx.wear.compose.remote.material3.RemoteMaterialTheme
 import androidx.wear.compose.remote.material3.RemotePageIndicatorState
 import androidx.wear.compose.remote.material3.RemoteText
 import androidx.wear.compose.remote.material3.RemoteTextButton
@@ -284,11 +283,7 @@ fun TonalRemoteIconButton() = RemoteSticker {
 )
 @Composable
 fun OutlinedRemoteIconButton() = RemoteSticker {
-  RemoteKitIconButton(
-    colors = remoteOutlinedIconButtonColors(),
-    border = KitOutlinedBorderWidth,
-    borderColor = RemoteMaterialTheme.colorScheme.outline,
-  )
+  RemoteKitIconButton(colors = remoteOutlinedIconButtonColors(), outlined = true)
 }
 
 // COLLAPSED INTO `TitleCard`. This was `TitleCard/Subtitle`, a component of its own for the kit's

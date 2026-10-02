@@ -530,6 +530,7 @@ fun EdgeButtonRemote() = RemoteSticker {
       "large" -> RemoteEdgeButtonSize.Large
       else -> RemoteEdgeButtonSize.Small
     }
+  val enabled = previewOverrideBoolean("enabled", true).rb
   RemoteEdgeButton(
     onClick = onClick,
     // The kit measures every cell of this set against the 192dp display, because an edge button IS
@@ -539,13 +540,12 @@ fun EdgeButtonRemote() = RemoteSticker {
     // the content column.
     modifier = RemoteModifier.width(KitDisplayWidth),
     buttonSize = size,
-    enabled = previewOverrideBoolean("enabled", true).rb,
+    enabled = enabled,
     colors = colors,
     // Zero on the three filled styles, and a no-op there whatever colour rides with it.
     border = if (style == "outlined") KitOutlinedBorderWidth else 0.rdp,
     borderColor =
-      if (style == "outlined") RemoteMaterialTheme.colorScheme.outline
-      else RemoteColor(Color.Transparent),
+      if (style == "outlined") kitOutlinedBorderColor(enabled) else RemoteColor(Color.Transparent),
   ) {
     // The kit's `Type` axis. The glyph is the Wear sibling's — a check, the confirm action this
     // component exists for — and it is now literally the same `ImageVector` the Wear sibling
