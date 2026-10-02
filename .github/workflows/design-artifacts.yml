@@ -225,7 +225,7 @@ jobs:
       # digest, publishes it beside catalog.json and writes the matching runtime descriptor.
       ui-builder-runtime-task: ':catalog-ui-builder-renderer:rendererArchive'
       ui-builder-runtime-archive: 'catalog-ui-builder-renderer/build/distributions/wear-m3-ui-builder-renderer.zip'
-      ui-builder-runtime-source-ref: '79daa99cfa8e26ecef3f46087d9292f2b98703aa'
+      ui-builder-runtime-source-ref: '746c44406927ae3cc9f2e8a32291d6c6a3cca870'
       # Pure editable SVGs are a daemon data product too: keep them transient through catalog
       # generation and cover cropping, then produce and cache them on request. Raster-backed hybrid
       # SVGs stay static so their crop references remain self-contained.
