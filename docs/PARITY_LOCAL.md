@@ -7,10 +7,9 @@ component, a measurement, and another look.
 This is the same check, on your machine, for one component, with **zero Figma calls**.
 
 ```sh
-scripts/parity-local.sh FilledButton                              # :catalog
-scripts/parity-local.sh --module remote-catalog OutlinedCardRemote
-scripts/parity-local.sh --no-build Button IconButton              # catalog unchanged since last run
-scripts/parity-local.sh --no-semantics FilledButton               # pixels only; see below
+scripts/parity-local.sh FilledButton                  # :catalog
+scripts/parity-local.sh --no-build Button IconButton  # catalog unchanged since last run
+scripts/parity-local.sh --no-semantics FilledButton   # pixels only; see below
 ```
 
 You get the markdown verdict on stdout — pairing, semantics and the visual diff — plus a
@@ -34,13 +33,13 @@ git archive FETCH_HEAD | tar -x -C .design-parity/reference
 
 # once per code change — the CLI at the version gradle/libs.versions.toml pins, and
 # --with-semantics, or the run silently drops half its checks (see below)
-compose-preview bundle pack --module :remote-catalog --with-semantics
-./scripts/design-map.sh remote-catalog
+compose-preview bundle pack --module :catalog --with-semantics
+./scripts/design-map.sh
 
 # per question — seconds
 npx design-parity run \
-  --components "catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#OutlinedCardRemote" \
-  --candidate-bundles remote-catalog/build/compose-previews/bundle.png \
+  --components "catalog/src/commonMain/kotlin/ee/schimke/wearm3catalog/sections/Cards.kt#TitledCard" \
+  --candidate-bundles catalog/build/compose-previews/bundle.png \
   --reference-cache .design-parity/reference --reference-cache-only \
   --out .design-parity/out
 ```
@@ -75,11 +74,12 @@ node(s) from 1 file(s), no API calls` and need no `FIGMA_TOKEN`. Without it the 
 Figma API. The daily import keeps that cache current, so a local run is only as fresh as the last
 one — check the branch date before trusting a *pass*.
 
-**`scripts/design-map.sh remote-catalog` overwrites the committed map.** `design-map.json` is
-`:catalog`'s and design-parity reads only that one path. Restore it with
-`git checkout -- design-map.json design-map-variants.json` before committing. `parity-local.sh`
-copies both files aside before projecting and puts them back on exit — including on failure and on
-Ctrl-C, and by copy rather than `git checkout --`, so it cannot eat an edit you were making.
+**`scripts/design-map.sh` rewrites the committed map.** `design-map.json` is `:catalog`'s and
+design-parity reads only that one path, so a projection from a half-edited tree lands in a file CI
+checks. Restore it with `git checkout -- design-map.json design-map-variants.json` before committing
+if you did not mean to regenerate it. `parity-local.sh` copies both files aside before projecting
+and puts them back on exit — including on failure and on Ctrl-C, and by copy rather than
+`git checkout --`, so it cannot eat an edit you were making.
 
 ## What it costs
 
@@ -92,9 +92,10 @@ already on `PATH`.
 
 ## What this does not replace
 
-It is **one component at a time**, so it does not produce the board. The published sheets on
-`design-parity/main` and `design-parity/remote-m3` are what CI writes and still the thing to read
-for coverage. Use this to work out an issue; use the board to know where the catalog stands.
+It is **one component at a time**, so it does not produce the board. The published board on
+`design-parity/main` is what CI writes and still the thing to read
+for coverage. (The Remote sheet's board, and its local-run recipe, live in
+[yschimke/remote-m3-catalog](https://github.com/yschimke/remote-m3-catalog).) Use this to work out an issue; use the board to know where the catalog stands.
 
 `.design-parity/` is gitignored — the cache is large, and both it and the report output are
 reproducible from the delivery branches.

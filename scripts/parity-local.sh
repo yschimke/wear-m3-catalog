@@ -2,7 +2,6 @@
 # Compare ONE component against the Figma kit, locally, with no Figma API calls.
 #
 #   scripts/parity-local.sh OutlinedCard
-#   scripts/parity-local.sh --module remote-catalog OutlinedCardRemote
 #   scripts/parity-local.sh --no-build Button IconButton
 #   scripts/parity-local.sh --no-semantics Button        # pixels only, no CLI download
 #
@@ -274,11 +273,7 @@ for name in "${COMPONENTS[@]}"; do
   count=$(printf '%s' "$matches" | grep -c . || true)
   if [ "$count" = 0 ]; then
     echo "no component '#$name' in :$MODULE's map." >&2
-    if [ "$MODULE" = "catalog" ]; then
-      echo "  This repo publishes two catalogs — try --module remote-catalog." >&2
-    else
-      echo "  This repo publishes two catalogs — try without --module, for :catalog." >&2
-    fi
+    echo "  Remote sheet components (\`…Remote\`) are compared in yschimke/remote-m3-catalog." >&2
     exit 1
   elif [ "$count" != 1 ]; then
     echo "'$name' is ambiguous in :$MODULE — pass one of these in full:" >&2

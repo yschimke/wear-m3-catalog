@@ -14,14 +14,12 @@ render it shows moves, and delete one whose component is gone.
 
 **Plain renders.** A single `composePreviewRender` output, untouched.
 
-**Contact sheets** (`kit-*-cells*.png`, `remote-m3-folded-cells.png`, `remote-m3-shapes*.png`,
-`remote-m3-position-and-text-cells.png`, `remote-m3-crossing-cells.png`). One component's variant
+**Contact sheets** (`kit-*-cells*.png`). One component's variant
 cells composited onto a dark board with each cell's name under it. A change that adds cells by the
 dozen cannot be evidenced one PNG at a time, and the reviewer's question — does every cell draw
 something, and is it the cell it claims to be — is about the grid rather than any one frame.
 
-**Before/after boards** (`parity-*.png`, `remote-m3-snapshot-lane.png`,
-`remote-stepper-level-rail-{before,after}.png`). One component's affected cells rendered from `main`
+**Before/after boards** (`parity-*.png`). One component's affected cells rendered from `main`
 on the top band and from the change on the bottom, with the lane in the title. The interesting thing
 is almost always a *pair* — a type role, a glyph, a second label — so reading it means seeing the
 same cell twice.
@@ -39,26 +37,6 @@ fronted by this catalog's hero, captured from the server's committed page fixtur
 a *choice* — which component this catalog puts on the index (`catalog.spec.json`'s `display.hero`) —
 which is a picture of the server, not of a sticker, so no render task here produces it.
 
-## Compositing
-
-A `remote-m3` sticker rasterises onto transparency, and several are near-white or a flat
-`primaryDim` silhouette — invisible on a light page, so a reviewer opening the PR sees nothing at
-all. Those frames are composited onto the sheet's own `#141418` ground; **no pixel of a render is
-otherwise touched.** Stickers that draw a coloured container read on any background and are left
-raw.
-
-## Known-broken baselines
-
-`remote-m3-*-break.png` are what `remote-snapshot-probe.py` compares each tracked issue's weekly
-capture against; byte-identical means "still broken" with certainty.
-
-**Refresh one only when THIS repo moved the sticker and the symptom is verified unchanged** — never
-to quiet a probe that has started reporting, because a capture that stopped matching is the single
-most interesting thing that job can say. Record what was verified: for `#91`'s button baseline, that
-is max alpha 31, the same container colour, and no pixel above the container's alpha (so no label)
-across both captures — the framing moved, the bug did not.
-
-`remote-m3-edge-button-label-spill-break.png` is a retired snapshot-lane baseline: build `16399547`
-reduced its measured overhang to 0dp and the #249 probe was removed. It remains as the record of the
-fixed defect; it cannot be reproduced with an empty `-PremoteSnapshot=` because the component is
-absent from the released alphas.
+The Remote sheet's evidence — its composited `remote-m3-*` captures and the known-broken baselines
+its snapshot probe compares against — moved with it to
+[yschimke/remote-m3-catalog](https://github.com/yschimke/remote-m3-catalog).

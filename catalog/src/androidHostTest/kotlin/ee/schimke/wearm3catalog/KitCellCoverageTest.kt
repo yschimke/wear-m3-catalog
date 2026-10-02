@@ -7,12 +7,13 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * Holds [kit-cells.json] — how much of each kit set each sheet draws — against the kit walk it
+ * Holds [kit-cells.json] — how much of each kit set this sheet draws — against the kit walk it
  * counts and the reasons `kit-sets.json` states.
  *
  * `CatalogKitCoverageTest` is the same idea one level up, and its level is the SET: every published
  * set is reproduced or excluded, and a set counts as reproduced when a component exists for it.
- * Nothing there asks how much of it is drawn, which is how `:remote-catalog` came to draw 15 of the
+ * Nothing there asks how much of it is drawn, which is how the Remote sheet (`:remote-catalog`, since
+ * split into yschimke/remote-m3-catalog, which holds its own copy of this test) came to draw 15 of the
  * `Card` set's 45 cells with the whole suite green
  * ([#158](https://github.com/yschimke/wear-m3-catalog/issues/158)). The `Content type` axis was
  * absent entirely and no file said so.
@@ -34,8 +35,8 @@ import org.junit.Test
  */
 class KitCellCoverageTest {
 
-  /** The sheets whose gaps must carry a written reason — both of them, since #160. */
-  private val reasoned = setOf("catalog", "remote-catalog")
+  /** The sheets whose gaps must carry a written reason. */
+  private val reasoned = setOf("catalog")
 
   private val root = File("..")
 
@@ -62,13 +63,13 @@ class KitCellCoverageTest {
    * A record that generated nothing would pass every assertion below by having nothing to check.
    */
   @Test
-  fun `the record covers both sheets`() {
+  fun `the record covers this sheet`() {
     assertTrue(
       "kit-cells.json names no sets — regenerate with scripts/kit-cells.sh",
       rows.isNotEmpty(),
     )
     val sheets = rows.flatMap { sheetsOf(it) }.map { it.first }.toSet()
-    assertEquals(setOf("catalog", "remote-catalog"), sheets)
+    assertEquals(setOf("catalog"), sheets)
   }
 
   /**
@@ -173,12 +174,8 @@ class KitCellCoverageTest {
    * `CatalogInventoryTest.every component is either mapped to the kit or says why not`, one level
    * down: an uncovered cell is fine when something says why, and only silence fails.
    *
-   * **Both sheets are held to it now.** `remote-catalog` was carved out when the record landed,
-   * because its rows were mostly cells nobody had drawn rather than cells nothing could draw — the
-   * honest answer to those is a component, not a sentence, and writing "not drawn yet" against each
-   * would have satisfied this test while telling a reader nothing. That work is done
-   * ([#160](https://github.com/yschimke/wear-m3-catalog/issues/160)): the sheet went from 47 of 327
-   * cells to 163, and what is left is written down.
+   * The Remote sheet was held to it too from #160 until it moved to yschimke/remote-m3-catalog,
+   * which carries the same test for it.
    */
   @Test
   fun `every gap on a reasoned sheet says why`() {

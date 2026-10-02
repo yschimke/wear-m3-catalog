@@ -59,3 +59,7 @@ after Typography(): 16.0.sp
 The equivalent constructor also works on JVM, Android, and a Wasm development executable. Remote
 Material 3 reaches this path because `RemoteTypography()` initializes its defaults from Wear
 `Typography()`.
+
+That Remote Material 3 browser client (`remote-wasm`) moved with the Remote sheet to
+[yschimke/remote-m3-catalog](https://github.com/yschimke/remote-m3-catalog); this reproducer stays
+here because it depends only on the Wear CMP port.

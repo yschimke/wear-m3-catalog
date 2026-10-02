@@ -3,14 +3,14 @@
 #
 #   scripts/kit-cells.sh [--check]
 #
-# Needs the discovered preview manifest of BOTH modules, because both sheets reproduce the same
-# kit and the record answers for both:
+# Needs the discovered preview manifest:
 #
-#   ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
+#   ./gradlew :catalog:composePreviewDiscover
 #
-# The numerator is each module's RESOLVED design map, projected here through the same pinned
-# upstream steps `scripts/design-map.sh` uses — into a temp dir, so the map committed for
-# `:catalog` is left exactly as it is. Why the resolved map rather than the annotations:
+# The numerator is the module's RESOLVED design map, projected here through the same pinned
+# upstream steps `scripts/design-map.sh` uses — into a temp dir, so the committed map is left
+# exactly as it is. The Remote sheet keeps its own record, under the `remote-catalog` key, in
+# yschimke/remote-m3-catalog. Why the resolved map rather than the annotations:
 # scripts/kit-cells.mjs, top.
 set -euo pipefail
 
@@ -20,7 +20,7 @@ CHECK=""
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
-MODULES="catalog remote-catalog"
+MODULES="catalog"
 ARGS=()
 for module in $MODULES; do
   manifest="$module/build/compose-previews/previews.json"

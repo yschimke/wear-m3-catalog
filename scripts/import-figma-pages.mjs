@@ -63,12 +63,12 @@
 //   FIGMA_TOKEN=figd_... node scripts/import-figma-pages.mjs --page shape
 //   node scripts/import-figma-pages.mjs --relink [--design-map F] [--require-full-join]
 //
-// ONE CACHE, TWO SHEETS. The node -> code join is a projection of `design-map.json`, and there is
-// exactly one of those per checkout — `:catalog`'s (see `scripts/design-map.sh`). So the COMMITTED
-// join is the Wear sheet's, and the Remote sheet gets its own by relinking against its own
-// projected map inside its publish job (`design-artifacts.yml`, `design-map-command`). Until that
-// happened, `/remote-m3/pages/` carried whatever the publisher could re-derive from
-// component-level references alone: 22 linked nodes out of 1845, against the Wear sheet's 597
+// ONE CACHE PER SHEET. The node -> code join is a projection of `design-map.json`, and there is
+// exactly one of those per checkout — `:catalog`'s (see `scripts/design-map.sh`). So the committed
+// join is the Wear sheet's. The Remote sheet, which reproduces the same kit, now lives in
+// yschimke/remote-m3-catalog with its own copy of this cache and its own join; before the split it
+// had to relink against its own projected map in its publish job, and until it did,
+// `/remote-m3/pages/` carried 22 linked nodes out of 1845
 // ([#316](https://github.com/yschimke/wear-m3-catalog/issues/316)).
 //
 // Reads `design-pages.json` (which pages, and where to write them) and `design-map.json` (the

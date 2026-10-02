@@ -25,30 +25,36 @@ variables and metadata.
 
 ## Two renditions of the same surface
 
-This repo publishes **two** catalogs, and the pairing between them is the point.
+The kit is drawn **twice**, in two repositories, and the pairing between them is the point.
 
-| Module | System | Library | Delivery branch |
+| Repository | System | Library | Delivery branch |
 | --- | --- | --- | --- |
-| [`:catalog`](catalog) | `wear-m3-catalog` | `androidx.wear.compose:compose-material3` (+ Horologist) | `design-artifacts/wear-m3-catalog` |
-| [`:remote-catalog`](remote-catalog) | `remote-m3` | `androidx.wear.compose.remote:remote-material3` (+ `remote-creation-compose`, Glance Wear) | `design-artifacts/remote-m3` |
+| this one, [`:catalog`](catalog) | `wear-m3-catalog` | `androidx.wear.compose:compose-material3` (+ Horologist) | `design-artifacts/wear-m3-catalog` |
+| [yschimke/remote-m3-catalog][remote] | `remote-m3` | `androidx.wear.compose.remote:remote-material3` (+ `remote-creation-compose`, Glance Wear) | published to [yschimke/remote-m3-catalog-out](https://github.com/yschimke/remote-m3-catalog-out) |
 
-`:catalog` draws the kit with Wear Compose Material 3. `:remote-catalog` draws the same components
+`:catalog` draws the kit with Wear Compose Material 3. The Remote sheet draws the same components
 as **Remote Compose documents** — each sticker a real `RemoteDocument`, rasterised by the player,
 which is the path a watch face, tile or widget takes on-device. Every Remote component names its
 `:catalog` counterpart, so the published compare page reads as three columns: **the kit**, the Wear
 Compose rendition, and the Remote one. Two implementations can only tell you that they differ; the
 kit is what says which one is wrong.
 
-They are separate Gradle modules rather than source sets because `:remote-catalog` is on the alpha
-Remote Compose line at `compileSdk 37` with no Compose BOM, and none of that may reach the catalog
-that reproduces the kit. **Both are design-led**, and the parity workflow runs a job per module.
+The Remote rendition lived here as `:remote-catalog` until it was split into its own repository: it
+is on the alpha Remote Compose line at `compileSdk 37` with no Compose BOM, and none of that may
+reach the catalog that reproduces the kit. **Both are design-led**, and each repository runs its own
+parity job. The pairing is declared on the Remote side and checked there against a pinned commit of
+this repository, so a renamed component id here is a change to both.
 
 Where the two sheets meet, where only one goes, and which Figma node each answers to is drawn out
-component by component, with renders, in [`docs/COMPONENT_MAP.md`](docs/COMPONENT_MAP.md)
-(generated). The Remote sheet's kit mapping is partial **by design**: several of its components
-document what Remote Compose can do that the kit has no counterpart for at all — document shaders,
-colour and typography token specimens, downloadable-font axes, the Glance Wear widget host frame —
-so its component coverage cannot reach 100% by construction.
+component by component, with renders, in remote-m3-catalog's
+[`docs/COMPONENT_MAP.md`](https://github.com/yschimke/remote-m3-catalog/blob/main/docs/COMPONENT_MAP.md)
+(generated).
+
+A third sheet, `:samples-catalog` (`wear-m3-samples`), publishes the AndroidX Wear Compose samples
+as they ship; it reproduces no kit. See
+[`docs/design/ANDROIDX_SAMPLES.md`](docs/design/ANDROIDX_SAMPLES.md).
+
+[remote]: https://github.com/yschimke/remote-m3-catalog
 
 ## Status
 
@@ -58,25 +64,22 @@ so its component coverage cannot reach 100% by construction.
 dropped and an exclusion cannot outlive the limitation that earned it.
 
 **How much of each set is drawn is a second question.** [`kit-cells.json`](kit-cells.json) counts it
-cell by cell for both sheets, projected from each module's resolved design map and reconciled by CI,
+cell by cell, projected from `:catalog`'s resolved design map and reconciled by CI,
 so a cell that stops being drawn moves a number in a reviewable diff. **Every gap says why**, on its
 `kit-sets.json` row, and `KitCellCoverageTest` fails on a gap that states none. Most of those reasons
 are a library declining to draw a distinction the kit does — Wear resolves the three filled styles'
 disabled colours to one `onSurface` pair, so cells across `Text-Button`, `Button-Compact` and
 `Edge-Button` are one picture under two or three names, a comparison that cannot fail.
 
-Read the **overlap** figure in [`docs/KIT_COVERAGE.md`](docs/KIT_COVERAGE.md) rather than the
-whole-kit one: against the whole kit the Remote sheet's percentage measures how many sets it never
-claimed rather than how much of its own work is missing.
+The per-set picture is in [`docs/KIT_COVERAGE.md`](docs/KIT_COVERAGE.md) (generated).
 
 **Where the library draws the wrong thing, the sheet draws it anyway.** A cell whose API exists is
 called and published even when the result is blank or identical to its neighbour — an image-backed
 button that renders a black pill with no image in it, a text button that draws nothing at all when
 disabled, a disabled tonal button that is the disabled filled one to the byte. Withdrawing those
 would leave the set reading as unreproduced, indistinguishable from nobody having got to it: the
-sheet would look finished and the defect would be nowhere. `StickerBakeCoverageTest`'s `knownBlank`,
-`RemoteRenderTest`'s `knownDuplicate` and `CatalogRenderTest`'s record each one against the call that
-causes it, and all three fail in the other direction too — the day the library starts drawing, the
+sheet would look finished and the defect would be nowhere. `CatalogRenderTest`'s `knownDuplicate`
+records each one against the call that causes it, and fails in the other direction too — the day the library starts drawing, the
 exemption is what announces it.
 
 Components with nothing to compare against enter through the **library's** door, carrying
@@ -162,24 +165,18 @@ about: the system slug, title, primary modes, the round-size breakpoints and the
 
 [`ui-builder.policy.json`](ui-builder.policy.json) is its sibling for the **UI builder** — the
 platform word, the screen frame and its measured content padding, the two structural builtins, the
-shelf order — and `remote-catalog/` has its own for the `remote-m3` system's widget host frame.
+shelf order. (The `remote-m3` system's builder policy lives in remote-m3-catalog.)
 Per-component builder policy is `@BuilderComponent` beside `@CatalogComponent` on the sticker, so a
 component is never renamed in two places. The
 [contract](https://github.com/yschimke/compose-preview-server/blob/main/docs/design/UI_BUILDER_CATALOG_CONTRACT.md)
-explains the split, and each file's `$comment` fields explain the decisions in it. The `remote-m3`
-runtime follows the explicit three-surface contract in
-[`docs/design/REMOTE_M3_UI_BUILDER.md`](docs/design/REMOTE_M3_UI_BUILDER.md): editable Wear CMP
-stand-ins, a real CMP/Wasm Remote M3 document and player for Browser Preview, and authoritative
-AndroidX Remote M3 creation/playback for Native / Live.
+explains the split, and each file's `$comment` fields explain the decisions in it.
 
-The **template designs** a new design opens as are here for both modules: the four
-`:remote-catalog` ones (the two widget host frames and the two worked widget samples) under
-`remote-catalog/ui-builder/designs/`, gated by `WidgetTemplateRoundTripTest`, and the two `:catalog`
-ones — `wear-screen` (an `AppScaffold` with a frozen `TimeText` over a `TransformingLazyColumn`) and
-`wear-list` (the same shape holding this catalog's own activity list) — under `ui-builder/designs/`,
-gated by `WearScreenTemplateRoundTripTest`. Each round trip generates Kotlin from the committed
-document and compiles it against that module's own classpath, which is the half the preview server
-could not run:
+The **template designs** a new design opens as are the two `:catalog` ones — `wear-screen` (an
+`AppScaffold` with a frozen `TimeText` over a `TransformingLazyColumn`) and `wear-list` (the same
+shape holding this catalog's own activity list) — under `ui-builder/designs/`, gated by
+`WearScreenTemplateRoundTripTest`; the `remote-m3` widget templates moved with the Remote sheet. The
+round trip generates Kotlin from the committed document and compiles it against the module's own
+classpath, which is the half the preview server could not run:
 [`docs/UI_BUILDER_TEMPLATES.md`](docs/UI_BUILDER_TEMPLATES.md).
 
 The padding table under `frame.geometry` is written by a test, not by a person:
@@ -265,27 +262,25 @@ before you call it motion.
 ## Building
 
 ```sh
-./gradlew :catalog:assembleDebug :remote-catalog:assembleDebug              # compile
-./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
-./gradlew test                                                             # inventory invariants
-./gradlew ktfmtFormat                                                      # format
+./gradlew :catalog:assemble                      # compile (Android + desktop targets)
+./gradlew :catalog:composePreviewDiscover
+./gradlew test                                   # inventory invariants
+./gradlew ktfmtFormat                            # format
 ```
 
-The UI-builder renderers are temporary combined builds while the generic document interpreter moves
-into the source-only renderer SDK. They are not published by this repository yet. Build and verify a
-self-contained Wasm ZIP against a local UI Builder checkout with either renderer task:
+The UI-builder renderer is a temporary combined build while the generic document interpreter moves
+into the source-only renderer SDK. It is not published by this repository yet. Build and verify a
+self-contained Wasm ZIP against a local UI Builder checkout:
 
 ```sh
 ./gradlew :catalog-ui-builder-renderer:verifyRendererRuntime \
   -PcomposeUiBuilderDir=../compose-ui-builder
-./gradlew :remote-catalog-ui-builder-renderer:verifyRendererRuntime \
-  -PcomposeUiBuilderDir=../compose-ui-builder
 ```
 
-The composite substitutes `:ui-builder-renderer-sdk` and neither synthetic source coordinate can
-fall back to Maven. The renderer modules are therefore excluded from ordinary catalog builds unless
+The composite substitutes `:ui-builder-renderer-sdk` and the synthetic source coordinate cannot
+fall back to Maven. The renderer module is therefore excluded from ordinary catalog builds unless
 `composeUiBuilderDir` is set. Once the interpreter extraction is released, the source dependency is
-replaced before these runtimes enter the design-artifacts lane.
+replaced before this runtime enters the design-artifacts lane.
 
 ### Run Gradle through `build-brief`
 
@@ -301,7 +296,7 @@ build-brief ./gradlew :catalog:assemble
 ```
 
 On a shared developer host, agents use `scripts/agent-gradle.sh` instead. Its normal profile gives
-focused work four low-priority workers; a broad combined catalog, desktop or Remote Compose graph
+focused work four low-priority workers; a broad combined catalog, desktop or samples graph
 uses `scripts/agent-gradle.sh --exclusive …` to serialize against automated builds in the sibling
 Compose Preview repositories. Interactive commands and hosted CI bypass that lock and keep their
 full capacity. Explicit task-specific worker limits are preserved.
@@ -315,8 +310,8 @@ inventory. A component that compiles but is not discovered vanishes from the she
 | --- | --- |
 | [`ci.yml`](.github/workflows/ci.yml) | compile, run preview discovery, unit tests, `ktfmtCheck`, and the build-free catalog-spec pre-flight |
 | [`compose-preview.yml`](.github/workflows/compose-preview.yml) | renders the previews and posts a before/after visual diff on every PR |
-| [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes both bundles, scoped so a push that moves one catalog does not re-render the other |
-| [`design-parity.yml`](.github/workflows/design-parity.yml) | compares each catalog's render against the Figma kit — `:catalog` to `design-parity/main`, `:remote-catalog` to `design-parity/remote-m3` |
+| [`design-artifacts.yml`](.github/workflows/design-artifacts.yml) | renders and publishes the `wear-m3-catalog` and `wear-m3-samples` bundles, scoped so a push that moves one catalog does not re-render the other |
+| [`design-parity.yml`](.github/workflows/design-parity.yml) | compares `:catalog`'s render against the Figma kit, publishing `design-parity/main` (the Remote sheet's board is published by remote-m3-catalog) |
 | [`design-parity-import.yml`](.github/workflows/design-parity-import.yml) | owns the Figma traffic: refreshes the reference cache on `design-parity/reference` |
 | [`figma-pages.yml`](.github/workflows/figma-pages.yml) | imports the kit's page SVGs and commits the cache under `design/pages` |
 | [`figma-refs.yml`](.github/workflows/figma-refs.yml) | manual, read-only: proposes a kit node per component and rebuilds the kit index |

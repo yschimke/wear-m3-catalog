@@ -41,11 +41,10 @@ CHECK=""
 
 # `--out-dir DIR` projects into DIR and leaves the working tree alone.
 #
-# The committed map belongs to `:catalog` (see WHICH catalog, below), so anything that wants a
-# SECOND module's map alongside it — `scripts/kit-cells.sh` reads both, to count how much of each
-# kit set each sheet draws — cannot go through the root path without clobbering the one that is
-# committed. This is that door: same two pinned upstream steps, same inputs, a destination that is
-# not the repo. It never reconciles against the working tree, so `--check` means nothing with it.
+# `scripts/kit-cells.sh` projects into a temp dir through this door, so a regenerate of the cell
+# record never touches the committed map: same two pinned upstream steps, same inputs, a
+# destination that is not the repo. It never reconciles against the working tree, so `--check`
+# means nothing with it.
 OUT_DIR=""
 if [ "${1:-}" = "--out-dir" ]; then
   OUT_DIR="${2:?--out-dir needs a directory}"
@@ -56,19 +55,12 @@ if [ -n "$OUT_DIR" ] && [ -n "$CHECK" ]; then
   exit 2
 fi
 
-# WHICH catalog. This repo publishes two, and each projects its own map:
-#
-#   scripts/design-map.sh [--check]                 -> :catalog        (the kit rendition)
-#   scripts/design-map.sh remote-catalog            -> :remote-catalog (the Remote Compose one)
-#
-# The output path is NOT a parameter, because design-parity does not treat it as one: the action
-# reads `<repoRoot>/design-map.json` (packages/action/src/config.ts), and the reusable workflow
-# hashes and figma-scans that same path. One map per checkout is the contract.
-#
-# That is workable because the two parity runs are separate JOBS with separate workspaces: each
-# regenerates the root map for its own module before comparing, and neither sees the other's. What
-# it means locally is that projecting the Remote map overwrites the committed one, which belongs to
-# `:catalog` — so say so, loudly, rather than letting someone commit the wrong map.
+# WHICH catalog. The committed map is `:catalog`'s. The output path is NOT a parameter, because
+# design-parity does not treat it as one: the action reads `<repoRoot>/design-map.json`
+# (packages/action/src/config.ts), and the reusable workflow hashes and figma-scans that same path.
+# One map per checkout is the contract — which is why the Remote sheet, which reproduces the same
+# kit, commits its own in yschimke/remote-m3-catalog. `:samples-catalog` reproduces no kit and
+# projects no map (design-artifacts.yml).
 MODULE_DIR="${1:-catalog}"
 if [ "$MODULE_DIR" != "catalog" ] && [ -z "$OUT_DIR" ]; then
   echo "note: projecting $MODULE_DIR into ./design-map.json, which is where design-parity reads it." >&2
@@ -107,7 +99,7 @@ trap 'rm -rf "$WORK"' EXIT
 # `--prefix` IS the module directory, and defaults to `catalog` — which is right for `:catalog` by
 # luck and silently wrong for anything else. `previews.json` records `sourceFile` module-relative
 # (`src/main/kotlin/…`), so the projector prepends this to reach a repo-relative code handle. Left
-# unset, `:remote-catalog`'s map came out naming
+# unset, the Remote sheet's map (when it lived here) came out naming
 # `catalog/src/main/kotlin/ee/schimke/wearm3catalog/remote/CatalogPreviews.kt#AppCardRemote` — a
 # path no file has, for a component that does exist one directory over. Every handle in that map
 # dangles, which is how a sheet reports 0% mapped while its annotations are complete.
