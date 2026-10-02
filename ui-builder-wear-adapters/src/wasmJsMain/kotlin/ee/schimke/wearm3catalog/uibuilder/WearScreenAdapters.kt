@@ -24,6 +24,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
@@ -35,6 +36,7 @@ import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.ChildButton
+import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.FilledTonalButton
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OutlinedButton
@@ -48,6 +50,7 @@ import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.timeTextCurvedText
 import ee.schimke.composeai.uibuilder.export.ThemeTypefaces
+import ee.schimke.composeai.uibuilder.export.WearScreenTheme
 import ee.schimke.composeai.uibuilder.rememberThemeRoleFamilies
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
@@ -119,7 +122,14 @@ private fun CanvasNodeScope.WearScreenFrame() {
       ThemeTypefaces.families { canvas.string(it).takeIf(String::isNotEmpty) },
       wear = true,
     )
-  MaterialTheme(typography = MaterialTheme.typography.withRoleFamilies(typefaces)) {
+  MaterialTheme(
+    colorScheme = canvas.screenColorScheme(),
+    typography = MaterialTheme.typography.withRoleFamilies(typefaces),
+  ) {
+    // The scaffold's own `background`, read inside the screen's theme so an unset one follows a
+    // re-skinned `background` role, the way the editor's canvas paints it.
+    val background =
+      resolveWearColor(canvas.string("background"), MaterialTheme.colorScheme.background)
     if (mode == CanvasMode.AuthoringUnrolled) {
       // The extent is the screen at its content's height, not the frame's: the host hands this
       // surface the frame's height and grows it to whatever the rows are measured to reach. Filled
@@ -133,7 +143,7 @@ private fun CanvasNodeScope.WearScreenFrame() {
           .fillMaxWidth()
           .heightIn(min = screen)
           .clip(RoundedCornerShape(percent = 50))
-          .background(MaterialTheme.colorScheme.background)
+          .background(background)
       ) {
         CompositionLocalProvider(
           LocalScreenListState provides state,
@@ -151,7 +161,7 @@ private fun CanvasNodeScope.WearScreenFrame() {
           ?.let { value -> TimeText { timeTextCurvedText(value) } }
       }
       Box(modifier.fillMaxSize()) {
-        AppScaffold(timeText = timeText) {
+        AppScaffold(timeText = timeText, containerColor = background) {
           val edgeButton: (@Composable BoxScope.() -> Unit)? =
             if (canvas.node.slots["edgeButton"].isNullOrEmpty()) null
             else ({ canvas.Slot("edgeButton") })
@@ -185,6 +195,95 @@ private fun CanvasNodeScope.WearScreenFrame() {
     }
   }
 }
+
+/**
+ * The screen's theme: Wear's scheme with the roles the scaffold overrides replaced, the same
+ * `MaterialTheme.colorScheme.copy(…)` the generated screen wraps itself in and the editor's canvas
+ * draws ([WearScreenTheme], yschimke/wear-m3-catalog#682). A value is a `#RRGGBB`/`#AARRGGBB`
+ * literal or the name of another role, which reads the stock scheme around the screen; anything
+ * else keeps Wear's own.
+ */
+@Composable
+private fun CanvasNodeScope.screenColorScheme(): ColorScheme {
+  val stock = MaterialTheme.colorScheme
+  val overrides =
+    WearScreenTheme.ROLES.mapNotNull { role ->
+        val value = string(WearScreenTheme.property(role))
+        val color =
+          when {
+            value.isEmpty() -> null
+            value.startsWith("#") -> resolveWearColor(value)
+            else -> stock.role(value)
+          }
+        color?.takeIf { it != Color.Unspecified }?.let { role to it }
+      }
+      .toMap()
+  if (overrides.isEmpty()) return stock
+  fun role(name: String): Color = overrides[name] ?: stock.role(name)!!
+  return stock.copy(
+    primary = role("primary"),
+    onPrimary = role("onPrimary"),
+    primaryContainer = role("primaryContainer"),
+    onPrimaryContainer = role("onPrimaryContainer"),
+    secondary = role("secondary"),
+    onSecondary = role("onSecondary"),
+    secondaryContainer = role("secondaryContainer"),
+    onSecondaryContainer = role("onSecondaryContainer"),
+    tertiary = role("tertiary"),
+    onTertiary = role("onTertiary"),
+    tertiaryContainer = role("tertiaryContainer"),
+    onTertiaryContainer = role("onTertiaryContainer"),
+    surfaceContainerLow = role("surfaceContainerLow"),
+    surfaceContainer = role("surfaceContainer"),
+    surfaceContainerHigh = role("surfaceContainerHigh"),
+    onSurface = role("onSurface"),
+    onSurfaceVariant = role("onSurfaceVariant"),
+    outline = role("outline"),
+    outlineVariant = role("outlineVariant"),
+    background = role("background"),
+    onBackground = role("onBackground"),
+    error = role("error"),
+    onError = role("onError"),
+  )
+}
+
+/** One of Wear's colour roles by name, or null for a name the scheme has no role for. */
+private fun ColorScheme.role(name: String): Color? =
+  when (name) {
+    "primary" -> primary
+    "primaryDim" -> primaryDim
+    "onPrimary" -> onPrimary
+    "primaryContainer" -> primaryContainer
+    "onPrimaryContainer" -> onPrimaryContainer
+    "secondary" -> secondary
+    "secondaryDim" -> secondaryDim
+    "onSecondary" -> onSecondary
+    "secondaryContainer" -> secondaryContainer
+    "onSecondaryContainer" -> onSecondaryContainer
+    "tertiary" -> tertiary
+    "tertiaryDim" -> tertiaryDim
+    "onTertiary" -> onTertiary
+    "tertiaryContainer" -> tertiaryContainer
+    "onTertiaryContainer" -> onTertiaryContainer
+    "surface",
+    "surfaceContainer" -> surfaceContainer
+    "surfaceContainerLow" -> surfaceContainerLow
+    "surfaceContainerHigh",
+    "surfaceContainerHighest" -> surfaceContainerHigh
+    "onSurface" -> onSurface
+    "onSurfaceVariant" -> onSurfaceVariant
+    "outline" -> outline
+    "outlineVariant" -> outlineVariant
+    "background" -> background
+    "onBackground" -> onBackground
+    "error" -> error
+    "errorDim" -> errorDim
+    "onError" -> onError
+    "errorContainer" -> errorContainer
+    "onErrorContainer" -> onErrorContainer
+    "transparent" -> Color.Transparent
+    else -> null
+  }
 
 @Composable
 private fun CanvasNodeScope.WearTransformingLazyColumn() {

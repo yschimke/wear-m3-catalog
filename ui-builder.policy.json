@@ -70,6 +70,121 @@
           "notes": "The screen's background; Wear Material 3's `background` when absent."
         },
         {
+          "name": "themePrimaryColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `primary` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnPrimaryColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onPrimary` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themePrimaryContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `primaryContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnPrimaryContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onPrimaryContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeSecondaryColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `secondary` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnSecondaryColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onSecondary` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeSecondaryContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `secondaryContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnSecondaryContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onSecondaryContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeTertiaryColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `tertiary` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnTertiaryColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onTertiary` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeTertiaryContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `tertiaryContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnTertiaryContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onTertiaryContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeSurfaceContainerLowColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `surfaceContainerLow` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeSurfaceContainerColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `surfaceContainer` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeSurfaceContainerHighColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `surfaceContainerHigh` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnSurfaceColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onSurface` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnSurfaceVariantColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onSurfaceVariant` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOutlineColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `outline` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOutlineVariantColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `outlineVariant` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeBackgroundColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `background` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnBackgroundColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onBackground` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeErrorColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `error` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
+          "name": "themeOnErrorColor",
+          "jsonType": "string",
+          "notes": "Re-skins the screen's `onError` role for everything inside it. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"}, or a colourToken naming another role of the stock Wear scheme. Unset keeps Wear's own."
+        },
+        {
           "name": "themeDisplayTypeface",
           "jsonType": "string",
           "notes": "The font family for the display roles (displayLarge, displayMedium, displaySmall, numeralExtraLarge, numeralLarge, numeralMedium, numeralSmall, numeralExtraSmall) of everything this theme host contains. A family name: one of the editor's vendored faces or any Google Fonts family (\"Space Grotesk\", \"Michroma\"); a `google:` prefix is accepted. Generated code sets it as a `GoogleFont` family on the theme's typography. Unset keeps the platform's own face for these roles."
