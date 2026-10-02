@@ -392,12 +392,14 @@ two origin checks, two body caps and two places to drift about what a grant mean
   and URL. If the request says "fork" and means "try alternatives", say which you are using and why.
   Clean-up is not symmetric — a fork an agent made could not be deleted by that agent
   (`actor may not delete design`), so it is left for the owner to delete in the browser.
-- **The `wear-m3` builder cannot set a typeface.** `wear-m3/text` has no `fontFamily`,
-  `screen-scaffold` has no typography or colour-scheme override, and the canvas draws its vendored
-  Roboto Flex ([#684](https://github.com/yschimke/wear-m3-catalog/issues/684),
-  [#682](https://github.com/yschimke/wear-m3-catalog/issues/682)). A request for Google Fonts can only
-  be recorded — name the intended family on the design (a comment, or the branch name) and say plainly
-  that the render does not use it. Never present weight, tracking or casing tweaks as the font.
+- **A `wear-m3` design's typefaces belong on its `screen-scaffold`.** `themeDisplayTypeface`,
+  `themeTitleTypeface`, `themeBodyTypeface` and `themeLabelTypeface` each take a family name — a
+  vendored face or any Google Fonts family, `google:` prefix optional — for that group of Wear
+  type-scale roles (numerals ride with display; there is no headline group on Wear). The canvas, the
+  catalog runtime and the generated screen all draw them
+  ([#684](https://github.com/yschimke/wear-m3-catalog/issues/684)). `wear-m3/text` still has no
+  `fontFamily`: pick a text's face through its `style` role. Never present weight, tracking or
+  casing tweaks as the font.
 
 ## Running Gradle
 

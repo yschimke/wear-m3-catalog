@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
+import ee.schimke.composeai.uibuilder.ProvideUiBuilderFonts
 import ee.schimke.composeai.uibuilder.protocol.CanvasAdapterMappingV1
 import ee.schimke.composeai.uibuilder.protocol.UiBuilderRendererSurfaceModeV2
 import ee.schimke.composeai.uibuilder.renderer.sdk.CATALOG_RUNTIME_CAPABILITY_HORIZONTAL_UNROLL
@@ -26,6 +27,7 @@ import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
 import ee.schimke.composeai.uibuilder.renderer.sdk.RenderCanvasNode
 import ee.schimke.composeai.uibuilder.renderer.sdk.UiBuilderSemanticActionController
 import ee.schimke.composeai.uibuilder.renderer.sdk.applyCanvasModifier
+import ee.schimke.composeai.uibuilder.renderer.sdk.catalogRuntimeFontRegistry
 import ee.schimke.composeai.uibuilder.renderer.sdk.startCatalogRenderer
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import ee.schimke.wearcmp.port.WearDeviceConfiguration
@@ -68,6 +70,9 @@ private val adapterMappings: Map<String, CanvasAdapterMappingV1> by lazy {
 @OptIn(InternalSkikoApi::class)
 fun main() {
   val actions = UiBuilderSemanticActionController()
+  // One registry for the page: a design's theme typefaces, from the runtime's own `fonts/` and,
+  // for anything it does not ship, the host's Google Fonts route.
+  val fonts = catalogRuntimeFontRegistry()
   awaitSkiko.then(
     onFulfilled = {
       startCatalogRenderer(
@@ -103,39 +108,41 @@ fun main() {
               screenHeightDp = surface.heightDp.toInt(),
             ),
         ) {
-          MaterialTheme {
-            Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
-              CanvasDocumentHost(
-                document = document,
-                adapterIds = adapterIds,
-                adapterMappings = adapterMappings,
-                mode = mode,
-                density = density,
-                modifier = Modifier.fillMaxSize(),
-                renderSessionId = renderSessionId,
-                runtimeActionController = actions,
-                onInspectionSnapshot = onInspectionSnapshot,
-                rootModifier = { entry ->
-                  if (entry.adapterId == "frame/round-screen") Modifier.align(Alignment.TopCenter)
-                  else Modifier
-                },
-              ) { entry, rootModifier ->
-                RenderCanvasNode(
-                  entry = entry,
-                  registry = runtimeAdapters,
-                  modifier = rootModifier,
-                  applyModifier = { current, value ->
-                    current.applyCanvasModifier(
-                      value = value,
-                      mode = mode,
-                      unrolledHorizontally = unrolledHorizontally,
-                      resolveColor = { resolveWearColor(it) },
-                      resolveShape = ::resolveWearShape,
-                    )
+          ProvideUiBuilderFonts(fonts) {
+            MaterialTheme {
+              Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
+                CanvasDocumentHost(
+                  document = document,
+                  adapterIds = adapterIds,
+                  adapterMappings = adapterMappings,
+                  mode = mode,
+                  density = density,
+                  modifier = Modifier.fillMaxSize(),
+                  renderSessionId = renderSessionId,
+                  runtimeActionController = actions,
+                  onInspectionSnapshot = onInspectionSnapshot,
+                  rootModifier = { entry ->
+                    if (entry.adapterId == "frame/round-screen") Modifier.align(Alignment.TopCenter)
+                    else Modifier
                   },
-                  missingComponent = { label, next -> UnsupportedComponent(label, next) },
-                ) {
-                  UnsupportedComponent(node.componentId, prepared.modifier)
+                ) { entry, rootModifier ->
+                  RenderCanvasNode(
+                    entry = entry,
+                    registry = runtimeAdapters,
+                    modifier = rootModifier,
+                    applyModifier = { current, value ->
+                      current.applyCanvasModifier(
+                        value = value,
+                        mode = mode,
+                        unrolledHorizontally = unrolledHorizontally,
+                        resolveColor = { resolveWearColor(it) },
+                        resolveShape = ::resolveWearShape,
+                      )
+                    },
+                    missingComponent = { label, next -> UnsupportedComponent(label, next) },
+                  ) {
+                    UnsupportedComponent(node.componentId, prepared.modifier)
+                  }
                 }
               }
             }

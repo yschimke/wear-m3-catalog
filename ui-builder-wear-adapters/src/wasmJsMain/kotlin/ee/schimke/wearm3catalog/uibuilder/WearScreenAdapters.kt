@@ -47,6 +47,8 @@ import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
 import androidx.wear.compose.material3.timeTextCurvedText
+import ee.schimke.composeai.uibuilder.export.ThemeTypefaces
+import ee.schimke.composeai.uibuilder.rememberThemeRoleFamilies
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
@@ -109,7 +111,15 @@ private fun CanvasNodeScope.WearScreenFrame() {
   val canvas = this
   val state = rememberTransformingLazyColumnState()
   val padding = screenContentPadding()
-  MaterialTheme {
+  // The screen's typefaces, one family per group of type-scale roles, resolved through the
+  // runtime's
+  // font registry the way the editor's canvas resolves them (yschimke/wear-m3-catalog#684).
+  val typefaces =
+    rememberThemeRoleFamilies(
+      ThemeTypefaces.families { canvas.string(it).takeIf(String::isNotEmpty) },
+      wear = true,
+    )
+  MaterialTheme(typography = MaterialTheme.typography.withRoleFamilies(typefaces)) {
     if (mode == CanvasMode.AuthoringUnrolled) {
       // The extent is the screen at its content's height, not the frame's: the host hands this
       // surface the frame's height and grows it to whatever the rows are measured to reach. Filled
