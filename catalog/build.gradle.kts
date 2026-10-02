@@ -203,6 +203,15 @@ kotlin {
       // Wear tooling preview annotations (`@WearPreviewDevices`) — Android-only, and only the
       // android compilation needs them.
       implementation(libs.wear.compose.ui.tooling)
+
+      // Downloadable Google Fonts. Not used by the catalog itself: a UI builder design with theme
+      // typefaces generates `FontFamily(Font(GoogleFont("…"), GoogleFontsProvider, …))`, and the
+      // native lane compiles that screen against this module's bundle, so without it every such
+      // design would fail to compile there (yschimke/wear-m3-catalog#684).
+      // Not through the Compose BOM: the BOM's constraints lift ripple, core and annotation past
+      // what the stickers render with. Compose UI's own version alignment resolves this to the
+      // Compose UI already on the classpath; the version here is only a floor.
+      implementation(libs.compose.ui.text.google.fonts.floor)
       implementation(libs.wear.tooling.preview)
 
       // HOROLOGIST — the second library on the sheet, and the reason there is a `Horologist`

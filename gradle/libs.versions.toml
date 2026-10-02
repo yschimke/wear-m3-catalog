@@ -173,6 +173,7 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 # `Font(GoogleFont("Google Sans Flex"), provider)` — the declared themes' typefaces resolve as
 # downloadable Google fonts rather than vendored TTFs, so this module ships no font bytes.
 compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
+compose-ui-text-google-fonts-floor = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.12.1" }
 # `MaterialShapes` / `RoundedPolygon.toShape()` — the expressive shape library. Mobile Material 3
 # because that is the only artifact that publishes it; see catalog/build.gradle.kts.
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
