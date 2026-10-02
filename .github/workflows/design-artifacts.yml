@@ -5,14 +5,14 @@ name: Design Artifacts
 # /<system>/:
 #
 #   :catalog         -> design-artifacts/wear-m3-catalog   the kit rendition (Wear Compose M3)
-#   :remote-catalog  -> design-artifacts/remote-m3         the Remote Compose rendition
 #   :samples-catalog -> design-artifacts/wear-m3-samples   the AndroidX samples, vendored
 #
-# Three catalogs, one pipeline, and a `changes` job so a push that moves one of them does not spend
-# a runner re-rendering the others.
+# Two catalogs, one pipeline, and a `changes` job so a push that moves one of them does not spend
+# a runner re-rendering the other. The Remote Compose rendition (`remote-m3`) is published by
+# yschimke/remote-m3-catalog, which it was split out into.
 #
-# The samples sheet is the odd one out and its caller is deliberately the SHORTEST of the three:
-# it reproduces no Figma kit, so every input the other two spend on the design-reference lane is
+# The samples sheet is the odd one out and its caller is deliberately the SHORTER of the two:
+# it reproduces no Figma kit, so every input the other spends on the design-reference lane is
 # absent rather than merely unset. See `docs/design/ANDROIDX_SAMPLES.md`.
 #
 # The whole pipeline — install CLI -> validate spec -> render -> generate -> publish — is the
@@ -41,15 +41,10 @@ on:
       # visible in the published `ui-builder.json` — and it was missing from this list, so a
       # policy-only change edited the published catalog without ever republishing it. #474
       # merged two shelf corrections and triggered no run at all; they would have sat unpublished
-      # until the Monday cron. `remote-catalog/ui-builder.policy.json` is already covered by
-      # the glob below.
+      # until the Monday cron.
       - 'ui-builder.policy.json'
-      - 'remote-catalog/**'
-      - 'remote-catalog-ui-builder-renderer/**'
       - 'ui-builder-foundation-adapters/**'
-      - 'ui-builder-material-adapters/**'
       - 'ui-builder-wear-adapters/**'
-      - '.github/ci/remote-m3-cmp-wasm-allowlist.json'
       # The samples sheet's render inputs. `samples-catalog/**` is the vendored tree, the generated
       # @Preview wrappers and the generated spec; `samples/**` is the import manifest, the patches
       # and the quarantine lists, which decide what is in that tree at all; `sample-map.json` is
@@ -75,7 +70,7 @@ on:
   workflow_dispatch:
     inputs:
       # WHICH lane to republish. A dispatch is the manual remedy for a lane the automatic path
-      # dropped, and re-rendering the other two to fix one costs 30-90 minutes of runner for
+      # dropped, and re-rendering the other to fix one costs 30-90 minutes of runner for
       # nothing. `all` stays the default so the old behaviour is what you get by pressing the
       # button.
       lanes:
@@ -85,7 +80,6 @@ on:
         options:
           - all
           - wear-m3-catalog
-          - remote-m3
           - wear-m3-samples
       allow_incomplete:
         description: 'Publish even if some previews fail to render or lack semantics (use while tuning the spec).'
@@ -114,7 +108,7 @@ jobs:
   # WHICH delivery branches does this push dirty?
   #
   # The `paths:` filter above decides whether the workflow runs at all; this decides which catalogs
-  # inside it do. A render is 15-30 minutes, so a `catalog/**`-only push must not drag the Remote
+  # inside it do. A render is 15-30 minutes, so a `catalog/**`-only push must not drag the samples
   # sheet through one for a change it cannot see, and vice versa. Shared inputs — the version
   # catalog, the settings/build files, this workflow — dirty both, and so does anything that is not
   # a `push` (a schedule or a dispatch means "republish everything").
@@ -127,7 +121,6 @@ jobs:
     timeout-minutes: 5
     outputs:
       wear: ${{ steps.scope.outputs.wear }}
-      remote: ${{ steps.scope.outputs.remote }}
       samples: ${{ steps.scope.outputs.samples }}
     steps:
       - uses: actions/checkout@v7.0.1
@@ -146,8 +139,6 @@ jobs:
           if [ -n "$LANES" ] && [ "$LANES" != 'all' ]; then
             [ "$LANES" = 'wear-m3-catalog' ] && echo 'wear=true' >> "$GITHUB_OUTPUT" ||
               echo 'wear=false' >> "$GITHUB_OUTPUT"
-            [ "$LANES" = 'remote-m3' ] && echo 'remote=true' >> "$GITHUB_OUTPUT" ||
-              echo 'remote=false' >> "$GITHUB_OUTPUT"
             [ "$LANES" = 'wear-m3-samples' ] && echo 'samples=true' >> "$GITHUB_OUTPUT" ||
               echo 'samples=false' >> "$GITHUB_OUTPUT"
             exit 0
@@ -157,26 +148,21 @@ jobs:
              [ "$BEFORE" = '0000000000000000000000000000000000000000' ] ||
              ! files="$(git diff --name-only "$BEFORE" "$GITHUB_SHA")"; then
             echo 'wear=true' >> "$GITHUB_OUTPUT"
-            echo 'remote=true' >> "$GITHUB_OUTPUT"
             echo 'samples=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
           shared='^(gradle/|settings\.gradle\.kts$|build\.gradle\.kts$|\.github/workflows/design-artifacts\.yml$)'
           if grep -qE "$shared" <<<"$files"; then
             echo 'wear=true' >> "$GITHUB_OUTPUT"
-            echo 'remote=true' >> "$GITHUB_OUTPUT"
             echo 'samples=true' >> "$GITHUB_OUTPUT"
             exit 0
           fi
           # `ui-builder.policy.json` belongs here as well as in `push.paths` above: the paths list
           # only decides whether the workflow STARTS, and this predicate decides whether the wear
           # lane publishes. Listing it in one and not the other starts a run that skips the job it
-          # was started for. (`remote-catalog/ui-builder.policy.json` is already matched by the
-          # `remote-catalog/` prefix in the remote predicate below.)
+          # was started for.
           grep -qE '^(catalog/|catalog-ui-builder-renderer/|ui-builder-(foundation|wear)-adapters/|catalog\.spec\.json$|ui-builder\.policy\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
             echo 'wear=true' >> "$GITHUB_OUTPUT" || echo 'wear=false' >> "$GITHUB_OUTPUT"
-          grep -qE '^(remote-catalog/|remote-catalog-ui-builder-renderer/|ui-builder-(foundation|material|wear)-adapters/|\.github/ci/remote-m3-cmp-wasm-allowlist\.json$)' <<<"$files" &&
-            echo 'remote=true' >> "$GITHUB_OUTPUT" || echo 'remote=false' >> "$GITHUB_OUTPUT"
           grep -qE '^(samples-catalog/|samples/|sample-map\.json$|scripts/samples-)' <<<"$files" &&
             echo 'samples=true' >> "$GITHUB_OUTPUT" || echo 'samples=false' >> "$GITHUB_OUTPUT"
 
@@ -203,10 +189,10 @@ jobs:
       render-assertions: render-assertions.json
 
       # Project THIS module's map before the lanes that read it, exactly as `design-parity.yml`
-      # already does for its own two jobs. The path is fixed at the repo root and one checkout
-      # publishes both sheets, so without this whichever system does not own the committed map is
-      # scored against the other one's: `remote-m3` published `coverage.percent: 0` with all 50
-      # gaps `dangling-mapping`, every one naming a `:catalog` preview
+      # already does. The path is fixed at the repo root and one checkout publishes more than one
+      # sheet, so without this whichever system does not own the committed map is scored against
+      # the other one's: `remote-m3`, while it was published from here, put out `coverage.percent:
+      # 0` with all 50 gaps `dangling-mapping`, every one naming a `:catalog` preview
       # ([compose-ai-tools#4841](https://github.com/yschimke/compose-ai-tools/issues/4841)).
       #
       # Redundant here in the sense that the committed map IS this module's — but stating it is
@@ -215,9 +201,9 @@ jobs:
       #
       # The page join is relinked for the same reason, and is a no-op here for the same reason the
       # projection is: the committed `design/pages/pages.json` already carries `:catalog`'s join,
-      # and CI gates it (`import-figma-pages.mjs --check`). Stating it keeps the two callers
-      # reading as one recipe — project this module's map, then rebuild the page join from it —
-      # rather than leaving the Remote job looking like it does something extra.
+      # and CI gates it (`import-figma-pages.mjs --check`). Stating it keeps this caller
+      # reading as one recipe — project this module's map, then rebuild the page join from it — the
+      # same recipe the Remote sheet's caller in yschimke/remote-m3-catalog runs.
       design-map-command: >
         ./gradlew :catalog:composePreviewDiscover --stacktrace &&
         scripts/design-map.sh &&
@@ -316,214 +302,6 @@ jobs:
       # entries are skipped with a warning and the catalog still publishes.
       figma_token: ${{ secrets.FIGMA_TOKEN }}
 
-  # The remote renderer compiles against the published Remote Compose port at the version
-  # `remote-compose-cmp` pins, and a push that bumps that pin also starts "Publish Remote Compose
-  # port" -- in parallel, with nothing ordering the two. Resolving before the publisher pushes
-  # failed the lane (#620 -> #621). Wait here until the pinned version is on the Maven branch; for
-  # every push that does not move the pin it is already there and this returns at once.
-  port:
-    name: Remote Compose port published
-    needs: changes
-    if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.remote == 'true' }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    steps:
-      - uses: actions/checkout@v7.0.1
-        with:
-          sparse-checkout: gradle/libs.versions.toml
-          sparse-checkout-cone-mode: false
-          persist-credentials: false
-      - run: |
-          set -euo pipefail
-          version="$(sed -nE 's/^remote-compose-cmp = "([^"]+)"/\1/p' gradle/libs.versions.toml)"
-          test -n "$version"
-          pom="https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/remote-compose-cmp-maven/ee/schimke/remotecompose/remote-creation-compose/$version/remote-creation-compose-$version.pom"
-          for attempt in $(seq 1 40); do
-            if curl -fsSIL -o /dev/null "$pom"; then
-              echo "remote-creation-compose $version is published"
-              exit 0
-            fi
-            echo "waiting for $version to be published ($attempt/40)"
-            sleep 30
-          done
-          echo "::error::remote-creation-compose $version was never published; see Publish Remote Compose port"
-          exit 1
-
-  remote:
-    name: remote-m3
-    needs: [changes, port]
-    # Don't let forks push to the delivery branch.
-    if: ${{ github.repository == 'yschimke/wear-m3-catalog' && needs.changes.outputs.remote == 'true' }}
-    permissions:
-      contents: write
-    # One publisher at a time per delivery branch -- this lane force-pushes
-    # `design-artifacts/remote-m3` and nothing else does.
-    concurrency:
-      group: design-artifacts-${{ github.ref }}-remote-m3
-      cancel-in-progress: false
-    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
-    with:
-      system: remote-m3
-      artifact-repository: yschimke/wear-m3-catalog-out
-      spec: remote-catalog/catalog.spec.json
-      module: ':remote-catalog'
-
-      # The job this input exists for. Same command `design-parity.yml` passes for the Remote
-      # sheet, and the reason its hourly comparison has been right while these artifacts were
-      # wrong. `scripts/design-map.sh remote-catalog` projects into the root, which is the only
-      # path the lanes read; the committed map there belongs to `:catalog` and is regenerated in
-      # this job's own workspace, never committed back.
-      #
-      # AND THE SNAPSHOT LANE, matching `design-parity.yml`'s `remote` job. That board moved first
-      # (#232); this is the sheet it compares. Leaving the two apart would publish a comparison
-      # scoring components the sheet beside it does not contain — `CheckboxButton` on the board,
-      # absent from the catalog and from `docs/COMPONENT_MAP.md` — which is a worse state than
-      # either lane on its own.
-      #
-      # THE PIN IS SHARED, in `.github/ci/remote-snapshot-pin`, and that is the point: the sheet and
-      # the board must name the SAME androidx.dev build or every difference between them is
-      # unattributable. Two literals would be two things to remember and one commit to get wrong,
-      # and nothing would catch the drift.
-      #
-      # NOTHING HERE SELECTS THE LANE — `settings.gradle.kts` and `remote-catalog/build.gradle.kts`
-      # read that file themselves, so every Gradle invocation in the job is already on it, the
-      # reusable workflow's own render step included. This step used to append `remoteSnapshot=` to
-      # `gradle.properties` on the belief that it ran first. It does not: `design-map-command` is
-      # documented as running before every step that READS the map, which is after the render. So
-      # the append reached the map and not the stickers — run #164 rendered 392 previews on the
-      # released lane and then projected a 419-preview map, leaving eleven cells declared with no
-      # sticker behind them while every job stayed green.
-      #
-      # `test -s` stays: it is the fail-closed guard. An empty or missing pin is now the released
-      # lane everywhere rather than an error, so without this the job would publish that lane's
-      # sheet under a board built for the other one, which is the drift the shared pin exists to
-      # prevent.
-      #
-      # AND THE PAGE JOIN, for the same reason one step further on. `design/pages/pages.json` is
-      # committed carrying a node -> code join, and that join is a projection of
-      # `design-map.json` — which means the committed one names `:catalog` previews and nothing
-      # else. The publisher drops a link whose code this system does not have and re-derives what
-      # it can from the component-level `reference`s alone, so this sheet published 22 linked
-      # nodes out of 1845 while its own map resolves 228: `/remote-m3/pages/buttons` drew 14
-      # links against the Wear sheet's 244, every kit CELL on it reading as "no code behind
-      # this". Relinking here — a pure function of the cache and the map just projected, no token
-      # and no network — is what makes the published page the Remote sheet's own answer rather
-      # than the leftovers of somebody else's.
-      design-map-command: >
-        test -s .github/ci/remote-snapshot-pin &&
-        ./gradlew :remote-catalog:composePreviewDiscover --stacktrace &&
-        scripts/design-map.sh remote-catalog &&
-        node scripts/import-figma-pages.mjs --relink
-      # Same CLI/plugin lockstep as the job above: the pin is `composePreviewPlugin` in
-      # libs.versions.toml, and this catalog is the one that would notice a skew first — its
-      # connector and wear-preview-runtime dependencies ship from the same release.
-      cli-version: catalog
-      catalog-key: composePreviewPlugin
-      # An ANDROID module: every sticker is a RemoteDocument rasterised by the player under
-      # Robolectric, so this renders on the same lane the Wear catalog does rather than Skiko.
-      desktop-render: false
-      # A module-level live bundle, so a serve host carrying the Android sidecar can re-render any
-      # sticker on demand — which is what makes the viewer's Remote Compose knobs (`rc.<name>=`) do
-      # something. No per-preview split: it multiplied the delivery branch by the preview count on
-      # every publish without adding a lane the serve host actually uses, and `split-mode` only
-      # modifies the split. See the note on the caller above.
-      publish-live-bundle: true
-      ui-builder-runtime-task: ':remote-catalog-ui-builder-renderer:rendererArchive'
-      ui-builder-runtime-archive: 'remote-catalog-ui-builder-renderer/build/distributions/remote-m3-ui-builder-renderer.zip'
-      ui-builder-runtime-source-ref: 'df0b4a0eae2a24abc5a6c0a96bd072d0e1deb579'
-      defer-figma-svg: true
-      split-per-preview: false
-      # The CMP/Wasm player lane: the same browser environment visitors use, scoring every document
-      # this sheet publishes. It is a GATE, not enrichment — a document it cannot draw fails the
-      # render rather than dropping a column — which is why it carries an expiring allowlist rather
-      # than being silently tolerant.
-      rc-cmp-wasm-lane: true
-      rc-cmp-wasm-allowlist: .github/ci/remote-m3-cmp-wasm-allowlist.json
-      # This is a strict maximum across ~650 browser navigations, so the reusable workflow's 5 s
-      # default turns one hosted-runner scheduling pause into a failed catalog publish. Three
-      # consecutive runs named three different rows at 8.4-9.6 s while every document rendered;
-      # keep the gate, but use the same 10 s ceiling as the cold first frame for this large corpus.
-      rc-cmp-wasm-max-warm-first-frame-ms: 10000
-
-      # The other three players. These were NOT on: the line above used to claim the embedded
-      # (Robolectric) and cmp-jvm lanes were "on by default in the reusable workflow and need no
-      # input here", and neither half was true — both inputs default to false, and the harnesses
-      # they run had moved to yschimke/rc-players, where the workflow was not looking. So this sheet
-      # published a three-column wall (baked, JS, cmp-wasm) against a page promising every Remote
-      # Compose player, which is what compose-ai-tools#4998 asked about.
-      #
-      # `rc-embedded-lane` is BOTH Android columns — the vendored/local-patch RcPlayer and the one
-      # AndroidX publishes — and `rc-embedded-jvm-lane` is the Compose Desktop / Skiko player. Three
-      # columns from two inputs. Unlike the Wasm lane above these are enrichment, not a gate: a
-      # harness that cannot run drops its column and the sheet still publishes, so switching them on
-      # cannot cost this catalog a delivery.
-      rc-embedded-lane: true
-      rc-embedded-jvm-lane: true
-      # PUBLISH THE DOCUMENTS THEMSELVES, as text, beside the pixels.
-      #
-      # This sheet's delivery branch carries baked PNGs and — inside the bundle — the `.rc`
-      # documents that drew them, and BOTH are unreadable to a review. The PNG shows that a sticker
-      # moved; the bytes show nothing at all. So the question this repo asks constantly of its
-      # Remote rendition — did the component change, or did the player draw it differently — has
-      # had no answer on the branch, only in a rendered comparison that cannot separate a moved
-      # padding from a different antialiasing pass.
-      #
-      # `documents/<id>.rc.json` is the operation stream as text, which `git diff` on the delivery
-      # branch reads directly. It matters more here than it would on `:catalog`, and only this sheet
-      # can use it at all: `:catalog` draws with Wear Compose and ships no `.rc`, so the input is a
-      # no-op there by construction rather than by choice.
-      #
-      # Enrichment, not a gate — unlike `rc-cmp-wasm-lane` above. A document the CLI cannot inflate
-      # drops its file and names itself; the sheet still publishes.
-      rc-document-json: true
-      commit-user-name: Yuri Schimke
-      commit-user-email: yuri@schimke.ee
-      # 90 rather than 60 since the three player lanes above went on. Measured on run 164, the last
-      # publish before them: the generate job took 20m13s of the 60, of which the rc-compare step
-      # was 10m59s with only the Wasm lane running. The three added lanes each build and run a
-      # Gradle test in a cold rc-players checkout, so the headroom was real but not obviously
-      # enough — and the failure mode is the one thing the lanes' own fail-soft cannot cover: a JOB
-      # timeout kills the publish, where a harness that dies only drops its column.
-      #
-      # 120 rather than 90 since run 440 (#660): with all four player lanes on, the job ran its
-      # parity step for ~24 minutes, stalled, and was cancelled at 95 minutes, losing the publish.
-      # The next run (442, #661) took 49 minutes end to end, so 90 was not the steady state; the
-      # headroom is for the slow tail, not a new baseline.
-      timeout-minutes: 120
-      render-timeout: 1800
-      render-shards: 1
-      # The reference cache the job above builds, reused here rather than refetched. It is keyed by
-      # KIT NODE (`<fileKey>/<nodeId>`), not by system, and both sheets reproduce the same kit — so
-      # every node this one references was already extracted for the Wear sheet. Measured, not
-      # assumed: all 28 distinct nodes `remote-catalog`'s components name are present on the
-      # branch, a 100% hit rate, so this run costs zero structure calls.
-      #
-      # A miss would not be an error — it falls through to the API, costing requests rather than
-      # coverage — which is why this is worth setting even as the two sheets' reference sets drift.
-      reference-cache-branch: design-parity/reference
-
-      # STILL NO `reference-backdrop`, but the reason this carried was wrong, so it is worth
-      # restating. It claimed "this sheet maps to no kit nodes at all (`referenceKits: []`)", and
-      # that has never been true in this repo: the spec has named the same kit as the Wear sheet
-      # since #117, the commit that wrote the comment. The module moved here from
-      # compose-ai-tools' `:samples:design-catalog-remote-m3` and the note came with it.
-      #
-      # It is still omitted, now for a reason that holds: the backdrop exists to score
-      # specimen-board cells that arrive on transparency, and whether any of the 19 components this
-      # sheet references are those cells has not been established. Adding it blind would change
-      # every published reference to chase a problem this sheet may not have. Left for evidence.
-      allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
-    secrets:
-      artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
-      # The reference rasteriser. Without it the `figma:` entries in the projected design map are
-      # "skipped with a warning and the rest of the manifest still publishes" — which is exactly
-      # the state this sheet has been in: `catalog.json` declares a `reference` on 19 of its 45
-      # components, the delivery branch carries no `references/` directory, and the preview
-      # server's board reads 0 of 45 mapped while the Wear sheet reads 50 of 69. The cache above
-      # does not substitute for this: it supplies node STRUCTURE, and the reusable workflow says in
-      # as many words that "references published are unchanged" with or without it.
-      figma_token: ${{ secrets.FIGMA_TOKEN }}
-
   samples:
     name: wear-m3-samples
     needs: changes
@@ -545,12 +323,12 @@ jobs:
 
       # NO DESIGN REFERENCES, AND THAT IS THE POINT OF THIS COMMAND.
       #
-      # The other two callers pass `design-map-command` to project their OWN map; this one passes it
+      # The caller above passes `design-map-command` to project its OWN map; this one passes it
       # to project NO map, and it is not optional for that. Leaving the input empty means "the
       # committed map is used as-is" — and the committed map at the repo root belongs to `:catalog`.
       # This sheet would then publish `:catalog`'s Figma mappings under its own name, every handle
       # naming a `catalog/src/...` file this module does not contain: the shape of
-      # compose-ai-tools#4841, which is what taught the two callers above to pass this at all.
+      # compose-ai-tools#4841, which is what taught the caller above to pass this at all.
       #
       # An empty map is the truthful answer rather than a placeholder. These are AndroidX's sample
       # call sites, not a reproduction of a published kit, so there is no node for any of them to be
@@ -565,7 +343,7 @@ jobs:
       # `docs/design/ANDROIDX_SAMPLES.md` for why an imported project's inventory cannot be
       # annotated.
       design-map-command: printf '{"components":[]}\n' > design-map.json
-      # Same CLI/plugin lockstep as both callers above: the pin is `composePreviewPlugin` in
+      # Same CLI/plugin lockstep as the caller above: the pin is `composePreviewPlugin` in
       # libs.versions.toml, and a CLI/plugin skew breaks preview discovery outright.
       cli-version: catalog
       catalog-key: composePreviewPlugin
@@ -596,7 +374,7 @@ jobs:
       # registry still publishes no executable payload. This is the narrower grant — one pinned
       # upstream, imported into this repository under review — and it should stay one.
       publish-live-bundle: true
-      # No per-preview split, matching both callers above: it writes an addressable copy of every
+      # No per-preview split, matching the caller above: it writes an addressable copy of every
       # preview onto an append-only branch on every publish, and 149 of them would grow this
       # repository's checkout for a lane nothing reads.
       split-per-preview: false
@@ -609,8 +387,8 @@ jobs:
       # saves. Revisit if the corpus grows past a few thousand.
       render-shards: 1
       # NO `preview-annotations`. The build-free spec pre-flight scans sources for `@Preview` and
-      # needs telling about multipreviews declared in another module — which is why both callers
-      # above are Wear catalogs that would need it. This module has none: all 149 previews are the
+      # needs telling about multipreviews declared in another module — which is why the caller
+      # above, a Wear catalog, would need it. This module has none: all 149 previews are the
       # plain `androidx.compose.ui.tooling.preview.Preview`, 34 carried by upstream's own sources
       # and 115 by the generated wrappers, verified against the vendored tree rather than assumed.
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}

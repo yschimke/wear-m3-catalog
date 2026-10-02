@@ -77,9 +77,9 @@ jobs:
           # and OTHER workflows. That last one is what #489 was raised about: #488 changed one file,
           # `.github/workflows/design-artifacts.yml`, and started an assemble, a discovery and a
           # render that no line of it could reach. A sibling workflow is not an input to any check
-          # here; `.github/actions/**`, `.github/scripts/**` and `.github/ci/**` ARE (the setup
-          # action, `test-agent-gradle.sh`, the snapshot pin Gradle reads), so they are deliberately
-          # absent from this list and keep the full run.
+          # here; `.github/actions/**` and `.github/scripts/**` ARE (the setup action,
+          # `test-agent-gradle.sh`), so they are deliberately absent from this list and keep the
+          # full run.
           if grep -qvE '^(LICENSE|.*\.md|docs/.*|\.github/workflows/[^/]+\.yml)$' <<<"$files"; then
             echo 'inert=false' >> "$GITHUB_OUTPUT"
           else
@@ -107,41 +107,22 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
-      - name: Published Remote Compose changes bump the version
-        if: needs.changes.outputs.inert != 'true' && github.event_name == 'pull_request'
-        run: .github/scripts/check-remote-compose-port-revision.sh HEAD^1
-
       # `:catalog` is a Kotlin Multiplatform module, so it has no `debug` application variant and
       # no `assembleDebug`: the KMP-Android plugin names its outputs after the target and
       # compilation (`assembleAndroidMain`). `assemble` covers that AND the `desktop` target, which
       # is the point of assembling it at all — a shared body that reaches for something only
-      # Android has must fail here rather than in the renderer. `:remote-catalog` is still an
-      # application and keeps `assembleDebug`.
+      # Android has must fail here rather than in the renderer.
       - name: Assemble
         if: needs.changes.outputs.inert != 'true'
-        run: ./gradlew :catalog:assemble :remote-catalog:assembleDebug --stacktrace
+        run: ./gradlew :catalog:assemble --stacktrace
 
       # Discovery is the real contract for a design catalog: it is what turns the
       # `@CatalogComponent` / `@CatalogVariant` / `@OverrideVariant` annotations into the published
       # inventory. A component that compiles but is not discovered would silently vanish from the
       # sticker sheet, so run it on every change.
-      # `:remote-catalog` is discovered alongside it for the same reason. Its inventory is still
-      # spec-driven rather than annotation-driven, so discovery is not yet the whole contract there
-      # — but it is what proves every `@Preview` the spec names still exists and still compiles
-      # against the alpha Remote Compose line, which is the half that moves under this repo.
-      #
-      # `-PremoteSnapshot=` — an EMPTY property — forces the RELEASED lane. It is load-bearing:
-      # `.github/ci/remote-snapshot-pin` turns the snapshot lane on by default for every Gradle
-      # invocation (see AGENTS.md -> Dependencies), and the records checked below (`design-map.json`,
-      # `kit-cells.json`, `docs/KIT_COVERAGE.md`) are committed and describe the released line. Let
-      # the default through and this manifest holds snapshot-only components, both `--check`s report
-      # stale against a sheet nobody committed, and regenerating at that point would commit those
-      # components into a record CI validates on the released lane.
       - name: Discover previews
         if: needs.changes.outputs.inert != 'true'
-        run: >-
-          ./gradlew :catalog:composePreviewDiscover :remote-catalog:composePreviewDiscover
-          -PremoteSnapshot= --stacktrace
+        run: ./gradlew :catalog:composePreviewDiscover --stacktrace
 
       # design-map.json is an OUTPUT — projected from the annotations that were just discovered —
       # and it is committed, so it can go stale the moment a component is added or a reference is
@@ -168,13 +149,12 @@ jobs:
         run: scripts/design-map.sh --check
 
       # kit-cells.json is the same argument one level down. It records how much of each published
-      # kit set each sheet actually DRAWS — the question `kit-sets.json` does not ask, which is how
-      # `:remote-catalog` came to draw 15 of the `Card` set's 45 cells with every test green
-      # (#158). It is projected from both modules' resolved maps, so this is the job that holds its
-      # inputs: both manifests were just discovered above.
+      # kit set this sheet actually DRAWS — the question `kit-sets.json` does not ask, which is how
+      # the Remote sheet (now yschimke/remote-m3-catalog) came to draw 15 of the `Card` set's 45
+      # cells with every test green (#158). It is projected from the resolved map, so this is the
+      # job that holds its input: the manifest was just discovered above.
       #
-      # `--check` regenerates into a temp dir and diffs; it never writes the working tree, and it
-      # never touches the committed map that belongs to `:catalog`.
+      # `--check` regenerates into a temp dir and diffs; it never writes the working tree.
       - name: kit-cells.json is up to date
         if: needs.changes.outputs.inert != 'true'
         run: scripts/kit-cells.sh --check
@@ -194,38 +174,11 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         run: node scripts/import-figma-pages.mjs --check
 
-      # The join above is `:catalog`'s, because the map it is projected from is — one design map
-      # per checkout, and the committed one belongs to the Wear sheet. The Remote sheet's own join
-      # is projected at publish time (`design-artifacts.yml`, `design-map-command`), so there is no
-      # committed file here to reconcile; what CAN be checked without a second checkout is that
-      # relinking against the Remote map reaches the whole of it. It did not, and nothing said so:
-      # the published `/remote-m3/pages/` surface linked 22 of 1845 nodes — the component-level
-      # references and nothing below them — while that sheet's map resolves 228 (#316).
-      - name: The Remote sheet's page join reaches its whole map
-        if: needs.changes.outputs.inert != 'true'
-        run: |
-          set -euo pipefail
-          work="$(mktemp -d)"
-          scripts/design-map.sh --out-dir "$work" remote-catalog
-          node scripts/import-figma-pages.mjs \
-            --relink --design-map "$work/design-map.json" --require-full-join
-          # `--relink` rewrote the committed cache, which belongs to `:catalog`. Put it back, so
-          # the rest of this job reads the file this repository actually holds.
-          git checkout -- design/pages/pages.json
-
-      # The two sheets pair component by component through `parallel`, and until now nothing held
-      # the declaration to what AGENTS.md says it means — one taxonomy, the same id, the same kit
-      # node. Every way of breaking it is silent and a rename is when it breaks, which is why the
-      # gate lives in the job that has just discovered both manifests.
-      - name: The two sheets still pair
-        if: needs.changes.outputs.inert != 'true'
-        run: scripts/parallel-map.sh
-
       # `docs/KIT_COVERAGE.md` reads the two records gated directly above and nothing else, so it
       # is a projection of files this job has already proved fresh — which is what makes gating it
-      # honest rather than flaky. Its sibling `docs/COMPONENT_MAP.md` deliberately has no gate: that
-      # one fetches the delivery branches for render paths, so a difference there can mean "a branch
-      # republished", not "the doc is stale", and a check would fail for something no PR did.
+      # honest rather than flaky. Its sibling `docs/COMPONENT_MAP.md`, which pairs this sheet with
+      # the Remote one, lives in yschimke/remote-m3-catalog with the `parallel` declarations and the
+      # pairing gate (`scripts/parallel-map.sh`) it is built from.
       - name: docs/KIT_COVERAGE.md is up to date
         if: needs.changes.outputs.inert != 'true'
         run: node scripts/kit-coverage.mjs --check
@@ -273,7 +226,7 @@ jobs:
       # never served is somebody's typo and only warns. Without it a single badly edited issue would
       # redden every later PR with the fix nowhere in its diff.
       #
-      # `--depth=1` of two branch tips, for one file each: the delivery branches carry thousands of
+      # `--depth=1` of the branch tip, for one file: the delivery branch carries thousands of
       # renders and none of them are wanted here.
       - name: Fetch the served baselines
         if: needs.changes.outputs.inert != 'true'
@@ -283,10 +236,8 @@ jobs:
           # repository may still contain an in-flight, legacy branch, which is neither authoritative
           # nor guaranteed to carry preview-index.json.
           artifact_repo="https://github.com/yschimke/wear-m3-catalog-out.git"
-          for system in wear-m3-catalog remote-m3; do
-            git fetch --depth=1 "$artifact_repo" "design-artifacts/$system"
-            git show FETCH_HEAD:preview-index.json > "$RUNNER_TEMP/$system-index.json"
-          done
+          git fetch --depth=1 "$artifact_repo" design-artifacts/wear-m3-catalog
+          git show FETCH_HEAD:preview-index.json > "$RUNNER_TEMP/wear-m3-catalog-index.json"
 
       # `issues: read` is granted on this job alone — the workflow's default is `contents: read`,
       # and every other step here reads the tree.
@@ -299,17 +250,13 @@ jobs:
           node compose-ai-tools/scripts/design-artifacts/check-parity-locators.mjs \
             --repo ${{ github.repository }} \
             --manifest "wear-m3-catalog=catalog/build/compose-previews/previews.json" \
-            --manifest "remote-m3=remote-catalog/build/compose-previews/previews.json" \
-            --published "wear-m3-catalog=$RUNNER_TEMP/wear-m3-catalog-index.json" \
-            --published "remote-m3=$RUNNER_TEMP/remote-m3-index.json"
+            --published "wear-m3-catalog=$RUNNER_TEMP/wear-m3-catalog-index.json"
 
       - uses: actions/upload-artifact@v7.0.1
         if: always() && needs.changes.outputs.inert != 'true'
         with:
           name: previews-manifest
-          path: |
-            catalog/build/compose-previews/previews.json
-            remote-catalog/build/compose-previews/previews.json
+          path: catalog/build/compose-previews/previews.json
           if-no-files-found: warn
 
   test:
@@ -381,15 +328,6 @@ jobs:
           node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
             --spec catalog.spec.json --module-dir catalog
 
-      # The Remote sheet's spec still carries its inventory as `groups`, so for THAT module this is
-      # not a pre-flight over annotations but the check on the inventory itself: every `preview` and
-      # `motionPreview` it names has to resolve to a real `@Preview`.
-      - name: validate-catalog-spec (remote)
-        if: needs.changes.outputs.inert != 'true'
-        run: |
-          node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
-            --spec remote-catalog/catalog.spec.json --module-dir remote-catalog
-
       # The samples sheet's spec is GENERATED, and `samples-spec.mjs --check` above already proves
       # it matches the generator. That is a different question from whether it is CORRECT: the
       # generator reads the vendored tree for renderable samples, so a spec entry naming a preview
@@ -425,12 +363,6 @@ jobs:
       # reconciled in the `map` job above, so a bug here would move every number in it at once and
       # the diff would look like a change to the catalog rather than to the counter.
       - run: node --test scripts/kit-cells.test.mjs
-        if: needs.changes.outputs.inert != 'true'
-
-      # What counts as a broken pairing between the two sheets. The gate it backs runs in the `build`
-      # job (it needs both discovered manifests); its pure half is fixture-driven and belongs here
-      # beside the other script tests.
-      - run: node --test scripts/parallel-map.test.mjs
         if: needs.changes.outputs.inert != 'true'
 
       # The PR-body repair, which `pr-body-syntax.yml` runs UNATTENDED against real descriptions.
@@ -491,11 +423,3 @@ jobs:
           set -euo pipefail
           node scripts/samples-previews.mjs --check
           node scripts/samples-spec.mjs --check
-
-      # The snapshot probe's decision logic — what makes `remote-snapshot-probe.yml` ping a human
-      # or stay quiet. Pure and stdlib-only, so it runs beside the resolver test rather than
-      # needing the probe's own Pillow/Android environment. A watchdog whose comparison silently
-      # stopped working would report "nothing changed" forever, which is the one failure mode it
-      # cannot have.
-      - run: python3 scripts/test_remote_snapshot_probe.py
-        if: needs.changes.outputs.inert != 'true'

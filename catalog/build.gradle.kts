@@ -42,7 +42,7 @@
 plugins {
   // KGP-multiplatform, the KMP-Android plugin and `kotlin.plugin.compose` all ship inside the same
   // buildscript-classpath bundle AGP 9 brings in for any module already applying an AGP plugin
-  // elsewhere in the build (`:remote-catalog` does). Applying them via `alias(libs.plugins…)`
+  // elsewhere in the build (`:samples-catalog` does). Applying them via `alias(libs.plugins…)`
   // errors with "already on the classpath with an unknown version, so compatibility cannot be
   // checked" — so they go by id, and Gradle resolves the unknown-version entry from that bundle.
   // Same treatment as compose-ai-tools' own `:samples:cmp-shared`.
@@ -257,8 +257,9 @@ kotlin {
 }
 
 // `-PwriteGolden=true` rewrites the checked-in generated screens from the UI builder's exporter
-// instead of asserting against them — the same shape as `:remote-catalog`'s widget round trip and
-// compose-preview-server's `-PuiBuilderGoldens=write`. A golden nobody can regenerate is one
+// instead of asserting against them — the same shape as the Remote sheet's widget round trip
+// (yschimke/remote-m3-catalog) and compose-preview-server's `-PuiBuilderGoldens=write`. A golden
+// nobody can regenerate is one
 // people hand-edit, and a hand-edited generated file is a claim about a generator that stopped
 // being true.
 tasks.withType<Test>().configureEach {
@@ -288,10 +289,10 @@ tasks
 // would silently stop covering a new configuration, and a render against the port would look
 // exactly like a render against AndroidX until someone compared pixels.
 // Read once, outside the `configureEach`: the version-catalog accessor is not reachable from the
-// configuration-container scope below. `asProvider()` because `wear-compose-remote` makes
-// `wear.compose` an accessor GROUP rather than a leaf — reading it without that is an unresolved
-// reference whose message names neither the catalog nor the sibling key that caused it.
-val wearComposeVersion = libs.versions.wear.compose.asProvider().get()
+// configuration-container scope below. (It needed `asProvider()` while a `wear-compose-remote` key
+// made `wear.compose` an accessor GROUP; that key left with the Remote sheet's split into
+// yschimke/remote-m3-catalog. A sibling `wear-compose-*` key would need it again.)
+val wearComposeVersion = libs.versions.wear.compose.get()
 
 configurations
   .matching { it.name.startsWith("android") }

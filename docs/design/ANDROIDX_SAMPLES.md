@@ -5,9 +5,11 @@ A strategy, not an implementation. It answers four questions:
 1. where the sample **source** comes from, given that AndroidX does not publish it;
 2. which **version** to import — which, on the Wear side, turns out not to be a question at all;
 3. how the `@sample` **KDoc** produces a sample → component mapping without anyone hand-writing one;
-4. how the result **links** to the three catalogs that already exist — `wear-m3-catalog` and
-   `remote-m3` here, `m3-catalog` in [`yschimke/m3-catalog`](https://github.com/yschimke/m3-catalog) —
-   and how it is served on preview.coo.ee.
+4. how the result **links** to the three catalogs that already exist — `wear-m3-catalog` here,
+   `remote-m3` (published from this repo when this was written, since split into
+   [`yschimke/remote-m3-catalog`](https://github.com/yschimke/remote-m3-catalog)) and `m3-catalog` in
+   [`yschimke/m3-catalog`](https://github.com/yschimke/m3-catalog) — and how it is served on
+   preview.coo.ee.
 
 The companion copy in `yschimke/m3-catalog` covers the phone half. The two documents are deliberately
 near-identical; where they differ it is called out.
@@ -26,10 +28,12 @@ importing; it links *into* `wear-m3-samples` instead. That case is not an aftert
 forces the linking design below to be a list rather than another pairwise handle, because `remote-m3`
 has already spent its single `compareWith` on `:catalog`.
 
-Two catalogs from one repository is well-trodden ground here: this repo already publishes
+Two catalogs from one repository was well-trodden ground here: this repo published
 `wear-m3-catalog` and `remote-m3` from one workflow, with a `changes` job so a push that moves one
-does not spend a runner re-rendering the other. A third catalog is a third job and a third output on
-that job, not a new pipeline.
+does not spend a runner re-rendering the other. The samples catalog was a third job and a third output
+on that job, not a new pipeline. (`remote-m3` has since moved to
+[`yschimke/remote-m3-catalog`](https://github.com/yschimke/remote-m3-catalog); the workflow now
+publishes `wear-m3-catalog` and `wear-m3-samples`.)
 
 ## What is built
 
@@ -147,7 +151,9 @@ is a cheap version fingerprint, and **CMP 1.12.0-alpha03's set matches AndroidX 
 nothing, is derivable from the artifacts rather than guessed, and is re-derivable automatically on
 every bump; the `androidMain` alternative would buy ~22 mostly-renamed samples in exchange for that
 repo's live-render lane, a renderer confound in the very comparison the link exists to draw, and a
-second Compose line in a repository that split `:remote-catalog` out precisely to avoid one. The full
+second Compose line in a repository that split the Remote sheet out (first into its own module, now
+into [`yschimke/remote-m3-catalog`](https://github.com/yschimke/remote-m3-catalog)) precisely to
+avoid one. The full
 table and the reproduction commands are in that repo's copy.
 
 **The Wear consequence of all this is just: pin to `wear-compose`, and keep `:samples-catalog` an
@@ -290,8 +296,9 @@ Expect the inference to be weak here, because it walks for a *project-local* `@C
 mapping config is a signal of a missing annotation. The spec's existing `component` override works as
 the interim bridge and needs no upstream change to get started.
 
-`:remote-catalog` gets the join for free wherever it already names its `:catalog` counterpart through
-`parallel` — a Remote Compose sticker reaches the samples for the Wear component it reimplements by
+The Remote sheet (now in
+[`yschimke/remote-m3-catalog`](https://github.com/yschimke/remote-m3-catalog)) gets the join for free
+wherever it already names its `:catalog` counterpart through `parallel` — a Remote Compose sticker reaches the samples for the Wear component it reimplements by
 composing the two hops, without its own `api` handles.
 
 ## Linking, in three layers
@@ -300,12 +307,12 @@ composing the two hops, without its own `api` handles.
 catalog component takes the *same* `componentId` as `:catalog`'s, with each individual sample folded
 in as a `@CatalogVariant`. Sample-only material takes its own ids grouped by source file. Every
 cross-link is then an identity mapping, and the samples catalog is browsable in the taxonomy readers
-already know — including `:remote-catalog`'s existing `parallel` handles, which are written against
+already know — including the Remote sheet's existing `parallel` handles, which are written against
 those very ids.
 
 **2. `compareWith` + `parallel` — already built, use it as-is.** `wear-m3-samples` declares
 `compareWith: { system: "wear-m3-catalog", spec: "../catalog.spec.json" }` — an in-repo sibling, the
-same shape `remote-catalog/catalog.spec.json` already uses — and each component carries `parallel`
+same shape the Remote sheet's spec used while it lived here — and each component carries `parallel`
 naming its counterpart. `ServeParallelPairing` ranks counterparts by kit node → variant coordinates →
 canonical fallback; samples publish no kit node, so pairing lands on `CANONICAL`, which is exactly the
 right reading: the kit cell beside how you call it. The server already states the basis rather than
