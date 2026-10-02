@@ -391,12 +391,10 @@ annotation class RemoteHorizontalPageKitCells
  * `Modifier.graphicsLayer { scaleX = -1f }` on the Wear one. So the cell draws the kit's node
  * rather than a relocation of its sibling, and the two sheets spell it the same way.
  *
- * **On today's rail the mirror is pixel-identical to its absence, and that is stated rather than
- * hidden.** `RemoteVerticalPageIndicator` draws a straight, symmetric column of dots — the same
- * measured finding the horizontal sticker records, that this component has no curvature and no edge
- * affinity — so flipping it about its own centre moves nothing. It is written because the flip is
- * what makes the cell honest the day the rail gains a side, and because the Wear column, whose rail
- * IS curved, needs it today.
+ * **The mirror is what turns the curve to face the other bezel.** `RemoteVerticalPageIndicator`
+ * bows its rail towards the right-hand edge, as the Wear one does, so a rail merely moved to the
+ * left would bow away from the bezel it sits against. Flipped, it bows into it, which is the kit's
+ * `Vertical-Left` node; measured on the published `ideal__left__192dp` render.
  */
 @OverrideVariant(name = "two-pages", ints = ["pages=2"], kitAxis = "Number", kitValue = "2")
 @OverrideVariant(name = "three-pages", ints = ["pages=3"], kitAxis = "Number", kitValue = "3")
@@ -533,23 +531,25 @@ fun HorizontalPageIndicatorRemote() = RemoteSticker {
   // `wear-m3-catalog`'s `PageIndicator/Horizontal` draws (`pages = 4`, `initialPage = 0`). Five
   // pages with the third selected put a different picture under the same node — and a middle
   // selection is the one arrangement in which the selected dot is hardest to pick out.
-  // MEASURED, not assumed: the SIZE this is given changes nothing. The comment here used to say
-  // the indicator curves against the bezel and that an inset box would move the curve inward — it
-  // does not curve at all. Handed the whole display it draws a straight, CONTENT-sized rail of
-  // 36×8dp and centres it, which is 0.2% of a cell the kit publishes as the round face whole with
-  // the rail struck against the edge
-  // ([#149](https://github.com/yschimke/wear-m3-catalog/issues/149)).
-  // `RemoteHorizontalPageIndicator` has no curvature and no edge affinity; the Wear sibling's
-  // `HorizontalPageIndicator` has both.
+  // The rail is a CONTENT-sized arc, bowed to follow the bezel the way the Wear sibling's is, so
+  // the sticker places it: bottom-centre of the display, where the kit's sits. It used to draw a
+  // straight rail floating mid-canvas, which is what
+  // [#149](https://github.com/yschimke/wear-m3-catalog/issues/149) recorded; `remote-material3` now
+  // curves it, and the 192dp render matches the kit's shape.
   //
-  // So the ALIGNMENT is what this sticker can supply, and it does: the rail sits bottom-centre of
-  // the display, where the kit's sits, which is as close as the API goes. The remaining gap is the
-  // curve, and it stays VISIBLE rather than hidden — a straight rail against a round bezel is the
-  // divergence, where a rail floating in the middle said nothing about it either way.
+  // The colours are Wear's `PageIndicatorDefaults`, named here because `remote-material3`'s
+  // defaults are not them — see [KitPageIndicatorColors].
   RemoteBox(
     modifier = RemoteModifier.fillMaxSize(),
     contentAlignment = RemoteAlignment.BottomCenter,
-    content = { RemoteHorizontalPageIndicator(state = rememberKitPageIndicatorState()) },
+    content = {
+      val colors = KitPageIndicatorColors.current()
+      RemoteHorizontalPageIndicator(
+        state = rememberKitPageIndicatorState(),
+        selectedColor = colors.selected,
+        unselectedColor = colors.unselected,
+      )
+    },
   )
 }
 
@@ -570,9 +570,8 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
   // fifth selected exercised the scrolling-dot window, which is a real behaviour — but it is a
   // behaviour neither the kit cell nor the parallel draws, so it was reported as a divergence on
   // every render rather than shown as itself.
-  // Against the right bezel, for the reason spelled out on the horizontal one: the component draws
-  // a straight content-sized rail wherever it is put and at whatever size, so the sticker supplies
-  // the position the kit cell is about and leaves the missing curvature on show.
+  // Against the right bezel, for the reason spelled out on the horizontal one: the rail is
+  // content-sized, so the sticker supplies the position the kit cell is about. Same colours too.
   //
   // The kit's `Position` axis, as the side plus the mirror that makes it the kit's node rather than
   // this one moved — see [RemoteVerticalPageKitCells] for why both halves are needed and for what
@@ -582,9 +581,12 @@ fun VerticalPageIndicatorRemote() = RemoteSticker {
     modifier = RemoteModifier.fillMaxSize(),
     contentAlignment = if (left) RemoteAlignment.CenterStart else RemoteAlignment.CenterEnd,
     content = {
+      val colors = KitPageIndicatorColors.current()
       RemoteVerticalPageIndicator(
         state = rememberKitPageIndicatorState(),
         modifier = if (left) RemoteModifier.graphicsLayer { scaleX = (-1f).rf } else RemoteModifier,
+        selectedColor = colors.selected,
+        unselectedColor = colors.unselected,
       )
     },
   )
