@@ -171,23 +171,28 @@ private fun CanvasNodeScope.WearScreenBody(
         LocalScreenContentPadding provides padding,
       ) {
         // The edge button is the end of the scroll, so on the extent it follows the last row at
-        // its full, expanded size — the editor's own canvas draws it the same way. It sits ON the
-        // bottom cap, as `ScreenScaffold` puts it: the button's shape is the curve, so the list's
-        // bottom padding does not stack under it, and a list shorter than a screenful leaves the
-        // gap above the button rather than below it. Left out, a design's edge button was never
-        // drawn on the extent at all, only as a sliver in the device previews.
-        val hasEdgeButton = !canvas.node.slots["edgeButton"].isNullOrEmpty()
-        Column(
-          Modifier.fillMaxWidth()
-            .heightIn(min = screen)
-            .padding(if (hasEdgeButton) padding.withoutBottom() else padding)
-        ) {
-          canvas.Slot("content")
-          if (hasEdgeButton) {
+        // its full, expanded size. Placed as `ScreenScaffold` places it: at the screen's full
+        // width, since its shape is cut from the width it is given (the content padding is the
+        // list's alone), on the bottom cap with no list padding under it, and offset by the
+        // spacing less the button's own minimum, which it already pads itself by. A list shorter
+        // than a screenful leaves the gap above the button rather than below it.
+        if (canvas.node.slots["edgeButton"].isNullOrEmpty()) {
+          Column(Modifier.fillMaxWidth().padding(padding)) { canvas.Slot("content") }
+        } else {
+          Column(Modifier.fillMaxWidth().heightIn(min = screen)) {
+            Column(Modifier.fillMaxWidth().padding(padding.withoutBottom())) {
+              canvas.Slot("content")
+            }
             Spacer(Modifier.weight(1f))
             Box(
-              Modifier.align(Alignment.CenterHorizontally)
-                .padding(top = ScreenScaffoldDefaults.EdgeButtonSpacing)
+              Modifier.fillMaxWidth()
+                .padding(
+                  top =
+                    (ScreenScaffoldDefaults.EdgeButtonSpacing -
+                        ScreenScaffoldDefaults.EdgeButtonMinSpacing)
+                      .coerceAtLeast(0.dp)
+                ),
+              contentAlignment = Alignment.BottomCenter,
             ) {
               canvas.Slot("edgeButton")
             }
