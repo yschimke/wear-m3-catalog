@@ -25,6 +25,7 @@ import androidx.wear.compose.material3.FilledIconButton
 import androidx.wear.compose.material3.FilledTonalIconButton
 import androidx.wear.compose.material3.HorizontalPageIndicator
 import androidx.wear.compose.material3.IconButton
+import androidx.wear.compose.material3.IconButtonDefaults
 import androidx.wear.compose.material3.LinearProgressIndicator
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ListSubHeader
@@ -199,33 +200,49 @@ val wearCanvasAdapters = canvasAdapterRegistry {
   register("wear-m3/icon-button") {
     val canvas = this
     val content: @Composable BoxScope.() -> Unit = { canvas.Slot("content") }
+    val enabled = boolean("enabled", true)
+    // The design's colours, as the editor's canvas draws them; unset keeps the variant's own.
+    val container = resolveWearColor(string("containerColor"))
+    val tint = resolveWearColor(string("contentColor"))
     when (string("variant")) {
       "filled" ->
         FilledIconButton(
           onClick = {},
           modifier = modifier,
-          enabled = boolean("enabled", true),
+          enabled = enabled,
+          colors = IconButtonDefaults.filledIconButtonColors(container, tint),
           content = content,
         )
       "filled-tonal" ->
         FilledTonalIconButton(
           onClick = {},
           modifier = modifier,
-          enabled = boolean("enabled", true),
+          enabled = enabled,
+          colors = IconButtonDefaults.filledTonalIconButtonColors(container, tint),
+          content = content,
+        )
+      "filled-variant" ->
+        FilledIconButton(
+          onClick = {},
+          modifier = modifier,
+          enabled = enabled,
+          colors = IconButtonDefaults.filledVariantIconButtonColors(container, tint),
           content = content,
         )
       "outlined" ->
         OutlinedIconButton(
           onClick = {},
           modifier = modifier,
-          enabled = boolean("enabled", true),
+          enabled = enabled,
+          colors = IconButtonDefaults.outlinedIconButtonColors(contentColor = tint),
           content = content,
         )
       else ->
         IconButton(
           onClick = {},
           modifier = modifier,
-          enabled = boolean("enabled", true),
+          enabled = enabled,
+          colors = IconButtonDefaults.iconButtonColors(container, tint),
           content = content,
         )
     }
