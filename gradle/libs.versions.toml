@@ -61,7 +61,7 @@ compose-material3 = "1.5.0-alpha29"
 # ref over the pair could only have pointed at a coordinate that does not exist (#199, #347 and
 # #637 were the same bug on earlier lines). The modules in [libraries] are therefore VERSIONLESS and
 # every module that uses them applies `platform(...)` of the BOM; never add a version to them.
-composePreviewPlugin = "2.32.1"
+composePreviewPlugin = "2.32.2"
 # compose-preview-daemon-bom. Keep this EQUAL to the daemon the plugin above bakes into its jar
 # (`previewDaemon` in plugin-version.properties; plugin 2.32.1 bakes 3.12.0), so the catalog compiles
 # against the runtime the renderer hosts. :verifyComposePreviewDaemonAlignment (root
