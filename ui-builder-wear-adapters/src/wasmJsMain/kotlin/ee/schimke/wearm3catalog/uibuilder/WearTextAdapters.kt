@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Icon
+import androidx.wear.compose.material3.LocalContentColor
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ProvideTextStyle
@@ -53,7 +54,8 @@ val wearTextAdapters = canvasAdapterRegistry {
         imageVector = vector,
         contentDescription = string("contentDescription").ifEmpty { null },
         modifier = modifier.size(float("sizeDp", 24f).dp),
-        tint = color("color", MaterialTheme.colorScheme.onSurface),
+        // The surrounding content colour, as the editor's canvas tints it: a button's, inside one.
+        tint = color("color", LocalContentColor.current),
       )
     }
   }

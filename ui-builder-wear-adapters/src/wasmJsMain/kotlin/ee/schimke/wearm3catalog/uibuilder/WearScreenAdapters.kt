@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
@@ -33,6 +35,7 @@ import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
 import androidx.wear.compose.material3.AppCard
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.ChildButton
@@ -148,12 +151,14 @@ private fun CanvasNodeScope.WearScreenBody(
     // squeezed to nothing, the extent never grew, and switching the editor off its device view
     // drew the same watch it had just left.
     val screen = LocalWearDeviceConfiguration.current.screenWidthDp.dp
+    // Clipped before the design's own modifiers, as the editor's canvas clips its scaffold: a
+    // `background` on the screen painted the whole rectangle, corners included, when it came first.
     Box(
       Modifier.wrapContentHeight(Alignment.Top, unbounded = true)
-        .then(modifier)
         .fillMaxWidth()
         .heightIn(min = screen)
         .clip(RoundedCornerShape(percent = 50))
+        .then(modifier)
         .background(background)
     ) {
       CompositionLocalProvider(
@@ -171,7 +176,11 @@ private fun CanvasNodeScope.WearScreenBody(
         .takeIf { it.isNotEmpty() }
         ?.let { value -> TimeText { timeTextCurvedText(value) } }
     }
-    Box(modifier.fillMaxSize()) {
+    // A round watch's screen is a circle: the device previews draw this above the editor, where no
+    // shape of the editor's can clip it, so it clips itself and leaves the corners to the backdrop.
+    val shape =
+      if (LocalWearDeviceConfiguration.current.isScreenRound) CircleShape else RectangleShape
+    Box(Modifier.clip(shape).then(modifier).fillMaxSize()) {
       AppScaffold(timeText = timeText, containerColor = background) {
         val edgeButton: (@Composable BoxScope.() -> Unit)? =
           if (canvas.node.slots["edgeButton"].isNullOrEmpty()) null
@@ -428,55 +437,65 @@ private fun CanvasNodeScope.WearButtonVariant(
   transformation: SurfaceTransformation?,
   enabled: Boolean,
 ) {
+  // The design's own colours, as the editor's canvas draws them: without them a button styled
+  // through `containerColor` fell back to its variant's container — a filled button's `primary`,
+  // the light lavender — under whatever light text the design gave it.
+  val container = resolveWearColor(string("containerColor"))
+  val content = resolveWearColor(string("contentColor"))
+  val colors =
+    when (string("variant")) {
+      "filled-tonal" ->
+        ButtonDefaults.filledTonalButtonColors(
+          containerColor = container,
+          contentColor = content,
+          iconColor = content,
+        )
+      "outlined" -> ButtonDefaults.outlinedButtonColors(contentColor = content, iconColor = content)
+      "child" -> ButtonDefaults.childButtonColors(contentColor = content, iconColor = content)
+      else ->
+        ButtonDefaults.buttonColors(
+          containerColor = container,
+          contentColor = content,
+          iconColor = content,
+        )
+    }
   when (string("variant")) {
     "filled-tonal" ->
-      if (transformation == null) {
-        FilledTonalButton(onClick = {}, modifier = modifier, enabled = enabled, label = label)
-      } else {
-        FilledTonalButton(
-          onClick = {},
-          modifier = modifier,
-          enabled = enabled,
-          label = label,
-          transformation = transformation,
-        )
-      }
+      FilledTonalButton(
+        onClick = {},
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+        transformation = transformation,
+        label = label,
+      )
     "outlined" ->
-      if (transformation == null) {
-        OutlinedButton(onClick = {}, modifier = modifier, enabled = enabled, label = label)
-      } else {
-        OutlinedButton(
-          onClick = {},
-          modifier = modifier,
-          enabled = enabled,
-          label = label,
-          transformation = transformation,
-        )
-      }
+      OutlinedButton(
+        onClick = {},
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+        transformation = transformation,
+        label = label,
+      )
     "child" ->
-      if (transformation == null) {
-        ChildButton(onClick = {}, modifier = modifier, enabled = enabled, label = label)
-      } else {
-        ChildButton(
-          onClick = {},
-          modifier = modifier,
-          enabled = enabled,
-          label = label,
-          transformation = transformation,
-        )
-      }
+      ChildButton(
+        onClick = {},
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+        transformation = transformation,
+        label = label,
+      )
     else ->
-      if (transformation == null) {
-        Button(onClick = {}, modifier = modifier, enabled = enabled, label = label)
-      } else {
-        Button(
-          onClick = {},
-          modifier = modifier,
-          enabled = enabled,
-          label = label,
-          transformation = transformation,
-        )
-      }
+      Button(
+        onClick = {},
+        modifier = modifier,
+        enabled = enabled,
+        colors = colors,
+        transformation = transformation,
+        label = label,
+      )
   }
 }
 
