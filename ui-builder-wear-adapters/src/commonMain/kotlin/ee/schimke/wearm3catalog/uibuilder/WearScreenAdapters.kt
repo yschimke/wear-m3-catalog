@@ -7,6 +7,9 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -28,6 +31,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
@@ -45,6 +49,7 @@ import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.OutlinedCard
 import androidx.wear.compose.material3.ScreenScaffold
+import androidx.wear.compose.material3.ScreenScaffoldDefaults
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.TimeText
@@ -165,7 +170,34 @@ private fun CanvasNodeScope.WearScreenBody(
         LocalScreenListState provides state,
         LocalScreenContentPadding provides padding,
       ) {
-        Column(Modifier.fillMaxWidth().padding(padding)) { canvas.Slot("content") }
+        // The edge button is the end of the scroll, so on the extent it follows the last row at
+        // its full, expanded size. Placed as `ScreenScaffold` places it: at the screen's full
+        // width, since its shape is cut from the width it is given (the content padding is the
+        // list's alone), on the bottom cap with no list padding under it, and offset by the
+        // spacing less the button's own minimum, which it already pads itself by. A list shorter
+        // than a screenful leaves the gap above the button rather than below it.
+        if (canvas.node.slots["edgeButton"].isNullOrEmpty()) {
+          Column(Modifier.fillMaxWidth().padding(padding)) { canvas.Slot("content") }
+        } else {
+          Column(Modifier.fillMaxWidth().heightIn(min = screen)) {
+            Column(Modifier.fillMaxWidth().padding(padding.withoutBottom())) {
+              canvas.Slot("content")
+            }
+            Spacer(Modifier.weight(1f))
+            Box(
+              Modifier.fillMaxWidth()
+                .padding(
+                  top =
+                    (ScreenScaffoldDefaults.EdgeButtonSpacing -
+                        ScreenScaffoldDefaults.EdgeButtonMinSpacing)
+                      .coerceAtLeast(0.dp)
+                ),
+              contentAlignment = Alignment.BottomCenter,
+            ) {
+              canvas.Slot("edgeButton")
+            }
+          }
+        }
       }
       canvas.Slot("overlays", Modifier.fillMaxSize())
     }
@@ -507,4 +539,16 @@ private fun screenContentPadding(): PaddingValues {
     width >= 225 -> PaddingValues(horizontal = 12.dp, vertical = 23.dp)
     else -> PaddingValues(horizontal = 10.dp, vertical = 20.dp)
   }
+}
+
+/** These insets with no bottom: the edge button's own shape is the bottom edge. */
+@Composable
+private fun PaddingValues.withoutBottom(): PaddingValues {
+  val direction = LocalLayoutDirection.current
+  return PaddingValues(
+    start = calculateStartPadding(direction),
+    top = calculateTopPadding(),
+    end = calculateEndPadding(direction),
+    bottom = 0.dp,
+  )
 }
