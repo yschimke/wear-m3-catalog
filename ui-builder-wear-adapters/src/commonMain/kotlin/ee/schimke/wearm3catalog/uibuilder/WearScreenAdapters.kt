@@ -65,6 +65,7 @@ import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
+import ee.schimke.wearcmp.port.WearDeviceConfiguration
 
 /** Wear screen structure and components whose rendering depends on its lazy-row receiver. */
 val wearScreenAdapters = canvasAdapterRegistry {
@@ -576,11 +577,26 @@ private fun PaddingValues.withoutBottom(): PaddingValues {
 }
 
 /**
- * `CardDefaults.minimumVerticalListContentPadding`: 23% of the screen's height, rounded up to a
- * whole dp (upstream's `LARGE_VERTICAL_CONTENT_PADDING_FRACTION` and `ceilDp`). Taken from the
- * watch's width rather than read from the library, because the library reads the configured height,
- * and on the unrolled extent that is the content's height, not the round screen's.
+ * What each device row asks the list for through `minimumVerticalContentPadding`:
+ * `CardDefaults.minimumVerticalListContentPadding`, read for the round screen. That modifier is a
+ * member of `TransformingLazyColumnItemScope`, and the extent cannot be that list: it lays out at
+ * the content's whole height, which a lazy list cannot measure. Read under the extent's own
+ * configuration the default is a fraction of the content's height, so it is read under the watch's:
+ * as tall as it is wide.
  */
 @Composable
-private fun listEndPadding(): Dp =
-  kotlin.math.ceil(LocalWearDeviceConfiguration.current.screenWidthDp * 0.23f).dp
+private fun listEndPadding(): Dp {
+  val device = LocalWearDeviceConfiguration.current
+  var padding = 0.dp
+  CompositionLocalProvider(
+    LocalWearDeviceConfiguration provides
+      WearDeviceConfiguration(
+        isScreenRound = device.isScreenRound,
+        screenWidthDp = device.screenWidthDp,
+        screenHeightDp = device.screenWidthDp,
+      )
+  ) {
+    padding = CardDefaults.minimumVerticalListContentPadding
+  }
+  return padding
+}
