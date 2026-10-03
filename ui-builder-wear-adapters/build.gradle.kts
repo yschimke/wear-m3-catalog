@@ -21,6 +21,8 @@ kotlin {
     // are common code: the JVM is where a Compose UI test runs without a browser.
     jvmTest.dependencies {
       implementation(kotlin("test"))
+      // The layouts a child is drawn in, which read its `weight` and `alignment` as parent data.
+      implementation(project(":ui-builder-foundation-adapters"))
       @Suppress("DEPRECATION") implementation(compose.desktop.uiTestJUnit4)
       @Suppress("DEPRECATION") implementation(compose.desktop.currentOs)
     }

@@ -15,6 +15,7 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import ee.schimke.composeai.uibuilder.export.UiBuilderNode
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.UiBuilderModifierPlan
 import ee.schimke.composeai.uibuilder.renderer.sdk.alignmentFor
@@ -41,7 +42,8 @@ val foundationCanvasAdapters = canvasAdapterRegistry {
       verticalArrangement = verticalArrangement(),
       horizontalAlignment = horizontalAlignment(),
     ) {
-      canvas.Items("children") { child -> Content(columnChildModifier(child)) }
+      val unrolled = canvas.mode == CanvasMode.AuthoringUnrolled
+      canvas.Items("children") { child -> Content(columnChildModifier(child, unrolled)) }
     }
   }
   register("layout/row") {
@@ -81,7 +83,8 @@ val foundationCanvasAdapters = canvasAdapterRegistry {
       verticalAlignment = Alignment.Top,
       modifier = modifier,
     ) {
-      canvas.Items("children") { child -> Content(collapsibleChildModifier(child)) }
+      val unrolled = canvas.mode == CanvasMode.AuthoringUnrolled
+      canvas.Items("children") { child -> Content(collapsibleChildModifier(child, unrolled)) }
     }
   }
   register("layout/collapsible-row") {
@@ -94,7 +97,8 @@ val foundationCanvasAdapters = canvasAdapterRegistry {
       verticalAlignment = verticalAlignment(),
       modifier = modifier,
     ) {
-      canvas.Items("children") { child -> Content(collapsibleChildModifier(child)) }
+      val unrolled = canvas.mode == CanvasMode.AuthoringUnrolled
+      canvas.Items("children") { child -> Content(collapsibleChildModifier(child, unrolled)) }
     }
   }
   register("layout/fit-box") {
@@ -124,8 +128,9 @@ val foundationCanvasAdapters = canvasAdapterRegistry {
 
 /**
  * A collapsible child's `collapsiblePriority` and `weight`, handed to the layout as parent data.
+ * Unrolled, there is no leftover to share, so the weight goes, as it does in a column.
  */
-private fun collapsibleChildModifier(node: UiBuilderNode): Modifier {
+private fun collapsibleChildModifier(node: UiBuilderNode, unrolled: Boolean): Modifier {
   val chain = node.modifiers.mapNotNull { it as? JsonObject }
   fun number(type: String, field: String): Float? =
     chain
@@ -133,7 +138,7 @@ private fun collapsibleChildModifier(node: UiBuilderNode): Modifier {
       ?.let { (it[field] as? JsonPrimitive)?.floatOrNull ?: if (type == "weight") 1f else 0f }
   return Modifier.collapsibleChild(
     priority = number("collapsiblePriority", "priority"),
-    weight = number("weight", "weight"),
+    weight = if (unrolled) null else number("weight", "weight") ?: node.weightProperty(),
   )
 }
 
@@ -188,8 +193,15 @@ private fun BoxScope.boxChildModifier(node: UiBuilderNode): Modifier {
   return result
 }
 
-private fun ColumnScope.columnChildModifier(node: UiBuilderNode): Modifier {
+/**
+ * A column child's cross-axis alignment and weight, as the editor's canvas reads them.
+ *
+ * [unrolled] drops the weight: an unrolled column is measured against an unbounded height, where a
+ * weighted child is handed no space and draws nothing.
+ */
+private fun ColumnScope.columnChildModifier(node: UiBuilderNode, unrolled: Boolean): Modifier {
   var result: Modifier = Modifier
+  var weighted = false
   node.modifierPlans().forEach { plan ->
     when (plan) {
       is UiBuilderModifierPlan.AlignHorizontal ->
@@ -201,15 +213,22 @@ private fun ColumnScope.columnChildModifier(node: UiBuilderNode): Modifier {
               else -> Alignment.Start
             }
           )
-      is UiBuilderModifierPlan.Weight -> result = result.weight(plan.weight, plan.fill ?: true)
+      is UiBuilderModifierPlan.Weight ->
+        if (!unrolled && !weighted) {
+          weighted = true
+          result = result.weight(plan.weight, plan.fill ?: true)
+        }
       else -> Unit
     }
   }
+  if (!unrolled && !weighted) node.weightProperty()?.let { result = result.weight(it) }
   return result
 }
 
+/** A row child's cross-axis alignment and weight, as the editor's canvas reads them. */
 private fun RowScope.rowChildModifier(node: UiBuilderNode): Modifier {
   var result: Modifier = Modifier
+  var weighted = false
   node.modifierPlans().forEach { plan ->
     when (plan) {
       is UiBuilderModifierPlan.AlignVertical ->
@@ -221,10 +240,15 @@ private fun RowScope.rowChildModifier(node: UiBuilderNode): Modifier {
               else -> Alignment.CenterVertically
             }
           )
-      is UiBuilderModifierPlan.Weight -> result = result.weight(plan.weight, plan.fill ?: true)
+      is UiBuilderModifierPlan.Weight ->
+        if (!weighted) {
+          weighted = true
+          result = result.weight(plan.weight, plan.fill ?: true)
+        }
       else -> Unit
     }
   }
+  if (!weighted) node.weightProperty()?.let { result = result.weight(it) }
   return result
 }
 
@@ -234,3 +258,12 @@ private fun UiBuilderNode.modifierPlans(): List<UiBuilderModifierPlan> = modifie
 
 private fun UiBuilderNode.propertyString(name: String): String? =
   ((properties[name] as? JsonObject)?.get("value") as? JsonPrimitive)?.contentOrNull
+
+/**
+ * The `weight` a child carries as a property, which is how documents written before the `weight`
+ * modifier said it; the modifier wins when a node has both, as on the editor's canvas.
+ */
+private fun UiBuilderNode.weightProperty(): Float? =
+  ((properties["weight"] as? JsonObject)?.get("value") as? JsonPrimitive)?.floatOrNull?.takeIf {
+    it > 0f
+  }

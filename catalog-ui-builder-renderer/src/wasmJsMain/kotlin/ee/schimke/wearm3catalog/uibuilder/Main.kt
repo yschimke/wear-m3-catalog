@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.uibuilder.ProvideUiBuilderFonts
+import ee.schimke.composeai.uibuilder.UiBuilderFontRegistry
+import ee.schimke.composeai.uibuilder.parseVendoredFontManifest
 import ee.schimke.composeai.uibuilder.protocol.CanvasAdapterMappingV1
 import ee.schimke.composeai.uibuilder.protocol.UiBuilderRendererSurfaceModeV2
 import ee.schimke.composeai.uibuilder.renderer.sdk.CATALOG_RUNTIME_CAPABILITY_HORIZONTAL_UNROLL
@@ -31,6 +33,9 @@ import ee.schimke.composeai.uibuilder.renderer.sdk.catalogRuntimeFontRegistry
 import ee.schimke.composeai.uibuilder.renderer.sdk.startCatalogRenderer
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import ee.schimke.wearcmp.port.WearDeviceConfiguration
+import ee.schimke.wearcmp.port.WearFonts
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.contentOrNull
@@ -79,73 +84,77 @@ fun main() {
   val fonts = catalogRuntimeFontRegistry()
   awaitSkiko.then(
     onFulfilled = {
-      startCatalogRenderer(
-        actions,
-        capabilities = setOf(CATALOG_RUNTIME_CAPABILITY_HORIZONTAL_UNROLL),
-      ) { document, surface, renderSessionId, onInspectionSnapshot ->
-        val hostDensity = LocalDensity.current
-        val density =
-          Density(
-            density = surface.density,
-            fontScale =
-              document.environment["fontScale"]
-                ?.let { it as? JsonPrimitive }
-                ?.contentOrNull
-                ?.toFloatOrNull()
-                ?.takeIf { it.isFinite() && it > 0f } ?: hostDensity.fontScale,
-          )
-        val mode =
-          if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED)
-            CanvasMode.AuthoringUnrolled
-          else CanvasMode.Device
-        val layoutDirection =
-          if (document.environment["layoutDirection"]?.jsonPrimitive?.contentOrNull == "rtl")
-            LayoutDirection.Rtl
-          else LayoutDirection.Ltr
-        CompositionLocalProvider(
-          LocalDensity provides density,
-          LocalLayoutDirection provides layoutDirection,
-          LocalWearDeviceConfiguration provides
-            WearDeviceConfiguration(
-              isScreenRound = true,
-              screenWidthDp = surface.widthDp.toInt(),
-              screenHeightDp = surface.heightDp.toInt(),
-            ),
-        ) {
-          ProvideUiBuilderFonts(fonts) {
-            MaterialTheme {
-              Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
-                CanvasDocumentHost(
-                  document = document,
-                  adapterIds = adapterIds,
-                  adapterMappings = adapterMappings,
-                  mode = mode,
-                  density = density,
-                  modifier = Modifier.fillMaxSize(),
-                  renderSessionId = renderSessionId,
-                  runtimeActionController = actions,
-                  onInspectionSnapshot = onInspectionSnapshot,
-                  rootModifier = { entry ->
-                    if (entry.adapterId == "frame/round-screen") Modifier.align(Alignment.TopCenter)
-                    else Modifier
-                  },
-                ) { entry, rootModifier ->
-                  RenderCanvasNode(
-                    entry = entry,
-                    registry = runtimeAdapters,
-                    modifier = rootModifier,
-                    applyModifier = { current, value ->
-                      current.applyCanvasModifier(
-                        value = value,
-                        mode = mode,
-                        unrolledHorizontally = unrolledHorizontally,
-                        resolveColor = { resolveWearColor(it) },
-                        resolveShape = ::resolveWearShape,
-                      )
+      MainScope().launch {
+        fonts.registerWearDeviceFace()
+        startCatalogRenderer(
+          actions,
+          capabilities = setOf(CATALOG_RUNTIME_CAPABILITY_HORIZONTAL_UNROLL),
+        ) { document, surface, renderSessionId, onInspectionSnapshot ->
+          val hostDensity = LocalDensity.current
+          val density =
+            Density(
+              density = surface.density,
+              fontScale =
+                document.environment["fontScale"]
+                  ?.let { it as? JsonPrimitive }
+                  ?.contentOrNull
+                  ?.toFloatOrNull()
+                  ?.takeIf { it.isFinite() && it > 0f } ?: hostDensity.fontScale,
+            )
+          val mode =
+            if (surface.mode == UiBuilderRendererSurfaceModeV2.AUTHORING_UNROLLED)
+              CanvasMode.AuthoringUnrolled
+            else CanvasMode.Device
+          val layoutDirection =
+            if (document.environment["layoutDirection"]?.jsonPrimitive?.contentOrNull == "rtl")
+              LayoutDirection.Rtl
+            else LayoutDirection.Ltr
+          CompositionLocalProvider(
+            LocalDensity provides density,
+            LocalLayoutDirection provides layoutDirection,
+            LocalWearDeviceConfiguration provides
+              WearDeviceConfiguration(
+                isScreenRound = true,
+                screenWidthDp = surface.widthDp.toInt(),
+                screenHeightDp = surface.heightDp.toInt(),
+              ),
+          ) {
+            ProvideUiBuilderFonts(fonts) {
+              MaterialTheme {
+                Box(Modifier.requiredSize(surface.widthDp.dp, surface.heightDp.dp)) {
+                  CanvasDocumentHost(
+                    document = document,
+                    adapterIds = adapterIds,
+                    adapterMappings = adapterMappings,
+                    mode = mode,
+                    density = density,
+                    modifier = Modifier.fillMaxSize(),
+                    renderSessionId = renderSessionId,
+                    runtimeActionController = actions,
+                    onInspectionSnapshot = onInspectionSnapshot,
+                    rootModifier = { entry ->
+                      if (entry.adapterId == "frame/round-screen")
+                        Modifier.align(Alignment.TopCenter)
+                      else Modifier
                     },
-                    missingComponent = { label, next -> UnsupportedComponent(label, next) },
-                  ) {
-                    UnsupportedComponent(node.componentId, prepared.modifier)
+                  ) { entry, rootModifier ->
+                    RenderCanvasNode(
+                      entry = entry,
+                      registry = runtimeAdapters,
+                      modifier = rootModifier,
+                      applyModifier = { current, value ->
+                        current.applyCanvasModifier(
+                          value = value,
+                          mode = mode,
+                          unrolledHorizontally = unrolledHorizontally,
+                          resolveColor = { resolveWearColor(it) },
+                          resolveShape = ::resolveWearShape,
+                        )
+                      },
+                      missingComponent = { label, next -> UnsupportedComponent(label, next) },
+                    ) {
+                      UnsupportedComponent(node.componentId, prepared.modifier)
+                    }
                   }
                 }
               }
@@ -157,6 +166,25 @@ fun main() {
     },
     onRejected = { error("Skiko initialization failed: $it") },
   )
+}
+
+/**
+ * Hand the Wear port the watch's system face, `roboto-flex`, from this runtime's own `fonts/`.
+ *
+ * Wear Material 3 sets every type role in `DeviceFontFamilyName("roboto-flex")`, which the port
+ * resolves through [WearFonts] once, when the type scale is first read. No browser has a font by
+ * that name, so unless it is registered before anything composes, every screen this runtime draws
+ * is set in the browser's fallback sans — wider than Roboto Flex, enough to wrap labels that fit on
+ * a watch. The editor's own renderer does the same (`registerWearDeviceFonts`).
+ */
+private suspend fun UiBuilderFontRegistry.registerWearDeviceFace() {
+  if (WearFonts.isRegistered(WearFonts.RobotoFlex)) return
+  runCatching {
+    val manifest = parseVendoredFontManifest(readManifestText())
+    val file =
+      manifest.families.firstOrNull { it.name == "Roboto Flex" }?.fonts?.firstOrNull() ?: return
+    WearFonts.register(WearFonts.RobotoFlex, readFontBytes(file.file))
+  }
 }
 
 @Composable
