@@ -100,13 +100,15 @@ dependencies {
   // appends `ee.schimke.composeai:preview-annotations:$(compose-preview --version)` -- the CLI's
   // version, on the belief that "the two ship from one release". They no longer do:
   // `preview-annotations` moved to the compose-preview-daemon line, so the CLI's 2.9.0 is a
-  // coordinate that 404s while the daemon's 3.4.1 is real. Declaring the daemon version here lets
-  // Gradle's newest-wins conflict resolution select it, and the injected 2.9.0 is never fetched.
+  // coordinate that 404s while the daemon's 3.4.1 is real. Declaring the daemon's version here (as
+  // the daemon BOM's constraint) lets Gradle's newest-wins conflict resolution select it, and the
+  // injected 2.9.0 is never fetched.
   //
   // Reproduced by appending that exact line locally: without this, `debugRuntimeClasspath` reports
   // `preview-annotations:2.9.0 FAILED`; with it, 2.9.0 -> 3.4.1 and resolution succeeds. The phone
   // repo's samples module has carried this dependency from the start, which is the only reason
   // `m3-samples` published and this sheet did not.
+  implementation(platform(libs.composeai.daemon.bom))
   implementation(libs.composeai.preview.annotations)
 }
 

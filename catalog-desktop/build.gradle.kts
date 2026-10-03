@@ -73,6 +73,7 @@ kotlin {
       implementation(libs.wearcmp.compose.material3)
       implementation(libs.wearcmp.compose.foundation)
       implementation(libs.materialkolor)
+      implementation(project.dependencies.platform(libs.composeai.daemon.bom))
       implementation(libs.composeai.preview.annotations)
       implementation(libs.composeai.preview.overrides)
     }
