@@ -2,11 +2,13 @@ package ee.schimke.wearm3catalog.uibuilder
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runDesktopComposeUiTest
 import androidx.compose.ui.unit.dp
 import ee.schimke.composeai.uibuilder.export.UiBuilderNode
+import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasItemScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasMode
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import java.io.File
@@ -35,9 +37,10 @@ import kotlinx.serialization.json.put
  *
  * Each adapter is drawn once for every value of every property with `allowedValues` — the variants,
  * whose branches read different properties — with every property set, through a node whose property
- * map records each lookup. A property no draw looked up is a gap. [KNOWN_UNREAD] lists the ones
- * that are deliberate or not fixed yet, each with its reason; one that is read after all must leave
- * the list, so it cannot hide the next gap.
+ * map records each lookup — drawn on its own and as the child of each foundation layout, since a
+ * child's `weight` or `alignment` is read by the parent it sits in, as parent data. A property no
+ * draw looked up is a gap. [KNOWN_UNREAD] lists the ones that are deliberate or not fixed yet, each
+ * with its reason; one that is read after all must leave the list, so it cannot hide the next gap.
  */
 @OptIn(ExperimentalTestApi::class)
 class WearAdapterPropertyParityTest {
@@ -112,7 +115,10 @@ class WearAdapterPropertyParityTest {
     val adapter = registry[component.adapterId]!!
     // One draw per variant, each on its own: the properties are looked up while composing, and a
     // component that cannot be measured with no children (a `ButtonGroup`) fails only after that.
-    variants.forEach { properties ->
+    // The last draw puts the component in each foundation layout, whose reads of it as parent
+    // data do not depend on the variant.
+    val draws = variants.map { it to false } + (base to true)
+    draws.forEach { (properties, asChild) ->
       runCatching {
         runDesktopComposeUiTest(width = 454, height = 454) {
           setContent {
@@ -123,19 +129,16 @@ class WearAdapterPropertyParityTest {
                 properties = JsonObject(Recording(properties, read)),
               )
             Box(Modifier.size(227.dp)) {
-              CanvasNodeScope(
-                  node = node,
-                  modifier = Modifier,
-                  mode = CanvasMode.Device,
-                  renderSlot = { _, _ -> },
-                  renderItems = { _, _ -> },
-                  countItems = { 0 },
-                  renderItem = { _, _, _ -> },
-                  dispatchEvent = {},
-                  updateState = { _, _ -> },
-                  recordText = {},
-                )
-                .adapter()
+              if (!asChild) {
+                scope(node).adapter()
+              } else {
+                val child = CanvasItemScope { modifier -> scope(node, modifier).adapter() }
+                PARENTS.forEach { parentId ->
+                  val layout = foundationCanvasAdapters[parentId]!!
+                  val parent = UiBuilderNode(id = parentId, componentId = parentId)
+                  scope(parent, children = { content -> child.content(node) }).layout()
+                }
+              }
             }
           }
           waitForIdle()
@@ -144,6 +147,24 @@ class WearAdapterPropertyParityTest {
     }
     return read
   }
+
+  private fun scope(
+    node: UiBuilderNode,
+    modifier: Modifier = Modifier,
+    children: @Composable (@Composable CanvasItemScope.(UiBuilderNode) -> Unit) -> Unit = {},
+  ) =
+    CanvasNodeScope(
+      node = node,
+      modifier = modifier,
+      mode = CanvasMode.Device,
+      renderSlot = { _, _ -> },
+      renderItems = { _, content -> children(content) },
+      countItems = { 0 },
+      renderItem = { _, _, _ -> },
+      dispatchEvent = {},
+      updateState = { _, _ -> },
+      recordText = {},
+    )
 
   /** A property map that remembers every name looked up in it. */
   private class Recording(
@@ -204,11 +225,10 @@ class WearAdapterPropertyParityTest {
     val KNOWN_UNREAD: Map<String, Set<String>> =
       mapOf(
         // The generated lazy list's `key`: an identity, which nothing draws.
-        "wear-m3/card" to setOf("stableKey"),
-        // Not fixed: the editor's canvas turns these into the PARENT's `align`/`weight` modifier
-        // (`UiBuilderRenderer`'s layout plan), and an adapter has no hook for a modifier in its
-        // parent's scope, so a weighted or aligned text ignores both in the runtime.
-        "wear-m3/text" to setOf("alignment", "weight"),
+        "wear-m3/card" to setOf("stableKey")
       )
+
+    /** The layouts a child is drawn in, so that what they read off the child counts as read. */
+    val PARENTS: List<String> = listOf("layout/box", "layout/column", "layout/row")
   }
 }
