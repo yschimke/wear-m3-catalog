@@ -94,6 +94,14 @@ private fun textStyle(value: String): TextStyle =
     "bodyLarge" -> MaterialTheme.typography.bodyLarge
     "bodyMedium" -> MaterialTheme.typography.bodyMedium
     "bodySmall" -> MaterialTheme.typography.bodySmall
+    "bodyExtraSmall" -> MaterialTheme.typography.bodyExtraSmall
+    // Wear's figures — a clock, a count, a reading. The theme's display face sets them too
+    // (`WearThemeTypography`), so a big number can take the brand's display type.
+    "numeralExtraLarge" -> MaterialTheme.typography.numeralExtraLarge
+    "numeralLarge" -> MaterialTheme.typography.numeralLarge
+    "numeralMedium" -> MaterialTheme.typography.numeralMedium
+    "numeralSmall" -> MaterialTheme.typography.numeralSmall
+    "numeralExtraSmall" -> MaterialTheme.typography.numeralExtraSmall
     "labelLarge" -> MaterialTheme.typography.labelLarge
     "labelMedium" -> MaterialTheme.typography.labelMedium
     "labelSmall" -> MaterialTheme.typography.labelSmall

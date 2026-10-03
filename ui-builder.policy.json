@@ -509,11 +509,17 @@
             "bodyLarge",
             "bodyMedium",
             "bodySmall",
+            "bodyExtraSmall",
             "labelLarge",
             "labelMedium",
-            "labelSmall"
+            "labelSmall",
+            "numeralExtraLarge",
+            "numeralLarge",
+            "numeralMedium",
+            "numeralSmall",
+            "numeralExtraSmall"
           ],
-          "notes": "The role the text is set in, resolved against Wear's own type scale."
+          "notes": "The role the text is set in, resolved against Wear's own type scale. The numeral roles are Wear's figures (a clock, a count, a reading) and take the theme's display typeface; the headline roles are Material 3 names Wear has no scale for, kept so older designs stay valid, and draw and export as the matching title role."
         },
         {
           "name": "fontWeight",
