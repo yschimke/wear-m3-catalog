@@ -16,8 +16,6 @@ import androidx.wear.compose.material3.CheckboxButton
 import androidx.wear.compose.material3.CircularProgressIndicator
 import androidx.wear.compose.material3.ConfirmationDialogContent
 import androidx.wear.compose.material3.ConfirmationDialogDefaults
-import androidx.wear.compose.material3.DatePicker
-import androidx.wear.compose.material3.DatePickerType
 import androidx.wear.compose.material3.EdgeButton
 import androidx.wear.compose.material3.EdgeButtonSize
 import androidx.wear.compose.material3.FailureConfirmationDialogContent
@@ -42,15 +40,11 @@ import androidx.wear.compose.material3.SwitchButton
 import androidx.wear.compose.material3.Text
 import androidx.wear.compose.material3.TextButton
 import androidx.wear.compose.material3.TextButtonDefaults
-import androidx.wear.compose.material3.TimePicker
-import androidx.wear.compose.material3.TimePickerType
 import androidx.wear.compose.material3.VerticalPageIndicator
 import androidx.wear.compose.material3.confirmationDialogCurvedText
 import androidx.wear.compose.material3.openOnPhoneDialogCurvedText
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalTime
 
 /** Catalog-owned adapters, invoking the real Wear Compose Multiplatform components. */
 val wearCanvasAdapters = canvasAdapterRegistry {
@@ -267,34 +261,6 @@ val wearCanvasAdapters = canvasAdapterRegistry {
   register("wear-m3/alert-dialog") { if (boolean("visible", true)) AlertDialog() }
   register("wear-m3/confirmation-dialog") { if (boolean("visible", true)) ConfirmationDialog() }
   register("wear-m3/open-on-phone-dialog") { if (boolean("visible", true)) OpenOnPhoneDialog() }
-  register("wear-m3/date-picker") {
-    DatePicker(
-      initialDate =
-        runCatching { LocalDate.parse(string("initialDate")) }.getOrElse { LocalDate(2026, 1, 1) },
-      onDatePicked = {},
-      modifier = modifier,
-      datePickerType =
-        when (string("type")) {
-          "day-month-year" -> DatePickerType.DayMonthYear
-          "month-day-year" -> DatePickerType.MonthDayYear
-          else -> DatePickerType.YearMonthDay
-        },
-    )
-  }
-  register("wear-m3/time-picker") {
-    TimePicker(
-      initialTime =
-        runCatching { LocalTime.parse(string("initialTime")) }.getOrElse { LocalTime(10, 10) },
-      onTimePicked = {},
-      modifier = modifier,
-      timePickerType =
-        when (string("type")) {
-          "hours-minutes-am-pm" -> TimePickerType.HoursMinutesAmPm12H
-          "hours-minutes-seconds" -> TimePickerType.HoursMinutesSeconds24H
-          else -> TimePickerType.HoursMinutes24H
-        },
-    )
-  }
 }
 
 private fun CanvasNodeScope.textOverflow(): TextOverflow =
