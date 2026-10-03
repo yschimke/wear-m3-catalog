@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
@@ -75,6 +76,9 @@ val wearScreenAdapters = canvasAdapterRegistry {
 
 private val LocalScreenListState = staticCompositionLocalOf<TransformingLazyColumnState?> { null }
 private val LocalScreenContentPadding = staticCompositionLocalOf { PaddingValues() }
+
+/** True inside an unrolled screen whose list is followed by an edge button. */
+private val LocalScreenEndsAtEdgeButton = staticCompositionLocalOf { false }
 
 /**
  * The row transformation the enclosing list is applying, and how many components in the row are
@@ -181,7 +185,9 @@ private fun CanvasNodeScope.WearScreenBody(
         } else {
           Column(Modifier.fillMaxWidth().heightIn(min = screen)) {
             Column(Modifier.fillMaxWidth().padding(padding.withoutBottom())) {
-              canvas.Slot("content")
+              CompositionLocalProvider(LocalScreenEndsAtEdgeButton provides true) {
+                canvas.Slot("content")
+              }
             }
             Spacer(Modifier.weight(1f))
             Box(
@@ -343,8 +349,24 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
   val state = LocalScreenListState.current ?: rememberTransformingLazyColumnState()
   registerScrolling(state::dispatchRawDelta) { state.requestScrollToItem(it) }
   if (mode == CanvasMode.AuthoringUnrolled) {
+    // Every row on the device takes `minimumVerticalContentPadding(CardDefaults
+    // .minimumVerticalListContentPadding)`, and the list pads its ends by the larger of that and
+    // the scaffold's own padding: on a round watch the first row starts, and the last row ends,
+    // 23% of the screen in from the bezel rather than the scaffold's 10%. The extent drew neither,
+    // so its last row ran into the bottom cap and was clipped. An edge button replaces the bottom
+    // end: the scaffold's padding there is the button's, which is always the larger.
+    val scaffold = LocalScreenContentPadding.current
+    val minimum = listEndPadding()
+    val top = (minimum - scaffold.calculateTopPadding()).coerceAtLeast(0.dp)
+    val bottom =
+      if (LocalScreenEndsAtEdgeButton.current) 0.dp
+      else (minimum - scaffold.calculateBottomPadding()).coerceAtLeast(0.dp)
     Column(
-      modifier = modifier,
+      modifier =
+        modifier.padding(
+          top = if (count > 0) top else 0.dp,
+          bottom = if (count > 0) bottom else 0.dp,
+        ),
       verticalArrangement = Arrangement.spacedBy(float("verticalSpacingDp", 4f).dp),
     ) {
       repeat(count) { index -> canvas.Item("items", index) }
@@ -552,3 +574,13 @@ private fun PaddingValues.withoutBottom(): PaddingValues {
     bottom = 0.dp,
   )
 }
+
+/**
+ * `CardDefaults.minimumVerticalListContentPadding`: 23% of the screen's height, rounded up to a
+ * whole dp (upstream's `LARGE_VERTICAL_CONTENT_PADDING_FRACTION` and `ceilDp`). Taken from the
+ * watch's width rather than read from the library, because the library reads the configured height,
+ * and on the unrolled extent that is the content's height, not the round screen's.
+ */
+@Composable
+private fun listEndPadding(): Dp =
+  kotlin.math.ceil(LocalWearDeviceConfiguration.current.screenWidthDp * 0.23f).dp
