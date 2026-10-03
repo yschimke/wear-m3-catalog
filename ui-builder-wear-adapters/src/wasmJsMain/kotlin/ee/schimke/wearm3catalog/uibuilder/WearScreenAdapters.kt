@@ -126,72 +126,82 @@ private fun CanvasNodeScope.WearScreenFrame() {
     colorScheme = canvas.screenColorScheme(),
     typography = MaterialTheme.typography.withRoleFamilies(typefaces),
   ) {
-    // The scaffold's own `background`, read inside the screen's theme so an unset one follows a
-    // re-skinned `background` role, the way the editor's canvas paints it.
-    val background =
-      resolveWearColor(canvas.string("background"), MaterialTheme.colorScheme.background)
-    if (mode == CanvasMode.AuthoringUnrolled) {
-      // The extent is the screen at its content's height, not the frame's: the host hands this
-      // surface the frame's height and grows it to whatever the rows are measured to reach. Filled
-      // to the frame instead, the list was measured inside one screenful, the rows past it were
-      // squeezed to nothing, the extent never grew, and switching the editor off its device view
-      // drew the same watch it had just left.
-      val screen = LocalWearDeviceConfiguration.current.screenWidthDp.dp
-      Box(
-        Modifier.wrapContentHeight(Alignment.Top, unbounded = true)
-          .then(modifier)
-          .fillMaxWidth()
-          .heightIn(min = screen)
-          .clip(RoundedCornerShape(percent = 50))
-          .background(background)
+    ProvideThemeTextStyle(canvas.string("themeTextStyle")) { WearScreenBody(state, padding) }
+  }
+}
+
+/** The scaffold under the screen's theme and default text style. */
+@Composable
+private fun CanvasNodeScope.WearScreenBody(
+  state: TransformingLazyColumnState,
+  padding: PaddingValues,
+) {
+  val canvas = this
+  // The scaffold's own `background`, read inside the screen's theme so an unset one follows a
+  // re-skinned `background` role, the way the editor's canvas paints it.
+  val background =
+    resolveWearColor(canvas.string("background"), MaterialTheme.colorScheme.background)
+  if (mode == CanvasMode.AuthoringUnrolled) {
+    // The extent is the screen at its content's height, not the frame's: the host hands this
+    // surface the frame's height and grows it to whatever the rows are measured to reach. Filled
+    // to the frame instead, the list was measured inside one screenful, the rows past it were
+    // squeezed to nothing, the extent never grew, and switching the editor off its device view
+    // drew the same watch it had just left.
+    val screen = LocalWearDeviceConfiguration.current.screenWidthDp.dp
+    Box(
+      Modifier.wrapContentHeight(Alignment.Top, unbounded = true)
+        .then(modifier)
+        .fillMaxWidth()
+        .heightIn(min = screen)
+        .clip(RoundedCornerShape(percent = 50))
+        .background(background)
+    ) {
+      CompositionLocalProvider(
+        LocalScreenListState provides state,
+        LocalScreenContentPadding provides padding,
       ) {
-        CompositionLocalProvider(
-          LocalScreenListState provides state,
-          LocalScreenContentPadding provides padding,
-        ) {
-          Column(Modifier.fillMaxWidth().padding(padding)) { canvas.Slot("content") }
-        }
-        canvas.Slot("overlays", Modifier.fillMaxSize())
+        Column(Modifier.fillMaxWidth().padding(padding)) { canvas.Slot("content") }
       }
-    } else {
-      val timeText: @Composable () -> Unit = {
-        canvas
-          .string("timeText")
-          .takeIf { it.isNotEmpty() }
-          ?.let { value -> TimeText { timeTextCurvedText(value) } }
-      }
-      Box(modifier.fillMaxSize()) {
-        AppScaffold(timeText = timeText, containerColor = background) {
-          val edgeButton: (@Composable BoxScope.() -> Unit)? =
-            if (canvas.node.slots["edgeButton"].isNullOrEmpty()) null
-            else ({ canvas.Slot("edgeButton") })
-          val scrollIndicator: (@Composable BoxScope.() -> Unit)? =
-            if (canvas.boolean("scrollIndicator", true)) ({ ScrollIndicator(state) }) else null
-          val content: @Composable BoxScope.(PaddingValues) -> Unit = { contentPadding ->
-            CompositionLocalProvider(
-              LocalScreenListState provides state,
-              LocalScreenContentPadding provides contentPadding,
-            ) {
-              canvas.Slot("content", Modifier.fillMaxSize())
-            }
-          }
-          if (edgeButton == null) {
-            ScreenScaffold(
-              scrollState = state,
-              scrollIndicator = scrollIndicator,
-              content = content,
-            )
-          } else {
-            ScreenScaffold(
-              scrollState = state,
-              edgeButton = edgeButton,
-              scrollIndicator = scrollIndicator,
-              content = content,
-            )
+      canvas.Slot("overlays", Modifier.fillMaxSize())
+    }
+  } else {
+    val timeText: @Composable () -> Unit = {
+      canvas
+        .string("timeText")
+        .takeIf { it.isNotEmpty() }
+        ?.let { value -> TimeText { timeTextCurvedText(value) } }
+    }
+    Box(modifier.fillMaxSize()) {
+      AppScaffold(timeText = timeText, containerColor = background) {
+        val edgeButton: (@Composable BoxScope.() -> Unit)? =
+          if (canvas.node.slots["edgeButton"].isNullOrEmpty()) null
+          else ({ canvas.Slot("edgeButton") })
+        val scrollIndicator: (@Composable BoxScope.() -> Unit)? =
+          if (canvas.boolean("scrollIndicator", true)) ({ ScrollIndicator(state) }) else null
+        val content: @Composable BoxScope.(PaddingValues) -> Unit = { contentPadding ->
+          CompositionLocalProvider(
+            LocalScreenListState provides state,
+            LocalScreenContentPadding provides contentPadding,
+          ) {
+            canvas.Slot("content", Modifier.fillMaxSize())
           }
         }
-        canvas.Slot("overlays", Modifier.fillMaxSize())
+        if (edgeButton == null) {
+          ScreenScaffold(
+            scrollState = state,
+            scrollIndicator = scrollIndicator,
+            content = content,
+          )
+        } else {
+          ScreenScaffold(
+            scrollState = state,
+            edgeButton = edgeButton,
+            scrollIndicator = scrollIndicator,
+            content = content,
+          )
+        }
       }
+      canvas.Slot("overlays", Modifier.fillMaxSize())
     }
   }
 }

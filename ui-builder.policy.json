@@ -203,6 +203,31 @@
           "name": "themeLabelTypeface",
           "jsonType": "string",
           "notes": "The font family for the label roles (labelLarge, labelMedium, labelSmall) of everything this theme host contains. A family name: one of the editor's vendored faces or any Google Fonts family (\"Space Grotesk\", \"Michroma\"); a `google:` prefix is accepted. Generated code sets it as a `GoogleFont` family on the theme's typography. Unset keeps the platform's own face for these roles."
+        },
+        {
+          "name": "themeTextStyle",
+          "jsonType": "string",
+          "allowedValues": [
+            "displayLarge",
+            "displayMedium",
+            "displaySmall",
+            "titleLarge",
+            "titleMedium",
+            "titleSmall",
+            "labelLarge",
+            "labelMedium",
+            "labelSmall",
+            "bodyLarge",
+            "bodyMedium",
+            "bodySmall",
+            "bodyExtraSmall",
+            "numeralExtraLarge",
+            "numeralLarge",
+            "numeralMedium",
+            "numeralSmall",
+            "numeralExtraSmall"
+          ],
+          "notes": "The type role a text with no `style` of its own is set in, for everything this theme host contains — and with it that role's size and typeface. Both themes default to `bodyLarge`; choose `labelMedium` for a design whose plain text is mostly labels, or a display role for one that is mostly figures. Generated code provides it as `ProvideTextStyle(MaterialTheme.typography.<role>)` inside the theme."
         }
       ],
       "slots": {

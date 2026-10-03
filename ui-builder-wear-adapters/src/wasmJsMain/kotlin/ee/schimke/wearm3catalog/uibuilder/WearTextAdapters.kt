@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
+import androidx.wear.compose.material3.ProvideTextStyle
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
@@ -78,6 +79,15 @@ fun resolveWearColor(value: String, fallback: Color = Color.Unspecified): Color 
     value == "transparent" -> Color.Transparent
     else -> fallback
   }
+
+/**
+ * The role a theme host's `themeTextStyle` names provided as the ambient text style, so a text with
+ * no `style` of its own is set in it. Unset keeps the theme's own, `bodyLarge`.
+ */
+@Composable
+internal fun ProvideThemeTextStyle(role: String, content: @Composable () -> Unit) {
+  if (role.isEmpty()) content() else ProvideTextStyle(textStyle(role), content)
+}
 
 @Composable
 private fun textStyle(value: String): TextStyle =
