@@ -41,11 +41,14 @@ import androidx.wear.compose.material3.AppCard
 import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ButtonDefaults
+import androidx.wear.compose.material3.ButtonGroupDefaults
 import androidx.wear.compose.material3.Card
 import androidx.wear.compose.material3.CardDefaults
 import androidx.wear.compose.material3.ChildButton
 import androidx.wear.compose.material3.ColorScheme
 import androidx.wear.compose.material3.FilledTonalButton
+import androidx.wear.compose.material3.IconButtonDefaults
+import androidx.wear.compose.material3.ListHeaderDefaults
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.OutlinedButton
 import androidx.wear.compose.material3.OutlinedCard
@@ -53,6 +56,8 @@ import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScreenScaffoldDefaults
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
+import androidx.wear.compose.material3.TextButtonDefaults
+import androidx.wear.compose.material3.TextDefaults
 import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
@@ -349,25 +354,29 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
   val count = itemCount("items")
   val state = LocalScreenListState.current ?: rememberTransformingLazyColumnState()
   registerScrolling(state::dispatchRawDelta) { state.requestScrollToItem(it) }
+  val transform = string("transformation") != "none"
+  // Each row's component, in order: what decides the padding it asks the list for. Collected
+  // through `Items` without drawing anything, since a row is otherwise reached only by index.
+  val components = ArrayList<String>(count)
+  canvas.Items("items") { child -> components += child.componentId }
   if (mode == CanvasMode.AuthoringUnrolled) {
-    // Every row on the device takes `minimumVerticalContentPadding(CardDefaults
-    // .minimumVerticalListContentPadding)`, and the list pads its ends by the larger of that and
-    // the scaffold's own padding: on a round watch the first row starts, and the last row ends,
-    // 23% of the screen in from the bezel rather than the scaffold's 10%. The extent drew neither,
-    // so its last row ran into the bottom cap and was clipped. An edge button replaces the bottom
+    // On the device each row asks the list for its component's minimum padding through
+    // `minimumVerticalContentPadding`, and the list pads its ends by the larger of the first row's
+    // top, or the last row's bottom, and the scaffold's own padding: a card ends 23% of the screen
+    // in from the bezel, a header starts 13% in, rather than the scaffold's 10%. The extent is a
+    // `Column`, which takes no such modifier, so it pads its ends by the same rule; drawn without,
+    // its last card ran into the bottom cap and was clipped. An edge button replaces the bottom
     // end: the scaffold's padding there is the button's, which is always the larger.
     val scaffold = LocalScreenContentPadding.current
-    val minimum = listEndPadding()
-    val top = (minimum - scaffold.calculateTopPadding()).coerceAtLeast(0.dp)
+    val (first, last) =
+      if (transform) listEndPadding(components.firstOrNull(), components.lastOrNull())
+      else 0.dp to 0.dp
+    val top = (first - scaffold.calculateTopPadding()).coerceAtLeast(0.dp)
     val bottom =
       if (LocalScreenEndsAtEdgeButton.current) 0.dp
-      else (minimum - scaffold.calculateBottomPadding()).coerceAtLeast(0.dp)
+      else (last - scaffold.calculateBottomPadding()).coerceAtLeast(0.dp)
     Column(
-      modifier =
-        modifier.padding(
-          top = if (count > 0) top else 0.dp,
-          bottom = if (count > 0) bottom else 0.dp,
-        ),
+      modifier = modifier.padding(top = top, bottom = bottom),
       verticalArrangement = Arrangement.spacedBy(float("verticalSpacingDp", 4f).dp),
     ) {
       repeat(count) { index -> canvas.Item("items", index) }
@@ -376,7 +385,6 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
   }
 
   val transformationSpec = rememberTransformationSpec()
-  val transform = string("transformation") != "none"
   TransformingLazyColumn(
     state = state,
     contentPadding = LocalScreenContentPadding.current,
@@ -389,12 +397,16 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
           remember(this, transformationSpec) {
             RowTransformation(SurfaceTransformation(transformationSpec))
           }
+        val padding = components.getOrNull(index)?.let { listContentPadding(it) }
         CompositionLocalProvider(LocalRowTransformation provides row) {
           canvas.Item(
             "items",
             index,
             Modifier.fillMaxWidth()
-              .minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding)
+              .then(
+                if (padding == null) Modifier
+                else Modifier.minimumVerticalContentPadding(padding.first, padding.second)
+              )
               .transformedHeight(this@items, transformationSpec)
               .graphicsLayer {
                 if (row.appliedBy == 0) with(row.surface) { applyContainerTransformation() }
@@ -402,15 +414,39 @@ private fun CanvasNodeScope.WearTransformingLazyColumn() {
           )
         }
       } else {
-        canvas.Item(
-          "items",
-          index,
-          Modifier.fillMaxWidth()
-            .minimumVerticalContentPadding(CardDefaults.minimumVerticalListContentPadding),
-        )
+        // An untransformed list is a plain one, as the generated screen writes it: no row asks
+        // for list padding there.
+        canvas.Item("items", index, Modifier.fillMaxWidth())
       }
     }
   }
+}
+
+/**
+ * The minimum padding a row of [componentId] asks a transforming list for, top to bottom: the
+ * component's own `…Defaults`, as the generated screen writes it (compose-ui-builder's
+ * `WearContentEmitter.minimumVerticalListContentPadding`). `ListHeader` and `Text` publish a
+ * top/bottom pair, the cards and buttons one value; a component with no published minimum asks for
+ * none rather than a borrowed one.
+ */
+@Composable
+private fun listContentPadding(componentId: String): Pair<Dp, Dp>? {
+  val single =
+    when (componentId) {
+      "wear-m3/list-header" ->
+        return ListHeaderDefaults.minimumTopListContentPadding to
+          ListHeaderDefaults.minimumBottomListContentPadding
+      "wear-m3/text" ->
+        return TextDefaults.minimumTopListContentPadding to
+          TextDefaults.minimumBottomListContentPadding
+      "wear-m3/card" -> CardDefaults.minimumVerticalListContentPadding
+      "wear-m3/button" -> ButtonDefaults.minimumVerticalListContentPadding
+      "wear-m3/button-group" -> ButtonGroupDefaults.minimumVerticalListContentPadding
+      "wear-m3/icon-button" -> IconButtonDefaults.minimumVerticalListContentPadding
+      "wear-m3/text-button" -> TextButtonDefaults.minimumVerticalListContentPadding
+      else -> return null
+    }
+  return single to single
 }
 
 @Composable
@@ -577,17 +613,15 @@ private fun PaddingValues.withoutBottom(): PaddingValues {
 }
 
 /**
- * What each device row asks the list for through `minimumVerticalContentPadding`:
- * `CardDefaults.minimumVerticalListContentPadding`, read for the round screen. That modifier is a
- * member of `TransformingLazyColumnItemScope`, and the extent cannot be that list: it lays out at
- * the content's whole height, which a lazy list cannot measure. Read under the extent's own
- * configuration the default is a fraction of the content's height, so it is read under the watch's:
- * as tall as it is wide.
+ * What the list's ends are padded by on the device: the [first] row's top request and the [last]
+ * row's bottom one ([listContentPadding]). The defaults are fractions of the screen's height, and
+ * on the extent the configured height is the content's, so they are read for the watch: as tall as
+ * it is wide.
  */
 @Composable
-private fun listEndPadding(): Dp {
+private fun listEndPadding(first: String?, last: String?): Pair<Dp, Dp> {
   val device = LocalWearDeviceConfiguration.current
-  var padding = 0.dp
+  var ends = 0.dp to 0.dp
   CompositionLocalProvider(
     LocalWearDeviceConfiguration provides
       WearDeviceConfiguration(
@@ -596,7 +630,9 @@ private fun listEndPadding(): Dp {
         screenHeightDp = device.screenWidthDp,
       )
   ) {
-    padding = CardDefaults.minimumVerticalListContentPadding
+    ends =
+      (first?.let { listContentPadding(it)?.first } ?: 0.dp) to
+        (last?.let { listContentPadding(it)?.second } ?: 0.dp)
   }
-  return padding
+  return ends
 }
