@@ -40,7 +40,11 @@ import org.jetbrains.skiko.InternalSkikoApi
 import org.jetbrains.skiko.wasm.awaitSkiko
 
 private val runtimeAdapters =
-  foundationCanvasAdapters + wearCanvasAdapters + wearScreenAdapters + wearTextAdapters
+  foundationCanvasAdapters +
+    wearCanvasAdapters +
+    wearPickerAdapters +
+    wearScreenAdapters +
+    wearTextAdapters
 
 private val runtimePolicy by lazy {
   Json { ignoreUnknownKeys = true }.parseToJsonElement(catalogUiBuilderPolicyJson).jsonObject

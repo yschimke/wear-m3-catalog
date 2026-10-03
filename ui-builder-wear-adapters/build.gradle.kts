@@ -17,5 +17,12 @@ kotlin {
       @Suppress("DEPRECATION") implementation(compose.runtime)
       @Suppress("DEPRECATION") implementation(compose.ui)
     }
+    // `WearAdapterPropertyParityTest` draws every adapter on the desktop, which is why the adapters
+    // are common code: the JVM is where a Compose UI test runs without a browser.
+    jvmTest.dependencies {
+      implementation(kotlin("test"))
+      @Suppress("DEPRECATION") implementation(compose.desktop.uiTestJUnit4)
+      @Suppress("DEPRECATION") implementation(compose.desktop.currentOs)
+    }
   }
 }
