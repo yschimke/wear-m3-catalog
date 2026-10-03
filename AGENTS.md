@@ -511,14 +511,19 @@ Wrapping changes none of the verification rules below; run the same tasks throug
   mobile BOM and the material3 pin), and **Horologist**. All change what the catalog renders, and the
   render is the product — a human reads the visual diff before it lands. Horologist ships as one release
   (a skew is a compile error) and only its `*-material3` artifacts are dependencies here.
-- **The preview coordinates come from two repositories, on two lines.** The plugin marker and the
-  pinned CI action ref are compose-ai-tools' (`composePreviewCore`) and must not skew — a skew breaks
-  preview discovery outright. `preview-annotations` and `data-preview-overrides-runtime` publish from
-  compose-preview-daemon (`composePreviewDaemon`) on a
-  line of their own since compose-ai-tools#5336. Two refs and two Renovate groups; pinning both to
-  one ref took `main` red at configuration time when the two lines still shared a repository. Note
-  that a GitHub release tag exists for every version a line publishes, so a tag can resolve as an
-  ACTION ref while the plugin at that version does not exist on Central.
+- **The preview coordinates come from three repositories, and every module resolves through its
+  line's BOM.** The plugin marker and the pinned CI action ref are compose-ai-tools'
+  (`composePreviewPlugin`) and must not skew — a skew breaks preview discovery outright.
+  `preview-annotations` and `data-preview-overrides-runtime` are compose-preview-daemon's and the
+  UI-builder exporter is compose-ui-builder's; both publish only the modules that changed in a
+  release, so those coordinates are **versionless** in `gradle/libs.versions.toml` and resolve
+  through `platform(libs.composeai.daemon.bom)` / `platform(libs.composeai.ui.builder.bom)`. Never
+  give one a version of its own: a per-module pin at the release version 404s the first time a
+  release skips that module. The daemon BOM (`composePreviewDaemon`) is the one hand-set version:
+  it must equal the daemon the plugin bakes, `:verifyComposePreviewDaemonAlignment` fails the build
+  when it does not and names the value, and Renovate never moves it on its own — set it on the
+  plugin's PR. Note that a GitHub release tag exists for every version a line publishes, so a tag
+  can resolve as an ACTION ref while the plugin at that version does not exist on Central.
 - **The Wear CMP port is consumed, not built here.** The desktop targets
   (`:catalog`'s `desktop`, `:catalog-desktop`, the UI-builder renderer) resolve the
   `ee.schimke.wearcmp` artifacts from the `wear-compose-cmp-maven` branch of

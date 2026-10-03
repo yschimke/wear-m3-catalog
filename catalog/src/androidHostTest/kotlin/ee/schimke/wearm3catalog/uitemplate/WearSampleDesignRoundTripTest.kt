@@ -52,7 +52,7 @@ import org.robolectric.annotation.GraphicsMode
  * card body are two- and three-line strings upstream, and here each line break is a space. The
  * published exporter this module pins writes a line break into a `"…"` literal unescaped, which
  * does not compile; compose-ui-builder escapes it now (`WearScreenCodeExporter.quoted`), and these
- * documents take the line breaks back when `composePreviewServer` moves to a release carrying it.
+ * documents take the line breaks back when `composeUiBuilder` moves to a release carrying it.
  *
  * **When the golden check fails after an exporter upgrade**, regenerate rather than hand-edit:
  * `-PwriteGolden=true`, then read the diff. A green compile on the new text is the review.

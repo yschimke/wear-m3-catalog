@@ -173,7 +173,10 @@ kotlin {
       implementation(libs.materialkolor)
 
       // `@CatalogGroup`, `@CatalogComponent`, `@CatalogVariant`, `@OverrideVariant`, and the token
-      // catalog annotations — multiplatform since compose-preview-daemon 3.0.0.
+      // catalog annotations — multiplatform since compose-preview-daemon 3.0.0. Versionless, like
+      // every ee.schimke.composeai module: the daemon BOM picks each one's published version for
+      // the daemon release in gradle/libs.versions.toml.
+      implementation(project.dependencies.platform(libs.composeai.daemon.bom))
       implementation(libs.composeai.preview.annotations)
       // `previewOverride*` — the knob surface `@OverrideVariant` seeds, so ONE `@Preview` can carry
       // a whole variant matrix instead of one near-identical composable per cell. Multiplatform
@@ -260,6 +263,8 @@ kotlin {
       // `WearScreenTemplateRoundTripTest` — the UI builder's own emitter, so the template documents
       // this repository publishes can be compiled here rather than only described. Test-only: the
       // stickers are drawn by Wear Compose and no main source reads the builder's document model.
+      // Versionless, resolved through compose-ui-builder's BOM.
+      implementation(project.dependencies.platform(libs.composeai.ui.builder.bom))
       implementation(libs.composeai.ui.builder.export)
     }
   }
