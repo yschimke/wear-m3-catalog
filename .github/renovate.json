@@ -140,5 +140,19 @@
       ],
       "minimumReleaseAge": null
     }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/ci\\.yml$/"
+      ],
+      "matchStrings": [
+        "repository:\\s*yschimke/compose-ai-tools\\s+ref:\\s*v(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "yschimke/compose-ai-tools",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    }
   ]
 }
