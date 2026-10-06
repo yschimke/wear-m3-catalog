@@ -62,6 +62,8 @@ compose-material3 = "1.5.0-alpha29"
 # #637 were the same bug on earlier lines). The modules in [libraries] are therefore VERSIONLESS and
 # every module that uses them applies `platform(...)` of the BOM; never add a version to them.
 composePreviewPlugin = "2.35.0"
+# The release BOM can advance even when a partial release keeps the plugin unchanged.
+composeAiTools = "2.35.0"
 # The daemon release BOM aligns the annotations and preview renderer graph. It must not
 # predate the daemon baked into the preview plugin; verifyComposePreviewDaemonAlignment
 # checks that floor before compilation. Renovate updates this BOM independently.
@@ -133,7 +135,7 @@ wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-emoji2 = { module = "androidx.emoji2:emoji2", version.ref = "androidx-emoji2" }
 
-composeai-tools-bom = { module = "ee.schimke.composeai:compose-ai-tools-bom", version.ref = "composePreviewPlugin" }
+composeai-tools-bom = { module = "ee.schimke.composeai:compose-ai-tools-bom", version.ref = "composeAiTools" }
 composeai-contracts-bom = { module = "ee.schimke.composeai:compose-preview-contracts-bom", version.ref = "composePreviewContracts" }
 composeai-daemon-bom = { module = "ee.schimke.composeai:compose-preview-daemon-bom", version.ref = "composePreviewDaemon" }
 # Versionless: resolved through composeai-daemon-bom. Never add a version here.
