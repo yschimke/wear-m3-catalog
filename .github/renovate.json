@@ -50,14 +50,14 @@
       ]
     },
     {
-      "description": "Every ee.schimke.composeai MODULE coordinate is held back, the compose-preview daemon BOM included. Since the BOM fix, the modules in gradle/libs.versions.toml are versionless and resolve through their line's BOM (`platform(...)` in every module that uses them), because compose-preview-daemon and compose-ui-builder publish only the modules that changed in a release: a per-module pin at the release version 404s the first time a release skips a module (data-preview-overrides-runtime 3.13.0 does not exist while preview-annotations 3.13.0 does), which is #199, #347 and #637 again. The daemon BOM's version (`composePreviewDaemon`) must equal the daemon release the compose-preview plugin BAKES. The daemon always releases before the plugin that bakes it, and Renovate cannot read the baked value, so an independent BOM update would run ahead of the plugin, and grouping or minimumGroupSize would still raise it to the latest daemon rather than the baked one. The BOM therefore moves only in the plugin's PR, set by hand to the value :verifyComposePreviewDaemonAlignment (root build.gradle.kts, run before every compose-preview module compiles) reports. This also stops Renovate looking up the synthetic `ui-builder-renderer-sdk-source` coordinate, which is never on Maven. The plugin marker (`ee.schimke.composeai.preview`, no colon after `composeai`) is not matched, and the UI-builder BOM is re-enabled by the last rule.",
+      "description": "Published modules are versionless and resolve through their release BOMs. Keep synthetic source-composite coordinates disabled; the BOM rules below re-enable published BOM updates. The daemon alignment check rejects a BOM older than the plugin runtime floor.",
       "matchPackageNames": [
         "/^ee\\.schimke\\.composeai:/"
       ],
       "enabled": false
     },
     {
-      "description": "LAST-BUT-ONE ON PURPOSE, below the CI-toolchain rule: Renovate applies packageRules in order and the LAST match wins, and while this rule sat above that one the pinned `compose-ai-tools` action ref, a github-actions dependency, was pulled back out into the weekly batch and the two halves of one release drifted apart (compose-ai-tools#4220 found the pin three releases behind the Gradle coords). compose-ai-tools ships the preview CLI, the ee.schimke.composeai.preview plugin and the reusable CI actions/workflows as ONE release, so the plugin marker and the pinned action refs move together in ONE PR and can never skew apart; a skew breaks preview discovery outright. When the new plugin bakes a different daemon, that PR fails :verifyComposePreviewDaemonAlignment with the composePreviewDaemon value to set, and it is set on the same PR, so a daemon change never automerges unseen. Tracked aggressively and automerged once CI is green: the release moves several times a day and the pin is only useful if it keeps up. Republishing the catalog against the new renderer needs no extra step, because design-artifacts.yml has a push trigger on main covering the manifest paths this PR touches.",
+      "description": "Keep the Gradle plugin marker and pinned reusable action/workflow refs on the same compose-ai-tools release. The daemon BOM updates independently and must meet the plugin runtime floor checked by verifyComposePreviewDaemonAlignment.",
       "matchPackageNames": [
         "/^ee\\.schimke\\.composeai\\.preview($|[.:])/",
         "yschimke/compose-ai-tools"
@@ -73,7 +73,7 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "LAST: re-enables the ONE compose-ui-builder coordinate this catalog versions, its BOM, after the rule above disabled every ee.schimke.composeai module. It is published from yschimke/compose-ui-builder on a release line of its own and resolves the test-only UI-builder exporter (`composeUiBuilder` in gradle/libs.versions.toml), so it moves on its own, independent of the plugin, and in its own group (the shared preset's `compose-ui-builder`). Automerged like its neighbour; `WearScreenTemplateRoundTripTest` is what catches an exporter change.",
+      "description": "Re-enable the UI-builder release BOM after the module rule. The exporter resolves through this BOM and is verified by WearScreenTemplateRoundTripTest.",
       "matchPackageNames": [
         "ee.schimke.composeai:compose-preview-ui-builder-bom"
       ],
@@ -87,6 +87,72 @@
         "at any time"
       ],
       "minimumReleaseAge": null
+    },
+    {
+      "description": "Update this release BOM independently; module versions come from its constraints.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:compose-preview-daemon-bom"
+      ],
+      "groupName": "compose-preview-daemon",
+      "rangeStrategy": "pin",
+      "enabled": true,
+      "schedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Update this release BOM independently; module versions come from its constraints.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:compose-preview-ui-builder-bom"
+      ],
+      "groupName": "compose-ui-builder",
+      "rangeStrategy": "pin",
+      "enabled": true,
+      "schedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Update this release BOM independently; module versions come from its constraints.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:compose-preview-contracts-bom"
+      ],
+      "groupName": "compose-preview-contracts",
+      "rangeStrategy": "pin",
+      "enabled": true,
+      "schedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Update this release BOM independently; module versions come from its constraints.",
+      "matchPackageNames": [
+        "ee.schimke.composeai:compose-ai-tools-bom"
+      ],
+      "groupName": "compose-ai-tools",
+      "rangeStrategy": "pin",
+      "enabled": true,
+      "schedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/ci\\.yml$/"
+      ],
+      "matchStrings": [
+        "repository:\\s*yschimke/compose-ai-tools\\s+ref:\\s*v(?<currentValue>\\d+\\.\\d+\\.\\d+)"
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "yschimke/compose-ai-tools",
+      "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ]
 }

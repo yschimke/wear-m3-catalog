@@ -208,9 +208,8 @@ jobs:
       # added `check-parity-locators.mjs`. Bumping is a one-line commit, and the reason to bump is
       # a fix to the checker rather than a schedule.
       #
-      # The `spec` job below checks the same repository out at `main`, left as it was: that one
-      # predates this and runs a validator this repository has always taken from head. The path is
-      # spelled the same in both so the two read as one driver.
+      # The `spec` job below installs the published validation driver from the preview release.
+      # The locator checker stays on its separately reviewed commit; it is not a runtime module.
       - name: Check out the locator checker
         if: needs.changes.outputs.inert != 'true'
         uses: actions/checkout@v7.0.1
@@ -312,20 +311,25 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         with:
           repository: yschimke/compose-ai-tools
-          ref: main
+          ref: v2.35.0
           path: compose-ai-tools
           persist-credentials: false
       - uses: actions/setup-node@v7.0.0
         if: needs.changes.outputs.inert != 'true'
         with:
           node-version: 24.21.0
+      - name: Install catalog validation driver
+        if: needs.changes.outputs.inert != 'true'
+        run: |
+          compose-ai-tools/.github/scripts/install-export-driver.sh \
+            --scripts-only "$RUNNER_TEMP/export-driver" >/dev/null
       # The build-free pre-flight: resolves every spec reference against the module's actual
       # `@Preview` functions and flags PNG-less previews, before the (long) render in
       # design-artifacts.yml spends a runner discovering the same problem.
       - name: validate-catalog-spec
         if: needs.changes.outputs.inert != 'true'
         run: |
-          node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
+          node "$DRIVER_DIR/validate-catalog-spec.mjs" \
             --spec catalog.spec.json --module-dir catalog
 
       # The samples sheet's spec is GENERATED, and `samples-spec.mjs --check` above already proves
@@ -337,7 +341,7 @@ jobs:
       - name: validate-catalog-spec (samples)
         if: needs.changes.outputs.inert != 'true'
         run: |
-          node compose-ai-tools/scripts/design-artifacts/validate-catalog-spec.mjs \
+          node "$DRIVER_DIR/validate-catalog-spec.mjs" \
             --spec samples-catalog/catalog.spec.json --module-dir samples-catalog
 
   pages:

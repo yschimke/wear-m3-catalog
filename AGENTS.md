@@ -519,10 +519,13 @@ Wrapping changes none of the verification rules below; run the same tasks throug
   release, so those coordinates are **versionless** in `gradle/libs.versions.toml` and resolve
   through `platform(libs.composeai.daemon.bom)` / `platform(libs.composeai.ui.builder.bom)`. Never
   give one a version of its own: a per-module pin at the release version 404s the first time a
-  release skips that module. The daemon BOM (`composePreviewDaemon`) is the one hand-set version:
-  it must equal the daemon the plugin bakes, `:verifyComposePreviewDaemonAlignment` fails the build
-  when it does not and names the value, and Renovate never moves it on its own — set it on the
-  plugin's PR. Note that a GitHub release tag exists for every version a line publishes, so a tag
+  release skips that module. The daemon BOM (`composePreviewDaemon`) may advance independently
+  through Renovate:
+  the plugin resolves its renderer and daemon configurations in the consumer runtime graph, so
+  the newer BOM aligns them with the annotations. `:verifyComposePreviewDaemonAlignment` rejects
+  a BOM older than the daemon baked into the plugin before compilation. The contracts and tools
+  BOMs also align transitive runtime modules with their latest published releases. Note that a
+  GitHub release tag exists for every version a line publishes, so a tag
   can resolve as an ACTION ref while the plugin at that version does not exist on Central.
 - **The Wear CMP port is consumed, not built here.** The desktop targets
   (`:catalog`'s `desktop`, `:catalog-desktop`, the UI-builder renderer) resolve the

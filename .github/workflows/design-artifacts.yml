@@ -178,7 +178,7 @@ jobs:
     concurrency:
       group: design-artifacts-${{ github.ref }}-wear-m3-catalog
       cancel-in-progress: false
-    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
+    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@v2.35.0
     with:
       system: wear-m3-catalog
       artifact-repository: yschimke/wear-m3-catalog-out
@@ -314,7 +314,7 @@ jobs:
     concurrency:
       group: design-artifacts-${{ github.ref }}-wear-m3-samples
       cancel-in-progress: false
-    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@main
+    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@v2.35.0
     with:
       system: wear-m3-samples
       artifact-repository: yschimke/wear-m3-catalog-out
