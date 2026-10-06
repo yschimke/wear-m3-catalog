@@ -176,6 +176,8 @@ kotlin {
       // catalog annotations — multiplatform since compose-preview-daemon 3.0.0. Versionless, like
       // every ee.schimke.composeai module: the daemon BOM picks each one's published version for
       // the daemon release in gradle/libs.versions.toml.
+      implementation(project.dependencies.platform(libs.composeai.tools.bom))
+      implementation(project.dependencies.platform(libs.composeai.contracts.bom))
       implementation(project.dependencies.platform(libs.composeai.daemon.bom))
       implementation(libs.composeai.preview.annotations)
       // `previewOverride*` — the knob surface `@OverrideVariant` seeds, so ONE `@Preview` can carry

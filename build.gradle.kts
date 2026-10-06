@@ -58,10 +58,9 @@ val ktfmtCheckUiBuilderRendererSources by
 tasks.named("ktfmtCheck") { dependsOn(ktfmtCheckUiBuilderRendererSources) }
 
 // composePreviewDaemon (the compose-preview-daemon-bom version every ee.schimke.composeai runtime
-// module resolves through) must equal the daemon release the compose-preview plugin bakes into its
-// jar (`previewDaemon` in plugin-version.properties): the catalogs compile against the same runtime
-// the plugin's renderer hosts. Renovate cannot read that value, so it never moves the BOM on its
-// own (.github/renovate.json); this check is what keeps the two equal when the plugin moves.
+// module resolves through) must not predate the daemon release the compose-preview plugin bakes
+// into its jar. The plugin's renderer configurations extend the consumer runtime graph, so a newer
+// BOM aligns the renderer and annotations together. Reject an older BOM before compilation.
 val bakedPreviewDaemonVersion: String =
   javaClass.classLoader
     .getResource("ee/schimke/composeai/plugin/plugin-version.properties")
@@ -71,17 +70,20 @@ val bakedPreviewDaemonVersion: String =
 
 val verifyComposePreviewDaemonAlignment by tasks.registering {
   group = "verification"
-  description = "Fail when composePreviewDaemon differs from the compose-preview plugin's daemon."
+  description = "Fail when composePreviewDaemon predates the compose-preview plugin's daemon."
   val plugin = libs.versions.composePreviewPlugin.get()
   val catalog = libs.versions.composePreviewDaemon.get()
   val bakedPreviewDaemon = bakedPreviewDaemonVersion
   inputs.property("baked", bakedPreviewDaemon)
   inputs.property("catalog", catalog)
   doLast {
-    check(bakedPreviewDaemon == catalog) {
+    val catalogParts = catalog.split('.').map(String::toInt)
+    val bakedParts = bakedPreviewDaemon.split('.').map(String::toInt)
+    val firstDifference = catalogParts.zip(bakedParts).firstOrNull { (a, b) -> a != b }
+    check(firstDifference == null || firstDifference.first > firstDifference.second) {
       "gradle/libs.versions.toml has composePreviewDaemon = \"$catalog\", but compose-preview " +
-        "plugin $plugin bakes daemon \"$bakedPreviewDaemon\" (plugin-version.properties). " +
-        "Set composePreviewDaemon = \"$bakedPreviewDaemon\"."
+        "plugin $plugin requires at least daemon \"$bakedPreviewDaemon\" (plugin-version.properties). " +
+        "Set composePreviewDaemon to \"$bakedPreviewDaemon\" or a newer published BOM."
     }
   }
 }

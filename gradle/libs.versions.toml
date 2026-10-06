@@ -61,21 +61,19 @@ compose-material3 = "1.5.0-alpha29"
 # ref over the pair could only have pointed at a coordinate that does not exist (#199, #347 and
 # #637 were the same bug on earlier lines). The modules in [libraries] are therefore VERSIONLESS and
 # every module that uses them applies `platform(...)` of the BOM; never add a version to them.
-composePreviewPlugin = "2.32.4"
-# compose-preview-daemon-bom. Keep this EQUAL to the daemon the plugin above bakes into its jar
-# (`previewDaemon` in plugin-version.properties; plugin 2.32.4 bakes 3.13.1), so the catalog compiles
-# against the runtime the renderer hosts. :verifyComposePreviewDaemonAlignment (root
-# build.gradle.kts) fails the build when they differ. The daemon always releases before the plugin
-# that bakes it, so Renovate never moves this on its own (.github/renovate.json): it changes in the
-# plugin's PR, to the value that check reports.
-composePreviewDaemon = "3.13.1"
+composePreviewPlugin = "2.35.0"
+# The daemon release BOM aligns the annotations and preview renderer graph. It must not
+# predate the daemon baked into the preview plugin; verifyComposePreviewDaemonAlignment
+# checks that floor before compilation. Renovate updates this BOM independently.
+composePreviewDaemon = "3.14.0"
+composePreviewContracts = "3.19.0"
 
 # compose-preview-ui-builder-bom, from yschimke/compose-ui-builder on a release line of its own. It
 # resolves the UI-builder exporter, which is test-only: `WearScreenTemplateRoundTripTest` uses it to
 # prove a screen design still generates the Kotlin checked in beside it, and the compiler proves
 # that Kotlin still builds against `:catalog`'s own classpath. The 3.72.0 BOM pins the exporter at
 # 3.72.0. Renovate moves it in its own group.
-composeUiBuilder = "3.83.0"
+composeUiBuilder = "3.86.0"
 
 # Synthetic source-composite coordinates for :catalog-ui-builder-renderer. There are deliberately
 # no Maven artifacts at these names: settings.gradle.kts substitutes both from the checkout named
@@ -135,6 +133,8 @@ wear-tooling-preview = { module = "androidx.wear:wear-tooling-preview", version.
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity-compose" }
 androidx-emoji2 = { module = "androidx.emoji2:emoji2", version.ref = "androidx-emoji2" }
 
+composeai-tools-bom = { module = "ee.schimke.composeai:compose-ai-tools-bom", version.ref = "composePreviewPlugin" }
+composeai-contracts-bom = { module = "ee.schimke.composeai:compose-preview-contracts-bom", version.ref = "composePreviewContracts" }
 composeai-daemon-bom = { module = "ee.schimke.composeai:compose-preview-daemon-bom", version.ref = "composePreviewDaemon" }
 # Versionless: resolved through composeai-daemon-bom. Never add a version here.
 composeai-preview-annotations = { module = "ee.schimke.composeai:preview-annotations" }
