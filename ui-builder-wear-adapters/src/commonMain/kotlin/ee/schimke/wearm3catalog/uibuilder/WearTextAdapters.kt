@@ -24,12 +24,13 @@ import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIconImageVector
 
 val wearTextAdapters = canvasAdapterRegistry {
   register("wear-m3/text") {
+    val font = withFontSettings(textStyle(string("style")))
     Text(
       text = string("text"),
       modifier = modifier,
       color = color("color", Color.Unspecified),
-      style = textStyle(string("style")),
-      fontWeight = fontWeight(),
+      style = font.style,
+      fontWeight = if (font.setsWeight) null else fontWeight(),
       fontStyle = fontStyle(),
       fontSize = float("fontSizeSp").takeIf { it > 0f }?.sp ?: TextUnit.Unspecified,
       lineHeight = float("lineHeightSp").takeIf { it > 0f }?.sp ?: TextUnit.Unspecified,
