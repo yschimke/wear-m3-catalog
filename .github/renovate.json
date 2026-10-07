@@ -7,7 +7,7 @@
   ],
   "timezone": "UTC",
   "prConcurrentLimit": 10,
-  "description": "Automerge is the default posture here, not the exception. This repo is a design catalog with no downstream consumers: nothing depends on its artifacts, so a bad bump costs a revert, not a broken release. What stops a bad bump reaching main is the `Protect Main` ruleset \u2014 CI (build + discovery, unit tests, ktfmtCheck, catalog spec, catalog spec) is required, and `platformAutomerge` hands the merge to GitHub's own auto-merge, which only fires once those checks pass. Set the ruleset up with `scripts/setup-repo-protection.sh`; without it, automerge silently degrades to merging as soon as Renovate can, which is not what any of this intends.",
+  "description": "Automerge is the default posture here, not the exception. This repo is a design catalog with no downstream consumers: nothing depends on its artifacts, so a bad bump costs a revert, not a broken release. What stops a bad bump reaching main is the `Protect Main` ruleset \u2014 CI (build + discovery, unit tests, ktfmtCheck, catalog spec, catalog spec) is required, and `platformAutomerge` hands the merge to GitHub's own auto-merge, which only fires once those checks pass. The ruleset is applied from yschimke/renovate-config's `repo-policy/`; without it, automerge silently degrades to merging as soon as Renovate can, which is not what any of this intends.",
   "automerge": true,
   "automergeType": "pr",
   "platformAutomerge": true,

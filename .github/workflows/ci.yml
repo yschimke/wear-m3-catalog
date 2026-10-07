@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   # WHY THIS JOB EXISTS. The four checks below are REQUIRED on the `Protect Main` ruleset
-  # (`scripts/setup-repo-protection.sh` names them: Build + discover previews, Unit tests,
+  # (renovate-config's `repo-policy/` names them: Build + discover previews, Unit tests,
   # ktfmtCheck, Validate catalog spec), and a job filtered out by `paths:` never reports at all — a
   # required check that never reports BLOCKS the merge rather than passing it. So the cheap way to
   # stop a docs-only pull request spending 30 minutes of runner on an assemble, a discovery and a
