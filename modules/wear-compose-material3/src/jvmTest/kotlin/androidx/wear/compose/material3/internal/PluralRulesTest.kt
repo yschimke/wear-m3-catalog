@@ -35,7 +35,7 @@ import kotlin.test.assertTrue
  * // for each tag: PluralRules.forLocale(ULocale(tag)).select(n.toDouble()) for n in 0..200
  * ```
  * and map the keywords onto those six letters. The locale list is the keys of
- * `GeneratedLocalizedPlurals`, plus `en` for the default resources.
+ * `GeneratedLocaleTags`, plus `en` for the default resources.
  */
 class PluralRulesTest {
 
@@ -67,7 +67,7 @@ class PluralRulesTest {
 
     @Test
     fun theFixtureCoversEveryLocaleTheResourcesShip() {
-        val shipped = GeneratedLocalizedPlurals.keys
+        val shipped = GeneratedLocaleTags.toSet()
         val missing = shipped - expected.keys
         assertTrue(missing.isEmpty(), "no ICU fixture for $missing — regenerate it")
         // Plus `en`, which the default (unqualified) resources are written in.

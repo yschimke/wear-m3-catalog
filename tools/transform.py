@@ -239,32 +239,62 @@ def generate_resources(source_root: pathlib.Path, common: pathlib.Path, package:
         path.stem: read(path) for path in sorted(resources.glob("*.xml")) if path.stem != "default"
     }
 
+    def identifier(tag: str) -> str:
+        return re.sub(r"[^A-Za-z0-9]", "", tag.title())
+
+    def lazy_map(name: str, kind: str, entries: dict) -> list[str]:
+        return [f"private val {name}: {kind} by lazy {{", *kotlin_map(entries, 4), "}", ""]
+
+    strings_kind = "Map<String, String>"
+    plurals_kind = "Map<String, Map<String, String>>"
     lines = [
         BANNER.rstrip("\n"),
         "// Source: the `res/values*` of the AAR pinned in upstream.json.",
+        "//",
+        "// One lazy table per locale, reached through a `when`, rather than one map of every",
+        "// locale: a page builds only the tables of the locale it runs in. A single initialiser",
+        "// for all of them was one 145 KB wasm function, run once at startup, and V8 spent",
+        "// ~170 MB optimising it.",
         "",
         f"package {package}.internal",
         "",
         "/** Every `<string>` of the default locale, by resource name. */",
-        "internal val GeneratedStrings: Map<String, String> =",
+        f"internal val GeneratedStrings: {strings_kind} by lazy {{",
         *kotlin_map(default_strings, 4),
+        "}",
         "",
         "/** Every `<plurals>` of the default locale, by resource name then CLDR quantity keyword. */",
-        "internal val GeneratedPlurals: Map<String, Map<String, String>> =",
+        f"internal val GeneratedPlurals: {plurals_kind} by lazy {{",
         *kotlin_map(default_plurals, 4),
+        "}",
+        "",
+        "/** The BCP 47 language tags the AAR ships translations for. */",
+        "internal val GeneratedLocaleTags: List<String> =",
+        "    listOf(",
+        *[f"        {kotlin_string(tag)}," for tag in translated],
+        "    )",
         "",
         "/**",
-        " * The translations, by BCP 47 language tag. A tag that is absent falls back to",
-        " * [GeneratedStrings] — the AAR's default locale, which is English.",
+        " * The translated strings for [tag], by resource name, or null for a tag the AAR ships no",
+        " * translation for, which falls back to [GeneratedStrings]: the default locale, English.",
         " */",
-        "internal val GeneratedLocalizedStrings: Map<String, Map<String, String>> =",
-        *kotlin_map({tag: strings for tag, (strings, _) in translated.items()}, 4),
+        f"internal fun generatedLocalizedStrings(tag: String): {strings_kind}? =",
+        "    when (tag) {",
+        *[f"        {kotlin_string(tag)} -> Strings{identifier(tag)}" for tag in translated],
+        "        else -> null",
+        "    }",
         "",
-        "/** The translated plurals, by language tag, then resource name, then quantity keyword. */",
-        "internal val GeneratedLocalizedPlurals: Map<String, Map<String, Map<String, String>>> =",
-        *kotlin_map({tag: plurals for tag, (_, plurals) in translated.items()}, 4),
+        "/** The translated plurals for [tag], by resource name then quantity keyword. */",
+        f"internal fun generatedLocalizedPlurals(tag: String): {plurals_kind}? =",
+        "    when (tag) {",
+        *[f"        {kotlin_string(tag)} -> Plurals{identifier(tag)}" for tag in translated],
+        "        else -> null",
+        "    }",
         "",
     ]
+    for tag, (strings, plurals) in translated.items():
+        lines += lazy_map(f"Strings{identifier(tag)}", strings_kind, strings)
+        lines += lazy_map(f"Plurals{identifier(tag)}", plurals_kind, plurals)
 
     target = common / package.replace(".", "/") / "internal" / "GeneratedResources.kt"
     target.parent.mkdir(parents=True, exist_ok=True)

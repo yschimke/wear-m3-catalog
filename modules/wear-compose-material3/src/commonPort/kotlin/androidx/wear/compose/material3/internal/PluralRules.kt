@@ -25,7 +25,7 @@ package androidx.wear.compose.material3.internal
  * was in the right language and could be in the wrong form for any count but one — Polish needs
  * `few` and `many`, Arabic uses all six.
  *
- * The translations were never the problem: `GeneratedLocalizedPlurals` already carries every
+ * The translations were never the problem: `generatedLocalizedPlurals` already carries every
  * keyword each locale ships, because `tools/transform.py` extracts whatever is in the AAR. Only the
  * SELECTION was wrong, and that is what this file supplies.
  *
@@ -38,7 +38,7 @@ package androidx.wear.compose.material3.internal
  *
  * ## Verified, not asserted
  *
- * `PluralRulesTest` checks every locale in `GeneratedLocalizedPlurals` for every count from 0 to
+ * `PluralRulesTest` checks every locale in `GeneratedLocaleTags` for every count from 0 to
  * 200 against a fixture generated from ICU4J. The fixture is committed so the test needs no
  * dependency; regenerate it with the instructions in that test if the locale list ever changes.
  */
