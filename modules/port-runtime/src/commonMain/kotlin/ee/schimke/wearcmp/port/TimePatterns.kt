@@ -47,7 +47,7 @@ package ee.schimke.wearcmp.port
  * Run the JVM with `-Dstdout.encoding=UTF-8`: 109 of these patterns contain a NARROW NO-BREAK
  * SPACE (U+202F) before the marker, and a default POSIX locale silently writes it as `?`.
  *
- * The locale list is the one `GeneratedLocalizedPlurals` ships, plus `en` for the default.
+ * The locale list is the one `GeneratedLocaleTags` ships, plus `en` for the default.
  */
 
 /**

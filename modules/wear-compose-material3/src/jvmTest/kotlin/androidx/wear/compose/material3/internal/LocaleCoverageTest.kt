@@ -30,7 +30,7 @@ import kotlin.test.assertTrue
  */
 class LocaleCoverageTest {
 
-    private val shipped = GeneratedLocalizedPlurals.keys
+    private val shipped = GeneratedLocaleTags.toSet()
 
     @Test
     fun everyShippedLocaleHasATimePattern() {
@@ -58,7 +58,8 @@ class LocaleCoverageTest {
     @Test
     fun everyReachableCategoryHasATranslatedForm() {
         val gaps = mutableListOf<String>()
-        for ((tag, resources) in GeneratedLocalizedPlurals) {
+        for (tag in GeneratedLocaleTags) {
+            val resources = generatedLocalizedPlurals(tag)!!
             val reachable = (0..200).map { pluralCategory(tag, it).keyword }.toSet()
             for ((resource, forms) in resources) {
                 val missing = reachable - forms.keys

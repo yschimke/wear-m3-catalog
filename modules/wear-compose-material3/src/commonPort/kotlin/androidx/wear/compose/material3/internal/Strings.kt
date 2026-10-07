@@ -76,7 +76,7 @@ private fun localeCandidates(locale: Locale): List<String> {
 internal value class Strings(val resourceName: String) {
     fun textIn(locale: Locale): String {
         for (tag in localeCandidates(locale)) {
-            GeneratedLocalizedStrings[tag]?.get(resourceName)?.let {
+            generatedLocalizedStrings(tag)?.get(resourceName)?.let {
                 return it
             }
         }
@@ -175,7 +175,7 @@ internal value class Plurals(val resourceName: String) {
      */
     fun textIn(locale: Locale, quantity: Int): String {
         for (tag in localeCandidates(locale)) {
-            val forms = GeneratedLocalizedPlurals[tag]?.get(resourceName) ?: continue
+            val forms = generatedLocalizedPlurals(tag)?.get(resourceName) ?: continue
             val keyword = pluralCategory(tag, quantity).keyword
             (forms[keyword] ?: forms["other"])?.let {
                 return it
