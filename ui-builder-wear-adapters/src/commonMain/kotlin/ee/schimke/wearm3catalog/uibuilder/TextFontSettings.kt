@@ -47,8 +47,9 @@ fun CanvasNodeScope.withFontSettings(style: TextStyle): FontSettingsStyle {
   return FontSettingsStyle(
     withFeatures.copy(
       fontFamily = instance,
-      // The axis is the weight; a synthesised bold over `wght` 800 would be two bolds.
-      fontSynthesis = if (weightAxis) FontSynthesis.None else withFeatures.fontSynthesis,
+      // The axis is the weight; a synthesised bold over `wght` 800 would be two bolds. Style
+      // synthesis stays, so an italic `fontStyle` on a face with no italic still slants.
+      fontSynthesis = if (weightAxis) FontSynthesis.Style else withFeatures.fontSynthesis,
     ),
     setsWeight = weightAxis,
   )
