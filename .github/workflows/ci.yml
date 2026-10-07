@@ -311,7 +311,7 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         with:
           repository: yschimke/compose-ai-tools
-          ref: v2.35.0
+          ref: v2.35.1
           path: compose-ai-tools
           persist-credentials: false
       - uses: actions/setup-node@v7.0.0
