@@ -587,6 +587,16 @@
           "notes": "Overrides the role's tracking."
         },
         {
+          "name": "fontVariationSettings",
+          "jsonType": "string",
+          "notes": "Variable-font axis coordinates, CSS `font-variation-settings` style with bare tags: `wght 650, wdth 87.5, GRAD -50`. Applies to the face the text is set in (its role's theme typeface, or Wear's Roboto Flex, which has thirteen axes: wght 100–1000, wdth 25–151, opsz 8–144, GRAD -200–150, …); an axis that face does not have is ignored. `wght` set here overrides `fontWeight`."
+        },
+        {
+          "name": "fontFeatureSettings",
+          "jsonType": "string",
+          "notes": "OpenType layout features, CSS `font-feature-settings` style with bare tags: `tnum, ss01, liga 0` — a tag alone turns the feature on, `0` turns it off and a larger number picks an alternate. `tnum` gives every figure the same width, which a clock or a timer needs. A feature the typeface does not have is ignored."
+        },
+        {
           "name": "minLines",
           "jsonType": "integer",
           "notes": "The smallest height the text occupies, in lines."
