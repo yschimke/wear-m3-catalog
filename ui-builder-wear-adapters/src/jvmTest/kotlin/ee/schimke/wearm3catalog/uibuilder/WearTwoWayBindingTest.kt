@@ -83,17 +83,27 @@ class WearTwoWayBindingTest {
   }
 
   @Test
-  fun `a bound checkbox button writes its new value back and runs its click actions`() {
+  fun `a bound checkbox button writes its new value back and runs its change event`() {
     listOf("wear-m3/checkbox-button", "wear-m3/switch-button").forEach { componentId ->
       val recorded = tap(componentId, "checked")
       assertEquals(listOf<Pair<String, String?>>("notify" to "true"), recorded.writes, componentId)
-      assertEquals(listOf("click"), recorded.events, componentId)
+      assertEquals(listOf("checkedChange"), recorded.events, componentId)
     }
   }
 
   @Test
   fun `a bound radio button selects itself`() {
     val recorded = tap("wear-m3/radio-button", "selected")
+    assertEquals(listOf<Pair<String, String?>>("notify" to "true"), recorded.writes)
+    // `onSelect`, so the row runs `select`.
+    assertEquals(listOf("select"), recorded.events)
+  }
+
+  /** A row authored before the names were made consistent keeps its `click` actions running. */
+  @Test
+  fun `a legacy click binding is still the event a row runs`() {
+    val legacy = buildJsonObject { put("click", JsonArray(emptyList())) }
+    val recorded = tap("wear-m3/checkbox-button", "checked", legacy)
     assertEquals(listOf<Pair<String, String?>>("notify" to "true"), recorded.writes)
     assertEquals(listOf("click"), recorded.events)
   }
@@ -102,7 +112,7 @@ class WearTwoWayBindingTest {
   fun `an authored toggle of the bound flag is the only write`() {
     val toggle = buildJsonObject {
       put(
-        "click",
+        "checkedChange",
         JsonArray(
           listOf(
             buildJsonObject {
@@ -115,6 +125,6 @@ class WearTwoWayBindingTest {
     }
     val recorded = tap("wear-m3/checkbox-button", "checked", toggle)
     assertEquals(emptyList<Pair<String, String?>>(), recorded.writes)
-    assertEquals(listOf("click"), recorded.events)
+    assertEquals(listOf("checkedChange"), recorded.events)
   }
 }
