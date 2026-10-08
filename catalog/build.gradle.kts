@@ -304,6 +304,13 @@ tasks
 // AGP versions. A prefix catches the ones that exist now and the ones that arrive later; a list
 // would silently stop covering a new configuration, and a render against the port would look
 // exactly like a render against AndroidX until someone compared pixels.
+//
+// The compose-preview plugin's own Robolectric classpaths (`composePreviewAndroidRenderer…`,
+// `composePreviewAndroidDaemon…`) are android configurations too, under a different prefix. Left
+// out, they carried the port's `-jvm` jars beside the real AARs, and which copy of the duplicate
+// `androidx.wear.compose.*` classes the renderer loaded was decided by classpath ORDER alone: the
+// compose-material3 1.5.0-beta01 bump reordered it, the port's Skiko-only `TypefaceTokens` won, and
+// every sticker failed on `NoClassDefFoundError: org/jetbrains/skia/FontMgr`.
 // Read once, outside the `configureEach`: the version-catalog accessor is not reachable from the
 // configuration-container scope below. (It needed `asProvider()` while a `wear-compose-remote` key
 // made `wear.compose` an accessor GROUP; that key left with the Remote sheet's split into
@@ -311,7 +318,7 @@ tasks
 val wearComposeVersion = libs.versions.wear.compose.get()
 
 configurations
-  .matching { it.name.startsWith("android") }
+  .matching { it.name.startsWith("android") || it.name.startsWith("composePreviewAndroid") }
   .configureEach {
     resolutionStrategy.dependencySubstitution {
       substitute(module("ee.schimke.wearcmp:wear-compose-material3"))

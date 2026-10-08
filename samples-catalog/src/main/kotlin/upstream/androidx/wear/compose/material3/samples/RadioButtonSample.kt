@@ -87,9 +87,7 @@ fun SplitRadioButtonSample() {
             selected = selectedButton == 0,
             onSelectionClick = { selectedButton = 0 },
             selectionContentDescription = "First",
-            onContainerClick = {
-                /* Do something */
-            },
+            onContainerClick = { /* Do something */ },
             containerClickLabel = "click",
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
@@ -100,9 +98,7 @@ fun SplitRadioButtonSample() {
             selected = selectedButton == 1,
             onSelectionClick = { selectedButton = 1 },
             selectionContentDescription = "Second",
-            onContainerClick = {
-                /* Do something */
-            },
+            onContainerClick = { /* Do something */ },
             containerClickLabel = "click",
             modifier = Modifier.fillMaxWidth(),
             enabled = true,
