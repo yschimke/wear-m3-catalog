@@ -59,6 +59,9 @@ internal class ScaffoldState(appTimeText: State<@Composable () -> Unit> = mutabl
      * needed for transitions or other animations affecting the parent.
      */
     var parentScale = mutableFloatStateOf(1f)
+
+    /** Whether the scroll indicator should be kept visible even when it's idle. */
+    val keepIndicatorVisible: MutableState<Boolean> = mutableStateOf(false)
 }
 
 /**

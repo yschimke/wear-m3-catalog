@@ -28,6 +28,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberOverscrollEffect
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.annotation.RememberInComposition
 import androidx.compose.runtime.getValue
@@ -53,6 +55,7 @@ import androidx.wear.compose.foundation.lazy.TransformingLazyColumnState
 import androidx.wear.compose.material3.Icon
 import androidx.wear.compose.material3.IndicatorImpl
 import androidx.wear.compose.material3.IndicatorState
+import androidx.wear.compose.material3.LocalScaffoldState
 import androidx.wear.compose.material3.OffsetOverscrollEffect
 import androidx.wear.compose.material3.ScalingLazyColumnStateAdapter
 import androidx.wear.compose.material3.ScrollIndicatorColors
@@ -62,7 +65,6 @@ import kotlin.math.max
 import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -250,7 +252,7 @@ public class OneHandedGestureScrollIndicatorState @RememberInComposition constru
         gestureIndicator: RegisteredIndicator
     ): Unit {
         // Ensure scrollbar is shown while the gesture indicator animation is on
-        val keepScrollbarVisibleJob = launch { scrollableState.scroll { awaitCancellation() } }
+        keepIndicatorVisible?.value = true
 
         try {
             // Animate indicator visibility in
@@ -313,7 +315,7 @@ public class OneHandedGestureScrollIndicatorState @RememberInComposition constru
             // tally for frequency checking.
             gestureManager.notifyIndicatorShown(gestureConfiguration)
         } finally {
-            keepScrollbarVisibleJob.cancel()
+            keepIndicatorVisible?.value = false
             scrollIndicatorState.jiggleAmount = 0f
             avdActive = false
 
@@ -331,9 +333,9 @@ public class OneHandedGestureScrollIndicatorState @RememberInComposition constru
     internal lateinit var gestureConfiguration: OneHandedGestureConfiguration
     private val mutex = Mutex()
 
-    internal lateinit var scrollableState: ScrollableState
     internal lateinit var scrollIndicatorState: IndicatorState
     internal var indicatorJiggleColor: Color = Color.Unspecified
+    internal var keepIndicatorVisible: MutableState<Boolean>? = null
 
     // Animatables
     internal var colorProgress = Animatable(0f)
@@ -366,9 +368,17 @@ private fun GestureScrollIndicator(
     // Initialise internal State variables
     state.gestureConfiguration = gestureConfiguration
     state.gestureManager = gestureManager
-    state.scrollableState = scrollableState
     state.scrollIndicatorState = scrollIndicatorState
     state.indicatorJiggleColor = gestureIndicatorBackgroundColor.copy(alpha = 0.8f)
+
+    val scaffoldState = LocalScaffoldState.current
+    DisposableEffect(state, scaffoldState) {
+        state.keepIndicatorVisible = scaffoldState?.keepIndicatorVisible
+        onDispose {
+            scaffoldState?.keepIndicatorVisible?.value = false
+            state.keepIndicatorVisible = null
+        }
+    }
 
     val isRtl = (LocalLayoutDirection.current == LayoutDirection.Rtl)
     val density = LocalDensity.current
@@ -410,6 +420,7 @@ private fun GestureScrollIndicator(
                         )
                     }
                 }
+
             Icon(
                 painter = backgroundPainter,
                 contentDescription = null,

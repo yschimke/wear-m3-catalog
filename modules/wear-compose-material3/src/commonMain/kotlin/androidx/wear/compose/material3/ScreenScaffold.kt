@@ -743,40 +743,43 @@ public fun ScreenScaffold(
     overscrollEffect: OverscrollEffect? = rememberOverscrollEffect(),
     content: @Composable BoxScope.(PaddingValues) -> Unit,
 ): Unit {
-    val scaffoldState = LocalScaffoldState.current
+    val scaffoldState = LocalScaffoldState.current ?: remember { ScaffoldState() }
+
     val key = remember { Any() }
 
     // Update the timeText & scrollInfoProvider if there is a change and the screen is already
     // present
     scaffoldState.screenContent.updateIfNeeded(key, timeText, scrollInfoProvider)
 
-    DisposableEffect(key) { onDispose { scaffoldState.screenContent.removeScreen(key) } }
-
     scaffoldState.screenContent.UpdateIdlingDetectorIfNeeded()
 
     val screenIsActive = LocalScreenIsActive.current
-    LaunchedEffect(screenIsActive, scaffoldState) {
+    DisposableEffect(screenIsActive, scaffoldState) {
         if (screenIsActive) {
             scaffoldState.screenContent.addScreen(key, timeText, scrollInfoProvider)
         } else {
             scaffoldState.screenContent.removeScreen(key)
         }
+        onDispose { scaffoldState.screenContent.removeScreen(key) }
     }
 
-    WrapWithOverscrollFactoryIfRequired(overscrollEffect) {
-        Box(modifier.fillMaxSize()) {
-            Box(modifier = Modifier.overscroll(overscrollEffect)) { content(contentPadding) }
+    CompositionLocalProvider(LocalScaffoldState provides scaffoldState) {
+        WrapWithOverscrollFactoryIfRequired(overscrollEffect) {
+            Box(modifier.fillMaxSize()) {
+                Box(modifier = Modifier.overscroll(overscrollEffect)) { content(contentPadding) }
 
-            scrollInfoProvider?.let {
-                AnimatedIndicator(
-                    isVisible = {
-                        scaffoldState.screenContent.screenStage.value != ScreenStage.Idle &&
-                            scrollInfoProvider.isScrollable
-                    },
-                    modifier = Modifier.align(Alignment.CenterEnd),
-                    content = scrollIndicator,
-                )
-            } ?: scrollIndicator?.let { it() }
+                scrollInfoProvider?.let {
+                    AnimatedIndicator(
+                        isVisible = {
+                            ((scaffoldState.screenContent.screenStage.value != ScreenStage.Idle) ||
+                                scaffoldState.keepIndicatorVisible.value) &&
+                                scrollInfoProvider.isScrollable
+                        },
+                        modifier = Modifier.align(Alignment.CenterEnd),
+                        content = scrollIndicator,
+                    )
+                } ?: scrollIndicator?.let { it() }
+            }
         }
     }
 }
