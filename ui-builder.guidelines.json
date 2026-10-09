@@ -2,7 +2,7 @@
   "schema": "compose-ui-builder/catalog-guidelines/v1",
   "catalog": "wear-m3",
   "platform": "wear",
-  "version": 2,
+  "version": 3,
   "about": "Wear OS screen design guidance from developer.android.com, for designs built from this catalog (catalog id wear-m3). Each rule quotes its source; the frames are the pictures a guidelines model is shown.",
   "frames": [
     {
@@ -256,7 +256,7 @@
       "kind": "structure",
       "severity": "warning",
       "guidance": "It should be used when the user will be presented with a binary decision. Where user input is not required, such as displaying a transient success or failure message, use ConfirmationDialog. The title should not exceed 3 lines.",
-      "check": "If this design is an alert dialog (alert-dialog-edge-button), does it pose a yes/no decision with a title of 3 lines or fewer, rather than a status message that needs no input? Answer not_applicable for other designs.",
+      "check": "If this design is an alert dialog (wear-m3/alert-dialog or wear-m3/alert-dialog-edge-button), does it pose a yes/no decision with a title of 3 lines or fewer, rather than a status message that needs no input? Answer not_applicable for other designs.",
       "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
     },
     {
