@@ -70,7 +70,7 @@
       "severity": "warning",
       "guidance": "Use a Column as a direct child of ScreenScaffold only if the screen will never scroll, even with the largest system font.",
       "check": "If the screen-scaffold's content is a plain layout/column rather than a transforming-lazy-column, is it short enough (a few short items) that it would still fit at the largest font size? Answer not_applicable when the content is a scrolling list.",
-      "source": "kb://android/agents/skills/wear/wear-compose-m3/skill"
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/layouts/non-scrolling"
     },
     {
       "id": "wear.dialog.dedicated-task",
@@ -202,7 +202,7 @@
       "severity": "warning",
       "guidance": "Do NOT hard-code text sizes, use typography from MaterialTheme. Do NOT hard-code colors, use colorScheme.",
       "check": "Do text nodes set a style rather than fontSizeSp, lineHeightSp or letterSpacingSp, and do colours come from the theme's colour roles rather than hex values on individual components? Theme-level overrides on the screen-scaffold (theme*Color, theme*Typeface) are fine.",
-      "source": "kb://android/agents/skills/wear/wear-compose-m3/skill"
+      "source": "https://developer.android.com/design/ui/wear/guides/styles/typography"
     },
     {
       "id": "wear.scroll-indicator-matches",
