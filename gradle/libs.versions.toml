@@ -61,13 +61,13 @@ compose-material3 = "1.5.0-beta01"
 # ref over the pair could only have pointed at a coordinate that does not exist (#199, #347 and
 # #637 were the same bug on earlier lines). The modules in [libraries] are therefore VERSIONLESS and
 # every module that uses them applies `platform(...)` of the BOM; never add a version to them.
-composePreviewPlugin = "2.35.1"
+composePreviewPlugin = "2.38.0"
 # The release BOM can advance even when a partial release keeps the plugin unchanged.
-composeAiTools = "2.35.1"
+composeAiTools = "2.38.0"
 # The daemon release BOM aligns the annotations and preview renderer graph. It must not
 # predate the daemon baked into the preview plugin; verifyComposePreviewDaemonAlignment
 # checks that floor before compilation. Renovate updates this BOM independently.
-composePreviewDaemon = "3.14.1"
+composePreviewDaemon = "3.15.0"
 composePreviewContracts = "3.20.0"
 
 # compose-preview-ui-builder-bom, from yschimke/compose-ui-builder on a release line of its own. It
