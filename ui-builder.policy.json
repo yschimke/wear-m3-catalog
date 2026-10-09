@@ -42,6 +42,11 @@
       ]
     }
   },
+  "$comment_composeSourceExport": "The Compose source emitter this catalog's designs export through, resolved by the host against the emitters it ships (compose-ui-builder's CatalogExportRouting). `wear-compose-screen` is the Wear screen and widget exporter the builder reaches today for this catalog by its id; declaring it here is what lets a catalog-owned `wear-m3` keep offering Kotlin export once that id test is gone.",
+  "composeSourceExport": {
+    "adapter": "wear-compose-screen",
+    "version": 1
+  },
   "$comment_builtins": "The only components this file may declare, and the reason the restriction exists: a builtin has no call site, so it cannot be in the component record and there is no sticker to annotate. Each names the structural role that writes it. Everything else this catalog offers a builder comes from the record, with @BuilderComponent on the sticker for whatever the signature cannot say.",
   "builtins": {
     "wear-m3/screen-scaffold": {
@@ -232,7 +237,7 @@
       ],
       "slots": {
         "content": {
-          "required": true,
+          "required": false,
           "role": "list",
           "max": 1,
           "acceptedRoles": [
@@ -451,6 +456,16 @@
             "object"
           ],
           "notes": "How many segments the segmented circular form is divided into."
+        },
+        {
+          "name": "indicatorColor",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
+        },
+        {
+          "name": "trackColor",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
         }
       ]
     }
@@ -12151,6 +12166,11 @@
           "name": "contentDescription",
           "jsonType": "string",
           "notes": "What a screen reader says for the icon. Leave it empty beside a label, which already names the action; set it when the icon is the whole button — an icon button's only accessible name is this."
+        },
+        {
+          "name": "color",
+          "jsonType": "string",
+          "notes": "The icon's tint, written as `tint =`. A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
         }
       ],
       "slotCapabilities": []
@@ -12253,6 +12273,16 @@
             "object",
             "null"
           ]
+        },
+        {
+          "name": "containerColor",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
+        },
+        {
+          "name": "contentColor",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
         }
       ],
       "canvas": "wear-m3/card",
@@ -12338,6 +12368,16 @@
             "large"
           ],
           "notes": "`EdgeButtonSize`. The button's shape comes from the screen's bottom curve, so its size is chosen from upstream's four rather than set in dp."
+        },
+        {
+          "name": "containerColor",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
+        },
+        {
+          "name": "contentColor",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
         }
       ],
       "slotCapabilities": [
