@@ -1,0 +1,296 @@
+{
+  "schema": "compose-ui-builder/catalog-guidelines/v1",
+  "catalog": "wear-m3",
+  "platform": "wear",
+  "version": 1,
+  "about": "Wear OS screen design guidance from developer.android.com, for designs built from this catalog (catalog id wear-m3). Each rule quotes its source; the frames are the pictures a guidelines model is shown.",
+  "frames": [
+    {
+      "kind": "device",
+      "surface": "screen"
+    },
+    {
+      "kind": "unrolled",
+      "surface": "screen",
+      "heightFactor": 4,
+      "whenScrolls": true
+    }
+  ],
+  "rules": [
+    {
+      "id": "wear.layout.time-text-clear",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "visual",
+      "severity": "warning",
+      "guidance": "Accommodate Time Text if used, but don't overlap the top section of the page.",
+      "check": "Judge this on the device picture (the first frame, as the wearer first sees it). Is the time text at the top of the screen clear of any overlapping content?",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/layouts/non-scrolling"
+    },
+    {
+      "id": "wear.layout.time-text-shown",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "To reinforce that the device is a watch, we recommend showing the time text even when in an app journey (optional, but recommended).",
+      "check": "Does a design built on a wear-m3/screen-scaffold set its timeText? Answer not_applicable for widgets, dialogs, confirmations and pickers.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/layouts"
+    },
+    {
+      "id": "wear.layout.no-clipping",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "visual",
+      "severity": "warning",
+      "guidance": "Margins should be defined in percentages to avoid clipping and provide proportional scaling of elements.",
+      "check": "Is every piece of text, every icon and every control drawn whole, with none of its pixels missing? Answer fail only when part of a glyph, an icon or a control's own shape is visibly cut off in a picture: a letter sliced, an icon missing a side, a button's edge flattened where the edge or a container covers it. Being close to the edge, or to a curve, is not clipping, and neither is a container's own rounded outline. For a screen, judge round-edge clipping on the device picture, and clipping inside components on the unrolled picture when one is attached; content that continues below the bottom of the device picture in a scrolling list is not clipped. For a widget, look at the Samsung and the Pixel Watch pictures, and answer fail only for content cut in one of them; name which picture in your reason.",
+      "source": "https://developer.android.com/design/ui/wear/guides/foundations/adaptive-design"
+    },
+    {
+      "id": "wear.layout.responsive-width",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Don't use components with a fixed width that don't fill the screen responsively or adjust the behavior of content to fill the available space. We recommend using percentage margins so the size of the margins adapts to the growing curve of the display.",
+      "check": "Do buttons and cards in the screen's content slot fill the available width, with no fixed width or size modifier? Answer not_applicable for widgets and for icon buttons, which are meant to size to their content.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/best-practices"
+    },
+    {
+      "id": "wear.layout.column-never-scrolls",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Use a Column as a direct child of ScreenScaffold only if the screen will never scroll, even with the largest system font.",
+      "check": "If the screen-scaffold's content is a plain layout/column rather than a transforming-lazy-column, is it short enough (a few short items) that it would still fit at the largest font size? Answer not_applicable when the content is a scrolling list.",
+      "source": "kb://android/agents/skills/wear/wear-compose-m3/skill"
+    },
+    {
+      "id": "wear.dialog.dedicated-task",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Dialogs should be direct in communicating information and dedicated to completing a task.",
+      "check": "If this design is a dialog or confirmation, does it communicate one thing and offer only the actions needed to complete that one task? Answer not_applicable when it is not a dialog.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/layouts/non-scrolling"
+    },
+    {
+      "id": "wear.touch-target-48dp",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Reserves at least 48.dp in size to disambiguate touch interactions if the element would measure smaller. Smaller visual sizes, such as compact and extra-small buttons, are padded out to a 48dp touch target.",
+      "check": "Is the tap area of every tappable control at least 48dp in each direction? Count the padding Wear adds to compact and extra-small buttons and icon buttons (their tap area is 48dp even when they draw smaller); flag only controls given a fixed size or height that leaves the tap area under 48dp.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.color.role-pairs",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Color roles come in pairs (container and on-container) that provide a minimum of 3:1 color contrast. Custom colors should keep that contrast.",
+      "check": "Where the design overrides colors, does it pair each container color with its matching content (on-) role, or with colors that are clearly high contrast?",
+      "source": "https://developer.android.com/design/ui/wear/guides/styles/color/roles-tokens"
+    },
+    {
+      "id": "wear.empty-state-has-action",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "All empty states should have a clear call-to-action so the user knows what to do to fix a potential issue, or find out more information.",
+      "check": "If this design shows an empty, error or signed-out state, does it offer a clear action? Answer not_applicable when it does not show such a state.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/tiles/states"
+    },
+    {
+      "id": "wear.gestures.no-hidden-actions",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Never hide a gesture-only action. A visible element that performs the same task must be present.",
+      "check": "Does every action bound to a gesture (long press, swipe, double tap) also have a visible control that performs it?",
+      "source": "https://developer.android.com/design/ui/wear/guides/patterns/gestures"
+    },
+    {
+      "id": "wear.edge-button.in-slot",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "This button represents the most important action on the screen, and must take the whole width of the screen as well as being anchored to the screen bottom.",
+      "check": "Is there at most one wear-m3/edge-button, placed in the screen-scaffold's edgeButton slot rather than inside a list or layout? Answer not_applicable when there is no edge-button.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.edge-button.content-fits-size",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "EdgeButton has 4 standard sizes, taking 1 line of text for the extra small, 2 for small and medium, and 3 for the large. Optionally, a single icon can be used instead of the text.",
+      "check": "Does the edge-button's content fit its size: one short line of text (or a single icon) for size=extra-small, at most two lines for small and medium, at most three for large? Answer not_applicable when there is no edge-button.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.button.emphasis",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "This is a high-emphasis button for the primary, most important or most common action on a screen.",
+      "check": "When the screen has two or more wear-m3/button actions, is variant=filled kept for the one primary action, with the others filled-tonal, outlined or child? Answer not_applicable with fewer than two buttons.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.button.child-not-primary",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "ChildButton is a low-emphasis button for optional or supplementary actions with the least amount of prominence.",
+      "check": "Is a button with variant=child never the only action or the primary action on the screen? Answer not_applicable when no child buttons are used.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.type.titles-not-in-controls",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "Title styles are not recommended for interactive components, rather page headings or sub headings. Label styles are applied to interactive components.",
+      "check": "Does text inside buttons and cards use label or body styles, with title styles kept for headings outside controls? Answer not_applicable when no text style is set inside a control.",
+      "source": "https://developer.android.com/design/ui/wear/guides/styles/typography/apply"
+    },
+    {
+      "id": "wear.type.numerals-digits-only",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "Numeral text styles are used for numerical digits, usually limited to a few characters, where no localization is required.",
+      "check": "Is every text with a numeral style purely digits, a time or a short number (no words)? Answer not_applicable when no numeral styles are used.",
+      "source": "https://developer.android.com/design/ui/wear/guides/styles/typography/apply"
+    },
+    {
+      "id": "wear.type.theme-styles",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Do NOT hard-code text sizes, use typography from MaterialTheme. Do NOT hard-code colors, use colorScheme.",
+      "check": "Do text nodes set a style rather than fontSizeSp, lineHeightSp or letterSpacingSp, and do colours come from the theme's colour roles rather than hex values on individual components? Theme-level overrides on the screen-scaffold (theme*Color, theme*Typeface) are fine.",
+      "source": "kb://android/agents/skills/wear/wear-compose-m3/skill"
+    },
+    {
+      "id": "wear.scroll-indicator-matches",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Only use the scroll-indicator on scrolling screens. Remember to add the scroll-indicator on scrolling screens.",
+      "check": "Is the screen-scaffold's scrollIndicator on exactly when its content is a scrolling list (transforming-lazy-column)? Answer not_applicable for widgets and designs without a screen-scaffold.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/best-practices"
+    },
+    {
+      "id": "wear.time-text.not-on-transient",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "Don't display the time on a temporary dialog, confirmation overlay or a picker.",
+      "check": "When the design is an alert dialog, confirmation or picker (date-picker, time-picker), is timeText left unset? Answer not_applicable for other designs.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/best-practices"
+    },
+    {
+      "id": "wear.actions-labelled",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "Use both icons and labels when possible. Don't rely solely on icons to prompt the user to take action.",
+      "check": "Are icon-only controls (icon-button, icon-only edge-button) kept to universally recognisable actions (add, close, play, settings), with other actions labelled? Answer not_applicable when there are no icon-only controls.",
+      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/best-practices"
+    },
+    {
+      "id": "wear.color.container-not-for-content",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "Container roles are used as a fill color for foreground elements like buttons. They shouldn't be used for text or icons.",
+      "check": "Is no *Container colour role (primaryContainer, secondaryContainer, tertiaryContainer, errorContainer) used as a text colour, icon tint or contentColor? Answer not_applicable when the design names no colour roles.",
+      "source": "https://developer.android.com/design/ui/wear/guides/styles/color/roles-tokens"
+    },
+    {
+      "id": "wear.card.text-budget",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "When subtitle is used content shouldn't exceed 2 lines height. Overall the title, content and subtitle text should be no more than 5 rows of text combined.",
+      "check": "Does each wear-m3/card with variant=title hold at most 5 rows of text in total? Answer not_applicable when there are no title cards.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.dialog.alert-is-a-decision",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "warning",
+      "guidance": "It should be used when the user will be presented with a binary decision. Where user input is not required, such as displaying a transient success or failure message, use ConfirmationDialog. The title should not exceed 3 lines.",
+      "check": "If this design is an alert dialog (alert-dialog-edge-button), does it pose a yes/no decision with a title of 3 lines or fewer, rather than a status message that needs no input? Answer not_applicable for other designs.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.slider.segment-limit",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "Recommendation is while using this flag do not have more than MaxSegmentSteps steps.",
+      "check": "Does a segmented wear-m3/slider (segmented=segmented) have 8 steps or fewer? Answer not_applicable when there is no segmented slider.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    },
+    {
+      "id": "wear.list-header.short",
+      "surfaces": [
+        "screen"
+      ],
+      "kind": "structure",
+      "severity": "info",
+      "guidance": "ListHeaders are typically expected to be a few words of text on a single line.",
+      "check": "Is each wear-m3/list-header a few words on one line? Answer not_applicable when there are no list headers.",
+      "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
+    }
+  ]
+}
