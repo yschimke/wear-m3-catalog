@@ -461,15 +461,27 @@ private fun CanvasNodeScope.WearCardVariant(
   canvas: CanvasNodeScope,
   transformation: SurfaceTransformation?,
 ) {
+  // The design's colours, as the exporter writes them. `OutlinedCard` draws no container, and
+  // `outlinedCardColors` takes none, so it reads only the content colour.
+  val container = resolveWearColor(string("containerColor"))
+  val content = resolveWearColor(string("contentColor"))
+  val colors = CardDefaults.cardColors(containerColor = container, contentColor = content)
+  val outlinedColors = CardDefaults.outlinedCardColors(contentColor = content)
   when (string("variant")) {
     "title" ->
       if (transformation == null) {
-        TitleCard(onClick = {}, title = { canvas.Slot("content") }, modifier = modifier) {}
+        TitleCard(
+          onClick = {},
+          title = { canvas.Slot("content") },
+          modifier = modifier,
+          colors = colors,
+        ) {}
       } else {
         TitleCard(
           onClick = {},
           title = { canvas.Slot("content") },
           modifier = modifier,
+          colors = colors,
           transformation = transformation,
         ) {}
       }
@@ -480,6 +492,7 @@ private fun CanvasNodeScope.WearCardVariant(
           appName = {},
           title = { canvas.Slot("content") },
           modifier = modifier,
+          colors = colors,
         ) {}
       } else {
         AppCard(
@@ -487,16 +500,20 @@ private fun CanvasNodeScope.WearCardVariant(
           appName = {},
           title = { canvas.Slot("content") },
           modifier = modifier,
+          colors = colors,
           transformation = transformation,
         ) {}
       }
     "outlined" ->
       if (transformation == null) {
-        OutlinedCard(onClick = {}, modifier = modifier) { canvas.Slot("content") }
+        OutlinedCard(onClick = {}, modifier = modifier, colors = outlinedColors) {
+          canvas.Slot("content")
+        }
       } else {
         OutlinedCard(
           onClick = {},
           modifier = modifier,
+          colors = outlinedColors,
           transformation = transformation,
         ) {
           canvas.Slot("content")
@@ -504,9 +521,14 @@ private fun CanvasNodeScope.WearCardVariant(
       }
     else ->
       if (transformation == null) {
-        Card(onClick = {}, modifier = modifier) { canvas.Slot("content") }
+        Card(onClick = {}, modifier = modifier, colors = colors) { canvas.Slot("content") }
       } else {
-        Card(onClick = {}, modifier = modifier, transformation = transformation) {
+        Card(
+          onClick = {},
+          modifier = modifier,
+          colors = colors,
+          transformation = transformation,
+        ) {
           canvas.Slot("content")
         }
       }

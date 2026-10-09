@@ -11,6 +11,7 @@ import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.AlertDialogContent
 import androidx.wear.compose.material3.AlertDialogDefaults
 import androidx.wear.compose.material3.ArcProgressIndicator
+import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
 import androidx.wear.compose.material3.CheckboxButton
 import androidx.wear.compose.material3.CircularProgressIndicator
@@ -30,6 +31,7 @@ import androidx.wear.compose.material3.ListSubHeader
 import androidx.wear.compose.material3.OpenOnPhoneDialogContent
 import androidx.wear.compose.material3.OpenOnPhoneDialogDefaults
 import androidx.wear.compose.material3.OutlinedIconButton
+import androidx.wear.compose.material3.ProgressIndicatorDefaults
 import androidx.wear.compose.material3.RadioButton
 import androidx.wear.compose.material3.SegmentedCircularProgressIndicator
 import androidx.wear.compose.material3.Slider
@@ -141,11 +143,19 @@ val wearCanvasAdapters = canvasAdapterRegistry {
   }
   register("wear-m3/progress-indicator") {
     val progress = float("progress").coerceIn(0f, 1f)
+    // The two roles every Wear indicator draws, as the exporter writes them; unset keeps Wear's
+    // own.
+    val colors =
+      ProgressIndicatorDefaults.colors(
+        indicatorColor = resolveWearColor(string("indicatorColor")),
+        trackColor = resolveWearColor(string("trackColor")),
+      )
     when (string("variant")) {
       "linear" ->
         LinearProgressIndicator(
           progress = { progress },
           modifier = modifier.fillMaxWidth(),
+          colors = colors,
           enabled = boolean("enabled", true),
         )
       "segmented-circular" ->
@@ -153,13 +163,15 @@ val wearCanvasAdapters = canvasAdapterRegistry {
           segmentCount = integer("segments", 1).coerceAtLeast(1),
           progress = { progress },
           modifier = modifier,
+          colors = colors,
           enabled = boolean("enabled", true),
         )
-      "arc" -> ArcProgressIndicator(modifier = modifier)
+      "arc" -> ArcProgressIndicator(modifier = modifier, colors = colors)
       else ->
         CircularProgressIndicator(
           progress = { progress },
           modifier = modifier,
+          colors = colors,
           enabled = boolean("enabled", true),
         )
     }
@@ -173,11 +185,19 @@ val wearCanvasAdapters = canvasAdapterRegistry {
     }
   }
   register("wear-m3/edge-button") {
+    // Always the filled shape, so `ButtonDefaults.buttonColors`, as the exporter writes it.
+    val content = resolveWearColor(string("contentColor"))
     EdgeButton(
       onClick = {},
       buttonSize = edgeButtonSize(),
       modifier = modifier,
       enabled = boolean("enabled", true),
+      colors =
+        ButtonDefaults.buttonColors(
+          containerColor = resolveWearColor(string("containerColor")),
+          contentColor = content,
+          iconColor = content,
+        ),
     ) {
       Slot("content")
     }
