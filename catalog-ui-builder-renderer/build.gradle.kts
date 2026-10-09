@@ -113,6 +113,16 @@ val runtimeAssets =
       include("*.ttf", "fonts.json", "*OFL.txt", "LICENSE.txt")
       into("fonts")
     }
+    // The SDK draws Material icons in the browser from data files fetched from `icons/` beside the
+    // bundle, not from compiled builders; without them every icon stays blank.
+    val uiBuilderBuild =
+      gradle.includedBuilds.single { it.projectDir.canonicalFile == uiBuilderCheckout.get() }
+    dependsOn(uiBuilderBuild.task(":ui-builder-renderer-sdk:generateMaterialIconData"))
+    from(
+      uiBuilderCheckout.map { it.resolve("ui-builder-renderer-sdk/build/generated/materialIconData") }
+    ) {
+      into("icons")
+    }
     into(layout.buildDirectory.dir("runtimeAssets"))
   }
 
@@ -209,6 +219,8 @@ abstract class VerifyCatalogRendererRuntime : DefaultTask() {
           "wearM3CatalogRenderer.wasm",
           "skiko.mjs",
           "skiko.wasm",
+          // Material icon vectors; the runtime draws icons from these, not compiled code.
+          "icons/icons-0.json",
         )
       check(names.containsAll(required)) { "renderer archive is missing ${required - names}" }
       check(names.none { it.startsWith('/') || it.contains("../") || '\\' in it }) {

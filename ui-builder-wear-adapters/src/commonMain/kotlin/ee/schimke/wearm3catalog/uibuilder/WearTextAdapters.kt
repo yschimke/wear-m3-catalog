@@ -1,5 +1,6 @@
 package ee.schimke.wearm3catalog.uibuilder
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -20,7 +21,8 @@ import androidx.wear.compose.material3.ProvideTextStyle
 import androidx.wear.compose.material3.Text
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
-import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIconImageVector
+import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIcon
+import ee.schimke.composeai.uibuilder.renderer.sdk.rememberGoogleMaterialIconVector
 
 val wearTextAdapters = canvasAdapterRegistry {
   register("wear-m3/text") {
@@ -47,9 +49,16 @@ val wearTextAdapters = canvasAdapterRegistry {
     )
   }
   register("wear-m3/icon") {
-    val vector = googleMaterialIconImageVector(string("iconKey"))
+    val key = string("iconKey")
+    // In the browser an icon's vector arrives with its data file; until then it holds its size and
+    // draws nothing. Only a key the catalog does not know shows the "?".
+    val vector = rememberGoogleMaterialIconVector(key)
     if (vector == null) {
-      Text("?", modifier = modifier.size(float("sizeDp", 24f).dp))
+      if (googleMaterialIcon(key) == null) {
+        Text("?", modifier = modifier.size(float("sizeDp", 24f).dp))
+      } else {
+        Box(modifier.size(float("sizeDp", 24f).dp))
+      }
     } else {
       Icon(
         imageVector = vector,
