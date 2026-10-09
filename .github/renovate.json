@@ -140,6 +140,18 @@
         "at any time"
       ],
       "minimumReleaseAge": null
+    },
+    {
+      "description": "The UI-builder runtime's source tag. Not automerged: only Design Artifacts builds the runtime, and it runs on main, so a pull request's green CI says nothing about whether the runtime still compiles against the new SDK (remote-m3-catalog#52 merged green and broke it).",
+      "matchPackageNames": [
+        "yschimke/compose-ui-builder"
+      ],
+      "groupName": "compose-ui-builder runtime",
+      "automerge": false,
+      "schedule": [
+        "at any time"
+      ],
+      "minimumReleaseAge": null
     }
   ],
   "customManagers": [
@@ -153,6 +165,19 @@
       ],
       "datasourceTemplate": "github-tags",
       "depNameTemplate": "yschimke/compose-ai-tools",
+      "extractVersionTemplate": "^v(?<version>.*)$"
+    },
+    {
+      "customType": "regex",
+      "description": "The compose-ui-builder tag the catalog-owned UI-builder runtime is built from. A tag rather than a commit, so Renovate can own its bumps like every other version here.",
+      "managerFilePatterns": [
+        "/^\\.github/workflows/design-artifacts\\.yml$/"
+      ],
+      "matchStrings": [
+        "ui-builder-runtime-source-ref:\\s*'v(?<currentValue>\\d+\\.\\d+\\.\\d+)'"
+      ],
+      "datasourceTemplate": "github-tags",
+      "depNameTemplate": "yschimke/compose-ui-builder",
       "extractVersionTemplate": "^v(?<version>.*)$"
     }
   ]
