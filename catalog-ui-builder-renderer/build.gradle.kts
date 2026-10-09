@@ -119,7 +119,9 @@ val runtimeAssets =
       gradle.includedBuilds.single { it.projectDir.canonicalFile == uiBuilderCheckout.get() }
     dependsOn(uiBuilderBuild.task(":ui-builder-renderer-sdk:generateMaterialIconData"))
     from(
-      uiBuilderCheckout.map { it.resolve("ui-builder-renderer-sdk/build/generated/materialIconData") }
+      uiBuilderCheckout.map {
+        it.resolve("ui-builder-renderer-sdk/build/generated/materialIconData")
+      }
     ) {
       into("icons")
     }
