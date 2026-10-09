@@ -277,6 +277,19 @@ ugly.
   are the documented exception in the other direction: they draw mobile `MaterialShapes` because Wear
   publishes no shape library of its own (see README).
 
+## Design guidelines
+
+[`ui-builder.guidelines.json`](ui-builder.guidelines.json) is this catalog's design guidance for
+the UI builder's guidelines check (format `compose-ui-builder/catalog-guidelines/v1`): the rules a
+model is asked about a design built from `wear-m3`, and the pictures it is shown. It is published
+beside `ui-builder.json`; compose-ui-builder ships the format and the check, not the rules.
+
+- **Every rule quotes developer.android.com and links the page it came from.** No invented
+  guidance, no Play-store or manifest checks a design cannot show.
+- **A picture's `description` says what the picture is, never what is wrong with it.** Telling the
+  model content "is cut" made it report clipping the picture did not show.
+- Bump `version` whenever a rule or frame changes; it is recorded with every result.
+
 ## Themes
 
 The declared themes in `CatalogThemes.kt` are **not inventory** — no `@CatalogComponent`, no kit node,
