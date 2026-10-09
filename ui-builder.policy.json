@@ -468,6 +468,75 @@
           "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
         }
       ]
+    },
+    "wear-m3/variable-font-text": {
+      "role": "list-item",
+      "shelfRole": "Leaf",
+      "displayName": "Variable font text",
+      "group": "Text",
+      "canvas": "wear-m3/variable-font-text",
+      "traits": [
+        "TextContent"
+      ],
+      "properties": [
+        {
+          "name": "text",
+          "jsonType": "string",
+          "required": true,
+          "notes": "A literal: the outline is worked out from the font when the design exports, so the text cannot change at run time."
+        },
+        {
+          "name": "font",
+          "jsonType": "string",
+          "allowedValues": [
+            "robotoFlex",
+            "googleSansFlex"
+          ],
+          "notes": "The variable font the text is drawn from. Absent is Roboto Flex."
+        },
+        {
+          "name": "wght",
+          "jsonType": [
+            "number",
+            "object"
+          ],
+          "notes": "The `wght` axis: 100–1000 in Roboto Flex, 1–1000 in Google Sans Flex. A literal holds it; a `state` read of a decimal variable animates it. Unset is the font's own 400."
+        },
+        {
+          "name": "wdth",
+          "jsonType": [
+            "number",
+            "object"
+          ],
+          "notes": "The `wdth` axis: 25–151 in Roboto Flex, 25–151 in Google Sans Flex. A literal holds it; a `state` read of a decimal variable animates it. Unset is the font's own 100."
+        },
+        {
+          "name": "slnt",
+          "jsonType": [
+            "number",
+            "object"
+          ],
+          "notes": "The `slnt` axis: -10–0 in Roboto Flex, -10–0 in Google Sans Flex. A literal holds it; a `state` read of a decimal variable animates it. Unset is the font's own 0."
+        },
+        {
+          "name": "rond",
+          "jsonType": [
+            "number",
+            "object"
+          ],
+          "notes": "The `ROND` axis: 0–100 in Google Sans Flex. A literal holds it; a `state` read of a decimal variable animates it. Unset is the font's own 0."
+        },
+        {
+          "name": "fontSizeSp",
+          "jsonType": "number",
+          "notes": "The text's size. Absent is 32."
+        },
+        {
+          "name": "color",
+          "jsonType": "string",
+          "notes": "A colour, written as {\"type\":\"color\",\"value\":\"#RRGGBB\"} or as {\"type\":\"colorToken\",\"value\":\"primary\"} naming one of statusSemantics.colorTokens. A string wrapper, or a role the canvas does not draw, is rejected rather than guessed at."
+        }
+      ]
     }
   },
   "colorTokens": {
