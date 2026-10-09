@@ -43,6 +43,9 @@ on:
       # merged two shelf corrections and triggered no run at all; they would have sat unpublished
       # until the Monday cron.
       - 'ui-builder.policy.json'
+      # The catalog's design guidelines: what the UI builder's check reads for this catalog, published
+      # beside the policy. A guidelines-only edit republishes exactly as a policy-only edit does.
+      - 'ui-builder.guidelines.json'
       - 'ui-builder-foundation-adapters/**'
       - 'ui-builder-wear-adapters/**'
       # The samples sheet's render inputs. `samples-catalog/**` is the vendored tree, the generated
@@ -161,7 +164,7 @@ jobs:
           # only decides whether the workflow STARTS, and this predicate decides whether the wear
           # lane publishes. Listing it in one and not the other starts a run that skips the job it
           # was started for.
-          grep -qE '^(catalog/|catalog-ui-builder-renderer/|ui-builder-(foundation|wear)-adapters/|catalog\.spec\.json$|ui-builder\.policy\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
+          grep -qE '^(catalog/|catalog-ui-builder-renderer/|ui-builder-(foundation|wear)-adapters/|catalog\.spec\.json$|ui-builder\.(policy|guidelines)\.json$|design-pages\.json$|design/pages/)' <<<"$files" &&
             echo 'wear=true' >> "$GITHUB_OUTPUT" || echo 'wear=false' >> "$GITHUB_OUTPUT"
           grep -qE '^(samples-catalog/|samples/|sample-map\.json$|scripts/samples-)' <<<"$files" &&
             echo 'samples=true' >> "$GITHUB_OUTPUT" || echo 'samples=false' >> "$GITHUB_OUTPUT"

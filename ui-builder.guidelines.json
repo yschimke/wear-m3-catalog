@@ -2,7 +2,7 @@
   "schema": "compose-ui-builder/catalog-guidelines/v1",
   "catalog": "wear-m3",
   "platform": "wear",
-  "version": 1,
+  "version": 2,
   "about": "Wear OS screen design guidance from developer.android.com, for designs built from this catalog (catalog id wear-m3). Each rule quotes its source; the frames are the pictures a guidelines model is shown.",
   "frames": [
     {
@@ -70,7 +70,7 @@
       "severity": "warning",
       "guidance": "Use a Column as a direct child of ScreenScaffold only if the screen will never scroll, even with the largest system font.",
       "check": "If the screen-scaffold's content is a plain layout/column rather than a transforming-lazy-column, is it short enough (a few short items) that it would still fit at the largest font size? Answer not_applicable when the content is a scrolling list.",
-      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/layouts/non-scrolling"
+      "source": "https://developer.android.com/agents/skills/wear/wear-compose-m3/skill"
     },
     {
       "id": "wear.dialog.dedicated-task",
@@ -104,17 +104,6 @@
       "guidance": "Color roles come in pairs (container and on-container) that provide a minimum of 3:1 color contrast. Custom colors should keep that contrast.",
       "check": "Where the design overrides colors, does it pair each container color with its matching content (on-) role, or with colors that are clearly high contrast?",
       "source": "https://developer.android.com/design/ui/wear/guides/styles/color/roles-tokens"
-    },
-    {
-      "id": "wear.empty-state-has-action",
-      "surfaces": [
-        "screen"
-      ],
-      "kind": "structure",
-      "severity": "info",
-      "guidance": "All empty states should have a clear call-to-action so the user knows what to do to fix a potential issue, or find out more information.",
-      "check": "If this design shows an empty, error or signed-out state, does it offer a clear action? Answer not_applicable when it does not show such a state.",
-      "source": "https://developer.android.com/design/ui/wear/guides/surfaces/tiles/states"
     },
     {
       "id": "wear.gestures.no-hidden-actions",
@@ -202,7 +191,7 @@
       "severity": "warning",
       "guidance": "Do NOT hard-code text sizes, use typography from MaterialTheme. Do NOT hard-code colors, use colorScheme.",
       "check": "Do text nodes set a style rather than fontSizeSp, lineHeightSp or letterSpacingSp, and do colours come from the theme's colour roles rather than hex values on individual components? Theme-level overrides on the screen-scaffold (theme*Color, theme*Typeface) are fine.",
-      "source": "https://developer.android.com/design/ui/wear/guides/styles/typography"
+      "source": "https://developer.android.com/agents/skills/wear/wear-compose-m3/skill"
     },
     {
       "id": "wear.scroll-indicator-matches",
@@ -256,7 +245,7 @@
       "kind": "structure",
       "severity": "info",
       "guidance": "When subtitle is used content shouldn't exceed 2 lines height. Overall the title, content and subtitle text should be no more than 5 rows of text combined.",
-      "check": "Does each wear-m3/card with variant=title hold at most 5 rows of text in total? Answer not_applicable when there are no title cards.",
+      "check": "Does each wear-m3/card with variant=title hold at most 5 rows of text in total, and where it has a subtitle, is its content at most 2 lines? Answer not_applicable when there are no title cards.",
       "source": "https://developer.android.com/reference/kotlin/androidx/wear/compose/material3/package-summary"
     },
     {
