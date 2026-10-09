@@ -28,9 +28,15 @@ jobs:
           github-token: ${{ github.token }}
       - id: pr
         run: echo "number=$(cat _compose_preview_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@b0b7865ed6deb274eb6b9914c287c2667ebf08dd # v2.37.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@6d5af80a6aac0061d49e73538b269561761aa0dc # v2.38.0
         with:
           phase: publish
           pr-number: ${{ steps.pr.outputs.number }}
           artifact-repository: yschimke/wear-m3-catalog-out
           artifacts-token: ${{ secrets.ARTIFACTS_TOKEN }}
+          # Check the PR's changed previews against this catalog's ui-builder.guidelines.json and
+          # post a sticky comment. Skipped with a notice while the secret is unset.
+          guidelines: 'true'
+          guidelines-file: ui-builder.guidelines.json
+          openrouter-key: ${{ secrets.OPENROUTER_API_KEY }}
+          guidelines-max-cost: '0.25'

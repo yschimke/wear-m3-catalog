@@ -44,11 +44,15 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-read-only: 'true'
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.37.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.38.0
         with:
           artifact-repository: yschimke/wear-m3-catalog-out
           artifacts-token: ''
           phase: render
+          # Stage the changed previews for the design-guidelines check; the publish phase runs it,
+          # since only that phase holds the OpenRouter key.
+          guidelines: 'true'
+          guidelines-file: ui-builder.guidelines.json
           # Single source of truth for the renderer version: the composePreviewPlugin entry in
           # libs.versions.toml. A newer published CLI auto-installed against an older applied
           # plugin breaks preview discovery outright.
@@ -84,7 +88,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-read-only: 'false'
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.37.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.38.0
         with:
           artifact-repository: yschimke/wear-m3-catalog-out
           artifacts-token: ${{ secrets.ARTIFACTS_TOKEN }}
