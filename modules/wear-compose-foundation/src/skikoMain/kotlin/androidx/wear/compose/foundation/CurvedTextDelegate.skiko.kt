@@ -252,7 +252,11 @@ internal actual class CurvedTextDelegate {
             // A run that overflows by more than that really is too long — `curvedText` caps its
             // sweep at `CurvedTextDefaults.MaxSweepAngle` (70°) by default, and anything past it is
             // clipped or ellipsized here exactly as it is on Android.
-            val available = parentSweepRadians * measureRadius
+            //
+            // The allowance is taken at the radius the run was MEASURED at, which is the warping
+            // line, not the baseline: see [curvedRunAllowance].
+            val available =
+                curvedRunAllowance(parentSweepRadians, measureRadius, warpRadiusOffset, clockwise)
             val drawn =
                 if (textWidth <= available + 1f || overflow == TextOverflow.Visible)
                     DrawnRun(glyphs, advances)
@@ -365,3 +369,23 @@ internal actual class CurvedTextDelegate {
         if ((weight?.weight ?: 400) >= 600) org.jetbrains.skia.FontStyle.BOLD
         else org.jetbrains.skia.FontStyle.NORMAL
 }
+
+/**
+ * The length of arc, in pixels, that [sweepRadians] gives a run whose baseline sits at
+ * [baselineRadius].
+ *
+ * `CurvedTextChild.doRadialPosition` turns the run's width into its sweep at the WARPING line —
+ * `baselineRadius ± warpRadiusOffset`, outward for clockwise text — because that is the line that
+ * keeps its length when the run is bent. The overflow check has to turn the sweep back into a
+ * length at that same radius. Taken at the baseline instead, a clockwise run that exactly fills its
+ * own sweep is a few percent longer than the allowance it is checked against, so its last glyph is
+ * cut: `TimeText` drew "10:10" as "10:1" once warping became the default.
+ */
+internal fun curvedRunAllowance(
+    sweepRadians: Float,
+    baselineRadius: Float,
+    warpRadiusOffset: Float,
+    clockwise: Boolean,
+): Float =
+    sweepRadians *
+        (if (clockwise) baselineRadius + warpRadiusOffset else baselineRadius - warpRadiusOffset)
