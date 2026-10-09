@@ -28,7 +28,7 @@ compose-bom = "2026.09.00"
 # `:catalog` resolves this in `commonMain` ONLY. Every `android` configuration substitutes it back
 # to `wear-compose` below, so the Robolectric renders — the published kit rendition — are drawn by
 # the real AndroidX library, not by the port.
-wearcmp-port = "1.7.1-cmp01"
+wearcmp-port = "1.7.1-cmp02"
 
 # Compose Multiplatform. `commonMain` compiles against the JetBrains runtime/foundation/ui, which
 # resolve to the androidx artifacts on the android target — same FQNs, so the port and the AARs are
