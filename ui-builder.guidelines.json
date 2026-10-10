@@ -2,7 +2,7 @@
   "schema": "compose-ui-builder/catalog-guidelines/v1",
   "catalog": "wear-m3",
   "platform": "wear",
-  "version": 4,
+  "version": 5,
   "about": "Wear OS screen design guidance from developer.android.com, for designs built from this catalog (catalog id wear-m3). Each rule quotes its source; the frames are the pictures a guidelines model is shown.",
   "frames": [
     {
@@ -201,7 +201,7 @@
       "kind": "structure",
       "severity": "warning",
       "guidance": "Only use the scroll-indicator on scrolling screens. Remember to add the scroll-indicator on scrolling screens.",
-      "check": "Is the screen-scaffold's scrollIndicator on exactly when its content is a scrolling list (transforming-lazy-column)? Answer not_applicable for widgets and designs without a screen-scaffold.",
+      "check": "Is the screen-scaffold's scrollIndicator on exactly when its content can scroll? Judge this from the source and the accessibility nodes, never from whether an indicator is visible in the picture: the indicator fades out while the list is at rest, so a still render without one proves nothing either way. Answer fail when the source passes scrollIndicator = null to a scaffold whose content can scroll (a scrollable node whose content runs past the viewport), or shows an indicator for content that cannot scroll; when the source does not show which, answer needs_evidence for the source or the accessibility nodes rather than judging the picture. Answer not_applicable for widgets and designs without a screen-scaffold.",
       "source": "https://developer.android.com/design/ui/wear/guides/surfaces/apps/best-practices"
     },
     {
