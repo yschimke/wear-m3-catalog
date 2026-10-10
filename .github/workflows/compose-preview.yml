@@ -44,7 +44,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-read-only: 'true'
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.42.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.43.0
         with:
           artifact-repository: yschimke/wear-m3-catalog-out
           artifacts-token: ''
@@ -60,7 +60,8 @@ jobs:
           catalog-key: composePreviewPlugin
           # The a11y pipeline gives the design-guidelines check each preview's nodes (so a finding
           # can name and outline one, and the check knows what scrolls) and ATF's measured
-          # touch-target and contrast results. The baseline renders it too, to compare against.
+          # touch-target and contrast results. A PR checks only the previews it changed, on their
+          # own: no a11y baseline is kept (`a11y-baseline` defaults to false since v2.43.0).
           only: compose,a11y
           a11y-module: catalog,samples-catalog
           # An Android (Robolectric) render of the kit rendition and the samples sheet. Raised from
@@ -92,16 +93,15 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-read-only: 'false'
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.42.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@v2.43.0
         with:
           artifact-repository: yschimke/wear-m3-catalog-out
           artifacts-token: ${{ secrets.ARTIFACTS_TOKEN }}
           phase: all
           cli-version: catalog
           catalog-key: composePreviewPlugin
-          # The a11y pipeline gives the design-guidelines check each preview's nodes (so a finding
-          # can name and outline one, and the check knows what scrolls) and ATF's measured
-          # touch-target and contrast results. The baseline renders it too, to compare against.
-          only: compose,a11y
-          a11y-module: catalog,samples-catalog
+          # No a11y here: the a11y pipeline only feeds the PR's design-guidelines check, and with
+          # `a11y-baseline` false (the default since compose-ai-tools v2.43.0) a push runs no a11y
+          # pipeline at all and nothing reads compose-preview/a11y/main.
+          only: compose
           timeout: '3600'
