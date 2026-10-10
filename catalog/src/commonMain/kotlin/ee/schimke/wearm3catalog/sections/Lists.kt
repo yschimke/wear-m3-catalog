@@ -11,18 +11,14 @@ import androidx.compose.ui.platform.LocalScrollCaptureInProgress
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
-import androidx.wear.compose.material3.AppScaffold
 import androidx.wear.compose.material3.ListHeader
-import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
 import androidx.wear.compose.material3.SurfaceTransformation
 import androidx.wear.compose.material3.Text
-import androidx.wear.compose.material3.TimeText
 import androidx.wear.compose.material3.TitleCard
 import androidx.wear.compose.material3.lazy.rememberTransformationSpec
 import androidx.wear.compose.material3.lazy.transformedHeight
-import androidx.wear.compose.material3.timeTextCurvedText
 import ee.schimke.composeai.preview.CatalogComponent
 import ee.schimke.composeai.preview.CatalogGroup
 import ee.schimke.composeai.preview.KnobValue
@@ -31,6 +27,7 @@ import ee.schimke.composeai.preview.ScrollMode
 import ee.schimke.composeai.preview.ScrollingPreview
 import ee.schimke.composeai.preview.SettledPreview
 import ee.schimke.wearm3catalog.CatalogFullScreenModes
+import ee.schimke.wearm3catalog.ScreenSticker
 
 // The screen-shaped half of Wear Material 3, which the kit does not publish and a reader of the
 // component set still has to call. The kit's pages are *component* sheets — its screens live on the
@@ -62,7 +59,7 @@ import ee.schimke.wearm3catalog.CatalogFullScreenModes
 // it is the Wear long-screenshot form a designer reads a list in.
 @ScrollingPreview(modes = [ScrollMode.END, ScrollMode.LONG])
 @Composable
-fun WearList() = WearScreen {
+fun WearList() = ScreenSticker {
   val state = rememberTransformingLazyColumnState()
   val spec = rememberTransformationSpec()
   ScreenScaffold(
@@ -128,7 +125,7 @@ enum class ListChrome {
 @OverrideVariant(name = "no-scroll-indicator", strings = ["chrome=bare"])
 @SettledPreview
 @Composable
-fun WearScaffold(chrome: ListChrome = ListChrome.Scroll) = WearScreen {
+fun WearScaffold(chrome: ListChrome = ListChrome.Scroll) = ScreenSticker {
   val state = rememberTransformingLazyColumnState()
   val bare = chrome == ListChrome.Bare
   val body: @Composable BoxScope.(PaddingValues) -> Unit = { padding ->
@@ -144,13 +141,5 @@ fun WearScaffold(chrome: ListChrome = ListChrome.Scroll) = WearScreen {
     ScreenScaffold(scrollState = state, scrollIndicator = null, content = body)
   } else {
     ScreenScaffold(scrollState = state, content = body)
-  }
-}
-
-/** The screen frame these publish inside: the dark theme plus the curved clock every screen has. */
-@Composable
-private fun WearScreen(content: @Composable () -> Unit) {
-  MaterialTheme {
-    AppScaffold(timeText = { TimeText { timeTextCurvedText("10:10") } }) { content() }
   }
 }
