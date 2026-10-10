@@ -230,7 +230,7 @@ jobs:
       ui-builder-runtime-archive: 'catalog-ui-builder-renderer/build/distributions/wear-m3-ui-builder-renderer.zip'
       # v3.100.0 sends Compose's Noto fallback downloads to the host's /api/fonts/noto instead of
       # fonts.gstatic.com, which the runtime page's connect-src refused (compose-ui-builder#612).
-      ui-builder-runtime-source-ref: 'v3.100.0'
+      ui-builder-runtime-source-ref: 'v3.102.0'
       # Pure editable SVGs are a daemon data product too: keep them transient through catalog
       # generation and cover cropping, then produce and cache them on request. Raster-backed hybrid
       # SVGs stay static so their crop references remain self-contained.
