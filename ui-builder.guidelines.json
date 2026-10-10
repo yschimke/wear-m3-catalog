@@ -2,7 +2,7 @@
   "schema": "compose-ui-builder/catalog-guidelines/v1",
   "catalog": "wear-m3",
   "platform": "wear",
-  "version": 3,
+  "version": 4,
   "about": "Wear OS screen design guidance from developer.android.com, for designs built from this catalog (catalog id wear-m3). Each rule quotes its source; the frames are the pictures a guidelines model is shown.",
   "frames": [
     {
@@ -47,7 +47,7 @@
       "kind": "visual",
       "severity": "warning",
       "guidance": "Margins should be defined in percentages to avoid clipping and provide proportional scaling of elements.",
-      "check": "Is every piece of text, every icon and every control drawn whole, with none of its pixels missing? Answer fail only when part of a glyph, an icon or a control's own shape is visibly cut off in a picture: a letter sliced, an icon missing a side, a button's edge flattened where the edge or a container covers it. Being close to the edge, or to a curve, is not clipping, and neither is a container's own rounded outline. For a screen, judge round-edge clipping on the device picture, and clipping inside components on the unrolled picture when one is attached; content that continues below the bottom of the device picture in a scrolling list is not clipped. For a widget, look at the Samsung and the Pixel Watch pictures, and answer fail only for content cut in one of them; name which picture in your reason.",
+      "check": "Is every piece of text, every icon and every control drawn whole, with none of its pixels missing? Answer fail only when part of a glyph, an icon or a control's own shape is visibly cut off in a picture: a letter sliced, an icon missing a side, a button's edge flattened where the edge or a container covers it. Being close to the edge, or to a curve, is not clipping, and neither is a container's own rounded outline. For a screen, judge round-edge clipping on the device picture, and clipping inside components on the unrolled picture when one is attached; on a screen that scrolls, content cut at the top or bottom of the device picture, including an item whose sides the round edge slices as it nears the top or bottom, is not clipping only while the list can still scroll towards it, because scrolling brings it to the centre. It is clipping when the list cannot scroll any further that way: the first item cut at the top when the list is at its start, or the last item cut at the bottom when the list is at its end, can never be scrolled clear of the edge. Tell which on the unrolled picture (ask for it when it is not attached): there is more to scroll to only where the unrolled picture continues past what the device picture shows, and an item cut at the top or bottom of the unrolled picture itself can never be scrolled into view. For a widget, look at the Samsung and the Pixel Watch pictures, and answer fail only for content cut in one of them; name which picture in your reason.",
       "source": "https://developer.android.com/design/ui/wear/guides/foundations/adaptive-design"
     },
     {
