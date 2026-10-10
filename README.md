@@ -259,6 +259,10 @@ pauses playback rather than a preview setting `playing` on its behalf. See the n
 for when to reach for which, and for why a press that dispatches cleanly still needs measuring
 before you call it motion.
 
+[The parallel Kotlin-authored policy](docs/design/TYPED_M3_CATALOG.md) starts the typesafe catalog
+migration alongside the production JSON. Its independent validation preserves the full policy
+contract; renderer and saved-design compatibility remain cutover gates.
+
 ## Building
 
 ```sh
