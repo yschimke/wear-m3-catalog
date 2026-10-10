@@ -142,12 +142,11 @@
       "minimumReleaseAge": null
     },
     {
-      "description": "The UI-builder runtime's source tag. Not automerged: only Design Artifacts builds the runtime, and it runs on main, so a pull request's green CI says nothing about whether the runtime still compiles against the new SDK (remote-m3-catalog#52 merged green and broke it).",
+      "description": "The UI-builder runtime's source tag, automerged like every other minor/patch bump through the top-level `automerge`, which this rule deliberately does not set: a value here would also override the majors rule above, since the last match wins. Only Design Artifacts builds the runtime, and it runs on main, so a pull request's green CI does not prove the runtime still compiles against the new SDK (remote-m3-catalog#52 merged green and broke it): a break shows up as a red Design Artifacts run on main, and the fix is a revert of this one-line ref. Hand-merging every release (#768) bought no extra check, only delay.",
       "matchPackageNames": [
         "yschimke/compose-ui-builder"
       ],
       "groupName": "compose-ui-builder runtime",
-      "automerge": false,
       "schedule": [
         "at any time"
       ],
