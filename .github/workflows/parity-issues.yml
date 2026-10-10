@@ -63,7 +63,7 @@ jobs:
       # cannot widen the permissions its caller hands it.
       contents: write
       issues: read
-    uses: yschimke/compose-ai-tools/.github/workflows/parity-issues-reusable.yml@v2.40.0
+    uses: yschimke/compose-ai-tools/.github/workflows/parity-issues-reusable.yml@v2.42.0
     with:
       # The delivery branch is `design-artifacts/<system>`, and this catalog's is
       # `design-artifacts/wear-m3-catalog` — the same slug `design-artifacts.yml` passes.

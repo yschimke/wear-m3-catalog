@@ -181,7 +181,7 @@ jobs:
     concurrency:
       group: design-artifacts-${{ github.ref }}-wear-m3-catalog
       cancel-in-progress: false
-    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@v2.40.0
+    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@v2.42.0
     with:
       system: wear-m3-catalog
       artifact-repository: yschimke/wear-m3-catalog-out
@@ -300,8 +300,18 @@ jobs:
       # against one raster and draw them on another.
       reference-cache-branch: design-parity/reference
       allow-incomplete: ${{ github.event_name == 'workflow_dispatch' && inputs.allow_incomplete }}
+      # Check the sheet against ui-builder.guidelines.json before bundling, so the published bundle
+      # carries every preview's verdicts. Advisory: a finding never fails the publish. Results are
+      # cached under `guidelines-wear-m3-catalog-` and only previews whose inputs changed are
+      # re-checked, so the first publishes seed the cache at up to the cap per run and later ones
+      # cost little. compose-preview-publish.yml reads that cache for the PR check.
+      guidelines: true
+      guidelines-max-cost: '1.00'
     secrets:
       artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
+      # Only the guidelines step reads it, from the environment. Absent, the check is skipped with
+      # a warning and the catalog still publishes.
+      openrouter_key: ${{ secrets.OPENROUTER_API_KEY }}
       # Publishes the `figma:` entries in design-map.json as design references on the delivery
       # branch, which feeds the preview server's PNG ↔ Design reference lane. Without it those
       # entries are skipped with a warning and the catalog still publishes.
@@ -319,7 +329,7 @@ jobs:
     concurrency:
       group: design-artifacts-${{ github.ref }}-wear-m3-samples
       cancel-in-progress: false
-    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@v2.40.0
+    uses: yschimke/compose-ai-tools/.github/workflows/design-artifacts-reusable.yml@v2.42.0
     with:
       system: wear-m3-samples
       artifact-repository: yschimke/wear-m3-catalog-out
