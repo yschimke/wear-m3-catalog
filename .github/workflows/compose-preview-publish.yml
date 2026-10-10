@@ -31,7 +31,7 @@ jobs:
         # The handoff comes from the PR's run, so keep only digits before writing an output; the
         # apply action still checks the number against the workflow_run head.
         run: echo "number=$(tr -cd 0-9 < _compose_preview_handoff/_pr_number)" >> "$GITHUB_OUTPUT"
-      - uses: yschimke/compose-ai-tools/.github/actions/apply@5765a5ac041e2b7911c0c678db74be50c67ce400 # v2.42.0
+      - uses: yschimke/compose-ai-tools/.github/actions/apply@cb9e0d5388657c6ea5be2cb34608f019b4a90143 # v2.43.0
         with:
           phase: publish
           pr-number: ${{ steps.pr.outputs.number }}
@@ -45,6 +45,5 @@ jobs:
           guidelines-max-cost: '0.25'
           # Read the catalog publish's guideline results cache (design-artifacts.yml saves it under
           # `guidelines-<system>-`), read-only, so a preview already judged on main is not paid for
-          # again. Not an input of v2.42.0's apply action, which warns and ignores it; it takes
-          # effect with the release that adds it (compose-ai-tools#5789).
+          # again.
           guidelines-cache-key: guidelines-wear-m3-catalog-
