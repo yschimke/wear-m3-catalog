@@ -1,6 +1,6 @@
 # Parallel Kotlin-authored Wear M3 policy
 
-The next stage of the M3 typesafe catalog migration starts here with **32 explicit component policies and seven builtins, plus the minimal wear-m3-samples policy**.
+The Kotlin-authored policy and complete parallel catalog generation cover **32 explicit component policies and seven builtins, plus the minimal wear-m3-samples policy**.
 The committed JSON remains the production discovery input. Generation writes a separate build
 artifact and does not alter catalog delivery, templates, saved designs, runtime descriptors or
 inventory annotations.
@@ -35,15 +35,12 @@ Generated files are beneath `catalog-typed-policy/build/catalog/<catalog>/`:
 - `ui-builder.policy.json`: serialized Kotlin-authored policy.
 - `readiness.json`: phase, declaration counts and outstanding cutover gates.
 
-## Remaining work
+## Remaining cutover gates
 
-This is the authored-policy stage, not a completed property-reference renderer migration.
-`readyForCutover` remains false. Next, discover actual compiled call signatures, bind typed property,
-callback and slot references, generate a portable pair, and register the same definitions in the
-renderer. Then prove source-export and saved-design compatibility and exercise the packaged runtime
-with real rendering, state, events and inspection. Preserve the existing surface fidelity and
-structural code contracts throughout. Production consumes the Kotlin output only when those gates
-pass together.
+The complete portable pair uses real compiled discovery. `readyForCutover` remains false while
+typed property, callback and slot references are connected to the experimental renderer bridge.
+Exercise the packaged runtime with real rendering, state, events and inspection before switching
+production. Preserve the existing surface fidelity and structural code contracts throughout.
 
 ## Complete portable catalog generation
 
