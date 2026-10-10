@@ -273,6 +273,9 @@ jobs:
       # `test` does not reach `:catalog`: a KMP-Android module has no task by that name, only
       # `testAndroidHostTest`, so the catalog's render and template round-trip tests ran nowhere
       # and went red on main unnoticed. Named explicitly; it renders first (catalog/build.gradle.kts).
+      - name: Validate parallel Kotlin policies
+        if: needs.changes.outputs.inert != 'true'
+        run: scripts/validate-typed-m3-policies.sh
       - run: ./gradlew test :catalog:testAndroidHostTest --stacktrace
         if: needs.changes.outputs.inert != 'true'
       - if: always() && needs.changes.outputs.inert != 'true'
