@@ -63,7 +63,7 @@ compose-material3 = "1.5.0-beta01"
 # every module that uses them applies `platform(...)` of the BOM; never add a version to them.
 composePreviewPlugin = "2.39.2"
 # The release BOM can advance even when a partial release keeps the plugin unchanged.
-composeAiTools = "2.39.1"
+composeAiTools = "2.39.2"
 # The daemon release BOM aligns the annotations and preview renderer graph. It must not
 # predate the daemon baked into the preview plugin; verifyComposePreviewDaemonAlignment
 # checks that floor before compilation. Renovate updates this BOM independently.
