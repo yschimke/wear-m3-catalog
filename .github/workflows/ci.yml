@@ -287,6 +287,55 @@ jobs:
             **/build/test-results/**
           if-no-files-found: ignore
 
+  # The UI-builder adapters' own tests (`WearColorLiteralTest` and its neighbours) exist only in a
+  # build that includes compose-ui-builder as a source composite — `settings.gradle.kts` adds these
+  # modules only under `-PcomposeUiBuilderDir` — so `test` above never sees them, and Design
+  # Artifacts builds that composite for `rendererArchive` alone, which does not depend on `jvmTest`.
+  # Not a required check. The tag is read from `design-artifacts.yml`, so the runtime build and these
+  # tests cannot drift apart and Renovate keeps owning one ref.
+  ui-builder-adapters:
+    name: UI-builder adapter tests
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
+        with:
+          persist-credentials: false
+      - name: Read the UI-builder runtime source tag
+        id: source
+        if: needs.changes.outputs.inert != 'true'
+        run: |
+          set -euo pipefail
+          ref="$(sed -n "s/^ *ui-builder-runtime-source-ref: *'\([^']*\)'.*/\1/p" \
+            .github/workflows/design-artifacts.yml | head -n 1)"
+          test -n "$ref"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7.0.1
+        if: needs.changes.outputs.inert != 'true'
+        with:
+          repository: yschimke/compose-ui-builder
+          ref: ${{ steps.source.outputs.ref }}
+          path: compose-ui-builder
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+        if: needs.changes.outputs.inert != 'true'
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+      - run: >
+          ./gradlew :ui-builder-foundation-adapters:jvmTest :ui-builder-wear-adapters:jvmTest
+          -PcomposeUiBuilderDir=compose-ui-builder --stacktrace
+        if: needs.changes.outputs.inert != 'true'
+      - if: always() && needs.changes.outputs.inert != 'true'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: ui-builder-adapter-test-reports
+          path: |
+            ui-builder-*-adapters/build/reports/tests/**
+            ui-builder-*-adapters/build/test-results/**
+          if-no-files-found: ignore
+
   ktfmt:
     name: ktfmtCheck
     needs: changes
