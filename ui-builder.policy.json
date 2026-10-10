@@ -567,6 +567,216 @@
       "transparent"
     ]
   },
+  "designTokens": {
+    "tokens": [
+      {
+        "default": null,
+        "id": "color.primary",
+        "kind": "color",
+        "label": "Primary",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themePrimaryColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.onPrimary",
+        "kind": "color",
+        "label": "On primary",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeOnPrimaryColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.primaryContainer",
+        "kind": "color",
+        "label": "Primary container",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themePrimaryContainerColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.secondary",
+        "kind": "color",
+        "label": "Secondary",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeSecondaryColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.tertiary",
+        "kind": "color",
+        "label": "Tertiary",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeTertiaryColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.surfaceContainer",
+        "kind": "color",
+        "label": "Surface container",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeSurfaceContainerColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.onSurface",
+        "kind": "color",
+        "label": "On surface",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeOnSurfaceColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.background",
+        "kind": "color",
+        "label": "Background",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeBackgroundColor"
+          }
+        ]
+      },
+      {
+        "default": null,
+        "id": "color.error",
+        "kind": "color",
+        "label": "Error",
+        "theme": [
+          {
+            "component": "wear-m3/screen-scaffold",
+            "property": "themeErrorColor"
+          }
+        ]
+      },
+      {
+        "components": [
+          {
+            "component": "wear-m3/transforming-lazy-column",
+            "property": "verticalSpacingDp"
+          },
+          {
+            "component": "layout/column",
+            "property": "verticalSpacingDp"
+          }
+        ],
+        "default": null,
+        "id": "space.list",
+        "kind": "number",
+        "label": "List spacing",
+        "maximum": 24,
+        "minimum": 0
+      },
+      {
+        "components": [
+          {
+            "component": "layout/row",
+            "property": "horizontalSpacingDp"
+          }
+        ],
+        "default": null,
+        "id": "space.row",
+        "kind": "number",
+        "label": "Row spacing",
+        "maximum": 24,
+        "minimum": 0
+      },
+      {
+        "components": [
+          {
+            "component": "wear-m3/icon",
+            "property": "sizeDp"
+          }
+        ],
+        "default": null,
+        "id": "size.icon",
+        "kind": "number",
+        "label": "Icon size",
+        "maximum": 48,
+        "minimum": 12
+      },
+      {
+        "components": [
+          {
+            "component": "wear-m3/button",
+            "property": "containerColor"
+          },
+          {
+            "component": "wear-m3/icon-button",
+            "property": "containerColor"
+          },
+          {
+            "component": "wear-m3/edge-button",
+            "property": "containerColor"
+          }
+        ],
+        "default": null,
+        "id": "color.buttonContainer",
+        "kind": "color",
+        "label": "Button container"
+      },
+      {
+        "components": [
+          {
+            "component": "wear-m3/button",
+            "property": "contentColor"
+          },
+          {
+            "component": "wear-m3/icon-button",
+            "property": "contentColor"
+          },
+          {
+            "component": "wear-m3/edge-button",
+            "property": "contentColor"
+          }
+        ],
+        "default": null,
+        "id": "color.buttonContent",
+        "kind": "color",
+        "label": "Button content"
+      },
+      {
+        "components": [
+          {
+            "component": "wear-m3/card",
+            "property": "containerColor"
+          }
+        ],
+        "default": null,
+        "id": "color.cardContainer",
+        "kind": "color",
+        "label": "Card container"
+      }
+    ]
+  },
   "menu": {
     "$comment": "This catalog's own @file:CatalogGroup(section = …) vocabulary, ordered as a person reaches for it rather than alphabetically. A group a component names that this list omits sorts after the ones it lists, so adding a section in code does not make its components vanish from the panel. THAT FALLBACK WAS DOING ALL THE WORK: this list used to name Layout, Navigation, Actions, Selection, Containment, Communication, Motion, Styles and Horologist — a vocabulary the stickers stopped using — so 72 of 76 components landed in groups it did not name and the builder alphabetised them after nine EMPTY shelves. The order now names the groups the components actually carry; `ui-builder-equivalence.sh` is what re-checks that, and remote-m3 has a test for it (`the menu order covers the groups the shelf actually uses`) that this catalog still lacks.",
     "groupOrder": [

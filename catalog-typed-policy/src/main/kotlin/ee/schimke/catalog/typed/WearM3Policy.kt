@@ -32,6 +32,7 @@ fun wearM3Policy(): UiBuilderPolicyFile =
           "wear-m3/variable-font-text" to builtinVariableFontText(),
         )
       colorTokens = policyColorTokens()
+      designTokens = policyDesignTokens()
       menu =
         UiBuilderMenu.Builder()
           .apply {
@@ -1721,3 +1722,106 @@ private fun slot(
       }
       .build(),
   )
+
+/**
+ * What a design may re-skin, for the UI builder's Theme panel (`statusSemantics.designTokens`): the
+ * nine theme colours a screen re-skins most, on the screen scaffold that hosts the theme, and the
+ * shared spacing, icon size and button and card colours on every node of the components they name.
+ * The same fifteen compose-ui-builder's Kotlin wear-m3 catalog offered (`wearDesignTokens`), so
+ * owning the catalog keeps its Theme panel. Every default is null: unset keeps Wear's own value.
+ */
+private fun policyDesignTokens(): JsonElement {
+  val scaffold = "wear-m3/screen-scaffold"
+  fun binding(component: String, property: String) = buildJsonObject {
+    put("component", JsonPrimitive(component))
+    put("property", JsonPrimitive(property))
+  }
+  fun theme(id: String, label: String, property: String) = buildJsonObject {
+    put("id", JsonPrimitive(id))
+    put("label", JsonPrimitive(label))
+    put("kind", JsonPrimitive("color"))
+    put("default", JsonNull)
+    put("theme", JsonArray(listOf(binding(scaffold, property))))
+  }
+  fun components(
+    id: String,
+    label: String,
+    kind: String,
+    targets: List<Pair<String, String>>,
+    range: Pair<Int, Int>? = null,
+  ) = buildJsonObject {
+    put("id", JsonPrimitive(id))
+    put("label", JsonPrimitive(label))
+    put("kind", JsonPrimitive(kind))
+    put("default", JsonNull)
+    range?.let { (minimum, maximum) ->
+      put("minimum", JsonPrimitive(minimum))
+      put("maximum", JsonPrimitive(maximum))
+    }
+    put(
+      "components",
+      JsonArray(targets.map { (component, property) -> binding(component, property) }),
+    )
+  }
+  val buttons = listOf("wear-m3/button", "wear-m3/icon-button", "wear-m3/edge-button")
+  return buildJsonObject {
+    put(
+      "tokens",
+      JsonArray(
+        listOf(
+          theme("color.primary", "Primary", "themePrimaryColor"),
+          theme("color.onPrimary", "On primary", "themeOnPrimaryColor"),
+          theme("color.primaryContainer", "Primary container", "themePrimaryContainerColor"),
+          theme("color.secondary", "Secondary", "themeSecondaryColor"),
+          theme("color.tertiary", "Tertiary", "themeTertiaryColor"),
+          theme("color.surfaceContainer", "Surface container", "themeSurfaceContainerColor"),
+          theme("color.onSurface", "On surface", "themeOnSurfaceColor"),
+          theme("color.background", "Background", "themeBackgroundColor"),
+          theme("color.error", "Error", "themeErrorColor"),
+          components(
+            "space.list",
+            "List spacing",
+            "number",
+            listOf(
+              "wear-m3/transforming-lazy-column" to "verticalSpacingDp",
+              "layout/column" to "verticalSpacingDp",
+            ),
+            range = 0 to 24,
+          ),
+          components(
+            "space.row",
+            "Row spacing",
+            "number",
+            listOf("layout/row" to "horizontalSpacingDp"),
+            range = 0 to 24,
+          ),
+          components(
+            "size.icon",
+            "Icon size",
+            "number",
+            listOf("wear-m3/icon" to "sizeDp"),
+            12 to 48,
+          ),
+          components(
+            "color.buttonContainer",
+            "Button container",
+            "color",
+            buttons.map { it to "containerColor" },
+          ),
+          components(
+            "color.buttonContent",
+            "Button content",
+            "color",
+            buttons.map { it to "contentColor" },
+          ),
+          components(
+            "color.cardContainer",
+            "Card container",
+            "color",
+            listOf("wear-m3/card" to "containerColor"),
+          ),
+        )
+      ),
+    )
+  }
+}
