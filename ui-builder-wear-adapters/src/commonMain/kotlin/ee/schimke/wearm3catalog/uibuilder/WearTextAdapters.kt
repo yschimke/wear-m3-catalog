@@ -3,6 +3,7 @@ package ee.schimke.wearm3catalog.uibuilder
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -19,12 +20,55 @@ import androidx.wear.compose.material3.LocalTextStyle
 import androidx.wear.compose.material3.MaterialTheme
 import androidx.wear.compose.material3.ProvideTextStyle
 import androidx.wear.compose.material3.Text
+import ee.schimke.composeai.uibuilder.LocalUiBuilderFontFamilies
+import ee.schimke.composeai.uibuilder.LocalUiBuilderFontRegistry
+import ee.schimke.composeai.uibuilder.LocalUiBuilderFontVariants
+import ee.schimke.composeai.uibuilder.export.FontSettings
+import ee.schimke.composeai.uibuilder.export.VariableFontText
 import ee.schimke.composeai.uibuilder.renderer.sdk.CanvasNodeScope
 import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
 import ee.schimke.composeai.uibuilder.renderer.sdk.googleMaterialIcon
 import ee.schimke.composeai.uibuilder.renderer.sdk.rememberGoogleMaterialIconVector
 
 val wearTextAdapters = canvasAdapterRegistry {
+  register("wear-m3/variable-font-text") {
+    val font = VariableFontText.Font.fromWire(string("font")) ?: VariableFontText.Font.RobotoFlex
+    val weight = float("wght", 400f)
+    val width = float("wdth", 100f)
+    val slant = float("slnt")
+    val roundness = float("rond")
+    val axes =
+      font.axes.map { axis ->
+        FontSettings.Axis(
+          axis.tag,
+          when (axis.property) {
+            "wght" -> weight
+            "wdth" -> width
+            "slnt" -> slant
+            "rond" -> roundness
+            else -> axis.default
+          },
+        )
+      }
+    val registry = LocalUiBuilderFontRegistry.current
+    LaunchedEffect(registry, font) { registry?.request(font.family) }
+    val loaded = LocalUiBuilderFontFamilies.current[font.family]
+    val family =
+      if (loaded == null) null
+      else LocalUiBuilderFontVariants.current?.variant(font.family, axes) ?: loaded
+    Text(
+      text = string("text"),
+      modifier = modifier,
+      color = color("color", Color.Unspecified),
+      style =
+        TextStyle(
+          fontFamily = family,
+          fontWeight = if (family == null) FontWeight(weight.toInt().coerceIn(1, 1000)) else null,
+          fontSize = float("fontSizeSp", 32f).coerceAtLeast(1f).sp,
+        ),
+      onTextLayout = ::recordTextLayout,
+    )
+  }
   register("wear-m3/text") {
     val font = withFontSettings(textStyle(string("style")))
     Text(

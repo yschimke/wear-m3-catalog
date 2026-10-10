@@ -1,10 +1,14 @@
-name: Typed M3 policies
+name: Typed M3 catalogs
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'catalog-typed-policy/**'
+      - 'catalog-typed-*/**'
+      - '**/src/**'
+      - '**/catalog.spec.json'
+      - 'catalog.spec.json'
+      - 'scripts/validate-typed-m3-catalogs.sh'
       - '**/ui-builder.policy.json'
       - 'ui-builder.policy.json'
       - 'gradle/libs.versions.toml'
@@ -17,22 +21,40 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: yschimke/compose-ui-builder
+          ref: 1b176e188272d86e0e22a8fd8fec5f5670da95a8
+          path: .typed-builder
       - uses: actions/setup-java@v6.0.1
         with:
           distribution: temurin
-          java-version: 21
+          java-version: |
+            17
+            21
       - uses: gradle/actions/setup-gradle@v6.3.0
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
       - name: Validate independent Kotlin policies
         run: scripts/validate-typed-m3-policies.sh
+      - name: Validate complete Kotlin catalog pairs
+        run: scripts/validate-typed-m3-catalogs.sh
+      - name: Validate Wear renderer fixes on JVM and Wasm
+        run: >-
+          xvfb-run -a ./gradlew -PcomposeUiBuilderDir=.typed-builder
+          :ui-builder-wear-adapters:compileKotlinWasmJs :ui-builder-wear-adapters:jvmTest
+          --tests '*WearCatalogCoverageTest' --tests '*WearTwoWayBindingTest'
+          --tests '*WearColorLiteralTest'
       - uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
           name: typed-m3-policies
           path: |
+            catalog-typed-generator/build/catalog/
+            catalog-typed-generator/build/reports/tests/
             catalog-typed-policy/build/catalog/
             catalog-typed-policy/build/reports/tests/
+            ui-builder-wear-adapters/build/reports/tests/
