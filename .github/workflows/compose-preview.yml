@@ -58,7 +58,11 @@ jobs:
           # plugin breaks preview discovery outright.
           cli-version: catalog
           catalog-key: composePreviewPlugin
-          only: compose
+          # The a11y pipeline gives the design-guidelines check each preview's nodes (so a finding
+          # can name and outline one, and the check knows what scrolls) and ATF's measured
+          # touch-target and contrast results. The baseline renders it too, to compare against.
+          only: compose,a11y
+          a11y-module: catalog,samples-catalog
           # An Android (Robolectric) render of the kit rendition and the samples sheet. Raised from
           # 1800 when the Remote sheet (since split into yschimke/remote-m3-catalog) landed here;
           # the phone catalog needed 4800 at ~1150 previews.
@@ -95,5 +99,9 @@ jobs:
           phase: all
           cli-version: catalog
           catalog-key: composePreviewPlugin
-          only: compose
+          # The a11y pipeline gives the design-guidelines check each preview's nodes (so a finding
+          # can name and outline one, and the check knows what scrolls) and ATF's measured
+          # touch-target and contrast results. The baseline renders it too, to compare against.
+          only: compose,a11y
+          a11y-module: catalog,samples-catalog
           timeout: '3600'
