@@ -59,6 +59,37 @@ parallel artifacts. Production discovery/delivery still reads the committed JSON
 `readyForCutover` remains false. Full JSON equivalence does not prove typed renderer registration,
 new source-export behavior, or packaged-runtime interactions.
 
+## Progress since this handover
+
+Wear gate 1 and the Wear half of gate 2 are implemented in
+[#781](https://github.com/yschimke/wear-m3-catalog/pull/781)
+([design note](TYPED_WEAR_RENDERER.md)). That PR adds `catalog-typed-adapters`: compiled entry points
+calling the real Wear components, `TypedComponentAdapter` definitions over them, typed registrations
+through the builder bridge, and a parallel `wear-m3-typed-pilot` pair plus its own packaged runtime.
+It covers 17 shelf components and 5 builtins; the screen frame and the transforming list stay the
+production adapters.
+
+- 113 JVM cases match the production adapters pixel for pixel, across every offered property value.
+- The packaged ZIP passes a Chromium protocol-v2 check: integrity, rejection of the production pin,
+  both templates, every owned component, and a bound pointer interaction.
+- Generated source fixtures compile against the public entry points.
+
+The work also turned up two problems:
+
+- **Builder pin.** At `1b176e18` the bridge compared each codec's `jsonType`, so it rejected the
+  standard `bool`/`int` literal wrappers that tools v2.43.0 generates. The Wear typed lane now pins
+  builder `5dbe7a4f` (#653) and tools v2.43.0 (`cb9e0d53`). Mobile's trial still uses the older
+  pair.
+- **Slider bug.** The production Wear slider ignored the offered `segmented` value. #781 fixes it.
+
+Still open for Wear:
+
+- production source export with callback write-back
+- delivery of the pilot pair and runtime
+- the five policy components that have no canvas in production either
+
+Remote M3 (gate 1 onward) has not been started.
+
 ## Remaining implementation and gates
 
 1. Complete compiled property-reference adapters and real typed renderer registration for Wear M3,
