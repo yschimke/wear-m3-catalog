@@ -34,7 +34,7 @@ plugins {
   id("org.jetbrains.kotlin.multiplatform")
   alias(libs.plugins.compose.multiplatform)
   id("org.jetbrains.kotlin.plugin.compose")
-  alias(libs.plugins.composePreview)
+  id("ee.schimke.composeai.preview")
 }
 
 kotlin {
