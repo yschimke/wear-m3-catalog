@@ -24,11 +24,23 @@ class FontSettingsStyle(val style: TextStyle, val setsWeight: Boolean)
  * `fontWeight` ([FontSettingsStyle.setsWeight] stays false).
  */
 @Composable
-fun CanvasNodeScope.withFontSettings(style: TextStyle): FontSettingsStyle {
+fun CanvasNodeScope.withFontSettings(style: TextStyle): FontSettingsStyle =
+  withFontSettings(
+    style,
+    featureSettings = string(FontSettings.FEATURE_PROPERTY),
+    variationSettings = string(FontSettings.VARIATION_PROPERTY),
+  )
+
+/** [style] with authored `fontFeatureSettings` and `fontVariationSettings` text applied. */
+@Composable
+fun withFontSettings(
+  style: TextStyle,
+  featureSettings: String,
+  variationSettings: String,
+): FontSettingsStyle {
   val features =
-    FontSettings.formatFeatures(FontSettings.parseFeatures(string(FontSettings.FEATURE_PROPERTY)))
-      .ifEmpty { null }
-  val axes = FontSettings.parseVariations(string(FontSettings.VARIATION_PROPERTY))
+    FontSettings.formatFeatures(FontSettings.parseFeatures(featureSettings)).ifEmpty { null }
+  val axes = FontSettings.parseVariations(variationSettings)
   val withFeatures = if (features == null) style else style.copy(fontFeatureSettings = features)
   if (axes.isEmpty()) return FontSettingsStyle(withFeatures, setsWeight = false)
   val families = LocalUiBuilderFontFamilies.current

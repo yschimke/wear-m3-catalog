@@ -31,6 +31,7 @@ jobs:
     timeout-minutes: 5
     outputs:
       inert: ${{ steps.scope.outputs.inert }}
+      runtime-source: ${{ steps.scope.outputs.runtime-source }}
     steps:
       # `fetch-depth: 2` is what makes the diff below possible and is the whole reason this job is
       # separate from the ones it gates: on a pull request the checked-out commit is the MERGE of
@@ -59,6 +60,13 @@ jobs:
                 files="$(git diff --name-only "$BEFORE" "$GITHUB_SHA")" || files=''
               fi ;;
           esac
+          # `design-artifacts.yml` is a sibling workflow, so it stays inert for every job but one:
+          # it holds `ui-builder-runtime-source-ref`, the compose-ui-builder tag the adapter tests
+          # build against, and that workflow has no `pull_request` trigger. A Renovate bump of that
+          # one line must still run `ui-builder-adapters` before it merges.
+          if grep -qx '\.github/workflows/design-artifacts\.yml' <<<"$files"; then
+            echo 'runtime-source=true' >> "$GITHUB_OUTPUT"
+          fi
           if [ -z "$files" ]; then
             echo 'inert=false' >> "$GITHUB_OUTPUT"
             echo 'Change set unavailable or empty: running everything.'
@@ -287,6 +295,57 @@ jobs:
             **/build/test-results/**
           if-no-files-found: ignore
 
+  # The UI-builder adapters' own tests (`WearColorLiteralTest` and its neighbours) exist only in a
+  # build that includes compose-ui-builder as a source composite — `settings.gradle.kts` adds these
+  # modules only under `-PcomposeUiBuilderDir` — so `test` above never sees them, and Design
+  # Artifacts builds that composite for `rendererArchive` alone, which does not depend on `jvmTest`.
+  # Not a required check. The tag is read from `design-artifacts.yml`, so the runtime build and these
+  # tests cannot drift apart and Renovate keeps owning one ref.
+  ui-builder-adapters:
+    name: UI-builder adapter tests
+    needs: changes
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      RUN: ${{ needs.changes.outputs.inert != 'true' || needs.changes.outputs.runtime-source == 'true' }}
+    steps:
+      - uses: actions/checkout@v7.0.1
+        if: env.RUN == 'true'
+        with:
+          persist-credentials: false
+      - name: Read the UI-builder runtime source tag
+        id: source
+        if: env.RUN == 'true'
+        run: |
+          set -euo pipefail
+          ref="$(sed -n "s/^ *ui-builder-runtime-source-ref: *'\([^']*\)'.*/\1/p" \
+            .github/workflows/design-artifacts.yml | head -n 1)"
+          test -n "$ref"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+      - uses: actions/checkout@v7.0.1
+        if: env.RUN == 'true'
+        with:
+          repository: yschimke/compose-ui-builder
+          ref: ${{ steps.source.outputs.ref }}
+          path: compose-ui-builder
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+        if: env.RUN == 'true'
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+      - run: >
+          ./gradlew :ui-builder-foundation-adapters:jvmTest :ui-builder-wear-adapters:jvmTest
+          -PcomposeUiBuilderDir=compose-ui-builder --stacktrace
+        if: env.RUN == 'true'
+      - if: always() && env.RUN == 'true'
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: ui-builder-adapter-test-reports
+          path: |
+            ui-builder-*-adapters/build/reports/tests/**
+            ui-builder-*-adapters/build/test-results/**
+          if-no-files-found: ignore
+
   ktfmt:
     name: ktfmtCheck
     needs: changes
@@ -314,7 +373,7 @@ jobs:
         if: needs.changes.outputs.inert != 'true'
         with:
           repository: yschimke/compose-ai-tools
-          ref: v2.43.0
+          ref: v2.44.0
           path: compose-ai-tools
           persist-credentials: false
       - uses: actions/setup-node@v7.0.0

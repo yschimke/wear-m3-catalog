@@ -72,13 +72,19 @@ import ee.schimke.composeai.uibuilder.renderer.sdk.canvasAdapterRegistry
 import ee.schimke.wearcmp.port.LocalWearDeviceConfiguration
 import ee.schimke.wearcmp.port.WearDeviceConfiguration
 
-/** Wear screen structure and components whose rendering depends on its lazy-row receiver. */
-val wearScreenAdapters = canvasAdapterRegistry {
+/** Wear screen structure: the round frame and its transforming list. */
+val wearScreenStructureAdapters = canvasAdapterRegistry {
   register("frame/round-screen") { WearScreenFrame() }
   register("wear-m3/transforming-lazy-column") { WearTransformingLazyColumn() }
-  register("wear-m3/card") { WearCard() }
-  register("wear-m3/button") { WearButton() }
 }
+
+/** Wear screen structure and components whose rendering depends on its lazy-row receiver. */
+val wearScreenAdapters =
+  wearScreenStructureAdapters +
+    canvasAdapterRegistry {
+      register("wear-m3/card") { WearCard() }
+      register("wear-m3/button") { WearButton() }
+    }
 
 private val LocalScreenListState = staticCompositionLocalOf<TransformingLazyColumnState?> { null }
 private val LocalScreenContentPadding = staticCompositionLocalOf { PaddingValues() }
@@ -113,7 +119,7 @@ private val LocalRowTransformation = staticCompositionLocalOf<RowTransformation?
  * and a button in a card or a `ButtonGroup` taking it again would be scaled twice.
  */
 @Composable
-internal fun rowTransformation(): SurfaceTransformation? {
+fun rowTransformation(): SurfaceTransformation? {
   val row = LocalRowTransformation.current ?: return null
   DisposableEffect(row) {
     row.claim()
@@ -123,7 +129,7 @@ internal fun rowTransformation(): SurfaceTransformation? {
 }
 
 @Composable
-internal fun OutsideRow(content: @Composable () -> Unit) {
+fun OutsideRow(content: @Composable () -> Unit) {
   CompositionLocalProvider(LocalRowTransformation provides null, content = content)
 }
 
@@ -462,10 +468,17 @@ private fun CanvasNodeScope.WearCardVariant(
   transformation: SurfaceTransformation?,
 ) {
   // The design's colours, as the exporter writes them. `OutlinedCard` draws no container, and
-  // `outlinedCardColors` takes none, so it reads only the content colour.
+  // `outlinedCardColors` takes none, so it reads only the content colour. The design slot is the
+  // title slot of `TitleCard`/`AppCard`, and the plain `Card` provides `titleColor` to its content
+  // too, so the content colour is also the title colour or it would have no visible effect there.
   val container = resolveWearColor(string("containerColor"))
   val content = resolveWearColor(string("contentColor"))
-  val colors = CardDefaults.cardColors(containerColor = container, contentColor = content)
+  val colors =
+    CardDefaults.cardColors(
+      containerColor = container,
+      contentColor = content,
+      titleColor = content,
+    )
   val outlinedColors = CardDefaults.outlinedCardColors(contentColor = content)
   when (string("variant")) {
     "title" ->

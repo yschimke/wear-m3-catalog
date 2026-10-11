@@ -50,7 +50,7 @@ plugins {
   id("com.android.kotlin.multiplatform.library")
   alias(libs.plugins.compose.multiplatform)
   id("org.jetbrains.kotlin.plugin.compose")
-  alias(libs.plugins.composePreview)
+  id("ee.schimke.composeai.preview")
 }
 
 composePreview {

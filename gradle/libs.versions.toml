@@ -68,14 +68,14 @@ composeAiTools = "2.43.0"
 # predate the daemon baked into the preview plugin; verifyComposePreviewDaemonAlignment
 # checks that floor before compilation. Renovate updates this BOM independently.
 composePreviewDaemon = "3.15.2"
-composePreviewContracts = "3.27.0"
+composePreviewContracts = "3.28.0"
 
 # compose-preview-ui-builder-bom, from yschimke/compose-ui-builder on a release line of its own. It
 # resolves the UI-builder exporter, which is test-only: `WearScreenTemplateRoundTripTest` uses it to
 # prove a screen design still generates the Kotlin checked in beside it, and the compiler proves
 # that Kotlin still builds against `:catalog`'s own classpath. The 3.72.0 BOM pins the exporter at
 # 3.72.0. Renovate moves it in its own group.
-composeUiBuilder = "3.104.0"
+composeUiBuilder = "3.105.0"
 
 # Synthetic source-composite coordinates for :catalog-ui-builder-renderer. There are deliberately
 # no Maven artifacts at these names: settings.gradle.kts substitutes both from the checkout named

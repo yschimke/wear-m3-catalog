@@ -43,6 +43,7 @@ val uiBuilderRendererKotlinSources =
     fileTree("catalog-ui-builder-renderer") { include("src/**/*.kt") },
     fileTree("ui-builder-foundation-adapters") { include("src/**/*.kt") },
     fileTree("ui-builder-wear-adapters") { include("src/**/*.kt") },
+    fileTree("catalog-typed-adapters") { include("src/**/*.kt") },
   )
 val ktfmtCheckUiBuilderRendererSources by
   tasks.registering(JavaExec::class) {

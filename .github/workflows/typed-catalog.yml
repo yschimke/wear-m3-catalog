@@ -1,14 +1,20 @@
-name: Typed M3 policies
+name: Typed M3 catalogs
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'catalog-typed-policy/**'
+      - 'catalog-typed-*/**'
+      - '**/src/**'
+      - '**/catalog.spec.json'
+      - 'catalog.spec.json'
+      - 'scripts/validate-typed-m3-catalogs.sh'
       - '**/ui-builder.policy.json'
       - 'ui-builder.policy.json'
       - 'gradle/libs.versions.toml'
       - 'scripts/validate-typed-m3-policies.sh'
+      - 'scripts/validate-typed-wear-renderer.sh'
+      - 'scripts/verify-typed-wear-runtime.mjs'
       - '.github/workflows/typed-catalog.yml'
 
 permissions:
@@ -17,22 +23,57 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7.0.1
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: yschimke/compose-ui-builder
+          ref: 5dbe7a4f7236c65eda3d76e8b0b1162af91a5be7
+          path: .typed-builder
+      # The tools API the typed renderer bridge builds against, from source until the builder's
+      # bridge leaves its experiment. v2.43.0, the release this catalog already pins.
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: yschimke/compose-ai-tools
+          ref: cb9e0d5388657c6ea5be2cb34608f019b4a90143
+          path: .typed-tools
       - uses: actions/setup-java@v6.0.1
         with:
           distribution: temurin
-          java-version: 21
+          java-version: |
+            17
+            21
       - uses: gradle/actions/setup-gradle@v6.3.0
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
       - name: Validate independent Kotlin policies
         run: scripts/validate-typed-m3-policies.sh
+      - name: Validate complete Kotlin catalog pairs
+        run: scripts/validate-typed-m3-catalogs.sh
+      - name: Validate Wear renderer fixes on JVM and Wasm
+        run: >-
+          xvfb-run -a ./gradlew -PcomposeUiBuilderDir=.typed-builder
+          :ui-builder-wear-adapters:compileKotlinWasmJs :ui-builder-wear-adapters:jvmTest
+          --tests '*WearCatalogCoverageTest' --tests '*WearTwoWayBindingTest'
+          --tests '*WearColorLiteralTest'
+      - name: Validate the typed Wear renderer pilot
+        run: >-
+          xvfb-run -a scripts/validate-typed-wear-renderer.sh .typed-tools .typed-builder
+      - name: Exercise the packaged typed Wear runtime in Chromium
+        run: node scripts/verify-typed-wear-runtime.mjs .typed-builder
       - uses: actions/upload-artifact@v7.0.1
         if: always()
         with:
           name: typed-m3-policies
           path: |
+            catalog-typed-generator/build/catalog/
+            catalog-typed-generator/build/reports/tests/
             catalog-typed-policy/build/catalog/
             catalog-typed-policy/build/reports/tests/
+            ui-builder-wear-adapters/build/reports/tests/
+            catalog-typed-adapters/build/catalog/
+            catalog-typed-adapters/build/render-evidence/
+            catalog-typed-adapters/build/browser-evidence/
+            catalog-typed-adapters/build/reports/tests/
+            catalog-typed-adapters/build/distributions/
