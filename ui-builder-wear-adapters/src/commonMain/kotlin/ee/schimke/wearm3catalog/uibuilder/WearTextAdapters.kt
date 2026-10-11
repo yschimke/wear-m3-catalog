@@ -70,7 +70,7 @@ val wearTextAdapters = canvasAdapterRegistry {
     )
   }
   register("wear-m3/text") {
-    val font = withFontSettings(textStyle(string("style")))
+    val font = withFontSettings(wearTextStyle(string("style")))
     Text(
       text = string("text"),
       modifier = modifier,
@@ -142,11 +142,12 @@ fun resolveWearColor(value: String, fallback: Color = Color.Unspecified): Color 
  */
 @Composable
 internal fun ProvideThemeTextStyle(role: String, content: @Composable () -> Unit) {
-  if (role.isEmpty()) content() else ProvideTextStyle(textStyle(role), content)
+  if (role.isEmpty()) content() else ProvideTextStyle(wearTextStyle(role), content)
 }
 
+/** The Wear type-scale role named [value], or the ambient style for any other name. */
 @Composable
-private fun textStyle(value: String): TextStyle =
+fun wearTextStyle(value: String): TextStyle =
   when (value) {
     "displayLarge" -> MaterialTheme.typography.displayLarge
     "displayMedium" -> MaterialTheme.typography.displayMedium

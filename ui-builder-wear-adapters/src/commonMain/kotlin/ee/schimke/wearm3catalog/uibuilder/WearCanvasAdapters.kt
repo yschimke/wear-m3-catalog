@@ -124,7 +124,8 @@ val wearCanvasAdapters = canvasAdapterRegistry {
       enabled = boolean("enabled", true),
       steps = integer("steps").coerceAtLeast(0),
       valueRange = guardedRange(),
-      segmented = boolean("segmented"),
+      // The policy offers `segmented` / `continuous`; a flag is the spelling designs used before.
+      segmented = string("segmented") == "segmented" || boolean("segmented"),
     )
   }
   register("wear-m3/stepper") {

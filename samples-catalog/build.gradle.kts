@@ -22,7 +22,7 @@
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.compose.compiler)
-  alias(libs.plugins.composePreview)
+  id("ee.schimke.composeai.preview")
 }
 
 composePreview {

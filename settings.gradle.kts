@@ -69,6 +69,34 @@ providers.gradleProperty("composeUiBuilderDir").orNull?.let { path ->
   }
 }
 
+// The typed pilot: Kotlin adapter definitions over compiled entry points, generating a parallel
+// `wear-m3-typed-pilot` pair and runtime. Nothing in ordinary discovery, rendering or delivery
+// consumes it. It needs the tools API from source until the builder's typed renderer bridge moves
+// off its experiment, so both checkouts are explicit and pinned by the caller:
+//
+//   ./gradlew -PtypedWearCatalog=true -PtypedAdapterCatalog=true -PlocalBuilds=tools \
+//     -PcomposeAiToolsDir=../compose-ai-tools -PlocalBuild.tools=../compose-ai-tools \
+//     -PcomposeUiBuilderDir=../compose-ui-builder :catalog-typed-adapters:verifyTypedCatalog
+if (providers.gradleProperty("typedWearCatalog").orNull == "true") {
+  val tools =
+    file(providers.gradleProperty("composeAiToolsDir").orElse("../compose-ai-tools").get())
+  require(tools.resolve("settings.gradle.kts").isFile) {
+    "typedWearCatalog requires a compose-ai-tools checkout (-PcomposeAiToolsDir)."
+  }
+  require(providers.gradleProperty("composeUiBuilderDir").isPresent) {
+    "typedWearCatalog requires -PcomposeUiBuilderDir and the typed renderer bridge."
+  }
+  require(providers.gradleProperty("typedAdapterCatalog").orNull == "true") {
+    "typedWearCatalog requires -PtypedAdapterCatalog=true."
+  }
+  includeBuild(tools) {
+    dependencySubstitution {
+      substitute(module("ee.schimke.composeai:screen-model")).using(project(":screen-model"))
+    }
+  }
+  include(":catalog-typed-adapters", ":catalog-typed-consumer")
+}
+
 // The catalog-owned renderer links the source-only SDK. Keep it outside ordinary catalog builds:
 // without the composite there is deliberately no Maven fallback for that coordinate.
 if (providers.gradleProperty("composeUiBuilderDir").isPresent) {
