@@ -34,6 +34,9 @@ kotlin {
     // The tools build's nested gradle-plugin build supplies discovery from source.
     jvmMain.dependencies {
       implementation("ee.schimke.composeai:preview-discovery:0")
+      // The authored policy compiled in below needs this catalog's contracts line, not the older
+      // one the pinned tools checkout would otherwise resolve `ui-builder-protocol` to.
+      implementation(project.dependencies.platform(libs.composeai.contracts.bom))
       implementation("ee.schimke.composeai:ui-builder-protocol")
     }
     jvmTest.dependencies {
