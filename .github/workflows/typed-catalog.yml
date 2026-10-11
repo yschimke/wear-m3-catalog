@@ -32,12 +32,12 @@ jobs:
           ref: 8ea7cb870f51e665f4fdce2c072e62ecfd34f496
           path: .typed-builder
       # The tools API the typed renderer bridge builds against, from source until the builder's
-      # bridge leaves its experiment. v2.50.0, the first with `TypedAdapterDiscovery.discoverLibrary`,
-      # which the real-record definitions read the Wear composables with.
+      # bridge leaves its experiment. Main after v2.50.0: `TypedAdapterDiscovery.discoverLibrary` with
+      # `excluding` (#5872), which the real-record definitions read the Wear composables with.
       - uses: actions/checkout@v7.0.1
         with:
           repository: yschimke/compose-ai-tools
-          ref: 119bd27b9374864eea90f349d3dbeb569e9acb43
+          ref: 5835aabcc7fcabbca839ff3e2fe4c9239c2bb6ba
           path: .typed-tools
       - uses: actions/setup-java@v6.0.1
         with:
