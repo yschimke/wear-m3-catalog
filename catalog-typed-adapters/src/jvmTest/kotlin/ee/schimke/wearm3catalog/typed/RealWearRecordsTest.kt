@@ -46,8 +46,23 @@ class RealWearRecordsTest {
   }
 
   @Test
+  fun `the list's spacing is Arrangement's one-argument spacedBy`() {
+    val spacedBy =
+      RealWearRecords.factories().filter {
+        it.callableFqn == "androidx.compose.foundation.layout.Arrangement.spacedBy"
+      }
+    val single = spacedBy.single { it.parameters.map { p -> p.name } == listOf("space") }
+    // A `HorizontalOrVertical`, so it is passed to `verticalArrangement: Arrangement.Vertical`.
+    assertTrue(
+      "androidx.compose.foundation.layout.Arrangement.Vertical" in single.returnSupertypes,
+      single.toString(),
+    )
+  }
+
+  @Test
   fun `the colour factories each return ButtonColors`() {
-    val factories = RealWearRecords.factories()
+    val factories =
+      RealWearRecords.factories().filter { it.callableFqn.contains(".ButtonDefaults.") }
     assertEquals(
       setOf("buttonColors", "filledTonalButtonColors", "outlinedButtonColors", "childButtonColors"),
       factories.map { it.callableFqn.substringAfterLast('.') }.toSet(),

@@ -32,12 +32,13 @@ jobs:
           ref: 8ea7cb870f51e665f4fdce2c072e62ecfd34f496
           path: .typed-builder
       # The tools API the typed renderer bridge builds against, from source until the builder's
-      # bridge leaves its experiment. Main after v2.50.0: `TypedAdapterDiscovery.discoverLibrary` with
-      # `excluding` (#5872), which the real-record definitions read the Wear composables with.
+      # bridge leaves its experiment. compose-ai-tools#5880's head, which carries main after
+      # #5877 (item roles, `exportRefuses`) and #5879 (overloads validated as generated) plus
+      # factory supertypes: what the real-record definitions in `typed/real` validate against.
       - uses: actions/checkout@v7.0.1
         with:
           repository: yschimke/compose-ai-tools
-          ref: 5835aabcc7fcabbca839ff3e2fe4c9239c2bb6ba
+          ref: 1ce0cbfafca099b7f37f901a1f1e9910e4e9df18
           path: .typed-tools
       - uses: actions/setup-java@v6.0.1
         with:

@@ -36,29 +36,55 @@ From compose-ui-builder's `WearContentEmitter`, each as data on the target's `li
 - `transformation = SurfaceTransformation(spec)`: an item-scope extension in
   `androidx.wear.compose.material3`, written only to records that declare `transformation`.
 
-## Open before the first projections publish
+## The definitions
 
-1. **The screen root.** Wear designs are rooted on `wear-m3/screen-scaffold` (`timeText`,
-   `scrollIndicator`; `content` and `edgeButton` slots), with the list as its content. Under the
-   structural design the scaffold is the catalog's `screen-root` frame, not a record call: its
-   `scrollIndicator` lambda and `AppScaffold`'s `timeText` are not expressible as arguments. The
-   builder therefore has to recognise the catalog's screen-root builtin, write the frame from it and
-   make its `content` child the generated root. An `edgeButton` or a `false` `scrollIndicator` is
-   refused until the frame grows those holes.
-2. **A list without transformation.** The list's `transformation` property (`spec` or `none`) decides
-   whether its rows take the `list-item` context at all. A role is opened by the list's item member,
-   so the item member has to say which role it opens. `items` would name a role per variant, so that
-   `none` wraps rows in `item` without the role.
-3. **Properties with no parameter.** `Text`'s `fontVariationSettings` and `fontFeatureSettings` reach
-   the call only through a `TextStyle` copy, which a projection cannot write. Projection validation
-   requires every declared property to be exported, so a definition needs a way to declare one the
-   export refuses when set, rather than dropping it from the shelf.
+`real/RealWearAdapters.kt` defines the four components on those records, each with the projection the
+builder lowers a design through (`RealWearRecords.adapters()` builds them from what discovery read).
+They sit beside the pilot's wrapper adapters rather than replacing them: nothing publishes them yet.
+`RealWearAdaptersTest` validates each against its record and lowers the properties the fixture
+designs set.
+
+| Component | Writes | In a `list-item` |
+| --- | --- | --- |
+| `wear-m3/text` | `text`, `style` (a Wear typography role), `color`, weight, style, sizes in `sp`, alignment, decoration, line limits, `overflow` | `transformedHeight`, `TextDefaults`' top and bottom list padding |
+| `wear-m3/list-header` | its label as a synthesized `wear-m3/text` (`text`, `maxLines`, `overflow`) | the same, with `ListHeaderDefaults`, and `SurfaceTransformation(spec)` |
+| `wear-m3/button` | the variant's composable and `…ButtonColors(…)`; an optional icon and one or two lines as `icon` / `label` / `secondaryLabel`, anything else to the `content` overload | `transformedHeight`, `ButtonDefaults.minimumVerticalListContentPadding`, `SurfaceTransformation(spec)` |
+| `wear-m3/transforming-lazy-column` | the frame's `listState` and `contentPadding`, `Arrangement.spacedBy(verticalSpacingDp.dp)`, each row in `item { }` | opens `list-item` unless `transformation = none` |
+
+What the three open items needed landed in compose-ai-tools (#5877: item roles, `exportRefuses`, a
+property only another target writes is refused) and compose-ui-builder (#728: the screen-root
+builtin unwrapped into the frame). Writing the definitions needed two more tools fixes: a target's
+overload is validated as the generator calls it, not against its own overload's recorded call site
+(#5879), and a factory call passes where its return type's supertype is taken (`spacedBy`'s
+`HorizontalOrVertical` for `Arrangement.Vertical`), with a call's only argument counted as always
+written (#5880).
+
+## Still different from the hand-written export
+
+Each is refused by name rather than written differently, and is for the equivalence step to settle:
+
+- A Material 3 `headline…` style role. Wear has no headline scale; the hand exporter writes the
+  matching `title…` role, and a token codec cannot rename yet.
+- A text's `fontVariationSettings` / `fontFeatureSettings`, which reach the call only through a
+  `TextStyle` copy (`exportRefuses`).
+- An outlined or child button's `containerColor`, which their colour factories do not take (as the
+  hand exporter refuses it).
+- A recoloured button's `iconColor`: the projection writes `contentColor` there too, as the canvas
+  draws it (`WearScreenAdapters`); the hand exporter writes only `contentColor`, so an untinted icon
+  keeps the variant's colour in its export.
+- A list row's width: the fixtures author `fillMaxWidth` on each button and card, which both write
+  before the row's links; the canvas fills every row whether or not it is authored.
+- The list's `Modifier.fillMaxSize()`, which the hand exporter adds and the projection does not
+  write yet; a `minLines` below one is written as stated rather than clamped.
+- The builder still opens `list-item` for every item; reading the target's `itemRoles` follows the
+  tools release that carries them.
 
 ## Order
 
-1. Records (this change): discovery, with a test that pins what it reads.
-2. The three open items above, in compose-ai-tools and compose-ui-builder.
-3. Definitions with projections for the four components, the catalog's `code` block (the frame,
-   `listState` / `spec` / `contentPadding` locals, the `list-item` scope), published in the pilot pair.
-4. Structural equivalence against `WearScreenCodeExporter` over the six Wear fixture designs, then
+1. Records: discovery, with a test that pins what it reads.
+2. The three open items, in compose-ai-tools and compose-ui-builder (done).
+3. Definitions with projections for the four components (this change).
+4. The catalog's `code` block (the frame, `listState` / `spec` / `contentPadding` locals, the
+   `list-item` scope) and the definitions published in the pilot pair.
+5. Structural equivalence against `WearScreenCodeExporter` over the six Wear fixture designs, then
    the rest of the components.
