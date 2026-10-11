@@ -9,7 +9,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.wear.compose.foundation.CurvedScope
 import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material3.AlertDialogContent
-import androidx.wear.compose.material3.AlertDialogDefaults
 import androidx.wear.compose.material3.ArcProgressIndicator
 import androidx.wear.compose.material3.ButtonDefaults
 import androidx.wear.compose.material3.ButtonGroup
@@ -330,10 +329,10 @@ private fun CanvasNodeScope.AlertDialog() {
   }
   val hasConfirm = !node.slots["confirmButton"].isNullOrEmpty()
   val hasDismiss = !node.slots["dismissButton"].isNullOrEmpty()
-  if (hasConfirm && hasDismiss) {
+  if (hasConfirm || hasDismiss) {
     AlertDialogContent(
-      confirmButton = { AlertDialogDefaults.ConfirmButton(onClick = {}) },
-      dismissButton = { AlertDialogDefaults.DismissButton(onClick = {}) },
+      confirmButton = { canvas.Slot("confirmButton") },
+      dismissButton = { canvas.Slot("dismissButton") },
       modifier = modifier,
       title = title,
       text = text,

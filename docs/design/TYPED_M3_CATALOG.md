@@ -1,6 +1,6 @@
 # Parallel Kotlin-authored Wear M3 policy
 
-The next stage of the M3 typesafe catalog migration starts here with **32 explicit component policies and seven builtins, plus the minimal wear-m3-samples policy**.
+The Kotlin-authored policy and complete parallel catalog generation cover **32 explicit component policies and seven builtins, plus the minimal wear-m3-samples policy**.
 The committed JSON remains the production discovery input. Generation writes a separate build
 artifact and does not alter catalog delivery, templates, saved designs, runtime descriptors or
 inventory annotations.
@@ -35,12 +35,28 @@ Generated files are beneath `catalog-typed-policy/build/catalog/<catalog>/`:
 - `ui-builder.policy.json`: serialized Kotlin-authored policy.
 - `readiness.json`: phase, declaration counts and outstanding cutover gates.
 
-## Remaining work
+## Remaining cutover gates
 
-This is the authored-policy stage, not a completed property-reference renderer migration.
-`readyForCutover` remains false. Next, discover actual compiled call signatures, bind typed property,
-callback and slot references, generate a portable pair, and register the same definitions in the
-renderer. Then prove source-export and saved-design compatibility and exercise the packaged runtime
-with real rendering, state, events and inspection. Preserve the existing surface fidelity and
-structural code contracts throughout. Production consumes the Kotlin output only when those gates
-pass together.
+The complete portable pair uses real compiled discovery. `readyForCutover` remains false while
+typed property, callback and slot references are connected to the experimental renderer bridge.
+Exercise the packaged runtime with real rendering, state, events and inspection before switching
+production. Preserve the existing surface fidelity and structural code contracts throughout.
+
+## Complete portable catalog generation
+
+`scripts/validate-typed-m3-catalogs.sh` first compiles and
+re-discovers every covered module, then runs the independent `catalog-typed-generator` consumer.
+It uses the published tools BOM on the existing pinned line and calls the owner `UiBuilderCatalogs.generate` API with the authored Kotlin policy, the live
+`ComponentRecordFile` and the existing cover sheet. It does not read the old policy as a generation
+input. Annotation-owned membership, call signatures, callback contracts and opt-ins remain in the
+original compiled record, copied byte for byte alongside the generated `ui-builder.json`.
+
+Generation compares the entire typed output with fresh legacy discovery, including identities,
+code contracts, exclusions, builtins and diagnostics, before replacing its task-owned output.
+Capability defaults are normalized by their owning protocol serializers; documentation comments are ignored. A changed contract or missing discovery/template fails the
+build. Template files travel with the pair. Artifacts and compatibility evidence are uploaded by the
+typed workflow from `catalog-typed-generator/build/catalog/<catalog-id>/`.
+
+This completes portable JSON generation alongside production. It does not claim the experimental
+property-reference renderer bridge is released or ready for cutover. Production delivery continues
+using its existing inputs until the compiled-adapter and packaged-runtime gates pass.
