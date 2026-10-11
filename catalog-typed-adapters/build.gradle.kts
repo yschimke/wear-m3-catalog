@@ -41,6 +41,10 @@ kotlin {
     }
     jvmTest.dependencies {
       implementation(kotlin("test"))
+      // The builder's own export, so the pilot pair's projections are exported end to end the way
+      // the editor exports them. Versionless: the typed build substitutes the builder checkout.
+      implementation(project.dependencies.platform(libs.composeai.ui.builder.bom))
+      implementation(libs.composeai.ui.builder.export)
       @Suppress("DEPRECATION") implementation(compose.desktop.uiTestJUnit4)
       @Suppress("DEPRECATION") implementation(compose.desktop.currentOs)
     }

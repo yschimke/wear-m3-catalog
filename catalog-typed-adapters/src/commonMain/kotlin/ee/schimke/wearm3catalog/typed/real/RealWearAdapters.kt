@@ -317,6 +317,50 @@ class RealListHeaderAdapter(record: ComponentRecord) :
   }
 }
 
+data class RealIconProperties(
+  val iconKey: String,
+  val sizeDp: Float,
+  val contentDescription: String,
+  val color: WireColor,
+)
+
+/**
+ * `wear-m3/icon` as `material3.Icon(imageVector, contentDescription, tint)`: the key is written
+ * from the host's Material icon table, as `m3/icon` is. A set `sizeDp` becomes `Modifier.size(…)`,
+ * as the hand exporter writes it; unset, the icon keeps the library's default size.
+ */
+class RealIconAdapter(record: ComponentRecord) :
+  TypedComponentAdapter<RealIconProperties>("wear-m3/icon", record) {
+  val iconKey =
+    wireProperty(RealIconProperties::iconKey, AdapterValueCodecs.materialIcon(), "filled/add")
+  val sizeDp = wireProperty(RealIconProperties::sizeDp, AdapterValueCodecs.unit("dp"), 0f)
+  val contentDescription =
+    wireProperty(RealIconProperties::contentDescription, AdapterValueCodecs.String, "")
+  val color = wireProperty(RealIconProperties::color, COLOR, WireColor.Unset)
+
+  init {
+    exportAs(
+      target(
+        record,
+        mapOf(
+          "imageVector" to from(iconKey),
+          "contentDescription" to from(contentDescription),
+          "tint" to from(color),
+        ),
+        contexts =
+          mapOf(LIST_ITEM to ExportProjection.Context(modifier = listOf(transformedHeight))),
+        modifier =
+          listOf(
+            ExportProjection.ModifierLink(
+              "androidx.compose.foundation.layout.size",
+              listOf(from(sizeDp)),
+            )
+          ),
+      )
+    )
+  }
+}
+
 data class RealButtonProperties(
   val variant: String,
   val enabled: Boolean,

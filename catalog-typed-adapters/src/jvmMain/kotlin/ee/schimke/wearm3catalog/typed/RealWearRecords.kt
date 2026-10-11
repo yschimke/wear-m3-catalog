@@ -6,6 +6,7 @@ import ee.schimke.composeai.discovery.TypedAdapterDiscovery
 import ee.schimke.composeai.discovery.TypedAdapterDiscovery.LibraryCallable
 import ee.schimke.composeai.discovery.TypedComponentAdapter
 import ee.schimke.wearm3catalog.typed.real.RealButtonAdapter
+import ee.schimke.wearm3catalog.typed.real.RealIconAdapter
 import ee.schimke.wearm3catalog.typed.real.RealListAdapter
 import ee.schimke.wearm3catalog.typed.real.RealListHeaderAdapter
 import ee.schimke.wearm3catalog.typed.real.RealTextAdapter
@@ -36,6 +37,12 @@ object RealWearRecords {
       button("OutlinedButton"),
       button("ChildButton"),
       LibraryCallable("$MATERIAL3.ListHeaderKt", "ListHeader"),
+      // The vector overload; `painter` is the image one.
+      LibraryCallable(
+        "$MATERIAL3.IconKt",
+        "Icon",
+        types = mapOf("imageVector" to "androidx.compose.ui.graphics.vector.ImageVector"),
+      ),
       LibraryCallable(
         "$LAZY.TransformingLazyColumnKt",
         "TransformingLazyColumn",
@@ -55,6 +62,9 @@ object RealWearRecords {
   fun factories(): List<FactorySignature> =
     TypedAdapterDiscovery.discoverFactories(factoryCallables)
 
+  /** What the pilot pair publishes to export through the real records. */
+  fun publication(): RealWearPublication = RealWearPublication(adapters())
+
   /** The real-record definitions, each on the record discovery read for it. */
   fun adapters(): List<TypedComponentAdapter<*>> {
     val records = discover().components.associateBy { it.symbol.name }
@@ -62,6 +72,7 @@ object RealWearRecords {
     return listOf(
       RealTextAdapter(records.getValue("Text")),
       RealListHeaderAdapter(records.getValue("ListHeader")),
+      RealIconAdapter(records.getValue("Icon")),
       RealButtonAdapter(
         records.getValue("Button"),
         records.getValue("FilledTonalButton"),

@@ -2,10 +2,14 @@ package ee.schimke.wearm3catalog.typed
 
 import ee.schimke.composeai.discovery.ComponentRecord
 import ee.schimke.composeai.discovery.ComponentRecordFile
+import ee.schimke.composeai.discovery.ExportProjectionJson
 import ee.schimke.composeai.discovery.GeneratedAdapterCatalog
 import ee.schimke.composeai.discovery.TypedAdapterCatalog
+import ee.schimke.composeai.discovery.UiBuilderAuthoredComponent
 import ee.schimke.composeai.discovery.UiBuilderCatalogFile
 import ee.schimke.composeai.discovery.UiBuilderCatalogs
+import ee.schimke.composeai.discovery.UiBuilderCode
+import ee.schimke.composeai.discovery.UiBuilderComposeSourceExport
 import ee.schimke.composeai.discovery.UiBuilderPolicyFile
 import kotlinx.serialization.json.jsonObject
 
@@ -17,7 +21,11 @@ const val TYPED_WEAR_CATALOG_ID = "wear-m3-typed-pilot"
  * the production ids, so saved designs and the production structure adapters (the screen frame and
  * the transforming list) address them unchanged.
  */
-class TypedWearCatalog(val discovered: ComponentRecordFile) {
+class TypedWearCatalog(
+  val discovered: ComponentRecordFile,
+  /** The real-record definitions to export through; null publishes the wrappers alone. */
+  val real: RealWearPublication? = null,
+) {
   private fun record(name: String): ComponentRecord =
     discovered.components.single { it.symbol.name == name }
 
@@ -129,19 +137,151 @@ class TypedWearCatalog(val discovered: ComponentRecordFile) {
           }
         }
         .build()
-    val full = requireNotNull(UiBuilderCatalogs.generate(portable.record, cover, authored))
-    check(full.diagnostics.isEmpty()) { full.diagnostics.joinToString { it.message } }
+    val published = real?.let { publish(authored, portable.record, it) }
+    val record = published?.first ?: portable.record
+    val full =
+      requireNotNull(UiBuilderCatalogs.generate(record, cover, published?.second ?: authored))
+    // An export target kept off the shelf is reported, and is exactly what was asked for.
+    val unexpected =
+      full.diagnostics.filterNot {
+        it.code == UiBuilderCatalogs.Diagnostics.COMPONENT_EXCLUDED &&
+          it.subject.startsWith(EXPORT_TARGET_PREFIX)
+      }
+    check(unexpected.isEmpty()) { unexpected.joinToString { it.message } }
     builtinAdapters.forEach { it.freeze() }
-    return TypedWearCatalogOutput(portable, full)
+    return TypedWearCatalogOutput(portable, full, record)
+  }
+
+  /**
+   * [policy] and [record] exporting through [real]: the real records join the record as export
+   * targets kept off the shelf, each shelf component a real definition covers carries that
+   * definition's projection (its wrapper still draws it), the list builtin names the real
+   * `TransformingLazyColumn` as its implementation, and the `code` block states the screen frame
+   * around the generated root, the locals that frame declares and the list item's scope. The
+   * catalog then selects the component-record export, which reads all of it.
+   */
+  private fun publish(
+    policy: UiBuilderPolicyFile,
+    record: ComponentRecordFile,
+    real: RealWearPublication,
+  ): Pair<ComponentRecordFile, UiBuilderPolicyFile> {
+    val byId = real.adapters.associateBy { it.id }
+    val targets =
+      real.adapters
+        .flatMap { adapter -> listOf(adapter.component) + adapter.variantRecords }
+        .distinctBy { it.canonicalId }
+    val listRecord = byId.getValue(LIST).component.canonicalId
+    val components =
+      policy.components.mapValues { (id, component) ->
+        val adapter = byId[id] ?: return@mapValues component
+        component.newBuilder().also { it.exportProjection = projectionJson(adapter) }.build()
+      } +
+        targets.associate { target ->
+          val owner = real.adapters.first { target.canonicalId in it.recordIds() }
+          "$EXPORT_TARGET_PREFIX${target.symbol.name.lowercase()}" to
+            UiBuilderAuthoredComponent.Builder()
+              .also {
+                it.record = target.canonicalId
+                it.excluded = "an export target of ${owner.id}"
+                // The list's call is a builtin's implementation, so it carries the projection.
+                if (target.canonicalId == listRecord) it.exportProjection = projectionJson(owner)
+              }
+              .build()
+        }
+    val builtins =
+      policy.builtins.mapValues { (id, builtin) ->
+        if (id == LIST) builtin.newBuilder().also { it.implementation = listRecord }.build()
+        else builtin
+      }
+    val published =
+      policy
+        .newBuilder()
+        .apply {
+          this.components = components
+          this.builtins = builtins
+          code = WEAR_SCREEN_CODE
+          composeSourceExport =
+            UiBuilderComposeSourceExport.Builder(COMPONENT_RECORDS, COMPONENT_RECORDS_V1).build()
+        }
+        .build()
+    val merged =
+      record
+        .newBuilder()
+        .also { b ->
+          b.components =
+            record.components +
+              targets.filter { t -> record.components.none { it.canonicalId == t.canonicalId } }
+        }
+        .build()
+    return merged to published
+  }
+
+  private fun TypedComponentAdapterAny.recordIds(): Set<String> =
+    (listOf(component) + variantRecords).map { it.canonicalId }.toSet()
+
+  private fun projectionJson(adapter: TypedComponentAdapterAny) =
+    ExportProjectionJson.encode(
+      requireNotNull(adapter.projection) { "${adapter.id}: no projection" }
+    )
+
+  companion object {
+    /** The list builtin, written as the real `TransformingLazyColumn`. */
+    const val LIST: String = "wear-m3/transforming-lazy-column"
+
+    /** Policy ids of the real records published only as export targets. */
+    const val EXPORT_TARGET_PREFIX: String = "wear-m3/export-"
+
+    /** compose-ui-builder's catalog-neutral component-record export adapter. */
+    const val COMPONENT_RECORDS: String = "compose-component-records"
+    const val COMPONENT_RECORDS_V1: Int = 1
+
+    private const val FOUNDATION_LAZY = "androidx.wear.compose.foundation.lazy"
+
+    /**
+     * The structure around a Wear screen's records: `ScreenScaffold` sharing the list's state, the
+     * transformation spec its rows read, and the content padding the scaffold hands its content.
+     * The generated root (the list) is `${'$'}{content}`; everything the records read and no record
+     * declares is a local here.
+     */
+    val WEAR_SCREEN_CODE: UiBuilderCode =
+      UiBuilderCode.Builder()
+        .also {
+          it.strategy = "templates"
+          it.imports =
+            listOf(
+              "$FOUNDATION_LAZY.rememberTransformingLazyColumnState",
+              "androidx.wear.compose.material3.ScreenScaffold",
+              "androidx.wear.compose.material3.lazy.rememberTransformationSpec",
+            )
+          it.templates =
+            mapOf(
+              "screen-root" to
+                "val listState = rememberTransformingLazyColumnState()\n" +
+                  "val spec = rememberTransformationSpec()\n" +
+                  "ScreenScaffold(scrollState = listState) { contentPadding ->\n" +
+                  "    ${'$'}{content}\n" +
+                  "}"
+            )
+          it.locals =
+            mapOf(
+              "listState" to "$FOUNDATION_LAZY.TransformingLazyColumnState",
+              "spec" to "androidx.wear.compose.material3.lazy.TransformationSpec",
+              "contentPadding" to "androidx.compose.foundation.layout.PaddingValues",
+            )
+          it.scopes = mapOf("list-item" to "$FOUNDATION_LAZY.TransformingLazyColumnItemScope")
+        }
+        .build()
   }
 }
+
+/** The real-record definitions a pilot pair exports through, read where discovery runs (JVM). */
+class RealWearPublication(val adapters: List<TypedComponentAdapterAny>)
 
 typealias TypedComponentAdapterAny = ee.schimke.composeai.discovery.TypedComponentAdapter<*>
 
 class TypedWearCatalogOutput(
   val portable: GeneratedAdapterCatalog,
   val catalog: UiBuilderCatalogFile,
-) {
-  val record: ComponentRecordFile
-    get() = portable.record
-}
+  /** The published record: the portable pair's, plus any real export targets. */
+  val record: ComponentRecordFile = portable.record,
+)

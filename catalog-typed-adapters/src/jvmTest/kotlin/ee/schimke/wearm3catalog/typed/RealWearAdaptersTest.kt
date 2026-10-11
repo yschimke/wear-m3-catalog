@@ -52,6 +52,7 @@ class RealWearAdaptersTest {
       setOf(
         "wear-m3/text",
         "wear-m3/list-header",
+        "wear-m3/icon",
         "wear-m3/button",
         "wear-m3/transforming-lazy-column",
       ),
@@ -151,6 +152,17 @@ class RealWearAdaptersTest {
     assertEquals(setOf("text", "maxLines"), label.properties.keys)
     assertIs<ScreenValue.Construct>(header.arguments["transformation"])
     assertEquals(2, header.modifier.size)
+  }
+
+  @Test
+  fun `an icon writes a set size as a size modifier, and no modifier unset`() {
+    val sized = node("wear-m3/icon", "sizeDp" to wrapped("float", 24))
+    assertEquals(
+      listOf("androidx.compose.foundation.layout.size"),
+      sized.modifier.map { it.callableFqn },
+    )
+    assertIs<ScreenValue.Chain>(sized.modifier.single().positional.single())
+    assertTrue(node("wear-m3/icon").modifier.isEmpty())
   }
 
   @Test
