@@ -164,7 +164,9 @@ class RealWearAdaptersTest {
     assertTrue(tonal.record.endsWith(".FilledTonalButton"), tonal.record)
     val colors = assertIs<ScreenValue.Construct>(tonal.arguments["colors"])
     assertTrue(colors.callableFqn.endsWith(".filledTonalButtonColors"))
-    assertEquals(setOf("contentColor"), colors.named.keys)
+    // As the canvas draws it: the content colour tints the icon slot's icon too.
+    assertEquals(setOf("contentColor", "iconColor"), colors.named.keys)
+    assertEquals(colors.named["contentColor"], colors.named["iconColor"])
     assertEquals("onClick", tonal.events["click"])
     // An unstyled, enabled filled button keeps the library's own colours and the short call.
     val plain =

@@ -389,9 +389,11 @@ class RealButtonAdapter(
         "colors" to
           call(
             colorFactories.named("$MATERIAL3.ButtonDefaults.$factory"),
+            // The content colour tints an untinted icon too, as the canvas draws it.
             *(listOfNotNull(
                 ("containerColor" to from(containerColor)).takeIf { container },
                 "contentColor" to from(contentColor),
+                "iconColor" to from(contentColor),
               )
               .toTypedArray()),
           ),

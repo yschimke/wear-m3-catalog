@@ -69,6 +69,11 @@ Each is refused by name rather than written differently, and is for the equivale
   `TextStyle` copy (`exportRefuses`).
 - An outlined or child button's `containerColor`, which their colour factories do not take (as the
   hand exporter refuses it).
+- A recoloured button's `iconColor`: the projection writes `contentColor` there too, as the canvas
+  draws it (`WearScreenAdapters`); the hand exporter writes only `contentColor`, so an untinted icon
+  keeps the variant's colour in its export.
+- A list row's width: the fixtures author `fillMaxWidth` on each button and card, which both write
+  before the row's links; the canvas fills every row whether or not it is authored.
 - The list's `Modifier.fillMaxSize()`, which the hand exporter adds and the projection does not
   write yet; a `minLines` below one is written as stated rather than clamped.
 - The builder still opens `list-item` for every item; reading the target's `itemRoles` follows the
