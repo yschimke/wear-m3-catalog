@@ -306,7 +306,7 @@ jobs:
       # re-checked, so the first publishes seed the cache at up to the cap per run and later ones
       # cost little. compose-preview-publish.yml reads that cache for the PR check.
       guidelines: true
-      guidelines-max-cost: '1.00'
+      guidelines-max-cost: '0.25'
     secrets:
       artifacts_token: ${{ secrets.ARTIFACTS_TOKEN }}
       # Only the guidelines step reads it, from the environment. Absent, the check is skipped with
