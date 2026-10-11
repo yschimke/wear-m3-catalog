@@ -43,6 +43,10 @@ jobs:
           guidelines-file: ui-builder.guidelines.json
           openrouter-key: ${{ secrets.OPENROUTER_API_KEY }}
           guidelines-max-cost: '0.25'
+          # Ask the largest size in each width class (216dp and 240dp of the five Wear sizes), not
+          # every size: the five came back with the same findings. A named variant is always asked.
+          # Ignored, with a warning, until the pinned action's CLI has --max-variants.
+          guidelines-max-variants: size-class
           # Read the catalog publish's guideline results cache (design-artifacts.yml saves it under
           # `guidelines-<system>-`), read-only, so a preview already judged on main is not paid for
           # again.
