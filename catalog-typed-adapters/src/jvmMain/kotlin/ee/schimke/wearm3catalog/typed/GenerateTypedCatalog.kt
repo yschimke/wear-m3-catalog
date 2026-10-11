@@ -14,7 +14,6 @@ import ee.schimke.composeai.discovery.UiBuilderPolicyFile
 import ee.schimke.composeai.discovery.writeTo
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.StandardCopyOption
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
@@ -26,6 +25,21 @@ import kotlinx.serialization.json.put
 
 /** The production structure adapters the pilot keeps: the screen frame and its scrolling list. */
 val structuralAdapterIds = setOf("frame/round-screen", "wear-m3/transforming-lazy-column")
+
+/**
+ * A production template as the pilot pair carries it: pinned to the pilot catalog, so a design
+ * created from the pilot's template selects the pilot rather than production `wear-m3`.
+ */
+fun pilotTemplate(text: String): String {
+  val template = json.parseToJsonElement(text).jsonObject
+  val pin = template["catalogPin"]?.jsonObject.orEmpty()
+  val repinned =
+    JsonObject(
+      template +
+        ("catalogPin" to JsonObject(pin + ("systemId" to JsonPrimitive(TYPED_WEAR_CATALOG_ID))))
+    )
+  return json.encodeToString(JsonObject.serializer(), repinned) + "\n"
+}
 
 /** Discover the compiled typed entry points from bytecode; nothing here loads or runs them. */
 fun discoverTypedWearControls(): ComponentRecordFile {
@@ -94,7 +108,8 @@ fun main(args: Array<String>) {
       require(!path.isAbsolute && !path.startsWith("..")) { "Template escapes the catalog: $path" }
       val target = pairDirectory.resolve(path)
       Files.createDirectories(target.parent)
-      Files.copy(root.resolve(path), target, StandardCopyOption.REPLACE_EXISTING)
+      // The stored production template is never rewritten; only the pilot's copy is re-pinned.
+      Files.writeString(target, pilotTemplate(Files.readString(root.resolve(path))))
     }
     writeSourceFixtures(typed, pair.record, pairDirectory.resolve("generated-source"))
     writeReadiness(root, base, typed, pair.catalog, pairDirectory.resolve("readiness.json"))

@@ -99,6 +99,35 @@ class TypedWearRendererTest {
   }
 
   @Test
+  fun `a slider saved with the legacy segmented flag draws as production draws it`() {
+    for (flag in listOf(true, false)) {
+      val properties =
+        mapOf(
+          "segmented" to
+            buildJsonObject {
+              put("type", "bool")
+              put("value", flag)
+            },
+          "steps" to
+            buildJsonObject {
+              put("type", "int")
+              put("value", 3)
+            },
+        )
+      val (direct, adapted) =
+        captureBoth(
+          { modifier ->
+            production["wear-m3/slider"]!!.invoke(scope("wear-m3/slider", properties, modifier))
+          },
+          { modifier ->
+            typedRegistry["wear-m3/slider"]!!.invoke(scope("wear-m3/slider", properties, modifier))
+          },
+        )
+      assertSamePixels("slider-legacy-segmented-$flag", direct, adapted)
+    }
+  }
+
+  @Test
   fun `typed pickers match the real Wear pickers`() {
     for (type in listOf("", "day-month-year", "month-day-year")) {
       val (direct, adapted) =

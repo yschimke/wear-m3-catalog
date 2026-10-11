@@ -54,6 +54,11 @@ internal fun normalizedScope(
           when {
             type in stringSpellings && raw != null && raw.isString -> literal to raw
             raw == JsonNull -> literal to JsonPrimitive("")
+            // The slider's `segmented` was a flag before the policy offered its two values.
+            property.name == "segmented" && type in setOf("bool", "boolean") ->
+              raw?.booleanOrNull?.let {
+                literal to JsonPrimitive(if (it) "segmented" else "continuous")
+              }
             else -> null
           }
         "boolean" ->

@@ -99,9 +99,11 @@ try {
   assert.equal(await page.evaluate(`messages.find(m=>m.requestId===${JSON.stringify(wrongPin)}).payload.code`), 'RUNTIME_PIN_MISMATCH');
   for (const template of policy.templates) {
     const path = typeof template === 'string' ? template : template.path;
-    const document = JSON.parse(await readFile(join(root, path), 'utf8'));
-    // Trial copies only. Stored templates and saved runtime pins are never rewritten.
-    document.catalogPin = { ...document.catalogPin, systemId: 'wear-m3-typed-pilot', nativeRuntimeId: manifest.runtimeId };
+    // The pilot pair's own copy, as a consumer creating from it gets it: it must already pin the
+    // pilot catalog. Only the runtime id, which the pair cannot know, is filled in here.
+    const document = JSON.parse(await readFile(join(root, 'catalog-typed-adapters/build/catalog', path), 'utf8'));
+    assert.equal(document.catalogPin.systemId, 'wear-m3-typed-pilot', `${path}: pair template pin`);
+    document.catalogPin = { ...document.catalogPin, nativeRuntimeId: manifest.runtimeId };
     for (const width of [192, 227]) await render(document, `${basename(path, '.json')}-${width}`, width);
   }
   const published = JSON.parse(await readFile(join(root, 'catalog-typed-adapters/build/catalog/ui-builder.json'), 'utf8'));

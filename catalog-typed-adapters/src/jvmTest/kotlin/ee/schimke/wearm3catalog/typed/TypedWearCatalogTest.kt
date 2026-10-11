@@ -4,6 +4,8 @@ import ee.schimke.catalog.typed.wearM3Policy
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 class TypedWearCatalogTest {
   private val typed = TypedWearCatalog(discoverTypedWearControls())
@@ -41,5 +43,16 @@ class TypedWearCatalogTest {
       assertTrue(generated.propertyCapabilities.orEmpty().containsAll(offered), definition.id)
     }
     assertEquals(policy.builtins.keys, output.catalog.statusSemantics.builtins.keys)
+  }
+
+  @Test
+  fun `the pilot's template copies pin the pilot and keep everything else`() {
+    val original =
+      """{"id":"t","catalogPin":{"systemId":"wear-m3","nativeRuntimeId":"candidate"},"nodes":{}}"""
+    val copy = kotlinx.serialization.json.Json.parseToJsonElement(pilotTemplate(original))
+    val pin = copy.jsonObject.getValue("catalogPin").jsonObject
+    assertEquals(TYPED_WEAR_CATALOG_ID, pin.getValue("systemId").jsonPrimitive.content)
+    assertEquals("candidate", pin.getValue("nativeRuntimeId").jsonPrimitive.content)
+    assertEquals("t", copy.jsonObject.getValue("id").jsonPrimitive.content)
   }
 }
