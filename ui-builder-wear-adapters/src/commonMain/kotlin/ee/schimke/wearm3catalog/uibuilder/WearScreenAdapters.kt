@@ -462,10 +462,17 @@ private fun CanvasNodeScope.WearCardVariant(
   transformation: SurfaceTransformation?,
 ) {
   // The design's colours, as the exporter writes them. `OutlinedCard` draws no container, and
-  // `outlinedCardColors` takes none, so it reads only the content colour.
+  // `outlinedCardColors` takes none, so it reads only the content colour. The design slot is the
+  // title slot of `TitleCard`/`AppCard`, and the plain `Card` provides `titleColor` to its content
+  // too, so the content colour is also the title colour or it would have no visible effect there.
   val container = resolveWearColor(string("containerColor"))
   val content = resolveWearColor(string("contentColor"))
-  val colors = CardDefaults.cardColors(containerColor = container, contentColor = content)
+  val colors =
+    CardDefaults.cardColors(
+      containerColor = container,
+      contentColor = content,
+      titleColor = content,
+    )
   val outlinedColors = CardDefaults.outlinedCardColors(contentColor = content)
   when (string("variant")) {
     "title" ->
