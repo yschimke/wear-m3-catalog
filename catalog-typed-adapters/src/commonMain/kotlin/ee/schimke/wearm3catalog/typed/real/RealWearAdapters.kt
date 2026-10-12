@@ -333,7 +333,8 @@ class RealIconAdapter(record: ComponentRecord) :
   TypedComponentAdapter<RealIconProperties>("wear-m3/icon", record) {
   val iconKey =
     wireProperty(RealIconProperties::iconKey, AdapterValueCodecs.materialIcon(), "filled/add")
-  val sizeDp = wireProperty(RealIconProperties::sizeDp, AdapterValueCodecs.unit("dp"), 0f)
+  val sizeDp =
+    wireProperty(RealIconProperties::sizeDp, AdapterValueCodecs.unit("dp", positive = true), 0f)
   val contentDescription =
     wireProperty(RealIconProperties::contentDescription, AdapterValueCodecs.String, "")
   val color = wireProperty(RealIconProperties::color, COLOR, WireColor.Unset)

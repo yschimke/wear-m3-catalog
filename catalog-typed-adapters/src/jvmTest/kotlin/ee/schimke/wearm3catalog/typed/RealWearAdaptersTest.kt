@@ -168,6 +168,8 @@ class RealWearAdaptersTest {
     )
     assertIs<ScreenValue.Chain>(sized.modifier.single().positional.single())
     assertTrue(node("wear-m3/icon").modifier.isEmpty())
+    // The seeded 0 is the icon's own size, not `Modifier.size(0.dp)`.
+    assertTrue(node("wear-m3/icon", "sizeDp" to wrapped("float", 0)).modifier.isEmpty())
   }
 
   @Test
