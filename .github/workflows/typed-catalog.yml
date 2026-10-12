@@ -1,6 +1,7 @@
 name: Typed M3 catalogs
 
 on:
+  # A dispatch from main republishes the pilot; from any other ref it only validates.
   workflow_dispatch:
   pull_request:
     paths:
@@ -15,10 +16,42 @@ on:
       - 'scripts/validate-typed-m3-policies.sh'
       - 'scripts/validate-typed-wear-renderer.sh'
       - 'scripts/verify-typed-wear-runtime.mjs'
+      - 'scripts/assemble-typed-pilot-delivery.mjs'
+      - 'ui-builder.guidelines.json'
+      # The templates `generateTypedCatalog` re-pins and copies into the pilot pair.
+      - 'ui-builder/designs/**'
+      - '.github/workflows/typed-catalog.yml'
+  # Publish the pilot after a change to its inputs lands. Same paths as the pull-request check:
+  # what the check validates is exactly what the publish job ships.
+  push:
+    branches: [main]
+    paths:
+      - 'catalog-typed-*/**'
+      - '**/src/**'
+      - '**/catalog.spec.json'
+      - 'catalog.spec.json'
+      - 'scripts/validate-typed-m3-catalogs.sh'
+      - '**/ui-builder.policy.json'
+      - 'ui-builder.policy.json'
+      - 'gradle/libs.versions.toml'
+      - 'scripts/validate-typed-m3-policies.sh'
+      - 'scripts/validate-typed-wear-renderer.sh'
+      - 'scripts/verify-typed-wear-runtime.mjs'
+      - 'scripts/assemble-typed-pilot-delivery.mjs'
+      - 'ui-builder.guidelines.json'
+      # The templates `generateTypedCatalog` re-pins and copies into the pilot pair.
+      - 'ui-builder/designs/**'
       - '.github/workflows/typed-catalog.yml'
 
 permissions:
   contents: read
+
+# A newer run on the same ref supersedes an older one. On main that is what keeps an older run from
+# publishing after a newer one and rolling the delivery branch back; `publish` also checks that its
+# commit is still main's tip right before it pushes, for a run that is already past this point.
+concurrency:
+  group: typed-catalog-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -66,6 +99,25 @@ jobs:
           xvfb-run -a scripts/validate-typed-wear-renderer.sh .typed-tools .typed-builder
       - name: Exercise the packaged typed Wear runtime in Chromium
         run: node scripts/verify-typed-wear-runtime.mjs .typed-builder
+      # The delivery tree `publish` pushes, assembled on every run so a pull request proves it can
+      # be built, from the export driver locked by the same tools pin. See the script's header for
+      # the layout and why the parity evidence is carried as stickers.
+      - uses: actions/setup-node@v7.1.0
+        with:
+          node-version: 24.21.0
+      - name: Assemble the wear-m3-typed-pilot delivery tree
+        run: |
+          set -euo pipefail
+          driver=$(.typed-tools/.github/scripts/install-export-driver.sh "$RUNNER_TEMP/export-driver")
+          node scripts/assemble-typed-pilot-delivery.mjs \
+            --driver "$driver" --out "$RUNNER_TEMP/typed-pilot-delivery"
+      - uses: actions/upload-artifact@v7.0.2
+        if: ${{ github.event_name != 'pull_request' }}
+        with:
+          name: wear-m3-typed-pilot-delivery
+          path: ${{ runner.temp }}/typed-pilot-delivery/
+          if-no-files-found: error
+          retention-days: 7
       - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
@@ -81,3 +133,68 @@ jobs:
             catalog-typed-adapters/build/browser-evidence/
             catalog-typed-adapters/build/reports/tests/
             catalog-typed-adapters/build/distributions/
+
+  # Publish the pilot as its own catalog, `design-artifacts/wear-m3-typed-pilot` on the same output
+  # repository and in the same layout as the production `wear-m3-catalog` branch, so a preview
+  # server can serve it beside production `wear-m3` for A/B export testing. Production delivery
+  # (design-artifacts.yml) neither reads nor writes this branch, and this job touches no other.
+  #
+  # Not the reusable design-artifacts workflow: that workflow's product is a rendered @Preview
+  # bundle, and the pilot has none. The tree is built by `validate` above with the export driver's
+  # own publishers, and pushed here with the same helper and the same token the reusable workflow
+  # uses for its `-out` pushes. A separate job so the write token never shares a runner with the
+  # build.
+  publish:
+    name: Publish wear-m3-typed-pilot
+    needs: validate
+    if: >-
+      ${{ github.repository == 'yschimke/wear-m3-catalog' && github.event_name != 'pull_request' &&
+      github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    # One publisher per delivery branch, and a started publish always finishes.
+    concurrency:
+      group: design-artifacts-${{ github.ref }}-wear-m3-typed-pilot
+      cancel-in-progress: false
+    steps:
+      # The push helper, from the same tools pin the pilot was built against.
+      - uses: actions/checkout@v7.0.1
+        with:
+          repository: yschimke/compose-ai-tools
+          ref: 9310fba0525c3d146736f23aa95626cac5ac8e21 # v2.52.0
+          path: .typed-tools
+          persist-credentials: false
+      - uses: actions/download-artifact@v8.0.2
+        with:
+          name: wear-m3-typed-pilot-delivery
+          path: ${{ runner.temp }}/out
+      - name: Publish to design-artifacts/wear-m3-typed-pilot
+        env:
+          ARTIFACT_TOKEN: ${{ secrets.ARTIFACTS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          HELPER: ${{ github.workspace }}/.typed-tools/.github/actions/apply/lib/push-branch.sh
+        run: |
+          set -euo pipefail
+          # Only main's current tip publishes. A run whose commit main has moved past would replace
+          # a newer pilot with an older one; the newer commit's own run publishes instead.
+          tip=$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq .object.sha)
+          if [ "$tip" != "$GITHUB_SHA" ]; then
+            echo "::notice title=Typed pilot publish skipped::${GITHUB_SHA::12} is no longer main's tip (${tip::12}); its run publishes instead."
+            exit 0
+          fi
+          cd "$RUNNER_TEMP/out"
+          # Appended on the existing tip, like the production lanes, so the branch keeps a history
+          # the server's revision menu and runtime history can read. The runtime id carries the
+          # source commit, so every publish from a new commit is a new generation.
+          TARGET_BRANCH=design-artifacts/wear-m3-typed-pilot \
+          REPO=yschimke/wear-m3-catalog-out \
+          GITHUB_TOKEN_INLINE="$ARTIFACT_TOKEN" \
+          MSG="chore(design-artifacts): regenerate wear-m3-typed-pilot catalog ($(date -u +%F), ${GITHUB_SHA::12})" \
+          SKIP_IF_UNCHANGED=1 \
+          GIT_AUTHOR_NAME='Yuri Schimke' \
+          GIT_AUTHOR_EMAIL=yuri@schimke.ee \
+          GIT_COMMITTER_NAME='Yuri Schimke' \
+          GIT_COMMITTER_EMAIL=yuri@schimke.ee \
+            bash "$HELPER"
