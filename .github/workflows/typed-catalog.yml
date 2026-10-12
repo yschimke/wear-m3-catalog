@@ -26,10 +26,12 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7.0.1
+      # The builder's projected export: main after #744, which fills the scaffold's other slot holes
+      # and writes projected Material icons.
       - uses: actions/checkout@v7.0.1
         with:
           repository: yschimke/compose-ui-builder
-          ref: 8ea7cb870f51e665f4fdce2c072e62ecfd34f496
+          ref: 77258ee61bf30b0e1db9055a11f5a0a4f7fe1f3f
           path: .typed-builder
       # The tools API the typed renderer bridge builds against, from source until the builder's
       # bridge leaves its experiment. v2.52.0: target modifier links, the Material icon codec,

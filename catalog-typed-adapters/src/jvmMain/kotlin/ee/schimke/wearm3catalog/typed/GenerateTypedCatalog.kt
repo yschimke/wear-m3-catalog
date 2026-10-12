@@ -156,7 +156,9 @@ private fun writeSourceFixtures(
       .apply { components = record.components + typed.builtinAdapters.map { it.component } }
       .build()
   val textRecord = typed.text.component.canonicalId
-  for (component in exportRecord.components) {
+  // The typed entry points only: the published record also carries the real records the
+  // definitions export through, which are the libraries' own API rather than the wrappers'.
+  for (component in typed.runtimeAdapters.map { it.component }) {
     for (explicit in listOf(false, true)) {
       val name = component.symbol.name + if (explicit) "ExplicitExport" else "DefaultExport"
       val arguments =
