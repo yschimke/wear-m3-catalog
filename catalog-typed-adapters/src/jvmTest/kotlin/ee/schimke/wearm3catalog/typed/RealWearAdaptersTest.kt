@@ -52,6 +52,12 @@ class RealWearAdaptersTest {
       setOf(
         "wear-m3/text",
         "wear-m3/list-header",
+        "wear-m3/icon",
+        "wear-m3/edge-button",
+        "wear-m3/card",
+        "wear-m3/icon-button",
+        "wear-m3/button-group",
+        "wear-m3/alert-dialog",
         "wear-m3/button",
         "wear-m3/transforming-lazy-column",
       ),
@@ -151,6 +157,35 @@ class RealWearAdaptersTest {
     assertEquals(setOf("text", "maxLines"), label.properties.keys)
     assertIs<ScreenValue.Construct>(header.arguments["transformation"])
     assertEquals(2, header.modifier.size)
+  }
+
+  @Test
+  fun `an icon writes a set size as a size modifier, and no modifier unset`() {
+    val sized = node("wear-m3/icon", "sizeDp" to wrapped("float", 24))
+    assertEquals(
+      listOf("androidx.compose.foundation.layout.size"),
+      sized.modifier.map { it.callableFqn },
+    )
+    assertIs<ScreenValue.Chain>(sized.modifier.single().positional.single())
+    assertTrue(node("wear-m3/icon").modifier.isEmpty())
+    // The seeded 0 is the icon's own size, not `Modifier.size(0.dp)`.
+    assertTrue(node("wear-m3/icon", "sizeDp" to wrapped("float", 0)).modifier.isEmpty())
+  }
+
+  @Test
+  fun `a recoloured card tints its title too, as the canvas does`() {
+    val card = node("wear-m3/card", "contentColor" to wrapped("colorToken", "primary"))
+    val colors = assertIs<ScreenValue.Construct>(card.arguments["colors"])
+    assertTrue(colors.callableFqn.endsWith(".cardColors"), colors.callableFqn)
+    assertEquals(colors.named["contentColor"], colors.named["titleColor"])
+    val outlined =
+      node(
+        "wear-m3/card",
+        "variant" to wrapped("enum", "outlined"),
+        "contentColor" to wrapped("colorToken", "primary"),
+      )
+    val outlinedColors = assertIs<ScreenValue.Construct>(outlined.arguments["colors"])
+    assertEquals(setOf("contentColor"), outlinedColors.named.keys)
   }
 
   @Test

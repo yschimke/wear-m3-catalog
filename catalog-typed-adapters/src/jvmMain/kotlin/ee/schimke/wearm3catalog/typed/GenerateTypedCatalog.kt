@@ -89,7 +89,7 @@ fun main(args: Array<String>) {
   val output = Path.of(args[1])
   val sources = Path.of(args[2])
   val base = wearM3Policy()
-  val typed = TypedWearCatalog(discoverTypedWearControls())
+  val typed = TypedWearCatalog(discoverTypedWearControls(), RealWearRecords.publication())
   val pair = typed.generate(base)
 
   // Both directories belong to this task alone; the pair is written beside them, then moved.
@@ -99,6 +99,11 @@ fun main(args: Array<String>) {
   try {
     val pairDirectory = staging.resolve("pair")
     pair.portable.writeTo(pairDirectory)
+    // The published record also carries the real records the projections export to.
+    Files.writeString(
+      pairDirectory.resolve("components.json"),
+      json.encodeToString(ComponentRecordFile.serializer(), pair.record),
+    )
     Files.writeString(
       pairDirectory.resolve("ui-builder.json"),
       json.encodeToString(UiBuilderCatalogFile.serializer(), pair.catalog) + "\n",
@@ -151,7 +156,9 @@ private fun writeSourceFixtures(
       .apply { components = record.components + typed.builtinAdapters.map { it.component } }
       .build()
   val textRecord = typed.text.component.canonicalId
-  for (component in exportRecord.components) {
+  // The typed entry points only: the published record also carries the real records the
+  // definitions export through, which are the libraries' own API rather than the wrappers'.
+  for (component in typed.runtimeAdapters.map { it.component }) {
     for (explicit in listOf(false, true)) {
       val name = component.symbol.name + if (explicit) "ExplicitExport" else "DefaultExport"
       val arguments =

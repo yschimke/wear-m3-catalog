@@ -317,6 +317,51 @@ class RealListHeaderAdapter(record: ComponentRecord) :
   }
 }
 
+data class RealIconProperties(
+  val iconKey: String,
+  val sizeDp: Float,
+  val contentDescription: String,
+  val color: WireColor,
+)
+
+/**
+ * `wear-m3/icon` as `material3.Icon(imageVector, contentDescription, tint)`: the key is written
+ * from the host's Material icon table, as `m3/icon` is. A set `sizeDp` becomes `Modifier.size(…)`,
+ * as the hand exporter writes it; unset, the icon keeps the library's default size.
+ */
+class RealIconAdapter(record: ComponentRecord) :
+  TypedComponentAdapter<RealIconProperties>("wear-m3/icon", record) {
+  val iconKey =
+    wireProperty(RealIconProperties::iconKey, AdapterValueCodecs.materialIcon(), "filled/add")
+  val sizeDp =
+    wireProperty(RealIconProperties::sizeDp, AdapterValueCodecs.unit("dp", positive = true), 0f)
+  val contentDescription =
+    wireProperty(RealIconProperties::contentDescription, AdapterValueCodecs.String, "")
+  val color = wireProperty(RealIconProperties::color, COLOR, WireColor.Unset)
+
+  init {
+    exportAs(
+      target(
+        record,
+        mapOf(
+          "imageVector" to from(iconKey),
+          "contentDescription" to from(contentDescription),
+          "tint" to from(color),
+        ),
+        contexts =
+          mapOf(LIST_ITEM to ExportProjection.Context(modifier = listOf(transformedHeight))),
+        modifier =
+          listOf(
+            ExportProjection.ModifierLink(
+              "androidx.compose.foundation.layout.size",
+              listOf(from(sizeDp)),
+            )
+          ),
+      )
+    )
+  }
+}
+
 data class RealButtonProperties(
   val variant: String,
   val enabled: Boolean,
@@ -412,6 +457,339 @@ class RealButtonAdapter(
       button(outlined, "outlinedButtonColors", setOf("outlined"), false, colorFactories),
       button(child, "childButtonColors", setOf("child"), false, colorFactories),
       variant = variant,
+    )
+  }
+}
+
+data class RealCardProperties(
+  val variant: String,
+  val containerColor: WireColor,
+  val contentColor: WireColor,
+  val onClick: () -> Unit,
+)
+
+/**
+ * `wear-m3/card` as Wear's four cards, picked by `variant`, as the hand exporter writes them. A
+ * `title` card (the default) is `TitleCard`, its first line the title and the rest its content; an
+ * `app` card is `AppCard`, which needs an app name and a title, so fewer than two lines are
+ * refused; `outlined` and `plain` are `OutlinedCard` and `Card`, which take their children as
+ * content. A card's lines are a text, or a plain column of texts; anything else is the title whole.
+ */
+class RealCardAdapter(
+  title: ComponentRecord,
+  private val app: ComponentRecord,
+  private val outlined: ComponentRecord,
+  private val plain: ComponentRecord,
+  colorFactories: List<FactorySignature>,
+) : TypedComponentAdapter<RealCardProperties>("wear-m3/card", title) {
+  val variant =
+    wireProperty(
+      RealCardProperties::variant,
+      exported(ExportProjection.Codec.Text, setOf("title", "app", "outlined", "plain")),
+      "",
+    )
+  val containerColor = wireProperty(RealCardProperties::containerColor, COLOR, WireColor.Unset)
+  val contentColor = wireProperty(RealCardProperties::contentColor, COLOR, WireColor.Unset)
+  val onClick = event(RealCardProperties::onClick)
+  val content = slot("content", required = true)
+
+  private val listItem =
+    ExportProjection.Context(
+      parameters = mapOf("transformation" to surfaceTransformation),
+      modifier =
+        listOf(
+          transformedHeight,
+          minimumPadding(dp("CardDefaults", "minimumVerticalListContentPadding")),
+        ),
+    )
+
+  private fun card(
+    record: ComponentRecord,
+    variants: Set<String>?,
+    container: Boolean,
+    patterns: ExportProjection.SlotPatterns?,
+    colorFactories: List<FactorySignature>,
+  ) =
+    target(
+      record,
+      mapOf(
+        "colors" to
+          call(
+            colorFactories.named(
+              "$MATERIAL3.CardDefaults.${if (container) "cardColors" else "outlinedCardColors"}"
+            ),
+            *(listOfNotNull(
+                ("containerColor" to from(containerColor)).takeIf { container },
+                "contentColor" to from(contentColor),
+                // As the canvas draws it: the content colour is the title's too (`cardColors`
+                // only; the canvas leaves an outlined card's title to its default).
+                ("titleColor" to from(contentColor)).takeIf { container },
+              )
+              .toTypedArray()),
+          )
+      ),
+      variants = variants,
+      events = mapOf("click" to "onClick"),
+      contexts = mapOf(LIST_ITEM to listItem),
+      slotPatterns = patterns?.let { mapOf("content" to it) }.orEmpty(),
+    )
+
+  private val titleLines =
+    ExportProjection.SlotPatterns(
+      listOf(
+        ExportProjection.SlotPattern(
+          listOf(ExportProjection.Matcher.Lines("wear-m3/text", listOf("title"), rest = "content"))
+        )
+      ),
+      otherwise = "title",
+    )
+
+  private val appLines =
+    ExportProjection.SlotPatterns(
+      listOf(
+        ExportProjection.SlotPattern(
+          listOf(
+            ExportProjection.Matcher.Lines(
+              "wear-m3/text",
+              listOf("appName", "title"),
+              min = 3,
+              rest = "content",
+            )
+          )
+        )
+      )
+    )
+
+  init {
+    exportAs(
+      card(title, null, true, titleLines, colorFactories),
+      card(title, setOf("title"), true, titleLines, colorFactories),
+      card(app, setOf("app"), true, appLines, colorFactories),
+      card(outlined, setOf("outlined"), false, null, colorFactories),
+      card(plain, setOf("plain"), true, null, colorFactories),
+      variant = variant,
+    )
+  }
+}
+
+data class RealIconButtonProperties(
+  val variant: String,
+  val enabled: Boolean,
+  val containerColor: WireColor,
+  val contentColor: WireColor,
+  val onClick: () -> Unit,
+)
+
+/**
+ * `wear-m3/icon-button` as Wear's icon buttons, picked by `variant`, each with its own
+ * `IconButtonDefaults` colours. An outlined icon button draws no container, so setting one there is
+ * refused. `filled-variant` has no target: `FilledVariantIconButton` is not in the Wear Compose
+ * this module discovers, so that variant is refused by name until it is. Icon buttons take no
+ * `transformation`, so a list row writes only the row modifiers.
+ */
+class RealIconButtonAdapter(
+  record: ComponentRecord,
+  private val filled: ComponentRecord,
+  private val tonal: ComponentRecord,
+  private val outlined: ComponentRecord,
+  colorFactories: List<FactorySignature>,
+) : TypedComponentAdapter<RealIconButtonProperties>("wear-m3/icon-button", record) {
+  val variant =
+    wireProperty(
+      RealIconButtonProperties::variant,
+      exported(
+        ExportProjection.Codec.Text,
+        setOf("standard", "filled", "filled-tonal", "filled-variant", "outlined"),
+      ),
+      "",
+    )
+  val enabled =
+    property(RealIconButtonProperties::enabled, AdapterValueCodecs.Boolean, true, bindable = false)
+  val containerColor =
+    wireProperty(RealIconButtonProperties::containerColor, COLOR, WireColor.Unset)
+  val contentColor = wireProperty(RealIconButtonProperties::contentColor, COLOR, WireColor.Unset)
+  val onClick = event(RealIconButtonProperties::onClick)
+  val content = slot("content", required = true)
+
+  private val listItem =
+    ExportProjection.Context(
+      modifier =
+        listOf(
+          transformedHeight,
+          minimumPadding(dp("IconButtonDefaults", "minimumVerticalListContentPadding")),
+        )
+    )
+
+  private fun iconButton(
+    record: ComponentRecord,
+    factory: String,
+    variants: Set<String>?,
+    container: Boolean,
+    colorFactories: List<FactorySignature>,
+  ) =
+    target(
+      record,
+      mapOf(
+        "enabled" to from(enabled, omitWhen = JsonPrimitive(true)),
+        "colors" to
+          call(
+            colorFactories.named("$MATERIAL3.IconButtonDefaults.$factory"),
+            *(listOfNotNull(
+                ("containerColor" to from(containerColor)).takeIf { container },
+                "contentColor" to from(contentColor),
+              )
+              .toTypedArray()),
+          ),
+      ),
+      variants = variants,
+      events = mapOf("click" to "onClick"),
+      contexts = mapOf(LIST_ITEM to listItem),
+    )
+
+  init {
+    exportAs(
+      iconButton(record, "iconButtonColors", null, true, colorFactories),
+      iconButton(record, "iconButtonColors", setOf("standard"), true, colorFactories),
+      iconButton(filled, "filledIconButtonColors", setOf("filled"), true, colorFactories),
+      iconButton(
+        tonal,
+        "filledTonalIconButtonColors",
+        setOf("filled-tonal"),
+        true,
+        colorFactories,
+      ),
+      iconButton(outlined, "outlinedIconButtonColors", setOf("outlined"), false, colorFactories),
+      variant = variant,
+    )
+  }
+}
+
+class RealButtonGroupProperties
+
+/**
+ * `wear-m3/button-group` as `ButtonGroup`, its children the group's content, where
+ * `Modifier.weight` shares out its width. In a list it is a transformed surface with
+ * `ButtonGroupDefaults` padding.
+ */
+class RealButtonGroupAdapter(record: ComponentRecord) :
+  TypedComponentAdapter<RealButtonGroupProperties>("wear-m3/button-group", record) {
+  val children = slot("children")
+
+  init {
+    exportAs(
+      target(
+        record,
+        emptyMap(),
+        slots = mapOf("children" to "content"),
+        contexts =
+          mapOf(
+            LIST_ITEM to
+              ExportProjection.Context(
+                parameters = mapOf("transformation" to surfaceTransformation),
+                modifier =
+                  listOf(
+                    transformedHeight,
+                    minimumPadding(dp("ButtonGroupDefaults", "minimumVerticalListContentPadding")),
+                  ),
+              )
+          ),
+      )
+    )
+  }
+}
+
+data class RealAlertDialogProperties(val title: String, val text: String, val visible: Boolean)
+
+/**
+ * `wear-m3/alert-dialog` as `AlertDialog`'s confirm-and-dismiss overload, which a screen frame
+ * writes beside the scaffold (its `overlays` slot). `visible` is the authored value: nothing in a
+ * design shows the dialog, so a literal `false` and no-op dismiss behave as the hand exporter's
+ * hoisted state does. The title and text are synthesized `Text`s; the buttons are the design's own.
+ */
+class RealAlertDialogAdapter(record: ComponentRecord) :
+  TypedComponentAdapter<RealAlertDialogProperties>("wear-m3/alert-dialog", record) {
+  val title = wireProperty(RealAlertDialogProperties::title, AdapterValueCodecs.String, "")
+  val text = wireProperty(RealAlertDialogProperties::text, AdapterValueCodecs.String, "")
+  val visible =
+    property(
+      RealAlertDialogProperties::visible,
+      AdapterValueCodecs.Boolean,
+      false,
+      bindable = false,
+    )
+  val confirmButton = slot("confirmButton")
+  val dismissButton = slot("dismissButton")
+
+  init {
+    exportAs(
+      target(
+        record,
+        mapOf("visible" to from(visible)),
+        synthesize =
+          mapOf(
+            "title" to ExportProjection.Synthesis("wear-m3/text", mapOf("text" to "title")),
+            "text" to ExportProjection.Synthesis("wear-m3/text", mapOf("text" to "text")),
+          ),
+      )
+    )
+  }
+}
+
+data class RealEdgeButtonProperties(
+  val size: String,
+  val enabled: Boolean,
+  val containerColor: WireColor,
+  val contentColor: WireColor,
+  val onClick: () -> Unit,
+)
+
+private val EDGE_BUTTON_SIZE =
+  "$MATERIAL3.EdgeButtonSize"
+    .let { type ->
+      wireEnum(
+        type,
+        mapOf(
+          "extra-small" to "$type.ExtraSmall",
+          "small" to "$type.Small",
+          "medium" to "$type.Medium",
+          "large" to "$type.Large",
+        ),
+      )
+    }
+
+/**
+ * `wear-m3/edge-button` as `EdgeButton`, which the screen frame writes into `ScreenScaffold`'s
+ * `edgeButton`. It is always the filled shape, so its colours are `ButtonDefaults.buttonColors`; an
+ * unset size keeps the library's default, as the hand exporter writes it.
+ */
+class RealEdgeButtonAdapter(record: ComponentRecord, colorFactories: List<FactorySignature>) :
+  TypedComponentAdapter<RealEdgeButtonProperties>("wear-m3/edge-button", record) {
+  val size = wireProperty(RealEdgeButtonProperties::size, EDGE_BUTTON_SIZE, "")
+  val enabled =
+    property(RealEdgeButtonProperties::enabled, AdapterValueCodecs.Boolean, true, bindable = false)
+  val containerColor =
+    wireProperty(RealEdgeButtonProperties::containerColor, COLOR, WireColor.Unset)
+  val contentColor = wireProperty(RealEdgeButtonProperties::contentColor, COLOR, WireColor.Unset)
+  val onClick = event(RealEdgeButtonProperties::onClick)
+  val content = slot("content", required = true)
+
+  init {
+    exportAs(
+      target(
+        record,
+        mapOf(
+          "buttonSize" to from(size),
+          "enabled" to from(enabled, omitWhen = JsonPrimitive(true)),
+          "colors" to
+            call(
+              colorFactories.named("$MATERIAL3.ButtonDefaults.buttonColors"),
+              "containerColor" to from(containerColor),
+              "contentColor" to from(contentColor),
+              "iconColor" to from(contentColor),
+            ),
+        ),
+        events = mapOf("click" to "onClick"),
+      )
     )
   }
 }

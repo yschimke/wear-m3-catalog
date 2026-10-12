@@ -665,9 +665,7 @@ fun WearStepper(
 fun WearButtonGroup(children: @Composable () -> Unit = {}, modifier: Modifier = Modifier) {
   val transformation = rowTransformation()
   OutsideRow {
-    ButtonGroup(modifier = modifier.fillMaxWidth(), transformation = transformation) {
-      children()
-    }
+    ButtonGroup(modifier = modifier.fillMaxWidth(), transformation = transformation) { children() }
   }
 }
 
