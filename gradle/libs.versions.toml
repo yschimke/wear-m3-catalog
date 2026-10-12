@@ -63,7 +63,7 @@ compose-material3 = "1.5.0-beta01"
 # every module that uses them applies `platform(...)` of the BOM; never add a version to them.
 composePreviewPlugin = "2.52.0"
 # The release BOM can advance even when a partial release keeps the plugin unchanged.
-composeAiTools = "2.52.0"
+composeAiTools = "2.51.0"
 # The daemon release BOM aligns the annotations and preview renderer graph. It must not
 # predate the daemon baked into the preview plugin; verifyComposePreviewDaemonAlignment
 # checks that floor before compilation. Renovate updates this BOM independently.
@@ -75,7 +75,7 @@ composePreviewContracts = "3.30.0"
 # prove a screen design still generates the Kotlin checked in beside it, and the compiler proves
 # that Kotlin still builds against `:catalog`'s own classpath. The 3.72.0 BOM pins the exporter at
 # 3.72.0. Renovate moves it in its own group.
-composeUiBuilder = "3.109.0"
+composeUiBuilder = "3.108.0"
 
 # Synthetic source-composite coordinates for :catalog-ui-builder-renderer. There are deliberately
 # no Maven artifacts at these names: settings.gradle.kts substitutes both from the checkout named
