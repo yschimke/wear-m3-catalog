@@ -29,8 +29,9 @@ overload is published on the record (`Button` has four: `label` or `content`, ea
 | `layout/column`, `layout/row`, `layout/box` | `foundation.layout.Column`, `Row`, `Box` | `content` |
 
 The colour factories the projections call (`ButtonDefaults`, `CardDefaults` and
-`IconButtonDefaults` colours) are read with `discoverFactories`. The three layouts are published as
-the builder's shared `layout/…` ids, so a design's own columns, rows and boxes export as Compose's.
+`IconButtonDefaults` colours) are read with `discoverFactories`. The three layouts are not
+published: a host joins compose-ui-builder's foundation pack, which records them under the shared
+`layout/…` ids, and `RealWearExportTest` joins the discovered ones in its place.
 
 ## What a row in the list writes
 
@@ -71,8 +72,7 @@ through compose-ui-builder's `ScreenExportGate`.
 The screen frame is published once per set of the scaffold's filled slots: `screen-root`,
 `screen-root+edgeButton`, `screen-root+overlays` and `screen-root+edgeButton+overlays`.
 
-Of the seven fixture designs, six export; `wear-list.json` is refused only on its cards' `shape`,
-below.
+All seven fixture designs export.
 
 What the three open items needed landed in compose-ai-tools (#5877: item roles, `exportRefuses`, a
 property only another target writes is refused) and compose-ui-builder (#728: the screen-root
@@ -86,8 +86,9 @@ written (#5880).
 
 Each is refused by name rather than written differently, or written differently on purpose:
 
-- `wear-list.json`'s cards set a `shape` the card no longer declares and the canvas never drew; the
-  hand exporter drops it silently.
+- `wear-list.json`'s cards set a `shape` the card no longer declares and the canvas never drew;
+  the hand exporter dropped it silently and the projection refused it, so it is gone from the
+  template.
 - An `app` card needs three lines (app name, title, content): the hand exporter writes an empty
   content lambda for two, and the generator never invents an empty slot.
 - `filled-variant` icon buttons: `FilledVariantIconButton` is not in the Wear Compose this module

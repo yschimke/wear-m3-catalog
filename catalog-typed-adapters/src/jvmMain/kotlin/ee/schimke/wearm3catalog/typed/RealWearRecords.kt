@@ -100,13 +100,17 @@ object RealWearRecords {
     TypedAdapterDiscovery.discoverFactories(factoryCallables)
 
   /** What the pilot pair publishes to export through the real records. */
-  fun publication(): RealWearPublication = RealWearPublication(adapters(), layouts())
+  fun publication(): RealWearPublication = RealWearPublication(adapters())
 
   /** The builder's shared layouts, by the Compose function each one calls. */
   private val LAYOUTS: Map<String, String> =
     mapOf("layout/column" to "Column", "layout/row" to "Row", "layout/box" to "Box")
 
-  /** Compose's `Column`, `Row` and `Box`, each named by the shared `layout/…` id it is. */
+  /**
+   * Compose's `Column`, `Row` and `Box`, each named by the shared `layout/…` id it is: what a host
+   * joins to the catalog's record from compose-ui-builder's foundation pack. Not published, which
+   * would give a host two records for one layout id; read by the export test in the host's place.
+   */
   fun layouts(): List<ComponentRecord> {
     val records =
       TypedAdapterDiscovery.discoverLibrary(

@@ -193,16 +193,6 @@ class TypedWearCatalog(
                 }
               }
               .build()
-        } +
-        // The shared layouts' calls, off the shelf: the builder places its own `layout/…`.
-        real.layouts.associate { layout ->
-          "$EXPORT_TARGET_PREFIX${layout.symbol.name.lowercase()}" to
-            UiBuilderAuthoredComponent.Builder()
-              .also {
-                it.record = layout.canonicalId
-                it.excluded = "the call of ${layout.componentIds.joinToString()}"
-              }
-              .build()
         }
     val builtins =
       policy.builtins.mapValues { (id, builtin) ->

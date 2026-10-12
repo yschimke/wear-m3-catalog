@@ -9,10 +9,8 @@ import ee.schimke.composeai.uibuilder.protocol.DesignDocumentV1
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertContains
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertIs
-import kotlin.test.assertTrue
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 
@@ -55,7 +53,8 @@ class RealWearExportTest {
 
   /**
    * The record as a host serves it: each published component's id joined to the record entry its
-   * policy names (`PublishedUiBuilderCatalog` does the same), so a design's ids resolve.
+   * policy names (`PublishedUiBuilderCatalog` does the same), so a design's ids resolve, and the
+   * shared layouts beside it.
    */
   private val record =
     pair.record
@@ -65,16 +64,18 @@ class RealWearExportTest {
           pair.catalog.statusSemantics.components.entries
             .mapNotNull { (id, policy) -> policy.record?.let { it to id } }
             .groupBy({ it.first }, { it.second })
+        // A host joins compose-ui-builder's foundation pack, which carries the shared layouts.
         b.components =
-          pair.record.components.map { component ->
-            val joined = ids[component.canonicalId].orEmpty()
-            if (joined.isEmpty()) component
-            else
-              component
-                .newBuilder()
-                .also { it.componentIds = (component.componentIds + joined).distinct() }
-                .build()
-          }
+          RealWearRecords.layouts() +
+            pair.record.components.map { component ->
+              val joined = ids[component.canonicalId].orEmpty()
+              if (joined.isEmpty()) component
+              else
+                component
+                  .newBuilder()
+                  .also { it.componentIds = (component.componentIds + joined).distinct() }
+                  .build()
+            }
       }
       .build()
 
@@ -90,9 +91,6 @@ class RealWearExportTest {
     val outcome = export(name)
     return assertIs<ScreenExportGate.Outcome.Emitted>(outcome, "$name: $outcome").source
   }
-
-  private fun refusals(name: String): List<String> =
-    assertIs<ScreenExportGate.Outcome.Refused>(export(name), name).reasons
 
   @Test
   fun `a list screen exports as the frame, the real list and its transformed rows`() {
@@ -172,16 +170,9 @@ class RealWearExportTest {
     assertContains(source, "Text(text = \"An unknown error occurred during the request.\")")
   }
 
-  /**
-   * Every fixture but one exports. `wear-list.json` predates the card's shelf: its cards set a
-   * `shape` the card no longer declares and the canvas never drew. The hand exporter drops it; the
-   * projection refuses it by name, which is the reviewed difference.
-   */
+  /** Every fixture design the catalog ships exports through the typed projections. */
   @Test
-  fun `only the stale card shape is refused`() {
-    for (name in FIXTURES - "wear-list.json") emitted(name)
-    val reasons = refusals("wear-list.json")
-    assertEquals(6, reasons.size, reasons.toString())
-    assertTrue(reasons.all { "`shape` is not written by `wear-m3/card`" in it }, reasons.toString())
+  fun `every fixture exports`() {
+    for (name in FIXTURES) emitted(name)
   }
 }
