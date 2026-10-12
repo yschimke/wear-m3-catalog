@@ -2,7 +2,7 @@
   "schema": "compose-ui-builder/catalog-guidelines/v1",
   "catalog": "wear-m3",
   "platform": "wear",
-  "version": 5,
+  "version": 6,
   "about": "Wear OS screen design guidance from developer.android.com, for designs built from this catalog (catalog id wear-m3). Each rule quotes its source; the frames are the pictures a guidelines model is shown.",
   "frames": [
     {
@@ -102,7 +102,7 @@
       "kind": "structure",
       "severity": "warning",
       "guidance": "Color roles come in pairs (container and on-container) that provide a minimum of 3:1 color contrast. Custom colors should keep that contrast.",
-      "check": "Where the design overrides colors, does it pair each container color with its matching content (on-) role, or with colors that are clearly high contrast?",
+      "check": "Where the design overrides colors or uses semantic domain colors (such as weather conditions, heart-rate zones or status levels), does it pair each container color with its matching content (on-) role, or with foreground colors that have clear contrast (at least 4.5:1 for small text and 3:1 for large text and icons)?",
       "source": "https://developer.android.com/design/ui/wear/guides/styles/color/roles-tokens"
     },
     {
@@ -190,7 +190,7 @@
       "kind": "structure",
       "severity": "warning",
       "guidance": "Do NOT hard-code text sizes, use typography from MaterialTheme. Do NOT hard-code colors, use colorScheme.",
-      "check": "Do text nodes set a style rather than fontSizeSp, lineHeightSp or letterSpacingSp, and do colours come from the theme's colour roles rather than hex values on individual components? Theme-level overrides on the screen-scaffold (theme*Color, theme*Typeface) are fine.",
+      "check": "Do text nodes set a style rather than fontSizeSp, lineHeightSp or letterSpacingSp, and do colours come from the theme's colour roles or named semantic domain colours (such as weather conditions, heart-rate zones or status levels) paired for contrast, rather than ad-hoc hex values on individual components? Theme-level overrides on the screen-scaffold (theme*Color, theme*Typeface) are fine.",
       "source": "https://developer.android.com/agents/skills/wear/wear-compose-m3/skill"
     },
     {
