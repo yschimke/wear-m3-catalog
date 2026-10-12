@@ -460,6 +460,65 @@ class RealButtonAdapter(
   }
 }
 
+data class RealEdgeButtonProperties(
+  val size: String,
+  val enabled: Boolean,
+  val containerColor: WireColor,
+  val contentColor: WireColor,
+  val onClick: () -> Unit,
+)
+
+private val EDGE_BUTTON_SIZE =
+  "$MATERIAL3.EdgeButtonSize"
+    .let { type ->
+      wireEnum(
+        type,
+        mapOf(
+          "extra-small" to "$type.ExtraSmall",
+          "small" to "$type.Small",
+          "medium" to "$type.Medium",
+          "large" to "$type.Large",
+        ),
+      )
+    }
+
+/**
+ * `wear-m3/edge-button` as `EdgeButton`, which the screen frame writes into `ScreenScaffold`'s
+ * `edgeButton`. It is always the filled shape, so its colours are `ButtonDefaults.buttonColors`; an
+ * unset size keeps the library's default, as the hand exporter writes it.
+ */
+class RealEdgeButtonAdapter(record: ComponentRecord, colorFactories: List<FactorySignature>) :
+  TypedComponentAdapter<RealEdgeButtonProperties>("wear-m3/edge-button", record) {
+  val size = wireProperty(RealEdgeButtonProperties::size, EDGE_BUTTON_SIZE, "")
+  val enabled =
+    property(RealEdgeButtonProperties::enabled, AdapterValueCodecs.Boolean, true, bindable = false)
+  val containerColor =
+    wireProperty(RealEdgeButtonProperties::containerColor, COLOR, WireColor.Unset)
+  val contentColor = wireProperty(RealEdgeButtonProperties::contentColor, COLOR, WireColor.Unset)
+  val onClick = event(RealEdgeButtonProperties::onClick)
+  val content = slot("content", required = true)
+
+  init {
+    exportAs(
+      target(
+        record,
+        mapOf(
+          "buttonSize" to from(size),
+          "enabled" to from(enabled, omitWhen = JsonPrimitive(true)),
+          "colors" to
+            call(
+              colorFactories.named("$MATERIAL3.ButtonDefaults.buttonColors"),
+              "containerColor" to from(containerColor),
+              "contentColor" to from(contentColor),
+              "iconColor" to from(contentColor),
+            ),
+        ),
+        events = mapOf("click" to "onClick"),
+      )
+    )
+  }
+}
+
 data class RealListProperties(val verticalSpacingDp: Float, val transformation: String)
 
 /**

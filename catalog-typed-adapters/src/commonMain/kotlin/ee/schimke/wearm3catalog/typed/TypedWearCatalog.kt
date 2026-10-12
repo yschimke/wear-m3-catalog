@@ -260,7 +260,19 @@ class TypedWearCatalog(
                   "val spec = rememberTransformationSpec()\n" +
                   "ScreenScaffold(scrollState = listState) { contentPadding ->\n" +
                   "    ${'$'}{content}\n" +
-                  "}"
+                  "}",
+              // The same frame for a screen with an edge button, which the scaffold anchors.
+              "screen-root+edgeButton" to
+                "val listState = rememberTransformingLazyColumnState()\n" +
+                  "val spec = rememberTransformationSpec()\n" +
+                  "ScreenScaffold(\n" +
+                  "    scrollState = listState,\n" +
+                  "    edgeButton = {\n" +
+                  "        ${'$'}{edgeButton}\n" +
+                  "    },\n" +
+                  ") { contentPadding ->\n" +
+                  "    ${'$'}{content}\n" +
+                  "}",
             )
           it.locals =
             mapOf(

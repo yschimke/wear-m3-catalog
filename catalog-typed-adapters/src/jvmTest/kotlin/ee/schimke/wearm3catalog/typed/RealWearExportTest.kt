@@ -103,6 +103,21 @@ class RealWearExportTest {
   }
 
   @Test
+  fun `an edge button exports into the scaffold's edge button frame`() {
+    assertContains(
+      emitted("samples/wear-starter-greeting.json"),
+      "    ScreenScaffold(\n" +
+        "        scrollState = listState,\n" +
+        "        edgeButton = {\n" +
+        "            EdgeButton(onClick = {}, buttonSize = EdgeButtonSize.ExtraSmall) {\n" +
+        "                Text(text = \"Show list\")\n" +
+        "            }\n" +
+        "        },\n" +
+        "    ) { contentPadding ->\n",
+    )
+  }
+
+  @Test
   fun `the screen fixture exports through the frame`() {
     assertContains(emitted("wear-screen.json"), "ScreenScaffold(scrollState = listState)")
   }
@@ -115,9 +130,6 @@ class RealWearExportTest {
   fun `the rest is refused by name`() {
     assertTrue(refusals("wear-list.json").any { "no component `layout/column`" in it })
     assertTrue(refusals("samples/wear-starter-list.json").single().contains("`overlays` slot"))
-    assertTrue(
-      refusals("samples/wear-starter-greeting.json").single().contains("`edgeButton` slot")
-    )
     for (name in
       listOf("samples/jetcaster-wear-queue.json", "samples/jetcaster-wear-episode.json")) {
       val reasons = refusals(name)

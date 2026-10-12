@@ -6,6 +6,7 @@ import ee.schimke.composeai.discovery.TypedAdapterDiscovery
 import ee.schimke.composeai.discovery.TypedAdapterDiscovery.LibraryCallable
 import ee.schimke.composeai.discovery.TypedComponentAdapter
 import ee.schimke.wearm3catalog.typed.real.RealButtonAdapter
+import ee.schimke.wearm3catalog.typed.real.RealEdgeButtonAdapter
 import ee.schimke.wearm3catalog.typed.real.RealIconAdapter
 import ee.schimke.wearm3catalog.typed.real.RealListAdapter
 import ee.schimke.wearm3catalog.typed.real.RealListHeaderAdapter
@@ -37,6 +38,7 @@ object RealWearRecords {
       button("OutlinedButton"),
       button("ChildButton"),
       LibraryCallable("$MATERIAL3.ListHeaderKt", "ListHeader"),
+      LibraryCallable("$MATERIAL3.EdgeButtonKt", "EdgeButton"),
       // The vector overload; `painter` is the image one.
       LibraryCallable(
         "$MATERIAL3.IconKt",
@@ -73,6 +75,10 @@ object RealWearRecords {
       RealTextAdapter(records.getValue("Text")),
       RealListHeaderAdapter(records.getValue("ListHeader")),
       RealIconAdapter(records.getValue("Icon")),
+      RealEdgeButtonAdapter(
+        records.getValue("EdgeButton"),
+        factories.filter { it.callableFqn == "$MATERIAL3.ButtonDefaults.buttonColors" },
+      ),
       RealButtonAdapter(
         records.getValue("Button"),
         records.getValue("FilledTonalButton"),
