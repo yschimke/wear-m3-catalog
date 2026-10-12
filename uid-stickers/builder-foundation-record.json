@@ -1,0 +1,1419 @@
+{
+  "$comment": "The builder's own layout vocabulary (`layout/`, `asset/`): builtins every catalog gets, so no catalog's policy declares their records. A copy of compose-ui-builder's `compose-foundation-components-v1.json` fixture, which ships in no artifact yet.",
+  "schemaVersion": 2,
+  "module": "wear-m3-catalog",
+  "variant": "authored",
+  "components": [
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.layout.ColumnKt.Column",
+      "componentIds": [
+        "layout/column",
+        "androidx.compose.foundation.layout.ColumnKt.Column"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.layout.ColumnKt",
+        "callable": "androidx.compose.foundation.layout.Column",
+        "name": "Column",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "verticalArrangement",
+          "type": "Arrangement.Vertical",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "horizontalAlignment",
+          "type": "Alignment.Horizontal",
+          "typeFqn": "androidx.compose.ui.Alignment$Horizontal",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "@Composable () -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.ColumnScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": "androidx.compose.foundation.layout.ColumnScope"
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "Column()",
+        "imports": [
+          "androidx.compose.foundation.layout.Column"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.layout.RowKt.Row",
+      "componentIds": [
+        "layout/row",
+        "androidx.compose.foundation.layout.RowKt.Row"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.layout.RowKt",
+        "callable": "androidx.compose.foundation.layout.Row",
+        "name": "Row",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "horizontalArrangement",
+          "type": "Arrangement.Horizontal",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Horizontal",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "verticalAlignment",
+          "type": "Alignment.Vertical",
+          "typeFqn": "androidx.compose.ui.Alignment$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "@Composable () -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.RowScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": "androidx.compose.foundation.layout.RowScope"
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "Row()",
+        "imports": [
+          "androidx.compose.foundation.layout.Row"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.layout.FlowLayoutKt.FlowRow",
+      "componentIds": [
+        "layout/flow-row",
+        "androidx.compose.foundation.layout.FlowLayoutKt.FlowRow"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.layout.FlowLayoutKt",
+        "callable": "androidx.compose.foundation.layout.FlowRow",
+        "name": "FlowRow",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "horizontalArrangement",
+          "type": "Arrangement.Horizontal",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Horizontal",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "verticalArrangement",
+          "type": "Arrangement.Vertical",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "itemVerticalAlignment",
+          "type": "Alignment.Vertical",
+          "typeFqn": "androidx.compose.ui.Alignment$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "maxItemsInEachRow",
+          "type": "Int",
+          "typeFqn": "kotlin.Int",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "maxLines",
+          "type": "Int",
+          "typeFqn": "kotlin.Int",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "@Composable () -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.FlowRowScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": "androidx.compose.foundation.layout.FlowRowScope"
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "FlowRow()",
+        "imports": [
+          "androidx.compose.foundation.layout.ExperimentalLayoutApi",
+          "androidx.compose.foundation.layout.FlowRow"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.layout.BoxKt.Box",
+      "componentIds": [
+        "layout/box",
+        "shape/colour-dot",
+        "shape/linear-gradient",
+        "androidx.compose.foundation.layout.BoxKt.Box"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.layout.BoxKt",
+        "callable": "androidx.compose.foundation.layout.Box",
+        "name": "Box",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentAlignment",
+          "type": "Alignment",
+          "typeFqn": "androidx.compose.ui.Alignment",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "propagateMinConstraints",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "@Composable () -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.foundation.layout.BoxScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": "androidx.compose.foundation.layout.BoxScope"
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "Box()",
+        "imports": [
+          "androidx.compose.foundation.layout.Box"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.ImageKt.Image",
+      "componentIds": [
+        "asset/image",
+        "androidx.compose.foundation.ImageKt.Image"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.ImageKt",
+        "callable": "androidx.compose.foundation.Image",
+        "name": "Image",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "painter",
+          "type": "Painter",
+          "typeFqn": "androidx.compose.ui.graphics.painter.Painter",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentDescription",
+          "type": "String?",
+          "typeFqn": "kotlin.String",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "alignment",
+          "type": "Alignment",
+          "typeFqn": "androidx.compose.ui.Alignment",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentScale",
+          "type": "ContentScale",
+          "typeFqn": "androidx.compose.ui.layout.ContentScale",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "alpha",
+          "type": "Float",
+          "typeFqn": "kotlin.Float",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "colorFilter",
+          "type": "ColorFilter?",
+          "typeFqn": "androidx.compose.ui.graphics.ColorFilter",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [],
+      "bindings": [],
+      "code": {
+        "call": "Image(painter = TODO(), contentDescription = null)",
+        "imports": [
+          "androidx.compose.foundation.Image"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.material3.ScaffoldKt.Scaffold",
+      "componentIds": [
+        "layout/scaffold",
+        "androidx.compose.material3.ScaffoldKt.Scaffold"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.material3.ScaffoldKt",
+        "callable": "androidx.compose.material3.Scaffold",
+        "name": "Scaffold",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "topBar",
+          "type": "@Composable () -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "snackbarHost",
+          "type": "@Composable () -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "containerColor",
+          "type": "Color",
+          "typeFqn": "androidx.compose.ui.graphics.Color",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentColor",
+          "type": "Color",
+          "typeFqn": "androidx.compose.ui.graphics.Color",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "@Composable (PaddingValues) -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "topBar",
+          "required": false,
+          "receiverScope": null
+        },
+        {
+          "name": "snackbarHost",
+          "required": false,
+          "receiverScope": null
+        },
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": null
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "Scaffold()",
+        "imports": [
+          "androidx.compose.material3.Scaffold"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.lazy.LazyDslKt.LazyColumn",
+      "componentIds": [
+        "layout/lazy-column",
+        "androidx.compose.foundation.lazy.LazyDslKt.LazyColumn"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.lazy.LazyDslKt",
+        "callable": "androidx.compose.foundation.lazy.LazyColumn",
+        "name": "LazyColumn",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentPadding",
+          "type": "PaddingValues",
+          "typeFqn": "androidx.compose.foundation.layout.PaddingValues",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "reverseLayout",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "verticalArrangement",
+          "type": "Arrangement.Vertical",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "horizontalAlignment",
+          "type": "Alignment.Horizontal",
+          "typeFqn": "androidx.compose.ui.Alignment$Horizontal",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "LazyListScope.() -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": "androidx.compose.foundation.lazy.LazyListScope",
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": null
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "LazyColumn()",
+        "imports": [
+          "androidx.compose.foundation.lazy.LazyColumn"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.lazy.LazyDslKt.LazyRow",
+      "componentIds": [
+        "layout/lazy-row",
+        "androidx.compose.foundation.lazy.LazyDslKt.LazyRow"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.lazy.LazyDslKt",
+        "callable": "androidx.compose.foundation.lazy.LazyRow",
+        "name": "LazyRow",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentPadding",
+          "type": "PaddingValues",
+          "typeFqn": "androidx.compose.foundation.layout.PaddingValues",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "reverseLayout",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "horizontalArrangement",
+          "type": "Arrangement.Horizontal",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Horizontal",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "verticalAlignment",
+          "type": "Alignment.Vertical",
+          "typeFqn": "androidx.compose.ui.Alignment$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "LazyListScope.() -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": "androidx.compose.foundation.lazy.LazyListScope",
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": null
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "LazyRow()",
+        "imports": [
+          "androidx.compose.foundation.lazy.LazyRow"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.foundation.lazy.grid.LazyGridDslKt.LazyVerticalGrid",
+      "componentIds": [
+        "layout/lazy-grid",
+        "androidx.compose.foundation.lazy.grid.LazyGridDslKt.LazyVerticalGrid"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.foundation.lazy.grid.LazyGridDslKt",
+        "callable": "androidx.compose.foundation.lazy.grid.LazyVerticalGrid",
+        "name": "LazyVerticalGrid",
+        "origin": "LIBRARY",
+        "jvmName": null,
+        "descriptor": null,
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "columns",
+          "type": "GridCells",
+          "typeFqn": "androidx.compose.foundation.lazy.grid.GridCells",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "contentPadding",
+          "type": "PaddingValues",
+          "typeFqn": "androidx.compose.foundation.layout.PaddingValues",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "reverseLayout",
+          "type": "Boolean",
+          "typeFqn": "kotlin.Boolean",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "verticalArrangement",
+          "type": "Arrangement.Vertical",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Vertical",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "horizontalArrangement",
+          "type": "Arrangement.Horizontal",
+          "typeFqn": "androidx.compose.foundation.layout.Arrangement$Horizontal",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "content",
+          "type": "LazyGridScope.() -> Unit",
+          "typeFqn": null,
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": "androidx.compose.foundation.lazy.grid.LazyGridScope",
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "content",
+          "required": true,
+          "receiverScope": null
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "LazyVerticalGrid(columns = TODO())",
+        "imports": [
+          "androidx.compose.foundation.lazy.grid.LazyVerticalGrid"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.material3.adaptive.layout.SupportingPaneScaffoldKt.SupportingPaneScaffold",
+      "componentIds": [
+        "layout/supporting-pane-scaffold",
+        "androidx.compose.material3.adaptive.layout.SupportingPaneScaffoldKt.SupportingPaneScaffold"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.material3.adaptive.layout.SupportingPaneScaffoldKt",
+        "callable": "androidx.compose.material3.adaptive.layout.SupportingPaneScaffold",
+        "name": "SupportingPaneScaffold",
+        "origin": "LIBRARY",
+        "jvmName": "SupportingPaneScaffold",
+        "descriptor": "(Landroidx/compose/material3/adaptive/layout/PaneScaffoldDirective;Landroidx/compose/material3/adaptive/layout/ThreePaneScaffoldValue;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function4;Landroidx/compose/material3/adaptive/layout/PaneExpansionState;Landroidx/compose/runtime/Composer;II)V",
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "directive",
+          "type": "PaneScaffoldDirective",
+          "typeFqn": "androidx.compose.material3.adaptive.layout.PaneScaffoldDirective",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "value",
+          "type": "ThreePaneScaffoldValue",
+          "typeFqn": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldValue",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "mainPane",
+          "type": "ThreePaneScaffoldPaneScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "supportingPane",
+          "type": "ThreePaneScaffoldPaneScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "extraPane",
+          "type": "(ThreePaneScaffoldPaneScope.() -> Unit)?",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": true,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope",
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "paneExpansionDragHandle",
+          "type": "(ThreePaneScaffoldScope.(PaneExpansionState) -> Unit)?",
+          "typeFqn": "kotlin.Function2",
+          "hasDefault": true,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldScope",
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "paneExpansionState",
+          "type": "PaneExpansionState?",
+          "typeFqn": "androidx.compose.material3.adaptive.layout.PaneExpansionState",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "mainPane",
+          "required": true,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope"
+        },
+        {
+          "name": "supportingPane",
+          "required": true,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope"
+        },
+        {
+          "name": "extraPane",
+          "required": false,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope"
+        },
+        {
+          "name": "paneExpansionDragHandle",
+          "required": false,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldScope"
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "SupportingPaneScaffold(directive = calculatePaneScaffoldDirective(currentWindowAdaptiveInfo()), value = calculateThreePaneScaffoldValue(1), mainPane = {}, supportingPane = {})",
+        "imports": [
+          "androidx.compose.material3.adaptive.layout.SupportingPaneScaffold"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [
+          "androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi"
+        ],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [
+        "androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi"
+      ],
+      "androidxOptIns": []
+    },
+    {
+      "canonicalId": "compose-foundation/androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldKt.ListDetailPaneScaffold",
+      "componentIds": [
+        "layout/list-detail-pane-scaffold",
+        "androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldKt.ListDetailPaneScaffold"
+      ],
+      "symbol": {
+        "jvmOwner": "androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldKt",
+        "callable": "androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold",
+        "name": "ListDetailPaneScaffold",
+        "origin": "LIBRARY",
+        "jvmName": "ListDetailPaneScaffold",
+        "descriptor": "(Landroidx/compose/material3/adaptive/layout/PaneScaffoldDirective;Landroidx/compose/material3/adaptive/layout/ThreePaneScaffoldValue;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function3;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Lkotlin/jvm/functions/Function4;Landroidx/compose/material3/adaptive/layout/PaneExpansionState;Landroidx/compose/runtime/Composer;II)V",
+        "sourceFile": null,
+        "docs": "unavailable",
+        "receiver": null
+      },
+      "parameters": [
+        {
+          "name": "directive",
+          "type": "PaneScaffoldDirective",
+          "typeFqn": "androidx.compose.material3.adaptive.layout.PaneScaffoldDirective",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "value",
+          "type": "ThreePaneScaffoldValue",
+          "typeFqn": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldValue",
+          "hasDefault": false,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "listPane",
+          "type": "ThreePaneScaffoldPaneScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "detailPane",
+          "type": "ThreePaneScaffoldPaneScope.() -> Unit",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": false,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope",
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "modifier",
+          "type": "Modifier",
+          "typeFqn": "androidx.compose.ui.Modifier",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": false,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        },
+        {
+          "name": "extraPane",
+          "type": "(ThreePaneScaffoldPaneScope.() -> Unit)?",
+          "typeFqn": "kotlin.Function1",
+          "hasDefault": true,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope",
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "paneExpansionDragHandle",
+          "type": "(ThreePaneScaffoldScope.(PaneExpansionState) -> Unit)?",
+          "typeFqn": "kotlin.Function2",
+          "hasDefault": true,
+          "composableSlot": true,
+          "composableSlotReceiver": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldScope",
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": "kotlin.Unit"
+        },
+        {
+          "name": "paneExpansionState",
+          "type": "PaneExpansionState?",
+          "typeFqn": "androidx.compose.material3.adaptive.layout.PaneExpansionState",
+          "hasDefault": true,
+          "composableSlot": false,
+          "composableSlotReceiver": null,
+          "nullable": true,
+          "noArgConstructible": false,
+          "noArgFactory": null,
+          "scopeDslReceiver": null,
+          "lambdaReturnTypeFqn": null
+        }
+      ],
+      "slots": [
+        {
+          "name": "listPane",
+          "required": true,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope"
+        },
+        {
+          "name": "detailPane",
+          "required": true,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope"
+        },
+        {
+          "name": "extraPane",
+          "required": false,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldPaneScope"
+        },
+        {
+          "name": "paneExpansionDragHandle",
+          "required": false,
+          "receiverScope": "androidx.compose.material3.adaptive.layout.ThreePaneScaffoldScope"
+        }
+      ],
+      "bindings": [],
+      "code": {
+        "call": "ListDetailPaneScaffold(directive = calculatePaneScaffoldDirective(currentWindowAdaptiveInfo()), value = calculateThreePaneScaffoldValue(1), listPane = {}, detailPane = {})",
+        "imports": [
+          "androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold"
+        ],
+        "refusedReason": null,
+        "requiredOptIns": [
+          "androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi"
+        ],
+        "androidxOptIns": []
+      },
+      "signatureKnown": true,
+      "callableFromAnotherFile": true,
+      "hasTypeParameters": false,
+      "hasContextReceivers": false,
+      "overloadsCollided": false,
+      "builder": null,
+      "requiredOptIns": [
+        "androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi"
+      ],
+      "androidxOptIns": []
+    }
+  ]
+}

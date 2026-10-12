@@ -337,3 +337,20 @@ configurations
     // incidental.
     exclude(group = "org.jetbrains.skiko")
   }
+
+// ── The shadow catalog (`-PuidStickers=true`) ────────────────────────────────────────────────────
+//
+// `:uid-stickers` exports UI builder documents to Kotlin, and its shells carry the hand-written
+// stickers' annotations over those generated bodies. Compiled here, beside the stickers they
+// shadow, so ONE Robolectric render draws both and `uid-stickers/compare-local.py` pairs them
+// capture for capture. Off by default: nothing ships from it and the published inventory is
+// unchanged.
+if (providers.gradleProperty("uidStickers").orNull == "true") {
+  kotlin.sourceSets.named("commonMain") {
+    kotlin.srcDir(rootProject.file("uid-stickers/shells/kotlin"))
+    kotlin.srcDir(rootProject.file("uid-stickers/build/generated/uid/kotlin"))
+  }
+  tasks
+    .matching { it.name.startsWith("compile") && it.name.contains("Kotlin") }
+    .configureEach { dependsOn(":uid-stickers:generateUidStickers") }
+}

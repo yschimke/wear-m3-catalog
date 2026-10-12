@@ -1,0 +1,70 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "text-body",
+  "title": "KitBodyText",
+  "revision": 0,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2.0,
+    "theme": "dark",
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr"
+  },
+  "roots": [
+    "place"
+  ],
+  "components": {
+    "text-body": {
+      "name": "KitBodyText",
+      "root": "text"
+    }
+  },
+  "nodes": {
+    "place": {
+      "id": "place",
+      "componentId": "design/component-instance",
+      "component": {
+        "componentKey": "text-body",
+        "arguments": {
+          "text": {
+            "type": "string",
+            "value": "Text"
+          }
+        }
+      }
+    },
+    "text": {
+      "id": "text",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "binding",
+          "value": "text"
+        },
+        "style": {
+          "type": "enum",
+          "value": "bodyMedium"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "center"
+        }
+      },
+      "slots": {},
+      "modifiers": [
+        {
+          "type": "width",
+          "widthDp": 160
+        }
+      ]
+    }
+  }
+}
