@@ -89,6 +89,10 @@ Each is refused by name rather than written differently, or written differently 
 - `wear-list.json`'s cards set a `shape` the card no longer declares and the canvas never drew;
   the hand exporter dropped it silently and the projection refused it, so it is gone from the
   template.
+- A theme colour or typeface set on the screen scaffold is refused by the screen-root frame,
+  which writes no `MaterialTheme` copy yet; the hand exporter wraps the screen in one.
+- The frame relies on `ScreenScaffold`'s own default scroll indicator; the hand exporter writes it
+  explicitly with a `LocalScrollCaptureInProgress` guard for long screenshots.
 - An `app` card needs three lines (app name, title, content): the hand exporter writes an empty
   content lambda for two, and the generator never invents an empty slot.
 - `filled-variant` icon buttons: `FilledVariantIconButton` is not in the Wear Compose this module
