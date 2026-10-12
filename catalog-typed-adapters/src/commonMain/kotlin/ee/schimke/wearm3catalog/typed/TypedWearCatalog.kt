@@ -170,7 +170,12 @@ class TypedWearCatalog(
       real.adapters
         .flatMap { adapter -> listOf(adapter.component) + adapter.variantRecords }
         .distinctBy { it.canonicalId }
-    val listRecord = byId.getValue(LIST).component.canonicalId
+    // A builtin a real definition covers (the list, the dialog) exports through that definition's
+    // record, named as its implementation, which carries the projection.
+    val implementations =
+      policy.builtins.keys
+        .mapNotNull { id -> byId[id]?.let { it.component.canonicalId to it } }
+        .toMap()
     val components =
       policy.components.mapValues { (id, component) ->
         val adapter = byId[id] ?: return@mapValues component
@@ -183,15 +188,26 @@ class TypedWearCatalog(
               .also {
                 it.record = target.canonicalId
                 it.excluded = "an export target of ${owner.id}"
-                // The list's call is a builtin's implementation, so it carries the projection.
-                if (target.canonicalId == listRecord) it.exportProjection = projectionJson(owner)
+                implementations[target.canonicalId]?.let { implemented ->
+                  it.exportProjection = projectionJson(implemented)
+                }
+              }
+              .build()
+        } +
+        // The shared layouts' calls, off the shelf: the builder places its own `layout/…`.
+        real.layouts.associate { layout ->
+          "$EXPORT_TARGET_PREFIX${layout.symbol.name.lowercase()}" to
+            UiBuilderAuthoredComponent.Builder()
+              .also {
+                it.record = layout.canonicalId
+                it.excluded = "the call of ${layout.componentIds.joinToString()}"
               }
               .build()
         }
     val builtins =
       policy.builtins.mapValues { (id, builtin) ->
-        if (id == LIST) builtin.newBuilder().also { it.implementation = listRecord }.build()
-        else builtin
+        val adapter = byId[id] ?: return@mapValues builtin
+        builtin.newBuilder().also { it.implementation = adapter.component.canonicalId }.build()
       }
     val published =
       policy
@@ -210,7 +226,9 @@ class TypedWearCatalog(
         .also { b ->
           b.components =
             record.components +
-              targets.filter { t -> record.components.none { it.canonicalId == t.canonicalId } }
+              (targets + real.layouts).filter { t ->
+                record.components.none { it.canonicalId == t.canonicalId }
+              }
         }
         .build()
     return merged to published
@@ -273,6 +291,26 @@ class TypedWearCatalog(
                   ") { contentPadding ->\n" +
                   "    ${'$'}{content}\n" +
                   "}",
+              // Dialogs are the scaffold's siblings, shown over it.
+              "screen-root+overlays" to
+                "val listState = rememberTransformingLazyColumnState()\n" +
+                  "val spec = rememberTransformationSpec()\n" +
+                  "ScreenScaffold(scrollState = listState) { contentPadding ->\n" +
+                  "    ${'$'}{content}\n" +
+                  "}\n" +
+                  "${'$'}{overlays}",
+              "screen-root+edgeButton+overlays" to
+                "val listState = rememberTransformingLazyColumnState()\n" +
+                  "val spec = rememberTransformationSpec()\n" +
+                  "ScreenScaffold(\n" +
+                  "    scrollState = listState,\n" +
+                  "    edgeButton = {\n" +
+                  "        ${'$'}{edgeButton}\n" +
+                  "    },\n" +
+                  ") { contentPadding ->\n" +
+                  "    ${'$'}{content}\n" +
+                  "}\n" +
+                  "${'$'}{overlays}",
             )
           it.locals =
             mapOf(
@@ -286,8 +324,15 @@ class TypedWearCatalog(
   }
 }
 
-/** The real-record definitions a pilot pair exports through, read where discovery runs (JVM). */
-class RealWearPublication(val adapters: List<TypedComponentAdapterAny>)
+/**
+ * The real-record definitions a pilot pair exports through, read where discovery runs (JVM), and
+ * the [layouts] the builder's shared `layout/…` components call: Compose's own `Column`, `Row` and
+ * `Box`, each record carrying the layout id it is.
+ */
+class RealWearPublication(
+  val adapters: List<TypedComponentAdapterAny>,
+  val layouts: List<ComponentRecord> = emptyList(),
+)
 
 typealias TypedComponentAdapterAny = ee.schimke.composeai.discovery.TypedComponentAdapter<*>
 

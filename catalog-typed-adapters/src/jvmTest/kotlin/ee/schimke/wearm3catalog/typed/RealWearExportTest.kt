@@ -9,6 +9,8 @@ import ee.schimke.composeai.uibuilder.protocol.DesignDocumentV1
 import java.io.File
 import kotlin.test.Test
 import kotlin.test.assertContains
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertIs
 import kotlin.test.assertTrue
 import kotlinx.serialization.json.Json
@@ -19,6 +21,17 @@ import kotlinx.serialization.json.jsonObject
  * block it publishes, read back by compose-ui-builder's own readers, and every fixture design
  * through `ScreenExportGate`.
  */
+private val FIXTURES =
+  listOf(
+    "wear-list.json",
+    "wear-screen.json",
+    "samples/wear-starter-list.json",
+    "samples/wear-starter-greeting.json",
+    "samples/jetcaster-wear-queue.json",
+    "samples/jetcaster-wear-library.json",
+    "samples/jetcaster-wear-episode.json",
+  )
+
 class RealWearExportTest {
   private val json = Json {
     ignoreUnknownKeys = true
@@ -122,18 +135,53 @@ class RealWearExportTest {
     assertContains(emitted("wear-screen.json"), "ScreenScaffold(scrollState = listState)")
   }
 
+  @Test
+  fun `a button group shares itself out by its own scope's weight`() {
+    val source = emitted("samples/jetcaster-wear-episode.json")
+    assertContains(
+      source,
+      "ButtonGroup(modifier = Modifier.transformedHeight(this, spec)" +
+        ".minimumVerticalContentPadding(ButtonGroupDefaults.minimumVerticalListContentPadding), " +
+        "transformation = SurfaceTransformation(spec)) {",
+    )
+    assertContains(source, "FilledIconButton(onClick = {}, modifier = Modifier.weight(0.7f)) {")
+    assertContains(source, "Icon(imageVector = Icons.Filled.PlayArrow")
+  }
+
+  @Test
+  fun `a button's lines in a column fill its label and secondary label`() {
+    val source = emitted("samples/jetcaster-wear-queue.json")
+    assertContains(source, "FilledTonalButton(onClick = {}")
+    assertContains(source, "secondaryLabel = {")
+    assertContains(
+      source,
+      "label = {\n                    Text(text = \"Episode 140: Lorem ipsum dolor\"",
+    )
+    // Folded into the slots, not written as a layout.
+    assertFalse(Regex("""\bColumn\(""").containsMatchIn(source), source)
+  }
+
+  @Test
+  fun `a dialog is the scaffold's sibling, with the design's own buttons`() {
+    val source = emitted("samples/wear-starter-list.json")
+    assertContains(
+      source,
+      "    }\n    AlertDialog(visible = false, onDismissRequest = {}, confirmButton = {",
+    )
+    assertContains(source, "FilledIconButton(onClick = {}) {")
+    assertContains(source, "Text(text = \"An unknown error occurred during the request.\")")
+  }
+
   /**
-   * What is left is named, never dropped: components with no real definition yet, and the frame's
-   * holes. Each line here is port work; a definition that lands moves its fixture up.
+   * Every fixture but one exports. `wear-list.json` predates the card's shelf: its cards set a
+   * `shape` the card no longer declares and the canvas never drew. The hand exporter drops it; the
+   * projection refuses it by name, which is the reviewed difference.
    */
   @Test
-  fun `the rest is refused by name`() {
-    assertTrue(refusals("wear-list.json").any { "no component `layout/column`" in it })
-    assertTrue(refusals("samples/wear-starter-list.json").single().contains("`overlays` slot"))
-    for (name in
-      listOf("samples/jetcaster-wear-queue.json", "samples/jetcaster-wear-episode.json")) {
-      val reasons = refusals(name)
-      assertTrue(reasons.none { "Material icon" in it }, "$name: $reasons")
-    }
+  fun `only the stale card shape is refused`() {
+    for (name in FIXTURES - "wear-list.json") emitted(name)
+    val reasons = refusals("wear-list.json")
+    assertEquals(6, reasons.size, reasons.toString())
+    assertTrue(reasons.all { "`shape` is not written by `wear-m3/card`" in it }, reasons.toString())
   }
 }
