@@ -32,13 +32,13 @@ jobs:
           ref: 8ea7cb870f51e665f4fdce2c072e62ecfd34f496
           path: .typed-builder
       # The tools API the typed renderer bridge builds against, from source until the builder's
-      # bridge leaves its experiment. Main after #5877, #5879, #5880 and #5881: item roles,
-      # `exportRefuses`, overloads validated as the generator calls them, and factory supertypes,
-      # which the real-record definitions in `typed/real` validate against.
+      # bridge leaves its experiment. v2.52.0: target modifier links, the Material icon codec,
+      # builtin implementations and frame slots, which the real-record definitions in `typed/real`
+      # use.
       - uses: actions/checkout@v7.0.1
         with:
           repository: yschimke/compose-ai-tools
-          ref: 58b6b3ca92d9fc1f22766e73bc2d0c6757e5490e
+          ref: 9310fba0525c3d146736f23aa95626cac5ac8e21
           path: .typed-tools
       - uses: actions/setup-java@v6.0.1
         with:
