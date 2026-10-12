@@ -31,7 +31,8 @@ python3 uid-stickers/compare-local.py
 
 `exportComponents` and the Wear vocabulary it needs are not in a released exporter yet, so the
 generator resolves `compose-preview-ui-builder-export-jvm:3.109.1-SNAPSHOT` from Maven local: publish
-yschimke/compose-ui-builder's branch with `:ui-builder-export:publishToMavenLocal`
+yschimke/compose-ui-builder's branch with `:ui-builder-export:publishToMavenLocal`, and the generator
+with compose-ai-tools' `:screen-model:publishToMavenLocal` (2.52.1-SNAPSHOT, for its toggle intents)
 (`-PuidExportVersion=` picks another).
 
 `compare-local.py` passes when every capture a hand-written sticker publishes (modes, override
@@ -44,7 +45,20 @@ variants) has a pixel-identical capture from its shell.
 | `Button/Tonal` | `tonal-button` | 10/10 identical |
 | `Button/Outlined` | `outlined-button` | 10/10 identical |
 | `Button/Child` | `child-button` | 10/10 identical |
+| `CheckboxButton` | `checkbox-button` (+ `Split`) | 8/8 identical |
+| `SwitchButton` | `switch-button` (+ `Split`) | 8/8 identical |
+| `RadioButton` | `radio-button` (+ `Split`) | 8/8 identical |
+| `Card/Outlined` | `outlined-card` | 1/1 identical |
 | `ListHeader` | `list-header` | 2/2 identical |
 | `ListSubHeader` | `list-sub-header` | 3/3 identical |
 | `Text/Body` | `text-body` | 2/2 identical |
 | `Text/Caption` | `text-caption` | 2/2 identical |
+
+11 of 66 stickers, 75 captures. Known gaps, each an export vocabulary to add before a document can
+draw it:
+
+- `Button/Filled`, `Button/FilledVariant`: the record keeps one overload per function, and for
+  `Button` it is the `content` one, not the `label`/`icon`/`secondaryLabel` one the stickers call;
+  the variant style is also a colour bundle (`filledVariantButtonColors()`).
+- `IconButton/*`: `Modifier.touchTargetAwareSize` and `IconButtonDefaults.iconSizeFor`.
+- `Card` (plain): its image cell's `containerPainter`.

@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "Split": [
+      {
+        "type": "setComponentId",
+        "nodeId": "control",
+        "componentId": "wear-m3/split-radio-button"
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "control",
+        "property": "selectionContentDescription",
+        "value": {
+          "type": "binding",
+          "value": "label"
+        }
+      },
+      {
+        "type": "setEventBindings",
+        "nodeId": "control",
+        "eventBindings": {
+          "selectionClick": [],
+          "containerClick": []
+        }
+      }
+    ]
+  },
+  "pairs": {
+    "RadioRow": "RadioRow"
+  }
+}

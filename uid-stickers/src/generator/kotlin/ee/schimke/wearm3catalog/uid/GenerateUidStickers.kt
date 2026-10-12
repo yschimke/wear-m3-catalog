@@ -28,9 +28,10 @@ private val json = Json {
  *
  * A variant cell is a list of builder operations, spelled the way `ui_builder_apply` spells them
  * (`setProperty`, `removeNodeProperty`, `deleteNode`, `setModifiers`, `addNode`), plus
- * `setComponentId` for a kit axis Compose spells as a sibling function. They are applied to the
- * document before export, so a cell is the same kind of edit a designer makes in the builder and
- * the cell's Kotlin is exactly what the builder would export for it.
+ * `setComponentId` and `setEventBindings` for a kit axis Compose spells as a sibling function with
+ * its own callbacks (a split selection control). They are applied to the document before export, so
+ * a cell is the same kind of edit a designer makes in the builder and the cell's Kotlin is exactly
+ * what the builder would export for it.
  *
  * Each document is a component definition placed once. Only the components are written
  * (`exportComponents`), as `internal` functions whose parameters are the document's bindings and
@@ -232,6 +233,12 @@ private fun apply(doc: JsonObject, op: JsonObject): JsonObject {
       val children = slots[slot]?.jsonArray.orEmpty() + JsonPrimitive(addedId)
       val withParent = parent.with("slots", JsonObject(slots + (slot to JsonArray(children))))
       doc.with("nodes", JsonObject(nodes + (parentId to withParent) + (addedId to added)))
+    }
+    // The node's events, replaced: a split control's two tap targets are two callbacks
+    // (`checkedChange` and `containerClick`) where the whole-row control has one.
+    "setEventBindings" -> {
+      val id = op.string("nodeId")
+      withNode(id, node(id).with("eventBindings", op.getValue("eventBindings")))
     }
     "setModifiers" -> {
       val id = op.string("nodeId")

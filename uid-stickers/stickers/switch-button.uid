@@ -1,0 +1,110 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "switch-button",
+  "title": "KitSwitchButton",
+  "revision": 0,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2.0,
+    "theme": "dark",
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr"
+  },
+  "roots": [
+    "place"
+  ],
+  "components": {
+    "switch-button": {
+      "name": "KitSwitchButton",
+      "root": "control"
+    }
+  },
+  "nodes": {
+    "place": {
+      "id": "place",
+      "componentId": "design/component-instance",
+      "component": {
+        "componentKey": "switch-button",
+        "arguments": {
+          "checked": {
+            "type": "bool",
+            "value": true
+          },
+          "enabled": {
+            "type": "bool",
+            "value": true
+          },
+          "label": {
+            "type": "string",
+            "value": "Label"
+          },
+          "secondaryLabel": {
+            "type": "string",
+            "value": "Secondary label"
+          }
+        }
+      }
+    },
+    "control": {
+      "id": "control",
+      "componentId": "wear-m3/switch-button",
+      "properties": {
+        "checked": {
+          "type": "binding",
+          "value": "checked"
+        },
+        "enabled": {
+          "type": "binding",
+          "value": "enabled"
+        }
+      },
+      "slots": {
+        "label": [
+          "label"
+        ],
+        "secondaryLabel": [
+          "secondary"
+        ]
+      },
+      "modifiers": [
+        {
+          "type": "width",
+          "widthDp": 172
+        }
+      ],
+      "eventBindings": {
+        "checkedChange": []
+      }
+    },
+    "label": {
+      "id": "label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "binding",
+          "value": "label"
+        }
+      },
+      "slots": {}
+    },
+    "secondary": {
+      "id": "secondary",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "binding",
+          "value": "secondaryLabel"
+        }
+      },
+      "slots": {}
+    }
+  }
+}

@@ -18,8 +18,10 @@ plugins {
 
 kotlin { jvmToolchain(21) }
 
-// `exportComponents` is not in a released exporter yet (yschimke/compose-ui-builder#732), so this
-// resolves from Maven local: publish that branch with `:ui-builder-export:publishToMavenLocal`.
+// `exportComponents` and the Wear vocabulary are not in a released exporter yet, nor the
+// generator's toggle intents (compose-ai-tools#5896, after 2.52.0), so this resolves both from
+// Maven local: `:ui-builder-export:publishToMavenLocal` in yschimke/compose-ui-builder and
+// `:screen-model:publishToMavenLocal` in yschimke/compose-ai-tools.
 repositories {
   mavenLocal()
   mavenCentral()
@@ -34,6 +36,14 @@ dependencies {
     "ee.schimke.composeai:compose-preview-ui-builder-export-jvm:" +
       providers.gradleProperty("uidExportVersion").getOrElse("3.109.1-SNAPSHOT")
   )
+  // The generator the exporter writes through, pinned past the exporter's own pin.
+  val screenModel = providers.gradleProperty("screenModelVersion").getOrElse("2.52.1-SNAPSHOT")
+  "generatorImplementation"("ee.schimke.composeai:screen-model-jvm") {
+    version { strictly(screenModel) }
+  }
+  "generatorImplementation"("ee.schimke.composeai:screen-model") {
+    version { strictly(screenModel) }
+  }
 }
 
 val generatedDir = layout.buildDirectory.dir("generated/uid/kotlin")
