@@ -1,0 +1,31 @@
+{
+  "variants": {
+    "Split": [
+      {
+        "type": "setComponentId",
+        "nodeId": "control",
+        "componentId": "wear-m3/split-checkbox-button"
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "control",
+        "property": "toggleContentDescription",
+        "value": {
+          "type": "binding",
+          "value": "label"
+        }
+      },
+      {
+        "type": "setEventBindings",
+        "nodeId": "control",
+        "eventBindings": {
+          "checkedChange": [],
+          "containerClick": []
+        }
+      }
+    ]
+  },
+  "pairs": {
+    "CheckboxRow": "CheckboxRow"
+  }
+}

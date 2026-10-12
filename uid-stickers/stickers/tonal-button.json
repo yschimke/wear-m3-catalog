@@ -1,0 +1,327 @@
+{
+  "variants": {
+    "Left": [
+      {
+        "type": "setModifiers",
+        "nodeId": "label",
+        "modifiers": [
+          {
+            "type": "fillMaxWidth"
+          }
+        ]
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "label",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "start"
+        }
+      }
+    ],
+    "Icon left": [
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {},
+          "modifiers": [
+            {
+              "type": "size",
+              "widthDp": 26,
+              "heightDp": 26
+            }
+          ]
+        }
+      },
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "secondaryLabel",
+        "node": {
+          "id": "secondary",
+          "componentId": "wear-m3/text",
+          "properties": {
+            "text": {
+              "type": "binding",
+              "value": "secondaryLabel"
+            }
+          },
+          "slots": {}
+        }
+      },
+      {
+        "type": "setModifiers",
+        "nodeId": "label",
+        "modifiers": [
+          {
+            "type": "fillMaxWidth"
+          }
+        ]
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "label",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "start"
+        }
+      }
+    ],
+    "Icon large left": [
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {},
+          "modifiers": [
+            {
+              "type": "size",
+              "widthDp": 32,
+              "heightDp": 32
+            }
+          ]
+        }
+      },
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "secondaryLabel",
+        "node": {
+          "id": "secondary",
+          "componentId": "wear-m3/text",
+          "properties": {
+            "text": {
+              "type": "binding",
+              "value": "secondaryLabel"
+            }
+          },
+          "slots": {}
+        }
+      },
+      {
+        "type": "setModifiers",
+        "nodeId": "label",
+        "modifiers": [
+          {
+            "type": "fillMaxWidth"
+          }
+        ]
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "label",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "start"
+        }
+      }
+    ],
+    "Icon extra large left": [
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {},
+          "modifiers": [
+            {
+              "type": "size",
+              "widthDp": 36,
+              "heightDp": 36
+            }
+          ]
+        }
+      },
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "secondaryLabel",
+        "node": {
+          "id": "secondary",
+          "componentId": "wear-m3/text",
+          "properties": {
+            "text": {
+              "type": "binding",
+              "value": "secondaryLabel"
+            }
+          },
+          "slots": {}
+        }
+      },
+      {
+        "type": "setModifiers",
+        "nodeId": "label",
+        "modifiers": [
+          {
+            "type": "fillMaxWidth"
+          }
+        ]
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "label",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "start"
+        }
+      }
+    ],
+    "Icon centre": [
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {},
+          "modifiers": [
+            {
+              "type": "size",
+              "widthDp": 26,
+              "heightDp": 26
+            }
+          ]
+        }
+      },
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "secondaryLabel",
+        "node": {
+          "id": "secondary",
+          "componentId": "wear-m3/text",
+          "properties": {
+            "text": {
+              "type": "binding",
+              "value": "secondaryLabel"
+            }
+          },
+          "slots": {}
+        }
+      }
+    ],
+    "Icon large centre": [
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {},
+          "modifiers": [
+            {
+              "type": "size",
+              "widthDp": 32,
+              "heightDp": 32
+            }
+          ]
+        }
+      },
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "secondaryLabel",
+        "node": {
+          "id": "secondary",
+          "componentId": "wear-m3/text",
+          "properties": {
+            "text": {
+              "type": "binding",
+              "value": "secondaryLabel"
+            }
+          },
+          "slots": {}
+        }
+      }
+    ],
+    "Icon extra large centre": [
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {},
+          "modifiers": [
+            {
+              "type": "size",
+              "widthDp": 36,
+              "heightDp": 36
+            }
+          ]
+        }
+      },
+      {
+        "type": "addNode",
+        "parentId": "button",
+        "slot": "secondaryLabel",
+        "node": {
+          "id": "secondary",
+          "componentId": "wear-m3/text",
+          "properties": {
+            "text": {
+              "type": "binding",
+              "value": "secondaryLabel"
+            }
+          },
+          "slots": {}
+        }
+      }
+    ]
+  },
+  "pairs": {
+    "TonalButton": "TonalButton"
+  }
+}

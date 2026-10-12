@@ -1,0 +1,81 @@
+{
+  "schema": "compose-ui-builder-document/v1-candidate",
+  "id": "list-sub-header",
+  "title": "KitListSubHeader",
+  "revision": 0,
+  "catalogPin": {
+    "systemId": "wear-m3",
+    "catalogRevision": "candidate",
+    "capabilityDigest": "candidate",
+    "nativeRuntimeId": "candidate"
+  },
+  "environment": {
+    "widthDp": 192,
+    "heightDp": 192,
+    "density": 2.0,
+    "theme": "dark",
+    "locale": "en-US",
+    "fontScale": 1,
+    "layoutDirection": "ltr"
+  },
+  "roots": [
+    "place"
+  ],
+  "components": {
+    "list-sub-header": {
+      "name": "KitListSubHeader",
+      "root": "header"
+    }
+  },
+  "nodes": {
+    "place": {
+      "id": "place",
+      "componentId": "design/component-instance",
+      "component": {
+        "componentKey": "list-sub-header",
+        "arguments": {
+          "label": {
+            "type": "string",
+            "value": "Subtitle"
+          }
+        }
+      }
+    },
+    "header": {
+      "id": "header",
+      "componentId": "wear-m3/list-sub-header",
+      "properties": {},
+      "slots": {
+        "label": [
+          "label"
+        ]
+      },
+      "modifiers": [
+        {
+          "type": "width",
+          "widthDp": 180
+        }
+      ]
+    },
+    "label": {
+      "id": "label",
+      "componentId": "wear-m3/text",
+      "properties": {
+        "text": {
+          "type": "binding",
+          "value": "label"
+        },
+        "textAlign": {
+          "type": "enum",
+          "value": "start"
+        }
+      },
+      "slots": {},
+      "modifiers": [
+        {
+          "type": "fillMaxWidth"
+        }
+      ]
+    }
+  }
+}

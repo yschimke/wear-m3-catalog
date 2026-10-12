@@ -22,6 +22,9 @@ allprojects {
     .configureEach {
       if (this is SourceTask) {
         exclude("**/uitemplate/generated/**")
+        // The shadow catalog's exported bodies (`-PuidStickers=true`), compiled from
+        // `uid-stickers/build` exactly as the UI builder wrote them.
+        exclude("**/generated/uibuilder/**")
       }
     }
 }

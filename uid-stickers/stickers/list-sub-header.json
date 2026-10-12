@@ -1,0 +1,63 @@
+{
+  "variants": {
+    "Icon": [
+      {
+        "type": "addNode",
+        "parentId": "header",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {}
+        }
+      }
+    ],
+    "Centred": [
+      {
+        "type": "setProperty",
+        "nodeId": "label",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "center"
+        }
+      }
+    ],
+    "Icon centred": [
+      {
+        "type": "addNode",
+        "parentId": "header",
+        "slot": "icon",
+        "node": {
+          "id": "icon",
+          "componentId": "wear-m3/icon",
+          "properties": {
+            "iconKey": {
+              "type": "enum",
+              "value": "add"
+            }
+          },
+          "slots": {}
+        }
+      },
+      {
+        "type": "setProperty",
+        "nodeId": "label",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "center"
+        }
+      }
+    ]
+  },
+  "pairs": {
+    "ListSubHeading": "ListSubHeading"
+  }
+}

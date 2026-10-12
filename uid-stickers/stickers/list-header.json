@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "Left": [
+      {
+        "type": "setProperty",
+        "nodeId": "title",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "start"
+        }
+      }
+    ],
+    "Right": [
+      {
+        "type": "setProperty",
+        "nodeId": "title",
+        "property": "textAlign",
+        "value": {
+          "type": "enum",
+          "value": "end"
+        }
+      }
+    ]
+  },
+  "pairs": {
+    "ListHeading": "ListHeading"
+  }
+}

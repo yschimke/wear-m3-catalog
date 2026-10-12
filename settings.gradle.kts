@@ -123,3 +123,8 @@ include(":catalog-desktop")
 // package, and must not be formatted, linted or refactored with this repo's own code.
 // See docs/design/ANDROIDX_SAMPLES.md.
 include(":samples-catalog")
+
+// The shadow catalog: stickers whose body is a UI builder document (`uid-stickers/README.md`).
+if (providers.gradleProperty("uidStickers").orNull == "true") {
+  include(":uid-stickers")
+}
