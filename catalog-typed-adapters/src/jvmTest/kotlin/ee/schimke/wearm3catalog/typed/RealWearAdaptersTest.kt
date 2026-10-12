@@ -173,6 +173,22 @@ class RealWearAdaptersTest {
   }
 
   @Test
+  fun `a recoloured card tints its title too, as the canvas does`() {
+    val card = node("wear-m3/card", "contentColor" to wrapped("colorToken", "primary"))
+    val colors = assertIs<ScreenValue.Construct>(card.arguments["colors"])
+    assertTrue(colors.callableFqn.endsWith(".cardColors"), colors.callableFqn)
+    assertEquals(colors.named["contentColor"], colors.named["titleColor"])
+    val outlined =
+      node(
+        "wear-m3/card",
+        "variant" to wrapped("enum", "outlined"),
+        "contentColor" to wrapped("colorToken", "primary"),
+      )
+    val outlinedColors = assertIs<ScreenValue.Construct>(outlined.arguments["colors"])
+    assertEquals(setOf("contentColor"), outlinedColors.named.keys)
+  }
+
+  @Test
   fun `a button variant picks the real composable and its colours`() {
     val tonal =
       node(

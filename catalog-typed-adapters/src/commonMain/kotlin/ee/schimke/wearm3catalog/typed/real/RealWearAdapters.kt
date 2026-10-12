@@ -521,6 +521,9 @@ class RealCardAdapter(
             *(listOfNotNull(
                 ("containerColor" to from(containerColor)).takeIf { container },
                 "contentColor" to from(contentColor),
+                // As the canvas draws it: the content colour is the title's too (`cardColors`
+                // only; the canvas leaves an outlined card's title to its default).
+                ("titleColor" to from(contentColor)).takeIf { container },
               )
               .toTypedArray()),
           )
