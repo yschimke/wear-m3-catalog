@@ -16,23 +16,33 @@ import ee.schimke.wearm3catalog.sections.ButtonIconSize
 import ee.schimke.wearm3catalog.sections.ButtonLayoutCells
 import ee.schimke.wearm3catalog.sections.LabelAlignment
 import generated.uibuilder.KitChildButton
-import generated.uibuilder.KitChildButtonIcon
-import generated.uibuilder.KitChildButtonIconExtraLarge
-import generated.uibuilder.KitChildButtonIconLarge
+import generated.uibuilder.KitChildButtonIconCentre
+import generated.uibuilder.KitChildButtonIconExtraLargeCentre
+import generated.uibuilder.KitChildButtonIconExtraLargeLeft
+import generated.uibuilder.KitChildButtonIconLargeCentre
+import generated.uibuilder.KitChildButtonIconLargeLeft
+import generated.uibuilder.KitChildButtonIconLeft
 import generated.uibuilder.KitChildButtonLeft
 import generated.uibuilder.KitOutlinedButton
-import generated.uibuilder.KitOutlinedButtonIcon
-import generated.uibuilder.KitOutlinedButtonIconExtraLarge
-import generated.uibuilder.KitOutlinedButtonIconLarge
+import generated.uibuilder.KitOutlinedButtonIconCentre
+import generated.uibuilder.KitOutlinedButtonIconExtraLargeCentre
+import generated.uibuilder.KitOutlinedButtonIconExtraLargeLeft
+import generated.uibuilder.KitOutlinedButtonIconLargeCentre
+import generated.uibuilder.KitOutlinedButtonIconLargeLeft
+import generated.uibuilder.KitOutlinedButtonIconLeft
 import generated.uibuilder.KitOutlinedButtonLeft
 import generated.uibuilder.KitTonalButton
-import generated.uibuilder.KitTonalButtonIcon
-import generated.uibuilder.KitTonalButtonIconExtraLarge
-import generated.uibuilder.KitTonalButtonIconLarge
+import generated.uibuilder.KitTonalButtonIconCentre
+import generated.uibuilder.KitTonalButtonIconExtraLargeCentre
+import generated.uibuilder.KitTonalButtonIconExtraLargeLeft
+import generated.uibuilder.KitTonalButtonIconLargeCentre
+import generated.uibuilder.KitTonalButtonIconLargeLeft
+import generated.uibuilder.KitTonalButtonIconLeft
 import generated.uibuilder.KitTonalButtonLeft
 
 // Shells: the hand-written stickers' annotations and names, with bodies generated from
-// `stickers/<name>.uid`. The knobs are read here, in the hand-written order, and choose the cell.
+// `stickers/<name>.uid`. The knobs are read here, in the hand-written order, and choose the cell:
+// every combination a knob can reach has one, not only the combinations a capture seeds.
 
 @CatalogComponent(
   id = "Button/Tonal",
@@ -56,16 +66,20 @@ fun TonalButton(
   alignment: LabelAlignment = LabelAlignment.Center,
 ) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
-  // The kit couples the icon to a secondary label and a start-aligned label: every `Icon=Yes`
-  // cell is drawn that way, so the icon cells carry all three.
+  // The kit couples the icon to a secondary label; the label keeps the alignment its knob asks for.
   if (icon) {
     val secondary = kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)
+    val left = alignment == LabelAlignment.Left
     when (iconSize) {
-      ButtonIconSize.Default -> KitTonalButtonIcon(Modifier, enabled, c.label, secondary, c.onClick)
+      ButtonIconSize.Default ->
+        if (left) KitTonalButtonIconLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitTonalButtonIconCentre(Modifier, enabled, c.label, secondary, c.onClick)
       ButtonIconSize.Large ->
-        KitTonalButtonIconLarge(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left) KitTonalButtonIconLargeLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitTonalButtonIconLargeCentre(Modifier, enabled, c.label, secondary, c.onClick)
       ButtonIconSize.ExtraLarge ->
-        KitTonalButtonIconExtraLarge(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left) KitTonalButtonIconExtraLargeLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitTonalButtonIconExtraLargeCentre(Modifier, enabled, c.label, secondary, c.onClick)
     }
   } else if (alignment == LabelAlignment.Left) {
     KitTonalButtonLeft(Modifier, enabled, c.label, c.onClick)
@@ -96,17 +110,21 @@ fun OutlineButton(
   alignment: LabelAlignment = LabelAlignment.Center,
 ) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
-  // The kit couples the icon to a secondary label and a start-aligned label: every `Icon=Yes`
-  // cell is drawn that way, so the icon cells carry all three.
+  // The kit couples the icon to a secondary label; the label keeps the alignment its knob asks for.
   if (icon) {
     val secondary = kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)
+    val left = alignment == LabelAlignment.Left
     when (iconSize) {
       ButtonIconSize.Default ->
-        KitOutlinedButtonIcon(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left) KitOutlinedButtonIconLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitOutlinedButtonIconCentre(Modifier, enabled, c.label, secondary, c.onClick)
       ButtonIconSize.Large ->
-        KitOutlinedButtonIconLarge(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left) KitOutlinedButtonIconLargeLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitOutlinedButtonIconLargeCentre(Modifier, enabled, c.label, secondary, c.onClick)
       ButtonIconSize.ExtraLarge ->
-        KitOutlinedButtonIconExtraLarge(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left)
+          KitOutlinedButtonIconExtraLargeLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitOutlinedButtonIconExtraLargeCentre(Modifier, enabled, c.label, secondary, c.onClick)
     }
   } else if (alignment == LabelAlignment.Left) {
     KitOutlinedButtonLeft(Modifier, enabled, c.label, c.onClick)
@@ -137,16 +155,20 @@ fun ChildLabelButton(
   alignment: LabelAlignment = LabelAlignment.Center,
 ) = Sticker {
   val c = counted(kitCopy("label", KitCopy.PRIMARY_LABEL))
-  // The kit couples the icon to a secondary label and a start-aligned label: every `Icon=Yes`
-  // cell is drawn that way, so the icon cells carry all three.
+  // The kit couples the icon to a secondary label; the label keeps the alignment its knob asks for.
   if (icon) {
     val secondary = kitCopy("secondaryLabel", KitCopy.SECONDARY_LABEL)
+    val left = alignment == LabelAlignment.Left
     when (iconSize) {
-      ButtonIconSize.Default -> KitChildButtonIcon(Modifier, enabled, c.label, secondary, c.onClick)
+      ButtonIconSize.Default ->
+        if (left) KitChildButtonIconLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitChildButtonIconCentre(Modifier, enabled, c.label, secondary, c.onClick)
       ButtonIconSize.Large ->
-        KitChildButtonIconLarge(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left) KitChildButtonIconLargeLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitChildButtonIconLargeCentre(Modifier, enabled, c.label, secondary, c.onClick)
       ButtonIconSize.ExtraLarge ->
-        KitChildButtonIconExtraLarge(Modifier, enabled, c.label, secondary, c.onClick)
+        if (left) KitChildButtonIconExtraLargeLeft(Modifier, enabled, c.label, secondary, c.onClick)
+        else KitChildButtonIconExtraLargeCentre(Modifier, enabled, c.label, secondary, c.onClick)
     }
   } else if (alignment == LabelAlignment.Left) {
     KitChildButtonLeft(Modifier, enabled, c.label, c.onClick)

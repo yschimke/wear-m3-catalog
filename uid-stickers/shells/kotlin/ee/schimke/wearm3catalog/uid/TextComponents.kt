@@ -15,19 +15,21 @@ import ee.schimke.wearm3catalog.sections.SubHeadingAlign
 import ee.schimke.wearm3catalog.sections.TextAlignment
 import generated.uibuilder.KitBodyText
 import generated.uibuilder.KitBodyTextLeft
+import generated.uibuilder.KitBodyTextRight
 import generated.uibuilder.KitCaptionText
 import generated.uibuilder.KitCaptionTextLeft
+import generated.uibuilder.KitCaptionTextRight
 import generated.uibuilder.KitListHeader
 import generated.uibuilder.KitListHeaderLeft
+import generated.uibuilder.KitListHeaderRight
 import generated.uibuilder.KitListSubHeader
 import generated.uibuilder.KitListSubHeaderCentred
 import generated.uibuilder.KitListSubHeaderIcon
+import generated.uibuilder.KitListSubHeaderIconCentred
 
 // Shells: the hand-written stickers' annotations and names, with bodies generated from
 // `stickers/<name>.uid`. The knobs are read here, in the hand-written order, and choose the cell.
-//
-// The documents publish the kit's cells only: a `right` alignment, or an icon on a centred
-// sub-header, is a knob value no capture sets, and draws the nearest cell.
+// Every combination a knob can reach has a cell, not only the combinations a capture seeds.
 
 @CatalogComponent(
   id = "ListHeader",
@@ -51,8 +53,11 @@ import generated.uibuilder.KitListSubHeaderIcon
 @Composable
 fun ListHeading(align: TextAlignment = TextAlignment.Centre) = Sticker {
   val label = kitCopy("label", KitCopy.TITLE)
-  if (align == TextAlignment.Left) KitListHeaderLeft(Modifier, label)
-  else KitListHeader(Modifier, label)
+  when (align) {
+    TextAlignment.Left -> KitListHeaderLeft(Modifier, label)
+    TextAlignment.Right -> KitListHeaderRight(Modifier, label)
+    TextAlignment.Centre -> KitListHeader(Modifier, label)
+  }
 }
 
 @CatalogComponent(
@@ -81,9 +86,11 @@ fun ListSubHeading(
   align: SubHeadingAlign = SubHeadingAlign.Left,
 ) = Sticker {
   val label = kitCopy("label", KitCopy.SUBTITLE)
+  val centred = align == SubHeadingAlign.Centre
   when {
+    icon && centred -> KitListSubHeaderIconCentred(Modifier, label)
     icon -> KitListSubHeaderIcon(Modifier, label)
-    align == SubHeadingAlign.Centre -> KitListSubHeaderCentred(Modifier, label)
+    centred -> KitListSubHeaderCentred(Modifier, label)
     else -> KitListSubHeader(Modifier, label)
   }
 }
@@ -104,7 +111,11 @@ fun ListSubHeading(
 @Composable
 fun BodyText(align: TextAlignment = TextAlignment.Centre) = Sticker {
   val text = kitCopy("text", KitCopy.BODY)
-  if (align == TextAlignment.Left) KitBodyTextLeft(Modifier, text) else KitBodyText(Modifier, text)
+  when (align) {
+    TextAlignment.Left -> KitBodyTextLeft(Modifier, text)
+    TextAlignment.Right -> KitBodyTextRight(Modifier, text)
+    TextAlignment.Centre -> KitBodyText(Modifier, text)
+  }
 }
 
 @CatalogComponent(
@@ -123,6 +134,9 @@ fun BodyText(align: TextAlignment = TextAlignment.Centre) = Sticker {
 @Composable
 fun CaptionText(align: TextAlignment = TextAlignment.Centre) = Sticker {
   val text = kitCopy("text", KitCopy.CAPTION)
-  if (align == TextAlignment.Left) KitCaptionTextLeft(Modifier, text)
-  else KitCaptionText(Modifier, text)
+  when (align) {
+    TextAlignment.Left -> KitCaptionTextLeft(Modifier, text)
+    TextAlignment.Right -> KitCaptionTextRight(Modifier, text)
+    TextAlignment.Centre -> KitCaptionText(Modifier, text)
+  }
 }

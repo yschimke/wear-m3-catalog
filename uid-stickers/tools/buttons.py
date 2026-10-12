@@ -76,7 +76,13 @@ def cells():
                 "properties": {"text": {"type": "binding", "value": "secondaryLabel"}}, "slots": {}}},
         ]
 
-    return {"Left": left, **{cell: icon(dp) + left for cell, dp in ICON_SIZES.items()}}
+    # Every knob combination, not only the kit's cells: an icon keeps whatever alignment the label
+    # knob asks for, so each icon size has a centred cell beside its start-aligned one.
+    return {
+        "Left": left,
+        **{f"{cell} left": icon(dp) + left for cell, dp in ICON_SIZES.items()},
+        **{f"{cell} centre": icon(dp) for cell, dp in ICON_SIZES.items()},
+    }
 
 
 def write(path, value):

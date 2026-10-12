@@ -12,7 +12,10 @@ write(
         node("header", "wear-m3/list-header", slots={"content": ["title"]}, modifiers=[width(180)]),
         node("title", "wear-m3/text", {"text": binding("label"), "textAlign": enum("center")}),
     ], {"label": string("Title")}),
-    {"Left": [set_property("title", "textAlign", enum("start"))]},
+    {
+        "Left": [set_property("title", "textAlign", enum("start"))],
+        "Right": [set_property("title", "textAlign", enum("end"))],
+    },
     {"ListHeading": "ListHeading"},
 )
 
@@ -26,6 +29,10 @@ write(
     {
         "Icon": [add_node("header", "icon", node("icon", "wear-m3/icon", {"iconKey": enum("add")}))],
         "Centred": [set_property("label", "textAlign", enum("center"))],
+        "Icon centred": [
+            add_node("header", "icon", node("icon", "wear-m3/icon", {"iconKey": enum("add")})),
+            set_property("label", "textAlign", enum("center")),
+        ],
     },
     {"ListSubHeading": "ListSubHeading"},
 )
@@ -40,6 +47,9 @@ for key, name, role, hand in (
         document(key, name, "text", [
             node("text", "wear-m3/text", {"text": binding("text"), "style": enum(role), "textAlign": enum("center")}, modifiers=[width(160)]),
         ], {"text": string("Text")}),
-        {"Left": [set_property("text", "textAlign", enum("start"))]},
+        {
+            "Left": [set_property("text", "textAlign", enum("start"))],
+            "Right": [set_property("text", "textAlign", enum("end"))],
+        },
         {hand: hand},
     )
