@@ -71,7 +71,7 @@ jobs:
 
       # The comment is posted by compose-preview-publish.yml, which runs on `workflow_run` with
       # write access and none of this pull request's code.
-      - uses: actions/upload-artifact@v7.0.1
+      - uses: actions/upload-artifact@v7.0.2
         with:
           name: compose-preview-handoff
           path: _compose_preview_handoff/
