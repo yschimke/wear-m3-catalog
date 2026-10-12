@@ -9,7 +9,7 @@
 //   ui-builder/designs/*.json    the pilot's templates, already pinned to the pilot catalog
 //   ui-builder/runtime.zip       the pilot runtime (rendererArchive), verified before it is copied
 //   images/<case>/typed.png      the typed renderer's JVM parity evidence, as baked stickers
-//   readiness.json               the pilot's cutover readiness report, for whoever compares A/B
+//   readiness.json               the readiness report after the browser runtime check
 //
 // The pilot is not a rendered catalog, so it does not go through the reusable
 // design-artifacts workflow's render pipeline. Every file the server reads is written by the
@@ -26,6 +26,7 @@
 //     [--runtime catalog-typed-adapters/build/distributions/wear-m3-typed-pilot-renderer.zip]
 //     [--evidence catalog-typed-adapters/build/render-evidence/parity]
 //     [--guidelines ui-builder.guidelines.json]
+//     [--readiness catalog-typed-adapters/build/browser-evidence/readiness.json]
 import { mkdir, readdir, readFile, rm, writeFile, copyFile } from "node:fs/promises";
 import { join, resolve, relative, sep } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -52,6 +53,10 @@ const { values } = parseArgs({
       default: join(root, "catalog-typed-adapters/build/render-evidence/parity"),
     },
     guidelines: { type: "string", default: join(root, "ui-builder.guidelines.json") },
+    readiness: {
+      type: "string",
+      default: join(root, "catalog-typed-adapters/build/browser-evidence/readiness.json"),
+    },
   },
 });
 if (!values.driver || !values.out) {
@@ -128,7 +133,25 @@ if (guidelinesWarning) fail(guidelinesWarning);
 const runtime = await publishUiBuilderRuntime(resolve(values.runtime), out);
 if (!runtime.runtimeId.startsWith(`${PILOT_CATALOG_ID}-`))
   fail(`runtime id '${runtime.runtimeId}' is not a pilot runtime id`);
-if (entries["readiness.json"]) await writeFile(join(out, "readiness.json"), entries["readiness.json"]);
+// The readiness report AFTER the browser check (verify-typed-wear-runtime.mjs), not the
+// generator's: only that one records the packaged runtime as exercised. Required, and required to
+// name the runtime being published, so the branch never claims a verification of other bytes.
+let readiness;
+try {
+  readiness = JSON.parse(await readFile(resolve(values.readiness), "utf8"));
+} catch (error) {
+  fail(`no browser-verified readiness report at ${values.readiness} (${error.message})`);
+}
+const verified = readiness.browserVerification;
+if (
+  verified?.runtimeId !== runtime.runtimeId ||
+  verified?.integritySha256 !== runtime.integritySha256
+)
+  fail(
+    `readiness.json verified runtime ${verified?.runtimeId}/${verified?.integritySha256}, ` +
+      `not the published ${runtime.runtimeId}/${runtime.integritySha256}`,
+  );
+await writeFile(join(out, "readiness.json"), JSON.stringify(readiness, null, 2) + "\n");
 
 // The typed side of each JVM parity case, one sticker per case. The production side is already
 // served by `wear-m3-catalog`; carrying it twice would only make the two catalogs harder to tell

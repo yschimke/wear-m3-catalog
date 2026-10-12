@@ -18,6 +18,8 @@ on:
       - 'scripts/verify-typed-wear-runtime.mjs'
       - 'scripts/assemble-typed-pilot-delivery.mjs'
       - 'ui-builder.guidelines.json'
+      # The templates `generateTypedCatalog` re-pins and copies into the pilot pair.
+      - 'ui-builder/designs/**'
       - '.github/workflows/typed-catalog.yml'
   # Publish the pilot after a change to its inputs lands. Same paths as the pull-request check:
   # what the check validates is exactly what the publish job ships.
@@ -37,10 +39,19 @@ on:
       - 'scripts/verify-typed-wear-runtime.mjs'
       - 'scripts/assemble-typed-pilot-delivery.mjs'
       - 'ui-builder.guidelines.json'
+      # The templates `generateTypedCatalog` re-pins and copies into the pilot pair.
+      - 'ui-builder/designs/**'
       - '.github/workflows/typed-catalog.yml'
 
 permissions:
   contents: read
+
+# A newer run on the same ref supersedes an older one. On main that is what keeps an older run from
+# publishing after a newer one and rolling the delivery branch back; `publish` also checks that its
+# commit is still main's tip right before it pushes, for a run that is already past this point.
+concurrency:
+  group: typed-catalog-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -162,9 +173,17 @@ jobs:
       - name: Publish to design-artifacts/wear-m3-typed-pilot
         env:
           ARTIFACT_TOKEN: ${{ secrets.ARTIFACTS_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
           HELPER: ${{ github.workspace }}/.typed-tools/.github/actions/apply/lib/push-branch.sh
         run: |
           set -euo pipefail
+          # Only main's current tip publishes. A run whose commit main has moved past would replace
+          # a newer pilot with an older one; the newer commit's own run publishes instead.
+          tip=$(gh api "repos/${GITHUB_REPOSITORY}/git/ref/heads/main" --jq .object.sha)
+          if [ "$tip" != "$GITHUB_SHA" ]; then
+            echo "::notice title=Typed pilot publish skipped::${GITHUB_SHA::12} is no longer main's tip (${tip::12}); its run publishes instead."
+            exit 0
+          fi
           cd "$RUNNER_TEMP/out"
           # Appended on the existing tip, like the production lanes, so the branch keeps a history
           # the server's revision menu and runtime history can read. The runtime id carries the
