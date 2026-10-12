@@ -52,7 +52,7 @@ jobs:
       - uses: ./.github/actions/setup
         with:
           cache-read-only: 'true'
-      - uses: actions/setup-node@v7.0.0
+      - uses: actions/setup-node@v7.1.0
         with:
           node-version: 24.21.0
 
@@ -89,7 +89,7 @@ jobs:
             git --no-pager diff --stat -- figma-kit-index.json
           fi
 
-      - uses: actions/upload-artifact@v7.0.1
+      - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
           name: figma-inventory
@@ -118,7 +118,7 @@ jobs:
             --previews catalog/build/compose-previews/previews.json \
             | tee figma-refs.txt
 
-      - uses: actions/upload-artifact@v7.0.1
+      - uses: actions/upload-artifact@v7.0.2
         if: always()
         with:
           name: figma-refs
