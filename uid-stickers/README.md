@@ -29,11 +29,8 @@ scripts/agent-gradle.sh --exclusive -PuidStickers=true :catalog:composePreviewRe
 python3 uid-stickers/compare-local.py
 ```
 
-`exportComponents` and the Wear vocabulary it needs are not in a released exporter yet, so the
-generator resolves `compose-preview-ui-builder-export-jvm:3.109.1-SNAPSHOT` from Maven local: publish
-yschimke/compose-ui-builder's branch with `:ui-builder-export:publishToMavenLocal`, and the generator
-with compose-ai-tools' `:screen-model:publishToMavenLocal` (2.52.1-SNAPSHOT, for its toggle intents)
-(`-PuidExportVersion=` picks another).
+The generator uses the released exporter, compose-ui-builder 3.112.0 (`-PuidExportVersion=` picks another,
+and a `-SNAPSHOT` one resolves from Maven local).
 
 `compare-local.py` passes when every capture a hand-written sticker publishes (modes, override
 variants) has a pixel-identical capture from its shell.

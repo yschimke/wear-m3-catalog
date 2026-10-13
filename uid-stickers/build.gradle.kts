@@ -18,12 +18,14 @@ plugins {
 
 kotlin { jvmToolchain(21) }
 
-// `exportComponents` and the Wear vocabulary are not in a released exporter yet, nor the
-// generator's toggle intents (compose-ai-tools#5896, after 2.52.0), so this resolves both from
-// Maven local: `:ui-builder-export:publishToMavenLocal` in yschimke/compose-ui-builder and
-// `:screen-model:publishToMavenLocal` in yschimke/compose-ai-tools.
+// The released exporter: `exportComponents` and the Wear vocabulary since compose-ui-builder
+// 3.110, on a generator with toggle intents (compose-ai-tools 2.53).
+// `-PuidExportVersion=<x>-SNAPSHOT`
+// tries an unreleased exporter from Maven local, with `-PscreenModelVersion=` for its generator.
+val exportVersion = providers.gradleProperty("uidExportVersion")
+
 repositories {
-  mavenLocal()
+  if (exportVersion.isPresent) mavenLocal()
   mavenCentral()
   google()
 }
@@ -34,15 +36,13 @@ dependencies {
   // The exporter the builder's code pane and the server's export.compose route run.
   "generatorImplementation"(
     "ee.schimke.composeai:compose-preview-ui-builder-export-jvm:" +
-      providers.gradleProperty("uidExportVersion").getOrElse("3.109.1-SNAPSHOT")
+      exportVersion.getOrElse("3.112.0")
   )
-  // The generator the exporter writes through, pinned past the exporter's own pin.
-  val screenModel = providers.gradleProperty("screenModelVersion").getOrElse("2.52.1-SNAPSHOT")
-  "generatorImplementation"("ee.schimke.composeai:screen-model-jvm") {
-    version { strictly(screenModel) }
-  }
-  "generatorImplementation"("ee.schimke.composeai:screen-model") {
-    version { strictly(screenModel) }
+  providers.gradleProperty("screenModelVersion").orNull?.let { pinned ->
+    "generatorImplementation"("ee.schimke.composeai:screen-model-jvm") {
+      version { strictly(pinned) }
+    }
+    "generatorImplementation"("ee.schimke.composeai:screen-model") { version { strictly(pinned) } }
   }
 }
 
