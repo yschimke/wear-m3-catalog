@@ -44,7 +44,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.jetbrains.skiko.InternalSkikoApi
 import org.jetbrains.skiko.wasm.awaitSkiko
 
-private val runtimeAdapters =
+internal val runtimeAdapters =
   foundationCanvasAdapters +
     wearCanvasAdapters +
     wearPickerAdapters +

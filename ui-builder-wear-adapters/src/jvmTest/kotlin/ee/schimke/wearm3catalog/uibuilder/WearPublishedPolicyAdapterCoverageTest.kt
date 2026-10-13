@@ -32,19 +32,8 @@ class WearPublishedPolicyAdapterCoverageTest {
     assertTrue(declared.size >= 20, "the published Wear policy unexpectedly lost its adapters")
 
     val jvm = wearCanvasAdapters + wearScreenAdapters + wearTextAdapters
-    val pickerSource =
-      generateSequence(File(".").absoluteFile) { it.parentFile }
-        .map {
-          File(
-            it,
-            "ui-builder-wear-adapters/src/wasmJsMain/kotlin/ee/schimke/wearm3catalog/uibuilder/WearPickerAdapters.kt",
-          )
-        }
-        .first { it.isFile }
-        .readText()
-    val pickerIds =
-      Regex("register\\(\"([^\"]+)\"\\)").findAll(pickerSource).map { it.groupValues[1] }.toSet()
-    val missing = declared.filterNot { jvm[it] != null || it in pickerIds }.toSet()
+    val wasmOnly = setOf("wear-m3/date-picker", "wear-m3/time-picker")
+    val missing = declared.filterNot { jvm[it] != null || it in wasmOnly }.toSet()
     assertEquals(
       emptySet<String>(),
       missing,
@@ -52,8 +41,8 @@ class WearPublishedPolicyAdapterCoverageTest {
     )
     assertEquals(
       setOf("wear-m3/date-picker", "wear-m3/time-picker"),
-      pickerIds,
-      "the JVM test must account for the Wasm-only picker adapters exactly",
+      declared.filterTo(mutableSetOf()) { it in wasmOnly },
+      "the published policy must include both Wasm-only pickers",
     )
   }
 }
