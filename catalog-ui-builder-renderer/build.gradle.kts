@@ -90,6 +90,7 @@ kotlin {
       @Suppress("DEPRECATION") implementation(compose.ui)
     }
     wasmJsMain { kotlin.srcDir(generateRuntimePolicy) }
+    wasmJsTest.dependencies { implementation(kotlin("test")) }
   }
 }
 
