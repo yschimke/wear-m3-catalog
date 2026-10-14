@@ -532,8 +532,8 @@ Wrapping changes none of the verification rules below; run the same tasks throug
   release, so those coordinates are **versionless** in `gradle/libs.versions.toml` and resolve
   through `platform(libs.composeai.daemon.bom)` / `platform(libs.composeai.ui.builder.bom)`. Never
   give one a version of its own: a per-module pin at the release version 404s the first time a
-  release skips that module. The daemon BOM (`composePreviewDaemon`) may advance independently
-  through Renovate:
+  release skips that module. The daemon BOM (`composePreviewDaemon`) may run ahead of the plugin,
+  and Renovate groups it into the compose-ai-tools PR so a plugin bump carries the daemon it needs:
   the plugin resolves its renderer and daemon configurations in the consumer runtime graph, so
   the newer BOM aligns them with the annotations. `:verifyComposePreviewDaemonAlignment` rejects
   a BOM older than the daemon baked into the plugin before compilation. The contracts and tools
