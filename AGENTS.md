@@ -459,7 +459,8 @@ Wrapping changes none of the verification rules below; run the same tasks throug
 ## Git
 
 - **`main` is protected — every change goes through a PR.** The `Protect Main` ruleset requires a pull
-  request (0 approvals) with all CI checks green, and squash is the only merge method. Branch names are
+  request (0 approvals) with its build, unit-test, PR-title and attribution checks green (lint,
+  format and render jobs run but do not block), and squash is the only merge method. Branch names are
   `agent/…`.
 - Conventional commit subjects (`feat:`, `fix:`, `docs:`, `chore:`). The squash commit is built from the
   **PR title**, so write the PR title as the commit subject.
