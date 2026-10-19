@@ -1,15 +1,30 @@
 pluginManagement {
   repositories {
+    // Google Maven first, scoped to its own groups: androidx and AGP resolve there and never
+    // reach Central or the plugin portal, which answer a miss with HTTP 429 under load instead
+    // of the 404 that would have moved on.
+    google {
+      mavenContent {
+        includeGroupAndSubgroups("androidx")
+        includeGroupAndSubgroups("com.android")
+        includeGroupAndSubgroups("com.google")
+      }
+    }
     gradlePluginPortal()
     mavenCentral()
-    google()
   }
 }
 
 dependencyResolutionManagement {
   repositories {
+    google {
+      mavenContent {
+        includeGroupAndSubgroups("androidx")
+        includeGroupAndSubgroups("com.android")
+        includeGroupAndSubgroups("com.google")
+      }
+    }
     mavenCentral()
-    google()
 
     // ── The CMP Wear port, GROUP-FENCED ───────────────────────────────────────────────────────
     // `ee.schimke.wearcmp:*` — Wear Compose Material 3 / Foundation compiled for Compose
