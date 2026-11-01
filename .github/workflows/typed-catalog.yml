@@ -151,7 +151,7 @@ jobs:
     needs: validate
     permissions:
       contents: read
-    uses: yschimke/compose-ai-tools/.github/workflows/typed-catalog-artifacts-reusable.yml@0f5f5cd98d20ac6f64f936fff53ed19988a4f24c # v2.79.2
+    uses: yschimke/compose-ai-tools/.github/workflows/typed-catalog-artifacts-reusable.yml@77ccef39d186a933b1d3e7ce6f6fa6ded849e096 # v2.84.0
     with:
       system: wear-m3-typed-pilot
       artifact: wear-m3-typed-pilot-inputs
