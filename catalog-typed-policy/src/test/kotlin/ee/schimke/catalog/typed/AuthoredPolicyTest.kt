@@ -105,7 +105,7 @@ class AuthoredPolicyTest {
     when (value) {
       is JsonObject ->
         JsonObject(
-          value.filterKeys { !it.startsWith("\$comment") }.mapValues { withoutComments(it.value) }
+          value.filterKeys { !it.startsWith("\$comment") }.mapValues { withoutComments(it.value) },
         )
       is JsonArray -> JsonArray(value.map(::withoutComments))
       else -> value

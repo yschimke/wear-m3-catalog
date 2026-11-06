@@ -50,7 +50,7 @@ dependencyResolutionManagement {
     // vendoring the port's sources into `:catalog` — would put a fork of Wear Compose in the
     // catalog's history and lose that gate.
     maven(
-      "https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/"
+      "https://raw.githubusercontent.com/yschimke/wear-m3-catalog-out/wear-compose-cmp-maven/",
     ) {
       name = "wearComposeCmpPort"
       content { includeGroup("ee.schimke.wearcmp") }

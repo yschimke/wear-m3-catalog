@@ -90,7 +90,7 @@ fun DismissableScreen(position: DismissPosition = DismissPosition.AtRest) = Full
       when (position) {
         DismissPosition.Dismissed -> SwipeToDismissValue.Dismissed
         DismissPosition.AtRest -> SwipeToDismissValue.Default
-      }
+      },
     )
   }
   SwipeToDismissBox(state = state, modifier = Modifier.fillMaxSize()) { isBackground ->
