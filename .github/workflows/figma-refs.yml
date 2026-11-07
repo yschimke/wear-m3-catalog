@@ -161,17 +161,12 @@ jobs:
           # identity `figma-pages.yml` commits its cache under.
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          branch="chore/kit-index-$(date -u +%Y%m%d)"
+          branch="chore/kit-index"
           git checkout -b "$branch"
           git add figma-kit-index.json design-map.json design-map-variants.json kit-cells.json
           git commit -q -m 'chore(kit): re-walk the kit and refresh the index'
-          git push -q "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
+          git push -qf "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" \
             "HEAD:$branch"
-          # An existing open PR for this branch already carries the change; a second would be noise.
-          if [ -n "$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq '.[].number')" ]; then
-            echo "a PR for $branch is already open"
-            exit 0
-          fi
           {
             echo 'The scheduled re-walk of the kit found the committed index out of date.'
             echo
@@ -187,6 +182,13 @@ jobs:
             echo
             echo "[Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
           } > pr-body.md
+          # An existing open PR for this branch already carries the change; a second would be noise.
+          existing="$(gh pr list --repo "${{ github.repository }}" --head "$branch" --state open --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --repo "${{ github.repository }}" --body-file pr-body.md
+            echo "a PR (#$existing) for $branch is already open — updated in place"
+            exit 0
+          fi
           gh pr create --repo "${{ github.repository }}" \
             --head "$branch" \
             --base "${{ github.event.repository.default_branch }}" \

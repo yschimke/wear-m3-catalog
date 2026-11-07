@@ -42,7 +42,7 @@ val generateCatalogs =
     argumentProviders.add(
       CommandLineArgumentProvider {
         listOf(catalogRoot.asFile.absolutePath, output.get().asFile.absolutePath)
-      }
+      },
     )
   }
 

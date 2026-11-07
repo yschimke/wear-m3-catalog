@@ -56,7 +56,7 @@ internal fun executable(value: JsonElement): JsonElement =
                         PropertyCapabilityV1.serializer(),
                         artifactJson.decodeFromJsonElement(PropertyCapabilityV1.serializer(), it),
                       )
-                    }
+                    },
                   )
                 key == "slotCapabilities" && child is JsonArray ->
                   JsonArray(
@@ -65,12 +65,12 @@ internal fun executable(value: JsonElement): JsonElement =
                         SlotCapabilityV1.serializer(),
                         artifactJson.decodeFromJsonElement(SlotCapabilityV1.serializer(), it),
                       )
-                    }
+                    },
                   )
                 else -> child
               }
             executable(normalized)
-          }
+          },
       )
     is JsonArray -> JsonArray(value.map(::executable))
     else -> value
@@ -105,7 +105,7 @@ fun generateCatalogs(root: Path, output: Path) {
       )
     check(
       executable(artifactJson.encodeToJsonElement(UiBuilderCatalogFile.serializer(), catalog)) ==
-        executable(artifactJson.encodeToJsonElement(UiBuilderCatalogFile.serializer(), baseline))
+        executable(artifactJson.encodeToJsonElement(UiBuilderCatalogFile.serializer(), baseline)),
     ) {
       "${catalog.catalog.id}: Kotlin generation changed the discovered catalog contract"
     }
@@ -157,7 +157,7 @@ fun generateCatalogs(root: Path, output: Path) {
       if (Files.exists(destination)) destination.toFile().deleteRecursively()
       Files.move(staging, destination, StandardCopyOption.ATOMIC_MOVE)
       println(
-        "${catalog.catalog.id}: ${record.components.size} compiled records, equivalent catalog pair, ${input.policy.templates.size} templates"
+        "${catalog.catalog.id}: ${record.components.size} compiled records, equivalent catalog pair, ${input.policy.templates.size} templates",
       )
     } finally {
       staging.toFile().deleteRecursively()
