@@ -113,7 +113,7 @@ private fun policyPreviewSurfaces(): JsonElement = buildJsonObject {
       put(
         "reason",
         JsonPrimitive(
-          "The canvas draws this catalog's components with a Compose Multiplatform build of Wear Compose — the Android AAR has no browser variant — so each is the component itself rather than an impression of it. What is still the canvas's own: the screen frame (the extent has no viewport for a real scaffold), the unrolled list (a long screenshot turns the row transformation off), and the type scale, which is the mobile theme's. Author on it; check a size on the Android preview, which compiles this design's own generated Kotlin against the real AAR."
+          "The canvas draws this catalog's components with a Compose Multiplatform build of Wear Compose — the Android AAR has no browser variant — so each is the component itself rather than an impression of it. What is still the canvas's own: the screen frame (the extent has no viewport for a real scaffold), the unrolled list (a long screenshot turns the row transformation off), and the type scale, which is the mobile theme's. Author on it; check a size on the Android preview, which compiles this design's own generated Kotlin against the real AAR.",
         ),
       )
     },
@@ -126,7 +126,7 @@ private fun policyPreviewSurfaces(): JsonElement = buildJsonObject {
       put(
         "reason",
         JsonPrimitive(
-          "The generated Kotlin compiled against this module's own classpath and rendered under Robolectric: the same lane that produces this catalog's stickers."
+          "The generated Kotlin compiled against this module's own classpath and rendered under Robolectric: the same lane that produces this catalog's stickers.",
         ),
       )
     },
@@ -158,7 +158,7 @@ private fun policyFrame(): JsonElement = buildJsonObject {
               put("horizontalDp", JsonPrimitive(13))
               put("verticalDp", JsonPrimitive(24))
             },
-          )
+          ),
         ),
       )
     },
@@ -394,7 +394,7 @@ private fun builtinScreenScaffold(): UiBuilderBuiltin =
                     JsonPrimitive("Scaffold"),
                     JsonPrimitive("Container"),
                     JsonPrimitive("Leaf"),
-                  )
+                  ),
                 ),
               )
               put("acceptedTraits", JsonArray(listOf(JsonPrimitive("AnyContent"))))
@@ -452,7 +452,7 @@ private fun builtinTransformingLazyColumn(): UiBuilderBuiltin =
                 JsonArray(listOf(JsonPrimitive("Container"), JsonPrimitive("Leaf"))),
               )
               put("acceptedTraits", JsonArray(listOf(JsonPrimitive("AnyContent"))))
-            }
+            },
         )
     }
     .build()
@@ -706,7 +706,7 @@ private fun policyColorTokens(): JsonElement = buildJsonObject {
         JsonPrimitive("onSurfaceVariant"),
         JsonPrimitive("outlineVariant"),
         JsonPrimitive("transparent"),
-      )
+      ),
     ),
   )
 }
@@ -1043,7 +1043,7 @@ private fun componentCard(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf("Container", "Leaf"),
             traits = listOf("AnyContent"),
-          )
+          ),
         )
       modifierCapabilities =
         listOf(
@@ -1143,7 +1143,7 @@ private fun componentEdgeButton(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf(),
             traits = listOf("AnyContent"),
-          )
+          ),
         )
     }
     .build()
@@ -1278,7 +1278,7 @@ private fun componentButton(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf("Leaf", "Container"),
             traits = listOf("AnyContent"),
-          )
+          ),
         )
       modifierCapabilities =
         listOf(
@@ -1348,7 +1348,7 @@ private fun componentIconButton(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf(),
             traits = listOf("Adornment"),
-          )
+          ),
         )
       modifierCapabilities = listOf("weight", "size", "width", "padding", "testTag")
     }
@@ -1375,7 +1375,7 @@ private fun componentTextButton(): UiBuilderAuthoredComponent =
               ),
             notes =
               "As `wear-m3/icon-button`'s: the variant names the composable — `FilledTextButton` and the rest — rather than recolouring one.",
-          )
+          ),
         )
       slotCapabilities =
         listOf(
@@ -1386,7 +1386,7 @@ private fun componentTextButton(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf(),
             traits = listOf("AnyContent"),
-          )
+          ),
         )
       modifierCapabilities = listOf("weight", "size", "width", "padding", "testTag")
     }
@@ -1574,7 +1574,7 @@ private fun componentStepper(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf(),
             traits = listOf("AnyContent"),
-          )
+          ),
         )
     }
     .build()
@@ -1595,7 +1595,7 @@ private fun componentButtonGroup(): UiBuilderAuthoredComponent =
             ordered = true,
             roles = listOf(),
             traits = listOf("Action"),
-          )
+          ),
         )
     }
     .build()
@@ -1820,7 +1820,7 @@ private fun policyDesignTokens(): JsonElement {
             "color",
             listOf("wear-m3/card" to "containerColor"),
           ),
-        )
+        ),
       ),
     )
   }

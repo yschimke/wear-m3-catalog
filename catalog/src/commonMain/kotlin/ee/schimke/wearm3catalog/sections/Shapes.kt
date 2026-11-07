@@ -153,6 +153,6 @@ fun MaterialShapesSticker(shape: CatalogShape = CatalogShape.Circle) = Sticker {
   Box(
     Modifier.size(72.dp)
       .clip(shape.polygon.toShape())
-      .background(MaterialTheme.colorScheme.primaryDim)
+      .background(MaterialTheme.colorScheme.primaryDim),
   )
 }

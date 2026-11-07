@@ -342,7 +342,7 @@ fun GestureHorizontalPages(
           gestureConfiguration = configuration,
           onGestureLabel = "scroll to the next page",
           onGesture = { OneHandedGestureDefaults.scrollToNextPage(pagerState) },
-        )
+        ),
     )
     // Aligned from the outside — see the note in `GestureScrollIndicator` above.
     Box(Modifier.align(Alignment.BottomCenter)) {
@@ -408,7 +408,7 @@ fun GestureVerticalPages(
           gestureConfiguration = configuration,
           onGestureLabel = "scroll to the next page",
           onGesture = { OneHandedGestureDefaults.scrollToNextPage(pagerState) },
-        )
+        ),
     )
     // Aligned from the outside — see the note in `GestureScrollIndicator` above.
     Box(Modifier.align(Alignment.CenterEnd)) {

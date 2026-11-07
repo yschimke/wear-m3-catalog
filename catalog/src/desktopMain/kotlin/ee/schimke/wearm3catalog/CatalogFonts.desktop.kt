@@ -31,7 +31,7 @@ private fun vendored(file: String): FontFamily =
         weight = FontWeight(weight),
         variationSettings = FontVariation.Settings(FontVariation.weight(weight)),
       )
-    }
+    },
   )
 
 actual val RobotoFlex: FontFamily = vendored("roboto_flex.ttf")

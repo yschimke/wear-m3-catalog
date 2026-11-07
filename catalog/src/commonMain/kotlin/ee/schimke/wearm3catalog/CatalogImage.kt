@@ -124,7 +124,7 @@ object CatalogArtwork : Painter() {
         colors = listOf(Color(0xFF2B4C7E), Color(0xFF567EBB), Color(0xFF9BB7D4)),
         start = Offset.Zero,
         end = Offset(size.width, size.height),
-      )
+      ),
     )
   }
 }
