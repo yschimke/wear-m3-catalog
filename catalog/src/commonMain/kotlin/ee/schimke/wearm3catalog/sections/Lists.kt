@@ -4,13 +4,20 @@ package ee.schimke.wearm3catalog.sections
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalScrollCaptureInProgress
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.wear.compose.foundation.lazy.TransformingLazyColumn
 import androidx.wear.compose.foundation.lazy.items
 import androidx.wear.compose.foundation.lazy.rememberTransformingLazyColumnState
+import androidx.wear.compose.material3.Button
 import androidx.wear.compose.material3.ListHeader
 import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.compose.material3.ScrollIndicator
@@ -96,6 +103,23 @@ fun WearList() = ScreenSticker {
           modifier = Modifier.transformedHeight(this, spec),
           transformation = SurfaceTransformation(spec),
         )
+      }
+      // DELIBERATELY BAD (guidelines check test, do not merge): two competing filled buttons
+      // forced to 24dp, 7sp near-black text on black, and a 6sp grey paragraph.
+      item {
+        Row(Modifier.fillMaxWidth()) {
+          Button(onClick = {}, modifier = Modifier.size(24.dp)) {
+            Text("Delete all sessions now", fontSize = 7.sp, color = Color(0xFF222222))
+          }
+          Button(onClick = {}, modifier = Modifier.size(24.dp)) {
+            Text("OK", fontSize = 7.sp, color = Color(0xFF222222))
+          }
+          Text(
+            "Sessions older than thirty days are removed automatically unless you pin them first.",
+            fontSize = 6.sp,
+            color = Color(0xFF333333),
+          )
+        }
       }
     }
   }
