@@ -5,7 +5,7 @@ ktfmt-cli = "0.64"
 agp = "9.5.1"
 
 # Wear Compose Material 3 — the library this catalog reproduces the kit against.
-wear-compose = "1.7.1"
+wear-compose = "1.7.2"
 wear-tooling-preview = "1.0.0"
 # `LocalOnBackPressedDispatcherOwner`, which the one-handed-gesture samples read. Declared by
 # upstream's own samples build.gradle; this module needs it for the same reason.
@@ -17,7 +17,7 @@ androidx-emoji2 = "1.7.0"
 # The mobile Compose BOM supplies `androidx.compose.ui`, the preview tooling and — see
 # `catalog/build.gradle.kts` — `androidx.compose.material3.MaterialShapes`, which is where the 35
 # shapes on the kit's Shapes page actually live. Wear Compose has no shape library of its own.
-compose-bom = "2026.09.00"
+compose-bom = "2026.11.01"
 
 # The CMP Wear port — Wear Compose Material 3 / Foundation recompiled for Compose Multiplatform,
 # published to the `wear-compose-cmp-maven` branch of yschimke/wear-m3-catalog-out (see `settings.gradle.kts` for
@@ -46,7 +46,7 @@ compose-multiplatform-material3 = "1.12.0-alpha03"
 # the only published home of the 35 shapes the kit's Shapes page draws. The alpha's AAR metadata
 # declares minCompileSdk 37, which is what `catalog/build.gradle.kts` already compiles at for
 # wear-compose 1.7.0-beta. Drop the pin once 1.5.0 is stable in the BOM.
-compose-material3 = "1.5.0-rc01"
+compose-material3 = "1.5.0"
 
 # THE COMPOSE-PREVIEW VERSIONS: one per release line, and every ee.schimke.composeai module
 # resolves through its line's BOM rather than carrying a version of its own.
@@ -123,7 +123,7 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 # `Font(GoogleFont("Google Sans Flex"), provider)` — the declared themes' typefaces resolve as
 # downloadable Google fonts rather than vendored TTFs, so this module ships no font bytes.
 compose-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-fonts" }
-compose-ui-text-google-fonts-floor = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.12.1" }
+compose-ui-text-google-fonts-floor = { module = "androidx.compose.ui:ui-text-google-fonts", version = "1.13.0" }
 # `MaterialShapes` / `RoundedPolygon.toShape()` — the expressive shape library. Mobile Material 3
 # because that is the only artifact that publishes it; see catalog/build.gradle.kts.
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }

@@ -42,8 +42,8 @@ android {
   // `applicationId` below stays this repo's own: namespace and applicationId are independent, and
   // only the former decides where `R` is generated.
   namespace = "androidx.wear.compose.material3.samples"
-  // wear-compose 1.7.0-beta requires compileSdk 37, as `:catalog` documents.
-  compileSdk = 37
+  // Compose BOM 2026.11.01 (Compose 1.13.0) requires compileSdk 37.1, as `:catalog` documents.
+  compileSdk { version = release(37) { minorApiLevel = 1 } }
 
   defaultConfig {
     applicationId = "ee.schimke.wearm3catalog.samples"
