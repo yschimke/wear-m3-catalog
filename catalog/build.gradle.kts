@@ -95,8 +95,8 @@ kotlin {
   // AGP 9 / KMP names this block `android { }` (it was `androidLibrary { }` in earlier previews).
   android {
     namespace = "ee.schimke.wearm3catalog"
-    // wear-compose 1.7.0-beta requires compileSdk 37.
-    compileSdk = 37
+    // Compose BOM 2026.11.01 (Compose 1.13.0) requires compileSdk 37.1.
+    compileSdk { version = release(37) { minorApiLevel = 1 } }
     minSdk = 30
 
     // The Robolectric lane merges the unit-test `R.jar` and needs resources enabled to do it; the
